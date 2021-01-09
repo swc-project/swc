@@ -1,0 +1,30 @@
+error: Generator cannot be labelled
+ --> $DIR/tests/typescript-errors/tsc/statements/labeledStatements/labeledStatementWithLabel/input.ts:4:8
+  |
+4 | label: function* gen() { }
+  |        ^^^^^^^^^^^^^^^^^^^
+
+error: Declatation is not allowed
+ --> $DIR/tests/typescript-errors/tsc/statements/labeledStatements/labeledStatementWithLabel/input.ts:8:8
+  |
+8 | label: class C { }
+  |        ^^^^^
+
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+  --> $DIR/tests/typescript-errors/tsc/statements/labeledStatements/labeledStatementWithLabel/input.ts:10:8
+   |
+10 | label: let b = 1;
+   |        ^^^
+
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/statements/labeledStatements/labeledStatementWithLabel/input.ts:10:12
+   |
+10 | label: let b = 1;
+   |            ^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/statements/labeledStatements/labeledStatementWithLabel/input.ts:10:8
+   |
+10 | label: let b = 1;
+   |        ^^^
+
