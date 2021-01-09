@@ -1276,16 +1276,20 @@ impl<'a, I: Tokens> Parser<I> {
                 None
             };
 
-            expect!(p, '(');
+            let params = if eat!(p, '(') {
+                let arg_ctx = Context {
+                    in_parameters: true,
+                    // in_generator: prev_in_generator,
+                    ..p.ctx()
+                };
+                let params = p.with_ctx(arg_ctx).parse_with(|mut p| parse_args(&mut p))?;
 
-            let arg_ctx = Context {
-                in_parameters: true,
-                // in_generator: prev_in_generator,
-                ..p.ctx()
+                expect!(p, ')');
+                params
+            } else {
+                p.emit_err(p.input.cur_span(), SyntaxError::ExpectedLParen);
+                vec![]
             };
-            let params = p.with_ctx(arg_ctx).parse_with(|mut p| parse_args(&mut p))?;
-
-            expect!(p, ')');
 
             // typescript extension
             let return_type = if p.syntax().typescript() && is!(p, ':') {
