@@ -27,6 +27,12 @@ impl<'a, I: Tokens> Parser<I> {
                     self.emit_err(self.input.prev_span(), SyntaxError::ExpectedComma);
                     continue;
                 }
+                if eat!(self, '.') {
+                    self.emit_err(self.input.prev_span(), SyntaxError::ExpectedComma);
+                    let _ = self.parse_expr();
+                    continue;
+                }
+
                 expect!(self, ',');
                 if eat!(self, '}') {
                     break;
@@ -111,10 +117,7 @@ impl<'a, I: Tokens> Parser<I> {
                         expr,
                     })
                 }
-                _ => syntax_error!(
-                    p,
-                    SyntaxError::ExpectedPropertyName
-                ),
+                _ => syntax_error!(p, SyntaxError::ExpectedPropertyName),
             };
 
             Ok(v)
