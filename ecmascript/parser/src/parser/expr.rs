@@ -1044,6 +1044,17 @@ impl<'a, I: Tokens> Parser<I> {
                         .map(|expr| (Box::new(Expr::TaggedTpl(expr)), true))
                         .map(Some)
                     } else {
+                        if is!(p, '.') {
+                            p.emit_err(p.input.cur_span(), SyntaxError::ExpectedLParen);
+                            return Ok(Some((
+                                match obj {
+                                    ExprOrSuper::Expr(obj) => obj,
+                                    _ => unreachable!(),
+                                },
+                                true,
+                            )));
+                        }
+
                         if no_call {
                             unexpected!(p, "`")
                         } else {
