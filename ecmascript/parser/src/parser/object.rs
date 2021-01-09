@@ -146,15 +146,12 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         if eat!(self, '*') {
             let span_of_gen = span!(self, start);
 
-            let name = self.parse_prop_name();
-            let name = match name {
-                Ok(v) => v,
-                Err(err) => {
-                    self.emit_error(err);
+            let name = self.parse_prop_name().unwrap_or_else(|err| {
+                self.emit_error(err);
 
-                    PropName::Ident(Ident::new(js_word!(""), span_of_gen))
-                }
-            };
+                PropName::Ident(Ident::new(js_word!(""), span_of_gen))
+            });
+
             return self
                 .parse_fn_args_body(
                     // no decorator in an object literal
