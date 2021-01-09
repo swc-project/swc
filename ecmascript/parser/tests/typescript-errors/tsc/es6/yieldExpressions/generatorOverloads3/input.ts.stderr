@@ -1,0 +1,12 @@
+error[1222]: An overload signature cannot be declared as a generator.
+ --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/generatorOverloads3/input.ts:3:5
+  |
+3 |     *f(s: string): Iterable<any>;
+  |     ^
+
+error[1222]: An overload signature cannot be declared as a generator.
+ --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/generatorOverloads3/input.ts:4:5
+  |
+4 |     *f(s: number): Iterable<any>;
+  |     ^
+
