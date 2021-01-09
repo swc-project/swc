@@ -264,7 +264,8 @@ pub enum SyntaxError {
 
     ExpectedPropertyName,
     YieldNotAllowed,
-    GeneratorInOverload,
+    GeneratorInOverloadInAmbientContext,
+    GeneratorInOverloadOfClassMethod,
 }
 
 impl SyntaxError {
@@ -359,7 +360,8 @@ impl SyntaxError {
 
             SyntaxError::RestElementWithinitializer => Some(1186),
             SyntaxError::YieldNotAllowed => Some(1163),
-            SyntaxError::GeneratorInOverload => Some(1222),
+            SyntaxError::GeneratorInOverloadOfClassMethod => Some(1222),
+            SyntaxError::GeneratorInOverloadInAmbientContext => Some(1221),
 
             _ => None,
         }
@@ -759,8 +761,11 @@ impl SyntaxError {
             SyntaxError::YieldNotAllowed => {
                 "A 'yield' expression is only allowed in a generator body.".into()
             }
-            SyntaxError::GeneratorInOverload => {
+            SyntaxError::GeneratorInOverloadOfClassMethod => {
                 "An overload signature cannot be declared as a generator.".into()
+            }
+            SyntaxError::GeneratorInOverloadInAmbientContext => {
+                "Generators are not allowed in an ambient context.".into()
             }
         }
     }

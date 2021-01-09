@@ -1229,7 +1229,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             if f.body.is_none() {
                 if let Some(generator) = generator {
-                    p.emit_err(generator, SyntaxError::GeneratorInOverload);
+                    p.emit_err(generator, SyntaxError::GeneratorInOverloadInAmbientContext);
                 }
             }
             // expect!(self, '(');
@@ -1438,7 +1438,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         if self.syntax().typescript() && function.body.is_none() {
             if let Some(generator) = generator {
-                self.emit_err(generator, SyntaxError::GeneratorInOverload);
+                self.emit_err(generator, SyntaxError::GeneratorInOverloadOfClassMethod);
             }
         }
 
