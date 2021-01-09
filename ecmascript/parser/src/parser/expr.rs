@@ -1591,23 +1591,28 @@ impl<'a, I: Tokens> Parser<I> {
             syntax_error!(self, self.input.prev_span(), SyntaxError::YieldParamInGen)
         }
 
+        let (delegate, arg) = self.parse_yield_trailing(start)?;
+
+        Ok(Box::new(Expr::Yield(YieldExpr {
+            span: span!(self, start),
+            arg,
+            delegate,
+        })))
+    }
+
+    pub(super) fn parse_yield_trailing(
+        &mut self,
+        start: BytePos,
+    ) -> PResult<(bool, Option<Box<Expr>>)> {
         if is!(self, ';')
             || (!is!(self, '*') && !cur!(self, false).map(Token::starts_expr).unwrap_or(true))
         {
-            Ok(Box::new(Expr::Yield(YieldExpr {
-                span: span!(self, start),
-                arg: None,
-                delegate: false,
-            })))
+            Ok((false, None))
         } else {
             let has_star = eat!(self, '*');
             let arg = self.parse_assignment_expr()?;
 
-            Ok(Box::new(Expr::Yield(YieldExpr {
-                span: span!(self, start),
-                arg: Some(arg),
-                delegate: has_star,
-            })))
+            Ok((has_star, Some(arg)))
         }
     }
 

@@ -263,6 +263,7 @@ pub enum SyntaxError {
     RestElementWithinitializer,
 
     ExpectedPropertyName,
+    YieldNotAllowed,
 }
 
 impl SyntaxError {
@@ -356,6 +357,7 @@ impl SyntaxError {
             SyntaxError::ReturnNotAllowed => Some(1108),
 
             SyntaxError::RestElementWithinitializer => Some(1186),
+            SyntaxError::YieldNotAllowed => Some(1163),
 
             _ => None,
         }
@@ -752,6 +754,9 @@ impl SyntaxError {
                 "A rest element cannot have an initializer".into()
             }
             SyntaxError::ExpectedPropertyName => "Expected a property name".into(),
+            SyntaxError::YieldNotAllowed => {
+                "A 'yield' expression is only allowed in a generator body.".into()
+            }
         }
     }
 }

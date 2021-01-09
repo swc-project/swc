@@ -378,7 +378,7 @@ impl<'a, I: Tokens> Parser<I> {
         // Identifier node, we switch to interpreting it as a label.
         let expr = self.include_in_expr(true).parse_expr()?;
 
-        let expr = match *expr {
+        let mut expr = match *expr {
             Expr::Ident(ident) => {
                 if eat!(self, ':') {
                     for dec in decorators {
@@ -489,6 +489,20 @@ impl<'a, I: Tokens> Parser<I> {
                         expr,
                     }
                     .into());
+                }
+
+                Expr::Ident(Ident {
+                    span,
+                    sym: js_word!("yield"),
+                    ..
+                }) => {
+                    self.emit_err(*span, SyntaxError::YieldNotAllowed);
+                    let (delegate, arg) = self.parse_yield_trailing(start)?;
+                    expr = Box::new(Expr::Yield(YieldExpr {
+                        span: span!(self, start),
+                        arg,
+                        delegate,
+                    }))
                 }
                 _ => {}
             }
