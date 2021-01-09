@@ -10,3 +10,9 @@ error: Unexpected token `=>`. Expected this, import, async, function, [ for arra
 3 | var F = @dec () => {
   |                 ^^
 
+error[1005]: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/decorators/invalid/decoratorOnArrowFunction/input.ts:3:17
+  |
+3 | var F = @dec () => {
+  |                 ^^
+
