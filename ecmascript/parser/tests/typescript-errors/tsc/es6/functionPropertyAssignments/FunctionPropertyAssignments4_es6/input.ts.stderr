@@ -1,0 +1,12 @@
+error[1005]: Expected a property name
+ --> $DIR/tests/typescript-errors/tsc/es6/functionPropertyAssignments/FunctionPropertyAssignments4_es6/input.ts:2:13
+  |
+2 | var v = { * }
+  |             ^
+
+error[1005]: Expected '('
+ --> $DIR/tests/typescript-errors/tsc/es6/functionPropertyAssignments/FunctionPropertyAssignments4_es6/input.ts:2:13
+  |
+2 | var v = { * }
+  |             ^
+
