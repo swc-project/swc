@@ -1,7 +1,8 @@
 const mod = function() {
     const a = "hello world";
+    const __instanceof = a;
     return {
-        instanceof: a
+        instanceof: __instanceof
     };
 }();
 const y = mod;

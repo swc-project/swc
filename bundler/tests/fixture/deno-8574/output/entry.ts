@@ -538,18 +538,6 @@ function withDefaults(oldDefaults, newDefaults) {
 const VERSION = "6.0.10";
 const getUserAgent1 = getUserAgent;
 const getUserAgent2 = getUserAgent1;
-var getGlobal = function() {
-    if (typeof self !== "undefined") {
-        return self;
-    }
-    if (typeof window !== "undefined") {
-        return window;
-    }
-    if (typeof global !== "undefined") {
-        return global;
-    }
-    throw new Error("unable to locate global object");
-};
 const getUserAgent3 = getUserAgent1;
 const userAgent = `octokit-endpoint.js/${VERSION} ${getUserAgent3()}`;
 const DEFAULTS = {
@@ -672,14 +660,26 @@ class RequestError extends Error {
         this.request = requestCopy;
     }
 }
+var getGlobal = function() {
+    if (typeof self !== "undefined") {
+        return self;
+    }
+    if (typeof window !== "undefined") {
+        return window;
+    }
+    if (typeof global !== "undefined") {
+        return global;
+    }
+    throw new Error("unable to locate global object");
+};
 var global = getGlobal();
 var nodeFetch = global.fetch.bind(global);
-const RequestError1 = RequestError;
-const RequestError2 = RequestError1;
 const VERSION1 = "5.4.12";
 function getBufferResponse(response) {
     return response.arrayBuffer();
 }
+const RequestError1 = RequestError;
+const RequestError2 = RequestError1;
 function fetchWrapper(requestOptions) {
     if (isPlainObject2(requestOptions.body) || Array.isArray(requestOptions.body)) {
         requestOptions.body = JSON.stringify(requestOptions.body);
