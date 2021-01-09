@@ -156,7 +156,7 @@ impl Modules {
                             if declarator_index != idx {
                                 graph.add_edge(idx, declarator_index, Required::Always);
                                 eprintln!(
-                                    "`{}` ({}) depends on `{}`: {:?}",
+                                    "Field init: `{}` ({}) depends on `{}`: {:?}",
                                     idx, idx_decl, declarator_index, &id
                                 );
                             }
@@ -200,6 +200,10 @@ impl Modules {
             item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
 
             for (id, kind) in visitor.required_ids {
+                if visitor.excluded.contains(&id) {
+                    continue;
+                }
+
                 if let Some(declarator_indexes) = declared_by.get(&id) {
                     for &declarator_index in declarator_indexes {
                         if declarator_index != idx {
@@ -701,6 +705,10 @@ impl Visit for InitializerFinder {
 #[derive(Default)]
 struct RequirementCalculartor {
     required_ids: IndexSet<(Id, Required)>,
+    /// While bundling, there can be two bindings with same name and syntax
+    /// context, in case of wrapped es modules. We exclude them from dependency
+    /// graph.
+    excluded: IndexSet<Id>,
 
     in_weak: bool,
     in_var_decl: bool,
@@ -776,6 +784,9 @@ impl Visit for RequirementCalculartor {
     fn visit_var_declarator(&mut self, var: &VarDeclarator, _: &dyn Node) {
         let in_var_decl = self.in_var_decl;
         self.in_var_decl = true;
+
+        let ids: Vec<Id> = find_ids(&var.name);
+        self.excluded.extend(ids);
 
         var.visit_children_with(self);
 
