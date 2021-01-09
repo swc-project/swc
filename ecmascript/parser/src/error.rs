@@ -261,6 +261,8 @@ pub enum SyntaxError {
     ExpectedLParen,
     ExpectedRParen,
     RestElementWithinitializer,
+
+    ExpectedPropertyName,
 }
 
 impl SyntaxError {
@@ -344,7 +346,8 @@ impl SyntaxError {
             SyntaxError::ReservedWordInObjShorthandOrPat
             | SyntaxError::ExpectedRSquareBracket
             | SyntaxError::ExpectedRParen
-            | SyntaxError::ExpectedLParen => Some(1005),
+            | SyntaxError::ExpectedLParen
+            | SyntaxError::ExpectedPropertyName => Some(1005),
 
             SyntaxError::InvalidReadonly => Some(1354),
 
@@ -748,6 +751,7 @@ impl SyntaxError {
             SyntaxError::RestElementWithinitializer => {
                 "A rest element cannot have an initializer".into()
             }
+            SyntaxError::ExpectedPropertyName => "Expected a property name".into(),
         }
     }
 }

@@ -111,9 +111,9 @@ impl<'a, I: Tokens> Parser<I> {
                         expr,
                     })
                 }
-                _ => unexpected!(
+                _ => syntax_error!(
                     p,
-                    "identifier, string literal, numeric literal or [ for the computed key"
+                    SyntaxError::ExpectedPropertyName
                 ),
             };
 
