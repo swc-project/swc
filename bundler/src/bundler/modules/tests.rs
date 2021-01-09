@@ -282,3 +282,29 @@ fn sort_008() {
         ",
     );
 }
+
+#[test]
+fn sort_009() {
+    assert_sorted_with_free(
+        &[
+            "
+            use(h);
+            ",
+            "
+            var e, o = e = {};
+            o.env = {}
+            var T = e;
+            ",
+        ],
+        "
+        const h = T;
+        ",
+        "
+        var e, o = e = {};
+        o.env = {}
+        var T = e;
+        const h = T;
+        use(h);
+        ",
+    );
+}
