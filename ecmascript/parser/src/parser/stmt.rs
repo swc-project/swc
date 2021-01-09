@@ -376,7 +376,13 @@ impl<'a, I: Tokens> Parser<I> {
         // simply start parsing an expression, and afterwards, if the
         // next token is a colon and the expression was a simple
         // Identifier node, we switch to interpreting it as a label.
-        let expr = self.include_in_expr(true).parse_expr()?;
+        let expr = self.include_in_expr(true).parse_expr();
+        let expr = expr.unwrap_or_else(|err| {
+            let span = err.span();
+            self.emit_error(err);
+
+            Box::new(Expr::Invalid(Invalid { span }))
+        });
 
         let mut expr = match *expr {
             Expr::Ident(ident) => {
