@@ -1,0 +1,12 @@
+error[1359]: Expected an identifier, but found keyword
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/VariableLists/parserInvalidIdentifiersInVariableStatements1/input.ts:1:5
+  |
+1 | var export;
+  |     ^^^^^^
+
+error[1359]: Expected an identifier, but found keyword
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/VariableLists/parserInvalidIdentifiersInVariableStatements1/input.ts:3:5
+  |
+3 | var class;
+  |     ^^^^^
+
