@@ -1,0 +1,36 @@
+error[1115]: A 'continue' statement can only jump to a label of an enclosing iteration statement
+ --> $DIR/tests/typescript-errors/tsc/statements/continueStatements/invalidForInContinueStatements/input.ts:7:1
+  |
+7 | continue;
+  | ^^^^^^^^^
+
+error[1007]: Jump target cannot cross function boundary
+  --> $DIR/tests/typescript-errors/tsc/statements/continueStatements/invalidForInContinueStatements/input.ts:11:19
+   |
+11 | for (var x in {}) continue TWO;
+   |                   ^^^^^^^^^^^^^
+
+error[1115]: A 'continue' statement can only jump to a label of an enclosing iteration statement
+  --> $DIR/tests/typescript-errors/tsc/statements/continueStatements/invalidForInContinueStatements/input.ts:17:9
+   |
+17 |         continue TWO;
+   |         ^^^^^^^^^^^^^
+
+error[1115]: A 'continue' statement can only jump to a label of an enclosing iteration statement
+  --> $DIR/tests/typescript-errors/tsc/statements/continueStatements/invalidForInContinueStatements/input.ts:24:9
+   |
+24 |         continue THREE;
+   |         ^^^^^^^^^^^^^^^
+
+error[1007]: Jump target cannot cross function boundary
+  --> $DIR/tests/typescript-errors/tsc/statements/continueStatements/invalidForInContinueStatements/input.ts:30:5
+   |
+30 |     continue FIVE;
+   |     ^^^^^^^^^^^^^^
+
+error[1007]: Jump target cannot cross function boundary
+  --> $DIR/tests/typescript-errors/tsc/statements/continueStatements/invalidForInContinueStatements/input.ts:40:5
+   |
+40 |     continue NINE;
+   |     ^^^^^^^^^^^^^^
+

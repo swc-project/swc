@@ -1,0 +1,36 @@
+error[1105]: A 'break' statement can only be used within an enclosing iteration or switch statement
+ --> $DIR/tests/typescript-errors/tsc/statements/breakStatements/invalidWhileBreakStatements/input.ts:4:1
+  |
+4 | break;
+  | ^^^^^^
+
+error[1116]: A 'break' statement can only jump to a label of an enclosing statement
+ --> $DIR/tests/typescript-errors/tsc/statements/breakStatements/invalidWhileBreakStatements/input.ts:8:14
+  |
+8 | while (true) break TWO;
+  |              ^^^^^^^^^^
+
+error[1116]: A 'break' statement can only jump to a label of an enclosing statement
+  --> $DIR/tests/typescript-errors/tsc/statements/breakStatements/invalidWhileBreakStatements/input.ts:14:9
+   |
+14 |         break TWO;
+   |         ^^^^^^^^^^
+
+error[1116]: A 'break' statement can only jump to a label of an enclosing statement
+  --> $DIR/tests/typescript-errors/tsc/statements/breakStatements/invalidWhileBreakStatements/input.ts:21:9
+   |
+21 |         break THREE;
+   |         ^^^^^^^^^^^^
+
+error[1116]: A 'break' statement can only jump to a label of an enclosing statement
+  --> $DIR/tests/typescript-errors/tsc/statements/breakStatements/invalidWhileBreakStatements/input.ts:27:5
+   |
+27 |     break FIVE;
+   |     ^^^^^^^^^^^
+
+error[1116]: A 'break' statement can only jump to a label of an enclosing statement
+  --> $DIR/tests/typescript-errors/tsc/statements/breakStatements/invalidWhileBreakStatements/input.ts:37:5
+   |
+37 |     break NINE;
+   |     ^^^^^^^^^^^
+
