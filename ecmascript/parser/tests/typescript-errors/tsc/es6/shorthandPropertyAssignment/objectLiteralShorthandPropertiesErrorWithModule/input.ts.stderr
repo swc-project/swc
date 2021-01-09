@@ -1,0 +1,12 @@
+error[1005]: Expected a semicolon
+  --> $DIR/tests/typescript-errors/tsc/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorWithModule/input.ts:10:10
+   |
+10 |         m.x  // error
+   |          ^
+
+error[1005]: Expected ','
+  --> $DIR/tests/typescript-errors/tsc/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorWithModule/input.ts:10:10
+   |
+10 |         m.x  // error
+   |          ^
+
