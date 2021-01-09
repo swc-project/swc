@@ -62,7 +62,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     ///`parseMaybeAssign` (overrided)
-    fn parse_assignment_expr_inner(&mut self) -> PResult<Box<Expr>> {
+    fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr_inner);
 
         // Recover from invalid decorators.
