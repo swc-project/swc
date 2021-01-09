@@ -1,4 +1,4 @@
-error: Unexpected token `{`. Expected identifier, string literal, numeric literal or [ for the computed key
+error[1005]: Expected a property name
  --> $DIR/tests/typescript-errors/tsc/es6/functionPropertyAssignments/FunctionPropertyAssignments3_es6/input.ts:2:12
   |
 2 | var v = { *{ } }
