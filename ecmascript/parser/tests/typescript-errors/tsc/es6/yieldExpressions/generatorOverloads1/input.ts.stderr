@@ -1,10 +1,10 @@
-error[1221]: Generators are not allowed in an ambient context.
+error[1222]: Generators are not allowed in an ambient context.
  --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/generatorOverloads1/input.ts:3:13
   |
 3 |     function* f(s: string): Iterable<any>;
   |             ^
 
-error[1221]: Generators are not allowed in an ambient context.
+error[1222]: Generators are not allowed in an ambient context.
  --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/generatorOverloads1/input.ts:4:13
   |
 4 |     function* f(s: number): Iterable<any>;
