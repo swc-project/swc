@@ -436,7 +436,16 @@ impl<'a, I: Tokens> Parser<I> {
                                 .map(Stmt::from);
                         }
                     }
-                    js_word!("async") if self.syntax().typescript() => {
+                    js_word!("async") => {
+                        // Recover from async interface
+                        if eat!(self, "interface") {
+                            self.emit_err(i.span, SyntaxError::TS2427);
+                            return self
+                                .parse_ts_interface_decl(start)
+                                .map(Decl::from)
+                                .map(Stmt::from);
+                        }
+
                         // Try to recover errors.
                         if let Some(decl) = self.try_parse_ts_declare(start, decorators)? {
                             self.emit_err(
