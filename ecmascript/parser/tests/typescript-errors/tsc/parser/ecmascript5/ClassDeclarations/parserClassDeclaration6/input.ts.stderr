@@ -1,0 +1,6 @@
+error[1174]: Classes can only extend a single class
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ClassDeclarations/parserClassDeclaration6/input.ts:1:20
+  |
+1 | class C extends A, B {
+  |                    ^
+

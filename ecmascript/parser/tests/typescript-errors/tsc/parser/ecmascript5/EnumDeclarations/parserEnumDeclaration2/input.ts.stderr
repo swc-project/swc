@@ -1,0 +1,6 @@
+error[1038]: `declare` modifier not allowed for code already in an ambient context
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/EnumDeclarations/parserEnumDeclaration2/input.ts:2:3
+  |
+2 |   declare enum E {
+  |   ^^^^^^^
+
