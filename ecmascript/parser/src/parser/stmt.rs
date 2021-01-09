@@ -502,7 +502,12 @@ impl<'a, I: Tokens> Parser<I> {
                         span: span!(self, start),
                         arg,
                         delegate,
-                    }))
+                    }));
+                    return Ok(ExprStmt {
+                        span: span!(self, start),
+                        expr,
+                    }
+                    .into());
                 }
                 _ => {}
             }
