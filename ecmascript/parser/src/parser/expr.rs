@@ -1351,6 +1351,12 @@ impl<'a, I: Tokens> Parser<I> {
         while !eof!(self) && !is!(self, ')') {
             trace_cur!(self, parse_args_or_pats_element);
             if first {
+                if eat!(self, ',') {
+                    self.emit_err(self.input.prev_span(), SyntaxError::ExpectedIdent);
+                    first = false;
+                    continue;
+                }
+
                 if is!(self, "async") {
                     // https://github.com/swc-project/swc/issues/410
                     self.state.potential_arrow_start = Some(cur_pos!(self));
