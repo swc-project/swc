@@ -1,0 +1,6 @@
+error[1005]: Expected a binding pattern
+ --> $DIR/tests/typescript-errors/tsc/es6/variableDeclarations/VariableDeclaration13_es6/input.ts:6:5
+  |
+6 | let[0] = 100;
+  |     ^
+
