@@ -1392,7 +1392,23 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
             .into());
         }
 
-        syntax_error!(self, SyntaxError::ImportExportInScript);
+        if is!(self, "import") {
+            for dec in decorators {
+                self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+            }
+
+            let import = self.parse_import()?;
+            self.emit_err(import.span(), SyntaxError::NonTopLevelImportExport);
+        } else {
+            let export = self.parse_export(decorators)?;
+            self.emit_err(export.span(), SyntaxError::NonTopLevelImportExport);
+        }
+
+        let span = span!(self, start);
+        Ok(Stmt::Expr(ExprStmt {
+            span,
+            expr: Box::new(Expr::Invalid(Invalid { span })),
+        }))
     }
 }
 
