@@ -1,0 +1,42 @@
+error[2427]: interface name is invalid
+ --> $DIR/tests/typescript-errors/tsc/interfaces/interfaceDeclarations/interfacesWithPredefinedTypesAsNames/input.ts:1:11
+  |
+1 | interface any { }
+  |           ^^^
+
+error[2427]: interface name is invalid
+ --> $DIR/tests/typescript-errors/tsc/interfaces/interfaceDeclarations/interfacesWithPredefinedTypesAsNames/input.ts:2:11
+  |
+2 | interface number { }
+  |           ^^^^^^
+
+error[2427]: interface name is invalid
+ --> $DIR/tests/typescript-errors/tsc/interfaces/interfaceDeclarations/interfacesWithPredefinedTypesAsNames/input.ts:3:11
+  |
+3 | interface string { }
+  |           ^^^^^^
+
+error[2427]: interface name is invalid
+ --> $DIR/tests/typescript-errors/tsc/interfaces/interfaceDeclarations/interfacesWithPredefinedTypesAsNames/input.ts:4:11
+  |
+4 | interface boolean { }
+  |           ^^^^^^^
+
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/typescript-errors/tsc/interfaces/interfaceDeclarations/interfacesWithPredefinedTypesAsNames/input.ts:5:1
+  |
+5 | interface void {}
+  | ^^^^^^^^^
+
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/interfaces/interfaceDeclarations/interfacesWithPredefinedTypesAsNames/input.ts:5:11
+  |
+5 | interface void {}
+  |           ^^^^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/interfaces/interfaceDeclarations/interfacesWithPredefinedTypesAsNames/input.ts:5:1
+  |
+5 | interface void {}
+  | ^^^^^^^^^
+
