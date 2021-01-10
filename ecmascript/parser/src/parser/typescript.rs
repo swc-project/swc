@@ -727,7 +727,15 @@ impl<I: Tokens> Parser<I> {
     fn parse_ts_module_or_ns_decl(&mut self, start: BytePos) -> PResult<TsModuleDecl> {
         debug_assert!(self.input.syntax().typescript());
 
-        let id = self.parse_ident_name()?;
+        let id = if is!(self, '`') {
+            self.emit_err(self.input.cur_span(), SyntaxError::ExpectedIdent);
+            let tpl = self.parse_tpl()?;
+
+            Ident::new(js_word!(""), tpl.span())
+        } else {
+            self.parse_ident_name()?
+        };
+
         let body: TsNamespaceBody = if eat!(self, '.') {
             let inner_start = cur_pos!(self);
             let inner = self.parse_ts_module_or_ns_decl(inner_start)?;
@@ -2222,7 +2230,10 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<Option<Decl>> {
         if self.ctx().in_declare {
             let span_of_declare = span!(self, start);
-            self.emit_err(span_of_declare, SyntaxError::DeclareButAlreadyInAmbientContext);
+            self.emit_err(
+                span_of_declare,
+                SyntaxError::DeclareButAlreadyInAmbientContext,
+            );
         }
 
         let declare_start = start;
