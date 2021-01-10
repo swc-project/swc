@@ -365,6 +365,7 @@ impl SyntaxError {
             SyntaxError::GeneratorInOverloadInAmbientContext => Some(1222),
 
             SyntaxError::ConstMustBeInitialized => Some(1155),
+            SyntaxError::InvalidUnicodeEscape => Some(1198),
 
             _ => None,
         }
@@ -415,6 +416,10 @@ impl SyntaxError {
             SyntaxError::InvalidStrEscape => "Invalid string escape".into(),
             SyntaxError::InvalidUnicodeEscape => "Invalid unicode escape".into(),
             SyntaxError::InvalidCodePoint => "Invalid unicode code point".into(),
+            SyntaxError::InvalidUnicodeEscape => "Invalid unciode escape".into(),
+            SyntaxError::InvalidCodePoint => "An extended Unicode escape value must be between \
+                                              0x0 and 0x10FFFF inclusive."
+                .into(),
             SyntaxError::ExpectedHexChars { count } => {
                 format!("Expected {} hex characters", count).into()
             }
