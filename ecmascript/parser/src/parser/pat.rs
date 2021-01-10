@@ -84,6 +84,7 @@ impl<'a, I: Tokens> Parser<I> {
         if is!(self, '`') {
             let tpl = self.parse_tpl()?;
             self.emit_err(tpl.span(), SyntaxError::ExpectedBindingPat);
+            return Ok(Pat::Invalid(Invalid { span: tpl.span() }));
         }
 
         let left = self.parse_binding_pat_or_ident()?;
