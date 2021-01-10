@@ -1,18 +1,18 @@
-error: Expected ], got :
- --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/staticIndexers/input.ts:4:14
+error[1005]: Expected ']'
+ --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/staticIndexers/input.ts:4:16
   |
 4 |     static [x: string]: string;
-  |              ^
+  |                ^^^^^^
 
-error: Expected ], got :
- --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/staticIndexers/input.ts:8:14
+error[1005]: Expected ']'
+ --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/staticIndexers/input.ts:8:16
   |
 8 |     static [x: number]: string;
-  |              ^
+  |                ^^^^^^
 
-error: Expected ], got :
-  --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/staticIndexers/input.ts:12:14
+error[1005]: Expected ']'
+  --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/staticIndexers/input.ts:12:16
    |
 12 |     static [x: string]: T;
-   |              ^
+   |                ^^^^^^
 
