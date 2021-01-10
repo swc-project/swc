@@ -144,6 +144,9 @@ impl<I: Tokens> Parser<I> {
                 }
                 _ => {}
             }
+            if eat!(self, '?') {
+                self.emit_err(self.input.prev_span(), SyntaxError::ExpectedComma);
+            }
             // This will fail with an error about a missing comma
             expect!(self, ',');
         }
