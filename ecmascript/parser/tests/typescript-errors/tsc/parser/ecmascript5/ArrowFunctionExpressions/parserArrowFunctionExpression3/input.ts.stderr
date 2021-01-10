@@ -1,0 +1,12 @@
+error[1005]: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ArrowFunctionExpressions/parserArrowFunctionExpression3/input.ts:1:16
+  |
+1 | a = (() => { } || a)
+  |                ^^
+
+error[1005]: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ArrowFunctionExpressions/parserArrowFunctionExpression3/input.ts:1:20
+  |
+1 | a = (() => { } || a)
+  |                    ^
+
