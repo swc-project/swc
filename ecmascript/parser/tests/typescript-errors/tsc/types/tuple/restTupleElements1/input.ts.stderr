@@ -1,0 +1,24 @@
+error: A required element cannot follow an optional element.
+ --> $DIR/tests/typescript-errors/tsc/types/tuple/restTupleElements1/input.ts:6:12
+  |
+6 | type T02 = [string?, string];  // Error
+  |            ^^^^^^^^^^^^^^^^^
+
+error[1005]: Expected ','
+  --> $DIR/tests/typescript-errors/tsc/types/tuple/restTupleElements1/input.ts:13:22
+   |
+13 | type T09 = [...string?];  // Error
+   |                      ^
+
+error: Expected ,, got ]
+  --> $DIR/tests/typescript-errors/tsc/types/tuple/restTupleElements1/input.ts:13:23
+   |
+13 | type T09 = [...string?];  // Error
+   |                       ^
+
+error[1005]: Expected a statement
+  --> $DIR/tests/typescript-errors/tsc/types/tuple/restTupleElements1/input.ts:13:23
+   |
+13 | type T09 = [...string?];  // Error
+   |                       ^
+
