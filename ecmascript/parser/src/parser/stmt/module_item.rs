@@ -268,7 +268,11 @@ impl<'a, I: Tokens> Parser<I> {
 
             if eat!(self, '=') {
                 // `export = x;`
-                let expr = self.parse_expr()?;
+                let expr = self.parse_expr().unwrap_or_else(|err| {
+                    let span = err.span();
+                    self.emit_error(err);
+                    Box::new(Expr::Invalid(Invalid { span }))
+                });
                 expect!(self, ';');
                 return Ok(TsExportAssignment {
                     span: span!(self, start),
