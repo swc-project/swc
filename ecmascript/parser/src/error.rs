@@ -270,6 +270,7 @@ pub enum SyntaxError {
     ExpectedBindingPat,
     ExpectedRBracket,
     ExpectedStatement,
+    DotAfterUpdate,
 }
 
 impl SyntaxError {
@@ -357,7 +358,8 @@ impl SyntaxError {
             | SyntaxError::ExpectedPropertyName
             | SyntaxError::ExpectedBindingPat
             | SyntaxError::ExpectedRBracket
-            | SyntaxError::ExpectedStatement => Some(1005),
+            | SyntaxError::ExpectedStatement
+            | SyntaxError::DotAfterUpdate => Some(1005),
 
             SyntaxError::InvalidReadonly => Some(1354),
 
@@ -789,6 +791,7 @@ impl SyntaxError {
             SyntaxError::ExpectedBindingPat => "Expected a binding pattern".into(),
             SyntaxError::ExpectedRBracket => "Expected '}'".into(),
             SyntaxError::ExpectedStatement => "Expected a statement".into(),
+            SyntaxError::DotAfterUpdate => "'.' cannot follow an update expression".into(),
         }
     }
 }

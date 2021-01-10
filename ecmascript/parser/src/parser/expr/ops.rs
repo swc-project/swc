@@ -358,12 +358,20 @@ impl<'a, I: Tokens> Parser<I> {
                 op!("--")
             };
 
-            return Ok(Box::new(Expr::Update(UpdateExpr {
+            let mut expr = Box::new(Expr::Update(UpdateExpr {
                 span: span!(self, expr.span().lo()),
                 prefix: false,
                 op,
                 arg: expr,
-            })));
+            }));
+
+            // Error recovery
+            if eat!(self, '.') {
+                self.emit_err(self.input.prev_span(), SyntaxError::DotAfterUpdate);
+                expr = self.parse_subscripts(ExprOrSuper::Expr(expr), false)?;
+            }
+
+            return Ok(expr);
         }
         Ok(expr)
     }
