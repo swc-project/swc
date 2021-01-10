@@ -124,6 +124,14 @@ impl<'a, I: Tokens> Parser<I> {
                         expr,
                     })
                 }
+                tok!('`') => {
+                    p.emit_err(p.input.cur_span(), SyntaxError::ExpectedPropertyName);
+                    return p.parse_tpl().and_then(|tpl| {
+                        let span = tpl.span();
+
+                        Ok(PropName::Ident(Ident::new(js_word!(""), span)))
+                    });
+                }
                 _ => syntax_error!(p, SyntaxError::ExpectedPropertyName),
             };
 
