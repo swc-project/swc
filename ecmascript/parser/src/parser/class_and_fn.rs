@@ -1339,8 +1339,8 @@ impl<'a, I: Tokens> Parser<I> {
                 };
 
                 expect!(p, ')');
-                if eat!(self, '?') {
-                    self.emit_err(self.input.prev_span(), SyntaxError::InvalidOptional);
+                if eat!(p, '?') {
+                    p.emit_err(p.input.prev_span(), SyntaxError::InvalidOptional);
                 }
                 params
             } else {
