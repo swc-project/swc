@@ -1,0 +1,6 @@
+error[1005]: Expected a property name
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/IndexSignatures/parserIndexSignature1/input.ts:2:4
+  |
+2 |   [...a]
+  |    ^^^
+
