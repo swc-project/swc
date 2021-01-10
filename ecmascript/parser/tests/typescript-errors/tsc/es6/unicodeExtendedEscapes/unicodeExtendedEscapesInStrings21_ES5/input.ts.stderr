@@ -1,0 +1,12 @@
+error[1198]: Invalid unciode escape
+ --> $DIR/tests/typescript-errors/tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings21_ES5/input.ts:3:10
+  |
+3 | var x = "\u{67";
+  |          ^^^^^
+
+error: Unterminated string constant
+ --> $DIR/tests/typescript-errors/tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings21_ES5/input.ts:3:9
+  |
+3 | var x = "\u{67";
+  |         ^^^^^^^^
+
