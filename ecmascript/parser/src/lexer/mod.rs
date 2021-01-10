@@ -816,7 +816,8 @@ impl<'a, I: Input> Lexer<'a, I> {
             let c = self.read_code_point(raw)?;
 
             if !self.eat(b'}') {
-                self.error(start, SyntaxError::InvalidUnicodeEscape)?
+                self.emit_error(start, SyntaxError::InvalidUnicodeEscape);
+                self.bump();
             }
             raw.push('}');
 
@@ -852,6 +853,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                     Ok(val.into())
                 }
             },
+            Some(val) => {
+                self.emit_error(start, SyntaxError::InvalidCodePoint);
+                Ok(val.into())
+            }
             _ => self.error(start, SyntaxError::InvalidCodePoint)?,
         }
     }
