@@ -1167,6 +1167,10 @@ impl<I: Tokens> Parser<I> {
             if eat!(self, '?') {
                 self.emit_err(self.input.prev_span(), SyntaxError::InvalidOptional);
             }
+            if eat!(self, ':') {
+                self.emit_err(self.input.prev_span(), SyntaxError::ExpectedSemi);
+                let _ = self.in_type().parse_ts_type()?;
+            }
 
             expect!(self, ';');
         }

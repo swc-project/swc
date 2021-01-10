@@ -128,7 +128,7 @@ pub enum SyntaxError {
     ExpectedIdent,
     ExpectedIdentButGotKeyword,
     ExpectedIdentAfterThis,
-    ExpctedSemi,
+    ExpectedSemi,
     DuplicateLabel(JsWord),
     AsyncGenerator,
     NonTopLevelImportExport,
@@ -491,7 +491,7 @@ impl SyntaxError {
             // TODO
             SyntaxError::NotSimpleAssign => "Cannot assign to this".into(),
             SyntaxError::ExpectedIdent => "Expected ident".into(),
-            SyntaxError::ExpctedSemi => "Expected ';' or line break".into(),
+            SyntaxError::ExpectedSemi => "Expected ';' or line break".into(),
             SyntaxError::DuplicateLabel(ref label) => {
                 format!("Label {} is already declared", label).into()
             }
