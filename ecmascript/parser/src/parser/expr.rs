@@ -920,6 +920,27 @@ impl<'a, I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
+        if eof!(self) {
+            let span = Span::new(start, start, Default::default());
+            self.emit_err(span, SyntaxError::UnterminatedTpl);
+            return Ok(TplElement {
+                span,
+                raw: Str {
+                    span,
+                    value: js_word!(""),
+                    has_escape: false,
+                    kind: Default::default(),
+                },
+                tail: true,
+                cooked: Some(Str {
+                    span,
+                    value: js_word!(""),
+                    has_escape: false,
+                    kind: Default::default(),
+                }),
+            });
+        }
+
         let (raw, cooked) = match *cur!(self, true)? {
             Token::Template { .. } => match bump!(self) {
                 Token::Template {
