@@ -372,6 +372,7 @@ impl SyntaxError {
 
             SyntaxError::ConstMustBeInitialized => Some(1155),
             SyntaxError::InvalidCodePoint => Some(1198),
+            SyntaxError::TsRequiredAfterOptional => Some(1257),
 
             _ => None,
         }
