@@ -1,0 +1,6 @@
+error[1029]: 'public' modifier must precede 'static' modifier
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/AccessibilityAfterStatic/parserAccessibilityAfterStatic10/input.ts:3:8
+  |
+3 | static public intI<T>() {}
+  |        ^^^^^^
+
