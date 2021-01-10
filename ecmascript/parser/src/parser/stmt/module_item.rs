@@ -2,7 +2,7 @@ use super::*;
 
 impl<'a, I: Tokens> Parser<I> {
     #[allow(clippy::cognitive_complexity)]
-    fn parse_import(&mut self) -> PResult<ModuleItem> {
+    pub(super) fn parse_import(&mut self) -> PResult<ModuleItem> {
         let start = cur_pos!(self);
 
         if self.input.syntax().import_meta() && peeked_is!(self, '.') {
@@ -215,7 +215,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     #[allow(clippy::cognitive_complexity)]
-    fn parse_export(&mut self, decorators: Vec<Decorator>) -> PResult<ModuleDecl> {
+    pub(super) fn parse_export(&mut self, decorators: Vec<Decorator>) -> PResult<ModuleDecl> {
         if !self.ctx().module {
             // Switch to module mode
             let ctx = Context {

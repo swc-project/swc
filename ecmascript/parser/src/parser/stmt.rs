@@ -1363,12 +1363,12 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
         top_level: bool,
         decorators: Vec<Decorator>,
     ) -> PResult<Stmt> {
-        for dec in decorators {
-            self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
-        }
-
         let start = cur_pos!(self);
         if self.input.syntax().dynamic_import() && is!(self, "import") {
+            for dec in decorators {
+                self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+            }
+
             let expr = self.parse_expr()?;
 
             eat!(self, ';');
@@ -1381,6 +1381,10 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
         }
 
         if self.input.syntax().import_meta() && is!(self, "import") && peeked_is!(self, '.') {
+            for dec in decorators {
+                self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+            }
+
             let expr = self.parse_expr()?;
 
             eat!(self, ';');
