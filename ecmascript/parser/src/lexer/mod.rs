@@ -846,8 +846,11 @@ impl<'a, I: Input> Lexer<'a, I> {
         let val = self.read_int_u32(16, 0, raw)?;
         match val {
             Some(val) if 0x0010_FFFF >= val => match char::from_u32(val) {
-                Some(c) => Ok(c.into()),
-                None => self.error(start, SyntaxError::InvalidCodePoint)?,
+                Some(c) => return Ok(c.into()),
+                None => {
+                    self.emit_error(start, SyntaxError::InvalidCodePoint);
+                    Ok(val.into())
+                }
             },
             _ => self.error(start, SyntaxError::InvalidCodePoint)?,
         }
