@@ -308,6 +308,10 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         let start = self.cur_pos();
 
+        if self.eat(b'-') {
+            self.emit_error(start, SyntaxError::ExpectedDigit { radix })
+        }
+
         let mut total: Ret = Default::default();
 
         let mut prev = None;
