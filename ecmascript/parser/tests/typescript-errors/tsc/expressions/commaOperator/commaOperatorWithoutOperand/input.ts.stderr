@@ -1,0 +1,30 @@
+error: Expected ident
+  --> $DIR/tests/typescript-errors/tsc/expressions/commaOperator/commaOperatorWithoutOperand/input.ts:17:2
+   |
+17 | (, ANY);
+   |  ^
+
+error: Expected ,, got ANY
+  --> $DIR/tests/typescript-errors/tsc/expressions/commaOperator/commaOperatorWithoutOperand/input.ts:17:4
+   |
+17 | (, ANY);
+   |    ^^^
+
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/expressions/commaOperator/commaOperatorWithoutOperand/input.ts:17:7
+   |
+17 | (, ANY);
+   |       ^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/commaOperator/commaOperatorWithoutOperand/input.ts:17:4
+   |
+17 | (, ANY);
+   |    ^^^
+
+error[1005]: Expected a statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/commaOperator/commaOperatorWithoutOperand/input.ts:17:7
+   |
+17 | (, ANY);
+   |       ^
+
