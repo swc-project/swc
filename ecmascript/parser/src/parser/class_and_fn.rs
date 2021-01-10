@@ -1309,6 +1309,26 @@ impl<'a, I: Tokens> Parser<I> {
                     Err(err) => {
                         p.emit_error(err);
 
+                        let mut cnt = 1;
+
+                        loop {
+                            if eof!(p) {
+                                break;
+                            }
+                            if is!(p, ')') {
+                                cnt -= 1;
+                                if cnt == 0 {
+                                    break;
+                                }
+                                continue;
+                            }
+                            if eat!(p, '(') {
+                                cnt += 1;
+                                continue;
+                            }
+                            bump!(p);
+                        }
+
                         vec![]
                     }
                 };
