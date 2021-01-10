@@ -915,6 +915,9 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     pub(super) fn parse_tpl_element(&mut self) -> PResult<TplElement> {
+    pub(super) fn parse_tpl_element(&mut self, is_tagged: bool) -> PResult<TplElement> {
+        trace_cur!(self, parse_tpl_element);
+
         let start = cur_pos!(self);
 
         let (raw, cooked) = match *cur!(self, true)? {
