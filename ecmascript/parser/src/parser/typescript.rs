@@ -1534,6 +1534,8 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseMappedTypeParameter`
     fn parse_ts_mapped_type_param(&mut self) -> PResult<TsTypeParam> {
+        trace_cur!(self, parse_ts_mapped_type_param);
+
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
@@ -1551,6 +1553,8 @@ impl<I: Tokens> Parser<I> {
     /// `tsParseMappedType`
     #[allow(clippy::cognitive_complexity)]
     fn parse_ts_mapped_type(&mut self) -> PResult<TsMappedType> {
+        trace_cur!(self, parse_ts_mapped_type);
+
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
@@ -1606,6 +1610,8 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseTupleType`
     fn parse_ts_tuple_type(&mut self) -> PResult<TsTupleType> {
+        trace_cur!(self, parse_ts_tuple_type);
+
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
@@ -1646,6 +1652,8 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn try_parse_ts_tuple_element_name(&mut self) -> Option<Pat> {
+        trace_cur!(self, try_parse_ts_tuple_element_name);
+
         self.try_parse_ts(|p| {
             let start = cur_pos!(p);
 
