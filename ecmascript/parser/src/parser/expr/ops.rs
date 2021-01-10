@@ -366,7 +366,7 @@ impl<'a, I: Tokens> Parser<I> {
             }));
 
             // Error recovery
-            if eat!(self, '.') {
+            if is!(self, '.') {
                 self.emit_err(self.input.prev_span(), SyntaxError::DotAfterUpdate);
                 expr = self.parse_subscripts(ExprOrSuper::Expr(expr), false)?;
             }
