@@ -1053,7 +1053,8 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
         }
 
-        self.error(start_of_tpl, SyntaxError::UnterminatedTpl)?
+        self.emit_error(start_of_tpl, SyntaxError::UnterminatedTpl);
+        return Ok(tok!('`'));
     }
 
     pub fn had_line_break_before_last(&self) -> bool {
