@@ -1,0 +1,12 @@
+error[1096]: An index signature must have exactly one parameter
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/IndexSignatures/parserIndexSignature10/input.ts:2:5
+  |
+2 |    [a, b]: number
+  |     ^
+
+error[1023]: An index signature parameter type must be either 'string' or 'number'
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/IndexSignatures/parserIndexSignature10/input.ts:2:8
+  |
+2 |    [a, b]: number
+  |        ^
+
