@@ -28,3 +28,15 @@ note: This is the expression part of an expression statement
 10 | label: let b = 1;
    |        ^^^
 
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/statements/labeledStatements/labeledStatementWithLabel_strict/input.ts:11:14
+   |
+11 | label: const c = 1;
+   |              ^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/statements/labeledStatements/labeledStatementWithLabel_strict/input.ts:11:8
+   |
+11 | label: const c = 1;
+   |        ^^^^^
+

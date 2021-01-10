@@ -1,6 +1,60 @@
-error: Expected ], got :
- --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer2/input.ts:4:15
+error[1005]: Expected ']'
+ --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer2/input.ts:4:17
   |
 4 |     private [x: string]: string;
-  |               ^
+  |                 ^^^^^^
+
+error[1005]: Expected ','
+ --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer2/input.ts:4:32
+  |
+4 |     private [x: string]: string;
+  |                                ^
+
+error: Expected ;, got [
+ --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer2/input.ts:8:12
+  |
+8 |     private[x: string]: string;
+  |            ^
+
+error: Unexpected token `:`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
+ --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer2/input.ts:8:14
+  |
+8 |     private[x: string]: string;
+  |              ^
+
+error[1005]: Expected a statement
+ --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer2/input.ts:8:14
+  |
+8 |     private[x: string]: string;
+  |              ^
+
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer2/input.ts:8:22
+  |
+8 |     private[x: string]: string;
+  |                      ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer2/input.ts:8:16
+  |
+8 |     private[x: string]: string;
+  |                ^^^^^^
+
+error[1005]: Expected a statement
+ --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer2/input.ts:8:22
+  |
+8 |     private[x: string]: string;
+  |                      ^
+
+error[1005]: Expected a statement
+ --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer2/input.ts:8:23
+  |
+8 |     private[x: string]: string;
+  |                       ^
+
+error[1005]: Expected '}'
+ --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer2/input.ts:9:1
+  |
+9 | }
+  | ^
 
