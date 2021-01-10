@@ -1,0 +1,6 @@
+error: Unterminated template
+ --> $DIR/tests/typescript-errors/tsc/es6/templates/templateStringUnterminated3_ES6/input.ts:2:1
+  |
+2 | `\\
+  | ^^^
+
