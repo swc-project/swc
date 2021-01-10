@@ -37,7 +37,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             trace_cur!(self, parse_block_body__item);
-            if eat!(self, ':') {
+            if eat!(self, ':') || eat!(self, "...") {
                 self.emit_err(self.input.prev_span(), SyntaxError::ExpectedStatement);
                 continue;
             }
