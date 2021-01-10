@@ -131,7 +131,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             let start = cur_pos!(self);
             match cur!(self, true) {
-                Ok(&Token::Num(..)) | Ok(&Token::Str { .. }) => {
+                Ok(&Token::Num(..)) | Ok(&Token::Str { .. }) | Ok(&Token::BigInt(..)) => {
                     bump!(self);
                     self.emit_err(self.input.prev_span(), SyntaxError::ExpectedBindingPat);
                     elems.push(Some(Pat::Invalid(Invalid {
