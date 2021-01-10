@@ -26,6 +26,13 @@ impl<'a, I: Tokens> Parser<I> {
             c != end
         } {
             if end.is_none() && is!(self, '}') {
+                self.emit_err(self.input.cur_span(), SyntaxError::ExpectedRBracket);
+                return Ok(stmts);
+            }
+
+            // Prevent infinite loop.
+            if eat!(self, ')') {
+                self.emit_err(self.input.cur_span(), SyntaxError::ExpectedStatement);
                 return Ok(stmts);
             }
 

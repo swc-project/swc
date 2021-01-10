@@ -268,6 +268,8 @@ pub enum SyntaxError {
     GeneratorInOverloadOfClassMethod,
     ConstMustBeInitialized,
     ExpectedBindingPat,
+    ExpectedRBracket,
+    ExpectedStatement,
 }
 
 impl SyntaxError {
@@ -353,7 +355,9 @@ impl SyntaxError {
             | SyntaxError::ExpectedRParen
             | SyntaxError::ExpectedLParen
             | SyntaxError::ExpectedPropertyName
-            | SyntaxError::ExpectedBindingPat => Some(1005),
+            | SyntaxError::ExpectedBindingPat
+            | SyntaxError::ExpectedRBracket
+            | SyntaxError::ExpectedStatement => Some(1005),
 
             SyntaxError::InvalidReadonly => Some(1354),
 
@@ -782,6 +786,8 @@ impl SyntaxError {
                 "'const' declarations must be initialized".into()
             }
             SyntaxError::ExpectedBindingPat => "Expected a binding pattern".into(),
+            SyntaxError::ExpectedRBracket => "Expected '}'".into(),
+            SyntaxError::ExpectedStatement => "Expected a statement".into(),
         }
     }
 }
