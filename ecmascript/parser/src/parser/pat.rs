@@ -79,6 +79,13 @@ impl<'a, I: Tokens> Parser<I> {
         trace_cur!(self, parse_binding_element);
 
         let start = cur_pos!(self);
+
+        // Error recovert
+        if is!(self, '`') {
+            let tpl = self.parse_tpl()?;
+            self.emit_err(tpl.span(), SyntaxError::ExpectedBindingPat);
+        }
+
         let left = self.parse_binding_pat_or_ident()?;
 
         if eat!(self, '=') {
