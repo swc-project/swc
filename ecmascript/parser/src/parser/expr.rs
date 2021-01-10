@@ -941,6 +941,29 @@ impl<'a, I: Tokens> Parser<I> {
             });
         }
 
+        // This check is complementary for error recovery performed by the lexer.
+        // The error recovery should be done in lexer because of token context.x
+        if is!(self, '`') {
+            let span = Span::new(start, start, Default::default());
+
+            return Ok(TplElement {
+                span,
+                raw: Str {
+                    span,
+                    value: js_word!(""),
+                    has_escape: false,
+                    kind: Default::default(),
+                },
+                tail: true,
+                cooked: Some(Str {
+                    span,
+                    value: js_word!(""),
+                    has_escape: false,
+                    kind: Default::default(),
+                }),
+            });
+        }
+
         let (raw, cooked) = match *cur!(self, true)? {
             Token::Template { .. } => match bump!(self) {
                 Token::Template {
