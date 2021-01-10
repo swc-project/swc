@@ -1,0 +1,12 @@
+error: Expected ident
+ --> $DIR/tests/typescript-errors/tsc/es6/templates/templateStringInModuleName/input.ts:1:16
+  |
+1 | declare module `M1` {
+  |                ^
+
+error: Expected ident
+ --> $DIR/tests/typescript-errors/tsc/es6/templates/templateStringInModuleName/input.ts:4:16
+  |
+4 | declare module `M${2}` {
+  |                ^
+
