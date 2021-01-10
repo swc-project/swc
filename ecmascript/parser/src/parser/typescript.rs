@@ -1299,6 +1299,9 @@ impl<I: Tokens> Parser<I> {
 
         // ----- inlined self.parsePropertyName(node);
         let (computed, key) = if eat!(self, '[') {
+            if eat!(self, "...") {
+                self.emit_err(self.input.prev_span(), SyntaxError::ExpectedPropertyName);
+            }
             let key = self.parse_assignment_expr()?;
             expect!(self, ']');
             (true, key)
