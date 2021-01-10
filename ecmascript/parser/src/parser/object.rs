@@ -117,6 +117,15 @@ impl<'a, I: Tokens> Parser<I> {
                         );
                     }
 
+                    if p.syntax().typescript() && eat!(p, ':') {
+                        let type_ann_start = cur_pos!(p);
+                        let ty = p.parse_ts_type()?;
+                        p.emit_err(
+                            span!(p, type_ann_start),
+                            SyntaxError::ExpectedRSquareBracket,
+                        );
+                    }
+
                     expect!(p, ']');
 
                     PropName::Computed(ComputedPropName {
