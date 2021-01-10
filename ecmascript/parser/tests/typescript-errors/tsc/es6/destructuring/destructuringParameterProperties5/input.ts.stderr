@@ -10,3 +10,9 @@ error: Unexpected token `bar`. Expected * for generator, private key, identifier
 7 |         var bar: any = this.x1 || this.x2 || this.x3 || this.y || this.z;
   |             ^^^
 
+error[1005]: Expected '}'
+ --> $DIR/tests/typescript-errors/tsc/es6/destructuring/destructuringParameterProperties5/input.ts:9:1
+  |
+9 | }
+  | ^
+

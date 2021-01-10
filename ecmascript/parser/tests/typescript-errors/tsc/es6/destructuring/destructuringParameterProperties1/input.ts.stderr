@@ -4,3 +4,9 @@ error[1187]: A parameter property may not be declared using a binding pattern
 2 |     constructor(public [x, y, z]: string[]) {
   |                        ^^^^^^^^^^^^^^^^^^^
 
+error[1005]: Expected '}'
+ --> $DIR/tests/typescript-errors/tsc/es6/destructuring/destructuringParameterProperties1/input.ts:4:1
+  |
+4 | }
+  | ^
+

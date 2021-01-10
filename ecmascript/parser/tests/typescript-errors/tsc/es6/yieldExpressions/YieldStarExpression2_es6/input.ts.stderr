@@ -4,7 +4,7 @@ error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'pu
 2 | yield *;
   | ^^^^^
 
-error: Unexpected token `;`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
+error: Expected an expression
  --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/YieldStarExpression2_es6/input.ts:2:8
   |
 2 | yield *;

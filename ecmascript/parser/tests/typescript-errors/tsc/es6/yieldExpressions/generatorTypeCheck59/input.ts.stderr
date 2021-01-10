@@ -10,3 +10,9 @@ error: Expected ), got string literal ()
 4 |         @(yield "")
   |                 ^^
 
+error[1005]: Expected '}'
+ --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/generatorTypeCheck59/input.ts:7:1
+  |
+7 | }
+  | ^
+
