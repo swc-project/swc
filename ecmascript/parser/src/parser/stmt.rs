@@ -37,6 +37,10 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             trace_cur!(self, parse_block_body__item);
+            if eat!(self, ':') {
+                self.emit_err(self.input.prev_span(), SyntaxError::ExpectedStatement);
+                continue;
+            }
             let stmt = self.parse_stmt_like(true, top_level)?;
             if allow_directives {
                 allow_directives = false;
