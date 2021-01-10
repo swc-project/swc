@@ -4,3 +4,27 @@ error: Unexpected character '¬'
 2 |    ¬
   |    ^
 
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ClassElements/parserErrorRecovery_ClassElement3/input.ts:6:4
+  |
+6 |    enum E {
+  |    ^^^^
+
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ClassElements/parserErrorRecovery_ClassElement3/input.ts:6:11
+  |
+6 |    enum E {
+  |           ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ClassElements/parserErrorRecovery_ClassElement3/input.ts:6:9
+  |
+6 |    enum E {
+  |         ^
+
+error: Unexpected character '¬'
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ClassElements/parserErrorRecovery_ClassElement3/input.ts:7:4
+  |
+7 |    ¬
+  |    ^
+
