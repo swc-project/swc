@@ -1,0 +1,6 @@
+error[1005]: Expected a property name
+ --> $DIR/tests/typescript-errors/tsc/es6/templates/templateStringInPropertyNameES6_1/input.ts:3:5
+  |
+3 |     `a`: 321
+  |     ^
+
