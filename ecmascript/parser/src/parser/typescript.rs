@@ -895,6 +895,8 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseHeritageClause`
     pub(super) fn parse_ts_heritage_clause(&mut self) -> PResult<Vec<TsExprWithTypeArgs>> {
+        trace_cur!(self, parse_ts_heritage_clause);
+
         debug_assert!(self.input.syntax().typescript());
 
         self.parse_ts_delimited_list(ParsingContext::HeritageClauseElement, |p| {
@@ -904,6 +906,8 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseExpressionWithTypeArguments`
     fn parse_expr_with_type_args(&mut self) -> PResult<TsExprWithTypeArgs> {
+        trace_cur!(self, parse_expr_with_type_args);
+
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
@@ -925,6 +929,7 @@ impl<I: Tokens> Parser<I> {
     }
     /// `tsParseInterfaceDeclaration`
     pub(super) fn parse_ts_interface_decl(&mut self, start: BytePos) -> PResult<TsInterfaceDecl> {
+        trace_cur!(self, parse_ts_interface_decl);
         debug_assert!(self.input.syntax().typescript());
 
         let id = self.parse_ident_name()?;
@@ -1282,6 +1287,17 @@ impl<I: Tokens> Parser<I> {
     ///
     /// Returns `(computed, key)`.
     fn parse_ts_property_name(&mut self) -> PResult<(bool, Box<Expr>)> {
+    /// `tsParsePropertyOrMethodSignature`
+    fn parse_ts_property_or_method_signature(
+        &mut self,
+        start: BytePos,
+        readonly: bool,
+    ) -> PResult<Either<TsPropertySignature, TsMethodSignature>> {
+        trace_cur!(self, parse_ts_property_or_method_signature);
+
+        debug_assert!(self.input.syntax().typescript());
+
+        // ----- inlined self.parsePropertyName(node);
         let (computed, key) = if eat!(self, '[') {
             let key = self.parse_assignment_expr()?;
             expect!(self, ']');
