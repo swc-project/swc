@@ -1,0 +1,6 @@
+error[1155]: 'const' declarations must be initialized
+ --> $DIR/tests/typescript-errors/tsc/es6/variableDeclarations/VariableDeclaration2_es6/input.ts:2:7
+  |
+2 | const a
+  |       ^
+
