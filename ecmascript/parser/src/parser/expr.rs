@@ -13,7 +13,14 @@ impl<'a, I: Tokens> Parser<I> {
     pub fn parse_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_expr);
 
-        let expr = self.parse_assignment_expr()?;
+        let expr = if is!(self, ',') {
+            self.emit_err(self.input.prev_span(), SyntaxError::ExpectedExpr);
+            Box::new(Expr::Invalid(Invalid {
+                span: self.input.prev_span(),
+            }))
+        } else {
+            self.parse_assignment_expr()?
+        };
         let start = expr.span().lo();
 
         if is!(self, ',') {
