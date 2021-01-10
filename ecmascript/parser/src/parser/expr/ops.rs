@@ -176,9 +176,9 @@ impl<'a, I: Tokens> Parser<I> {
 
         let right = {
             let left_of_right = if is_exact!(self, ';') || is_one_of!(self, "case", "default") {
-                self.emit_err(self.input.cur_span(), SyntaxError::ExpectedExpr);
+                self.emit_err(self.input.prev_span(), SyntaxError::ExpectedExprAfterThis);
                 Box::new(Expr::Invalid(Invalid {
-                    span: self.input.cur_span(),
+                    span: self.input.prev_span(),
                 }))
             } else {
                 self.parse_unary_expr()?
