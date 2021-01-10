@@ -1,0 +1,54 @@
+error[1005]: Unexpected '?'
+ --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/methodSignatures/objectTypesWithOptionalProperties2/input.ts:4:8
+  |
+4 |     x()?: number; // error
+  |        ^
+
+error: Expected ';' or line break
+ --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/methodSignatures/objectTypesWithOptionalProperties2/input.ts:4:9
+  |
+4 |     x()?: number; // error
+  |         ^
+
+error[1005]: Unexpected '?'
+ --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/methodSignatures/objectTypesWithOptionalProperties2/input.ts:8:8
+  |
+8 |     x()?: number; // error
+  |        ^
+
+error: Expected ';' or line break
+ --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/methodSignatures/objectTypesWithOptionalProperties2/input.ts:8:9
+  |
+8 |     x()?: number; // error
+  |         ^
+
+error[1005]: Unexpected '?'
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/methodSignatures/objectTypesWithOptionalProperties2/input.ts:12:8
+   |
+12 |     x()?: number; // error
+   |        ^
+
+error[1005]: Unexpected '?'
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/methodSignatures/objectTypesWithOptionalProperties2/input.ts:16:8
+   |
+16 |     x()?: T; // error
+   |        ^
+
+error: Expected ';' or line break
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/methodSignatures/objectTypesWithOptionalProperties2/input.ts:16:9
+   |
+16 |     x()?: T; // error
+   |         ^
+
+error[1005]: Unexpected '?'
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/methodSignatures/objectTypesWithOptionalProperties2/input.ts:20:8
+   |
+20 |     x()?: T; // error
+   |        ^
+
+error[1005]: Unexpected '?'
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/methodSignatures/objectTypesWithOptionalProperties2/input.ts:25:8
+   |
+25 |     x()?: 1 // error
+   |        ^
+
