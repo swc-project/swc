@@ -4,9 +4,9 @@ error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'pu
 2 | yield *;
   | ^^^^^
 
-error: Expected an expression
- --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/YieldStarExpression2_es6/input.ts:2:8
+error: Expected an expression after this
+ --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/YieldStarExpression2_es6/input.ts:2:7
   |
 2 | yield *;
-  |        ^
+  |       ^
 
