@@ -853,11 +853,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                     Ok(val.into())
                 }
             },
-            Some(val) => {
+            _ => {
                 self.emit_error(start, SyntaxError::InvalidCodePoint);
-                Ok(val.into())
+                Ok(val.unwrap_or(0).into())
             }
-            _ => self.error(start, SyntaxError::InvalidCodePoint)?,
         }
     }
 
