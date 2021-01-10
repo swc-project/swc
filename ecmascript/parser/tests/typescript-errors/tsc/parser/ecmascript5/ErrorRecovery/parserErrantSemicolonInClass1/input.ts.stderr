@@ -1,0 +1,6 @@
+error[1049]: A 'set' accessor must have exactly one parameter
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserErrantSemicolonInClass1/input.ts:15:12
+   |
+15 |     public set d() {
+   |            ^^^
+
