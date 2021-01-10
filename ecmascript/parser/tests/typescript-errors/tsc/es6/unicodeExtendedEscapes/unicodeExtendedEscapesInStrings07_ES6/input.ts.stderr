@@ -1,4 +1,4 @@
-error: An extended Unicode escape value must be between 0x0 and 0x10FFFF inclusive.
+error[1198]: An extended Unicode escape value must be between 0x0 and 0x10FFFF inclusive.
  --> $DIR/tests/typescript-errors/tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings07_ES6/input.ts:5:13
   |
 5 | var x = "\u{110000}";
