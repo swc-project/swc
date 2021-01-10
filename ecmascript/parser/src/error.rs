@@ -271,6 +271,7 @@ pub enum SyntaxError {
     ExpectedRBracket,
     ExpectedStatement,
     DotAfterUpdate,
+    InvalidOptional,
 }
 
 impl SyntaxError {
@@ -359,7 +360,8 @@ impl SyntaxError {
             | SyntaxError::ExpectedBindingPat
             | SyntaxError::ExpectedRBracket
             | SyntaxError::ExpectedStatement
-            | SyntaxError::DotAfterUpdate => Some(1005),
+            | SyntaxError::DotAfterUpdate
+            | SyntaxError::InvalidOptional => Some(1005),
 
             SyntaxError::InvalidReadonly => Some(1354),
 
@@ -792,6 +794,7 @@ impl SyntaxError {
             SyntaxError::ExpectedRBracket => "Expected '}'".into(),
             SyntaxError::ExpectedStatement => "Expected a statement".into(),
             SyntaxError::DotAfterUpdate => "'.' cannot follow an update expression".into(),
+            SyntaxError::InvalidOptional => "Unexpected '?'".into(),
         }
     }
 }
