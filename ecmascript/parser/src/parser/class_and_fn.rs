@@ -1401,7 +1401,10 @@ impl<'a, I: Tokens> Parser<I> {
             //                self.ctx().span_of_fn_name.expect("we are not in function"),
             //                SyntaxError::TS1183,
             //            );
-            self.emit_err(self.input.cur_span(), SyntaxError::TS1183);
+            self.emit_err(
+                self.input.cur_span(),
+                SyntaxError::ImplementationInAmbientContext,
+            );
         }
 
         let ctx = Context {
