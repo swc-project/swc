@@ -178,7 +178,7 @@ pub enum SyntaxError {
 
     TS1003,
     TS1005,
-    TS1009,
+    TrailingCommaInVarDecl,
     TS1014,
     TS1015,
     TS1029(JsWord, JsWord),
@@ -205,7 +205,7 @@ pub enum SyntaxError {
     TS1114,
     TS1115,
     TS1116,
-    TS1123,
+    EmptyVarDecl,
     TS1141,
     ObjectMemberCannotBeOptional,
     TS1164,
@@ -277,7 +277,7 @@ impl SyntaxError {
         match self {
             SyntaxError::TS1003 => Some(1003),
             SyntaxError::TS1005 => Some(1005),
-            SyntaxError::TS1009 => Some(1009),
+            SyntaxError::TrailingCommaInVarDecl => Some(1009),
             SyntaxError::TS1014 => Some(1014),
             SyntaxError::TS1015 => Some(1015),
             SyntaxError::TS1031 => Some(1031),
@@ -299,7 +299,7 @@ impl SyntaxError {
             SyntaxError::TS1114 => Some(1114),
             SyntaxError::TS1115 => Some(1115),
             SyntaxError::TS1116 => Some(1116),
-            SyntaxError::TS1123 => Some(1123),
+            SyntaxError::EmptyVarDecl => Some(1123),
             SyntaxError::TS1141 => Some(1141),
             SyntaxError::ObjectMemberCannotBeOptional => Some(1162),
             SyntaxError::TS1164 => Some(1164),
@@ -605,7 +605,7 @@ impl SyntaxError {
 
             SyntaxError::TS1003 => "Expected an identifier".into(),
             SyntaxError::TS1005 => "Expected a semicolon".into(),
-            SyntaxError::TS1009 => "Trailing comma is not allowed".into(),
+            SyntaxError::TrailingCommaInVarDecl => "Trailing comma is not allowed".into(),
             SyntaxError::TS1014 => "A rest parameter must be last in a parameter list".into(),
             SyntaxError::TS1015 => "Parameter cannot have question mark and initializer".into(),
             SyntaxError::TS1029(left, right) => {
@@ -650,7 +650,7 @@ impl SyntaxError {
             SyntaxError::TS1116 => {
                 "A 'break' statement can only jump to a label of an enclosing statement".into()
             }
-            SyntaxError::TS1123 => "Variable declaration list cannot be empty".into(),
+            SyntaxError::EmptyVarDecl => "Variable declaration list cannot be empty".into(),
             SyntaxError::ObjectMemberCannotBeOptional => {
                 "An object member cannot be declared optional".into()
             }

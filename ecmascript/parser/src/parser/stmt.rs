@@ -823,7 +823,7 @@ impl<'a, I: Tokens> Parser<I> {
                 Ok(true) => {
                     let pos = var_span.hi();
                     let span = Span::new(pos, pos, Default::default());
-                    self.emit_err(span, SyntaxError::TS1123);
+                    self.emit_err(span, SyntaxError::EmptyVarDecl);
 
                     return Ok(VarDecl {
                         span: span!(self, start),
@@ -864,7 +864,11 @@ impl<'a, I: Tokens> Parser<I> {
                 } else {
                     prev_span
                 };
-                self.emit_err(span, SyntaxError::TS1009);
+                if decls.is_empty() {
+                    self.emit_err(span, SyntaxError::EmptyVarDecl);
+                } else {
+                    self.emit_err(span, SyntaxError::TrailingCommaInVarDecl);
+                }
                 break;
             }
 
