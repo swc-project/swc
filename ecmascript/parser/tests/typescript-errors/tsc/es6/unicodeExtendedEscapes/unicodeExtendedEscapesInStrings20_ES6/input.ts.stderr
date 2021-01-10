@@ -4,9 +4,15 @@ error[1198]: An extended Unicode escape value must be between 0x0 and 0x10FFFF i
 3 | var x = "\u{";
   |             ^
 
-error: Unterminated string constant
- --> $DIR/tests/typescript-errors/tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings20_ES6/input.ts:3:13
+error: Invalid unciode escape
+ --> $DIR/tests/typescript-errors/tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings20_ES6/input.ts:3:10
   |
 3 | var x = "\u{";
-  |             ^^
+  |          ^^^
+
+error: Unterminated string constant
+ --> $DIR/tests/typescript-errors/tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings20_ES6/input.ts:3:9
+  |
+3 | var x = "\u{";
+  |         ^^^^^^
 

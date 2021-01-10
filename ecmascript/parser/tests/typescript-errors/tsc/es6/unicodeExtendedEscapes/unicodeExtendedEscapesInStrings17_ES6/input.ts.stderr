@@ -4,3 +4,33 @@ error[1198]: An extended Unicode escape value must be between 0x0 and 0x10FFFF i
 3 | var x = "\u{r}\u{n}\u{t}";
   |             ^
 
+error: Invalid unciode escape
+ --> $DIR/tests/typescript-errors/tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings17_ES6/input.ts:3:10
+  |
+3 | var x = "\u{r}\u{n}\u{t}";
+  |          ^^^
+
+error[1198]: An extended Unicode escape value must be between 0x0 and 0x10FFFF inclusive.
+ --> $DIR/tests/typescript-errors/tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings17_ES6/input.ts:3:18
+  |
+3 | var x = "\u{r}\u{n}\u{t}";
+  |                  ^
+
+error: Invalid unciode escape
+ --> $DIR/tests/typescript-errors/tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings17_ES6/input.ts:3:15
+  |
+3 | var x = "\u{r}\u{n}\u{t}";
+  |               ^^^
+
+error[1198]: An extended Unicode escape value must be between 0x0 and 0x10FFFF inclusive.
+ --> $DIR/tests/typescript-errors/tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings17_ES6/input.ts:3:23
+  |
+3 | var x = "\u{r}\u{n}\u{t}";
+  |                       ^
+
+error: Invalid unciode escape
+ --> $DIR/tests/typescript-errors/tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings17_ES6/input.ts:3:20
+  |
+3 | var x = "\u{r}\u{n}\u{t}";
+  |                    ^^^
+
