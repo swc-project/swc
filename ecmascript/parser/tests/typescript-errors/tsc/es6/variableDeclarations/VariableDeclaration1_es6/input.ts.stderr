@@ -1,0 +1,6 @@
+error[1123]: Variable declaration list cannot be empty
+ --> $DIR/tests/typescript-errors/tsc/es6/variableDeclarations/VariableDeclaration1_es6/input.ts:2:6
+  |
+2 | const
+  |      ^
+
