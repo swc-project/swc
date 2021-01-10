@@ -130,6 +130,17 @@ impl<'a, I: Tokens> Parser<I> {
                 comma = 0;
             }
             let start = cur_pos!(self);
+            match cur!(self, true) {
+                Ok(&Token::Num(..)) | Ok(&Token::Str { .. }) => {
+                    bump!(self);
+                    self.emit_err(self.input.prev_span(), SyntaxError::ExpectedBindingPat);
+                    elems.push(Some(Pat::Invalid(Invalid {
+                        span: self.input.prev_span(),
+                    })));
+                    continue;
+                }
+                _ => {}
+            }
 
             if eat!(self, "...") {
                 let dot3_token = span!(self, start);
