@@ -1,0 +1,7 @@
+error: 'import', and 'export' are not permitted here
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserModifierOnStatementInBlock3/input.ts:2:4
+  |
+2 | /    export function bar() {
+3 | |    }
+  | |____^
+
