@@ -365,7 +365,7 @@ impl SyntaxError {
             SyntaxError::GeneratorInOverloadInAmbientContext => Some(1222),
 
             SyntaxError::ConstMustBeInitialized => Some(1155),
-            SyntaxError::InvalidUnicodeEscape => Some(1198),
+            SyntaxError::InvalidCodePoint => Some(1198),
 
             _ => None,
         }
