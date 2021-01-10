@@ -777,9 +777,14 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                 }
 
-                expect!(self, '(');
-                let params = self.parse_constructor_params()?;
-                expect!(self, ')');
+                let params = if eat!(self, '(') {
+                    let params = self.parse_constructor_params()?;
+                    expect!(self, ')');
+                    params
+                } else {
+                    self.emit_err(self.input.cur_span(), SyntaxError::ExpectedLParen);
+                    vec![]
+                };
 
                 if self.syntax().typescript() && is!(self, ':') {
                     let start = cur_pos!(self);
