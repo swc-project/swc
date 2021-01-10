@@ -108,6 +108,7 @@ impl<I: Tokens> Parser<I> {
     where
         F: FnMut(&mut Self) -> PResult<(BytePos, T)>,
     {
+        trace_cur!(self, parse_ts_delimited_list_inner);
         debug_assert!(self.input.syntax().typescript());
 
         let mut buf = vec![];
