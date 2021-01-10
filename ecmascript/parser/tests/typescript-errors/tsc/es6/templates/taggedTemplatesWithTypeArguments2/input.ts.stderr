@@ -1,0 +1,6 @@
+error[1109]: Expression expected
+  --> $DIR/tests/typescript-errors/tsc/es6/templates/taggedTemplatesWithTypeArguments2/input.ts:39:14
+   |
+39 |         super<number, string, T> `hello world`;
+   |              ^
+
