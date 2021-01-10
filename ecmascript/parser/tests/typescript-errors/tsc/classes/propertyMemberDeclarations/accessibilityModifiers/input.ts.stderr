@@ -100,3 +100,129 @@ note: This is the expression part of an expression statement
 43 |     private protected get getter() { return 0; }
    |     ^^^^^^^
 
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:43:13
+   |
+43 |     private protected get getter() { return 0; }
+   |             ^^^^^^^^^
+
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:43:23
+   |
+43 |     private protected get getter() { return 0; }
+   |                       ^^^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:43:13
+   |
+43 |     private protected get getter() { return 0; }
+   |             ^^^^^^^^^
+
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:43:27
+   |
+43 |     private protected get getter() { return 0; }
+   |                           ^^^^^^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:43:23
+   |
+43 |     private protected get getter() { return 0; }
+   |                       ^^^
+
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:43:36
+   |
+43 |     private protected get getter() { return 0; }
+   |                                    ^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:43:27
+   |
+43 |     private protected get getter() { return 0; }
+   |                           ^^^^^^^^
+
+error[1108]: A 'return' statement can only be used within a function body.
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:43:38
+   |
+43 |     private protected get getter() { return 0; }
+   |                                      ^^^^^^^^^
+
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:44:5
+   |
+44 |     public public set setter(a: number) { }
+   |     ^^^^^^
+
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:44:12
+   |
+44 |     public public set setter(a: number) { }
+   |            ^^^^^^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:44:5
+   |
+44 |     public public set setter(a: number) { }
+   |     ^^^^^^
+
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:44:12
+   |
+44 |     public public set setter(a: number) { }
+   |            ^^^^^^
+
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:44:19
+   |
+44 |     public public set setter(a: number) { }
+   |                   ^^^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:44:12
+   |
+44 |     public public set setter(a: number) { }
+   |            ^^^^^^
+
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:44:23
+   |
+44 |     public public set setter(a: number) { }
+   |                       ^^^^^^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:44:19
+   |
+44 |     public public set setter(a: number) { }
+   |                   ^^^
+
+error: Expected ,, got :
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:44:31
+   |
+44 |     public public set setter(a: number) { }
+   |                               ^
+
+error[1005]: Expected a statement
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:44:31
+   |
+44 |     public public set setter(a: number) { }
+   |                               ^
+
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:44:39
+   |
+44 |     public public set setter(a: number) { }
+   |                                       ^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:44:33
+   |
+44 |     public public set setter(a: number) { }
+   |                                 ^^^^^^
+
+error[1005]: Expected a statement
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:44:39
+   |
+44 |     public public set setter(a: number) { }
+   |                                       ^
+
