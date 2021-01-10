@@ -31,7 +31,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             // Prevent infinite loop.
-            if eat!(self, ')') {
+            if eat!(self, ')') || eof!(self) {
                 self.emit_err(self.input.cur_span(), SyntaxError::ExpectedStatement);
                 return Ok(stmts);
             }
