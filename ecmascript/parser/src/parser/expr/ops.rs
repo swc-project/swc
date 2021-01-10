@@ -175,7 +175,15 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let right = {
-            let left_of_right = self.parse_unary_expr()?;
+            let left_of_right = if is_exact!(self, ';') || is_one_of!(self, "case", "default") {
+                self.emit_err(self.input.cur_span(), SyntaxError::ExpectedExpr);
+                Box::new(Expr::Invalid(Invalid {
+                    span: self.input.cur_span(),
+                }))
+            } else {
+                self.parse_unary_expr()?
+            };
+
             self.parse_bin_op_recursively(
                 left_of_right,
                 if op == op!("**") {
