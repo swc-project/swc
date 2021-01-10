@@ -1,0 +1,6 @@
+error[1005]: '.' cannot follow an update expression
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Expressions/parserMemberAccessAfterPostfixExpression1/input.ts:2:2
+  |
+2 | a--.toString()
+  |  ^^
+
