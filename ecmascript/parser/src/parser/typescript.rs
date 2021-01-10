@@ -1164,6 +1164,10 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         if !eat!(self, ',') {
+            if eat!(self, '?') {
+                self.emit_err(self.input.prev_span(), SyntaxError::InvalidOptional);
+            }
+
             expect!(self, ';');
         }
 
