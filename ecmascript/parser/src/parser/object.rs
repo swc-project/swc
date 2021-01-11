@@ -476,6 +476,16 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
             self.emit_err(self.input.prev_span(), SyntaxError::ExpectedComma);
         }
 
+        if is!(self, '}') || eof!(self) {
+            self.emit_err(self.input.prev_span(), SyntaxError::ExpectedComma);
+            return Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
+                key,
+                value: Box::new(Pat::Invalid(Invalid {
+                    span: self.input.cur_span(),
+                })),
+            }));
+        }
+
         if eat!(self, ':') {
             let value = Box::new(self.parse_binding_element()?);
 
