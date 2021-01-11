@@ -3,6 +3,10 @@ use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 impl<'a, I: Tokens> Parser<I> {
+    /// Ensure that expr does not contains invalid syntax like `{ a = b }`.
+    ///
+    /// It's handled via a separate method because we can't know if it is an
+    /// object pattern looking if the token after `}` is `=`.
     pub(in crate::parser) fn verify_expr(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
         let mut v = Verifier { errors: vec![] };
 
