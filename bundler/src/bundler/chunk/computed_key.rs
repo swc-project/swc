@@ -75,7 +75,7 @@ where
             _ => {}
         });
         module.inject_all(injected_vars);
-        module.sort();
+        module.sort(&self.cm);
 
         let is_async = {
             let mut v = TopLevelAwaitFinder { found: false };

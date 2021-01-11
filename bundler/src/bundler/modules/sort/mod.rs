@@ -1,4 +1,5 @@
 use super::Modules;
+use crate::debug::print_hygiene;
 use crate::{id::Id, util::MapWithMut};
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::Incoming as Dependants;
@@ -11,6 +12,8 @@ use std::iter::from_fn;
 use std::mem::take;
 use std::ops::Range;
 use swc_atoms::js_word;
+use swc_common::sync::Lrc;
+use swc_common::SourceMap;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -20,8 +23,7 @@ use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 type StmtDepGraph = self::graph::StmtDepGraph;
 
 mod graph;
-#[cfg(test)]
-mod tests;
+
 /// Is dependancy between nodes hard?
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 enum Required {
@@ -33,7 +35,7 @@ enum Required {
 }
 
 impl Modules {
-    pub fn sort(&mut self) {
+    pub fn sort(&mut self, cm: &Lrc<SourceMap>) {
         let injected_ctxt = self.injected_ctxt;
         {
             let mut modules = take(&mut self.modules);
@@ -91,6 +93,16 @@ impl Modules {
             }
         }
         new.extend(self.injected.drain(..));
+
+        print_hygiene(
+            "before sort",
+            cm,
+            &Module {
+                span: DUMMY_SP,
+                body: new.clone(),
+                shebang: None,
+            },
+        );
 
         let mut graph = calc_deps(&new);
 

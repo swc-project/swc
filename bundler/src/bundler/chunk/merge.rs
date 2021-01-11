@@ -2,7 +2,6 @@ use super::plan::DepType;
 use super::plan::Plan;
 use crate::bundler::chunk::export::inject_export;
 use crate::bundler::keywords::KeywordRenamer;
-use crate::debug::print_hygiene;
 use crate::{
     bundler::{
         chunk::plan::NormalPlan,
@@ -717,9 +716,9 @@ where
     fn finalize_merging_of_entry(&self, ctx: &Ctx, entry: &mut Modules) {
         self.handle_reexport_of_entry(ctx, entry);
 
-        print_hygiene("before sort", &self.cm, &entry.clone().into());
+        // print_hygiene("before sort", &self.cm, &entry.clone().into());
 
-        entry.sort();
+        entry.sort(&self.cm);
 
         // print_hygiene("done", &self.cm, &entry.clone().into());
 

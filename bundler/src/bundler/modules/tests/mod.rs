@@ -24,7 +24,7 @@ fn assert_sorted(src: &[&str], res: &str) {
             modules.push_all(module);
         }
 
-        modules.sort();
+        modules.sort(&t.cm);
         let actual: Module = modules.into();
 
         let expected = drop_span(t.parse(res));
@@ -53,7 +53,7 @@ fn assert_sorted_with_free(src: &[&str], free: &str, res: &str) {
             modules.push_all(Modules::from(actual, t.bundler.injected_ctxt));
         }
 
-        modules.sort();
+        modules.sort(&t.cm);
         let actual: Module = drop_span(modules.into());
 
         let expected = drop_span(t.parse(res));
