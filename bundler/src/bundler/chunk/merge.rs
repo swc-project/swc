@@ -357,7 +357,7 @@ where
             let mut targets = plan.chunks.clone();
 
             for dep in deps {
-                let (is_export, source, dep, mut dep_module) = dep?;
+                let (is_export, source, dep, dep_module) = dep?;
                 let dep_info = self.scope.get_module(dep.id).unwrap();
 
                 if let Some(idx) = targets.iter().position(|v| v.id == dep.id) {

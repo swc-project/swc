@@ -1,5 +1,4 @@
 use super::Modules;
-use crate::debug::print_hygiene;
 use crate::{id::Id, util::MapWithMut};
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::Incoming as Dependants;
@@ -35,7 +34,7 @@ enum Required {
 }
 
 impl Modules {
-    pub fn sort(&mut self, cm: &Lrc<SourceMap>) {
+    pub fn sort(&mut self, _cm: &Lrc<SourceMap>) {
         let injected_ctxt = self.injected_ctxt;
         {
             let mut modules = take(&mut self.modules);
@@ -94,15 +93,15 @@ impl Modules {
         }
         new.extend(self.injected.drain(..));
 
-        print_hygiene(
-            "before sort",
-            cm,
-            &Module {
-                span: DUMMY_SP,
-                body: new.clone(),
-                shebang: None,
-            },
-        );
+        // print_hygiene(
+        //     "before sort",
+        //     cm,
+        //     &Module {
+        //         span: DUMMY_SP,
+        //         body: new.clone(),
+        //         shebang: None,
+        //     },
+        // );
 
         let mut graph = calc_deps(&new);
 
@@ -131,11 +130,7 @@ impl Modules {
             shebang: None,
         };
 
-        print_hygiene(
-            "after sort",
-            cm,
-            &module,
-        );
+        // print_hygiene("after sort", cm, &module);
 
         *self = Modules::from(module, injected_ctxt);
     }
@@ -187,27 +182,27 @@ fn iter<'a>(
             }
             let is_free = free.contains(&idx);
 
-            dbg!(idx, is_free);
-            match &stmts[idx] {
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-                    let ids: Vec<Id> = find_ids(&var.decls);
-                    eprintln!("(`{}`) Declare: `{:?}`", idx, ids);
-                }
-                ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
-                    eprintln!("(`{}`) Declare: `{:?}`", idx, Id::from(&cls.ident));
-                }
-                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-                    eprintln!("(`{}`) Declare: `{:?}`", idx, Id::from(&f.ident));
-                }
-                _ => eprintln!("(`{}`) Stmt", idx,),
-            }
+            // dbg!(idx, is_free);
+            // match &stmts[idx] {
+            //     ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+            //         let ids: Vec<Id> = find_ids(&var.decls);
+            //         eprintln!("(`{}`) Declare: `{:?}`", idx, ids);
+            //     }
+            //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
+            //         eprintln!("(`{}`) Declare: `{:?}`", idx, Id::from(&cls.ident));
+            //     }
+            //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
+            //         eprintln!("(`{}`) Declare: `{:?}`", idx, Id::from(&f.ident));
+            //     }
+            //     _ => eprintln!("(`{}`) Stmt", idx,),
+            // }
 
             let current_range = same_module_ranges
                 .iter()
                 .find(|range| range.contains(&idx))
                 .cloned();
 
-            dbg!(&current_range);
+            // dbg!(&current_range);
 
             let can_ignore_deps = match &stmts[idx] {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
@@ -256,7 +251,7 @@ fn iter<'a>(
                     })
                     .collect::<Vec<_>>();
 
-                dbg!(&deps);
+                // dbg!(&deps);
 
                 if !deps.is_empty() {
                     let mut deps_to_push = vec![];
@@ -279,7 +274,7 @@ fn iter<'a>(
                         deps_to_push.push(dep);
                     }
 
-                    dbg!(&deps_to_push);
+                    // dbg!(&deps_to_push);
 
                     if !deps_to_push.is_empty() {
                         // We should check idx again after emitting dependencies.
@@ -318,7 +313,7 @@ fn iter<'a>(
                         .neighbors_directed(idx, Dependants)
                         .collect::<Vec<_>>();
 
-                    dbg!(&dependants);
+                    // dbg!(&dependants);
 
                     // We only emit free items because we want to emit statements from same module
                     // to emitted closedly.
@@ -341,7 +336,7 @@ fn iter<'a>(
                 if done.contains(&preceding) {
                     continue;
                 }
-                dbg!(preceding);
+                // dbg!(preceding);
                 if preceding == idx {
                     continue;
                 }
@@ -358,7 +353,7 @@ fn iter<'a>(
                     .neighbors_directed(idx, Dependants)
                     .collect::<Vec<_>>();
 
-                dbg!(&dependants);
+                // dbg!(&dependants);
 
                 // We only emit free items because we want to emit statements from same module
                 // to emitted closedly.
@@ -742,19 +737,19 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
 
             for id in v.accessed {
                 if let Some(declarator_indexes) = declared_by.get(&id) {
-                    let idx_decl = match &item {
-                        ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-                            let ids: Vec<Id> = find_ids(&var.decls);
-                            format!("`{:?}`", ids)
-                        }
-                        ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))) => {
-                            format!("{}{:?}", c.ident.sym, c.ident.span.ctxt)
-                        }
-                        ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-                            format!("{}{:?}", f.ident.sym, f.ident.span.ctxt)
-                        }
-                        _ => String::from(""),
-                    };
+                    // let idx_decl = match &item {
+                    //     ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+                    //         let ids: Vec<Id> = find_ids(&var.decls);
+                    //         format!("`{:?}`", ids)
+                    //     }
+                    //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))) => {
+                    //         format!("{}{:?}", c.ident.sym, c.ident.span.ctxt)
+                    //     }
+                    //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
+                    //         format!("{}{:?}", f.ident.sym, f.ident.span.ctxt)
+                    //     }
+                    //     _ => String::from(""),
+                    // };
 
                     for &declarator_index in declarator_indexes {
                         if declarator_index != idx {
@@ -812,19 +807,19 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
             if let Some(declarator_indexes) = declared_by.get(&id) {
                 for &declarator_index in declarator_indexes {
                     if declarator_index != idx {
-                        let idx_decl = match &item {
-                            ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-                                let ids: Vec<Id> = find_ids(&var.decls);
-                                format!("`{:?}`", ids)
-                            }
-                            ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))) => {
-                                format!("{}{:?}", c.ident.sym, c.ident.span.ctxt)
-                            }
-                            ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-                                format!("{}{:?}", f.ident.sym, f.ident.span.ctxt)
-                            }
-                            _ => String::from(""),
-                        };
+                        // let idx_decl = match &item {
+                        //     ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+                        //         let ids: Vec<Id> = find_ids(&var.decls);
+                        //         format!("`{:?}`", ids)
+                        //     }
+                        //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))) => {
+                        //         format!("{}{:?}", c.ident.sym, c.ident.span.ctxt)
+                        //     }
+                        //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
+                        //         format!("{}{:?}", f.ident.sym, f.ident.span.ctxt)
+                        //     }
+                        //     _ => String::from(""),
+                        // };
 
                         graph.add_edge(idx, declarator_index, kind);
                         // eprintln!(
