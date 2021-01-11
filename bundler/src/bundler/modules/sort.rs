@@ -478,7 +478,7 @@ fn iter<'a>(
 
                 if !moves.insert((idx, preceding)) {
                     // idx = preceding;
-                    break;
+                    continue;
                 }
 
                 let dependants = graph
