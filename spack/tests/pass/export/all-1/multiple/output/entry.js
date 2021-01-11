@@ -1,12 +1,18 @@
-const [a1, b1, c1] = [
+const [a, b, c] = [
     1,
     2,
     3
 ];
-const [d1, e1, f1] = [
+const [d, e, f] = [
     4,
     5,
     6
 ];
-export { a1 as a, b1 as b, c1 as c };
-export { d1 as d, e1 as e, f1 as f };
+const a1 = a;
+const b1 = b;
+const c1 = c;
+const d1 = d;
+const e1 = e;
+const f1 = f;
+export { a as a, b as b, c as c };
+export { d as d, e as e, f as f };
