@@ -11,11 +11,11 @@ use swc_ecma_parser::lexer::Lexer;
 use swc_ecma_parser::Parser;
 use walkdir::WalkDir;
 
-/// Tests ported from uglifyjs.
+/// Tests ported from terser.
 #[testing::fixture("terser/**/input.js")]
-fn uglify_js(_path: PathBuf) {}
+fn terser(input: PathBuf) {}
 
-/// Generate tests using uglify js.
+/// Generate tests using terser.
 #[test]
 #[ignore = "It's a script to update tests and it's not a test"]
 fn update_terser_tests() {
@@ -45,10 +45,17 @@ fn update_terser_tests() {
             if path_str.contains("tools") || !path_str.ends_with(".js") {
                 continue;
             }
-            // Parser bug
-            if path_str.contains("async.js")
-                || path_str.contains("const.js")
-                || path_str.contains("let.js")
+            // Tests are not object
+            if path_str.ends_with("issue-2001.js")
+                || path_str.ends_with("export.js")
+                || path_str.ends_with("dead-code.js")
+                || path_str.ends_with("arrow.js")
+                || path_str.ends_with("template-string.js")
+                || path_str.ends_with("hoist_props.js")
+                || path_str.ends_with("classes.js")
+                || path_str.ends_with("async.js")
+                || path_str.ends_with("yield.js")
+                || path_str.ends_with("destructuring.js")
             {
                 continue;
             }
@@ -70,7 +77,7 @@ fn update_terser_tests() {
                 )
             });
 
-            for test_case in file.body {
+            'test_case: for test_case in file.body {
                 let test_case = test_case.labeled().expect("Expected a labeled statement");
                 let test_name = test_case.label;
                 let test_def = test_case.body.block().expect("Expected a block statement");
@@ -82,8 +89,10 @@ fn update_terser_tests() {
                     .join(&rel_path.with_extension(""))
                     .join(&*test_name.sym);
 
-                // codegne issues.
-                if test_name.sym == *"keep_name_of_setter"
+                // codegen issues.
+                if test_name.sym == *"issue_2265_3"
+                    || test_name.sym == *"unicode_escaped_identifier_es5_as_is"
+                    || test_name.sym == *"keep_name_of_setter"
                     || test_name.sym == *"unsafe_object_accessor"
                 {
                     continue;
@@ -166,6 +175,11 @@ fn update_terser_tests() {
 
                             "node_version" => {
                                 // ignore
+                            }
+
+                            "expect_error" | "reminify" => {
+                                // TODO
+                                continue 'test_case;
                             }
 
                             _ => {
