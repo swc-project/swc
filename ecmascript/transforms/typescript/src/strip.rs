@@ -509,7 +509,7 @@ impl Visit for Strip {
         self.scope
             .imported_idents
             .entry((n.sym.clone(), n.span.ctxt()))
-            .and_modify(|v| v.has_concrete = !is_type_only_export);
+            .and_modify(|v| v.has_concrete |= !is_type_only_export);
 
         n.visit_children_with(self);
     }

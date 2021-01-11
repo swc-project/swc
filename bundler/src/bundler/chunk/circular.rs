@@ -70,24 +70,6 @@ where
                         }
                         _ => {}
                     },
-                    ModuleDecl::ExportNamed(export) => {
-                        for specifier in &mut export.specifiers {
-                            match specifier {
-                                ExportSpecifier::Namespace(_) => {}
-                                ExportSpecifier::Default(_) => {}
-                                ExportSpecifier::Named(named) => {
-                                    let mut orig = named.orig.clone();
-                                    orig.span.ctxt = entry_module.export_ctxt();
-
-                                    exports.push(ExportSpecifier::Named(ExportNamedSpecifier {
-                                        span: export.span,
-                                        orig,
-                                        exported: named.exported.clone(),
-                                    }));
-                                }
-                            }
-                        }
-                    }
                     ModuleDecl::ExportDefaultDecl(_) => {}
                     ModuleDecl::ExportDefaultExpr(_) => {}
                     ModuleDecl::ExportAll(_) => {}
@@ -99,7 +81,7 @@ where
 
         // print_hygiene("[circular] entry:init", &self.cm, &entry);
 
-        self.handle_import_deps(ctx, &entry_module, &mut entry, true);
+        // self.handle_import_deps(ctx, &entry_module, &mut entry, true);
 
         // print_hygiene("[circular] entry:reexport", &self.cm, &entry);
 
@@ -167,7 +149,7 @@ where
 
                 // print_hygiene("[circular] dep:init 2", &self.cm, &dep);
 
-                entry.prepend_all(dep);
+                entry.push_all(dep);
             }
 
             // print_hygiene("before circular sort", &self.cm, &entry.clone().into());

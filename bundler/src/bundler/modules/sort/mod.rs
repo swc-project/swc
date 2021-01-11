@@ -11,6 +11,8 @@ use std::iter::from_fn;
 use std::mem::take;
 use std::ops::Range;
 use swc_atoms::js_word;
+use swc_common::sync::Lrc;
+use swc_common::SourceMap;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -20,6 +22,7 @@ use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 type StmtDepGraph = self::graph::StmtDepGraph;
 
 mod graph;
+
 /// Is dependancy between nodes hard?
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 enum Required {
@@ -31,7 +34,7 @@ enum Required {
 }
 
 impl Modules {
-    pub fn sort(&mut self) {
+    pub fn sort(&mut self, _cm: &Lrc<SourceMap>) {
         let injected_ctxt = self.injected_ctxt;
         {
             let mut modules = take(&mut self.modules);
@@ -55,7 +58,6 @@ impl Modules {
         });
 
         let mut new = vec![];
-        let mut graph = StmtDepGraph::default();
 
         new.extend(self.prepended.drain(..));
         let mut module_starts = vec![];
@@ -91,114 +93,17 @@ impl Modules {
         }
         new.extend(self.injected.drain(..));
 
-        let mut declared_by = HashMap::<Id, Vec<usize>>::default();
-        let mut uninitialized_ids = HashMap::<Id, usize>::new();
+        // print_hygiene(
+        //     "before sort",
+        //     cm,
+        //     &Module {
+        //         span: DUMMY_SP,
+        //         body: new.clone(),
+        //         shebang: None,
+        //     },
+        // );
 
-        for (idx, item) in new.iter().enumerate() {
-            graph.add_node(idx);
-
-            // We start by calculating ids created by statements. Note that we don't need to
-            // analyze bodies of functions nor members of classes, because it's not
-            // evaludated until they are called.
-
-            match item {
-                // We only check declarations because ids are created by declarations.
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
-                | ModuleItem::Stmt(Stmt::Decl(decl)) => {
-                    //
-                    match decl {
-                        Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
-                            // eprintln!("`{}` declares {:?}`", idx, Id::from(ident));
-                            declared_by.entry(Id::from(ident)).or_default().push(idx);
-                        }
-                        Decl::Var(vars) => {
-                            for var in &vars.decls {
-                                //
-                                let ids: Vec<Id> = find_ids(&var.name);
-                                for id in ids {
-                                    if var.init.is_none() {
-                                        uninitialized_ids.insert(id.clone(), idx);
-                                    }
-
-                                    // eprintln!("`{}` declares {:?}`", idx, id);
-                                    declared_by.entry(id).or_default().push(idx);
-                                }
-                            }
-                        }
-                        _ => {}
-                    }
-                }
-                _ => {}
-            }
-
-            {
-                // Find extra initializations.
-                let mut v = PrototypeUsageFinter::default();
-                item.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
-
-                for id in v.accessed {
-                    if let Some(declarator_indexes) = declared_by.get(&id) {
-                        for &declarator_index in declarator_indexes {
-                            if declarator_index != idx {
-                                graph.add_edge(idx, declarator_index, Required::Always);
-                                // eprintln!("`{}` depends on `{}: {:?}`", idx,
-                                // declarator_index, &id);
-                            }
-                        }
-
-                        // eprintln!("`{}` declares {:?}`", idx, id);
-                        declared_by.entry(id).or_default().push(idx);
-                    }
-                }
-            }
-        }
-
-        // Handle uninitialized variables
-        //
-        // Compiled typescript enum is not initialized by declaration
-        //
-        // var Status;
-        // (function(Status){})(Status)
-        for (uninit_id, start_idx) in uninitialized_ids {
-            for (idx, item) in new.iter().enumerate().filter(|(idx, _)| *idx > start_idx) {
-                let mut finder = InitializerFinder {
-                    ident: uninit_id.clone(),
-                    found: false,
-                    in_complex: false,
-                };
-                item.visit_with(&Invalid { span: DUMMY_SP }, &mut finder);
-                if finder.found {
-                    declared_by.entry(uninit_id).or_default().push(idx);
-                    break;
-                }
-            }
-        }
-
-        for (idx, item) in new.iter().enumerate() {
-            // We then calculate which ids a statement require to be executed.
-            // Again, we don't need to analyze non-top-level idents because they
-            // are not evaluated while lpoading module.
-
-            let mut visitor = RequirementCalculartor::default();
-
-            item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
-
-            for (id, kind) in visitor.required_ids {
-                if let Some(declarator_indexes) = declared_by.get(&id) {
-                    for &declarator_index in declarator_indexes {
-                        if declarator_index != idx {
-                            graph.add_edge(idx, declarator_index, kind);
-                            // eprintln!("`{}` depends on `{}: {:?}`", idx, declarator_index, id);
-                            if cfg!(debug_assertions) {
-                                let deps: Vec<_> =
-                                    graph.neighbors_directed(idx, Dependancies).collect();
-                                assert!(deps.contains(&declarator_index));
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        let mut graph = calc_deps(&new);
 
         // Now graph contains enough information to sort statements.
         let mut orders = vec![];
@@ -219,14 +124,15 @@ impl Modules {
             buf.push(stmt)
         }
 
-        *self = Modules::from(
-            Module {
-                span: DUMMY_SP,
-                body: buf,
-                shebang: None,
-            },
-            injected_ctxt,
-        );
+        let module = Module {
+            span: DUMMY_SP,
+            body: buf,
+            shebang: None,
+        };
+
+        // print_hygiene("after sort", cm, &module);
+
+        *self = Modules::from(module, injected_ctxt);
     }
 }
 
@@ -274,19 +180,21 @@ fn iter<'a>(
                 // eprintln!("Done: {}", idx);
                 continue;
             }
-            // dbg!(idx);
+            let is_free = free.contains(&idx);
+
+            // dbg!(idx, is_free);
             // match &stmts[idx] {
             //     ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
             //         let ids: Vec<Id> = find_ids(&var.decls);
-            //         eprintln!("({}) Declare: `{:?}`", idx, ids);
+            //         eprintln!("(`{}`) Declare: `{:?}`", idx, ids);
             //     }
             //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
-            //         eprintln!("({}) Declare: `{:?}`", idx, Id::from(&cls.ident));
+            //         eprintln!("(`{}`) Declare: `{:?}`", idx, Id::from(&cls.ident));
             //     }
             //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-            //         eprintln!("({}) Declare: `{:?}`", idx, Id::from(&f.ident));
+            //         eprintln!("(`{}`) Declare: `{:?}`", idx, Id::from(&f.ident));
             //     }
-            //     item => eprintln!("({}) Stmt: {:?}", idx, item),
+            //     _ => eprintln!("(`{}`) Stmt", idx,),
             // }
 
             let current_range = same_module_ranges
@@ -330,6 +238,14 @@ fn iter<'a>(
                 let deps = graph
                     .neighbors_directed(idx, Dependancies)
                     .filter(|dep| {
+                        let declared_in_same_module = match &current_range {
+                            Some(v) => v.contains(&dep),
+                            None => false,
+                        };
+                        if declared_in_same_module {
+                            return false;
+                        }
+
                         // Exlcude emitted items
                         !done.contains(dep)
                     })
@@ -355,12 +271,6 @@ fn iter<'a>(
                             }
                         }
 
-                        if let Some(range) = &current_range {
-                            if dep > idx && range.contains(&dep) {
-                                continue;
-                            }
-                        }
-
                         deps_to_push.push(dep);
                     }
 
@@ -379,9 +289,6 @@ fn iter<'a>(
                     }
                 }
             }
-            let is_free = free.contains(&idx);
-
-            // dbg!(is_free);
 
             if is_free {
                 let dependants = graph
@@ -389,7 +296,7 @@ fn iter<'a>(
                     .collect::<Vec<_>>();
 
                 for dependant in dependants {
-                    if !done.contains(&dependant) {
+                    if !done.contains(&dependant) && free.contains(&dependant) {
                         stack.push_front(dependant);
                     }
                 }
@@ -408,8 +315,10 @@ fn iter<'a>(
 
                     // dbg!(&dependants);
 
+                    // We only emit free items because we want to emit statements from same module
+                    // to emitted closedly.
                     for dependant in dependants {
-                        if !done.contains(&dependant) {
+                        if !done.contains(&dependant) && free.contains(&dependant) {
                             stack.push_front(dependant);
                         }
                     }
@@ -422,7 +331,7 @@ fn iter<'a>(
             };
 
             // We should respect original order of statements within a module.
-            for preceding in current_range {
+            for preceding in current_range.clone() {
                 // We should select first statement in module which is not emitted yet.
                 if done.contains(&preceding) {
                     continue;
@@ -437,7 +346,7 @@ fn iter<'a>(
 
                 if !moves.insert((idx, preceding)) {
                     // idx = preceding;
-                    break;
+                    continue;
                 }
 
                 let dependants = graph
@@ -446,8 +355,10 @@ fn iter<'a>(
 
                 // dbg!(&dependants);
 
+                // We only emit free items because we want to emit statements from same module
+                // to emitted closedly.
                 for dependant in dependants {
-                    if !done.contains(&dependant) {
+                    if !done.contains(&dependant) && free.contains(&dependant) {
                         stack.push_front(dependant);
                     }
                 }
@@ -456,6 +367,16 @@ fn iter<'a>(
                 stack.push_front(idx);
                 stack.push_front(preceding);
                 continue 'main;
+            }
+
+            // Prefer inserting module as a whole.
+            let next = idx + 1;
+            if current_range.contains(&next) {
+                if moves.insert((idx, next)) {
+                    if !done.contains(&next) {
+                        stack.push_front(next);
+                    }
+                }
             }
 
             graph.remove_node(idx);
@@ -469,16 +390,52 @@ fn iter<'a>(
 
 /// Using prototype should be treated as an initialization.
 #[derive(Default)]
-struct PrototypeUsageFinter {
+struct FieldInitFinter {
     in_object_assign: bool,
     in_rhs: bool,
     accessed: HashSet<Id>,
 }
 
-impl Visit for PrototypeUsageFinter {
+impl FieldInitFinter {
+    fn check_lhs_of_assign(&mut self, lhs: &PatOrExpr) {
+        match lhs {
+            PatOrExpr::Expr(e) => {
+                self.check_lhs_expr_of_assign(&e);
+            }
+            PatOrExpr::Pat(pat) => match &**pat {
+                Pat::Expr(e) => {
+                    self.check_lhs_expr_of_assign(&e);
+                }
+                _ => {}
+            },
+        }
+    }
+    fn check_lhs_expr_of_assign(&mut self, lhs: &Expr) {
+        match lhs {
+            Expr::Member(m) => {
+                let obj = match &m.obj {
+                    ExprOrSuper::Super(_) => return,
+                    ExprOrSuper::Expr(obj) => &**obj,
+                };
+
+                match obj {
+                    Expr::Ident(i) => {
+                        self.accessed.insert(i.into());
+                    }
+                    Expr::Member(..) => self.check_lhs_expr_of_assign(&obj),
+                    _ => {}
+                }
+            }
+            _ => {}
+        }
+    }
+}
+
+impl Visit for FieldInitFinter {
     fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
         let old = self.in_rhs;
         e.left.visit_with(e, self);
+        self.check_lhs_of_assign(&e.left);
 
         self.in_rhs = true;
         e.right.visit_with(e, self);
@@ -608,6 +565,10 @@ impl Visit for InitializerFinder {
 #[derive(Default)]
 struct RequirementCalculartor {
     required_ids: IndexSet<(Id, Required)>,
+    /// While bundling, there can be two bindings with same name and syntax
+    /// context, in case of wrapped es modules. We exclude them from dependency
+    /// graph.
+    excluded: IndexSet<Id>,
 
     in_weak: bool,
     in_var_decl: bool,
@@ -684,25 +645,28 @@ impl Visit for RequirementCalculartor {
         let in_var_decl = self.in_var_decl;
         self.in_var_decl = true;
 
+        if self.in_weak {
+            let ids: Vec<Id> = find_ids(&var.name);
+            self.excluded.extend(ids);
+        }
+
         var.visit_children_with(self);
 
         self.in_var_decl = in_var_decl;
     }
 
     fn visit_expr(&mut self, expr: &Expr, _: &dyn Node) {
-        let in_var_decl = self.in_var_decl;
-        self.in_var_decl = false;
-
         match expr {
             Expr::Ident(i) => {
+                if self.in_var_decl && self.in_assign_lhs {
+                    return;
+                }
                 self.insert(i.into());
             }
             _ => {
                 expr.visit_children_with(self);
             }
         }
-
-        self.in_var_decl = in_var_decl;
     }
 
     fn visit_prop(&mut self, prop: &Prop, _: &dyn Node) {
@@ -721,4 +685,157 @@ impl Visit for RequirementCalculartor {
             e.prop.visit_with(e as _, self);
         }
     }
+}
+
+fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
+    let mut graph = StmtDepGraph::default();
+
+    let mut declared_by = HashMap::<Id, Vec<usize>>::default();
+    let mut uninitialized_ids = HashMap::<Id, usize>::new();
+
+    for (idx, item) in new.iter().enumerate() {
+        graph.add_node(idx);
+
+        // We start by calculating ids created by statements. Note that we don't need to
+        // analyze bodies of functions nor members of classes, because it's not
+        // evaludated until they are called.
+
+        match item {
+            // We only check declarations because ids are created by declarations.
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
+            | ModuleItem::Stmt(Stmt::Decl(decl)) => {
+                //
+                match decl {
+                    Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+                        // eprintln!("Decl: `{}` declares {:?}`", idx, Id::from(ident));
+                        declared_by.entry(Id::from(ident)).or_default().push(idx);
+                    }
+                    Decl::Var(vars) => {
+                        for var in &vars.decls {
+                            //
+                            let ids: Vec<Id> = find_ids(&var.name);
+                            for id in ids {
+                                if var.init.is_none() {
+                                    uninitialized_ids.insert(id.clone(), idx);
+                                }
+
+                                // eprintln!("Decl: `{}` declares {:?}`", idx, id);
+                                declared_by.entry(id).or_default().push(idx);
+                            }
+                        }
+                    }
+                    _ => {}
+                }
+            }
+            _ => {}
+        }
+
+        {
+            // Find extra initializations.
+            let mut v = FieldInitFinter::default();
+            item.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+
+            for id in v.accessed {
+                if let Some(declarator_indexes) = declared_by.get(&id) {
+                    // let idx_decl = match &item {
+                    //     ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+                    //         let ids: Vec<Id> = find_ids(&var.decls);
+                    //         format!("`{:?}`", ids)
+                    //     }
+                    //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))) => {
+                    //         format!("{}{:?}", c.ident.sym, c.ident.span.ctxt)
+                    //     }
+                    //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
+                    //         format!("{}{:?}", f.ident.sym, f.ident.span.ctxt)
+                    //     }
+                    //     _ => String::from(""),
+                    // };
+
+                    for &declarator_index in declarator_indexes {
+                        if declarator_index != idx {
+                            graph.add_edge(idx, declarator_index, Required::Always);
+                            // eprintln!(
+                            //     "Field init: `{}` ({}) depends on `{}`:
+                            // {:?}",
+                            //     idx, idx_decl, declarator_index, &id
+                            // );
+                        }
+                    }
+
+                    // eprintln!("`{}` declares {:?}`", idx, id);
+                    declared_by.entry(id).or_default().push(idx);
+                }
+            }
+        }
+    }
+
+    // Handle uninitialized variables
+    //
+    // Compiled typescript enum is not initialized by declaration
+    //
+    // var Status;
+    // (function(Status){})(Status)
+    for (uninit_id, start_idx) in uninitialized_ids {
+        for (idx, item) in new.iter().enumerate().filter(|(idx, _)| *idx > start_idx) {
+            let mut finder = InitializerFinder {
+                ident: uninit_id.clone(),
+                found: false,
+                in_complex: false,
+            };
+            item.visit_with(&Invalid { span: DUMMY_SP }, &mut finder);
+            if finder.found {
+                declared_by.entry(uninit_id).or_default().push(idx);
+                break;
+            }
+        }
+    }
+
+    for (idx, item) in new.iter().enumerate() {
+        // We then calculate which ids a statement require to be executed.
+        // Again, we don't need to analyze non-top-level idents because they
+        // are not evaluated while lpoading module.
+
+        let mut visitor = RequirementCalculartor::default();
+
+        item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
+
+        for (id, kind) in visitor.required_ids {
+            if visitor.excluded.contains(&id) {
+                continue;
+            }
+
+            if let Some(declarator_indexes) = declared_by.get(&id) {
+                for &declarator_index in declarator_indexes {
+                    if declarator_index != idx {
+                        // let idx_decl = match &item {
+                        //     ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+                        //         let ids: Vec<Id> = find_ids(&var.decls);
+                        //         format!("`{:?}`", ids)
+                        //     }
+                        //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))) => {
+                        //         format!("{}{:?}", c.ident.sym, c.ident.span.ctxt)
+                        //     }
+                        //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
+                        //         format!("{}{:?}", f.ident.sym, f.ident.span.ctxt)
+                        //     }
+                        //     _ => String::from(""),
+                        // };
+
+                        graph.add_edge(idx, declarator_index, kind);
+                        // eprintln!(
+                        //     "`{}` ({}) depends on `{}`: {:?}",
+                        //     idx, idx_decl, declarator_index, &id
+                        // );
+                        if cfg!(debug_assertions) {
+                            let deps: Vec<_> =
+                                graph.neighbors_directed(idx, Dependancies).collect();
+                            assert!(deps.contains(&declarator_index));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    graph
 }

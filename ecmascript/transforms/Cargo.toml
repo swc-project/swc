@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecma_transforms"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.32.0"
+version = "0.32.1"
 
 [features]
 compat = ["swc_ecma_transforms_compat"]
@@ -24,10 +24,10 @@ swc_ecma_parser = {version = "0.44.0", path = "../parser"}
 swc_ecma_transforms_base = {version = "0.1.0", path = "./base"}
 swc_ecma_transforms_compat = {version = "0.2.0", path = "./compat", optional = true}
 swc_ecma_transforms_module = {version = "0.2.0", path = "./module", optional = true}
-swc_ecma_transforms_optimization = {version = "0.2.0", path = "./optimization", optional = true}
+swc_ecma_transforms_optimization = {version = "0.2.2", path = "./optimization", optional = true}
 swc_ecma_transforms_proposal = {version = "0.2.0", path = "./proposal", optional = true}
 swc_ecma_transforms_react = {version = "0.2.0", path = "./react", optional = true}
-swc_ecma_transforms_typescript = {version = "0.2.0", path = "./typescript", optional = true}
+swc_ecma_transforms_typescript = {version = "0.2.1", path = "./typescript", optional = true}
 swc_ecma_utils = {version = "0.26.0", path = "../utils"}
 swc_ecma_visit = {version = "0.22.0", path = "../visit"}
 unicode-xid = "0.2"

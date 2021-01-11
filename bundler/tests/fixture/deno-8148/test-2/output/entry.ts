@@ -3,7 +3,7 @@ const mod = function() {
     }
     const foo1 = foo;
     return {
-        foo
+        foo: foo1
     };
 }();
 const foo = mod;

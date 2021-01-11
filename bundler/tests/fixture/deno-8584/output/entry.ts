@@ -4,7 +4,7 @@ const mod = await async function() {
     await setup();
     const setup1 = setup;
     return {
-        setup
+        setup: setup1
     };
 }();
 const log = mod;

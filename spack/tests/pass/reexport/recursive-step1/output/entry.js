@@ -1,10 +1,12 @@
+console.log('b');
 const c = 'c';
 console.log('c');
-console.log('b');
 const c1 = c;
 const b2 = c1;
 const __default = b2;
-const b1 = __default;
+const __default1 = __default;
+const b1 = __default1;
 console.log('a.js');
 export { b1 as b };
 console.log('entry');
+const b3 = b1;

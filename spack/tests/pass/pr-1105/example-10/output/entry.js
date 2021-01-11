@@ -17,6 +17,8 @@ const mod1 = function() {
 }();
 const _j = mod1;
 const k = globalThis.value ? _i : _j;
-const { a: a2 ,  } = k;
-const a1 = a2;
+const { a ,  } = k;
+const a1 = a;
+const a2 = a1;
 export { a1 as a, b as b };
+const b1 = b;

@@ -3294,3 +3294,18 @@ let A = _decorate([], function(_initialize) {
 });
 "
 );
+
+to!(
+    deno_8978,
+    "
+    import { any } from './dep.ts';
+
+    export { any };
+    export type { any as t };
+    ",
+    "
+    import { any } from './dep.ts';
+
+    export { any };
+    "
+);

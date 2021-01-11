@@ -31,7 +31,7 @@ function mergeDeep(defaults, options) {
     const result = Object.assign({
     }, defaults);
     Object.keys(options).forEach((key)=>{
-        if (isPlainObject3(options[key])) {
+        if (isPlainObject2(options[key])) {
             if (!(key in defaults)) Object.assign(result, {
                 [key]: options[key]
             });
@@ -322,12 +322,29 @@ function withDefaults(oldDefaults, newDefaults) {
     });
 }
 const VERSION = "6.0.10";
-var queue = [];
-var draining = false;
 function defaultSetTimout() {
     throw new Error("setTimeout has not been defined");
 }
+function defaultClearTimeout() {
+    throw new Error("clearTimeout has not been defined");
+}
 var cachedSetTimeout = defaultSetTimout;
+var cachedClearTimeout = defaultClearTimeout;
+var globalContext;
+if (typeof window !== "undefined") {
+    globalContext = window;
+} else if (typeof self !== "undefined") {
+    globalContext = self;
+} else {
+    globalContext = {
+    };
+}
+if (typeof globalContext.setTimeout === "function") {
+    cachedSetTimeout = setTimeout;
+}
+if (typeof globalContext.clearTimeout === "function") {
+    cachedClearTimeout = clearTimeout;
+}
 function runTimeout(fun) {
     if (cachedSetTimeout === setTimeout) {
         return setTimeout(fun, 0);
@@ -346,12 +363,6 @@ function runTimeout(fun) {
         }
     }
 }
-var currentQueue;
-var queueIndex = -1;
-function defaultClearTimeout() {
-    throw new Error("clearTimeout has not been defined");
-}
-var cachedClearTimeout = defaultClearTimeout;
 function runClearTimeout(marker) {
     if (cachedClearTimeout === clearTimeout) {
         return clearTimeout(marker);
@@ -368,6 +379,24 @@ function runClearTimeout(marker) {
         } catch (e2) {
             return cachedClearTimeout.call(this, marker);
         }
+    }
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
     }
 }
 function drainQueue() {
@@ -404,11 +433,23 @@ function nextTick(fun) {
         runTimeout(drainQueue);
     }
 }
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function() {
+    this.fun.apply(null, this.array);
+};
 var title = "browser";
+var platform = "browser";
 var browser = true;
 var argv = [];
 var version = "";
 var versions = {
+};
+var release = {
+};
+var config = {
 };
 function noop() {
 }
@@ -430,15 +471,6 @@ function chdir(dir) {
 }
 function umask() {
     return 0;
-}
-var globalContext;
-if (typeof window !== "undefined") {
-    globalContext = window;
-} else if (typeof self !== "undefined") {
-    globalContext = self;
-} else {
-    globalContext = {
-    };
 }
 var performance = globalContext.performance || {
 };
@@ -462,11 +494,6 @@ function hrtime(previousTimestamp) {
         nanoseconds
     ];
 }
-var platform = "browser";
-var release = {
-};
-var config = {
-};
 var startTime = new Date();
 function uptime() {
     var currentTime = new Date();
@@ -511,20 +538,8 @@ function getUserAgent() {
 }
 const getUserAgent1 = getUserAgent;
 const getUserAgent2 = getUserAgent1;
-var getGlobal = function() {
-    if (typeof self !== "undefined") {
-        return self;
-    }
-    if (typeof window !== "undefined") {
-        return window;
-    }
-    if (typeof global !== "undefined") {
-        return global;
-    }
-    throw new Error("unable to locate global object");
-};
 const getUserAgent3 = getUserAgent1;
-const userAgent = `octokit-endpoint.js/${VERSION} ${getUserAgent3()}`;
+const userAgent = `octokit-endpoint.js/${VERSION} ${getUserAgent2()}`;
 const DEFAULTS = {
     method: "GET",
     baseUrl: "https://api.github.com",
@@ -538,33 +553,26 @@ const DEFAULTS = {
     }
 };
 const endpoint = withDefaults(null, DEFAULTS);
-if (typeof globalContext.setTimeout === "function") {
-    cachedSetTimeout = setTimeout;
-}
-if (typeof globalContext.clearTimeout === "function") {
-    cachedClearTimeout = clearTimeout;
-}
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
+const endpoint1 = endpoint;
+const endpoint2 = endpoint1;
+var getGlobal = function() {
+    if (typeof self !== "undefined") {
+        return self;
     }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
+    if (typeof window !== "undefined") {
+        return window;
     }
-    if (queue.length) {
-        drainQueue();
+    if (typeof global !== "undefined") {
+        return global;
     }
-}
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function() {
-    this.fun.apply(null, this.array);
+    throw new Error("unable to locate global object");
 };
+var global = getGlobal();
+var nodeFetch = global.fetch.bind(global);
+const VERSION1 = "5.4.12";
+function getBufferResponse(response) {
+    return response.arrayBuffer();
+}
 class Deprecation extends Error {
     constructor(message){
         super(message);
@@ -574,6 +582,8 @@ class Deprecation extends Error {
         this.name = "Deprecation";
     }
 }
+const Deprecation1 = Deprecation;
+const Deprecation2 = Deprecation1;
 var wrappy_1 = wrappy;
 function wrappy(fn, cb) {
     if (fn && cb) return wrappy(fn)(cb);
@@ -598,7 +608,8 @@ function wrappy(fn, cb) {
     }
 }
 const __default = wrappy_1;
-const wrappy2 = __default;
+const __default1 = __default;
+const wrappy2 = __default1;
 var once_1 = wrappy2(once2);
 var strict = wrappy2(onceStrict);
 once2.proto = once2(function() {
@@ -636,12 +647,11 @@ function onceStrict(fn) {
     return f;
 }
 once_1.strict = strict;
-const __default1 = once_1;
-const once21 = __default1;
+const __default2 = once_1;
+const __default3 = __default2;
+const once21 = __default3;
 const logOnce = once21((deprecation2)=>console.warn(deprecation2)
 );
-const Deprecation1 = Deprecation;
-const Deprecation2 = Deprecation1;
 class RequestError extends Error {
     constructor(message1, statusCode, options){
         super(message1);
@@ -670,16 +680,10 @@ class RequestError extends Error {
         this.request = requestCopy;
     }
 }
-var global = getGlobal();
-var nodeFetch = global.fetch.bind(global);
 const RequestError1 = RequestError;
 const RequestError2 = RequestError1;
-const VERSION1 = "5.4.12";
-function getBufferResponse(response) {
-    return response.arrayBuffer();
-}
 function fetchWrapper(requestOptions) {
-    if (isPlainObject2(requestOptions.body) || Array.isArray(requestOptions.body)) {
+    if (isPlainObject3(requestOptions.body) || Array.isArray(requestOptions.body)) {
         requestOptions.body = JSON.stringify(requestOptions.body);
     }
     let headers = {
@@ -778,16 +782,15 @@ function withDefaults1(oldEndpoint, newDefaults) {
         defaults: withDefaults1.bind(null, endpoint3)
     });
 }
-const endpoint1 = endpoint;
-const endpoint2 = endpoint1;
 const request = withDefaults1(endpoint2, {
     headers: {
-        "user-agent": `octokit-request.js/${VERSION1} ${getUserAgent2()}`
+        "user-agent": `octokit-request.js/${VERSION1} ${getUserAgent3()}`
     }
 });
 const request1 = request;
 const request2 = request1;
-const { data  } = await request2('GET /repos/{owner}/{repo}/license', {
+const request3 = request2;
+const { data  } = await request3('GET /repos/{owner}/{repo}/license', {
     headers: {
         authorization: `token ${Deno.env.get('GITHUB_TOKEN')}`
     },

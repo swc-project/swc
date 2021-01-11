@@ -6,10 +6,11 @@ const mod = function() {
         Foo
     };
 }();
+const foo = mod;
 const Foo = mod.Foo;
 const Foo1 = Foo;
 const bar = Foo1('bar');
-const foo = mod;
 const __default = bar;
-const bar1 = __default;
+const __default1 = __default;
+const bar1 = __default1;
 console.log(foo, bar1);

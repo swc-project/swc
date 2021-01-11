@@ -834,3 +834,18 @@ noop!(
     console.log(`Test is ${TEST}`);
     "
 );
+
+noop!(
+    deno_9076,
+    "
+    class App
+    {
+        constructor()
+        {
+            console.log('Hello from app')
+        }
+    }
+
+    const app = new App;
+    "
+);

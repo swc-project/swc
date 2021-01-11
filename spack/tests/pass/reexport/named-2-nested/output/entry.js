@@ -7,3 +7,4 @@ const b1 = b;
 console.log('a');
 export { b1 as a };
 console.log('entry');
+const a = b1;

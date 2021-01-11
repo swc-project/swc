@@ -4,3 +4,4 @@ const b1 = b;
 const a1 = b1;
 console.log('a');
 export { a1 as a };
+const a2 = a1;

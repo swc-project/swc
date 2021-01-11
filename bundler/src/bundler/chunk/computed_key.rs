@@ -1,4 +1,6 @@
 use crate::bundler::modules::Modules;
+use crate::util::ExprExt;
+use crate::util::VarDeclaratorExt;
 use crate::{bundler::chunk::merge::Ctx, Bundler, Load, ModuleId, Resolve};
 use anyhow::{bail, Error};
 use std::mem::take;
@@ -40,7 +42,40 @@ where
             Some(v) => v,
             None => bail!("{:?} should not be wrapped with a function", id),
         };
-        module.sort();
+        let injected_ctxt = self.injected_ctxt;
+        let mut injected_vars = vec![];
+        module.iter_mut().for_each(|item| match item {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
+                //
+                for s in export.specifiers.iter_mut() {
+                    match s {
+                        ExportSpecifier::Named(ExportNamedSpecifier {
+                            span,
+                            exported: Some(exported),
+                            orig,
+                            ..
+                        }) => {
+                            // Allow using variables within the wrapped es module.
+                            injected_vars.push(
+                                orig.clone().assign_to(exported.clone()).into_module_item(
+                                    injected_ctxt,
+                                    "wrapped esm -> aliased export",
+                                ),
+                            );
+                            *s = ExportSpecifier::Named(ExportNamedSpecifier {
+                                span: *span,
+                                exported: None,
+                                orig: exported.clone(),
+                            })
+                        }
+                        _ => {}
+                    }
+                }
+            }
+            _ => {}
+        });
+        module.inject_all(injected_vars);
+        module.sort(&self.cm);
 
         let is_async = {
             let mut v = TopLevelAwaitFinder { found: false };

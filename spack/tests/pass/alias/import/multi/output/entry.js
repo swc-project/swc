@@ -1,15 +1,15 @@
 function a() {
-    console.log("a()");
 }
 function b() {
-    console.log("a()");
 }
 function a1() {
+    console.log("a()");
 }
-function b1() {
-}
-const a2 = a;
+const a2 = a1;
 const foo = a2;
-const b2 = b;
+function b1() {
+    console.log("a()");
+}
+const b2 = b1;
 const bar = b2;
-console.log(a1(), foo(), b1(), bar());
+console.log(a(), foo(), b(), bar());

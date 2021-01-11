@@ -8,9 +8,9 @@ const mod = function() {
     const b1 = b;
     const c1 = c;
     return {
-        a,
-        b,
-        c
+        a: a1,
+        b: b1,
+        c: c1
     };
 }();
 const foo = mod;

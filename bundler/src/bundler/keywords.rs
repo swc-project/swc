@@ -35,6 +35,43 @@ impl KeywordRenamer {
 impl VisitMut for KeywordRenamer {
     noop_visit_mut_type!();
 
+    fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
+        f.function.visit_mut_with(self);
+        if let Some(renamed) = self.renamed(&f.ident) {
+            f.ident = renamed;
+        }
+    }
+
+    fn visit_mut_class_decl(&mut self, c: &mut ClassDecl) {
+        c.class.visit_mut_with(self);
+        if let Some(renamed) = self.renamed(&c.ident) {
+            c.ident = renamed;
+        }
+    }
+
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        match n {
+            Prop::Shorthand(i) => {
+                if let Some(renamed) = self.renamed(&i) {
+                    *n = Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(i.clone()),
+                        value: Box::new(Expr::Ident(renamed)),
+                    });
+                }
+            }
+            _ => {
+                n.visit_mut_children_with(self);
+            }
+        }
+    }
+
+    fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
+        if let Some(renamed) = self.renamed(&n.key) {
+            n.key = renamed;
+        }
+        n.value.visit_mut_with(self);
+    }
+
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         match n {
             Pat::Ident(n) => {
