@@ -55,7 +55,6 @@ impl Modules {
         });
 
         let mut new = vec![];
-        let mut graph = StmtDepGraph::default();
 
         new.extend(self.prepended.drain(..));
         let mut module_starts = vec![];
@@ -91,152 +90,7 @@ impl Modules {
         }
         new.extend(self.injected.drain(..));
 
-        let mut declared_by = HashMap::<Id, Vec<usize>>::default();
-        let mut uninitialized_ids = HashMap::<Id, usize>::new();
-
-        for (idx, item) in new.iter().enumerate() {
-            graph.add_node(idx);
-
-            // We start by calculating ids created by statements. Note that we don't need to
-            // analyze bodies of functions nor members of classes, because it's not
-            // evaludated until they are called.
-
-            match item {
-                // We only check declarations because ids are created by declarations.
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
-                | ModuleItem::Stmt(Stmt::Decl(decl)) => {
-                    //
-                    match decl {
-                        Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
-                            // eprintln!("Decl: `{}` declares {:?}`", idx, Id::from(ident));
-                            declared_by.entry(Id::from(ident)).or_default().push(idx);
-                        }
-                        Decl::Var(vars) => {
-                            for var in &vars.decls {
-                                //
-                                let ids: Vec<Id> = find_ids(&var.name);
-                                for id in ids {
-                                    if var.init.is_none() {
-                                        uninitialized_ids.insert(id.clone(), idx);
-                                    }
-
-                                    // eprintln!("Decl: `{}` declares {:?}`", idx, id);
-                                    declared_by.entry(id).or_default().push(idx);
-                                }
-                            }
-                        }
-                        _ => {}
-                    }
-                }
-                _ => {}
-            }
-
-            {
-                // Find extra initializations.
-                let mut v = FieldInitFinter::default();
-                item.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
-
-                for id in v.accessed {
-                    if let Some(declarator_indexes) = declared_by.get(&id) {
-                        let idx_decl = match &item {
-                            ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-                                let ids: Vec<Id> = find_ids(&var.decls);
-                                format!("`{:?}`", ids)
-                            }
-                            ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))) => {
-                                format!("{}{:?}", c.ident.sym, c.ident.span.ctxt)
-                            }
-                            ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-                                format!("{}{:?}", f.ident.sym, f.ident.span.ctxt)
-                            }
-                            _ => String::from(""),
-                        };
-
-                        for &declarator_index in declarator_indexes {
-                            if declarator_index != idx {
-                                graph.add_edge(idx, declarator_index, Required::Always);
-                                // eprintln!(
-                                //     "Field init: `{}` ({}) depends on `{}`:
-                                // {:?}",
-                                //     idx, idx_decl, declarator_index, &id
-                                // );
-                            }
-                        }
-
-                        // eprintln!("`{}` declares {:?}`", idx, id);
-                        declared_by.entry(id).or_default().push(idx);
-                    }
-                }
-            }
-        }
-
-        // Handle uninitialized variables
-        //
-        // Compiled typescript enum is not initialized by declaration
-        //
-        // var Status;
-        // (function(Status){})(Status)
-        for (uninit_id, start_idx) in uninitialized_ids {
-            for (idx, item) in new.iter().enumerate().filter(|(idx, _)| *idx > start_idx) {
-                let mut finder = InitializerFinder {
-                    ident: uninit_id.clone(),
-                    found: false,
-                    in_complex: false,
-                };
-                item.visit_with(&Invalid { span: DUMMY_SP }, &mut finder);
-                if finder.found {
-                    declared_by.entry(uninit_id).or_default().push(idx);
-                    break;
-                }
-            }
-        }
-
-        for (idx, item) in new.iter().enumerate() {
-            // We then calculate which ids a statement require to be executed.
-            // Again, we don't need to analyze non-top-level idents because they
-            // are not evaluated while lpoading module.
-
-            let mut visitor = RequirementCalculartor::default();
-
-            item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
-
-            for (id, kind) in visitor.required_ids {
-                if visitor.excluded.contains(&id) {
-                    continue;
-                }
-
-                if let Some(declarator_indexes) = declared_by.get(&id) {
-                    for &declarator_index in declarator_indexes {
-                        if declarator_index != idx {
-                            let idx_decl = match &item {
-                                ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-                                    let ids: Vec<Id> = find_ids(&var.decls);
-                                    format!("`{:?}`", ids)
-                                }
-                                ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))) => {
-                                    format!("{}{:?}", c.ident.sym, c.ident.span.ctxt)
-                                }
-                                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-                                    format!("{}{:?}", f.ident.sym, f.ident.span.ctxt)
-                                }
-                                _ => String::from(""),
-                            };
-
-                            graph.add_edge(idx, declarator_index, kind);
-                            // eprintln!(
-                            //     "`{}` ({}) depends on `{}`: {:?}",
-                            //     idx, idx_decl, declarator_index, &id
-                            // );
-                            if cfg!(debug_assertions) {
-                                let deps: Vec<_> =
-                                    graph.neighbors_directed(idx, Dependancies).collect();
-                                assert!(deps.contains(&declarator_index));
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        let mut graph = calc_deps(&new);
 
         // Now graph contains enough information to sort statements.
         let mut orders = vec![];
@@ -817,4 +671,157 @@ impl Visit for RequirementCalculartor {
             e.prop.visit_with(e as _, self);
         }
     }
+}
+
+fn calc_deps(new: &[ModuleItem]) -> (StmtDepGraph) {
+    let mut graph = StmtDepGraph::default();
+
+    let mut declared_by = HashMap::<Id, Vec<usize>>::default();
+    let mut uninitialized_ids = HashMap::<Id, usize>::new();
+
+    for (idx, item) in new.iter().enumerate() {
+        graph.add_node(idx);
+
+        // We start by calculating ids created by statements. Note that we don't need to
+        // analyze bodies of functions nor members of classes, because it's not
+        // evaludated until they are called.
+
+        match item {
+            // We only check declarations because ids are created by declarations.
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
+            | ModuleItem::Stmt(Stmt::Decl(decl)) => {
+                //
+                match decl {
+                    Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+                        // eprintln!("Decl: `{}` declares {:?}`", idx, Id::from(ident));
+                        declared_by.entry(Id::from(ident)).or_default().push(idx);
+                    }
+                    Decl::Var(vars) => {
+                        for var in &vars.decls {
+                            //
+                            let ids: Vec<Id> = find_ids(&var.name);
+                            for id in ids {
+                                if var.init.is_none() {
+                                    uninitialized_ids.insert(id.clone(), idx);
+                                }
+
+                                // eprintln!("Decl: `{}` declares {:?}`", idx, id);
+                                declared_by.entry(id).or_default().push(idx);
+                            }
+                        }
+                    }
+                    _ => {}
+                }
+            }
+            _ => {}
+        }
+
+        {
+            // Find extra initializations.
+            let mut v = FieldInitFinter::default();
+            item.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+
+            for id in v.accessed {
+                if let Some(declarator_indexes) = declared_by.get(&id) {
+                    let idx_decl = match &item {
+                        ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+                            let ids: Vec<Id> = find_ids(&var.decls);
+                            format!("`{:?}`", ids)
+                        }
+                        ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))) => {
+                            format!("{}{:?}", c.ident.sym, c.ident.span.ctxt)
+                        }
+                        ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
+                            format!("{}{:?}", f.ident.sym, f.ident.span.ctxt)
+                        }
+                        _ => String::from(""),
+                    };
+
+                    for &declarator_index in declarator_indexes {
+                        if declarator_index != idx {
+                            graph.add_edge(idx, declarator_index, Required::Always);
+                            // eprintln!(
+                            //     "Field init: `{}` ({}) depends on `{}`:
+                            // {:?}",
+                            //     idx, idx_decl, declarator_index, &id
+                            // );
+                        }
+                    }
+
+                    // eprintln!("`{}` declares {:?}`", idx, id);
+                    declared_by.entry(id).or_default().push(idx);
+                }
+            }
+        }
+    }
+
+    // Handle uninitialized variables
+    //
+    // Compiled typescript enum is not initialized by declaration
+    //
+    // var Status;
+    // (function(Status){})(Status)
+    for (uninit_id, start_idx) in uninitialized_ids {
+        for (idx, item) in new.iter().enumerate().filter(|(idx, _)| *idx > start_idx) {
+            let mut finder = InitializerFinder {
+                ident: uninit_id.clone(),
+                found: false,
+                in_complex: false,
+            };
+            item.visit_with(&Invalid { span: DUMMY_SP }, &mut finder);
+            if finder.found {
+                declared_by.entry(uninit_id).or_default().push(idx);
+                break;
+            }
+        }
+    }
+
+    for (idx, item) in new.iter().enumerate() {
+        // We then calculate which ids a statement require to be executed.
+        // Again, we don't need to analyze non-top-level idents because they
+        // are not evaluated while lpoading module.
+
+        let mut visitor = RequirementCalculartor::default();
+
+        item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
+
+        for (id, kind) in visitor.required_ids {
+            if visitor.excluded.contains(&id) {
+                continue;
+            }
+
+            if let Some(declarator_indexes) = declared_by.get(&id) {
+                for &declarator_index in declarator_indexes {
+                    if declarator_index != idx {
+                        let idx_decl = match &item {
+                            ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+                                let ids: Vec<Id> = find_ids(&var.decls);
+                                format!("`{:?}`", ids)
+                            }
+                            ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))) => {
+                                format!("{}{:?}", c.ident.sym, c.ident.span.ctxt)
+                            }
+                            ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
+                                format!("{}{:?}", f.ident.sym, f.ident.span.ctxt)
+                            }
+                            _ => String::from(""),
+                        };
+
+                        graph.add_edge(idx, declarator_index, kind);
+                        // eprintln!(
+                        //     "`{}` ({}) depends on `{}`: {:?}",
+                        //     idx, idx_decl, declarator_index, &id
+                        // );
+                        if cfg!(debug_assertions) {
+                            let deps: Vec<_> =
+                                graph.neighbors_directed(idx, Dependancies).collect();
+                            assert!(deps.contains(&declarator_index));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    graph
 }
