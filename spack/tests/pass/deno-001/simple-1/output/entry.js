@@ -247,7 +247,8 @@ function deferred() {
 }
 const deferred1 = deferred;
 const deferred2 = deferred1;
-const deferred3 = deferred2;
+const deferred3 = deferred1;
+const deferred4 = deferred3;
 class ServerRequest {
     /**
      * Value of Content-Length header.
@@ -313,12 +314,13 @@ class ServerRequest {
         this.finalized = true;
     }
     constructor(){
-        this.done = deferred3();
+        this.done = deferred4();
         this._contentLength = undefined;
         this._body = null;
         this.finalized = false;
     }
 }
+var tmp = Symbol.asyncIterator;
 const ServerRequest1 = ServerRequest;
 const ServerRequest2 = ServerRequest1;
 async function readRequest(conn, bufr) {
@@ -336,7 +338,6 @@ async function readRequest(conn, bufr) {
     fixLength(req);
     return req;
 }
-const deferred4 = deferred1;
 function fixLength(req) {
     const contentLength = req.headers.get("Content-Length");
     if (contentLength) {
@@ -357,7 +358,9 @@ function fixLength(req) {
         throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
     }
 }
-var tmp = Symbol.asyncIterator;
+const readRequest1 = readRequest;
+const readRequest2 = readRequest1;
+var tmp1 = Symbol.asyncIterator;
 class MuxAsyncIterator {
     add(iterator) {
         ++this.iteratorCount;
@@ -392,22 +395,19 @@ class MuxAsyncIterator {
             }
             // Clear the `yields` list and reset the `signal` promise.
             this.yields.length = 0;
-            this.signal = deferred4();
+            this.signal = deferred2();
         }
     }
-    [tmp]() {
+    [tmp1]() {
         return this.iterate();
     }
     constructor(){
         this.iteratorCount = 0;
         this.yields = [];
         this.throws = [];
-        this.signal = deferred4();
+        this.signal = deferred2();
     }
 }
-const readRequest1 = readRequest;
-const readRequest2 = readRequest1;
-var tmp1 = Symbol.asyncIterator;
 const MuxAsyncIterator1 = MuxAsyncIterator;
 const MuxAsyncIterator2 = MuxAsyncIterator1;
 const MuxAsyncIterator3 = MuxAsyncIterator2;
@@ -487,7 +487,7 @@ class Server {
         // Yield the requests that arrive on the just-accepted connection.
         yield* this.iterateHttpRequests(conn);
     }
-    [tmp1]() {
+    [tmp]() {
         const mux = new MuxAsyncIterator3();
         mux.add(this.acceptConnAndIterateHttpRequests(mux));
         return mux.iterate();
