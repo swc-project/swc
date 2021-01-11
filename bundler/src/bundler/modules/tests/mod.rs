@@ -384,8 +384,8 @@ fn sort_012() {
             NATIVE_OS = 'windows';
         }
         const isWindows = NATIVE_OS == 'windows';
-        use(NATIVE_OS);
         use(isWindows);
+        use(NATIVE_OS);
         ",
     );
 }
@@ -433,7 +433,6 @@ fn sort_014() {
             } else if (navigator?.appVersion?.includes?.('Win') ?? false) {
                 NATIVE_OS = 'windows';
             }
-            }
             const isWindows = NATIVE_OS == 'windows';
             ",
         ],
@@ -445,6 +444,7 @@ fn sort_014() {
         } else if (navigator?.appVersion?.includes?.('Win') ?? false) {
             NATIVE_OS = 'windows';
         }
+        const isWindows = NATIVE_OS == 'windows';
         use(NATIVE_OS)
         ",
     );
@@ -478,8 +478,8 @@ fn sort_015() {
             NATIVE_OS = 'windows';
         }
         const isWindows = NATIVE_OS == 'windows';
-        use(NATIVE_OS);
         use(isWindows);
+        use(NATIVE_OS);
         ",
     );
 }
