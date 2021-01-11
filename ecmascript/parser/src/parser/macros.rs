@@ -207,6 +207,7 @@ macro_rules! cur {
         if is_err_token {
             match $p.input.bump() {
                 $crate::token::Token::Error(e) => {
+                    dbg!(&e);
                     return Err(e);
                 }
                 _ => unreachable!(),
