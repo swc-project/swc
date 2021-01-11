@@ -396,7 +396,7 @@ where
 
                     match dep.ty {
                         DepType::Transitive => {
-                            module.push_all(dep_module);
+                            module.prepend_all(dep_module);
 
                             log::debug!(
                                 "Merged {} into {} as a transitive es module",
