@@ -373,7 +373,7 @@ where
                 if is_export {
                     assert!(dep_info.is_es6, "export statements are es6-only");
 
-                    let res = inject_export(
+                    inject_export(
                         &mut module,
                         ctx,
                         info.export_ctxt(),
@@ -381,13 +381,6 @@ where
                         dep_module,
                         source.unwrap().clone(),
                     );
-
-                    match res {
-                        Ok(()) => {}
-                        Err(..) => {
-                            unreachable!("Merging as export when export statement does not exist?")
-                        }
-                    }
 
                     log::debug!(
                         "Merged {} into {} as a reexport",

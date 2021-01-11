@@ -113,134 +113,25 @@ pub(super) fn inject_export(
     wrapped: bool,
     dep: Modules,
     source: Source,
-) -> Result<(), Modules> {
-    let injected_ctxt = entry.injected_ctxt;
-    let mut dep = Some(dep);
-    // This is required because `export *` does not exports `default` from the
-    // source.
-    // But as user may specify both of `export *` and `export { default }` from same
-    // module, we have to store it somewhere.
-    let mut export_default_stmt = None;
-    let mut vars = vec![];
-    entry.map_any_items(|items| {
-        let mut buf = vec![];
-
-        for item in items {
-            //
-            match item {
-                ModuleItem::Stmt(Stmt::Empty(..)) => continue,
-
-                // If the case of importing and exporting from same module, we firstly
-                // handle it using export.rs
-                //
-                // This works for the most time, but if the import has an alias, export
-                // handler cannot handle this. So we inject some variables to connnect them.
-                //
-                // See: https://github.com/swc-project/swc/issues/1150
-                ModuleItem::ModuleDecl(ModuleDecl::Import(ref import))
-                    if import.src.value == source.src.value =>
-                {
-                    if let Some(dep) = dep.take() {
-                        buf.extend(dep.into_items());
-                    }
-
-                    let decls = import
-                        .specifiers
-                        .iter()
-                        .filter_map(|specifier| match specifier {
-                            ImportSpecifier::Named(ImportNamedSpecifier {
-                                local,
-                                imported: Some(imported),
-                                ..
-                            }) => {
-                                let mut imported = imported.clone();
-                                imported.span = imported.span.with_ctxt(source.export_ctxt);
-
-                                Some(VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: Pat::Ident(local.clone()),
-                                    init: Some(Box::new(Expr::Ident(imported))),
-                                    definite: false,
-                                })
-                            }
-                            _ => None,
-                        })
-                        .collect::<Vec<_>>();
-
-                    for var in decls {
-                        vars.push(var.into_module_item(injected_ctxt, "ExportInjector"));
-                    }
+) {
+    entry.map_items_mut(|item| {
+        //
+        match item {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export))
+                if export.src.value == source.src.value =>
+            {
+                if !wrapped {
+                    let export_ctxt = export.span.ctxt;
+                    ctx.transitive_remap.insert(export_ctxt, entry_export_ctxt);
                 }
-
-                ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export))
-                    if export.src.value == source.src.value =>
-                {
-                    if !wrapped {
-                        let export_ctxt = export.span.ctxt;
-                        ctx.transitive_remap.insert(export_ctxt, entry_export_ctxt);
-                    }
-
-                    if let Some(dep) = dep.take() {
-                        buf.extend(dep.into_items());
-                    }
-                }
-
-                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                    export @ NamedExport { src: Some(..), .. },
-                )) if export.src.as_ref().unwrap().value == source.src.value => {
-                    let namespace_name = export
-                        .specifiers
-                        .iter()
-                        .filter_map(|specifier| match specifier {
-                            ExportSpecifier::Namespace(ns) => Some(ns.name.clone()),
-                            ExportSpecifier::Default(_) => None,
-                            ExportSpecifier::Named(_) => None,
-                        })
-                        .next();
-
-                    if let Some(dep) = dep.take() {
-                        buf.extend(dep.into_items());
-                    }
-                    if let Some(stmt) = export_default_stmt.take() {
-                        buf.push(stmt);
-                    }
-
-                    if let Some(ns_name) = namespace_name {
-                        buf.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                            NamedExport {
-                                span: export.span,
-                                src: None,
-                                specifiers: vec![ExportSpecifier::Named(ExportNamedSpecifier {
-                                    span: DUMMY_SP,
-                                    orig: ns_name,
-                                    exported: None,
-                                })],
-                                type_only: false,
-                            },
-                        )));
-                    } else {
-                        buf.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                            NamedExport {
-                                src: None,
-                                ..export
-                            },
-                        )));
-                    }
-                }
-
-                _ => buf.push(item),
+                *item = Stmt::Empty(EmptyStmt { span: DUMMY_SP }).into()
             }
-        }
 
-        buf
+            _ => {}
+        }
     });
 
-    entry.inject_all(vars);
-
-    match dep {
-        Some(dep) => Err(dep),
-        None => Ok(()),
-    }
+    entry.push_all(dep);
 }
 
 /// Converts
