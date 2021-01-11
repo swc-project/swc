@@ -6,12 +6,22 @@ use swc_ecma_utils::drop_span;
 use testing::assert_eq;
 
 fn assert_sorted(src: &[&str], res: &str) {
-    suite().run(|t| {
+    let mut s = suite();
+
+    for (i, src) in src.iter().enumerate() {
+        s = s.file(&format!("{}.js", i), src);
+    }
+    s.run(|t| {
         let mut modules = Modules::empty(t.bundler.injected_ctxt);
 
-        for src in src {
-            let actual: Module = drop_span(t.parse(src));
-            modules.push_all(Modules::from(actual, t.bundler.injected_ctxt));
+        for (i, _) in src.iter().enumerate() {
+            let info = t.module(&format!("{}.js", i));
+            let actual: Module = drop_span((*info.module).clone());
+
+            let mut module = Modules::from(actual, t.bundler.injected_ctxt);
+
+            t.bundler.prepare(&info, &mut module);
+            modules.push_all(module);
         }
 
         modules.sort();
@@ -319,6 +329,22 @@ fn sort_010() {
         "
         class AbstractBufBase {}
         class BufWriter extends AbstractBufBase {}
+        ",
+    );
+}
+
+#[test]
+fn sort_011() {
+    assert_sorted(
+        &["
+            class AbstractBufBase {}
+            export class BufWriter extends AbstractBufBase {}
+            export class BufWriterSync extends AbstractBufBase { }
+            "],
+        "
+        class AbstractBufBase {}
+        class BufWriter extends AbstractBufBase {}
+        class BufWriterSync extends AbstractBufBase { }
         ",
     );
 }

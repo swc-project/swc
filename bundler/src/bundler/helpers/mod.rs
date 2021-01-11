@@ -6,7 +6,7 @@ use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_ecma_utils::{drop_span, prepend_stmts};
 
 #[derive(Debug, Default)]
-pub(super) struct Helpers {
+pub(crate) struct Helpers {
     /// `__spack_require__`
     pub require: AtomicBool,
 }

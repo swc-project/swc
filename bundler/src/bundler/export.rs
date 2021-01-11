@@ -45,7 +45,7 @@ pub(super) struct RawExports {
 }
 
 #[derive(Debug, Default)]
-pub(super) struct Exports {
+pub(crate) struct Exports {
     pub items: Vec<Specifier>,
     pub reexports: Vec<(Source, Vec<Specifier>)>,
 }

@@ -129,7 +129,7 @@ impl TestBuilder {
                     cm.clone(),
                     Loader {
                         cm: cm.clone(),
-                        files: self.files,
+                        files: self.files.clone(),
                     },
                     Default::default(),
                     Config {
@@ -140,6 +140,12 @@ impl TestBuilder {
                     },
                     Box::new(Hook),
                 );
+
+                for (name, _) in self.files {
+                    bundler
+                        .load_transformed(&FileName::Real(name.clone().into()))
+                        .unwrap();
+                }
 
                 let mut t = Tester {
                     cm: cm.clone(),

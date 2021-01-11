@@ -789,7 +789,7 @@ where
     /// Basically one module have two top-level contexts. One is for it's codes
     /// and another is for exporting. This method connects two module by
     /// injecting `const local_A = exported_B_from_foo;`
-    pub(super) fn prepare(&self, info: &TransformedModule, module: &mut Modules) {
+    pub(crate) fn prepare(&self, info: &TransformedModule, module: &mut Modules) {
         let injected_ctxt = self.injected_ctxt;
 
         if !info.is_es6 {

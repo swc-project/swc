@@ -21,7 +21,7 @@ use swc_ecma_transforms::resolver_with_mark;
 use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitWith};
 /// Module after applying transformations.
 #[derive(Debug, Clone)]
-pub(super) struct TransformedModule {
+pub(crate) struct TransformedModule {
     pub id: ModuleId,
     pub fm: Lrc<SourceFile>,
     pub module: Lrc<Module>,
@@ -366,14 +366,14 @@ where
 }
 
 #[derive(Debug, Default)]
-pub(super) struct Imports {
+pub(crate) struct Imports {
     /// If imported ids are empty, it is a side-effect import.
     pub specifiers: Vec<(Source, Vec<Specifier>)>,
 }
 
 /// Clone is relatively cheap
 #[derive(Debug, Clone, Is)]
-pub(super) enum Specifier {
+pub(crate) enum Specifier {
     Specific {
         local: Id,
         alias: Option<Id>,
@@ -386,7 +386,7 @@ pub(super) enum Specifier {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
-pub(super) struct Source {
+pub(crate) struct Source {
     pub is_loaded_synchronously: bool,
     pub is_unconditional: bool,
 
