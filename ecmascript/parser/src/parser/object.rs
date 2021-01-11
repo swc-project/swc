@@ -12,6 +12,8 @@ impl<'a, I: Tokens> Parser<I> {
     where
         Self: ParseObject<T>,
     {
+        trace_cur!(self, parse_object);
+
         let start = cur_pos!(self);
         assert_and_bump!(self, '{');
 
@@ -19,6 +21,8 @@ impl<'a, I: Tokens> Parser<I> {
 
         let mut first = true;
         while !eat!(self, '}') {
+            trace_cur!(self, parse_object__element);
+
             // Handle comma
             if first {
                 first = false;
@@ -43,6 +47,9 @@ impl<'a, I: Tokens> Parser<I> {
             let prop = match prop {
                 Ok(v) => v,
                 Err(err) => {
+                    if self.errors_for_backtraing.is_some() {
+                        return Err(err);
+                    }
                     self.emit_error(err);
                     continue;
                 }
