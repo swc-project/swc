@@ -12,14 +12,13 @@ use swc_ecma_parser::Parser;
 use walkdir::WalkDir;
 
 /// Tests ported from uglifyjs.
-#[allow(dead_code)]
-#[testing::fixture("uglifyjs/**/input.js")]
+#[testing::fixture("terser/**/input.js")]
 fn uglify_js(_path: PathBuf) {}
 
 /// Generate tests using uglify js.
 #[test]
 #[ignore = "It's a script to update tests and it's not a test"]
-fn update_uglifyjs_tests() {
+fn update_terser_tests() {
     testing::run_test(false, |cm, _| {
         let handler = Handler::with_tty_emitter(ColorConfig::Always, true, false, Some(cm.clone()));
         // Walk uglifyjs test directories.
@@ -27,7 +26,7 @@ fn update_uglifyjs_tests() {
             .join("..")
             .join("..")
             .join("vendor")
-            .join("UglifyJS")
+            .join("terser")
             .join("test")
             .join("compress")
             .canonicalize()
@@ -78,7 +77,7 @@ fn update_uglifyjs_tests() {
 
                 let dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
                     .join("tests")
-                    .join("uglifyjs")
+                    .join("terser")
                     .join("compress")
                     .join(&rel_path.with_extension(""))
                     .join(&*test_name.sym);
