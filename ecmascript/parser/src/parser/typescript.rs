@@ -2115,6 +2115,8 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseTypeOperator`
     fn parse_ts_type_operator(&mut self, op: TsTypeOperatorOp) -> PResult<TsTypeOperator> {
+        trace_cur!(self, parse_ts_type_operator);
+
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
@@ -2154,6 +2156,7 @@ impl<I: Tokens> Parser<I> {
     /// `tsParseTypeOperatorOrHigher`
     fn parse_ts_type_operator_or_higher(&mut self) -> PResult<Box<TsType>> {
         trace_cur!(self, parse_ts_type_operator_or_higher);
+
         debug_assert!(self.input.syntax().typescript());
 
         let operator = if is!(self, "keyof") {
@@ -2630,6 +2633,7 @@ impl<I: Tokens> Parser<I> {
     /// `tsParseUnionTypeOrHigher`
     fn parse_ts_union_type_or_higher(&mut self) -> PResult<Box<TsType>> {
         trace_cur!(self, parse_ts_union_type_or_higher);
+
         debug_assert!(self.input.syntax().typescript());
 
         self.parse_ts_union_or_intersection_type(
