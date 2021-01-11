@@ -201,6 +201,7 @@ impl<I: Tokens> Parser<I> {
 
     #[cold]
     fn emit_err(&self, span: Span, error: SyntaxError) {
+        dbg!(&error);
         if !self.syntax().early_errors() {
             return;
         }
