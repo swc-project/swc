@@ -4,6 +4,12 @@ error[1182]: Destructuring bindings require initializers
 1 | var [a, b];          // Error, no initializer
   |     ^^^^^^
 
+error[1005]: Expected ','
+ --> $DIR/tests/typescript-errors/tsc/es6/destructuring/declarationWithNoInitializer/input.ts:2:10
+  |
+2 | var {c, d};          // Error, no initializer
+  |          ^
+
 error[1182]: Destructuring bindings require initializers
  --> $DIR/tests/typescript-errors/tsc/es6/destructuring/declarationWithNoInitializer/input.ts:2:5
   |

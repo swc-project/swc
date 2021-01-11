@@ -1,6 +1,6 @@
-error[1005]: Cannot use a reserved word as a shorthand property
- --> $DIR/tests/typescript-errors/tsc/es6/destructuring/objectBindingPatternKeywordIdentifiers01/input.ts:2:7
+error[1005]: Expected ','
+ --> $DIR/tests/typescript-errors/tsc/es6/destructuring/objectBindingPatternKeywordIdentifiers01/input.ts:2:13
   |
 2 | var { while } = { while: 1 }
-  |       ^^^^^
+  |             ^
 
