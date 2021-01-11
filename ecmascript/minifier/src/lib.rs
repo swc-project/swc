@@ -11,6 +11,7 @@ use crate::pass::expand_names::name_expander;
 use crate::pass::mangle_names::name_mangler;
 use crate::pass::mangle_props::property_mangler;
 use swc_ecma_ast::Module;
+use swc_ecma_visit::FoldWith;
 use swc_ecma_visit::VisitMutWith;
 use timing::Timings;
 
@@ -21,7 +22,7 @@ pub mod timing;
 mod util;
 
 #[inline]
-pub fn optimize(m: &mut Module, timings: &mut Option<Timings>, options: &Options) {
+pub fn optimize(mut m: Module, timings: &mut Option<Timings>, options: &Options) -> Module {
     // TODO: reserve_quoted_keys
     // if (quoted_props && options.mangle.properties.keep_quoted !== "strict") {
     //     reserve_quoted_keys(toplevel, quoted_props);
@@ -55,7 +56,7 @@ pub fn optimize(m: &mut Module, timings: &mut Option<Timings>, options: &Options
         // TODO: store `compress`
     }
     if options.compress {
-        m.visit_mut_with(&mut compressor());
+        m = m.fold_with(&mut compressor(&Default::default()));
         // Again, we don't need to validate ast
     }
 
@@ -89,4 +90,6 @@ pub fn optimize(m: &mut Module, timings: &mut Option<Timings>, options: &Options
     {
         m.visit_mut_with(&mut property_mangler());
     }
+
+    m
 }
