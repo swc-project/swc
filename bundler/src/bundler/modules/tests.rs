@@ -133,18 +133,18 @@ fn sort_005() {
             "use(a);",
             "
             const a = new A();
-            export const b = 1;
+            const b = 1;
             ",
             "
             use(b);
-            export class A {}
+            class A {}
             ",
         ],
         "
-        export class A {
+        class A {
         }
         const a = new A();
-        export const b = 1;
+        const b = 1;
         use(b);        
         use(a);
         ",
