@@ -1,4 +1,5 @@
 use crate::bundler::modules::Modules;
+use crate::util::MapWithMut;
 use crate::{
     bundler::{
         chunk::merge::Ctx,
@@ -125,6 +126,45 @@ pub(super) fn inject_export(
                     ctx.transitive_remap.insert(export_ctxt, entry_export_ctxt);
                 }
                 *item = Stmt::Empty(EmptyStmt { span: DUMMY_SP }).into()
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::Import(ref import))
+                if import.src.value == source.src.value =>
+            {
+                *item = Stmt::Empty(EmptyStmt { span: DUMMY_SP }).into()
+            }
+
+            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                export @ NamedExport { src: Some(..), .. },
+            )) if export.src.as_ref().unwrap().value == source.src.value => {
+                let namespace_name = export
+                    .specifiers
+                    .iter()
+                    .filter_map(|specifier| match specifier {
+                        ExportSpecifier::Namespace(ns) => Some(ns.name.clone()),
+                        ExportSpecifier::Default(_) => None,
+                        ExportSpecifier::Named(_) => None,
+                    })
+                    .next();
+
+                if let Some(ns_name) = namespace_name {
+                    *item = ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                        span: export.span,
+                        src: None,
+                        specifiers: vec![ExportSpecifier::Named(ExportNamedSpecifier {
+                            span: DUMMY_SP,
+                            orig: ns_name,
+                            exported: None,
+                        })],
+                        type_only: false,
+                    }));
+                } else {
+                    *item = ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                        span: export.span,
+                        specifiers: export.specifiers.take(),
+                        src: None,
+                        type_only: false,
+                    }))
+                }
             }
 
             _ => {}
