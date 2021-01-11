@@ -717,11 +717,11 @@ where
     fn finalize_merging_of_entry(&self, ctx: &Ctx, entry: &mut Modules) {
         self.handle_reexport_of_entry(ctx, entry);
 
-        // print_hygiene("before sort", &self.cm, &entry.clone().into());
+        print_hygiene("before sort", &self.cm, &entry.clone().into());
 
         entry.sort();
 
-        print_hygiene("done", &self.cm, &entry.clone().into());
+        // print_hygiene("done", &self.cm, &entry.clone().into());
 
         entry.retain_mut(|item| {
             match item {
