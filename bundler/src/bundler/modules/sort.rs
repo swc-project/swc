@@ -406,7 +406,7 @@ fn iter<'a>(
                         deps_to_push.push(dep);
                     }
 
-                    // dbg!(&deps_to_push);
+                    dbg!(&deps_to_push);
 
                     if !deps_to_push.is_empty() {
                         // We should check idx again after emitting dependencies.
