@@ -1068,6 +1068,10 @@ impl<'a, I: Tokens> Parser<I> {
         let stmts = match stmts {
             Ok(stmts) => stmts,
             Err(err) => {
+                // We should not recover from hard errors while backtracking.
+                if self.errors_for_backtraing.is_some() {
+                    return Err(err);
+                }
                 self.emit_error(err);
 
                 let mut cnt = 1;

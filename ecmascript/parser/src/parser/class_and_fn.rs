@@ -350,6 +350,11 @@ impl<'a, I: Tokens> Parser<I> {
             let member = match member {
                 Ok(v) => v,
                 Err(err) => {
+                    // We should not recover from hard errors while backtracking.
+                    if self.errors_for_backtraing.is_some() {
+                        return Err(err);
+                    }
+
                     self.emit_error(err);
                     // We rely on the error recovery logic in the block statement parser.
                     //
@@ -1312,6 +1317,11 @@ impl<'a, I: Tokens> Parser<I> {
                 let params = match params {
                     Ok(v) => v,
                     Err(err) => {
+                        // We should not recover from hard errors while backtracking.
+                        if p.errors_for_backtraing.is_some() {
+                            return Err(err);
+                        }
+
                         p.emit_error(err);
 
                         let mut cnt = 1;

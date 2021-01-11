@@ -644,6 +644,15 @@ impl<'a, I: Tokens> Parser<I> {
                 break;
             }
             if first {
+                // We should not recover from hard errors while backtracking.
+                if self.errors_for_backtraing.is_some() {
+                    return Err(make_error!(
+                        self,
+                        self.input.cur_span(),
+                        SyntaxError::ExpectedRParen
+                    ));
+                }
+
                 self.emit_err(self.input.cur_span(), SyntaxError::ExpectedRParen);
                 first = false;
             }
