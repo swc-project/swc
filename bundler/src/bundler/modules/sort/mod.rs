@@ -20,6 +20,8 @@ use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 type StmtDepGraph = self::graph::StmtDepGraph;
 
 mod graph;
+#[cfg(test)]
+mod tests;
 /// Is dependancy between nodes hard?
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 enum Required {
