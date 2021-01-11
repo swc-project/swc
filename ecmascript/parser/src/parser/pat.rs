@@ -157,7 +157,7 @@ impl<'a, I: Tokens> Parser<I> {
                 if eat!(self, '=') {
                     self.emit_err(
                         self.input.prev_span(),
-                        SyntaxError::RestElementWithinitializer,
+                        SyntaxError::RestElementWithInitializer,
                     );
                     let init = self.parse_expr()?;
                     pat = Pat::Assign(AssignPat {
@@ -580,6 +580,22 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn reparse_expr_as_pat(&mut self, pat_ty: PatType, expr: Box<Expr>) -> PResult<Pat> {
         if let Expr::Invalid(i) = *expr {
             return Ok(Pat::Invalid(i));
+        }
+
+        match &*expr {
+            Expr::Array(arr) => {
+                for elem in arr.elems.iter().filter_map(|v| v.as_ref()) {
+                    if let Some(dot3) = elem.spread {
+                        match &*elem.expr {
+                            Expr::Assign(..) => {
+                                self.emit_err(dot3, SyntaxError::RestElementWithInitializer)
+                            }
+                            _ => {}
+                        }
+                    }
+                }
+            }
+            _ => {}
         }
 
         if pat_ty == PatType::AssignPat {

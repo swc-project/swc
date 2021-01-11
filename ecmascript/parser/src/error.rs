@@ -260,7 +260,7 @@ pub enum SyntaxError {
     InvalidReadonly,
     ExpectedLParen,
     ExpectedRParen,
-    RestElementWithinitializer,
+    RestElementWithInitializer,
 
     ExpectedPropertyName,
     YieldNotAllowed,
@@ -369,7 +369,7 @@ impl SyntaxError {
 
             SyntaxError::ReturnNotAllowed => Some(1108),
 
-            SyntaxError::RestElementWithinitializer => Some(1186),
+            SyntaxError::RestElementWithInitializer => Some(1186),
             SyntaxError::YieldNotAllowed => Some(1163),
             SyntaxError::GeneratorInOverloadOfClassMethod => Some(1221),
             SyntaxError::GeneratorInOverloadInAmbientContext => Some(1222),
@@ -774,7 +774,7 @@ impl SyntaxError {
             SyntaxError::ExpectedIdentButGotKeyword => {
                 "Expected an identifier, but found keyword".into()
             }
-            SyntaxError::RestElementWithinitializer => {
+            SyntaxError::RestElementWithInitializer => {
                 "A rest element cannot have an initializer".into()
             }
             SyntaxError::ExpectedPropertyName => "Expected a property name".into(),
