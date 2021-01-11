@@ -477,7 +477,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
         }
 
         if is!(self, '}') || eof!(self) {
-            self.emit_err(self.input.prev_span(), SyntaxError::ExpectedComma);
+            self.emit_err(self.input.cur_span(), SyntaxError::ExpectedComma);
             return Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
                 key,
                 value: Box::new(Pat::Invalid(Invalid {
