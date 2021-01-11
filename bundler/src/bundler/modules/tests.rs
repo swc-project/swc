@@ -232,7 +232,7 @@ fn sort_007() {
     assert_sorted_with_free(
         &[
             "
-            var e, o = e= {};
+            var e, o = e = {};
             var T = e;
             e.env = {};
             ",
