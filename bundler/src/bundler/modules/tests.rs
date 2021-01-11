@@ -336,15 +336,24 @@ fn sort_010() {
 #[test]
 fn sort_011() {
     assert_sorted(
-        &["
+        &[
+            "use(BufWriter)",
+            "use(BufWriterSync)",
+            "
             class AbstractBufBase {}
-            export class BufWriter extends AbstractBufBase {}
-            export class BufWriterSync extends AbstractBufBase { }
-            "],
+            class BufWriter extends AbstractBufBase {}
+            class BufWriterSync extends AbstractBufBase { }
+            ",
+        ],
         "
-        class AbstractBufBase {}
-        class BufWriter extends AbstractBufBase {}
-        class BufWriterSync extends AbstractBufBase { }
+        class AbstractBufBase {
+        }
+        class BufWriter extends AbstractBufBase {
+        }
+        class BufWriterSync extends AbstractBufBase {
+        }
+        use(BufWriter);
+        use(BufWriterSync);        
         ",
     );
 }
