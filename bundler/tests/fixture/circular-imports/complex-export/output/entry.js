@@ -1,5 +1,5 @@
-const c = 'c';
 const a = 'a';
+const c = 'c';
 const a1 = a;
 const a2 = a1;
 export { a1 as a };

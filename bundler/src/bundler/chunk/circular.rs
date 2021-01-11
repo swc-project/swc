@@ -149,7 +149,7 @@ where
 
                 // print_hygiene("[circular] dep:init 2", &self.cm, &dep);
 
-                entry.prepend_all(dep);
+                entry.push_all(dep);
             }
 
             // print_hygiene("before circular sort", &self.cm, &entry.clone().into());
