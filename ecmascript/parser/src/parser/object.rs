@@ -284,6 +284,8 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
 
         match ident.sym {
             js_word!("get") | js_word!("set") | js_word!("async") => {
+                trace_cur!(self, parse_object_prop__after_modifier);
+
                 if let Some((modifier, span)) = modifier {
                     self.emit_err(modifiers_span, SyntaxError::InvalidModifier { modifier });
                 }
@@ -291,22 +293,13 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                 let is_generator = ident.sym == js_word!("async") && eat!(self, '*');
                 let key = self.parse_prop_name()?;
                 let key_span = key.span();
-
                 match ident.sym {
                     js_word!("get") => self
                         .parse_fn_args_body(
                             // no decorator in an object literal
                             vec![],
                             start,
-                            |p| {
-                                let params = p.parse_formal_params()?;
-
-                                if params.iter().filter(|p| is_not_this(p)).count() != 0 {
-                                    p.emit_err(key_span, SyntaxError::GetterShouldNotHaveParam);
-                                }
-
-                                Ok(params)
-                            },
+                            |p| p.parse_getter_params(key_span),
                             false,
                             false,
                         )
