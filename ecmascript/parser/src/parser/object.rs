@@ -455,6 +455,8 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
 
     /// Production 'BindingProperty'
     fn parse_object_prop(&mut self) -> PResult<Self::Prop> {
+        trace_cur!(self, parse_object_prop);
+
         let start = cur_pos!(self);
 
         if eat!(self, "...") {
@@ -476,7 +478,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
             self.emit_err(self.input.prev_span(), SyntaxError::ExpectedComma);
         }
 
-        if is!(self, '}') || eof!(self) {
+        if eof!(self) {
             self.emit_err(self.input.cur_span(), SyntaxError::ExpectedComma);
             return Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
                 key,
