@@ -38,14 +38,14 @@ impl VisitMut for KeywordRenamer {
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
         f.function.visit_mut_with(self);
         if let Some(renamed) = self.renamed(&f.ident) {
-            f.ident = reanmed;
+            f.ident = renamed;
         }
     }
 
     fn visit_mut_class_decl(&mut self, c: &mut ClassDecl) {
         c.class.visit_mut_with(self);
         if let Some(renamed) = self.renamed(&c.ident) {
-            c.ident = reanmed;
+            c.ident = renamed;
         }
     }
 
