@@ -1,18 +1,17 @@
-var O;
+var O3;
 (function(O1) {
     O1[O1["A"] = 0] = "A";
     O1[O1["B"] = 1] = "B";
     O1[O1["C"] = 2] = "C";
-})(O || (O = {
+})(O3 || (O3 = {
 }));
-const O1 = O;
 function a() {
     console.log("a");
 }
 const a1 = a;
 const a2 = a1;
+const O1 = O3;
 const O2 = O1;
-const O3 = O2;
 export { O2 as O };
 const defaultA = a2;
 class A {
@@ -34,3 +33,4 @@ class A {
 let a4 = new A();
 a4.a();
 a4.c();
+const O4 = O2;
