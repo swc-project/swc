@@ -6,3 +6,4 @@ const a1 = __default1;
 console.log('a.js');
 export { a1 as a };
 console.log('entry');
+const a2 = a1;
