@@ -577,6 +577,10 @@ impl VisitMut for Dce<'_> {
         }
 
         d.visit_mut_children_with(self);
+
+        if self.is_marked(d.name.span()) || self.is_marked(d.init.span()) {
+            d.span = d.span.apply_mark(self.config.used_mark);
+        }
     }
 
     fn visit_mut_var_decl(&mut self, mut var: &mut VarDecl) {
