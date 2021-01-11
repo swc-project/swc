@@ -125,14 +125,19 @@ impl Modules {
             buf.push(stmt)
         }
 
-        *self = Modules::from(
-            Module {
-                span: DUMMY_SP,
-                body: buf,
-                shebang: None,
-            },
-            injected_ctxt,
+        let module = Module {
+            span: DUMMY_SP,
+            body: buf,
+            shebang: None,
+        };
+
+        print_hygiene(
+            "after sort",
+            cm,
+            &module,
         );
+
+        *self = Modules::from(module, injected_ctxt);
     }
 }
 
