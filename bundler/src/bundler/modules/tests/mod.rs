@@ -357,3 +357,129 @@ fn sort_011() {
         ",
     );
 }
+
+#[test]
+fn sort_012() {
+    assert_sorted(
+        &[
+            "use(isWindows)",
+            "use(NATIVE_OS)",
+            "
+            let NATIVE_OS = 'linux';
+            const navigator = globalThis.navigator;
+            if (globalThis.Deno != null) {
+                NATIVE_OS = Deno.build.os;
+            } else if (navigator?.appVersion?.includes?.('Win') ?? false) {
+                NATIVE_OS = 'windows';
+            }
+            const isWindows = NATIVE_OS == 'windows';
+            ",
+        ],
+        "
+        let NATIVE_OS = 'linux';
+        const navigator = globalThis.navigator;
+        if (globalThis.Deno != null) {
+            NATIVE_OS = Deno.build.os;
+        } else if (navigator?.appVersion?.includes?.('Win') ?? false) {
+            NATIVE_OS = 'windows';
+        }
+        const isWindows = NATIVE_OS == 'windows';
+        use(NATIVE_OS);
+        use(isWindows);
+        ",
+    );
+}
+
+#[test]
+fn sort_013() {
+    assert_sorted(
+        &[
+            "use(isWindows)",
+            "
+            let NATIVE_OS = 'linux';
+            const navigator = globalThis.navigator;
+            if (globalThis.Deno != null) {
+                NATIVE_OS = Deno.build.os;
+            } else if (navigator?.appVersion?.includes?.('Win') ?? false) {
+                NATIVE_OS = 'windows';
+            }
+            const isWindows = NATIVE_OS == 'windows';
+            ",
+        ],
+        "
+        let NATIVE_OS = 'linux';
+        const navigator = globalThis.navigator;
+        if (globalThis.Deno != null) {
+            NATIVE_OS = Deno.build.os;
+        } else if (navigator?.appVersion?.includes?.('Win') ?? false) {
+            NATIVE_OS = 'windows';
+        }
+        const isWindows = NATIVE_OS == 'windows';
+        use(isWindows);
+        ",
+    );
+}
+
+#[test]
+fn sort_014() {
+    assert_sorted(
+        &[
+            "use(NATIVE_OS)",
+            "
+            let NATIVE_OS = 'linux';
+            const navigator = globalThis.navigator;
+            if (globalThis.Deno != null) {
+                NATIVE_OS = Deno.build.os;
+            } else if (navigator?.appVersion?.includes?.('Win') ?? false) {
+                NATIVE_OS = 'windows';
+            }
+            }
+            const isWindows = NATIVE_OS == 'windows';
+            ",
+        ],
+        "
+        let NATIVE_OS = 'linux';
+        const navigator = globalThis.navigator;
+        if (globalThis.Deno != null) {
+            NATIVE_OS = Deno.build.os;
+        } else if (navigator?.appVersion?.includes?.('Win') ?? false) {
+            NATIVE_OS = 'windows';
+        }
+        use(NATIVE_OS)
+        ",
+    );
+}
+
+#[test]
+fn sort_015() {
+    assert_sorted(
+        &[
+            "
+            use(isWindows)
+            use(NATIVE_OS)
+            ",
+            "
+            let NATIVE_OS = 'linux';
+            const navigator = globalThis.navigator;
+            if (globalThis.Deno != null) {
+                NATIVE_OS = Deno.build.os;
+            } else if (navigator?.appVersion?.includes?.('Win') ?? false) {
+                NATIVE_OS = 'windows';
+            }
+            const isWindows = NATIVE_OS == 'windows';
+            ",
+        ],
+        "
+        let NATIVE_OS = 'linux';
+        const navigator = globalThis.navigator;
+        if (globalThis.Deno != null) {
+            NATIVE_OS = Deno.build.os;
+        } else if (navigator?.appVersion?.includes?.('Win') ?? false) {
+            NATIVE_OS = 'windows';
+        }
+        const isWindows = NATIVE_OS == 'windows';
+        use(NATIVE_OS);
+        use(isWindows);
+        ",
+    );
+}
