@@ -308,3 +308,17 @@ fn sort_009() {
         ",
     );
 }
+
+#[test]
+fn sort_010() {
+    assert_sorted(
+        &["
+            class AbstractBufBase {}
+            class BufWriter extends AbstractBufBase {}
+            "],
+        "
+        class AbstractBufBase {}
+        class BufWriter extends AbstractBufBase {}
+        ",
+    );
+}
