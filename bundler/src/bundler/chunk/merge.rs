@@ -423,34 +423,6 @@ where
                     //     &module,
                     // );
 
-                    // Replace import statement with module body
-                    let res = inject_es_module(
-                        &mut module,
-                        dep_module,
-                        dep_info.export_ctxt(),
-                        match dep.ty {
-                            DepType::Direct => true,
-                            _ => false,
-                        },
-                    );
-
-                    dep_module = match res {
-                        Ok(()) => {
-                            log::debug!(
-                                "Merged {} into {} as an es module",
-                                dep_info.fm.name,
-                                info.fm.name,
-                            );
-                            // print_hygiene(
-                            //     &format!("ES6: {:?} <- {:?}", info.ctxt(), dep_info.ctxt()),
-                            //     &self.cm,
-                            //     &entry,
-                            // );
-                            continue;
-                        }
-                        Err(dep) => dep,
-                    };
-
                     if info.is_es6 && dep_info.is_es6 {
                         module.push_all(dep_module);
                         continue;
@@ -1574,79 +1546,6 @@ impl Fold for Unexporter {
 
             _ => item,
         }
-    }
-}
-
-/// Returns `Err(dep)` on error.
-fn inject_es_module(
-    entry: &mut Modules,
-    dep: Modules,
-    dep_export_ctxt: SyntaxContext,
-    is_direct: bool,
-) -> Result<(), Modules> {
-    let injected_ctxt = entry.injected_ctxt;
-
-    let mut vars = vec![];
-    let mut dep = Some(dep);
-
-    entry.map_any_items(|items| {
-        if dep.is_none() {
-            return items;
-        }
-
-        let mut buf = vec![];
-
-        for item in items {
-            //
-            match item {
-                ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                    span, specifiers, ..
-                })) if span.ctxt == dep_export_ctxt => {
-                    if let Some(dep) = dep.take() {
-                        buf.extend(dep.into_items());
-                    }
-
-                    if !is_direct {
-                        let decls = specifiers
-                            .iter()
-                            .filter_map(|specifier| match specifier {
-                                ImportSpecifier::Named(ImportNamedSpecifier {
-                                    local,
-                                    imported: Some(imported),
-                                    ..
-                                }) => {
-                                    let mut imported = imported.clone();
-                                    imported.span = imported.span.with_ctxt(dep_export_ctxt);
-
-                                    Some(VarDeclarator {
-                                        span: DUMMY_SP,
-                                        name: Pat::Ident(local.clone()),
-                                        init: Some(Box::new(Expr::Ident(imported))),
-                                        definite: false,
-                                    })
-                                }
-                                _ => None,
-                            })
-                            .collect::<Vec<_>>();
-
-                        for var in decls {
-                            vars.push(var.into_module_item(injected_ctxt, "Es6ModuleInjector"));
-                        }
-                    }
-                }
-
-                _ => buf.push(item),
-            }
-        }
-
-        buf
-    });
-
-    entry.inject_all(vars);
-
-    match dep {
-        Some(dep) => Err(dep),
-        None => Ok(()),
     }
 }
 
