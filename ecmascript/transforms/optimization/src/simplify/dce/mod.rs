@@ -663,21 +663,10 @@ impl VisitMut for Dce<'_> {
             return;
         }
 
-        node.visit_mut_children_with(self);
+        node.span = node.span.apply_mark(self.config.used_mark);
 
-        if self.marking_phase
-            || self.is_marked(node.callee.span())
-            || node
-                .args
-                .as_ref()
-                .map(|args| args.iter().any(|arg| self.is_marked(arg.expr.span())))
-                .unwrap_or(false)
-        {
-            node.span = node.span.apply_mark(self.config.used_mark);
-
-            self.mark(&mut node.callee);
-            self.mark(&mut node.args);
-        }
+        self.mark(&mut node.callee);
+        self.mark(&mut node.args);
     }
 
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
