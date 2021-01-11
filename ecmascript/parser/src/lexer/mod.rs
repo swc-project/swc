@@ -837,7 +837,10 @@ impl<'a, I: Input> Lexer<'a, I> {
         // let pos = self.cur_pos();
         match self.read_int_u32(16, count, raw)? {
             Some(val) => Ok(val.into()),
-            None => self.error(start, SyntaxError::ExpectedHexChars { count })?,
+            None => {
+                self.emit_error(start, SyntaxError::ExpectedHexChars { count });
+                Ok(Char(0))
+            }
         }
     }
 
