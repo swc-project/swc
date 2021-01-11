@@ -314,27 +314,27 @@ fn iter<'a>(
             }
             let is_free = free.contains(&idx);
 
-            // dbg!(idx, is_free);
-            // match &stmts[idx] {
-            //     ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-            //         let ids: Vec<Id> = find_ids(&var.decls);
-            //         eprintln!("(`{}`) Declare: `{:?}`", idx, ids);
-            //     }
-            //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
-            //         eprintln!("(`{}`) Declare: `{:?}`", idx, Id::from(&cls.ident));
-            //     }
-            //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-            //         eprintln!("(`{}`) Declare: `{:?}`", idx, Id::from(&f.ident));
-            //     }
-            //     _ => eprintln!("(`{}`) Stmt", idx,),
-            // }
+            dbg!(idx, is_free);
+            match &stmts[idx] {
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+                    let ids: Vec<Id> = find_ids(&var.decls);
+                    eprintln!("(`{}`) Declare: `{:?}`", idx, ids);
+                }
+                ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
+                    eprintln!("(`{}`) Declare: `{:?}`", idx, Id::from(&cls.ident));
+                }
+                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
+                    eprintln!("(`{}`) Declare: `{:?}`", idx, Id::from(&f.ident));
+                }
+                _ => eprintln!("(`{}`) Stmt", idx,),
+            }
 
             let current_range = same_module_ranges
                 .iter()
                 .find(|range| range.contains(&idx))
                 .cloned();
 
-            // dbg!(&current_range);
+            dbg!(&current_range);
 
             let can_ignore_deps = match &stmts[idx] {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
@@ -375,7 +375,7 @@ fn iter<'a>(
                     })
                     .collect::<Vec<_>>();
 
-                // dbg!(&deps);
+                dbg!(&deps);
 
                 if !deps.is_empty() {
                     let mut deps_to_push = vec![];
@@ -442,7 +442,7 @@ fn iter<'a>(
                         .neighbors_directed(idx, Dependants)
                         .collect::<Vec<_>>();
 
-                    // dbg!(&dependants);
+                    dbg!(&dependants);
 
                     // We only emit free items because we want to emit statements from same module
                     // to emitted closedly.
@@ -465,7 +465,7 @@ fn iter<'a>(
                 if done.contains(&preceding) {
                     continue;
                 }
-                // dbg!(preceding);
+                dbg!(preceding);
                 if preceding == idx {
                     continue;
                 }
@@ -482,7 +482,7 @@ fn iter<'a>(
                     .neighbors_directed(idx, Dependants)
                     .collect::<Vec<_>>();
 
-                // dbg!(&dependants);
+                dbg!(&dependants);
 
                 // We only emit free items because we want to emit statements from same module
                 // to emitted closedly.
