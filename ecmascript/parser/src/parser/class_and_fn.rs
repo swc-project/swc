@@ -358,7 +358,7 @@ impl<'a, I: Tokens> Parser<I> {
                     // (for class end) or `;` is enough.
 
                     loop {
-                        if is_exact!(self, ';') || is!(self, '}') {
+                        if eof!(self) || is_exact!(self, ';') || is!(self, '}') {
                             break;
                         }
 
@@ -1320,7 +1320,7 @@ impl<'a, I: Tokens> Parser<I> {
                             if eof!(p) {
                                 break;
                             }
-                            if is!(p, ')') {
+                            if eat!(p, ')') {
                                 cnt -= 1;
                                 if cnt == 0 {
                                     break;
