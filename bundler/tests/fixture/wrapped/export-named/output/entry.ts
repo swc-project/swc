@@ -5,8 +5,9 @@ const [a, b, c] = [
 ];
 const b1 = b;
 const mod = function() {
+    const b2 = b1;
     return {
-        b: b1
+        b: b2
     };
 }();
 const foo = mod;

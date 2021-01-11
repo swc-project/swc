@@ -6,9 +6,9 @@ const mod = function() {
         Foo
     };
 }();
+const foo = mod;
 const Foo = mod.Foo;
 const Foo1 = Foo;
-const foo = mod;
 const bar = Foo1('bar');
 const __default = bar;
 const __default1 = __default;
