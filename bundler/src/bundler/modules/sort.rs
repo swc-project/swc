@@ -788,19 +788,17 @@ impl Visit for RequirementCalculartor {
     }
 
     fn visit_expr(&mut self, expr: &Expr, _: &dyn Node) {
-        let in_var_decl = self.in_var_decl;
-        self.in_var_decl = false;
-
         match expr {
             Expr::Ident(i) => {
+                if self.in_var_decl && self.in_assign_lhs {
+                    return;
+                }
                 self.insert(i.into());
             }
             _ => {
                 expr.visit_children_with(self);
             }
         }
-
-        self.in_var_decl = in_var_decl;
     }
 
     fn visit_prop(&mut self, prop: &Prop, _: &dyn Node) {
