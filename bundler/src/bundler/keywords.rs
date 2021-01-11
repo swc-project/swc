@@ -35,6 +35,20 @@ impl KeywordRenamer {
 impl VisitMut for KeywordRenamer {
     noop_visit_mut_type!();
 
+    fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
+        f.function.visit_mut_with(self);
+        if let Some(renamed) = self.renamed(&f.ident) {
+            f.ident = reanmed;
+        }
+    }
+
+    fn visit_mut_class_decl(&mut self, c: &mut ClassDecl) {
+        c.class.visit_mut_with(self);
+        if let Some(renamed) = self.renamed(&c.ident) {
+            c.ident = reanmed;
+        }
+    }
+
     fn visit_mut_prop(&mut self, n: &mut Prop) {
         match n {
             Prop::Shorthand(i) => {
