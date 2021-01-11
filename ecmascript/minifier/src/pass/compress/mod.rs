@@ -1,6 +1,6 @@
 use crate::util::Optional;
 use drop_console::drop_console;
-use swc_ecma_visit::VisitMutWith;
+use serde::Deserialize;
 use std::borrow::Cow;
 use swc_common::chain;
 use swc_common::pass::CompilerPass;
@@ -12,18 +12,19 @@ use swc_ecma_transforms::pass::JsPass;
 use swc_ecma_visit::as_folder;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
+use swc_ecma_visit::VisitMutWith;
 
 mod drop_console;
 
-#[derive(Debug, Clone, Default)]
-pub struct CompressorOptions {
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct CompressOptions {
     /// Should we simplify expressions?
     pub expr: bool,
     pub drop_console: bool,
     pub reduce_vars: bool,
 }
 
-pub fn compressor(options: &CompressorOptions) -> impl '_ + JsPass {
+pub fn compressor(options: &CompressOptions) -> impl '_ + JsPass {
     let console_remover = Optional {
         enabled: options.drop_console,
         visitor: drop_console(),
@@ -52,7 +53,7 @@ pub fn compressor(options: &CompressorOptions) -> impl '_ + JsPass {
 
 #[derive(Debug)]
 struct Compressor<'a> {
-    options: &'a CompressorOptions,
+    options: &'a CompressOptions,
     changed: bool,
     pass: usize,
 }

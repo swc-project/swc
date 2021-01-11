@@ -55,8 +55,8 @@ pub fn optimize(mut m: Module, timings: &mut Option<Timings>, options: &Options)
     if let Some(_t) = timings {
         // TODO: store `compress`
     }
-    if options.compress {
-        m = m.fold_with(&mut compressor(&Default::default()));
+    if let Some(options) = &options.compress {
+        m = m.fold_with(&mut compressor(&options));
         // Again, we don't need to validate ast
     }
 

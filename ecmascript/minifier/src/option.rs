@@ -1,3 +1,4 @@
+use crate::pass::compress::CompressOptions;
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
@@ -5,7 +6,7 @@ use serde::Deserialize;
 pub struct Options {
     pub arguments: bool,
     pub rename: bool,
-    pub compress: bool,
+    pub compress: Option<CompressOptions>,
     pub mangle: Option<MangleOptions>,
     pub wrap: bool,
     pub enclose: bool,
