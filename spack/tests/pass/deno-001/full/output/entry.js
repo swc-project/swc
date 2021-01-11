@@ -234,7 +234,7 @@ function chunkedBodyReader(h, r1) {
                 return chunkSize;
             }
         } else {
-            assert4(chunkSize === 0);
+            assert3(chunkSize === 0);
             // Consume \r\n
             if (await r1.readLine() === null) throw new Deno.errors.UnexpectedEof();
             await readTrailers(h, r1);
@@ -336,7 +336,7 @@ class BufReader {
                 this.eof = true;
                 return;
             }
-            assert3(rr >= 0, "negative read");
+            assert2(rr >= 0, "negative read");
             this.w += rr;
             if (rr > 0) return;
         }
@@ -366,7 +366,7 @@ class BufReader {
                 // Read directly into p to avoid copy.
                 const rr1 = await this.rd.read(p);
                 const nread = rr1 ?? 0;
-                assert3(nread >= 0, "negative read");
+                assert2(nread >= 0, "negative read");
                 // if (rr.nread > 0) {
                 //   this.lastByte = p[rr.nread - 1];
                 //   this.lastCharSize = -1;
@@ -379,7 +379,7 @@ class BufReader {
             this.w = 0;
             rr = await this.rd.read(this.buf);
             if (rr === 0 || rr === null) return rr;
-            assert3(rr >= 0, "negative read");
+            assert2(rr >= 0, "negative read");
             this.w += rr;
         }
         // copy as much as we can
@@ -468,7 +468,7 @@ class BufReader {
             line = await this.readSlice(LF);
         } catch (err) {
             let { partial: partial1  } = err;
-            assert3(partial1 instanceof Uint8Array, "bufio: caught error from `readSlice()` without `partial` property");
+            assert2(partial1 instanceof Uint8Array, "bufio: caught error from `readSlice()` without `partial` property");
             // Don't throw if `readSlice()` failed with `BufferFullError`, instead we
             // just return whatever is available and set the `more` flag.
             if (!(err instanceof BufferFullError)) throw err;
@@ -476,7 +476,7 @@ class BufReader {
             if (!this.eof && partial1.byteLength > 0 && partial1[partial1.byteLength - 1] === CR) {
                 // Put the '\r' back on buf and drop it from line.
                 // Let the next call to ReadLine check for "\r\n".
-                assert3(this.r > 0, "bufio: tried to rewind past start of buffer");
+                assert2(this.r > 0, "bufio: tried to rewind past start of buffer");
                 this.r--;
                 partial1 = partial1.subarray(0, partial1.byteLength - 1);
             }
@@ -806,7 +806,7 @@ const BufWriter3 = BufWriter1;
 const encoder1 = encoder;
 const encoder2 = encoder1;
 async function writeChunkedBody(w, r2) {
-    const writer = BufWriter3.create(w);
+    const writer = BufWriter2.create(w);
     for await (const chunk of Deno.iter(r2)){
         if (chunk.byteLength <= 0) continue;
         const start = encoder2.encode(`${chunk.byteLength.toString(16)}\r\n`);
@@ -823,7 +823,7 @@ async function writeTrailers(w, headers, trailers) {
     if (trailer === null) throw new TypeError("Missing trailer header.");
     const transferEncoding = headers.get("transfer-encoding");
     if (transferEncoding === null || !transferEncoding.match(/^chunked/)) throw new TypeError(`Trailers are only allowed for "transfer-encoding: chunked", got "transfer-encoding: ${transferEncoding}".`);
-    const writer = BufWriter3.create(w);
+    const writer = BufWriter2.create(w);
     const trailerNames = trailer.split(",").map((s)=>s.trim().toLowerCase()
     );
     const prohibitedTrailers = trailerNames.filter((k)=>isProhibidedForTrailer(k)
@@ -846,7 +846,7 @@ async function writeResponse(w, r2) {
     const protoMinor = 1;
     const statusCode = r2.status || 200;
     const statusText = STATUS_TEXT2.get(statusCode);
-    const writer = BufWriter3.create(w);
+    const writer = BufWriter2.create(w);
     if (!statusText) throw new Deno.errors.InvalidData("Bad status code");
     if (!r2.body) r2.body = new Uint8Array();
     if (typeof r2.body === "string") r2.body = encoder2.encode(r2.body);
@@ -860,16 +860,16 @@ async function writeResponse(w, r2) {
     out += `\r\n`;
     const header = encoder2.encode(out);
     const n = await writer.write(header);
-    assert4(n === header.byteLength);
+    assert3(n === header.byteLength);
     if (r2.body instanceof Uint8Array) {
         const n1 = await writer.write(r2.body);
-        assert4(n1 === r2.body.byteLength);
+        assert3(n1 === r2.body.byteLength);
     } else if (headers.has("content-length")) {
         const contentLength = headers.get("content-length");
-        assert4(contentLength != null);
+        assert3(contentLength != null);
         const bodyLength = parseInt(contentLength);
         const n1 = await Deno.copy(r2.body, writer);
-        assert4(n1 === bodyLength);
+        assert3(n1 === bodyLength);
     } else await writeChunkedBody(writer, r2.body);
     if (r2.trailers) {
         const t = await r2.trailers();
@@ -960,7 +960,7 @@ class ServerRequest {
                 if (transferEncoding != null) {
                     const parts = transferEncoding.split(",").map((e)=>e.trim().toLowerCase()
                     );
-                    assert2(parts.includes("chunked"), 'transfer-encoding must include "chunked" if content-length is not set');
+                    assert4(parts.includes("chunked"), 'transfer-encoding must include "chunked" if content-length is not set');
                     this._body = chunkedBodyReader2(this.headers, this.r);
                 } else // Neither content-length nor transfer-encoding: chunked
                 this._body = emptyReader2();
@@ -1111,7 +1111,7 @@ class Server {
     // Yields all HTTP requests on a single TCP connection.
     async *iterateHttpRequests(conn) {
         const reader = new BufReader2(conn);
-        const writer = new BufWriter2(conn);
+        const writer = new BufWriter3(conn);
         while(!this.closing){
             let request;
             try {
