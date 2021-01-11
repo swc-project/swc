@@ -1,8 +1,11 @@
-const a2 = 1;
-const b1 = 2;
-const c1 = 3;
+const a = 1;
+const b = 2;
+const c = 3;
 const a1 = a;
-console.log(a1);
-export { a2 as a };
-export { b1 as b };
-export { c1 as c };
+const a2 = a1;
+console.log(a2);
+const b1 = b;
+const c1 = c;
+export { a as a };
+export { b as b };
+export { c as c };

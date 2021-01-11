@@ -5,10 +5,12 @@ const mod = function() {
     const c = "c";
     class C {
     }
+    const c1 = c;
     const __default = C;
+    const __default1 = __default;
     return {
-        c: c,
-        default: __default
+        c: c1,
+        default: __default1
     };
 }();
 const c = mod;
