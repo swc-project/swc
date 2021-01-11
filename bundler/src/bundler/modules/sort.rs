@@ -673,7 +673,7 @@ impl Visit for RequirementCalculartor {
     }
 }
 
-fn calc_deps(new: &[ModuleItem]) -> (StmtDepGraph) {
+fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
     let mut graph = StmtDepGraph::default();
 
     let mut declared_by = HashMap::<Id, Vec<usize>>::default();
