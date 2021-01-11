@@ -4,37 +4,13 @@ error[1005]: Expected ','
 2 | var {h?} = { h?: 1 };
   |       ^
 
-error[1005]: Expected ','
- --> $DIR/tests/typescript-errors/tsc/es6/destructuring/destructuringObjectBindingPatternAndAssignment3/input.ts:2:8
-  |
-2 | var {h?} = { h?: 1 };
-  |        ^
-
 error[1162]: An object member cannot be declared optional
  --> $DIR/tests/typescript-errors/tsc/es6/destructuring/destructuringObjectBindingPatternAndAssignment3/input.ts:2:15
   |
 2 | var {h?} = { h?: 1 };
   |               ^
 
-error[1005]: Expected ','
- --> $DIR/tests/typescript-errors/tsc/es6/destructuring/destructuringObjectBindingPatternAndAssignment3/input.ts:3:7
-  |
-3 | var {i}: string | number = { i: 2 };
-  |       ^
-
-error[1005]: Expected ','
- --> $DIR/tests/typescript-errors/tsc/es6/destructuring/destructuringObjectBindingPatternAndAssignment3/input.ts:4:8
-  |
-4 | var {i1}: string | number| {} = { i1: 2 };
-  |        ^
-
-error[1005]: Expected ','
- --> $DIR/tests/typescript-errors/tsc/es6/destructuring/destructuringObjectBindingPatternAndAssignment3/input.ts:5:15
-  |
-5 | var { f2: {f21} = { f212: "string" } }: any = undefined;
-  |               ^
-
-error[1005]: Expected ','
+error: Unexpected token `}`. Expected an identifier
  --> $DIR/tests/typescript-errors/tsc/es6/destructuring/destructuringObjectBindingPatternAndAssignment3/input.ts:6:7
   |
 6 | var {1} = { 1 };
@@ -46,7 +22,7 @@ error[1005]: Expected a semicolon
 6 | var {1} = { 1 };
   |               ^
 
-error[1005]: Expected ','
+error: Unexpected token `}`. Expected an identifier
  --> $DIR/tests/typescript-errors/tsc/es6/destructuring/destructuringObjectBindingPatternAndAssignment3/input.ts:7:12
   |
 7 | var {"prop"} = { "prop": 1 };

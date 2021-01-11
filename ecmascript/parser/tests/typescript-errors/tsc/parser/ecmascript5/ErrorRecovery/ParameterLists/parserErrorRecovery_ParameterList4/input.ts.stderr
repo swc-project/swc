@@ -4,3 +4,9 @@ error: Unexpected character '¬'
 1 | function f(a,¬) {
   |              ^
 
+error: Expected ), got {
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ParameterLists/parserErrorRecovery_ParameterList4/input.ts:1:17
+  |
+1 | function f(a,¬) {
+  |                 ^
+
