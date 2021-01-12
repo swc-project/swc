@@ -27,7 +27,7 @@ once_cell = "1"
 owning_ref = "0.4"
 parking_lot = {version = "0.7.1", optional = true}
 scoped-tls = {version = "1"}
-serde = {version = "1", features = ["derive"]}
+serde = {version = "1.0.119", features = ["derive"]}
 sourcemap = {version = "6", optional = true}
 string_cache = "0.8.1"
 swc_eq_ignore_macros = {version = "0.1", path = "../macros/eq_ignore"}
