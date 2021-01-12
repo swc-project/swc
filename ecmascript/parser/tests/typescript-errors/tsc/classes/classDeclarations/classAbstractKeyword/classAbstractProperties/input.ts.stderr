@@ -1,0 +1,12 @@
+error[1243]: 'private' modifier cannot be used with 'abstract' modifier
+ --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classAbstractKeyword/classAbstractProperties/input.ts:5:22
+  |
+5 |     private abstract w : number;
+  |                      ^
+
+error[1243]: 'private' modifier cannot be used with 'abstract' modifier
+  --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classAbstractKeyword/classAbstractProperties/input.ts:12:22
+   |
+12 |     private abstract foo_w() : number;
+   |                      ^^^^^
+
