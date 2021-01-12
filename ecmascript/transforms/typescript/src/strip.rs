@@ -1,5 +1,6 @@
 use fxhash::FxHashMap;
 use serde::{Deserialize, Serialize};
+use std::iter::once;
 use std::mem::take;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP};
@@ -514,6 +515,7 @@ impl Strip {
             TsNamespaceBody::TsModuleBlock(body) => body,
             TsNamespaceBody::TsNamespaceDecl(_) => return None,
         };
+        let mut hoisted_vars = vec![];
         let mut init_stmts = vec![];
 
         let var = VarDeclarator {
@@ -535,10 +537,25 @@ impl Strip {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     span, decl, ..
                 })) => {
-                    let decl_name = match &decl {
-                        Decl::Class(c) => c.ident.clone(),
-                        Decl::Fn(f) => f.ident.clone(),
+                    let decl_name = match decl {
+                        Decl::Class(ref c) => c.ident.clone(),
+                        Decl::Fn(ref f) => f.ident.clone(),
                         Decl::Var(v) => {
+                            for decl in v.decls {
+                                match decl.name {
+                                    Pat::Ident(_) => {}
+                                    _ => {
+                                        let var_name = private_ident!("ref");
+                                        hoisted_vars.push(VarDeclarator {
+                                            span: DUMMY_SP,
+                                            name: Pat::Ident(var_name),
+                                            init: None,
+                                            definite: false,
+                                        });
+                                    }
+                                }
+                            }
+
                             // TODO: Implement this using alias.
                             continue;
                         }
@@ -587,7 +604,18 @@ impl Strip {
                 span: DUMMY_SP,
                 body: Some(BlockStmt {
                     span: DUMMY_SP,
-                    stmts: init_stmts,
+                    stmts: if hoisted_vars.is_empty() {
+                        init_stmts
+                    } else {
+                        once(Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            declare: false,
+                            decls: hoisted_vars,
+                        })))
+                        .chain(init_stmts)
+                        .collect()
+                    },
                 }),
                 is_generator: false,
                 is_async: false,
@@ -952,8 +980,6 @@ impl VisitMut for Strip {
                     function: Function { body: None, .. },
                     ..
                 }))
-                | Stmt::Decl(Decl::TsInterface(..))
-                | Stmt::Decl(Decl::TsModule(..))
                 | Stmt::Decl(Decl::TsTypeAlias(..)) => continue,
 
                 _ => {
@@ -1063,10 +1089,6 @@ impl VisitMut for Strip {
                 | ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(..)))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::TsInterface(..),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::TsModule(..),
                     ..
                 }))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
