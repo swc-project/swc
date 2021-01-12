@@ -1200,8 +1200,19 @@ impl<'a, I: Tokens> Parser<I> {
         // $obj.name
         if eat!(self, '.') {
             if is!(self, '`') {
-                let tpl = self.parse_tpl()?;
+                let tpl = self.parse_tpl().map(Expr::Tpl).map(Box::new)?;
                 self.emit_err(tpl.span(), SyntaxError::InvalidTemplateMember);
+                let span = span!(self, obj.span().lo());
+                return Ok((
+                    Box::new(wrap!(Expr::Member(MemberExpr {
+                        span,
+                        obj,
+
+                        prop: tpl,
+                        computed: false,
+                    }))),
+                    true,
+                ));
             }
 
             let prop: Box<Expr> = Box::new(self.parse_maybe_private_name().map(|e| match e {
