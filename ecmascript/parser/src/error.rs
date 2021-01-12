@@ -273,6 +273,7 @@ pub enum SyntaxError {
     DotAfterUpdate,
     InvalidOptional,
     InvalidTemplateMember,
+    ExpectedGt,
 }
 
 impl SyntaxError {
@@ -362,7 +363,8 @@ impl SyntaxError {
             | SyntaxError::ExpectedRBracket
             | SyntaxError::ExpectedStatement
             | SyntaxError::DotAfterUpdate
-            | SyntaxError::InvalidOptional => Some(1005),
+            | SyntaxError::InvalidOptional
+            | SyntaxError::ExpectedGt => Some(1005),
 
             SyntaxError::InvalidReadonly => Some(1354),
 
@@ -801,6 +803,7 @@ impl SyntaxError {
             SyntaxError::InvalidTemplateMember => {
                 "Tagged template expressions are not permitted in an optional chain".into()
             }
+            SyntaxError::ExpectedGt => "Expected '>'".into(),
         }
     }
 }
