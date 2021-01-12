@@ -196,7 +196,18 @@ impl<'a, I: Tokens> Parser<I> {
                 };
 
                 bump!(self);
-                let right = self.parse_assignment_expr()?;
+                let right = self.parse_assignment_expr();
+                let right = match right {
+                    Ok(v) => v,
+                    Err(err) => {
+                        let span = err.span();
+                        if self.errors_for_backtraing.is_some() {
+                            return Err(err);
+                        }
+
+                        Box::new(Expr::Invalid(Invalid { span }))
+                    }
+                };
                 Ok(Box::new(Expr::Assign(AssignExpr {
                     span: span!(self, start),
                     op,
