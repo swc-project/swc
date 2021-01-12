@@ -558,10 +558,10 @@ impl Strip {
                     let right = Box::new(Expr::Ident(decl_name));
 
                     init_stmts.push(Stmt::Expr(ExprStmt {
-                        span: DUMMY_SP,
+                        span,
                         expr: Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            op: AssignOp::Assign,
+                            op: op!("="),
                             left,
                             right,
                         })),
@@ -595,10 +595,25 @@ impl Strip {
             },
         };
 
+        let init_arg = BinExpr {
+            span: DUMMY_SP,
+            left: Box::new(Expr::Ident(module_name.clone())),
+            op: op!("||"),
+            right: Box::new(Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: op!("="),
+                left: PatOrExpr::Pat(Box::new(Pat::Ident(module_name.clone()))),
+                right: Box::new(Expr::Object(ObjectLit {
+                    span: DUMMY_SP,
+                    props: Default::default(),
+                })),
+            })),
+        };
+
         let initializer = Box::new(Expr::Call(CallExpr {
             span: DUMMY_SP,
             callee: init_fn_expr.as_callee(),
-            args: vec![module_name.as_arg()],
+            args: vec![init_arg.as_arg()],
             type_args: Default::default(),
         }));
 
