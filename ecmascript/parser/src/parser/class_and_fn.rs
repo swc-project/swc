@@ -90,7 +90,7 @@ impl<'a, I: Tokens> Parser<I> {
         };
         self.with_ctx(ctx).strict_mode().parse_with(|p| {
             expect!(p, "class");
-            let ident_required_span = span!(p, start);
+            let ident_required_span = p.input.prev_span();
 
             let ident = p.parse_opt_binding_ident()?;
             if let Some(span) = ident.invalid_class_name() {
