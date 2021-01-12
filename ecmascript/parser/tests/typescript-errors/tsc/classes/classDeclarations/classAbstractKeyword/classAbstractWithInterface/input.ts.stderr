@@ -1,6 +1,6 @@
-error[2427]: interface name is invalid
+error[1242]: 'abstract' modifier can only appear on a class, method, or property declaration.
  --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classAbstractKeyword/classAbstractWithInterface/input.ts:1:1
   |
-1 | abstract interface I {}
+1 | abstract interface I { }
   | ^^^^^^^^
 
