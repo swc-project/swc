@@ -1,0 +1,12 @@
+error[1030]: 'readonly' modifier already seen.
+ --> $DIR/tests/typescript-errors/tsc/classes/constructorDeclarations/constructorParameters/readonlyReadonly/input.ts:2:14
+  |
+2 |     readonly readonly x: number;
+  |              ^^^^^^^^
+
+error[1030]: 'readonly' modifier already seen.
+ --> $DIR/tests/typescript-errors/tsc/classes/constructorDeclarations/constructorParameters/readonlyReadonly/input.ts:3:26
+  |
+3 |     constructor(readonly readonly y: number) {}
+  |                          ^^^^^^^^
+
