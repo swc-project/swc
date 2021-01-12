@@ -1,0 +1,6 @@
+error[1029]: 'public' modifier must precede 'readonly' modifier.
+ --> $DIR/tests/typescript-errors/tsc/classes/constructorDeclarations/constructorParameters/readonlyInConstructorParameters/input.ts:3:26
+  |
+3 |     constructor(readonly public x: number) { }
+  |                          ^^^^^^
+
