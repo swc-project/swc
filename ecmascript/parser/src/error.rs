@@ -249,6 +249,9 @@ pub enum SyntaxError {
     AccessibilityModifierShouldPrecedeAbstract {
         accessibility: JsWord,
     },
+    AccessibilityModifierShouldPrecedeReadonly {
+        accessiblity: JsWord,
+    },
     AccessibilityModifierShouldPrecedeStatic {
         accessibility: JsWord,
     },
@@ -342,7 +345,9 @@ impl SyntaxError {
             SyntaxError::IndexSignatureMustBeStringOrNunmber => Some(1023),
             SyntaxError::ExpectedBlock => Some(1005),
             SyntaxError::NonLastRestParam => Some(1014),
-            SyntaxError::AccessibilityModifierShouldPrecedeAbstract { .. } => Some(1029),
+            SyntaxError::AccessibilityModifierShouldPrecedeAbstract { .. }
+            | SyntaxError::AccessibilityModifierShouldPrecedeReadonly { .. } => Some(1029),
+
             SyntaxError::AccessibilityModifierShouldPrecedeStatic { .. } => Some(1029),
             SyntaxError::InvalidModifierUsedWithAbstract { .. } => Some(1243),
 
@@ -813,6 +818,11 @@ impl SyntaxError {
                                                      class, method, or property declaration."
                 .into(),
             SyntaxError::InvalidAsyncModifier => "'async' modifier cannot be used here.".into(),
+            SyntaxError::AccessibilityModifierShouldPrecedeReadonly { accessiblity } => format!(
+                "'{}' modifier must precede 'readonly' modifier.",
+                accessiblity
+            )
+            .into(),
         }
     }
 }

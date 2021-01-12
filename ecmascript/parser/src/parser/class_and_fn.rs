@@ -676,6 +676,23 @@ impl<'a, I: Tokens> Parser<I> {
             && !is_abstract
             && !is_override
             && accessibility.is_none()
+        if readonly
+            && is_one_of!(self, "private", "protected", "public")
+            && peeked_is!(self, IdentName)
+        {
+            let accesss_modifier_span = self.input.cur_span();
+
+            let modifier = self.parse_ident_name()?.sym;
+
+            self.emit_err(
+                accesss_modifier_span,
+                SyntaxError::AccessibilityModifierShouldPrecedeReadonly {
+                    accessiblity: modifier,
+                },
+            )
+        }
+
+        if self.input.syntax().typescript() && !is_abstract && !is_static && accessibility.is_none()
         {
             let idx = self.try_parse_ts_index_signature(start, readonly.is_some(), is_static)?;
             if let Some(idx) = idx {
