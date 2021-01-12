@@ -541,9 +541,28 @@ impl Strip {
                         Decl::Class(ref c) => c.ident.clone(),
                         Decl::Fn(ref f) => f.ident.clone(),
                         Decl::Var(v) => {
+                            let mut exprs = vec![];
                             for decl in v.decls {
                                 match decl.name {
-                                    Pat::Ident(_) => {}
+                                    Pat::Ident(name) => {
+                                        //
+                                        let left =
+                                            PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                                                span: DUMMY_SP,
+                                                obj: private_name.clone().as_obj(),
+                                                prop: Box::new(Expr::Ident(name.clone())),
+                                                computed: false,
+                                            })));
+
+                                        let right = Box::new(Expr::Ident(name));
+
+                                        exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                            span: DUMMY_SP,
+                                            op: op!("="),
+                                            left,
+                                            right,
+                                        })))
+                                    }
                                     _ => {
                                         let var_name = private_ident!("ref");
                                         hoisted_vars.push(VarDeclarator {
@@ -552,9 +571,28 @@ impl Strip {
                                             init: None,
                                             definite: false,
                                         });
+
+                                        // exprs.push(Box::new(Expr::
+                                        // Assign(AssignExpr {
+                                        //     span: DUMMY_SP,
+                                        //     op: op!("="),
+                                        //     left,
+                                        //     right,
+                                        // })))
                                     }
                                 }
                             }
+                            init_stmts.push(Stmt::Expr(ExprStmt {
+                                span: DUMMY_SP,
+                                expr: if exprs.len() == 1 {
+                                    exprs.into_iter().next().unwrap()
+                                } else {
+                                    Box::new(Expr::Seq(SeqExpr {
+                                        span: DUMMY_SP,
+                                        exprs,
+                                    }))
+                                },
+                            }));
 
                             // TODO: Implement this using alias.
                             continue;
