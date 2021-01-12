@@ -1138,6 +1138,7 @@ impl VisitMut for Strip {
                     decl: DefaultDecl::TsInterfaceDecl(..),
                     ..
                 }))
+                | ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExport(..))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::Class(ClassDecl { declare: true, .. }),
                     ..
