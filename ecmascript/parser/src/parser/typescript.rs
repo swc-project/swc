@@ -666,7 +666,7 @@ impl<I: Tokens> Parser<I> {
                 self.input.cur_span(),
                 SyntaxError::InvalidEnumMemberFollowing,
             );
-            None
+            Some(self.parse_assignment_expr()?)
         } else if eat!(self, '=') {
             Some(self.parse_assignment_expr()?)
         } else if is!(self, ',') || is!(self, '}') {
