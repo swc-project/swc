@@ -912,7 +912,7 @@ impl<I: Tokens> Parser<I> {
             }) if is!(self, "is") => {
                 assert_and_bump!(self, "is");
 
-                self.emit_err(self.input.prev_span(), SyntaxError::ExpectedGt);
+                self.emit_err(self.input.prev_span(), SyntaxError::TypePredicateNotAllowed);
                 let ty = self.in_type().parse_ts_type_ann(false, start).map(Some)?;
                 let span = span!(self, start);
                 type_ann = Box::new(TsType::TsTypePredicate(TsTypePredicate {
