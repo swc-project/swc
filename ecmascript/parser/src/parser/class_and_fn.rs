@@ -657,6 +657,15 @@ impl<'a, I: Tokens> Parser<I> {
                     );
                 }
 
+                if let Some(Accessibility::Private) = accessibility {
+                    self.emit_err(
+                        self.input.cur_span(),
+                        SyntaxError::InvalidModifierUsedWithAbstract {
+                            modifier: "private",
+                        },
+                    );
+                }
+
                 (true, self.parse_ts_modifier(&["readonly"])?.is_some())
             }
             Some("readonly") => (self.parse_ts_modifier(&["abstract"])?.is_some(), true),
