@@ -642,35 +642,35 @@ impl<'a, I: Tokens> Parser<I> {
             );
         }
         let (is_abstract, readonly) = match modifier {
-            Some("abstract") => {
-                if !self.ctx().in_abstract_class {
-                    self.emit_err(
-                        modifier_span.unwrap(),
-                        SyntaxError::AbstractMemberInNonAbstractClass,
-                    );
-                }
-
-                if let Some(static_token) = static_token {
-                    self.emit_err(
-                        static_token,
-                        SyntaxError::InvalidModifierUsedWithAbstract { modifier: "static" },
-                    );
-                }
-
-                if let Some(Accessibility::Private) = accessibility {
-                    self.emit_err(
-                        self.input.cur_span(),
-                        SyntaxError::InvalidModifierUsedWithAbstract {
-                            modifier: "private",
-                        },
-                    );
-                }
-
-                (true, self.parse_ts_modifier(&["readonly"])?.is_some())
-            }
+            Some("abstract") => (true, self.parse_ts_modifier(&["readonly"])?.is_some()),
             Some("readonly") => (self.parse_ts_modifier(&["abstract"])?.is_some(), true),
             _ => (false, false),
         };
+
+        if is_abstract {
+            if !self.ctx().in_abstract_class {
+                self.emit_err(
+                    modifier_span.unwrap(),
+                    SyntaxError::AbstractMemberInNonAbstractClass,
+                );
+            }
+
+            if let Some(static_token) = static_token {
+                self.emit_err(
+                    static_token,
+                    SyntaxError::InvalidModifierUsedWithAbstract { modifier: "static" },
+                );
+            }
+
+            if let Some(Accessibility::Private) = accessibility {
+                self.emit_err(
+                    self.input.cur_span(),
+                    SyntaxError::InvalidModifierUsedWithAbstract {
+                        modifier: "private",
+                    },
+                );
+            }
+        }
 
         if self.input.syntax().typescript()
             && !is_abstract
