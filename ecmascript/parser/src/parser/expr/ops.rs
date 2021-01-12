@@ -293,6 +293,9 @@ impl<'a, I: Tokens> Parser<I> {
             let arg = match self.parse_unary_expr() {
                 Ok(expr) => expr,
                 Err(err) => {
+                    if self.errors_for_backtraing.is_some() {
+                        return Err(err);
+                    }
                     self.emit_error(err);
                     Box::new(Expr::Invalid(Invalid {
                         span: Span::new(arg_start, arg_start, Default::default()),
