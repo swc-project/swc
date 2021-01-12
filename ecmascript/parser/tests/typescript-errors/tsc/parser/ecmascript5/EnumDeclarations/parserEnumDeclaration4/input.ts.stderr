@@ -1,0 +1,6 @@
+error[1359]: Expected an identifier, but found keyword
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/EnumDeclarations/parserEnumDeclaration4/input.ts:1:6
+  |
+1 | enum void {
+  |      ^^^^
+
