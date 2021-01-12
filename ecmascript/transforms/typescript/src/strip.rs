@@ -526,6 +526,8 @@ impl Strip {
         // This makes body valid javascript.
         body.body.visit_mut_with(self);
 
+        let private_name = private_ident!(module_name.sym.clone());
+
         for item in body.body {
             // Drop
 
@@ -550,7 +552,7 @@ impl Strip {
                     //
                     let left = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
                         span: DUMMY_SP,
-                        obj: module_name.clone().as_obj(),
+                        obj: private_name.clone().as_obj(),
                         prop: Box::new(Expr::Ident(decl_name.clone())),
                         computed: false,
                     })));
@@ -573,7 +575,6 @@ impl Strip {
             }
         }
 
-        let private_name = private_ident!(module_name.sym.clone());
         let init_fn_expr = FnExpr {
             ident: None,
             function: Function {
