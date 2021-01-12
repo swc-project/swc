@@ -1,0 +1,18 @@
+error[1005]: Type predicate is not allowed here
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeGuards/typeGuardFunctionErrors/input.ts:18:57
+   |
+18 | function hasTypeGuardTypeInsideTypeGuardType(x): x is x is A {
+   |                                                         ^^
+
+error: Expected ;, got true
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeGuards/typeGuardFunctionErrors/input.ts:31:12
+   |
+31 |     return true;
+   |            ^^^^
+
+error[1005]: Expected '}'
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeGuards/typeGuardFunctionErrors/input.ts:32:1
+   |
+32 | }
+   | ^
+
