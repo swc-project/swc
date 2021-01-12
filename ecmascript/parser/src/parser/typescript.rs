@@ -896,13 +896,13 @@ impl<I: Tokens> Parser<I> {
                 assert_and_bump!(self, "is");
 
                 self.emit_err(self.input.prev_span(), SyntaxError::ExpectedGt);
-                let type_ann = self.in_type().parse_ts_type_ann(false, start).map(Some)?;
+                let ty = self.in_type().parse_ts_type_ann(false, start).map(Some)?;
                 let span = span!(self, start);
                 type_ann = Box::new(TsType::TsTypePredicate(TsTypePredicate {
                     span,
                     asserts: false,
                     param_name: TsThisTypeOrIdent::Ident(param_name),
-                    type_ann,
+                    type_ann: ty,
                 }));
             }
             _ => {}
