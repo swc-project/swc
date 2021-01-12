@@ -501,6 +501,35 @@ impl Strip {
             .into_stmt(),
         ))
     }
+
+    /// Returns `(var_decl, init)`.
+    fn handle_ts_module(&mut self, module: TsModuleDecl) -> Option<(Decl, Stmt)> {
+        let name = match module.id {
+            TsModuleName::Ident(i) => i,
+            TsModuleName::Str(_) => return None,
+        };
+        let body = module.body?;
+
+        let var = VarDeclarator {
+            span: name.span,
+            name: Pat::Ident(name),
+            init: None,
+            definite: false,
+        };
+
+        Some((
+            Decl::Var(VarDecl {
+                span: module.span,
+                kind: VarDeclKind::Var,
+                declare: false,
+                decls: vec![var],
+            }),
+            Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr: initializer,
+            }),
+        ))
+    }
 }
 
 impl Visit for Strip {
@@ -765,7 +794,6 @@ impl VisitMut for Strip {
         match stmt {
             Stmt::Decl(ref decl) => match decl {
                 Decl::TsInterface(..)
-                | Decl::TsModule(..)
                 | Decl::TsTypeAlias(..)
                 | Decl::Var(VarDecl { declare: true, .. })
                 | Decl::Class(ClassDecl { declare: true, .. })
@@ -788,6 +816,15 @@ impl VisitMut for Strip {
             self.is_side_effect_import = false;
             match item {
                 Stmt::Empty(..) => continue,
+
+                Stmt::Decl(Decl::TsModule(module)) => {
+                    let (decl, init) = match self.handle_ts_module(module) {
+                        Some(v) => v,
+                        None => continue,
+                    };
+                    stmts.push(Stmt::Decl(decl));
+                    stmts.push(init)
+                }
 
                 Stmt::Decl(Decl::TsEnum(e)) => {
                     // var Foo;
@@ -891,13 +928,37 @@ impl VisitMut for Strip {
         for mut item in take(items) {
             self.is_side_effect_import = false;
             match item {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    span,
+                    decl: Decl::TsModule(module),
+                    ..
+                })) => {
+                    let (decl, init) = match self.handle_ts_module(module) {
+                        Some(v) => v,
+                        None => continue,
+                    };
+                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                        span,
+                        decl,
+                    })));
+                    stmts.push(init.into())
+                }
+
+                ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(module))) => {
+                    let (decl, init) = match self.handle_ts_module(module) {
+                        Some(v) => v,
+                        None => continue,
+                    };
+                    stmts.push(Stmt::Decl(decl).into());
+                    stmts.push(init.into())
+                }
+
                 // Strip out ts-only extensions
                 ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
                     function: Function { body: None, .. },
                     ..
                 })))
                 | ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(..)))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(..)))
                 | ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(..)))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::TsInterface(..),
@@ -931,7 +992,6 @@ impl VisitMut for Strip {
                     decl: DefaultDecl::TsInterfaceDecl(..),
                     ..
                 }))
-                | ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExport(..))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::Class(ClassDecl { declare: true, .. }),
                     ..
