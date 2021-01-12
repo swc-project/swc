@@ -280,6 +280,7 @@ pub enum SyntaxError {
     TypePredicateNotAllowed,
     InvalidAbstractModifier,
     InvalidAsyncModifier,
+    InvalidEnumMemberFollowing,
 }
 
 impl SyntaxError {
@@ -394,6 +395,7 @@ impl SyntaxError {
 
             SyntaxError::InvalidAbstractModifier => Some(1242),
             SyntaxError::InvalidAsyncModifier => Some(1042),
+            SyntaxError::InvalidEnumMemberFollowing => Some(1357),
 
             _ => None,
         }
@@ -826,6 +828,9 @@ impl SyntaxError {
             )
             .into(),
             SyntaxError::ReadonlyAlreadySeen => "'readonly' modifier already seen.".into(),
+            SyntaxError::InvalidEnumMemberFollowing => {
+                "An enum member name must be followed by a ',', '=', or '}'".into()
+            }
         }
     }
 }
