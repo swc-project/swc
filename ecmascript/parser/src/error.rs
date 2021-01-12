@@ -272,6 +272,7 @@ pub enum SyntaxError {
     ExpectedStatement,
     DotAfterUpdate,
     InvalidOptional,
+    InvalidTemplateMember,
 }
 
 impl SyntaxError {
@@ -377,6 +378,8 @@ impl SyntaxError {
             SyntaxError::ConstMustBeInitialized => Some(1155),
             SyntaxError::InvalidCodePoint => Some(1198),
             SyntaxError::TsRequiredAfterOptional => Some(1257),
+
+            SyntaxError::InvalidTemplateMember => Some(1358),
 
             _ => None,
         }
@@ -795,6 +798,9 @@ impl SyntaxError {
             SyntaxError::ExpectedStatement => "Expected a statement".into(),
             SyntaxError::DotAfterUpdate => "'.' cannot follow an update expression".into(),
             SyntaxError::InvalidOptional => "Unexpected '?'".into(),
+            SyntaxError::InvalidTemplateMember => {
+                "Tagged template expressions are not permitted in an optional chain".into()
+            }
         }
     }
 }

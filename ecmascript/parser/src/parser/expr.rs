@@ -1199,6 +1199,11 @@ impl<'a, I: Tokens> Parser<I> {
         // member expression
         // $obj.name
         if eat!(self, '.') {
+            if is!(self, '`') {
+                let tpl = self.parse_tpl()?;
+                self.emit_err(tpl.span(), SyntaxError::InvalidTemplateMember);
+            }
+
             let prop: Box<Expr> = Box::new(self.parse_maybe_private_name().map(|e| match e {
                 Either::Left(p) => Expr::PrivateName(p),
                 Either::Right(i) => Expr::Ident(i),
