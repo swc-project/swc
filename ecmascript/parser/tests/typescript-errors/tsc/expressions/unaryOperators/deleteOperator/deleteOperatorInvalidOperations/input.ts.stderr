@@ -1,0 +1,42 @@
+error[1005]: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/deleteOperator/deleteOperatorInvalidOperations/input.ts:5:20
+  |
+5 | var BOOLEAN1 = ANY delete ;     //expect error
+  |                    ^^^^^^
+
+error: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/deleteOperator/deleteOperatorInvalidOperations/input.ts:5:27
+  |
+5 | var BOOLEAN1 = ANY delete ;     //expect error
+  |                           ^
+
+error[2703]: The operand of a delete operator must be a property reference.
+ --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/deleteOperator/deleteOperatorInvalidOperations/input.ts:5:26
+  |
+5 | var BOOLEAN1 = ANY delete ;     //expect error
+  |                          ^
+
+error: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/deleteOperator/deleteOperatorInvalidOperations/input.ts:8:23
+  |
+8 | var BOOLEAN2 = delete ;
+  |                       ^
+
+error[2703]: The operand of a delete operator must be a property reference.
+ --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/deleteOperator/deleteOperatorInvalidOperations/input.ts:8:22
+  |
+8 | var BOOLEAN2 = delete ;
+  |                      ^
+
+error[1102]: 'delete' cannot be called on an identifier in strict mode
+  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/deleteOperator/deleteOperatorInvalidOperations/input.ts:13:16
+   |
+13 |         delete s;      //expect error
+   |                ^
+
+error[2703]: The operand of a delete operator must be a property reference.
+  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/deleteOperator/deleteOperatorInvalidOperations/input.ts:13:16
+   |
+13 |         delete s;      //expect error
+   |                ^
+

@@ -1,0 +1,12 @@
+error: Expected an expression after this
+ --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/plusOperator/plusOperatorInvalidOperations/input.ts:5:16
+  |
+5 | var result1 = b+;   //expect error
+  |                ^
+
+error: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/plusOperator/plusOperatorInvalidOperations/input.ts:8:15
+  |
+8 | var result2 =+;
+  |               ^
+
