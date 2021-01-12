@@ -94,12 +94,12 @@ impl<'a, I: Tokens> Parser<I> {
 
             let ident = p.parse_opt_binding_ident()?;
             if let Some(span) = ident.invalid_class_name() {
-                p.emit_err(span, SyntaxError::TS2414);
+                p.recover_hard_error(span, SyntaxError::TS2414)?;
             }
 
             match ident {
                 None if T::is_ident_required() => {
-                    p.emit_err(ident_required_span, SyntaxError::ExpectedIdentAfterThis);
+                    p.recover_hard_error(ident_required_span, SyntaxError::ExpectedIdentAfterThis)?;
                 }
                 _ => {}
             }
