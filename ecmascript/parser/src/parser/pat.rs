@@ -422,6 +422,14 @@ impl<'a, I: Tokens> Parser<I> {
             )
         }
 
+        if readonly && is!(self, "readonly") && peeked_is!(self, IdentName) {
+            let span = self.input.cur_span();
+
+            let modifier = self.parse_ident_name()?.sym;
+
+            self.emit_err(span, SyntaxError::ReadonlyAlreadySeen)
+        }
+
         if accessibility == None && !readonly {
             let pat = self.parse_formal_param_pat()?;
             Ok(ParamOrTsParamProp::Param(Param {

@@ -213,6 +213,7 @@ pub enum SyntaxError {
     TS1172,
     TS1173,
     ExtendsAlreadySeen,
+    ReadonlyAlreadySeen,
     TS1174,
     ImplementsAlreadySeen,
     ImplementationInAmbientContext,
@@ -317,6 +318,7 @@ impl SyntaxError {
             SyntaxError::TS1164 => Some(1164),
             SyntaxError::TS1171 => Some(1171),
             SyntaxError::ExtendsAlreadySeen => Some(1172),
+            SyntaxError::ReadonlyAlreadySeen => Some(1030),
             SyntaxError::TS1174 => Some(1174),
             SyntaxError::ImplementsAlreadySeen => Some(1175),
             SyntaxError::ImplementationInAmbientContext => Some(1183),
@@ -823,6 +825,7 @@ impl SyntaxError {
                 accessiblity
             )
             .into(),
+            SyntaxError::ReadonlyAlreadySeen => "'readonly' modifier already seen.".into(),
         }
     }
 }
