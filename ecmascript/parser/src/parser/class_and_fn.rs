@@ -1661,9 +1661,8 @@ impl<I: Tokens> FnBodyParser<Option<BlockStmt>> for Parser<I> {
             if eat!(self, ';') {
                 return Ok(None);
             }
-            let start = cur_pos!(self);
 
-            self.emit_err(span!(self, start), SyntaxError::ExpectedBlock);
+            self.emit_err(self.input.cur_span(), SyntaxError::ExpectedBlock);
 
             return Ok(None);
         }
