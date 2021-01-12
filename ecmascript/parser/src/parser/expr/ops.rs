@@ -107,6 +107,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }))
             } else {
                 let type_ann = self.next_then_parse_ts_type()?;
+                let type_ann = self.recover_from_invalid_ts_type_predicate(type_ann, start)?;
                 Box::new(Expr::TsAs(TsAsExpr {
                     span: span!(self, start),
                     expr,

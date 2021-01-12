@@ -887,7 +887,24 @@ impl<I: Tokens> Parser<I> {
         // Not actually necessary to set state.inType because we never reach here if JSX
         // plugin is enabled, but need `tsInType` to satisfy the assertion in
         // `tsParseType`.
-        let mut type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
+        let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
+        let type_ann = self.recover_from_invalid_ts_type_predicate(type_ann, start)?;
+
+        expect!(self, '>');
+        let expr = self.parse_unary_expr()?;
+        Ok(TsTypeAssertion {
+            span: span!(self, start),
+            type_ann,
+            expr,
+        })
+    }
+
+    /// Eats `is` and type.
+    pub(super) fn recover_from_invalid_ts_type_predicate(
+        &mut self,
+        mut type_ann: Box<TsType>,
+        start: BytePos,
+    ) -> PResult<Box<TsType>> {
         match *type_ann {
             TsType::TsTypeRef(TsTypeRef {
                 type_name: TsEntityName::Ident(param_name),
@@ -908,13 +925,7 @@ impl<I: Tokens> Parser<I> {
             _ => {}
         }
 
-        expect!(self, '>');
-        let expr = self.parse_unary_expr()?;
-        Ok(TsTypeAssertion {
-            span: span!(self, start),
-            type_ann,
-            expr,
-        })
+        Ok(type_ann)
     }
 
     /// `tsParseHeritageClause`
