@@ -4,21 +4,9 @@ error[1358]: Tagged template expressions are not permitted in an optional chain
 2 | a?.`b`;
   |    ^^^
 
-error: Expected ident
- --> $DIR/tests/typescript-errors/tsc/expressions/optionalChaining/taggedTemplateChain/taggedTemplateChain/input.ts:2:7
-  |
-2 | a?.`b`;
-  |       ^
-
 error[1358]: Tagged template expressions are not permitted in an optional chain
  --> $DIR/tests/typescript-errors/tsc/expressions/optionalChaining/taggedTemplateChain/taggedTemplateChain/input.ts:4:4
   |
 4 | a?.`b${1}c`;
   |    ^^^^^^^^
-
-error: Expected ident
- --> $DIR/tests/typescript-errors/tsc/expressions/optionalChaining/taggedTemplateChain/taggedTemplateChain/input.ts:4:12
-  |
-4 | a?.`b${1}c`;
-  |            ^
 
