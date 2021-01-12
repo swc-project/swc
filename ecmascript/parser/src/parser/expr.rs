@@ -447,12 +447,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        unexpected!(
-            self,
-            "this, import, async, function, [ for array literal, { for object literal, @ for \
-             decorator, function, class, null, true, false, number, bigint, string, regexp, ` for \
-             template literal, (, or an identifier"
-        )
+        syntax_error!(self, SyntaxError::ExpectedExpr)
     }
 
     fn parse_array_lit(&mut self) -> PResult<Box<Expr>> {
