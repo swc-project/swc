@@ -3348,18 +3348,18 @@ to!(
     ",
     "
     export var util;
-    (function (util) {
+    (function (util1) {
         function assertNever(_x) {
             throw new Error();
         }
-        util.assertNever = assertNever;
-        util.arrayToEnum = (items) => {
+        util1.assertNever = assertNever;
+        util1.arrayToEnum = (items) => {
         };
-        util.getValidEnumValues = (obj) => {
+        util1.getValidEnumValues = (obj) => {
         };
-        util.getValues = (obj) => {
+        util1.getValues = (obj) => {
         };
-        util.objectValues = (obj) => {
+        util1.objectValues = (obj) => {
         };
     })(util || (util = {}));
 
@@ -3376,10 +3376,10 @@ to!(
     ",
     "
     export var util;
-    (function (util) {
+    (function (util1) {
         var _a;
         const c = 3;
-        _a = [1, 2, 3], util.a = _a[0], util.b = _a[1];
+        _a = [1, 2, 3], util1.a = _a[0], util1.b = _a[1];
     })(util || (util = {}));
     "
 );
@@ -3400,11 +3400,11 @@ to!(
     ",
     "
     export var util;
-    (function (util) {
+    (function (util1) {
         const c = 3;
         function foo() {
         }
-        util.foo = foo;
+        util1.foo = foo;
         function bar() {
         }
     })(util || (util = {}));
