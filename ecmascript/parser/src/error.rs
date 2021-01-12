@@ -226,7 +226,7 @@ pub enum SyntaxError {
     TS2406,
     TS2410,
     TS2414,
-    TS2427,
+    InvalidInterfaceName,
     TS2452,
     TS2483,
     TS2491,
@@ -274,6 +274,8 @@ pub enum SyntaxError {
     InvalidOptional,
     InvalidTemplateMember,
     TypePredicateNotAllowed,
+    InvalidAbstractModifier,
+    InvalidAsyncModifier,
 }
 
 impl SyntaxError {
@@ -324,7 +326,7 @@ impl SyntaxError {
             SyntaxError::TS2406 => Some(2406),
             SyntaxError::TS2410 => Some(2410),
             SyntaxError::TS2414 => Some(2414),
-            SyntaxError::TS2427 => Some(2427),
+            SyntaxError::InvalidInterfaceName => Some(2427),
             SyntaxError::TS2452 => Some(2452),
             SyntaxError::TS2483 => Some(2483),
             SyntaxError::TS2491 => Some(2491),
@@ -382,6 +384,9 @@ impl SyntaxError {
             SyntaxError::TsRequiredAfterOptional => Some(1257),
 
             SyntaxError::InvalidTemplateMember => Some(1358),
+
+            SyntaxError::InvalidAbstractModifier => Some(1242),
+            SyntaxError::InvalidAsyncModifier => Some(1042),
 
             _ => None,
         }
@@ -709,7 +714,7 @@ impl SyntaxError {
                                     'with' block will have type 'any'."
                 .into(),
             SyntaxError::TS2414 => "Invalid class name".into(),
-            SyntaxError::TS2427 => "interface name is invalid".into(),
+            SyntaxError::InvalidInterfaceName => "interface name is invalid".into(),
             SyntaxError::TS2452 => "An enum member cannot have a numeric name".into(),
             SyntaxError::TS2483 => {
                 "The left-hand side of a 'for...of' statement cannot use a type annotation".into()
@@ -804,6 +809,10 @@ impl SyntaxError {
                 "Tagged template expressions are not permitted in an optional chain".into()
             }
             SyntaxError::TypePredicateNotAllowed => "Type predicate is not allowed here".into(),
+            SyntaxError::InvalidAbstractModifier => "'abstract' modifier can only appear on a \
+                                                     class, method, or property declaration."
+                .into(),
+            SyntaxError::InvalidAsyncModifier => "'async' modifier cannot be used here.".into(),
         }
     }
 }

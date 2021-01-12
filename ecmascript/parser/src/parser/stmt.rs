@@ -457,7 +457,7 @@ impl<'a, I: Tokens> Parser<I> {
                 Expr::Ident(ref i) => match i.sym {
                     js_word!("public") | js_word!("static") | js_word!("abstract") => {
                         if eat!(self, "interface") {
-                            self.emit_err(i.span, SyntaxError::TS2427);
+                            self.emit_err(i.span, SyntaxError::InvalidAbstractModifier);
                             return self
                                 .parse_ts_interface_decl(start)
                                 .map(Decl::from)
@@ -467,7 +467,7 @@ impl<'a, I: Tokens> Parser<I> {
                     js_word!("async") => {
                         // Recover from async interface
                         if eat!(self, "interface") {
-                            self.emit_err(i.span, SyntaxError::TS2427);
+                            self.emit_err(i.span, SyntaxError::InvalidAsyncModifier);
                             return self
                                 .parse_ts_interface_decl(start)
                                 .map(Decl::from)

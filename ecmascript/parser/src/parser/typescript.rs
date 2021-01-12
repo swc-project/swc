@@ -981,7 +981,7 @@ impl<I: Tokens> Parser<I> {
             | js_word!("void")
             | js_word!("never")
             | js_word!("intrinsic") => {
-                self.emit_err(id.span, SyntaxError::TS2427);
+                self.emit_err(id.span, SyntaxError::InvalidInterfaceName);
             }
             _ => {}
         }
