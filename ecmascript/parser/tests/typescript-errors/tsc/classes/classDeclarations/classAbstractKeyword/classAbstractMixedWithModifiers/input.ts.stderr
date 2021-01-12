@@ -34,7 +34,13 @@ error[1243]: 'async' modifier cannot be used with 'abstract' modifier
 15 |     abstract async foo_f();
    |              ^^^^^
 
-error: Expected (, got foo_g
+error[1005]: Expected '('
+  --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classAbstractKeyword/classAbstractMixedWithModifiers/input.ts:16:20
+   |
+16 |     async abstract foo_g();
+   |                    ^^^^^
+
+error[1005]: Expected '{'
   --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classAbstractKeyword/classAbstractMixedWithModifiers/input.ts:16:20
    |
 16 |     async abstract foo_g();
