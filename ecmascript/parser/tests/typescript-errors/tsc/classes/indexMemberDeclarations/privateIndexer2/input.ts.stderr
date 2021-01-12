@@ -16,7 +16,7 @@ error: Expected ;, got [
 8 |     private[x: string]: string;
   |            ^
 
-error: Unexpected token `:`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
+error: Expected an expression
  --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer2/input.ts:8:14
   |
 8 |     private[x: string]: string;
