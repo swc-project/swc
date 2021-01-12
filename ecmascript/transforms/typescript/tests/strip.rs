@@ -3377,9 +3377,8 @@ to!(
     "
     export var util;
     (function (util1) {
-        var _a;
         const c = 3;
-        _a = [1, 2, 3], util1.a = _a[0], util1.b = _a[1];
+        [util1.a, util1.b] = [1, 2, 3];
     })(util || (util = {}));
     "
 );

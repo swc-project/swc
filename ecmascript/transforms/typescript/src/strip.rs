@@ -556,13 +556,11 @@ impl Strip {
                                                 computed: false,
                                             })));
 
-                                        let right = Box::new(Expr::Ident(name));
-
                                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                                             span: DUMMY_SP,
                                             op: op!("="),
                                             left,
-                                            right,
+                                            right: init,
                                         })))
                                     }
                                     _ => {
