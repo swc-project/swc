@@ -90,7 +90,7 @@ pub fn expand(
                             {
                                 match std::result::Result::map(
                                     <VariantFieldType as serde::Deserialize>::deserialize(
-                                        serde::private::de::ContentRefDeserializer::<D::Error>::new(
+                                        serde::__private::de::ContentRefDeserializer::<D::Error>::new(
                                             &content,
                                         ),
                                     ),
@@ -120,7 +120,7 @@ pub fn expand(
                                     if TAGS.contains(&&*ty.ty) {
                                         return std::result::Result::map(
                                             <VariantFieldType as serde::Deserialize>::deserialize(
-                                                serde::private::de::ContentRefDeserializer::<
+                                                serde::__private::de::ContentRefDeserializer::<
                                                     D::Error,
                                                 >::new(
                                                     &content
@@ -160,12 +160,12 @@ pub fn expand(
                             D: serde::Deserializer<'de>,
                         {
                             let content =
-                                <serde::private::de::Content as serde::Deserialize>::deserialize(
+                                <serde::__private::de::Content as serde::Deserialize>::deserialize(
                                     Deserializer,
                                 )?;
 
                             let ty = swc_common::serializer::Type::deserialize(
-                                serde::private::de::ContentRefDeserializer::<D::Error>::new(
+                                serde::__private::de::ContentRefDeserializer::<D::Error>::new(
                                     &content,
                                 ),
                             )?;
