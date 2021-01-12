@@ -1,6 +1,5 @@
 use fxhash::FxHashMap;
 use serde::{Deserialize, Serialize};
-use std::iter::once;
 use std::mem::take;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP};
@@ -515,7 +514,6 @@ impl Strip {
             TsNamespaceBody::TsModuleBlock(body) => body,
             TsNamespaceBody::TsNamespaceDecl(_) => return None,
         };
-        let mut hoisted_vars = vec![];
         let mut init_stmts = vec![];
 
         let var = VarDeclarator {
@@ -543,6 +541,10 @@ impl Strip {
                         Decl::Var(v) => {
                             let mut exprs = vec![];
                             for decl in v.decls {
+                                let init = match decl.init {
+                                    Some(v) => v,
+                                    None => continue,
+                                };
                                 match decl.name {
                                     Pat::Ident(name) => {
                                         //
@@ -564,35 +566,29 @@ impl Strip {
                                         })))
                                     }
                                     _ => {
-                                        let var_name = private_ident!("ref");
-                                        hoisted_vars.push(VarDeclarator {
+                                        // Destructure the variable.
+                                        exprs.push(Box::new(Expr::Assign(AssignExpr {
                                             span: DUMMY_SP,
-                                            name: Pat::Ident(var_name),
-                                            init: None,
-                                            definite: false,
-                                        });
-
-                                        // exprs.push(Box::new(Expr::
-                                        // Assign(AssignExpr {
-                                        //     span: DUMMY_SP,
-                                        //     op: op!("="),
-                                        //     left,
-                                        //     right,
-                                        // })))
+                                            op: op!("="),
+                                            left: PatOrExpr::Pat(Box::new(decl.name)),
+                                            right: init,
+                                        })))
                                     }
                                 }
                             }
-                            init_stmts.push(Stmt::Expr(ExprStmt {
-                                span: DUMMY_SP,
-                                expr: if exprs.len() == 1 {
-                                    exprs.into_iter().next().unwrap()
-                                } else {
-                                    Box::new(Expr::Seq(SeqExpr {
-                                        span: DUMMY_SP,
-                                        exprs,
-                                    }))
-                                },
-                            }));
+                            if !exprs.is_empty() {
+                                init_stmts.push(Stmt::Expr(ExprStmt {
+                                    span: DUMMY_SP,
+                                    expr: if exprs.len() == 1 {
+                                        exprs.into_iter().next().unwrap()
+                                    } else {
+                                        Box::new(Expr::Seq(SeqExpr {
+                                            span: DUMMY_SP,
+                                            exprs,
+                                        }))
+                                    },
+                                }));
+                            }
 
                             // TODO: Implement this using alias.
                             continue;
@@ -642,18 +638,7 @@ impl Strip {
                 span: DUMMY_SP,
                 body: Some(BlockStmt {
                     span: DUMMY_SP,
-                    stmts: if hoisted_vars.is_empty() {
-                        init_stmts
-                    } else {
-                        once(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            declare: false,
-                            decls: hoisted_vars,
-                        })))
-                        .chain(init_stmts)
-                        .collect()
-                    },
+                    stmts: init_stmts,
                 }),
                 is_generator: false,
                 is_async: false,
