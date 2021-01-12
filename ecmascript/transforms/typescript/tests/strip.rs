@@ -3309,3 +3309,103 @@ to!(
     export { any };
     "
 );
+
+to!(
+    deno_9097,
+    "
+    export namespace util {
+        export type AssertEqual<T, Expected> = T extends Expected
+            ? Expected extends T
+            ? true
+            : false
+            : false;
+
+        export function assertNever(_x: never): never {
+            throw new Error();
+        }
+
+        export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+        export type OmitKeys<T, K extends string> = Pick<T, Exclude<keyof T, K>>;
+        export type MakePartial<T, K extends keyof T> = Omit<T, K> &
+            Partial<Pick<T, K>>;
+
+        export const arrayToEnum = <T extends string, U extends [T, ...T[]]>(
+            items: U
+        ): { [k in U[number]]: k } => {
+        };
+
+        export const getValidEnumValues = (obj: any) => {
+        };
+
+        export const getValues = (obj: any) => {
+            
+        };
+
+        export const objectValues = (obj: any) => {
+            
+        };
+    }
+    ",
+    "
+    export var util;
+    (function (util1) {
+        function assertNever(_x) {
+            throw new Error();
+        }
+        util1.assertNever = assertNever;
+        util1.arrayToEnum = (items) => {
+        };
+        util1.getValidEnumValues = (obj) => {
+        };
+        util1.getValues = (obj) => {
+        };
+        util1.objectValues = (obj) => {
+        };
+    })(util || (util = {}));
+
+    "
+);
+
+to!(
+    namespace_001,
+    "
+    export namespace util {
+        const c = 3;
+        export const [a, b] = [1, 2, 3];
+    }
+    ",
+    "
+    export var util;
+    (function (util1) {
+        const c = 3;
+        [util1.a, util1.b] = [1, 2, 3];
+    })(util || (util = {}));
+    "
+);
+
+to!(
+    namespace_002,
+    "
+    export namespace util {
+        const c = 3;
+        export function foo() {
+
+        }
+
+        function bar() {
+
+        }
+    }
+    ",
+    "
+    export var util;
+    (function (util1) {
+        const c = 3;
+        function foo() {
+        }
+        util1.foo = foo;
+        function bar() {
+        }
+    })(util || (util = {}));
+    "
+);

@@ -32,6 +32,8 @@ use std::fmt::Debug;
 pub use swc_eq_ignore_macros::EqIgnoreSpan;
 pub use swc_eq_ignore_macros::TypeEq;
 pub use swc_visit::chain;
+#[doc(hidden)]
+pub mod private;
 
 /// A trait for ast nodes.
 pub trait AstNode: Debug + PartialEq + Clone + Spanned + Serialize {
