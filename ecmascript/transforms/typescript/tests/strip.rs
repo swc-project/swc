@@ -3365,3 +3365,21 @@ to!(
 
     "
 );
+
+to!(
+    namespace_001,
+    "
+    export namespace util {
+        const c = 3;
+        export const [a, b] = [1, 2, 3];
+    }
+    ",
+    "
+    export var util;
+    (function (util) {
+        var _a;
+        const c = 3;
+        _a = [1, 2, 3], util.a = _a[0], util.b = _a[1];
+    })(util || (util = {}));
+    "
+);
