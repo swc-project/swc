@@ -6,6 +6,7 @@ use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::prepend_stmts;
+use swc_ecma_utils::private_ident;
 use swc_ecma_utils::var::VarCollector;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
@@ -504,18 +505,102 @@ impl Strip {
 
     /// Returns `(var_decl, init)`.
     fn handle_ts_module(&mut self, module: TsModuleDecl) -> Option<(Decl, Stmt)> {
-        let name = match module.id {
+        let module_name = match module.id {
             TsModuleName::Ident(i) => i,
             TsModuleName::Str(_) => return None,
         };
         let body = module.body?;
+        let mut body = match body {
+            TsNamespaceBody::TsModuleBlock(body) => body,
+            TsNamespaceBody::TsNamespaceDecl(_) => return None,
+        };
+        let mut init_stmts = vec![];
 
         let var = VarDeclarator {
-            span: name.span,
-            name: Pat::Ident(name),
+            span: module_name.span,
+            name: Pat::Ident(module_name.clone()),
             init: None,
             definite: false,
         };
+
+        // This makes body valid javascript.
+        body.body.visit_mut_with(self);
+
+        for item in body.body {
+            // Drop
+
+            match item {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    span, decl, ..
+                })) => {
+                    let decl_name = match &decl {
+                        Decl::Class(c) => c.ident.clone(),
+                        Decl::Fn(f) => f.ident.clone(),
+                        Decl::Var(v) => {
+                            // TODO: Implement this using alias.
+                            continue;
+                        }
+                        Decl::TsInterface(_)
+                        | Decl::TsTypeAlias(_)
+                        | Decl::TsEnum(_)
+                        | Decl::TsModule(_) => continue,
+                    };
+                    init_stmts.push(Stmt::Decl(decl));
+
+                    //
+                    let left = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                        span: DUMMY_SP,
+                        obj: module_name.clone().as_obj(),
+                        prop: Box::new(Expr::Ident(decl_name.clone())),
+                        computed: false,
+                    })));
+
+                    let right = Box::new(Expr::Ident(decl_name));
+
+                    init_stmts.push(Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: Box::new(Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            op: AssignOp::Assign,
+                            left,
+                            right,
+                        })),
+                    }))
+                }
+
+                ModuleItem::Stmt(stmt) => init_stmts.push(stmt),
+                _ => {}
+            }
+        }
+
+        let private_name = private_ident!(module_name.sym.clone());
+        let init_fn_expr = FnExpr {
+            ident: None,
+            function: Function {
+                params: vec![Param {
+                    span: DUMMY_SP,
+                    decorators: Default::default(),
+                    pat: Pat::Ident(private_name.clone()),
+                }],
+                decorators: Default::default(),
+                span: DUMMY_SP,
+                body: Some(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: init_stmts,
+                }),
+                is_generator: false,
+                is_async: false,
+                type_params: Default::default(),
+                return_type: Default::default(),
+            },
+        };
+
+        let initializer = Box::new(Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            callee: init_fn_expr.as_callee(),
+            args: vec![module_name.as_arg()],
+            type_args: Default::default(),
+        }));
 
         Some((
             Decl::Var(VarDecl {
