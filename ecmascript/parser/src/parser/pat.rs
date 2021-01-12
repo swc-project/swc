@@ -424,8 +424,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         if readonly && is!(self, "readonly") && peeked_is!(self, IdentName) {
             let span = self.input.cur_span();
-
-            let modifier = self.parse_ident_name()?.sym;
+            assert_and_bump!(self, "readonly");
 
             self.emit_err(span, SyntaxError::ReadonlyAlreadySeen)
         }

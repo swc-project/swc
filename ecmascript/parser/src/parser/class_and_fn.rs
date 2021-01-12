@@ -692,6 +692,13 @@ impl<'a, I: Tokens> Parser<I> {
             )
         }
 
+        if readonly && is!(self, "readonly") && peeked_is!(self, IdentName) {
+            let span = self.input.cur_span();
+            assert_and_bump!(self, "readonly");
+
+            self.emit_err(span, SyntaxError::ReadonlyAlreadySeen)
+        }
+
         if self.input.syntax().typescript() && !is_abstract && !is_static && accessibility.is_none()
         {
             let idx = self.try_parse_ts_index_signature(start, readonly.is_some(), is_static)?;
