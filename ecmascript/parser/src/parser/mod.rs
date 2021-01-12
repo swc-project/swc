@@ -199,6 +199,20 @@ impl<I: Tokens> Parser<I> {
         self.input.get_ctx()
     }
 
+    /// Returns [Err] while backtracking, and returns [Ok] otherwise.
+    #[cold]
+    fn recover_hard_error(&self, span: Span, error: SyntaxError) -> PResult<()> {
+        if self.errors_for_backtraing.is_some() {
+            return Err(Error {
+                error: Box::new((span, error)),
+            });
+        }
+
+        self.emit_err(span, error);
+
+        Ok(())
+    }
+
     #[cold]
     fn emit_err(&self, span: Span, error: SyntaxError) {
         dbg!(&error);
