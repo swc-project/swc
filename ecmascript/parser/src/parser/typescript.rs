@@ -661,14 +661,13 @@ impl<I: Tokens> Parser<I> {
             _ => self.parse_ident_name().map(TsEnumMemberId::from)?,
         };
 
-        if self.errors_for_backtraing.is_none() && eat!(self, ':') {
+        let init = if self.errors_for_backtraing.is_none() && eat!(self, ':') {
             self.emit_err(
                 self.input.cur_span(),
                 SyntaxError::InvalidEnumMemberFollowing,
-            )
-        }
-
-        let init = if eat!(self, '=') {
+            );
+            None
+        } else if eat!(self, '=') {
             Some(self.parse_assignment_expr()?)
         } else if is!(self, ',') || is!(self, '}') {
             None
