@@ -566,11 +566,13 @@ impl Strip {
                                         })))
                                     }
                                     _ => {
+                                        let pat =
+                                            Box::new(create_prop_pat(&private_name, decl.name));
                                         // Destructure the variable.
                                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                                             span: DUMMY_SP,
                                             op: op!("="),
-                                            left: PatOrExpr::Pat(Box::new(decl.name)),
+                                            left: PatOrExpr::Pat(pat),
                                             right: init,
                                         })))
                                     }
@@ -1328,5 +1330,52 @@ fn ts_entity_name_to_expr(n: TsEntityName) -> Expr {
             }
             .into()
         }
+    }
+}
+
+fn create_prop_pat(obj: &Ident, pat: Pat) -> Pat {
+    match pat {
+        Pat::Invalid(_) => pat,
+
+        Pat::Ident(i) => Pat::Expr(Box::new(Expr::Member(MemberExpr {
+            span: i.span,
+            obj: obj.clone().as_obj(),
+            prop: Box::new(Expr::Ident(i)),
+            computed: false,
+        }))),
+        Pat::Array(p) => Pat::Array(ArrayPat {
+            elems: p
+                .elems
+                .into_iter()
+                .map(|elem| Some(create_prop_pat(obj, elem?)))
+                .collect(),
+            ..p
+        }),
+        Pat::Rest(_) => {
+            todo!("Rest pattern in an exported variable from namespace")
+        }
+        Pat::Object(p) => Pat::Object(ObjectPat {
+            props: p
+                .props
+                .into_iter()
+                .map(|prop| match prop {
+                    ObjectPatProp::KeyValue(kv) => ObjectPatProp::KeyValue(KeyValuePatProp {
+                        value: Box::new(create_prop_pat(obj, *kv.value)),
+                        ..kv
+                    }),
+                    ObjectPatProp::Assign(..) => prop,
+                    ObjectPatProp::Rest(_) => {
+                        todo!("Rest pattern property in an exported variable from namespace")
+                    }
+                })
+                .collect(),
+            ..p
+        }),
+        Pat::Assign(p) => Pat::Assign(AssignPat {
+            left: Box::new(create_prop_pat(obj, *p.left)),
+            ..p
+        }),
+        // TODO
+        Pat::Expr(..) => pat,
     }
 }
