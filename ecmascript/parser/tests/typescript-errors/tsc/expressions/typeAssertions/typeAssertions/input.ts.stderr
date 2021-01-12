@@ -1,10 +1,10 @@
-error[1005]: Expected '>'
+error[1005]: Type predicate is not allowed here
   --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:44:14
    |
 44 | if(<numOrStr is string>(numOrStr === undefined)) { // Error
    |              ^^
 
-error[1005]: Expected '>'
+error[1005]: Type predicate is not allowed here
   --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:48:41
    |
 48 | if((numOrStr === undefined) as numOrStr is string) { // Error
