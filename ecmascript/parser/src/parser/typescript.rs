@@ -921,6 +921,7 @@ impl<I: Tokens> Parser<I> {
                     param_name: TsThisTypeOrIdent::Ident(param_name),
                     type_ann: ty,
                 }));
+                return self.recover_from_invalid_ts_type_predicate(type_ann, start);
             }
             _ => {}
         }
