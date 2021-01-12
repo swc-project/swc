@@ -551,6 +551,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             let type_ann = p.parse_ts_type()?;
+            let type_ann = p.recover_from_invalid_ts_type_predicate(type_ann, start)?;
 
             Ok(TsTypeAnn {
                 span: span!(p, start),
