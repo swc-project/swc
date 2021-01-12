@@ -691,7 +691,7 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<TsEnumDecl> {
         debug_assert!(self.input.syntax().typescript());
 
-        let id = self.parse_ident_name()?;
+        let id = self.parse_binding_ident()?;
         expect!(self, '{');
         let members = self
             .parse_ts_delimited_list(ParsingContext::EnumMembers, |p| p.parse_ts_enum_member())?;
@@ -2478,7 +2478,7 @@ impl<I: Tokens> Parser<I> {
                     self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
                 }
 
-                if next || is!(self, IdentRef) {
+                if next || is!(self, IdentName) {
                     if next {
                         bump!(self);
                     }
