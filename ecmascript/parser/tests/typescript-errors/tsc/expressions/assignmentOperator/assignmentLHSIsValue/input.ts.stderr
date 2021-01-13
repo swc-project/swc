@@ -1,0 +1,126 @@
+error[2406]: Not a variable
+ --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:6:21
+  |
+6 |     constructor() { this = value; }
+  |                     ^^^^
+
+error[2406]: Not a variable
+ --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:7:13
+  |
+7 |     foo() { this = value; }
+  |             ^^^^
+
+error[2406]: Not a variable
+ --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:8:21
+  |
+8 |     static sfoo() { this = value; }
+  |                     ^^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:11:18
+   |
+11 | function foo() { this = value; }
+   |                  ^^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:13:1
+   |
+13 | this = value;
+   | ^^^^
+
+error[1005]: Expected a statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:35:9
+   |
+35 | { a: 0} = value;
+   |         ^
+
+error: Cannot assign to this
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:38:2
+   |
+38 | ['', ''] = value;
+   |  ^^
+
+error: Cannot assign to this
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:38:6
+   |
+38 | ['', ''] = value;
+   |      ^^
+
+error: Invalid access to super
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:42:36
+   |
+42 |     constructor() { super(); super = value; }
+   |                                    ^
+
+error: Invalid access to super
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:44:19
+   |
+44 |     foo() { super = value }
+   |                   ^
+
+error: Invalid access to super
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:46:27
+   |
+46 |     static sfoo() { super = value; }
+   |                           ^
+
+error[1005]: Expected a statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:50:20
+   |
+50 | function bar() { } = value;
+   |                    ^
+
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:51:11
+   |
+51 | () => { } = value;
+   |           ^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:51:1
+   |
+51 | () => { } = value;
+   | ^^^^^^^^^
+
+error[1005]: Expected a statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:51:11
+   |
+51 | () => { } = value;
+   |           ^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:54:1
+   |
+54 | foo() = value;
+   | ^^^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:57:1
+   |
+57 | (this) = value;
+   | ^^^^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:67:1
+   |
+67 | ({}) = value;
+   | ^^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:68:1
+   |
+68 | ([]) = value;
+   | ^^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:69:1
+   |
+69 | (function baz() { }) = value;
+   | ^^^^^^^^^^^^^^^^^^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:70:1
+   |
+70 | (foo()) = value;
+   | ^^^^^^^
+
