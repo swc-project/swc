@@ -1,23 +1,39 @@
+use crate::util::usage::ScopeData;
+use crate::util::usage::UsageAnalyzer;
 use std::mem::take;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::VisitWith;
 
 /// Merge varaibles.
 pub(super) fn var_reducer() -> impl VisitMut {
-    Reducer {}
+    Reducer::default()
 }
 
-struct Reducer {}
+#[derive(Debug, Default)]
+struct Reducer {
+    data: Option<ScopeData>,
+}
 
 impl Reducer {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
-        Vec<T>: VisitMutWith<Self>,
+        Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer>,
     {
+        match self.data {
+            Some(..) => {}
+            None => {
+                let mut analyzer = UsageAnalyzer::default();
+                stmts.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
+                self.data = Some(analyzer.data);
+            }
+        }
+
         stmts.visit_mut_children_with(self);
     }
 }
