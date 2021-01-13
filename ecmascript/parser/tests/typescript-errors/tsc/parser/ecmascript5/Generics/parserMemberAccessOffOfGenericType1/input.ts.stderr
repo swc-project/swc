@@ -1,0 +1,6 @@
+error[1005]: Expected '('
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Generics/parserMemberAccessOffOfGenericType1/input.ts:1:21
+  |
+1 | var v = List<number>.makeChild();
+  |                     ^
+
