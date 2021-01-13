@@ -1,9 +1,12 @@
 use crate::util::usage::ScopeData;
 use crate::util::usage::UsageAnalyzer;
+use fxhash::FxHashMap;
 use retain_mut::RetainMut;
 use std::mem::take;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::Id;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
@@ -17,6 +20,7 @@ pub(super) fn var_reducer() -> impl VisitMut {
 
 #[derive(Debug, Default)]
 struct Reducer {
+    vars: FxHashMap<Id, Box<Expr>>,
     data: Option<ScopeData>,
 }
 
@@ -61,6 +65,27 @@ impl VisitMut for Reducer {
         var.visit_mut_children_with(self);
 
         // We will inline if possible.
+    }
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            Expr::Ident(i) => {
+                //
+                if let Some(value) = self.vars.remove(&i.to_id()) {
+                    *n = *value;
+                }
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+        n.obj.visit_mut_with(self);
+        if n.computed {
+            n.prop.visit_mut_with(self);
+        }
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
