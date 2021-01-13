@@ -88,8 +88,16 @@ impl<'a, I: Tokens> Parser<I> {
                             span: Span::new(start, expr.span().hi, Default::default()),
                         })));
                     }
+
+                    tok!("=>") => {
+                        self.emit_err(self.input.cur_span(), SyntaxError::ExpectedExpr);
+                        bump!(self);
+                        let body: BlockStmtOrExpr = self.parse_fn_body(true, false)?;
+                        return Ok(Box::new(Expr::Invalid(Invalid { span: body.span() })));
+                    }
                     _ => {}
                 },
+
                 _ => {}
             }
         }
