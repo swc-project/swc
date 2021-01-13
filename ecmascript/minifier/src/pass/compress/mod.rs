@@ -16,6 +16,7 @@ use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
 mod drop_console;
+mod hoist_props;
 
 #[derive(Debug, Clone, Default, Deserialize)]
 pub struct CompressOptions {
