@@ -4,3 +4,15 @@ error[1005]: Expected a semicolon
 1 | var v: typeof A<B>
   |                ^
 
+error[1109]: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Types/parserTypeQuery8/input.ts:1:16
+  |
+1 | var v: typeof A<B>
+  |                ^
+
+error: Expected an expression after this
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Types/parserTypeQuery8/input.ts:1:18
+  |
+1 | var v: typeof A<B>
+  |                  ^
+

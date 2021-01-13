@@ -1,3 +1,9 @@
+error[1109]: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/parserNotRegex1/input.ts:1:17
+  |
+1 |   if (a.indexOf(-(4/3)))      // We should not get a regex here because of the / in the comment.
+  |                 ^
+
 error[1108]: A 'return' statement can only be used within a function body.
  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/parserNotRegex1/input.ts:3:5
   |

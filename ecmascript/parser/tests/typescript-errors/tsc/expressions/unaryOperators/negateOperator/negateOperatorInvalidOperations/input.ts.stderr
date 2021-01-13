@@ -11,6 +11,30 @@ error: Expected an expression after this
   |                         ^
 
 error[1109]: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/negateOperator/negateOperatorInvalidOperations/input.ts:7:15
+  |
+7 | var NUMBER2 = -(null - undefined);
+  |               ^
+
+error[1109]: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/negateOperator/negateOperatorInvalidOperations/input.ts:8:15
+  |
+8 | var NUMBER3 = -(null - null);
+  |               ^
+
+error[1109]: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/negateOperator/negateOperatorInvalidOperations/input.ts:9:15
+  |
+9 | var NUMBER4 = -(undefined - undefined);
+  |               ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/negateOperator/negateOperatorInvalidOperations/input.ts:12:13
+   |
+12 | var NUMBER =-;
+   |             ^
+
+error[1109]: Expected an expression
   --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/negateOperator/negateOperatorInvalidOperations/input.ts:12:14
    |
 12 | var NUMBER =-;

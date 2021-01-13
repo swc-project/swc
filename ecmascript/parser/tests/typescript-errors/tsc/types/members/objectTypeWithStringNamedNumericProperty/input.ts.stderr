@@ -1,8 +1,32 @@
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:29:12
+   |
+29 | var r7 = i[-1];
+   |            ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:30:12
+   |
+30 | var r7 = i[-1.0];
+   |            ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:34:13
+   |
+34 | var r11 = i[-0x1]
+   |             ^
+
 error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:35:13
    |
 35 | var r12 = i[01]
    |             ^^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:36:13
+   |
+36 | var r13 = i[-01]
+   |             ^
 
 error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:36:14
@@ -10,11 +34,35 @@ error[1085]: Legacy octal escape is not permitted in strict mode
 36 | var r13 = i[-01]
    |              ^^
 
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:60:12
+   |
+60 | var r7 = i[-1]; 
+   |            ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:61:12
+   |
+61 | var r7 = i[-1.0]; 
+   |            ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:65:13
+   |
+65 | var r11 = i[-0x1]
+   |             ^
+
 error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:66:13
    |
 66 | var r12 = i[01]
    |             ^^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:67:13
+   |
+67 | var r13 = i[-01]
+   |             ^
 
 error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:67:14
@@ -22,11 +70,35 @@ error[1085]: Legacy octal escape is not permitted in strict mode
 67 | var r13 = i[-01]
    |              ^^
 
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:90:12
+   |
+90 | var r7 = i[-1];
+   |            ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:91:12
+   |
+91 | var r7 = i[-1.0];
+   |            ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:95:13
+   |
+95 | var r11 = i[-0x1]
+   |             ^
+
 error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:96:13
    |
 96 | var r12 = i[01]
    |             ^^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:97:13
+   |
+97 | var r13 = i[-01]
+   |             ^
 
 error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:97:14
@@ -34,15 +106,153 @@ error[1085]: Legacy octal escape is not permitted in strict mode
 97 | var r13 = i[-01]
    |              ^^
 
-error[1085]: Legacy octal escape is not permitted in strict mode
-   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:126:13
+error[1109]: Expected an expression
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:100:12
     |
-126 | var r12 = i[01]
-    |             ^^
+100 |     "0.1": <void>null,
+    |            ^
 
-error[1085]: Legacy octal escape is not permitted in strict mode
-   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:127:14
+error[1109]: Expected an expression
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:100:17
     |
-127 | var r13 = i[-01]
-    |              ^^
+100 |     "0.1": <void>null,
+    |                 ^
+
+error: Expected ,, got :
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:101:9
+    |
+101 |     ".1": new Object(),
+    |         ^
+
+error[1128]: Declaration or statement expected
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:101:9
+    |
+101 |     ".1": new Object(),
+    |         ^
+
+error: Expected ';', '}' or <eof>
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:102:8
+    |
+102 |     "1": 1,
+    |        ^
+    |
+note: This is the expression part of an expression statement
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:101:11
+    |
+101 |       ".1": new Object(),
+    |  ___________^
+102 | |     "1": 1,
+    | |_______^
+
+error[1128]: Declaration or statement expected
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:102:8
+    |
+102 |     "1": 1,
+    |        ^
+
+error: Expected ';', '}' or <eof>
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:103:9
+    |
+103 |     "1.": "",
+    |         ^
+    |
+note: This is the expression part of an expression statement
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:102:10
+    |
+102 |       "1": 1,
+    |  __________^
+103 | |     "1.": "",
+    | |________^
+
+error[1128]: Declaration or statement expected
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:103:9
+    |
+103 |     "1.": "",
+    |         ^
+
+error: Expected ';', '}' or <eof>
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:104:10
+    |
+104 |     "1..": true,
+    |          ^
+    |
+note: This is the expression part of an expression statement
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:103:11
+    |
+103 |       "1.": "",
+    |  ___________^
+104 | |     "1..": true,
+    | |_________^
+
+error[1128]: Declaration or statement expected
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:104:10
+    |
+104 |     "1..": true,
+    |          ^
+
+error: Expected ';', '}' or <eof>
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:105:10
+    |
+105 |     "1.0": new Date(),
+    |          ^
+    |
+note: This is the expression part of an expression statement
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:104:12
+    |
+104 |       "1..": true,
+    |  ____________^
+105 | |     "1.0": new Date(),
+    | |_________^
+
+error[1128]: Declaration or statement expected
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:105:10
+    |
+105 |     "1.0": new Date(),
+    |          ^
+
+error: Expected ';', '}' or <eof>
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:106:11
+    |
+106 |     "-1.0": /123/,
+    |           ^
+    |
+note: This is the expression part of an expression statement
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:105:12
+    |
+105 |       "1.0": new Date(),
+    |  ____________^
+106 | |     "-1.0": /123/,
+    | |__________^
+
+error[1128]: Declaration or statement expected
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:106:11
+    |
+106 |     "-1.0": /123/,
+    |           ^
+
+error: Expected ';', '}' or <eof>
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:107:9
+    |
+107 |     "-1": Date
+    |         ^
+    |
+note: This is the expression part of an expression statement
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:106:13
+    |
+106 |       "-1.0": /123/,
+    |  _____________^
+107 | |     "-1": Date
+    | |________^
+
+error[1128]: Declaration or statement expected
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:107:9
+    |
+107 |     "-1": Date
+    |         ^
+
+error[1005]: Expected '}'
+   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:108:1
+    |
+108 | };
+    | ^
 

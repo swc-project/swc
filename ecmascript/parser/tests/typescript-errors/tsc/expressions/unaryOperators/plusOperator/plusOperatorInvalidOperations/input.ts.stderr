@@ -5,6 +5,12 @@ error: Expected an expression after this
   |                ^
 
 error[1109]: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/plusOperator/plusOperatorInvalidOperations/input.ts:8:14
+  |
+8 | var result2 =+;
+  |              ^
+
+error[1109]: Expected an expression
  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/plusOperator/plusOperatorInvalidOperations/input.ts:8:15
   |
 8 | var result2 =+;

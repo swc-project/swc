@@ -1,12 +1,102 @@
-error[1005]: Type predicate is not allowed here
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:11:9
+   |
+11 | var a = <any>"" + 4;
+   |         ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:29:12
+   |
+29 | someBase = <SomeBase>someDerived;
+   |            ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:30:12
+   |
+30 | someBase = <SomeBase>someBase;
+   |            ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:31:12
+   |
+31 | someBase = <SomeBase>someOther; // Error
+   |            ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:33:15
+   |
+33 | someDerived = <SomeDerived>someDerived;
+   |               ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:34:15
+   |
+34 | someDerived = <SomeDerived>someBase;
+   |               ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:35:15
+   |
+35 | someDerived = <SomeDerived>someOther; // Error
+   |               ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:37:13
+   |
+37 | someOther = <SomeOther>someDerived; // Error
+   |             ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:38:13
+   |
+38 | someOther = <SomeOther>someBase; // Error
+   |             ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:39:13
+   |
+39 | someOther = <SomeOther>someOther;
+   |             ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:44:4
+   |
+44 | if(<numOrStr is string>(numOrStr === undefined)) { // Error
+   |    ^
+
+error[1005]: Expected a semicolon
   --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:44:14
    |
 44 | if(<numOrStr is string>(numOrStr === undefined)) { // Error
    |              ^^
 
-error[1005]: Type predicate is not allowed here
-  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:48:41
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:44:17
    |
-48 | if((numOrStr === undefined) as numOrStr is string) { // Error
-   |                                         ^^
+44 | if(<numOrStr is string>(numOrStr === undefined)) { // Error
+   |                 ^^^^^^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:44:14
+   |
+44 | if(<numOrStr is string>(numOrStr === undefined)) { // Error
+   |              ^^
+
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:44:48
+   |
+44 | if(<numOrStr is string>(numOrStr === undefined)) { // Error
+   |                                                ^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:44:17
+   |
+44 | if(<numOrStr is string>(numOrStr === undefined)) { // Error
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error[1128]: Declaration or statement expected
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:44:48
+   |
+44 | if(<numOrStr is string>(numOrStr === undefined)) { // Error
+   |                                                ^
 
