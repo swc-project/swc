@@ -1,0 +1,18 @@
+error[1109]: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ArrayLiteralExpressions/parserErrorRecoveryArrayLiteralExpression2/input.ts:1:15
+  |
+1 | var points = [-0.6961439251899719, 1.207661509513855, 0.19374050199985504, -0
+  |               ^
+
+error[1109]: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ArrayLiteralExpressions/parserErrorRecoveryArrayLiteralExpression2/input.ts:1:76
+  |
+1 | var points = [-0.6961439251899719, 1.207661509513855, 0.19374050199985504, -0
+  |                                                                            ^
+
+error[1109]: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ArrayLiteralExpressions/parserErrorRecoveryArrayLiteralExpression2/input.ts:3:62
+  |
+3 |  .7042760848999023, 1.1955541372299194, 0.19600726664066315, -0.7120069861412048];
+  |                                                              ^
+

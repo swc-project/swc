@@ -1,0 +1,48 @@
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/es7/exponentiationOperator/compoundExponentiationAssignmentLHSIsValue/input.ts:44:10
+   |
+44 | { a: 0 } **= value;
+   |          ^^^
+
+error: Invalid access to super
+  --> $DIR/tests/typescript-errors/tsc/es7/exponentiationOperator/compoundExponentiationAssignmentLHSIsValue/input.ts:53:15
+   |
+53 |         super **= value;
+   |               ^^^
+
+error: Invalid access to super
+  --> $DIR/tests/typescript-errors/tsc/es7/exponentiationOperator/compoundExponentiationAssignmentLHSIsValue/input.ts:57:15
+   |
+57 |         super **= value;
+   |               ^^^
+
+error: Invalid access to super
+  --> $DIR/tests/typescript-errors/tsc/es7/exponentiationOperator/compoundExponentiationAssignmentLHSIsValue/input.ts:61:15
+   |
+61 |         super **= value;
+   |               ^^^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/es7/exponentiationOperator/compoundExponentiationAssignmentLHSIsValue/input.ts:66:21
+   |
+66 | function bar1() { } **= value;
+   |                     ^^^
+
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/es7/exponentiationOperator/compoundExponentiationAssignmentLHSIsValue/input.ts:67:11
+   |
+67 | () => { } **= value;
+   |           ^^^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/es7/exponentiationOperator/compoundExponentiationAssignmentLHSIsValue/input.ts:67:1
+   |
+67 | () => { } **= value;
+   | ^^^^^^^^^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/es7/exponentiationOperator/compoundExponentiationAssignmentLHSIsValue/input.ts:67:11
+   |
+67 | () => { } **= value;
+   |           ^^^
+

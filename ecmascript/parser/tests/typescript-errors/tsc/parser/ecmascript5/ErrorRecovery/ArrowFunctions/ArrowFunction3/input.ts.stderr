@@ -1,0 +1,12 @@
+error: Expected a type
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ArrowFunctions/ArrowFunction3/input.ts:1:14
+  |
+1 | var v = (a): => {
+  |              ^^
+
+error[1109]: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ArrowFunctions/ArrowFunction3/input.ts:1:14
+  |
+1 | var v = (a): => {
+  |              ^^
+
