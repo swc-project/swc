@@ -1,4 +1,4 @@
-error: Unexpected escape sequence in reserved word: var
+error[1260]: Keywords cannot contain escape characters: 'var'
  --> $DIR/tests/typescript-errors/tsc/scanner/ecmascript5/scannerUnicodeEscapeInKeyword1/input.ts:1:1
   |
 1 | \u0076ar x = "hello";
