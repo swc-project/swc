@@ -5,4 +5,4 @@ set -eux
 
 export RUST_TEST_TIME_INTEGRATION=1000,3000
 # cargo test --test errors $@ -- -Z unstable-options --ensure-time
-cargo test --test errors $@ || git commit -a -m 'Update test refs'
+cargo test --test errors $@ || (git commit -a -m 'Update test refs' > /dev/null)
