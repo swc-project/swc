@@ -82,6 +82,24 @@ impl Compressor<'_> {
         T: StmtLike,
         Vec<T>: VisitMutWith<Self>,
     {
+        // Skip if `use asm` exists.
+        if stmts.iter().any(|stmt| match stmt.as_stmt() {
+            Some(v) => match v {
+                Stmt::Expr(stmt) => match &*stmt.expr {
+                    Expr::Lit(Lit::Str(Str {
+                        value,
+                        has_escape: false,
+                        ..
+                    })) => &**value == "use asm",
+                    _ => false,
+                },
+                _ => false,
+            },
+            None => false,
+        }) {
+            return;
+        }
+
         // TODO: Hoist properties
         // TODO: Hoist decls
 
