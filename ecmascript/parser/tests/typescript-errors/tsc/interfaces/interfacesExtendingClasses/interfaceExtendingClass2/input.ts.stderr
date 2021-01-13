@@ -1,0 +1,12 @@
+error: Expected ;, got numeric literal
+  --> $DIR/tests/typescript-errors/tsc/interfaces/interfacesExtendingClasses/interfaceExtendingClass2/input.ts:15:20
+   |
+15 |             return 1;
+   |                    ^
+
+error[1005]: Expected '}'
+  --> $DIR/tests/typescript-errors/tsc/interfaces/interfacesExtendingClasses/interfaceExtendingClass2/input.ts:16:9
+   |
+16 |         };
+   |         ^
+

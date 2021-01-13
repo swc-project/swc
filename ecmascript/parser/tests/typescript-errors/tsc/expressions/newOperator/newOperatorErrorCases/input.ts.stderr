@@ -1,0 +1,12 @@
+error[1005]: Expected a semicolon
+  --> $DIR/tests/typescript-errors/tsc/expressions/newOperator/newOperatorErrorCases/input.ts:27:16
+   |
+27 | var b = new C0 32, ''; // Parse error
+   |                ^^
+
+error: Expected an expression after this
+  --> $DIR/tests/typescript-errors/tsc/expressions/newOperator/newOperatorErrorCases/input.ts:32:22
+   |
+32 | var c2 = new T<string>; // Parse error
+   |                      ^
+
