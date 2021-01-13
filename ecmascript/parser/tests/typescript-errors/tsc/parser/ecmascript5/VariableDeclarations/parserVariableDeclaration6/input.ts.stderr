@@ -1,0 +1,6 @@
+error[1123]: Variable declaration list cannot be empty
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration6/input.ts:1:4
+  |
+1 | var
+  |    ^
+

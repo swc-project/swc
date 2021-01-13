@@ -1,0 +1,6 @@
+error[1005]: Expected ']'
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript6/Symbols/parserSymbolIndexer5/input.ts:3:9
+  |
+3 |     [s: symbol]: ""
+  |         ^^^^^^
+
