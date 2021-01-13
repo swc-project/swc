@@ -1,0 +1,36 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/types/typeAliases/reservedNamesInAliases/input.ts:6:6
+  |
+6 | type void = I;
+  |      ^^^^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/types/typeAliases/reservedNamesInAliases/input.ts:6:1
+  |
+6 | type void = I;
+  | ^^^^
+
+error[1109]: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/types/typeAliases/reservedNamesInAliases/input.ts:6:11
+  |
+6 | type void = I;
+  |           ^
+
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/types/typeAliases/reservedNamesInAliases/input.ts:6:11
+  |
+6 | type void = I;
+  |           ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/types/typeAliases/reservedNamesInAliases/input.ts:6:6
+  |
+6 | type void = I;
+  |      ^^^^
+
+error[1128]: Declaration or statement expected
+ --> $DIR/tests/typescript-errors/tsc/types/typeAliases/reservedNamesInAliases/input.ts:6:11
+  |
+6 | type void = I;
+  |           ^
+

@@ -1,0 +1,48 @@
+error: Expected ident
+ --> $DIR/tests/typescript-errors/tsc/types/specifyingTypes/typeQueries/invalidTypeOfTarget/input.ts:1:16
+  |
+1 | var x1: typeof {};
+  |                ^
+
+error: Expected ident
+ --> $DIR/tests/typescript-errors/tsc/types/specifyingTypes/typeQueries/invalidTypeOfTarget/input.ts:2:16
+  |
+2 | var x2: typeof (): void;
+  |                ^
+
+error: Expected =>, got ;
+ --> $DIR/tests/typescript-errors/tsc/types/specifyingTypes/typeQueries/invalidTypeOfTarget/input.ts:2:24
+  |
+2 | var x2: typeof (): void;
+  |                        ^
+
+error: Expected ident
+ --> $DIR/tests/typescript-errors/tsc/types/specifyingTypes/typeQueries/invalidTypeOfTarget/input.ts:3:16
+  |
+3 | var x3: typeof 1;
+  |                ^
+
+error: Expected ident
+ --> $DIR/tests/typescript-errors/tsc/types/specifyingTypes/typeQueries/invalidTypeOfTarget/input.ts:4:16
+  |
+4 | var x4: typeof '';
+  |                ^^
+
+error: Expected ident
+ --> $DIR/tests/typescript-errors/tsc/types/specifyingTypes/typeQueries/invalidTypeOfTarget/input.ts:5:16
+  |
+5 | var x5: typeof [];
+  |                ^
+
+error[1005]: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/types/specifyingTypes/typeQueries/invalidTypeOfTarget/input.ts:7:25
+  |
+7 | var x7: typeof function f() { };
+  |                         ^
+
+error[1005]: Expected '}'
+ --> $DIR/tests/typescript-errors/tsc/types/specifyingTypes/typeQueries/invalidTypeOfTarget/input.ts:7:31
+  |
+7 | var x7: typeof function f() { };
+  |                               ^
+

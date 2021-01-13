@@ -1,0 +1,12 @@
+error[1005]: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/types/specifyingTypes/typeLiterals/arrayTypeOfTypeOf/input.ts:6:22
+  |
+6 | var xs3: typeof Array<number>;
+  |                      ^
+
+error[1005]: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/types/specifyingTypes/typeLiterals/arrayTypeOfTypeOf/input.ts:7:22
+  |
+7 | var xs4: typeof Array<typeof x>;
+  |                      ^
+
