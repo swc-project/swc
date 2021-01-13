@@ -43,7 +43,7 @@ fn terser_compress(input: PathBuf) {
             None,
             &MinifyOptions {
                 compress: Some(config),
-                ..serde_json::from_str("{}").unwrap()
+                ..Default::default()
             },
         );
         let output = NormalizedOutput::from(print(cm.clone(), &[output]));

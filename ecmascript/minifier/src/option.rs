@@ -24,7 +24,7 @@ pub struct MangleOptions {
     pub props: bool,
 }
 
-#[derive(Debug, Clone, Default, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct CompressOptions {
@@ -70,7 +70,10 @@ pub struct CompressOptions {
     // evaluate      : !false_by_default,
     // expression    : false,
     // global_defs   : false,
-    // hoist_funs    : false,
+    #[serde(default)]
+    #[serde(alias = "hoist_funs")]
+    pub hoist_fns: bool,
+
     #[serde(default = "true_by_default")]
     #[serde(alias = "hoist_props")]
     pub hoist_props: bool,
@@ -93,7 +96,8 @@ pub struct CompressOptions {
     // properties    : !false_by_default,
     // pure_getters  : !false_by_default && "strict",
     // pure_funcs    : null,
-    // reduce_funcs  : null,  // legacy
+    /// Legacy. Not used
+    pub reduce_funcs: bool, // legacy
     #[serde(default)]
     #[serde(alias = "reduce_vars")]
     pub reduce_vars: bool,
@@ -121,3 +125,18 @@ pub struct CompressOptions {
 const fn true_by_default() -> bool {
     true
 }
+
+/// Implement default using serde.
+macro_rules! impl_default {
+    ($T:ty) => {
+        impl Default for $T {
+            fn default() -> Self {
+                serde_json::from_str("{}").unwrap()
+            }
+        }
+    };
+}
+
+impl_default!(MinifyOptions);
+impl_default!(MangleOptions);
+impl_default!(CompressOptions);
