@@ -2,7 +2,7 @@ use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Options {
+pub struct MinifyOptions {
     pub arguments: bool,
     pub rename: bool,
     pub compress: Option<CompressOptions>,

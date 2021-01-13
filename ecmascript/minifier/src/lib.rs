@@ -4,7 +4,7 @@
 //! them something other. Don't call methods like `visit_mut_script` nor
 //! `visit_mut_module_items`.
 
-use crate::option::Options;
+use crate::option::MinifyOptions;
 use crate::pass::compress::compressor;
 use crate::pass::compute_char_freq::compute_char_freq;
 use crate::pass::expand_names::name_expander;
@@ -22,7 +22,11 @@ pub mod timing;
 mod util;
 
 #[inline]
-pub fn optimize(mut m: Module, timings: &mut Option<Timings>, options: &Options) -> Module {
+pub fn optimize(
+    mut m: Module,
+    mut timings: Option<&mut Timings>,
+    options: &MinifyOptions,
+) -> Module {
     // TODO: reserve_quoted_keys
     // if (quoted_props && options.mangle.properties.keep_quoted !== "strict") {
     //     reserve_quoted_keys(toplevel, quoted_props);
@@ -40,7 +44,7 @@ pub fn optimize(mut m: Module, timings: &mut Option<Timings>, options: &Options)
 
     // We don't need validation.
 
-    if let Some(_t) = timings {
+    if let Some(ref mut _t) = timings {
         // TODO: store `rename`
     }
 
@@ -52,7 +56,7 @@ pub fn optimize(mut m: Module, timings: &mut Option<Timings>, options: &Options)
         m.visit_mut_with(&mut name_expander());
     }
 
-    if let Some(_t) = timings {
+    if let Some(ref mut _t) = timings {
         // TODO: store `compress`
     }
     if let Some(options) = &options.compress {
@@ -60,14 +64,14 @@ pub fn optimize(mut m: Module, timings: &mut Option<Timings>, options: &Options)
         // Again, we don't need to validate ast
     }
 
-    if let Some(_t) = timings {
+    if let Some(ref mut _t) = timings {
         // TODO: store `scope`
     }
     if options.mangle.is_some() {
         // toplevel.figure_out_scope(options.mangle);
     }
 
-    if let Some(_t) = timings {
+    if let Some(ref mut _t) = timings {
         // TODO: store `mangle`
     }
 
@@ -78,7 +82,7 @@ pub fn optimize(mut m: Module, timings: &mut Option<Timings>, options: &Options)
         m.visit_mut_with(&mut name_mangler(char_freq_info));
     }
 
-    if let Some(_t) = timings {
+    if let Some(ref mut _t) = timings {
         // TODO: store `properties`
     }
 
