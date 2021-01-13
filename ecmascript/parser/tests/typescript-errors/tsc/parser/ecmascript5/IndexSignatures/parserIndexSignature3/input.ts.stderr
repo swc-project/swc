@@ -1,0 +1,18 @@
+error[1109]: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/IndexSignatures/parserIndexSignature3/input.ts:2:6
+  |
+2 |   [a?]
+  |      ^
+
+error[1128]: Declaration or statement expected
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/IndexSignatures/parserIndexSignature3/input.ts:2:6
+  |
+2 |   [a?]
+  |      ^
+
+error[1005]: Expected '}'
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/IndexSignatures/parserIndexSignature3/input.ts:3:1
+  |
+3 | }
+  | ^
+
