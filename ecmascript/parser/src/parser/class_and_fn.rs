@@ -133,12 +133,17 @@ impl<'a, I: Tokens> Parser<I> {
                         Expr::Ident(Ident { span, sym, .. }) => {
                             //
                             match *sym {
-                                js_word!("undefined")
-                                | js_word!("number")
-                                | js_word!("boolean")
-                                | js_word!("void")
-                                | js_word!("null")
-                                | js_word!("any") => {
+                                js_word!("undefined") | js_word!("void") | js_word!("null") => {
+                                    self.emit_err(
+                                        *span,
+                                        SyntaxError::InvalidParentOfClass {
+                                            parent: sym.clone(),
+                                        },
+                                    );
+                                }
+                                js_word!("any") | js_word!("number") | js_word!("boolean")
+                                    if self.syntax().typescript() =>
+                                {
                                     self.emit_err(
                                         *span,
                                         SyntaxError::InvalidParentOfClass {
