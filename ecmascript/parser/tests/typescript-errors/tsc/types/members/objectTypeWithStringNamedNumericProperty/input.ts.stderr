@@ -1,32 +1,8 @@
-error[1109]: Expected an expression
-  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:29:12
-   |
-29 | var r7 = i[-1];
-   |            ^
-
-error[1109]: Expected an expression
-  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:30:12
-   |
-30 | var r7 = i[-1.0];
-   |            ^
-
-error[1109]: Expected an expression
-  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:34:13
-   |
-34 | var r11 = i[-0x1]
-   |             ^
-
 error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:35:13
    |
 35 | var r12 = i[01]
    |             ^^
-
-error[1109]: Expected an expression
-  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:36:13
-   |
-36 | var r13 = i[-01]
-   |             ^
 
 error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:36:14
@@ -34,35 +10,11 @@ error[1085]: Legacy octal escape is not permitted in strict mode
 36 | var r13 = i[-01]
    |              ^^
 
-error[1109]: Expected an expression
-  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:60:12
-   |
-60 | var r7 = i[-1]; 
-   |            ^
-
-error[1109]: Expected an expression
-  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:61:12
-   |
-61 | var r7 = i[-1.0]; 
-   |            ^
-
-error[1109]: Expected an expression
-  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:65:13
-   |
-65 | var r11 = i[-0x1]
-   |             ^
-
 error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:66:13
    |
 66 | var r12 = i[01]
    |             ^^
-
-error[1109]: Expected an expression
-  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:67:13
-   |
-67 | var r13 = i[-01]
-   |             ^
 
 error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:67:14
@@ -70,35 +22,11 @@ error[1085]: Legacy octal escape is not permitted in strict mode
 67 | var r13 = i[-01]
    |              ^^
 
-error[1109]: Expected an expression
-  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:90:12
-   |
-90 | var r7 = i[-1];
-   |            ^
-
-error[1109]: Expected an expression
-  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:91:12
-   |
-91 | var r7 = i[-1.0];
-   |            ^
-
-error[1109]: Expected an expression
-  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:95:13
-   |
-95 | var r11 = i[-0x1]
-   |             ^
-
 error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:96:13
    |
 96 | var r12 = i[01]
    |             ^^
-
-error[1109]: Expected an expression
-  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:97:13
-   |
-97 | var r13 = i[-01]
-   |             ^
 
 error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:97:14

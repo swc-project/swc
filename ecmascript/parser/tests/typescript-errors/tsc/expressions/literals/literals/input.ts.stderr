@@ -4,39 +4,9 @@ error[1085]: Legacy octal escape is not permitted in strict mode
 21 | var n = 001; // Error in ES5
    |         ^^^
 
-error[1109]: Expected an expression
-  --> $DIR/tests/typescript-errors/tsc/expressions/literals/literals/input.ts:23:9
-   |
-23 | var n = -1;
-   |         ^
-
-error[1109]: Expected an expression
-  --> $DIR/tests/typescript-errors/tsc/expressions/literals/literals/input.ts:24:9
-   |
-24 | var n = -1.0;
-   |         ^
-
-error[1109]: Expected an expression
-  --> $DIR/tests/typescript-errors/tsc/expressions/literals/literals/input.ts:25:9
-   |
-25 | var n = -1e-4;
-   |         ^
-
-error[1109]: Expected an expression
-  --> $DIR/tests/typescript-errors/tsc/expressions/literals/literals/input.ts:26:9
-   |
-26 | var n = -003; // Error in ES5
-   |         ^
-
 error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/expressions/literals/literals/input.ts:26:10
    |
 26 | var n = -003; // Error in ES5
    |          ^^^
-
-error[1109]: Expected an expression
-  --> $DIR/tests/typescript-errors/tsc/expressions/literals/literals/input.ts:27:9
-   |
-27 | var n = -0x1;
-   |         ^
 
