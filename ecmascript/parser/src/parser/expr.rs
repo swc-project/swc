@@ -428,21 +428,28 @@ impl<'a, I: Tokens> Parser<I> {
                     type_params: None,
                 })));
             }
-            if can_be_arrow && !self.input.had_line_break_before_cur() && eat!(self, "=>") {
-                let params = vec![id.into()];
-                let body = self.parse_fn_body(false, false)?;
+            let had_line_break_before_cur = self.input.had_line_break_before_cur();
+            if can_be_arrow && eat!(self, "=>") {
+                if !had_line_break_before_cur || self.errors_for_backtraing.is_none() {
+                    if had_line_break_before_cur {
+                        self.emit_err(self.input.prev_span(), SyntaxError::LineBreakBeforeArrow);
+                    }
 
-                return Ok(Box::new(Expr::Arrow(ArrowExpr {
-                    span: span!(self, start),
-                    body,
-                    params,
-                    is_async: false,
-                    is_generator: false,
-                    // TODO
-                    return_type: None,
-                    // TODO
-                    type_params: None,
-                })));
+                    let params = vec![id.into()];
+                    let body = self.parse_fn_body(false, false)?;
+
+                    return Ok(Box::new(Expr::Arrow(ArrowExpr {
+                        span: span!(self, start),
+                        body,
+                        params,
+                        is_async: false,
+                        is_generator: false,
+                        // TODO
+                        return_type: None,
+                        // TODO
+                        type_params: None,
+                    })));
+                }
             }
 
             return Ok(Box::new(Expr::Ident(id)));
