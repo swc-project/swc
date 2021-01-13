@@ -1,0 +1,30 @@
+error: Expected identifier after this token
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserEqualsGreaterThanAfterFunction1/input.ts:1:1
+  |
+1 | function =>
+  | ^^^^^^^^
+
+error[1005]: Expected '('
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserEqualsGreaterThanAfterFunction1/input.ts:1:10
+  |
+1 | function =>
+  |          ^^
+
+error[1005]: Expected '{'
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserEqualsGreaterThanAfterFunction1/input.ts:1:10
+  |
+1 | function =>
+  |          ^^
+
+error[1109]: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserEqualsGreaterThanAfterFunction1/input.ts:1:10
+  |
+1 | function =>
+  |          ^^
+
+error: Unexpected eof
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserEqualsGreaterThanAfterFunction1/input.ts:1:12
+  |
+1 | function =>
+  |            ^
+
