@@ -69,7 +69,7 @@ impl VisitMut for Hoister {
     fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
         n.retain_mut(|decl| {
             let had_init = decl.init.is_some();
-            decl.visit_mut_children_with(self);
+            decl.visit_mut_with(self);
 
             // It will be inlined.
             if had_init && decl.init.is_none() {
