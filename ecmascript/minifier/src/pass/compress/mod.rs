@@ -9,6 +9,7 @@ use swc_common::pass::Repeated;
 use swc_ecma_ast::*;
 use swc_ecma_transforms::optimization::simplify::expr_simplifier;
 use swc_ecma_transforms::pass::JsPass;
+use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::as_folder;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
@@ -75,6 +76,21 @@ impl Repeated for Compressor<'_> {
     }
 }
 
+impl Compressor<'_> {
+    fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike,
+        Vec<T>: VisitMutWith<Self>,
+    {
+        // TODO: Hoist properties
+        // TODO: Hoist decls
+
+        stmts.visit_mut_children_with(self);
+
+        // TODO: drop unused
+    }
+}
+
 impl VisitMut for Compressor<'_> {
     noop_visit_mut_type!();
 
@@ -84,5 +100,13 @@ impl VisitMut for Compressor<'_> {
         }
 
         n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        self.handle_stmt_likes(n);
+    }
+
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        self.handle_stmt_likes(n);
     }
 }
