@@ -1,0 +1,6 @@
+error: Legacy decimal escape is not permitted in strict mode
+ --> $DIR/tests/typescript-errors/tsc/scanner/ecmascript5/scannerNumericLiteral9/input.ts:2:1
+  |
+2 | 009
+  | ^^^
+

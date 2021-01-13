@@ -1,0 +1,6 @@
+error[1085]: Legacy octal escape is not permitted in strict mode
+ --> $DIR/tests/typescript-errors/tsc/scanner/ecmascript5/scannerNumericLiteral2/input.ts:2:1
+  |
+2 | 01
+  | ^^
+
