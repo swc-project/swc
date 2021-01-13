@@ -1,0 +1,6 @@
+error[1109]: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/IfStatements/parserErrorRecoveryIfStatement1/input.ts:4:3
+  |
+4 |   }
+  |   ^
+
