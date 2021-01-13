@@ -1,0 +1,18 @@
+error: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ArgumentLists/parserErrorRecovery_ArgumentList7/input.ts:1:7
+  |
+1 | Foo(a,,
+  |       ^
+
+error: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ArgumentLists/parserErrorRecovery_ArgumentList7/input.ts:1:6
+  |
+1 | Foo(a,,
+  |      ^
+
+error: Unexpected eof
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ArgumentLists/parserErrorRecovery_ArgumentList7/input.ts:1:8
+  |
+1 | Foo(a,,
+  |        ^
+
