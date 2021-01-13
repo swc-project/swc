@@ -1,0 +1,12 @@
+error[1005]: Expected ']'
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Fuzz/parser0_004152/input.ts:2:45
+  |
+2 |     private position = new DisplayPosition([), 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 0], NoMove, 0);
+  |                                             ^
+
+error: Expected ], got ,
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Fuzz/parser0_004152/input.ts:2:46
+  |
+2 |     private position = new DisplayPosition([), 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 0], NoMove, 0);
+  |                                              ^
+
