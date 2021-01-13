@@ -1,0 +1,6 @@
+error: Expected an expression after this
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Generics/parserConstructorAmbiguity3/input.ts:1:11
+  |
+1 | new Date<A>
+  |           ^
+
