@@ -15,6 +15,10 @@ use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_parser::lexer::input::SourceFileInput;
 use swc_ecma_parser::lexer::Lexer;
 use swc_ecma_parser::Parser;
+use swc_ecma_transforms::fixer;
+use swc_ecma_transforms::hygiene;
+use swc_ecma_transforms::resolver;
+use swc_ecma_visit::FoldWith;
 use testing::NormalizedOutput;
 use walkdir::WalkDir;
 
@@ -40,9 +44,12 @@ fn terser_compress(input: PathBuf) {
             None,
         );
         let mut parser = Parser::new_from(lexer);
-        let module = parser.parse_module().map_err(|err| {
-            err.into_diagnostic(&handler).emit();
-        })?;
+        let module = parser
+            .parse_module()
+            .map_err(|err| {
+                err.into_diagnostic(&handler).emit();
+            })
+            .fold_with(&mut resolver())?;
 
         let output = optimize(
             module,
@@ -51,7 +58,9 @@ fn terser_compress(input: PathBuf) {
                 compress: Some(config),
                 ..Default::default()
             },
-        );
+        )
+        .fold_with(&mut hygiene())
+        .fold_with(&mut fixer(None));
         let output = print(cm.clone(), &[output]);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
