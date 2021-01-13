@@ -457,7 +457,14 @@ impl<'a, I: Tokens> Parser<I> {
                 Expr::Ident(ref i) => match i.sym {
                     js_word!("public") | js_word!("static") | js_word!("abstract") => {
                         if eat!(self, "interface") {
-                            self.emit_err(i.span, SyntaxError::InvalidAbstractModifier);
+                            self.emit_err(
+                                i.span,
+                                if i.sym == js_word!("abstract") {
+                                    SyntaxError::InvalidAbstractModifier
+                                } else {
+                                    SyntaxError::InvalidInterfaceModifier { modifier: i.sym }
+                                },
+                            );
                             return self
                                 .parse_ts_interface_decl(start)
                                 .map(Decl::from)

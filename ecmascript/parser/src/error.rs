@@ -282,6 +282,9 @@ pub enum SyntaxError {
     InvalidAsyncModifier,
     InvalidEnumMemberFollowing,
     ExpectedEnumMember,
+    InvalidInterfaceModifier {
+        modifier: JsWord,
+    },
 }
 
 impl SyntaxError {
@@ -835,6 +838,9 @@ impl SyntaxError {
                 "An enum member name must be followed by a ',', '=', or '}'".into()
             }
             SyntaxError::ExpectedEnumMember => "Enum member expected".into(),
+            SyntaxError::InvalidInterfaceModifier { modifier } => {
+                format!("'{}' modifier is not allowed for interfaces", modifier)
+            }
         }
     }
 }
