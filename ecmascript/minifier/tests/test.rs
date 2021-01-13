@@ -1,3 +1,4 @@
+use ansi_term::Color;
 use std::fs::read_to_string;
 use std::path::PathBuf;
 use swc_common::errors::ColorConfig;
@@ -22,14 +23,14 @@ fn terser_compress(input: PathBuf) {
     let dir = input.parent().unwrap();
     let config = dir.join("config.json");
     let config = read_to_string(&config).expect("failed to read config.json");
-    eprintln!("---- Config -----\n{}", config);
+    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
     let config: CompressOptions =
         serde_json::from_str(&config).expect("failed to deserialize config.json");
 
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).expect("failed to load input.js");
 
-        eprintln!("---- Input -----\n{}", fm.src);
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
 
         let lexer = Lexer::new(
             Default::default(),
@@ -52,11 +53,15 @@ fn terser_compress(input: PathBuf) {
         );
         let output = NormalizedOutput::from(print(cm.clone(), &[output]));
 
-        eprintln!("---- Output -----\n{}", output);
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
 
         let expected = read_to_string(&dir.join("output.js")).unwrap();
 
-        eprintln!("---- Expected -----\n{}", expected);
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Expected"),
+            expected
+        );
 
         output.compare_to_file(dir.join("output.js")).unwrap();
 
