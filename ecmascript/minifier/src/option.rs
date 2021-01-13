@@ -67,7 +67,11 @@ pub struct CompressOptions {
 
     // drop_debugger : !false_by_default,
     // ecma          : 5,
-    // evaluate      : !false_by_default,
+    #[serde(default = "true_by_default")]
+    #[serde(alias = "evaluate")]
+    #[deprecated = "Not used. Exists only for api compatibility with terser."]
+    pub evaluate: bool,
+
     // expression    : false,
     // global_defs   : false,
     #[serde(default)]
@@ -81,9 +85,13 @@ pub struct CompressOptions {
     #[serde(default)]
     #[serde(alias = "hoist_vars")]
     pub hoist_vars: bool,
+
     // ie8           : false,
     // if_return     : !false_by_default,
-    // inline        : !false_by_default,
+    #[serde(default = "true_by_default")]
+    #[serde(alias = "inline")]
+    pub inline: bool,
+
     // join_vars     : !false_by_default,
     // keep_classnames: false,
     // keep_fargs    : true,
@@ -92,21 +100,32 @@ pub struct CompressOptions {
     // loops         : !false_by_default,
     // module        : false,
     // negate_iife   : !false_by_default,
-    // passes        : 1,
+    #[serde(default = "one_by_default")]
+    #[serde(alias = "passes")]
+    pub passes: usize,
+
     // properties    : !false_by_default,
     // pure_getters  : !false_by_default && "strict",
     // pure_funcs    : null,
-    /// Legacy. Not used
-    pub reduce_funcs: bool, // legacy
+    #[serde(default)]
+    #[serde(alias = "reduce_funcs")]
+    #[deprecated = "Not used. Exists only for api compatibility with terser."]
+    pub reduce_fns: bool,
     #[serde(default)]
     #[serde(alias = "reduce_vars")]
     pub reduce_vars: bool,
 
     // sequences     : !false_by_default,
-    // side_effects  : !false_by_default,
+    #[serde(default = "true_by_default")]
+    #[serde(alias = "side_effects")]
+    pub side_effects: bool,
+
     // switches      : !false_by_default,
     // top_retain    : null,
-    // toplevel      : !!(options && options["top_retain"]),
+    #[serde(default)]
+    #[serde(alias = "toplevel")]
+    #[deprecated = "Not used. Exists only for api compatibility with terser."]
+    pub top_level: bool,
     // typeofs       : !false_by_default,
     // unsafe        : false,
     // unsafe_arrows : false,
@@ -124,6 +143,10 @@ pub struct CompressOptions {
 
 const fn true_by_default() -> bool {
     true
+}
+
+const fn one_by_default() -> usize {
+    1
 }
 
 /// Implement default using serde.
