@@ -289,6 +289,7 @@ pub enum SyntaxError {
     InvalidParentOfClass {
         parent: JsWord,
     },
+    ExpectedType,
 }
 
 impl SyntaxError {
@@ -853,6 +854,8 @@ impl SyntaxError {
             SyntaxError::InvalidParentOfClass { parent } => {
                 format!("A class cannot extend '{}'", parent).into()
             }
+
+            SyntaxError::ExpectedType => "Expected a type".into(),
         }
     }
 }

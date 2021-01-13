@@ -2126,11 +2126,7 @@ impl<I: Tokens> Parser<I> {
         //   switch (self.state.type) {
         //   }
 
-        unexpected!(
-            self,
-            "an identifier, void, yield, null, await, break, a string literal, a numeric literal, \
-             true, false, `, -, import, this, typeof, {, [, ("
-        )
+        syntax_error!(self, SyntaxError::ExpectedType)
     }
 
     /// `tsParseArrayTypeOrHigher`
