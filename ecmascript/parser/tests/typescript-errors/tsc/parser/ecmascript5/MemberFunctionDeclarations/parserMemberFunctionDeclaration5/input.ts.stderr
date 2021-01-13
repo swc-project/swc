@@ -1,0 +1,6 @@
+error[1031]: `declare` modifier cannot appear on a class element
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/MemberFunctionDeclarations/parserMemberFunctionDeclaration5/input.ts:2:5
+  |
+2 |     declare Foo() { }
+  |     ^^^^^^^
+

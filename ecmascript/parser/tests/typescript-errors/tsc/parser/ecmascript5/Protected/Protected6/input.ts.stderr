@@ -1,0 +1,6 @@
+error[1029]: 'protected' modifier must precede 'static' modifier
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Protected/Protected6/input.ts:2:10
+  |
+2 |   static protected m() { }
+  |          ^^^^^^^^^
+
