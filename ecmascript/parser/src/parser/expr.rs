@@ -74,6 +74,19 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
+        // General error recovery.
+        match cur!(self, true) {
+            Ok(token) => match token {
+                Token::AssignOp(..) | Token::BinOp(..) => {
+                    self.emit_err(self.input.cur_span(), SyntaxError::ExpectedExpr);
+                    bump!(self);
+                    self.parse_expr()?;
+                }
+                _ => {}
+            },
+            _ => {}
+        }
+
         if self.input.syntax().typescript() {
             // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
             // syntax.
