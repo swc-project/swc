@@ -1,0 +1,6 @@
+error[1023]: An index signature parameter type must be either 'string' or 'number'
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/IndexSignatures/parserIndexSignature6/input.ts:2:6
+  |
+2 |   [a:boolean]
+  |      ^^^^^^^
+

@@ -1,0 +1,12 @@
+error[1023]: An index signature parameter type must be either 'string' or 'number'
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/IndexSignatures/parserIndexSignature8/input.ts:1:20
+  |
+1 | var foo: { [index: any]; }; // expect an error here
+  |                    ^^^
+
+error[1023]: An index signature parameter type must be either 'string' or 'number'
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/IndexSignatures/parserIndexSignature8/input.ts:2:21
+  |
+2 | var foo2: { [index: RegExp]; }; // expect an error here
+  |                     ^^^^^^
+
