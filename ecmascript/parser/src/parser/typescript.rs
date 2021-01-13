@@ -199,6 +199,14 @@ impl<I: Tokens> Parser<I> {
             Ident {
                 sym: js_word!("void"),
                 ..
+            }
+            | Ident {
+                sym: js_word!("null"),
+                ..
+            }
+            | Ident {
+                sym: js_word!("undefined"),
+                ..
             } => {
                 let dot_start = cur_pos!(self);
                 let dot_span = span!(self, dot_start);
