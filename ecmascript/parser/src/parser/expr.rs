@@ -62,6 +62,8 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
 
+        let start = cur_pos!(self);
+
         // Recover from invalid decorators.
         if is!(self, '@') {
             let decorators = self.parse_decorators(false)?;
@@ -80,7 +82,10 @@ impl<'a, I: Tokens> Parser<I> {
                 Token::AssignOp(..) | Token::BinOp(..) => {
                     self.emit_err(self.input.cur_span(), SyntaxError::ExpectedExpr);
                     bump!(self);
-                    self.parse_expr()?;
+                    let expr = self.parse_expr()?;
+                    return Ok(Box::new(Expr::Invalid(Invalid {
+                        span: Span::new(start, expr.span().hi, Default::default()),
+                    })));
                 }
                 _ => {}
             },
