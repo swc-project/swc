@@ -98,6 +98,7 @@ impl Compressor<'_> {
 
         // TODO: Hoist decls
 
+        // This is swc version of `node.optimize(this);`.
         stmts.visit_mut_children_with(self);
 
         // TODO: drop unused
@@ -111,6 +112,13 @@ impl VisitMut for Compressor<'_> {
         if self.pass > 0 || self.options.reduce_vars {
             // reset_opt_flags
         }
+
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
+        // TODO: Skip if node is already optimized.
+        // if (has_flag(node, SQUEEZED)) return node;
 
         n.visit_mut_children_with(self);
     }
