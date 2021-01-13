@@ -1,5 +1,6 @@
 use crate::util::usage::ScopeData;
 use crate::util::usage::UsageAnalyzer;
+use retain_mut::RetainMut;
 use std::mem::take;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -40,6 +41,27 @@ impl Reducer {
 
 impl VisitMut for Reducer {
     noop_visit_mut_type!();
+
+    fn visit_mut_var_declarators(&mut self, vars: &mut Vec<VarDeclarator>) {
+        vars.retain_mut(|var| {
+            let had_init = var.init.is_some();
+
+            var.visit_mut_with(self);
+
+            // It will be inlined.
+            if had_init && var.init.is_none() {
+                return false;
+            }
+
+            true
+        })
+    }
+
+    fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
+        var.visit_mut_children_with(self);
+
+        // We will inline if possible.
+    }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         self.handle_stmt_likes(stmts);
