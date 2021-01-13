@@ -4,6 +4,7 @@ use std::path::PathBuf;
 use swc_common::errors::ColorConfig;
 use swc_common::errors::Handler;
 use swc_common::sync::Lrc;
+use swc_common::FileName;
 use swc_common::SourceMap;
 use swc_ecma_ast::*;
 use swc_ecma_codegen::text_writer::JsWriter;
@@ -51,11 +52,29 @@ fn terser_compress(input: PathBuf) {
                 ..Default::default()
             },
         );
-        let output = NormalizedOutput::from(print(cm.clone(), &[output]));
+        let output = print(cm.clone(), &[output]);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
 
-        let expected = read_to_string(&dir.join("output.js")).unwrap();
+        let expected = {
+            let expected = read_to_string(&dir.join("output.js")).unwrap();
+            let fm = cm.new_source_file(FileName::Anon, expected);
+            let lexer = Lexer::new(
+                Default::default(),
+                Default::default(),
+                SourceFileInput::from(&*fm),
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+            let expected = parser.parse_module().map_err(|err| {
+                err.into_diagnostic(&handler).emit();
+            })?;
+            print(cm.clone(), &[expected])
+        };
+
+        if output == expected {
+            return Ok(());
+        }
 
         eprintln!(
             "---- {} -----\n{}",
@@ -63,7 +82,9 @@ fn terser_compress(input: PathBuf) {
             expected
         );
 
-        output.compare_to_file(dir.join("output.js")).unwrap();
+        NormalizedOutput::from(output)
+            .compare_to_file(dir.join("output.js"))
+            .unwrap();
 
         Ok(())
     })
