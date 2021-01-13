@@ -1,0 +1,30 @@
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/parserS12.11_A3_T4/input.ts:16:9
+   |
+16 |     case:
+   |         ^
+
+error[1128]: Declaration or statement expected
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/parserS12.11_A3_T4/input.ts:16:9
+   |
+16 |     case:
+   |         ^
+
+error[1105]: A 'break' statement can only be used within an enclosing iteration or switch statement
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/parserS12.11_A3_T4/input.ts:20:7
+   |
+20 |       break;
+   |       ^^^^^^
+
+error[1108]: A 'return' statement can only be used within a function body.
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/parserS12.11_A3_T4/input.ts:23:3
+   |
+23 |   return result;
+   |   ^^^^^^^^^^^^^^
+
+error[1005]: Expected '}'
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/parserS12.11_A3_T4/input.ts:24:1
+   |
+24 | }
+   | ^
+

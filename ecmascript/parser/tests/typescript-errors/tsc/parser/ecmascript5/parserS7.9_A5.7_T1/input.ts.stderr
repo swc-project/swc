@@ -1,0 +1,7 @@
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/parserS7.9_A5.7_T1/input.ts:17:1
+   |
+17 | / ++
+18 | | y
+   | |_^
+
