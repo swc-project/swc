@@ -1,0 +1,6 @@
+error[1100]: Invalid use of 'arguments' in strict mode
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/StrictMode/parserStrictMode7/input.ts:2:3
+  |
+2 | ++eval;
+  |   ^^^^
+

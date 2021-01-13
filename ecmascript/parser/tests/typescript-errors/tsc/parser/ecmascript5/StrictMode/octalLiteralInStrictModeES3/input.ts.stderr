@@ -1,0 +1,6 @@
+error[1085]: Legacy octal escape is not permitted in strict mode
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/StrictMode/octalLiteralInStrictModeES3/input.ts:2:1
+  |
+2 | 03;
+  | ^^
+
