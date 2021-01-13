@@ -1,0 +1,96 @@
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/compoundAssignmentLHSIsValue/input.ts:60:9
+   |
+60 | { a: 0} *= value;
+   |         ^^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/compoundAssignmentLHSIsValue/input.ts:61:9
+   |
+61 | { a: 0} += value;
+   |         ^^
+
+error: Invalid access to super
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/compoundAssignmentLHSIsValue/input.ts:71:15
+   |
+71 |         super *= value;
+   |               ^^
+
+error: Invalid access to super
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/compoundAssignmentLHSIsValue/input.ts:72:15
+   |
+72 |         super += value;
+   |               ^^
+
+error: Invalid access to super
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/compoundAssignmentLHSIsValue/input.ts:76:15
+   |
+76 |         super *= value;
+   |               ^^
+
+error: Invalid access to super
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/compoundAssignmentLHSIsValue/input.ts:77:15
+   |
+77 |         super += value;
+   |               ^^
+
+error: Invalid access to super
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/compoundAssignmentLHSIsValue/input.ts:81:15
+   |
+81 |         super *= value;
+   |               ^^
+
+error: Invalid access to super
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/compoundAssignmentLHSIsValue/input.ts:82:15
+   |
+82 |         super += value;
+   |               ^^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/compoundAssignmentLHSIsValue/input.ts:87:21
+   |
+87 | function bar1() { } *= value;
+   |                     ^^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/compoundAssignmentLHSIsValue/input.ts:88:21
+   |
+88 | function bar2() { } += value;
+   |                     ^^
+
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/compoundAssignmentLHSIsValue/input.ts:89:11
+   |
+89 | () => { } *= value;
+   |           ^^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/compoundAssignmentLHSIsValue/input.ts:89:1
+   |
+89 | () => { } *= value;
+   | ^^^^^^^^^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/compoundAssignmentLHSIsValue/input.ts:89:11
+   |
+89 | () => { } *= value;
+   |           ^^
+
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/compoundAssignmentLHSIsValue/input.ts:90:11
+   |
+90 | () => { } += value;
+   |           ^^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/compoundAssignmentLHSIsValue/input.ts:90:1
+   |
+90 | () => { } += value;
+   | ^^^^^^^^^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/compoundAssignmentLHSIsValue/input.ts:90:11
+   |
+90 | () => { } += value;
+   |           ^^
+

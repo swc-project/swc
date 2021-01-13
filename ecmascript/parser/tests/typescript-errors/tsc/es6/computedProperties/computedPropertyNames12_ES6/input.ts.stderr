@@ -1,0 +1,12 @@
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/es6/computedProperties/computedPropertyNames12_ES6/input.ts:10:6
+   |
+10 |     [+s]: typeof s;
+   |      ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/es6/computedProperties/computedPropertyNames12_ES6/input.ts:14:13
+   |
+14 |     static [<any>true]: number;
+   |             ^
+
