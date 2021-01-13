@@ -90,7 +90,7 @@ impl VisitMut for Hoister {
                     if !usage_data
                         .vars
                         .get(&name.to_id())
-                        .map(|v| v.single_use && v.has_property_access)
+                        .map(|v| v.ref_count == 1 && v.has_property_access)
                         .unwrap_or(false)
                     {
                         return;
