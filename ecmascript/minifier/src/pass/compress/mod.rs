@@ -123,11 +123,31 @@ impl VisitMut for Compressor<'_> {
         n.visit_mut_children_with(self);
     }
 
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        self.handle_stmt_likes(n);
+    fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        self.handle_stmt_likes(stmts);
+
+        stmts.retain(|stmt| match stmt {
+            ModuleItem::Stmt(Stmt::Empty(..)) => false,
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::Var(VarDecl { decls, .. }),
+                ..
+            }))
+            | ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl { decls, .. })))
+                if decls.is_empty() =>
+            {
+                false
+            }
+            _ => true,
+        });
     }
 
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        self.handle_stmt_likes(n);
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        self.handle_stmt_likes(stmts);
+
+        stmts.retain(|stmt| match stmt {
+            Stmt::Empty(..) => false,
+            Stmt::Decl(Decl::Var(VarDecl { decls, .. })) if decls.is_empty() => false,
+            _ => true,
+        });
     }
 }
