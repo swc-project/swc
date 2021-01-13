@@ -22,11 +22,15 @@ fn terser_compress(input: PathBuf) {
     let dir = input.parent().unwrap();
     let config = dir.join("config.json");
     let config = read_to_string(&config).expect("failed to read config.json");
+    eprintln!("---- Config -----\n{}", config);
     let config: CompressOptions =
         serde_json::from_str(&config).expect("failed to deserialize config.json");
 
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).expect("failed to load input.js");
+
+        eprintln!("---- Input -----\n{}", fm.src);
+
         let lexer = Lexer::new(
             Default::default(),
             Default::default(),
