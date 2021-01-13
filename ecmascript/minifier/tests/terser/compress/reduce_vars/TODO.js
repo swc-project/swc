@@ -1,231 +1,3 @@
-reduce_vars: {
-    options = {
-        conditionals: true,
-        evaluate: true,
-        global_defs: {
-            C: 0,
-        },
-        inline: true,
-        reduce_funcs: true,
-        reduce_vars: true,
-        toplevel: true,
-        unused: true,
-    }
-    input: {
-        var A = 1;
-        (function f0() {
-            var a = 2;
-            console.log(a - 5);
-            console.log(A - 5);
-        })();
-        (function f1() {
-            var a = 2;
-            console.log(a - 5);
-            eval("console.log(a);");
-        })();
-        (function f2(eval) {
-            var a = 2;
-            console.log(a - 5);
-            eval("console.log(a);");
-        })(eval);
-        (function f3() {
-            var b = typeof C !== "undefined";
-            var c = 4;
-            if (b) {
-                return 'yes';
-            } else {
-                return 'no';
-            }
-        })();
-        console.log(A + 1);
-    }
-    expect: {
-        var A = 1;
-        (function() {
-            console.log(-3);
-            console.log(A - 5);
-        })();
-        (function f1() {
-            var a = 2;
-            console.log(a - 5);
-            eval("console.log(a);");
-        })();
-        (function f2(eval) {
-            var a = 2;
-            console.log(a - 5);
-            eval("console.log(a);");
-        })(eval);
-        "yes";
-        console.log(A + 1);
-    }
-    expect_stdout: true
-}
-
-modified: {
-    options = {
-        conditionals: true,
-        evaluate: true,
-        reduce_funcs: true,
-        reduce_vars: true,
-        unused: true,
-    }
-    input: {
-        function f0() {
-            var a = 1, b = 2;
-            b++;
-            console.log(a + 1);
-            console.log(b + 1);
-        }
-        function f1() {
-            var a = 1, b = 2;
-            --b;
-            console.log(a + 1);
-            console.log(b + 1);
-        }
-        function f2() {
-            var a = 1, b = 2, c = 3;
-            b = c;
-            console.log(a + b);
-            console.log(b + c);
-            console.log(a + c);
-            console.log(a + b + c);
-        }
-        function f3() {
-            var a = 1, b = 2, c = 3;
-            b *= c;
-            console.log(a + b);
-            console.log(b + c);
-            console.log(a + c);
-            console.log(a + b + c);
-        }
-        function f4() {
-            var a = 1, b = 2, c = 3;
-            if (a) {
-                b = c;
-            } else {
-                c = b;
-            }
-            console.log(a + b);
-            console.log(b + c);
-            console.log(a + c);
-            console.log(a + b + c);
-        }
-        function f5(a) {
-            B = a;
-            console.log(typeof A ? "yes" : "no");
-            console.log(typeof B ? "yes" : "no");
-        }
-        f0(), f1(), f2(), f3(), f4(), f5();
-    }
-    expect: {
-        function f0() {
-            var b = 2;
-            b++;
-            console.log(2);
-            console.log(4);
-        }
-        function f1() {
-            var b = 2;
-            --b;
-            console.log(2);
-            console.log(2);
-        }
-        function f2() {
-            3;
-            console.log(4);
-            console.log(6);
-            console.log(4);
-            console.log(7);
-        }
-        function f3() {
-            var b = 2;
-            b *= 3;
-            console.log(7);
-            console.log(9);
-            console.log(4);
-            console.log(10);
-        }
-        function f4() {
-            var b = 2, c = 3;
-            b = c;
-            console.log(1 + b);
-            console.log(b + c);
-            console.log(1 + c);
-            console.log(1 + b + c);
-        }
-        function f5(a) {
-            B = a;
-            console.log(typeof A ? "yes" : "no");
-            console.log(typeof B ? "yes" : "no");
-        }
-        f0(), f1(), f2(), f3(), f4(), f5();
-    }
-    expect_stdout: [
-        "2",
-        "4",
-        "2",
-        "2",
-        "4",
-        "6",
-        "4",
-        "7",
-        "7",
-        "9",
-        "4",
-        "10",
-        "4",
-        "6",
-        "4",
-        "7",
-        "yes",
-        "yes",
-    ]
-}
-
-unsafe_evaluate: {
-    options = {
-        evaluate: true,
-        reduce_funcs: true,
-        reduce_vars: true,
-        side_effects: true,
-        unsafe: true,
-        unused: true,
-    }
-    input: {
-        function f0(){
-            var a = {
-                b:1
-            };
-            console.log(a.b + 3);
-        }
-
-        function f1(){
-            var a = {
-                b:{
-                    c:1
-                },
-                d:2
-            };
-            console.log(a.b + 3, a.d + 4, a.b.c + 5, a.d.c + 6);
-        }
-    }
-    expect: {
-        function f0(){
-            console.log(4);
-        }
-
-        function f1(){
-            var a = {
-                b:{
-                    c:1
-                },
-                d:2
-            };
-            console.log(a.b + 3, 6, 6, 2..c + 6);
-        }
-    }
-}
-
 unsafe_evaluate_side_effect_free_1: {
     options = {
         evaluate: true,
@@ -235,14 +7,14 @@ unsafe_evaluate_side_effect_free_1: {
         unused: true,
     }
     input: {
-        console.log(function(){ var o={p:1}; console.log(o.p); return o.p; }());
-        console.log(function(){ var o={p:2}; console.log(o.p); return o; }());
-        console.log(function(){ var o={p:3}; console.log([o][0].p); return o.p; }());
+        console.log(function () { var o = { p: 1 }; console.log(o.p); return o.p; }());
+        console.log(function () { var o = { p: 2 }; console.log(o.p); return o; }());
+        console.log(function () { var o = { p: 3 }; console.log([o][0].p); return o.p; }());
     }
     expect: {
-        console.log(function(){ console.log(1); return 1; }());
-        console.log(function(){ var o={p:2}; console.log(2); return o; }());
-        console.log(function(){ console.log(3); return 3; }());
+        console.log(function () { console.log(1); return 1; }());
+        console.log(function () { var o = { p: 2 }; console.log(2); return o; }());
+        console.log(function () { console.log(3); return 3; }());
     }
     expect_stdout: true
 }
@@ -259,10 +31,10 @@ unsafe_evaluate_side_effect_free_2: {
         unused: true,
     }
     input: {
-        console.log(function(){ var o={p:1},a=[o]; console.log(a[0].p); return o.p; }());
+        console.log(function () { var o = { p: 1 }, a = [o]; console.log(a[0].p); return o.p; }());
     }
     expect: {
-        console.log(function(){ console.log(1); return 1; }());
+        console.log(function () { console.log(1); return 1; }());
     }
     expect_stdout: true
 }
@@ -276,14 +48,14 @@ unsafe_evaluate_escaped: {
         unused: true,
     }
     input: {
-        console.log(function(){ var o={p:1}; console.log(o, o.p); return o.p; }());
-        console.log(function(){ var o={p:2}; console.log(o.p, o); return o.p; }());
-        console.log(function(){ var o={p:3},a=[o]; console.log(a[0].p++); return o.p; }());
+        console.log(function () { var o = { p: 1 }; console.log(o, o.p); return o.p; }());
+        console.log(function () { var o = { p: 2 }; console.log(o.p, o); return o.p; }());
+        console.log(function () { var o = { p: 3 }, a = [o]; console.log(a[0].p++); return o.p; }());
     }
     expect: {
-        console.log(function(){ var o={p:1}; console.log(o, o.p); return o.p; }());
-        console.log(function(){ var o={p:2}; console.log(o.p, o); return o.p; }());
-        console.log(function(){ var o={p:3},a=[o]; console.log(a[0].p++); return o.p; }());
+        console.log(function () { var o = { p: 1 }; console.log(o, o.p); return o.p; }());
+        console.log(function () { var o = { p: 2 }; console.log(o.p, o); return o.p; }());
+        console.log(function () { var o = { p: 3 }, a = [o]; console.log(a[0].p++); return o.p; }());
     }
     expect_stdout: true
 }
@@ -297,26 +69,26 @@ unsafe_evaluate_modified: {
         unused: true,
     }
     input: {
-        console.log(function(){ var o={p:1}; o.p++; console.log(o.p); return o.p; }());
-        console.log(function(){ var o={p:2}; --o.p; console.log(o.p); return o.p; }());
-        console.log(function(){ var o={p:3}; o.p += ""; console.log(o.p); return o.p; }());
-        console.log(function(){ var o={p:4}; o = {}; console.log(o.p); return o.p; }());
-        console.log(function(){ var o={p:5}; o.p = -9; console.log(o.p); return o.p; }());
+        console.log(function () { var o = { p: 1 }; o.p++; console.log(o.p); return o.p; }());
+        console.log(function () { var o = { p: 2 }; --o.p; console.log(o.p); return o.p; }());
+        console.log(function () { var o = { p: 3 }; o.p += ""; console.log(o.p); return o.p; }());
+        console.log(function () { var o = { p: 4 }; o = {}; console.log(o.p); return o.p; }());
+        console.log(function () { var o = { p: 5 }; o.p = -9; console.log(o.p); return o.p; }());
         function inc() { this.p++; }
-        console.log(function(){ var o={p:6}; inc.call(o); console.log(o.p); return o.p; }());
-        console.log(function(){ var o={p:7}; console.log([o][0].p++); return o.p; }());
-        console.log(function(){ var o={p:8}; console.log({q:o}.q.p++); return o.p; }());
+        console.log(function () { var o = { p: 6 }; inc.call(o); console.log(o.p); return o.p; }());
+        console.log(function () { var o = { p: 7 }; console.log([o][0].p++); return o.p; }());
+        console.log(function () { var o = { p: 8 }; console.log({ q: o }.q.p++); return o.p; }());
     }
     expect: {
-        console.log(function(){ var o={p:1}; o.p++; console.log(o.p); return o.p; }());
-        console.log(function(){ var o={p:2}; --o.p; console.log(o.p); return o.p; }());
-        console.log(function(){ var o={p:3}; o.p += ""; console.log(o.p); return o.p; }());
-        console.log(function(){ var o; o = {}; console.log(o.p); return o.p; }());
-        console.log(function(){ var o={p:5}; o.p = -9; console.log(o.p); return o.p; }());
+        console.log(function () { var o = { p: 1 }; o.p++; console.log(o.p); return o.p; }());
+        console.log(function () { var o = { p: 2 }; --o.p; console.log(o.p); return o.p; }());
+        console.log(function () { var o = { p: 3 }; o.p += ""; console.log(o.p); return o.p; }());
+        console.log(function () { var o; o = {}; console.log(o.p); return o.p; }());
+        console.log(function () { var o = { p: 5 }; o.p = -9; console.log(o.p); return o.p; }());
         function inc() { this.p++; }
-        console.log(function(){ var o={p:6}; inc.call(o); console.log(o.p); return o.p; }());
-        console.log(function(){ var o={p:7}; console.log([o][0].p++); return o.p; }());
-        console.log(function(){ var o={p:8}; console.log({q:o}.q.p++); return o.p; }());
+        console.log(function () { var o = { p: 6 }; inc.call(o); console.log(o.p); return o.p; }());
+        console.log(function () { var o = { p: 7 }; console.log([o][0].p++); return o.p; }());
+        console.log(function () { var o = { p: 8 }; console.log({ q: o }.q.p++); return o.p; }());
     }
     expect_stdout: true
 }
@@ -330,14 +102,14 @@ unsafe_evaluate_unknown: {
         unused: true,
     }
     input: {
-        console.log(function(){ var o={p:1}; console.log(o.not_present); return o.p; }());
-        console.log(function(){ var o={p:2}; console.log(o.prototype); return o.p; }());
-        console.log(function(){ var o={p:3}; console.log(o.hasOwnProperty); return o.p; }());
+        console.log(function () { var o = { p: 1 }; console.log(o.not_present); return o.p; }());
+        console.log(function () { var o = { p: 2 }; console.log(o.prototype); return o.p; }());
+        console.log(function () { var o = { p: 3 }; console.log(o.hasOwnProperty); return o.p; }());
     }
     expect: {
-        console.log(function(){ var o={p:1}; console.log(o.not_present); return o.p; }());
-        console.log(function(){ var o={p:2}; console.log(o.prototype); return o.p; }());
-        console.log(function(){ var o={p:3}; console.log(o.hasOwnProperty); return o.p; }());
+        console.log(function () { var o = { p: 1 }; console.log(o.not_present); return o.p; }());
+        console.log(function () { var o = { p: 2 }; console.log(o.prototype); return o.p; }());
+        console.log(function () { var o = { p: 3 }; console.log(o.hasOwnProperty); return o.p; }());
     }
     expect_stdout: true
 }
@@ -350,32 +122,32 @@ unsafe_evaluate_object_1: {
         unsafe: true,
     }
     input: {
-        function f0(){
+        function f0() {
             var a = 1;
             var b = {};
             b[a] = 2;
             console.log(a + 3);
         }
 
-        function f1(){
+        function f1() {
             var a = {
-                b:1
+                b: 1
             };
             a.b = 2;
             console.log(a.b + 3);
         }
     }
     expect: {
-        function f0(){
+        function f0() {
             var a = 1;
             var b = {};
             b[1] = 2;
             console.log(4);
         }
 
-        function f1(){
+        function f1() {
             var a = {
-                b:1
+                b: 1
             };
             a.b = 2;
             console.log(a.b + 3);
@@ -395,10 +167,10 @@ unsafe_evaluate_object_2: {
         var obj = {
             foo: 1,
             bar: 2,
-            square: function(x) {
+            square: function (x) {
                 return x * x;
             },
-            cube: function(x) {
+            cube: function (x) {
                 return x * x * x;
             },
         };
@@ -408,10 +180,10 @@ unsafe_evaluate_object_2: {
         var obj = {
             foo: 1,
             bar: 2,
-            square: function(x) {
+            square: function (x) {
                 return x * x;
             },
-            cube: function(x) {
+            cube: function (x) {
                 return x * x * x;
             },
         };
@@ -434,10 +206,10 @@ unsafe_evaluate_object_3: {
                 return 1;
             },
             bar: 2,
-            square: function(x) {
+            square: function (x) {
                 return x * x;
             },
-            cube: function(x) {
+            cube: function (x) {
                 return x * x * x;
             },
         };
@@ -449,10 +221,10 @@ unsafe_evaluate_object_3: {
                 return 1;
             },
             bar: 2,
-            square: function(x) {
+            square: function (x) {
                 return x * x;
             },
-            cube: function(x) {
+            cube: function (x) {
                 return x * x * x;
             },
         };
@@ -469,40 +241,40 @@ unsafe_evaluate_array_1: {
         unsafe: true,
     }
     input: {
-        function f0(){
+        function f0() {
             var a = 1;
             var b = [];
             b[a] = 2;
             console.log(a + 3);
         }
 
-        function f1(){
+        function f1() {
             var a = [1];
             a[2] = 3;
             console.log(a.length);
         }
 
-        function f2(){
+        function f2() {
             var a = [1];
             a.push(2);
             console.log(a.length);
         }
     }
     expect: {
-        function f0(){
+        function f0() {
             var a = 1;
             var b = [];
             b[1] = 2;
             console.log(4);
         }
 
-        function f1(){
+        function f1() {
             var a = [1];
             a[2] = 3;
             console.log(a.length);
         }
 
-        function f2(){
+        function f2() {
             var a = [1];
             a.push(2);
             console.log(a.length);
@@ -522,10 +294,10 @@ unsafe_evaluate_array_2: {
         var arr = [
             1,
             2,
-            function(x) {
+            function (x) {
                 return x * x;
             },
-            function(x) {
+            function (x) {
                 return x * x * x;
             },
         ];
@@ -535,10 +307,10 @@ unsafe_evaluate_array_2: {
         var arr = [
             1,
             2,
-            function(x) {
+            function (x) {
                 return x * x;
             },
-            function(x) {
+            function (x) {
                 return x * x * x;
             },
         ];
@@ -559,7 +331,7 @@ unsafe_evaluate_array_3: {
         var arr = [
             1,
             2,
-            function() {
+            function () {
                 return ++arr[0];
             },
         ];
@@ -569,7 +341,7 @@ unsafe_evaluate_array_3: {
         var arr = [
             1,
             2,
-            function() {
+            function () {
                 return ++arr[0];
             },
         ];
@@ -590,7 +362,7 @@ unsafe_evaluate_array_4: {
         var arr = [
             1,
             2,
-            function() {
+            function () {
                 return ++this[0];
             },
         ];
@@ -600,7 +372,7 @@ unsafe_evaluate_array_4: {
         var arr = [
             1,
             2,
-            function() {
+            function () {
                 return ++this[0];
             },
         ];
@@ -621,7 +393,7 @@ unsafe_evaluate_array_5: {
         var arr = [
             1,
             2,
-            function() {
+            function () {
                 return ++this[0];
             },
         ];
@@ -631,7 +403,7 @@ unsafe_evaluate_array_5: {
         var arr = [
             1,
             2,
-            function() {
+            function () {
                 return ++this[0];
             },
         ];
@@ -681,13 +453,13 @@ iife: {
         reduce_vars: true,
     }
     input: {
-        !function(a, b, c) {
+        !function (a, b, c) {
             b++;
             console.log(a - 1, b * 1, c + 2);
         }(1, 2, 3);
     }
     expect: {
-        !function(a, b, c) {
+        !function (a, b, c) {
             b++;
             console.log(0, 3, 5);
         }(1, 2, 3);
@@ -702,13 +474,13 @@ iife_new: {
         reduce_vars: true,
     }
     input: {
-        var A = new function(a, b, c) {
+        var A = new function (a, b, c) {
             b++;
             console.log(a - 1, b * 1, c + 2);
         }(1, 2, 3);
     }
     expect: {
-        var A = new function(a, b, c) {
+        var A = new function (a, b, c) {
             b++;
             console.log(0, 3, 5);
         }(1, 2, 3);
@@ -749,7 +521,7 @@ multi_def_2: {
         reduce_vars: true,
     }
     input: {
-        function f(){
+        function f() {
             if (code == 16)
                 var bitsLength = 2, bitsOffset = 3, what = len;
             else if (code == 17)
@@ -760,7 +532,7 @@ multi_def_2: {
         }
     }
     expect: {
-        function f(){
+        function f() {
             if (16 == code)
                 var bitsLength = 2, bitsOffset = 3, what = len;
             else if (17 == code)
@@ -807,13 +579,13 @@ use_before_var: {
         reduce_vars: true,
     }
     input: {
-        function f(){
+        function f() {
             console.log(t);
             var t = 1;
         }
     }
     expect: {
-        function f(){
+        function f() {
             console.log(t);
             var t = 1;
         }
@@ -827,7 +599,7 @@ inner_var_if: {
         reduce_vars: true,
     }
     input: {
-        function f(a){
+        function f(a) {
             if (a)
                 var t = 1;
             if (!t)
@@ -835,7 +607,7 @@ inner_var_if: {
         }
     }
     expect: {
-        function f(a){
+        function f(a) {
             if (a)
                 var t = 1;
             if (!t)
@@ -851,7 +623,7 @@ inner_var_label: {
         reduce_vars: true,
     }
     input: {
-        function f(a){
+        function f(a) {
             l: {
                 if (a) break l;
                 var t = 1;
@@ -860,7 +632,7 @@ inner_var_label: {
         }
     }
     expect: {
-        function f(a){
+        function f(a) {
             l: {
                 if (a) break l;
                 var t = 1;
@@ -908,14 +680,14 @@ inner_var_for_2: {
         unused: true,
     }
     input: {
-        !function() {
+        !function () {
             var a = 1;
             for (var b = 1; --b;) var a = 2;
             console.log(a);
         }();
     }
     expect: {
-        !function() {
+        !function () {
             var a = 1;
             for (var b = 1; --b;) a = 2;
             console.log(a);
@@ -933,7 +705,7 @@ inner_var_for_in_1: {
     input: {
         function f() {
             var a = 1, b = 2;
-            for (b in (function() {
+            for (b in (function () {
                 return x(a, b, c);
             })()) {
                 var c = 3, d = 4;
@@ -945,7 +717,7 @@ inner_var_for_in_1: {
     expect: {
         function f() {
             var a = 1, b = 2;
-            for (b in (function() {
+            for (b in (function () {
                 return x(1, b, c);
             })()) {
                 var c = 3, d = 4;
@@ -1013,14 +785,14 @@ issue_1533_1: {
     input: {
         function f() {
             var id = "";
-            for (id in {break: "me"})
+            for (id in { break: "me" })
                 console.log(id);
         }
     }
     expect: {
         function f() {
             var id = "";
-            for (id in {break: "me"})
+            for (id in { break: "me" })
                 console.log(id);
         }
     }
@@ -1035,7 +807,7 @@ issue_1533_2: {
     input: {
         function f() {
             var id = "";
-            for (var id in {break: "me"})
+            for (var id in { break: "me" })
                 console.log(id);
             console.log(id);
         }
@@ -1043,7 +815,7 @@ issue_1533_2: {
     expect: {
         function f() {
             var id = "";
-            for (var id in {break: "me"})
+            for (var id in { break: "me" })
                 console.log(id);
             console.log(id);
         }
@@ -1170,7 +942,7 @@ toplevel_on_loops_2: {
         function bar() {
             console.log("bar:");
         }
-        for (;;) bar();
+        for (; ;) bar();
     }
 }
 
@@ -1217,7 +989,7 @@ toplevel_on_loops_3: {
         while (x) bar();
     }
     expect: {
-        for (;;) bar();
+        for (; ;) bar();
     }
 }
 
@@ -1236,7 +1008,7 @@ toplevel_off_loops_3: {
     }
     expect: {
         var x = 3;
-        for (;x;) bar();
+        for (; x;) bar();
     }
 }
 
@@ -1297,7 +1069,7 @@ defun_inline_1: {
     }
     expect: {
         function f() {
-            return function(b) {
+            return function (b) {
                 return b;
             }(2) + function h() {
                 return h();
@@ -1325,7 +1097,7 @@ defun_inline_2: {
     }
     expect: {
         function f() {
-            return function(b) {
+            return function (b) {
                 return b;
             }(2) + function h() {
                 return h();
@@ -1400,13 +1172,13 @@ defun_redefine: {
             function h() {
                 return 2;
             }
-            g = function() {
+            g = function () {
                 return 3;
             };
             return g() + h();
         }
     }
-    expect:  {
+    expect: {
         function f() {
             (function () {
                 return 3;
@@ -1425,11 +1197,11 @@ func_inline: {
     }
     input: {
         function f() {
-            var g = function() {
+            var g = function () {
                 return 1;
             };
             console.log(g() + h());
-            var h = function() {
+            var h = function () {
                 return 2;
             };
         }
@@ -1437,7 +1209,7 @@ func_inline: {
     expect: {
         function f() {
             console.log(1 + h());
-            var h = function() {
+            var h = function () {
                 return 2;
             };
         }
@@ -1457,7 +1229,7 @@ func_modified: {
             function b() { return 2; }
             function c() { return 3; }
             b.inject = [];
-            c = function() { return 4; };
+            c = function () { return 4; };
             return a() + b() + c();
         }
     }
@@ -1482,7 +1254,7 @@ unused_modified: {
         unused: true,
     }
     input: {
-        console.log(function() {
+        console.log(function () {
             var b = 1, c = "FAIL";
             if (0 || b--)
                 c = "PASS";
@@ -1491,7 +1263,7 @@ unused_modified: {
         }());
     }
     expect: {
-        console.log(function() {
+        console.log(function () {
             var b = 1, c = "FAIL";
             if (0 || b--)
                 c = "PASS";
@@ -1510,7 +1282,7 @@ defun_label: {
         unused: true,
     }
     input: {
-        !function() {
+        !function () {
             function f(a) {
                 L: {
                     if (a) break L;
@@ -1521,8 +1293,8 @@ defun_label: {
         }();
     }
     expect: {
-        !function() {
-            console.log(function(a) {
+        !function () {
+            console.log(function (a) {
                 L: {
                     if (2) break L;
                     return 1;
@@ -1563,14 +1335,14 @@ iife_eval_1: {
         unused: true,
     }
     input: {
-        (function(x) {
+        (function (x) {
             console.log(x() === eval("x"));
         })(function f() {
             return f;
         });
     }
     expect: {
-        (function(x) {
+        (function (x) {
             console.log(x() === eval("x"));
         })(function f() {
             return f;
@@ -1586,7 +1358,7 @@ iife_eval_2: {
         unused: true,
     }
     input: {
-        (function() {
+        (function () {
             var x = function f() {
                 return f;
             };
@@ -1594,7 +1366,7 @@ iife_eval_2: {
         })();
     }
     expect: {
-        (function() {
+        (function () {
             var x = function f() {
                 return f;
             };
@@ -1620,12 +1392,12 @@ iife_func_side_effects: {
         function z() {
             console.log("z");
         }
-        (function(a, b, c) {
+        (function (a, b, c) {
             function y() {
                 console.log("FAIL");
             }
             return y + b();
-        })(x(), function() {
+        })(x(), function () {
             return y();
         }, z());
     }
@@ -1639,11 +1411,11 @@ iife_func_side_effects: {
         function z() {
             console.log("z");
         }
-        (function(a, b, c) {
-            return function() {
+        (function (a, b, c) {
+            return function () {
                 console.log("FAIL");
             } + b();
-        })(x(), function() {
+        })(x(), function () {
             return y();
         }, z());
     }
@@ -1686,7 +1458,7 @@ issue_1595_2: {
         })(2);
     }
     expect: {
-        (function(a) {
+        (function (a) {
             return g(a + 1);
         })(2);
     }
@@ -1706,7 +1478,7 @@ issue_1595_3: {
         })(2);
     }
     expect: {
-        (function(a) {
+        (function (a) {
             return g(3);
         })();
     }
@@ -1744,7 +1516,7 @@ issue_1606: {
     input: {
         function f() {
             var a;
-            function g(){};
+            function g() { };
             var b = 2;
             x(b);
         }
@@ -1752,7 +1524,7 @@ issue_1606: {
     expect: {
         function f() {
             var a, b;
-            function g(){};
+            function g() { };
             b = 2;
             x(b);
         }
@@ -1775,17 +1547,17 @@ issue_1670_1: {
     input: {
         (function f() {
             switch (1) {
-              case 0:
-                var a = true;
-                break;
-              default:
-                if (typeof a === "undefined") console.log("PASS");
-                else console.log("FAIL");
+                case 0:
+                    var a = true;
+                    break;
+                default:
+                    if (typeof a === "undefined") console.log("PASS");
+                    else console.log("FAIL");
             }
         })();
     }
     expect: {
-        (function() {
+        (function () {
             var a;
             void 0 === a ? console.log("PASS") : console.log("FAIL");
         })();
@@ -1808,17 +1580,17 @@ issue_1670_2: {
     input: {
         (function f() {
             switch (1) {
-              case 0:
-                var a = true;
-                break;
-              default:
-                if (typeof a === "undefined") console.log("PASS");
-                else console.log("FAIL");
+                case 0:
+                    var a = true;
+                    break;
+                default:
+                    if (typeof a === "undefined") console.log("PASS");
+                    else console.log("FAIL");
             }
         })();
     }
     expect: {
-        (function() {
+        (function () {
             console.log("PASS");
         })();
     }
@@ -1841,17 +1613,17 @@ issue_1670_3: {
     input: {
         (function f() {
             switch (1) {
-              case 0:
-                var a = true;
-                break;
-              case 1:
-                if (typeof a === "undefined") console.log("PASS");
-                else console.log("FAIL");
+                case 0:
+                    var a = true;
+                    break;
+                case 1:
+                    if (typeof a === "undefined") console.log("PASS");
+                    else console.log("FAIL");
             }
         })();
     }
     expect: {
-        (function() {
+        (function () {
             var a;
             void 0 === a ? console.log("PASS") : console.log("FAIL");
         })();
@@ -1874,17 +1646,17 @@ issue_1670_4: {
     input: {
         (function f() {
             switch (1) {
-              case 0:
-                var a = true;
-                break;
-              case 1:
-                if (typeof a === "undefined") console.log("PASS");
-                else console.log("FAIL");
+                case 0:
+                    var a = true;
+                    break;
+                case 1:
+                    if (typeof a === "undefined") console.log("PASS");
+                    else console.log("FAIL");
             }
         })();
     }
     expect: {
-        (function() {
+        (function () {
             console.log("PASS");
         })();
     }
@@ -1903,19 +1675,19 @@ issue_1670_5: {
         unused: true,
     }
     input: {
-        (function(a) {
+        (function (a) {
             switch (1) {
-              case a:
-                console.log(a);
-                break;
-              default:
-                console.log(2);
-                break;
+                case a:
+                    console.log(a);
+                    break;
+                default:
+                    console.log(2);
+                    break;
             }
         })(1);
     }
     expect: {
-        (function() {
+        (function () {
             console.log(1);
         })();
     }
@@ -1934,25 +1706,25 @@ issue_1670_6: {
         unused: true,
     }
     input: {
-        (function(a) {
+        (function (a) {
             switch (1) {
-              case a = 1:
-                console.log(a);
-                break;
-              default:
-                console.log(2);
-                break;
+                case a = 1:
+                    console.log(a);
+                    break;
+                default:
+                    console.log(2);
+                    break;
             }
         })(1);
     }
     expect: {
-        (function(a) {
+        (function (a) {
             switch (1) {
-              case a = 1:
-                console.log(a);
-                break;
-              default:
-                console.log(2);
+                case a = 1:
+                    console.log(a);
+                    break;
+                default:
+                    console.log(2);
             }
         })(1);
     }
@@ -2055,13 +1827,13 @@ redefine_arguments_2: {
         console.log(f(), g(), h());
     }
     expect: {
-        console.log(function() {
+        console.log(function () {
             var arguments;
             return typeof arguments;
-        }(), function() {
+        }(), function () {
             var arguments = 42;
             return typeof arguments;
-        }(), function(x) {
+        }(), function (x) {
             var arguments = x;
             return typeof arguments;
         }());
@@ -2097,13 +1869,13 @@ redefine_arguments_3: {
         console.log(f(), g(), h());
     }
     expect: {
-        console.log(function() {
+        console.log(function () {
             var arguments;
             return typeof arguments;
-        }(), function() {
+        }(), function () {
             var arguments = 42;
             return typeof arguments;
-        }(), function(x) {
+        }(), function (x) {
             var arguments = x;
             return typeof arguments;
         }());
@@ -2177,7 +1949,7 @@ redefine_farg_2: {
         console.log(f([]), g([]), h([]));
     }
     expect: {
-        console.log((a = [], typeof a), "number",function(a, b) {
+        console.log((a = [], typeof a), "number", function (a, b) {
             a = b;
             return typeof a;
         }([]));
@@ -2258,14 +2030,14 @@ delay_def_lhs: {
         reduce_vars: true,
     }
     input: {
-        console.log(function() {
+        console.log(function () {
             long_name++;
             return long_name;
             var long_name;
         }());
     }
     expect: {
-        console.log(function() {
+        console.log(function () {
             long_name++;
             return long_name;
             var long_name;
@@ -2282,24 +2054,24 @@ booleans: {
         reduce_vars: true,
     }
     input: {
-        console.log(function(a) {
+        console.log(function (a) {
             if (a != 0);
             switch (a) {
-              case 0:
-                return "FAIL";
-              case false:
-                return "PASS";
+                case 0:
+                    return "FAIL";
+                case false:
+                    return "PASS";
             }
         }(false));
     }
     expect: {
-        console.log(function(a) {
+        console.log(function (a) {
             if (0);
             switch (a) {
-              case 0:
-                return "FAIL";
-              case !1:
-                return "PASS";
+                case 0:
+                    return "FAIL";
+                case !1:
+                    return "PASS";
             }
         }(!1));
     }
@@ -2337,13 +2109,13 @@ pure_getters_1: {
     input: {
         try {
             var a = (a.b, 2);
-        } catch (e) {}
+        } catch (e) { }
         console.log(a);
     }
     expect: {
         try {
             var a = (a.b, 2);
-        } catch (e) {}
+        } catch (e) { }
         console.log(a);
     }
     expect_stdout: "undefined"
@@ -2418,14 +2190,14 @@ var_assign_1: {
         unused: true,
     }
     input: {
-        !function() {
+        !function () {
             var a;
             a = 2;
             console.log(a);
         }();
     }
     expect: {
-        !function() {
+        !function () {
             console.log(2);
         }();
     }
@@ -2442,13 +2214,13 @@ var_assign_2: {
         unused: true,
     }
     input: {
-        !function() {
+        !function () {
             var a;
             if (a = 2) console.log(a);
         }();
     }
     expect: {
-        !function() {
+        !function () {
             if (2) console.log(2);
         }();
     }
@@ -2465,14 +2237,14 @@ var_assign_3: {
         unused: true,
     }
     input: {
-        !function() {
+        !function () {
             var a;
             while (a = 2);
             console.log(a);
         }();
     }
     expect: {
-        !function() {
+        !function () {
             var a;
             while (a = 2);
             console.log(a);
@@ -2498,7 +2270,7 @@ var_assign_4: {
     expect: {
         !function a() {
             a = 2,
-            console.log(a);
+                console.log(a);
         }();
     }
 }
@@ -2513,20 +2285,20 @@ var_assign_5: {
         unused: true,
     }
     input: {
-        !function() {
+        !function () {
             var a;
-            !function(b) {
+            !function (b) {
                 a = 2;
                 console.log(a, b);
             }(a);
         }();
     }
     expect: {
-        !function() {
+        !function () {
             var a;
-            !function(b) {
+            !function (b) {
                 a = 2,
-                console.log(a, b);
+                    console.log(a, b);
             }(a);
         }();
     }
@@ -2541,14 +2313,14 @@ var_assign_6: {
         unused: true,
     }
     input: {
-        !function() {
-            var a = function(){}(a = 1);
+        !function () {
+            var a = function () { }(a = 1);
             console.log(a);
         }();
     }
     expect: {
-        !function() {
-            var a = function(){}(a = 1);
+        !function () {
+            var a = function () { }(a = 1);
             console.log(a);
         }();
     }
@@ -2563,13 +2335,13 @@ immutable: {
         unused: true,
     }
     input: {
-        !function() {
+        !function () {
             var a = "test";
             console.log(a.indexOf("e"));
         }();
     }
     expect: {
-        !function() {
+        !function () {
             console.log("test".indexOf("e"));
         }();
     }
@@ -2585,17 +2357,17 @@ issue_1814_1: {
     }
     input: {
         const a = 42;
-        !function() {
+        !function () {
             var b = a;
-            !function(a) {
+            !function (a) {
                 console.log(a++, b);
             }(0);
         }();
     }
     expect: {
         const a = 42;
-        !function() {
-            !function(a) {
+        !function () {
+            !function (a) {
                 console.log(a++, 42);
             }(0);
         }();
@@ -2612,17 +2384,17 @@ issue_1814_2: {
     }
     input: {
         const a = "32";
-        !function() {
+        !function () {
             var b = a + 1;
-            !function(a) {
+            !function (a) {
                 console.log(b, a++);
             }(0);
         }();
     }
     expect: {
         const a = "32";
-        !function() {
-            !function(a) {
+        !function () {
+            !function (a) {
                 console.log("321", a++);
             }(0);
         }();
@@ -2638,7 +2410,7 @@ try_abort: {
         unused: true,
     }
     input: {
-        !function() {
+        !function () {
             try {
                 var a = 1;
                 throw "";
@@ -2649,7 +2421,7 @@ try_abort: {
         }();
     }
     expect: {
-        !function() {
+        !function () {
             try {
                 var a = 1;
                 throw "";
@@ -2670,14 +2442,14 @@ boolean_binary_assign: {
         unused: true,
     }
     input: {
-        !function() {
+        !function () {
             var a;
             void 0 && (a = 1);
             console.log(a);
         }();
     }
     expect: {
-        !function() {
+        !function () {
             var a;
             void 0;
             console.log(a);
@@ -2694,14 +2466,14 @@ cond_assign: {
         unused: true,
     }
     input: {
-        !function() {
+        !function () {
             var a;
             void 0 ? (a = 1) : 0;
             console.log(a);
         }();
     }
     expect: {
-        !function() {
+        !function () {
             var a;
             void 0 ? (a = 1) : 0;
             console.log(a);
@@ -2718,9 +2490,9 @@ iife_assign: {
         unused: true,
     }
     input: {
-        !function() {
+        !function () {
             var a = 1, b = 0;
-            !function() {
+            !function () {
                 b++;
                 return;
                 a = 2;
@@ -2729,9 +2501,9 @@ iife_assign: {
         }();
     }
     expect: {
-        !function() {
+        !function () {
             var a = 1, b = 0;
-            !function() {
+            !function () {
                 b++;
                 return;
                 a = 2;
@@ -2782,7 +2554,7 @@ issue_1850_2: {
     }
     expect: {
         var a = 1;
-        (function() {
+        (function () {
             console.log(a, a, a);
         })();
     }
@@ -2829,7 +2601,7 @@ issue_1850_4: {
     }
     expect: {
         var a = 1;
-        (function() {
+        (function () {
             console.log(a, a, a);
         })();
     }
@@ -2847,7 +2619,7 @@ issue_1865: {
         function f(some) {
             some.thing = false;
         }
-        console.log(function() {
+        console.log(function () {
             var some = { thing: true };
             f(some);
             return some.thing;
@@ -2857,7 +2629,7 @@ issue_1865: {
         function f(some) {
             some.thing = false;
         }
-        console.log(function() {
+        console.log(function () {
             var some = { thing: true };
             f(some);
             return some.thing;
@@ -2874,13 +2646,13 @@ issue_1922_1: {
         unused: true,
     }
     input: {
-        console.log(function(a) {
+        console.log(function (a) {
             arguments[0] = 2;
             return a;
         }(1));
     }
     expect: {
-        console.log(function(a) {
+        console.log(function (a) {
             arguments[0] = 2;
             return a;
         }(1));
@@ -2896,14 +2668,14 @@ issue_1922_2: {
         unused: true,
     }
     input: {
-        console.log(function() {
+        console.log(function () {
             var a;
             eval("a = 1");
             return a;
         }(1));
     }
     expect: {
-        console.log(function() {
+        console.log(function () {
             var a;
             eval("a = 1");
             return a;
@@ -3033,14 +2805,14 @@ issue_2090_1: {
         reduce_vars: true,
     }
     input: {
-        console.log(function() {
+        console.log(function () {
             var x = 1;
             [].forEach(() => x = 2);
             return x;
         }());
     }
     expect: {
-        console.log(function() {
+        console.log(function () {
             var x = 1;
             [].forEach(() => x = 2);
             return x;
@@ -3056,7 +2828,7 @@ issue_2090_2: {
         reduce_vars: true,
     }
     input: {
-        console.log(function() {
+        console.log(function () {
             var x = 1;
             [].forEach(() => {
                 x = 2;
@@ -3065,7 +2837,7 @@ issue_2090_2: {
         }());
     }
     expect: {
-        console.log(function() {
+        console.log(function () {
             var x = 1;
             [].forEach(() => {
                 x = 2;
@@ -3083,7 +2855,7 @@ for_in_prop: {
     }
     input: {
         var a = {
-            foo: function() {
+            foo: function () {
                 for (this.b in [1, 2]);
             }
         };
@@ -3092,7 +2864,7 @@ for_in_prop: {
     }
     expect: {
         var a = {
-            foo: function() {
+            foo: function () {
                 for (this.b in [1, 2]);
             }
         };
@@ -3114,7 +2886,7 @@ obj_var_1: {
     input: {
         var C = 1;
         var obj = {
-            bar: function() {
+            bar: function () {
                 return C + C;
             }
         };
@@ -3122,7 +2894,7 @@ obj_var_1: {
     }
     expect: {
         console.log({
-            bar: function() {
+            bar: function () {
                 return 2;
             }
         }.bar());
@@ -3146,7 +2918,7 @@ obj_var_2: {
     input: {
         var C = 1;
         var obj = {
-            bar: function() {
+            bar: function () {
                 return C + C;
             }
         };
@@ -3175,14 +2947,14 @@ obj_arg_1: {
             return obj.bar();
         }
         console.log(f({
-            bar: function() {
+            bar: function () {
                 return C + C;
             }
         }));
     }
     expect: {
         console.log({
-            bar: function() {
+            bar: function () {
                 return 2;
             }
         }.bar());
@@ -3209,7 +2981,7 @@ obj_arg_2: {
             return obj.bar();
         }
         console.log(f({
-            bar: function() {
+            bar: function () {
                 return C + C;
             }
         }));
@@ -3233,9 +3005,9 @@ func_arg_1: {
     }
     input: {
         var a = 42;
-        !function(a) {
+        !function (a) {
             console.log(a());
-        }(function() {
+        }(function () {
             return a;
         });
     }
@@ -3258,9 +3030,9 @@ func_arg_2: {
     }
     input: {
         var a = 42;
-        !function(a) {
+        !function (a) {
             console.log(a());
-        }(function(a) {
+        }(function (a) {
             return a;
         });
     }
@@ -3283,16 +3055,16 @@ regex_loop: {
                 console.log(r[0]);
         }
         var a = /ab*/g;
-        f(function() {
+        f(function () {
             return a;
         });
     }
     expect: {
         var a = /ab*/g;
-        (function(x) {
+        (function (x) {
             for (var r, s = "acdabcdeabbb"; r = x().exec(s);)
                 console.log(r[0]);
-        })(function() {
+        })(function () {
             return a;
         });
     }
@@ -3346,12 +3118,12 @@ array_forin_1: {
         unused: true,
     }
     input: {
-        var a = [ 1, 2, 3 ];
+        var a = [1, 2, 3];
         for (var b in a)
             console.log(b);
     }
     expect: {
-        for (var b in [ 1, 2, 3 ])
+        for (var b in [1, 2, 3])
             console.log(b);
     }
     expect_stdout: [
@@ -3370,13 +3142,13 @@ array_forin_2: {
     }
     input: {
         var a = [];
-        for (var b in [ 1, 2, 3 ])
+        for (var b in [1, 2, 3])
             a.push(b);
         console.log(a.length);
     }
     expect: {
         var a = [];
-        for (var b in [ 1, 2, 3 ])
+        for (var b in [1, 2, 3])
             a.push(b);
         console.log(a.length);
     }
@@ -3391,12 +3163,12 @@ array_forof_1: {
         unused: true,
     }
     input: {
-        var a = [ 1, 2, 3 ];
+        var a = [1, 2, 3];
         for (var b of a)
             console.log(b);
     }
     expect: {
-        for (var b of [ 1, 2, 3 ])
+        for (var b of [1, 2, 3])
             console.log(b);
     }
     expect_stdout: [
@@ -3415,13 +3187,13 @@ array_forof_2: {
     }
     input: {
         var a = [];
-        for (var b of [ 1, 2, 3 ])
+        for (var b of [1, 2, 3])
             a.push(b);
         console.log(a.length);
     }
     expect: {
         var a = [];
-        for (var b of [ 1, 2, 3 ])
+        for (var b of [1, 2, 3])
             a.push(b);
         console.log(a.length);
     }
@@ -3466,7 +3238,7 @@ const_expr_2: {
         unused: true,
     }
     input: {
-        Object.prototype.c = function() {
+        Object.prototype.c = function () {
             this.a++;
         };
         var o = {
@@ -3477,7 +3249,7 @@ const_expr_2: {
         console.log(o.a, o.b);
     }
     expect: {
-        Object.prototype.c = function() {
+        Object.prototype.c = function () {
             this.a++;
         };
         var o = {
@@ -3499,17 +3271,17 @@ issue_2406_1: {
     }
     input: {
         const c = {
-            fn: function() {
+            fn: function () {
                 return this;
             }
         };
         let l = {
-            fn: function() {
+            fn: function () {
                 return this;
             }
         };
         var v = {
-            fn: function() {
+            fn: function () {
                 return this;
             }
         };
@@ -3517,17 +3289,17 @@ issue_2406_1: {
     }
     expect: {
         const c = {
-            fn: function() {
+            fn: function () {
                 return this;
             }
         };
         let l = {
-            fn: function() {
+            fn: function () {
                 return this;
             }
         };
         var v = {
-            fn: function() {
+            fn: function () {
                 return this;
             }
         };
@@ -3544,17 +3316,17 @@ issue_2406_2: {
     }
     input: {
         const c = {
-            fn: function() {
+            fn: function () {
                 return this;
             }
         };
         let l = {
-            fn: function() {
+            fn: function () {
                 return this;
             }
         };
         var v = {
-            fn: function() {
+            fn: function () {
                 return this;
             }
         };
@@ -3562,15 +3334,15 @@ issue_2406_2: {
     }
     expect: {
         console.log({
-            fn: function() {
+            fn: function () {
                 return this;
             }
         }.fn(), {
-            fn: function() {
+            fn: function () {
                 return this;
             }
         }.fn(), {
-            fn: function() {
+            fn: function () {
                 return this;
             }
         }.fn());
@@ -3592,10 +3364,10 @@ escaped_prop_1: {
     }
     input: {
         var obj = { o: { a: 1 } };
-        (function(o) {
+        (function (o) {
             o.a++;
         })(obj.o);
-        (function(o) {
+        (function (o) {
             console.log(o.a);
         })(obj.o);
     }
@@ -3623,10 +3395,10 @@ escaped_prop_2: {
     }
     input: {
         var obj = { o: { a: 1 } };
-        (function(o) {
+        (function (o) {
             o.a++;
         })(obj.o);
-        (function(o) {
+        (function (o) {
             console.log(o.a);
         })(obj.o);
     }
@@ -3651,7 +3423,7 @@ escaped_prop_3: {
             if (a) console.log(a === b.c);
             a = b.c;
         }
-        function g() {}
+        function g() { }
         function h() {
             f({ c: g });
         }
@@ -3660,9 +3432,9 @@ escaped_prop_3: {
     }
     expect: {
         var a;
-        function g() {}
+        function g() { }
         function h() {
-            (function(b) {
+            (function (b) {
                 if (a) console.log(a === b.c);
                 a = b.c;
             })({ c: g });
@@ -3689,8 +3461,8 @@ issue_2420_1: {
         }
         var o = {
             count: 0,
-            foo: function() { console.log("foo"); },
-            bar: function() { console.log("bar"); },
+            foo: function () { console.log("foo"); },
+            bar: function () { console.log("bar"); },
         };
         run.call(o);
         run.call(o);
@@ -3704,8 +3476,8 @@ issue_2420_1: {
         }
         var o = {
             count: 0,
-            foo: function() { console.log("foo"); },
-            bar: function() { console.log("bar"); },
+            foo: function () { console.log("foo"); },
+            bar: function () { console.log("bar"); },
         };
         run.call(o);
         run.call(o);
@@ -3728,13 +3500,13 @@ issue_2420_2: {
             if (that.bar)
                 that.foo();
             else
-                !function(that, self) {
+                !function (that, self) {
                     console.log(this === that, self === this, that === self);
                 }(that, this);
         }
         f.call({
             bar: 1,
-            foo: function() { console.log("foo", this.bar); },
+            foo: function () { console.log("foo", this.bar); },
         });
         f.call({});
     }
@@ -3743,13 +3515,13 @@ issue_2420_2: {
             if (this.bar)
                 this.foo();
             else
-                !function(that, self) {
+                !function (that, self) {
                     console.log(this === that, self === this, that === self);
                 }(this, this);
         }
         f.call({
             bar: 1,
-            foo: function() { console.log("foo", this.bar); },
+            foo: function () { console.log("foo", this.bar); },
         });
         f.call({});
     }
@@ -3777,7 +3549,7 @@ issue_2420_3: {
         }
         f.call({
             bar: 1,
-            foo: function() { console.log("foo", this.bar); },
+            foo: function () { console.log("foo", this.bar); },
         });
         f.call({});
     }
@@ -3792,7 +3564,7 @@ issue_2420_3: {
         }
         f.call({
             bar: 1,
-            foo: function() { console.log("foo", this.bar); },
+            foo: function () { console.log("foo", this.bar); },
         });
         f.call({});
     }
@@ -3816,7 +3588,7 @@ issue_2423_1: {
         p();
     }
     expect: {
-        function p() { console.log(function() { return 1; }()); }
+        function p() { console.log(function () { return 1; }()); }
         p();
         p();
     }
@@ -3864,7 +3636,7 @@ issue_2423_3: {
         p();
     }
     expect: {
-        (function() { console.log(function() { return 1; }()); })();
+        (function () { console.log(function () { return 1; }()); })();
     }
     expect_stdout: "1"
 }
@@ -3956,7 +3728,7 @@ issue_2423_6: {
         z();
     }
     expect: {
-        function z(){
+        function z() {
             console.log(1);
             console.log(2);
         }
@@ -3985,7 +3757,7 @@ issue_2440_eval_1: {
         baz = {
             quux: foo
         };
-        exec = function() {
+        exec = function () {
             return eval("foo()");
         };
     }
@@ -3996,7 +3768,7 @@ issue_2440_eval_1: {
         baz = {
             quux: foo
         };
-        exec = function() {
+        exec = function () {
             return eval("foo()");
         };
     }
@@ -4013,7 +3785,7 @@ issue_2440_eval_2: {
         baz = {
             quux: foo
         };
-        exec = function() {
+        exec = function () {
             return eval("foo()");
         };
         function foo() {
@@ -4024,7 +3796,7 @@ issue_2440_eval_2: {
         baz = {
             quux: foo
         };
-        exec = function() {
+        exec = function () {
             return eval("foo()");
         };
         function foo() {
@@ -4099,7 +3871,7 @@ issue_2442: {
             foo();
         }
     }
-    expect: {}
+    expect: { }
 }
 
 recursive_inlining_1: {
@@ -4109,14 +3881,14 @@ recursive_inlining_1: {
         unused: true,
     }
     input: {
-        !function() {
+        !function () {
             function foo() { bar(); }
             function bar() { foo(); }
             console.log("PASS");
         }();
     }
     expect: {
-        !function() {
+        !function () {
             console.log("PASS");
         }();
     }
@@ -4130,7 +3902,7 @@ recursive_inlining_2: {
         unused: true,
     }
     input: {
-        !function() {
+        !function () {
             function foo() { qux(); }
             function bar() { foo(); }
             function qux() { bar(); }
@@ -4138,7 +3910,7 @@ recursive_inlining_2: {
         }();
     }
     expect: {
-        !function() {
+        !function () {
             console.log("PASS");
         }();
     }
@@ -4153,20 +3925,20 @@ recursive_inlining_3: {
         unused: true,
     }
     input: {
-        !function() {
-            function foo(x) { console.log("foo", x); if (x) bar(x-1); }
-            function bar(x) { console.log("bar", x); if (x) qux(x-1); }
-            function qux(x) { console.log("qux", x); if (x) foo(x-1); }
+        !function () {
+            function foo(x) { console.log("foo", x); if (x) bar(x - 1); }
+            function bar(x) { console.log("bar", x); if (x) qux(x - 1); }
+            function qux(x) { console.log("qux", x); if (x) foo(x - 1); }
             qux(4);
         }();
     }
     expect: {
-        !function() {
+        !function () {
             function qux(x) {
                 console.log("qux", x);
-                if (x) (function(x) {
+                if (x) (function (x) {
                     console.log("foo", x);
-                    if (x) (function(x) {
+                    if (x) (function (x) {
                         console.log("bar", x);
                         if (x) qux(x - 1);
                     })(x - 1);
@@ -4191,23 +3963,23 @@ recursive_inlining_4: {
         unused: true,
     }
     input: {
-        !function() {
-            function foo(x) { console.log("foo", x); if (x) bar(x-1); }
-            function bar(x) { console.log("bar", x); if (x) qux(x-1); }
-            function qux(x) { console.log("qux", x); if (x) foo(x-1); }
+        !function () {
+            function foo(x) { console.log("foo", x); if (x) bar(x - 1); }
+            function bar(x) { console.log("bar", x); if (x) qux(x - 1); }
+            function qux(x) { console.log("qux", x); if (x) foo(x - 1); }
             qux(4);
             bar(5);
         }();
     }
     expect: {
-        !function() {
+        !function () {
             function bar(x) {
                 console.log("bar", x);
                 if (x) qux(x - 1);
             }
             function qux(x) {
                 console.log("qux", x);
-                if (x) (function(x) {
+                if (x) (function (x) {
                     console.log("foo", x);
                     if (x) bar(x - 1);
                 })(x - 1);
@@ -4238,17 +4010,17 @@ recursive_inlining_5: {
         unused: true,
     }
     input: {
-        !function() {
-            function foo(x) { console.log("foo", x); if (x) bar(x-1); }
-            function bar(x) { console.log("bar", x); if (x) qux(x-1); }
-            function qux(x) { console.log("qux", x); if (x) foo(x-1); }
+        !function () {
+            function foo(x) { console.log("foo", x); if (x) bar(x - 1); }
+            function bar(x) { console.log("bar", x); if (x) qux(x - 1); }
+            function qux(x) { console.log("qux", x); if (x) foo(x - 1); }
             qux(4);
             bar(5);
             foo(3);
         }();
     }
     expect: {
-        !function() {
+        !function () {
             function foo(x) {
                 console.log("foo", x);
                 if (x) bar(x - 1);
@@ -4293,14 +4065,14 @@ issue_2450_1: {
         unused: true,
     }
     input: {
-        function f() {}
+        function f() { }
         function g() {
             return f;
         }
         console.log(g() === g());
     }
     expect: {
-        function f() {}
+        function f() { }
         function g() {
             return f;
         }
@@ -4318,14 +4090,14 @@ issue_2450_2: {
     }
     input: {
         function g() {
-            function f() {}
+            function f() { }
             return f;
         }
         console.log(g() === g());
     }
     expect: {
         function g() {
-            return function() {};
+            return function () { };
         }
         console.log(g() === g());
     }
@@ -4339,7 +4111,7 @@ issue_2450_3: {
         unused: true,
     }
     input: {
-        var x = (function() {
+        var x = (function () {
             function test() {
                 return "foo";
             }
@@ -4350,11 +4122,11 @@ issue_2450_3: {
         console.log(x()[1] === x()[1]);
     }
     expect: {
-        var x = (function() {
+        var x = (function () {
             function test() {
                 return "foo";
             }
-            return function() {
+            return function () {
                 return [1, test];
             }
         })();
@@ -4376,7 +4148,7 @@ issue_2450_4: {
             console.log(a === b);
             a = b;
         }
-        function g() {}
+        function g() { }
         for (var i = 3; --i >= 0;)
             f(g);
     }
@@ -4386,7 +4158,7 @@ issue_2450_4: {
             console.log(a === b);
             a = b;
         }
-        function g() {}
+        function g() { }
         for (var i = 3; --i >= 0;)
             f(g);
     }
@@ -4410,16 +4182,16 @@ issue_2450_5: {
             console.log(a === b);
             a = b;
         }
-        function g() {}
-        [1, 2, 3].forEach(function() {
+        function g() { }
+        [1, 2, 3].forEach(function () {
             f(g);
         });
     }
     expect: {
         var a;
-        function g() {}
-        [1, 2, 3].forEach(function() {
-            (function(b) {
+        function g() { }
+        [1, 2, 3].forEach(function () {
+            (function (b) {
                 console.log(a === b);
                 a = b;
             })(g);
@@ -4448,7 +4220,7 @@ issue_2449: {
         function g() {
             return f();
         }
-        (function() {
+        (function () {
             var a = "FAIL";
             if (a == a) console.log(g());
         })();
@@ -4456,11 +4228,11 @@ issue_2449: {
     expect: {
         var a = "PASS";
         function g() {
-            return function() {
+            return function () {
                 return a;
             }();
         }
-        (function() {
+        (function () {
             var a = "FAIL";
             if (a == a) console.log(g());
         })();
@@ -4490,7 +4262,7 @@ perf_1: {
     }
     expect: {
         function indirect_foo(x, y, z) {
-            return function(x, y, z) {
+            return function (x, y, z) {
                 return x < y ? x * y + z : x * z - y;
             }(x, y, z);
         }
@@ -4510,10 +4282,10 @@ perf_3: {
         unused: true,
     }
     input: {
-        var foo = function(x, y, z) {
+        var foo = function (x, y, z) {
             return x < y ? x * y + z : x * z - y;
         }
-        var indirect_foo = function(x, y, z) {
+        var indirect_foo = function (x, y, z) {
             return foo(x, y, z);
         }
         var sum = 0;
@@ -4522,8 +4294,8 @@ perf_3: {
         console.log(sum);
     }
     expect: {
-        var indirect_foo = function(x, y, z) {
-            return function(x, y, z) {
+        var indirect_foo = function (x, y, z) {
+            return function (x, y, z) {
                 return x < y ? x * y + z : x * z - y;
             }(x, y, z);
         }
@@ -4558,7 +4330,7 @@ perf_5: {
     }
     expect: {
         function indirect_foo(x, y, z) {
-            return function(x, y, z) {
+            return function (x, y, z) {
                 return x < y ? x * y + z : x * z - y;
             }(x, y, z);
         }
@@ -4578,8 +4350,8 @@ perf_7: {
         unused: true,
     }
     input: {
-        var indirect_foo = function(x, y, z) {
-            var foo = function(x, y, z) {
+        var indirect_foo = function (x, y, z) {
+            var foo = function (x, y, z) {
                 return x < y ? x * y + z : x * z - y;
             }
             return foo(x, y, z);
@@ -4590,8 +4362,8 @@ perf_7: {
         console.log(sum);
     }
     expect: {
-        var indirect_foo = function(x, y, z) {
-            return function(x, y, z) {
+        var indirect_foo = function (x, y, z) {
+            return function (x, y, z) {
                 return x < y ? x * y + z : x * z - y;
             }(x, y, z);
         }
@@ -4610,17 +4382,17 @@ issue_2485: {
         unused: true,
     }
     input: {
-        var foo = function(bar) {
-            var n = function(a, b) {
+        var foo = function (bar) {
+            var n = function (a, b) {
                 return a + b;
             };
-            var sumAll = function(arg) {
+            var sumAll = function (arg) {
                 return arg.reduce(n, 0);
             };
-            var runSumAll = function(arg) {
+            var runSumAll = function (arg) {
                 return sumAll(arg);
             };
-            bar.baz = function(arg) {
+            bar.baz = function (arg) {
                 var n = runSumAll(arg);
                 return (n.get = 1), n;
             };
@@ -4630,16 +4402,16 @@ issue_2485: {
         console.log(bar.baz([1, 2, 3]));
     }
     expect: {
-        var foo = function(bar) {
-            var n = function(a, b) {
+        var foo = function (bar) {
+            var n = function (a, b) {
                 return a + b;
             };
-            var runSumAll = function(arg) {
-                return function(arg) {
+            var runSumAll = function (arg) {
+                return function (arg) {
                     return arg.reduce(n, 0);
                 }(arg);
             };
-            bar.baz = function(arg) {
+            bar.baz = function (arg) {
                 var n = runSumAll(arg);
                 return (n.get = 1), n;
             };
@@ -4689,7 +4461,7 @@ issue_2496: {
                 console.log(this.message);
             }
             run() {
-                (function(callback) {
+                (function (callback) {
                     callback();
                 })(() => {
                     this.go();
@@ -4708,11 +4480,11 @@ issue_2416: {
         unused: true,
     }
     input: {
-        class Foo {}
+        class Foo { }
         console.log(Foo.name);
     }
     expect: {
-        console.log((class Foo {}).name);
+        console.log((class Foo { }).name);
     }
     expect_stdout: "Foo"
 }
@@ -4725,12 +4497,12 @@ issue_2455: {
     input: {
         function foo() {
             var that = this;
-            for (;;) that.bar();
+            for (; ;) that.bar();
         }
     }
     expect: {
         function foo() {
-            for (;;) this.bar();
+            for (; ;) this.bar();
         }
     }
 }
@@ -4753,17 +4525,17 @@ escape_conditional: {
         function baz(s) {
             return s ? foo : bar;
         }
-        function foo() {}
-        function bar() {}
+        function foo() { }
+        function bar() { }
         main();
     }
     expect: {
         function baz(s) {
             return s ? foo : bar;
         }
-        function foo() {}
-        function bar() {}
-        (function() {
+        function foo() { }
+        function bar() { }
+        (function () {
             var thing = baz();
             if (thing !== (thing = baz()))
                 console.log("FAIL");
@@ -4837,7 +4609,7 @@ escape_throw: {
                 return bar;
             }
         }
-        function foo() {}
+        function foo() { }
         main();
     }
     expect: {
@@ -4848,8 +4620,8 @@ escape_throw: {
                 return bar;
             }
         }
-        function foo() {}
-        (function() {
+        function foo() { }
+        (function () {
             var thing = baz();
             if (thing !== (thing = baz()))
                 console.log("FAIL");
@@ -4876,17 +4648,17 @@ escape_local_conditional: {
                 console.log("FAIL");
         }
         function baz(s) {
-            function foo() {}
-            function bar() {}
+            function foo() { }
+            function bar() { }
             return s ? foo : bar;
         }
         main();
     }
     expect: {
         function baz(s) {
-            return s ? function() {} : function() {};
+            return s ? function () { } : function () { };
         }
-        (function() {
+        (function () {
             var thing = baz();
             if (thing !== (thing = baz()))
                 console.log("PASS");
@@ -4913,17 +4685,17 @@ escape_local_sequence: {
                 console.log("FAIL");
         }
         function baz() {
-            function foo() {}
-            function bar() {}
+            function foo() { }
+            function bar() { }
             return foo, bar;
         }
         main();
     }
     expect: {
         function baz() {
-            return function() {}, function() {};
+            return function () { }, function () { };
         }
-        (function() {
+        (function () {
             var thing = baz();
             if (thing !== (thing = baz()))
                 console.log("PASS");
@@ -4950,7 +4722,7 @@ escape_local_throw: {
                 console.log("FAIL");
         }
         function baz() {
-            function foo() {}
+            function foo() { }
             try {
                 throw foo;
             } catch (bar) {
@@ -4962,12 +4734,12 @@ escape_local_throw: {
     expect: {
         function baz() {
             try {
-                throw function() {};
+                throw function () { };
             } catch (bar) {
                 return bar;
             }
         }
-        (function() {
+        (function () {
             var thing = baz();
             if (thing !== (thing = baz()))
                 console.log("PASS");
@@ -4993,19 +4765,19 @@ escape_yield: {
             else
                 console.log("PASS");
         }
-        function foo() {}
+        function foo() { }
         function* baz(s) {
-            for (;;) yield foo;
+            for (; ;) yield foo;
         }
         var gen = baz();
         main();
     }
     expect: {
-        function foo() {}
-        var gen = function*(s) {
-            for (;;) yield foo;
+        function foo() { }
+        var gen = function* (s) {
+            for (; ;) yield foo;
         }();
-        (function() {
+        (function () {
             var thing = gen.next().value;
             if (thing !== (thing = gen.next().value))
                 console.log("FAIL");
@@ -5036,18 +4808,18 @@ escape_await: {
                     console.log("PASS");
             });
         }
-        function foo() {}
+        function foo() { }
         async function baz() {
             return await foo;
         }
         main();
     }
     expect: {
-        function foo() {}
+        function foo() { }
         async function baz() {
             return await foo;
         }
-        (function() {
+        (function () {
             var thing;
             baz().then(x => {
                 thing = x;
@@ -5077,23 +4849,23 @@ escape_expansion: {
             else
                 console.log("PASS");
         }
-        function foo() {}
+        function foo() { }
         function bar(...x) {
             return x[0];
         }
         function baz() {
-            return bar(...[ foo ]);
+            return bar(...[foo]);
         }
         main();
     }
     expect: {
-        function foo() {}
+        function foo() { }
         function baz() {
-            return function(...x) {
+            return function (...x) {
                 return x[0];
             }(foo);
         }
-        (function() {
+        (function () {
             var thing = baz();
             if (thing !== (thing = baz()))
                 console.log("FAIL");
@@ -5114,18 +4886,18 @@ inverted_var: {
         unused: true,
     }
     input: {
-        console.log(function() {
+        console.log(function () {
             var a = 1;
             return a;
-        }(), function() {
+        }(), function () {
             var b;
             b = 2;
             return b;
-        }(), function() {
+        }(), function () {
             c = 3;
             return c;
             var c;
-        }(), function(c) {
+        }(), function (c) {
             c = 4;
             return c;
         }(), function (c) {
@@ -5139,7 +4911,7 @@ inverted_var: {
             c = 7;
             return c;
             var c;
-        }(), function() {
+        }(), function () {
             c = 8;
             return c;
             var c = "foo";
@@ -5149,7 +4921,7 @@ inverted_var: {
         console.log(1, 2, 3, 4, 5, function c() {
             c = 6;
             return c;
-        }(), 7, function() {
+        }(), 7, function () {
             c = 8;
             return c;
             var c = "foo";
@@ -5165,20 +4937,20 @@ defun_single_use_loop: {
         unused: true,
     }
     input: {
-        for (var x, i = 2; --i >= 0; ) {
+        for (var x, i = 2; --i >= 0;) {
             var y = x;
             x = f;
             console.log(x === y);
         }
-        function f() {};
+        function f() { };
     }
     expect: {
-        for (var x, i = 2; --i >= 0; ) {
+        for (var x, i = 2; --i >= 0;) {
             var y = x;
             x = f;
             console.log(x === y);
         }
-        function f() {};
+        function f() { };
     }
     expect_stdout: [
         "false",
@@ -5194,7 +4966,7 @@ do_while: {
     input: {
         function f(a) {
             do {
-                (function() {
+                (function () {
                     a && (c = "PASS");
                 })();
             } while (a = 0);
@@ -5206,7 +4978,7 @@ do_while: {
     expect: {
         function f(a) {
             do {
-                (function() {
+                (function () {
                     a && (c = "PASS");
                 })();
             } while (a = 0);
@@ -5226,14 +4998,14 @@ issue_2598: {
         unused: true,
     }
     input: {
-        function f() {}
+        function f() { }
         function g(a) {
             return a || f;
         }
         console.log(g(false) === g(null));
     }
     expect: {
-        function f() {}
+        function f() { }
         function g(a) {
             return a || f;
         }
@@ -5251,11 +5023,11 @@ issue_2669: {
     }
     input: {
         let foo;
-        console.log(([ foo ] = [ "PASS" ]) && foo);
+        console.log(([foo] = ["PASS"]) && foo);
     }
     expect: {
         let foo;
-        console.log(([ foo ] = [ "PASS" ]) && foo);
+        console.log(([foo] = ["PASS"]) && foo);
     }
     expect_stdout: "PASS"
 }
@@ -5269,13 +5041,13 @@ issue_2670: {
     input: {
         const obj = {};
         obj.prop = "PASS";
-        const {prop: value} = obj;
+        const { prop: value } = obj;
         console.log(value);
     }
     expect: {
         const obj = {};
         obj.prop = "PASS";
-        const {prop: value} = obj;
+        const { prop: value } = obj;
         console.log(value);
     }
     expect_stdout: "PASS"
@@ -5316,14 +5088,14 @@ defun_assign: {
         console.log(typeof a);
         a = 42;
         console.log(typeof a);
-        function a() {}
+        function a() { }
         console.log(typeof a);
     }
     expect: {
         console.log(typeof a);
         a = 42;
         console.log(typeof a);
-        function a() {}
+        function a() { }
         console.log(typeof a);
     }
     expect_stdout: [
@@ -5343,8 +5115,8 @@ defun_var_1: {
     }
     input: {
         var a = 42, b;
-        function a() {}
-        function b() {}
+        function a() { }
+        function b() { }
         console.log(typeof a, typeof b);
     }
     expect: {
@@ -5362,8 +5134,8 @@ defun_var_2: {
         unused: true,
     }
     input: {
-        function a() {}
-        function b() {}
+        function a() { }
+        function b() { }
         var a = 42, b;
         console.log(typeof a, typeof b);
     }
@@ -5382,13 +5154,13 @@ defun_var_3: {
         unused: true,
     }
     input: {
-        function a() {}
-        function b() {}
+        function a() { }
+        function b() { }
         console.log(typeof a, typeof b);
         var a = 42, b;
     }
     expect: {
-        function a() {}
+        function a() { }
         console.log(typeof a, "function");
         var a = 42;
     }
@@ -5402,7 +5174,7 @@ defun_catch_1: {
         unused: true,
     }
     input: {
-        function a() {}
+        function a() { }
         try {
             throw 42;
         } catch (a) {
@@ -5411,7 +5183,7 @@ defun_catch_1: {
     }
     expect: {
         // TODO: drop unused AST_Defun
-        function a() {}
+        function a() { }
         try {
             throw 42;
         } catch (a) {
@@ -5429,7 +5201,7 @@ defun_catch_2: {
     }
     input: {
         try {
-            function a() {}
+            function a() { }
             throw 42;
         } catch (a) {
             console.log(a);
@@ -5438,7 +5210,7 @@ defun_catch_2: {
     expect: {
         try {
             // TODO: drop unused AST_Defun
-            function a() {}
+            function a() { }
             throw 42;
         } catch (a) {
             console.log(a);
@@ -5456,7 +5228,7 @@ defun_catch_3: {
     input: {
         try {
             throw 42;
-            function a() {}
+            function a() { }
         } catch (a) {
             console.log(a);
         }
@@ -5465,7 +5237,7 @@ defun_catch_3: {
         try {
             throw 42;
             // TODO: drop unused AST_Defun
-            function a() {}
+            function a() { }
         } catch (a) {
             console.log(a);
         }
@@ -5483,7 +5255,7 @@ defun_catch_4: {
         try {
             throw 42;
         } catch (a) {
-            function a() {}
+            function a() { }
             console.log(a);
         }
     }
@@ -5491,7 +5263,7 @@ defun_catch_4: {
         try {
             throw 42;
         } catch (a) {
-            function a() {}
+            function a() { }
             console.log(a);
         }
     }
@@ -5509,7 +5281,7 @@ defun_catch_5: {
             throw 42;
         } catch (a) {
             console.log(a);
-            function a() {}
+            function a() { }
         }
     }
     expect: {
@@ -5517,7 +5289,7 @@ defun_catch_5: {
             throw 42;
         } catch (a) {
             console.log(a);
-            function a() {}
+            function a() { }
         }
     }
     expect_stdout: true
@@ -5535,7 +5307,7 @@ defun_catch_6: {
         } catch (a) {
             console.log(a);
         }
-        function a() {}
+        function a() { }
     }
     expect: {
         try {
@@ -5544,7 +5316,7 @@ defun_catch_6: {
             console.log(a);
         }
         // TODO: drop unused AST_Defun
-        function a() {}
+        function a() { }
     }
     expect_stdout: "42"
 }
@@ -5555,13 +5327,13 @@ duplicate_lambda_defun_name_1: {
     }
     input: {
         console.log(function f(a) {
-            function f() {}
+            function f() { }
             return f.length;
         }());
     }
     expect: {
         console.log(function f(a) {
-            function f() {}
+            function f() { }
             return f.length;
         }());
     }
@@ -5576,13 +5348,13 @@ duplicate_lambda_defun_name_2: {
     }
     input: {
         console.log(function f(a) {
-            function f() {}
+            function f() { }
             return f.length;
         }());
     }
     expect: {
-        console.log(function(a) {
-            return function() {}.length;
+        console.log(function (a) {
+            return function () { }.length;
         }());
     }
     expect_stdout: "0"
@@ -5625,7 +5397,7 @@ issue_2757_1: {
     }
     input: {
         let u;
-        (function() {
+        (function () {
             let v;
             console.log(u, v);
         })();
@@ -5649,9 +5421,9 @@ issue_2757_2: {
         unused: true,
     }
     input: {
-        (function() {
+        (function () {
             let bar;
-            const unused = function() {
+            const unused = function () {
                 bar = true;
             };
             if (!bar) {
@@ -5662,7 +5434,7 @@ issue_2757_2: {
     }
     expect: {
         console.log(1),
-        console.log(2);
+            console.log(2);
     }
     expect_stdout: [
         "1",
@@ -5703,7 +5475,7 @@ issue_2799_1: {
         unused: true,
     }
     input: {
-        console.log(function() {
+        console.log(function () {
             return f;
             function f(n) {
                 function g(i) {
@@ -5717,12 +5489,12 @@ issue_2799_1: {
         }()(5));
     }
     expect: {
-        console.log(function() {
-            return function(n) {
+        console.log(function () {
+            return function (n) {
                 function g(i) {
                     return i && i + g(i - 1);
                 }
-                return function(j) {
+                return function (j) {
                     return g(j);
                 }(n);
             }
@@ -5738,17 +5510,17 @@ issue_2799_2: {
         unused: true,
     }
     input: {
-        (function() {
+        (function () {
             function foo() {
-                Function.prototype.call.apply(console.log, [ null, "PASS" ]);
+                Function.prototype.call.apply(console.log, [null, "PASS"]);
             }
             foo();
         })();
     }
     expect: {
-        (function() {
-            (function() {
-                (function() {}).call.apply(console.log, [ null, "PASS" ]);
+        (function () {
+            (function () {
+                (function () { }).call.apply(console.log, [null, "PASS"]);
             })();
         })();
     }
@@ -5771,7 +5543,7 @@ issue_2836: {
         }
     }
     expect: {
-        console.log(function() {
+        console.log(function () {
             return "PASS";
         }());
     }
@@ -5857,13 +5629,13 @@ issue_2860_1: {
         reduce_vars: true,
     }
     input: {
-        console.log(function(a) {
+        console.log(function (a) {
             return a ^= 1;
             a ^= 2;
         }());
     }
     expect: {
-        console.log(function(a) {
+        console.log(function (a) {
             return 1 ^ a;
         }());
     }
@@ -5879,7 +5651,7 @@ issue_2860_2: {
         reduce_vars: true,
     }
     input: {
-        console.log(function(a) {
+        console.log(function (a) {
             return a ^= 1;
             a ^= 2;
         }());
@@ -5924,15 +5696,15 @@ issue_3042_1: {
         unused: true,
     }
     input: {
-        function f() {}
-        var a = [ 1, 2 ].map(function() {
+        function f() { }
+        var a = [1, 2].map(function () {
             return new f();
         });
         console.log(a[0].constructor === a[1].constructor);
     }
     expect: {
-        function f() {}
-        var a = [ 1, 2 ].map(function() {
+        function f() { }
+        var a = [1, 2].map(function () {
             return new f();
         });
         console.log(a[0].constructor === a[1].constructor);
@@ -5949,12 +5721,12 @@ issue_3042_2: {
     }
     input: {
         function Foo() {
-            this.isFoo = function(o) {
+            this.isFoo = function (o) {
                 return o instanceof Foo;
             };
         }
         function FooCollection() {
-            this.foos = [1, 1].map(function() {
+            this.foos = [1, 1].map(function () {
                 return new Foo();
             });
         }
@@ -5966,12 +5738,12 @@ issue_3042_2: {
     }
     expect: {
         function Foo() {
-            this.isFoo = function(o) {
+            this.isFoo = function (o) {
                 return o instanceof Foo;
             };
         }
-        var fooCollection = new function() {
-            this.foos = [1, 1].map(function() {
+        var fooCollection = new function () {
+            this.foos = [1, 1].map(function () {
                 return new Foo();
             });
         }();
@@ -5997,7 +5769,7 @@ issue_2919: {
         unused: true,
     }
     input: {
-        var arr = [ function() {} ];
+        var arr = [function () { }];
         console.log(typeof arr[0]);
     }
     expect: {
@@ -6049,8 +5821,8 @@ issue_2916: {
     }
     input: {
         var c = "FAIL";
-        (function(b) {
-            (function(d) {
+        (function (b) {
+            (function (d) {
                 d[0] = 1;
             })(b);
             +b && (c = "PASS");
@@ -6059,7 +5831,7 @@ issue_2916: {
     }
     expect: {
         var c = "FAIL";
-        (function(b) {
+        (function (b) {
             b[0] = 1;
             +b && (c = "PASS");
         })([]);
@@ -6077,7 +5849,7 @@ issue_3125: {
     }
     input: {
         var o;
-        console.log((function() {
+        console.log((function () {
             this.p++;
         }.call(o = {
             p: 6
@@ -6085,7 +5857,7 @@ issue_3125: {
     }
     expect: {
         var o;
-        console.log((function() {
+        console.log((function () {
             this.p++;
         }.call(o = {
             p: 6
@@ -6103,9 +5875,9 @@ issue_2992: {
         var c = "PASS";
         (function f(b) {
             switch (0) {
-            case 0:
-            case b = 1:
-                b && (c = "FAIL");
+                case 0:
+                case b = 1:
+                    b && (c = "FAIL");
             }
         })();
         console.log(c);
@@ -6114,9 +5886,9 @@ issue_2992: {
         var c = "PASS";
         (function f(b) {
             switch (0) {
-            case 0:
-            case b = 1:
-                b && (c = "FAIL");
+                case 0:
+                case b = 1:
+                    b && (c = "FAIL");
             }
         })();
         console.log(c);
@@ -6130,7 +5902,7 @@ issue_3068_1: {
         reduce_vars: true,
     }
     input: {
-        (function() {
+        (function () {
             do {
                 continue;
                 var b = "defined";
@@ -6138,7 +5910,7 @@ issue_3068_1: {
         })();
     }
     expect: {
-        (function() {
+        (function () {
             do {
                 continue;
                 var b = "defined";
@@ -6154,7 +5926,7 @@ issue_3068_2: {
         reduce_vars: true,
     }
     input: {
-        (function() {
+        (function () {
             do {
                 try {
                     while ("" == typeof a);
@@ -6166,7 +5938,7 @@ issue_3068_2: {
         })();
     }
     expect: {
-        (function() {
+        (function () {
             do {
                 try {
                     while ("" == typeof a);
@@ -6193,7 +5965,7 @@ issue_3110_1: {
         unused: true,
     }
     input: {
-        (function() {
+        (function () {
             function foo() {
                 return isDev ? "foo" : "bar";
             }
@@ -6224,7 +5996,7 @@ issue_3110_2: {
         unused: true,
     }
     input: {
-        (function() {
+        (function () {
             function foo() {
                 return isDev ? "foo" : "bar";
             }
@@ -6254,7 +6026,7 @@ issue_3110_3: {
         unused: true,
     }
     input: {
-        (function() {
+        (function () {
             function foo() {
                 return isDev ? "foo" : "bar";
             }
@@ -6267,7 +6039,7 @@ issue_3110_3: {
         })();
     }
     expect: {
-        (function() {
+        (function () {
             function foo() {
                 return isDev ? "foo" : "bar";
             }
@@ -6292,7 +6064,7 @@ issue_3113_1: {
     }
     input: {
         var c = 0;
-        (function() {
+        (function () {
             function f() {
                 while (g());
             }
@@ -6306,7 +6078,7 @@ issue_3113_1: {
     }
     expect: {
         var c = 0;
-        (function() {
+        (function () {
             function f() {
                 while (g());
             }
@@ -6328,7 +6100,7 @@ issue_3113_2: {
     }
     input: {
         var c = 0;
-        (function() {
+        (function () {
             function f() {
                 while (g());
             }
@@ -6343,7 +6115,7 @@ issue_3113_2: {
     }
     expect: {
         var c = 0;
-        (function() {
+        (function () {
             function f() {
                 while (g());
             }
@@ -6371,7 +6143,7 @@ issue_3113_3: {
     }
     input: {
         var c = 0;
-        (function() {
+        (function () {
             function f() {
                 while (g());
             }
@@ -6484,7 +6256,7 @@ conditional_nested_2: {
     }
     input: {
         var c = 0;
-        (function(a) {
+        (function (a) {
             function f() {
                 a && c++;
             }
@@ -6494,7 +6266,7 @@ conditional_nested_2: {
     }
     expect: {
         var c = 0;
-        (function(a) {
+        (function (a) {
             function f() {
                 a && c++;
             }
@@ -6543,7 +6315,7 @@ issue_3140_1: {
         unused: true,
     }
     input: {
-        (function() {
+        (function () {
             var a;
             function f() {
             }
@@ -6561,7 +6333,7 @@ issue_3140_1: {
         })().g().g();
     }
     expect: {
-        (function() {
+        (function () {
             var a;
             function f() {
             }
@@ -6587,7 +6359,7 @@ issue_3140_2: {
         unused: true,
     }
     input: {
-        (function() {
+        (function () {
             var a;
             function f() {
             }
@@ -6606,7 +6378,7 @@ issue_3140_2: {
         })().g().g();
     }
     expect: {
-        (function() {
+        (function () {
             var a;
             function f() {
             }
@@ -6632,7 +6404,7 @@ issue_3140_3: {
         unused: true,
     }
     input: {
-        (function() {
+        (function () {
             var a;
             function f() {
             }
@@ -6642,7 +6414,7 @@ issue_3140_3: {
                     console.log(a ? "PASS" : "FAIL");
                 }
                 a = true;
-                (function() {
+                (function () {
                     return self;
                 })()();
                 a = false;
@@ -6653,7 +6425,7 @@ issue_3140_3: {
         })().g().g();
     }
     expect: {
-        (function() {
+        (function () {
             var a;
             function f() {
             }
@@ -6663,7 +6435,7 @@ issue_3140_3: {
                     console.log(a ? "PASS" : "FAIL");
                 }
                 a = true;
-                (function() {
+                (function () {
                     return self;
                 })()();
                 a = false;
@@ -6682,7 +6454,7 @@ issue_3140_4: {
         unused: true,
     }
     input: {
-        (function() {
+        (function () {
             var a;
             function f() {
             }
@@ -6703,7 +6475,7 @@ issue_3140_4: {
         })().g().g();
     }
     expect: {
-        (function() {
+        (function () {
             var a;
             function f() {
             }
@@ -6733,8 +6505,8 @@ issue_3140_5: {
     }
     input: {
         var n = 1, c = 0;
-        (function(a) {
-            var b = function() {
+        (function (a) {
+            var b = function () {
                 this;
                 n-- && h();
             }();
@@ -6747,8 +6519,8 @@ issue_3140_5: {
     }
     expect: {
         var n = 1, c = 0;
-        (function(a) {
-            var b = function() {
+        (function (a) {
+            var b = function () {
                 this;
                 n-- && h();
             }();
@@ -6769,7 +6541,7 @@ reduce_funcs_in_array_1: {
         unused: true,
     }
     input: {
-        (function() {
+        (function () {
             function Foo() {
                 return 123;
             }
@@ -6790,7 +6562,7 @@ reduce_funcs_in_array_2: {
         unused: true,
     }
     input: {
-        (function() {
+        (function () {
             function Foo() {
                 return 123;
             }
@@ -6811,12 +6583,12 @@ reduce_funcs_in_object_literal_1: {
         unused: true,
     }
     input: {
-        (function() {
+        (function () {
             function Foo() {
                 return 123;
             }
             function bar() {
-                return [({prop: Foo}).prop].concat([2]);
+                return [({ prop: Foo }).prop].concat([2]);
             }
             var a = [bar(), bar()];
             console.log(a[0][0] === a[1][0], a[0][0]());
@@ -6832,7 +6604,7 @@ reduce_funcs_in_object_literal_2: {
         unused: true,
     }
     input: {
-        (function() {
+        (function () {
             function Foo() {
                 return 123;
             }
@@ -6853,7 +6625,7 @@ single_use_class_referenced_in_array: {
         unused: true,
     }
     input: {
-        (function() {
+        (function () {
             class Foo {
                 data() {
                     return 123;
@@ -6876,14 +6648,14 @@ single_use_class_referenced_in_object_literal: {
         unused: true,
     }
     input: {
-        (function() {
+        (function () {
             class Foo {
                 data() {
                     return 123;
                 }
             }
             function bar(val) {
-                return [({prop: val || Foo}).prop].concat([2]);
+                return [({ prop: val || Foo }).prop].concat([2]);
             }
             var a = [bar(), bar()];
             console.log(a[0][0] === a[1][0], (new a[0][0]).data());
@@ -6914,15 +6686,15 @@ variables_collision_in_immediately_invoked_func: {
         defaults: true
     }
     input: {
-        (function(callback) {
+        (function (callback) {
             callback();
-        })(function() {
-            window.used = function() {
+        })(function () {
+            window.used = function () {
                 var A = window.foo,
                     B = window.bar,
                     C = window.foobar;
 
-                return (function(A, c) {
+                return (function (A, c) {
                     if (-1 === c) return A;
                     return $(A, c);
                 })(B, C);
@@ -6937,7 +6709,7 @@ variables_collision_in_immediately_invoked_func: {
                     function (A, c) {
                         return -1 === c
                             ? A
-                            : $(A,c)
+                            : $(A, c)
                     }(window.bar, window.foobar)
                 );
             }.call(this);
@@ -6962,9 +6734,9 @@ issue_308: {
 
         function withStyles() {
             var a = EXTERNAL();
-            return function(_a){
+            return function (_a) {
                 _inherits(_a);
-                function d() {}
+                function d() { }
             }(a);
         }
     }
@@ -6989,13 +6761,13 @@ issue_294: {
         passes: 2
     };
     input: {
-        module.exports = (function(constructor) {
+        module.exports = (function (constructor) {
             return constructor();
-        })(function() {
-            return function(input) {
+        })(function () {
+            return function (input) {
                 var keyToMap = input.key;
                 return {
-                    mappedKey: (function(value) {
+                    mappedKey: (function (value) {
                         return value || "CONDITIONAL_DEFAULT_VALUE";
                     })(keyToMap)
                 };
@@ -7005,7 +6777,7 @@ issue_294: {
     expect: {
         module.exports = function (input) {
             var value;
-            return {mappedKey: (value = input.key, value || "CONDITIONAL_DEFAULT_VALUE")};
+            return { mappedKey: (value = input.key, value || "CONDITIONAL_DEFAULT_VALUE") };
         };
     }
 }
@@ -7017,17 +6789,17 @@ issue_432_1: {
     }
     input: {
         const selectServer = () => {
-          selectServers();
+            selectServers();
         }
 
         function selectServers() {
-          const retrySelection = () => {
-            var descriptionChangedHandler = () => {
-              selectServers();
+            const retrySelection = () => {
+                var descriptionChangedHandler = () => {
+                    selectServers();
+                };
             };
-          };
 
-          retrySelection();
+            retrySelection();
         }
 
         leak(() => Topology)
@@ -7045,18 +6817,18 @@ issue_432_2: {
     }
     input: {
         const selectServer = () => {
-          selectServers();
+            selectServers();
         }
 
         function selectServers() {
-          function retrySelection() {
-            var descriptionChangedHandler = () => {
-              selectServers();
+            function retrySelection() {
+                var descriptionChangedHandler = () => {
+                    selectServers();
+                };
+                leak(descriptionChangedHandler)
             };
-            leak(descriptionChangedHandler)
-          };
 
-          retrySelection();
+            retrySelection();
         }
 
         leak(() => Topology)
@@ -7122,10 +6894,10 @@ reduce_class_with_side_effects_in_properties: {
     input: {
         let x = ""
         class Y {
-          static _ = (x += "PA")
+            static _ = (x += "PA")
         }
         class X {
-          static _ = (x += "SS")
+            static _ = (x += "SS")
         }
         global.something = [new X(), new Y()]
         console.log(x)
@@ -7167,7 +6939,7 @@ issue_581_2: {
     }
     input: {
         (function () {
-            return function(callback) {
+            return function (callback) {
                 return callback()
             }(() => {
                 console.log(this.message)
@@ -7176,7 +6948,7 @@ issue_581_2: {
     }
     expect: {
         (function () {
-            return function(callback) {
+            return function (callback) {
                 return callback()
             }(() => {
                 console.log(this.message)
@@ -7191,21 +6963,21 @@ issue_639: {
         const path = id({ extname: (name) => { console.log('PASS:' + name) } })
 
         global.getExtFn = function getExtFn() {
-          return function(path) {
-            return getExt(path);
-          }
+            return function (path) {
+                return getExt(path);
+            }
         }
 
         function getExt(name) {
-          let ext;
-          if (!ext) {
-            ext = getExtInner(name);
-          }
-          return ext;
+            let ext;
+            if (!ext) {
+                ext = getExtInner(name);
+            }
+            return ext;
         }
 
         function getExtInner(name) {
-          return path.extname(name);
+            return path.extname(name);
         }
 
         getExtFn()('name')
