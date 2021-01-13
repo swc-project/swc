@@ -290,6 +290,7 @@ pub enum SyntaxError {
         parent: JsWord,
     },
     ExpectedType,
+    InferTypeNotAllowed,
 }
 
 impl SyntaxError {
@@ -856,6 +857,7 @@ impl SyntaxError {
             }
 
             SyntaxError::ExpectedType => "Expected a type".into(),
+            SyntaxError::InferTypeNotAllowed => "An infer type is not allowed at here".into(),
         }
     }
 }

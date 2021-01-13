@@ -946,6 +946,19 @@ impl<I: Tokens> Parser<I> {
                 }));
                 return self.recover_from_invalid_ts_type_predicate(type_ann, start);
             }
+            TsType::TsTypeRef(TsTypeRef {
+                type_name: TsEntityName::Ident(param_name),
+                ..
+            }) if is!(self, "extends") => {
+                assert_and_bump!(self, "extends");
+
+                self.emit_err(self.input.prev_span(), SyntaxError::InferTypeNotAllowed);
+
+                let type_param = self.in_type().parse_ts_type_param()?;
+                let span = span!(self, start);
+                type_ann = Box::new(TsType::TsInferType(TsInferType { span, type_param }));
+                return self.recover_from_invalid_ts_type_predicate(type_ann, start);
+            }
             _ => {}
         }
 
