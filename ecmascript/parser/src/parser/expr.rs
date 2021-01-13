@@ -77,19 +77,21 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         // General error recovery.
-        match cur!(self, true) {
-            Ok(token) => match token {
-                Token::AssignOp(..) | Token::BinOp(..) => {
-                    self.emit_err(self.input.cur_span(), SyntaxError::ExpectedExpr);
-                    bump!(self);
-                    let expr = self.parse_expr()?;
-                    return Ok(Box::new(Expr::Invalid(Invalid {
-                        span: Span::new(start, expr.span().hi, Default::default()),
-                    })));
-                }
+        if self.errors_for_backtraing.is_none() {
+            match cur!(self, true) {
+                Ok(token) => match token {
+                    Token::AssignOp(..) | Token::BinOp(..) => {
+                        self.emit_err(self.input.cur_span(), SyntaxError::ExpectedExpr);
+                        bump!(self);
+                        let expr = self.parse_expr()?;
+                        return Ok(Box::new(Expr::Invalid(Invalid {
+                            span: Span::new(start, expr.span().hi, Default::default()),
+                        })));
+                    }
+                    _ => {}
+                },
                 _ => {}
-            },
-            _ => {}
+            }
         }
 
         if self.input.syntax().typescript() {
