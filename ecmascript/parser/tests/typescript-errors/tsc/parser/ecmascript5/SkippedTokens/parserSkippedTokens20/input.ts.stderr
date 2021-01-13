@@ -1,0 +1,12 @@
+error: Expected ,, got <lexing error>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/SkippedTokens/parserSkippedTokens20/input.ts:1:12
+  |
+1 | var v: X<T \
+  |            ^
+
+error: Expected unicode escape
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/SkippedTokens/parserSkippedTokens20/input.ts:1:12
+  |
+1 | var v: X<T \
+  |            ^
+

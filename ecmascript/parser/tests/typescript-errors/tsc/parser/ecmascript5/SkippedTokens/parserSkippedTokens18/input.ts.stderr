@@ -1,0 +1,6 @@
+error: Unexpected eof
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/SkippedTokens/parserSkippedTokens18/input.ts:1:8
+  |
+1 | foo(a \
+  |        ^
+
