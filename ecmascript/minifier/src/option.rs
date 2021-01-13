@@ -6,9 +6,9 @@ use serde::Deserialize;
 pub struct MinifyOptions {
     #[serde(default)]
     pub rename: bool,
-    #[serde(flatten)]
+    #[serde(default)]
     pub compress: Option<CompressOptions>,
-    #[serde(flatten)]
+    #[serde(default)]
     pub mangle: Option<MangleOptions>,
     #[serde(default)]
     pub wrap: bool,
