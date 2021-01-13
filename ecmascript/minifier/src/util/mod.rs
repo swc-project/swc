@@ -5,6 +5,7 @@ use swc_ecma_visit::Fold;
 use swc_ecma_visit::FoldWith;
 
 pub(crate) mod base54;
+pub(crate) mod usage;
 
 /// TODO(kdy1): Modify swc_visit.
 /// Actually we should implement `swc_visit::Repeated` for

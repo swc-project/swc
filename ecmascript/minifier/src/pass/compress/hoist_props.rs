@@ -6,11 +6,12 @@ use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::Id;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
+
+use crate::util::usage::ScopeData;
+use crate::util::usage::UsageAnalyzer;
 
 pub(super) fn property_hoister() -> Hoister {
     Hoister::default()
@@ -135,24 +136,4 @@ impl VisitMut for Hoister {
             },
         }
     }
-}
-
-#[derive(Debug, Default)]
-struct VarUsageInfo {
-    pub single_use: bool,
-    pub has_property_access: bool,
-}
-
-#[derive(Debug, Default)]
-struct ScopeData {
-    pub vars: FxHashMap<Id, VarUsageInfo>,
-}
-
-#[derive(Debug, Default)]
-struct UsageAnalyzer {
-    data: ScopeData,
-}
-
-impl Visit for UsageAnalyzer {
-    noop_visit_type!();
 }
