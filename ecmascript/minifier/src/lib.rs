@@ -86,12 +86,7 @@ pub fn optimize(
         // TODO: store `properties`
     }
 
-    if options
-        .mangle
-        .as_ref()
-        .map(|o| o.properties)
-        .unwrap_or(false)
-    {
+    if options.mangle.as_ref().map(|o| o.props).unwrap_or(false) {
         m.visit_mut_with(&mut property_mangler());
     }
 
