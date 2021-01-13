@@ -10,7 +10,7 @@ note: This is the expression part of an expression statement
 9 | x++ = 4; // Error
   | ^^^
 
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:9:5
   |
 9 | x++ = 4; // Error
@@ -28,7 +28,7 @@ note: This is the expression part of an expression statement
 12 | x-- = 5; // Error
    | ^^^
 
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
   --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:12:5
    |
 12 | x-- = 5; // Error
@@ -46,7 +46,7 @@ note: This is the expression part of an expression statement
 15 | ++x = 4; // Error
    | ^^^
 
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
   --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:15:5
    |
 15 | ++x = 4; // Error
@@ -64,7 +64,7 @@ note: This is the expression part of an expression statement
 18 | --x = 5; // Error
    | ^^^
 
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
   --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:18:5
    |
 18 | --x = 5; // Error

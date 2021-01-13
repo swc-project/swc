@@ -22,7 +22,7 @@ note: This is the expression part of an expression statement
 17 | (, ANY);
    |    ^^^
 
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
   --> $DIR/tests/typescript-errors/tsc/expressions/commaOperator/commaOperatorWithoutOperand/input.ts:17:7
    |
 17 | (, ANY);

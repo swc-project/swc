@@ -1,4 +1,4 @@
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ModuleElements/parserErrorRecovery_ModuleElement2/input.ts:7:1
   |
 7 | )

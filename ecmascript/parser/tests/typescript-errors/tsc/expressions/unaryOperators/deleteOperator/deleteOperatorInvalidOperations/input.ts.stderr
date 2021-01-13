@@ -4,7 +4,7 @@ error[1005]: Expected a semicolon
 5 | var BOOLEAN1 = ANY delete ;     //expect error
   |                    ^^^^^^
 
-error: Expected an expression
+error[1109]: Expected an expression
  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/deleteOperator/deleteOperatorInvalidOperations/input.ts:5:27
   |
 5 | var BOOLEAN1 = ANY delete ;     //expect error
@@ -16,7 +16,7 @@ error[2703]: The operand of a delete operator must be a property reference.
 5 | var BOOLEAN1 = ANY delete ;     //expect error
   |                          ^
 
-error: Expected an expression
+error[1109]: Expected an expression
  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/deleteOperator/deleteOperatorInvalidOperations/input.ts:8:23
   |
 8 | var BOOLEAN2 = delete ;

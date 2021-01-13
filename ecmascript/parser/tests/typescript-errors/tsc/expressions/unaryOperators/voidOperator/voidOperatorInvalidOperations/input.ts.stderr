@@ -4,13 +4,13 @@ error[1005]: Expected a semicolon
 4 | var ANY = ANY void ;    //expect error
   |               ^^^^
 
-error: Expected an expression
+error[1109]: Expected an expression
  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/voidOperator/voidOperatorInvalidOperations/input.ts:4:20
   |
 4 | var ANY = ANY void ;    //expect error
   |                    ^
 
-error: Expected an expression
+error[1109]: Expected an expression
  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/voidOperator/voidOperatorInvalidOperations/input.ts:7:17
   |
 7 | var ANY1 = void ;

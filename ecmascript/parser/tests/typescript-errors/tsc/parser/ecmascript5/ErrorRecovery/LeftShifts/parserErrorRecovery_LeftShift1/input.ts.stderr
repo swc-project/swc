@@ -10,7 +10,7 @@ note: This is the expression part of an expression statement
 1 | retValue = bfs.VARIABLES >> );
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/LeftShifts/parserErrorRecovery_LeftShift1/input.ts:1:29
   |
 1 | retValue = bfs.VARIABLES >> );

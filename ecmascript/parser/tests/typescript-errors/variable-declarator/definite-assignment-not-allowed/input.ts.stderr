@@ -10,7 +10,7 @@ error[1005]: Expected a semicolon
 1 | let {}! = {};
   |       ^
 
-error: Expected an expression
+error[1109]: Expected an expression
  --> $DIR/tests/typescript-errors/variable-declarator/definite-assignment-not-allowed/input.ts:1:9
   |
 1 | let {}! = {};

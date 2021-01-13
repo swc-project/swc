@@ -4,7 +4,7 @@ error: Unexpected token `)`. Expected an identifier, void, yield, null, await, b
 1 | var v = (a: ) => {
   |             ^
 
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ArrowFunctions/ArrowFunction1/input.ts:1:13
   |
 1 | var v = (a: ) => {

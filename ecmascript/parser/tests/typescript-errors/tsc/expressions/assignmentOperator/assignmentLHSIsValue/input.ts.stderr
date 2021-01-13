@@ -28,7 +28,7 @@ error[2406]: Not a variable
 13 | this = value;
    | ^^^^
 
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
   --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:35:9
    |
 35 | { a: 0} = value;
@@ -64,7 +64,7 @@ error: Invalid access to super
 46 |     static sfoo() { super = value; }
    |                           ^
 
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
   --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:50:20
    |
 50 | function bar() { } = value;
@@ -82,7 +82,7 @@ note: This is the expression part of an expression statement
 51 | () => { } = value;
    | ^^^^^^^^^
 
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
   --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:51:11
    |
 51 | () => { } = value;

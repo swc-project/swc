@@ -4,7 +4,7 @@ error[1005]: Expected a semicolon
 5 | var a = q~;  //expect error
   |          ^
 
-error: Expected an expression
+error[1109]: Expected an expression
  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/bitwiseNotOperator/bitwiseNotOperatorInvalidOperations/input.ts:5:11
   |
 5 | var a = q~;  //expect error
@@ -16,7 +16,7 @@ error: Unexpected token `string literal ()`. Expected yield, an identifier, [ or
 8 | var mul = ~[1, 2, "abc"], "";  //expect error
   |                           ^^
 
-error: Expected an expression
+error[1109]: Expected an expression
   --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/bitwiseNotOperator/bitwiseNotOperatorInvalidOperations/input.ts:11:9
    |
 11 | var b =~;

@@ -46,7 +46,7 @@ error: Expected {, got <eof>
 2 |   _ static try
   |            ^^^
 
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserFuzz1/input.ts:2:12
   |
 2 |   _ static try

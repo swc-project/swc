@@ -10,7 +10,7 @@ error: Expected an expression after this
 4 | var NUMBER1 = var NUMBER-;  //expect error
   |                         ^
 
-error: Expected an expression
+error[1109]: Expected an expression
   --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/negateOperator/negateOperatorInvalidOperations/input.ts:12:14
    |
 12 | var NUMBER =-;

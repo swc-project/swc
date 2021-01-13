@@ -202,7 +202,7 @@ error: Expected ,, got :
 44 |     public public set setter(a: number) { }
    |                               ^
 
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
   --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:44:31
    |
 44 |     public public set setter(a: number) { }
@@ -220,7 +220,7 @@ note: This is the expression part of an expression statement
 44 |     public public set setter(a: number) { }
    |                                 ^^^^^^
 
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
   --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:44:39
    |
 44 |     public public set setter(a: number) { }

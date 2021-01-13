@@ -4,7 +4,7 @@ error: Expected }, got class
 5 | class D {
   | ^^^^^
 
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/SwitchStatements/parserErrorRecovery_SwitchStatement2/input.ts:6:1
   |
 6 | }

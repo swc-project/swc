@@ -16,7 +16,7 @@ error: Expected ,, got ]
 13 | type T09 = [...string?];  // Error
    |                       ^
 
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
   --> $DIR/tests/typescript-errors/tsc/types/tuple/restTupleElements1/input.ts:13:23
    |
 13 | type T09 = [...string?];  // Error

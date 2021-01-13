@@ -4,7 +4,7 @@ error: Expected an expression after this
 1 | 1 >>
   |   ^^
 
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Generics/parserGreaterThanTokenAmbiguity14/input.ts:2:1
   |
 2 | = 2;

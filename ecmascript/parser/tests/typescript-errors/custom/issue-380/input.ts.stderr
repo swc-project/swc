@@ -1,4 +1,4 @@
-error: Expected an expression
+error[1109]: Expected an expression
  --> $DIR/tests/typescript-errors/custom/issue-380/input.ts:3:15
   |
 3 |         import(../foo/bar)

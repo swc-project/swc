@@ -4,7 +4,7 @@ error: Expected an expression after this
 5 | var result1 = b+;   //expect error
   |                ^
 
-error: Expected an expression
+error[1109]: Expected an expression
  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/plusOperator/plusOperatorInvalidOperations/input.ts:8:15
   |
 8 | var result2 =+;

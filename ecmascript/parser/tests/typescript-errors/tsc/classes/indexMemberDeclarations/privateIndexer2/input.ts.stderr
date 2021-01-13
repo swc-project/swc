@@ -16,13 +16,13 @@ error: Expected ;, got [
 8 |     private[x: string]: string;
   |            ^
 
-error: Expected an expression
+error[1109]: Expected an expression
  --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer2/input.ts:8:14
   |
 8 |     private[x: string]: string;
   |              ^
 
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
  --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer2/input.ts:8:14
   |
 8 |     private[x: string]: string;
@@ -40,13 +40,13 @@ note: This is the expression part of an expression statement
 8 |     private[x: string]: string;
   |                ^^^^^^
 
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
  --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer2/input.ts:8:22
   |
 8 |     private[x: string]: string;
   |                      ^
 
-error[1005]: Expected a statement
+error[1128]: Declaration or statement expected
  --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer2/input.ts:8:23
   |
 8 |     private[x: string]: string;
