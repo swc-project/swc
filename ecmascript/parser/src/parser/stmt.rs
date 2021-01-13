@@ -37,7 +37,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             trace_cur!(self, parse_block_body__item);
-            if is_one_of!(self, ':', ']', "...") {
+            if is_one_of!(self, ':', ']', "...", '=') {
                 bump!(self);
                 self.emit_err(self.input.prev_span(), SyntaxError::ExpectedStatement);
                 continue;
