@@ -176,7 +176,10 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let right = {
-            let left_of_right = if is_exact!(self, ';') || is_one_of!(self, "case", "default") {
+            let left_of_right = if is_exact!(self, ';')
+                || self.input.has_linebreak_between_cur_and_peeked()
+                || is_one_of!(self, "case", "default")
+            {
                 self.emit_err(self.input.prev_span(), SyntaxError::ExpectedExprAfterThis);
                 Box::new(Expr::Invalid(Invalid {
                     span: self.input.prev_span(),
