@@ -523,7 +523,7 @@ impl<'a, I: Tokens> Parser<I> {
             match &*expr {
                 Expr::Invalid(..) => {
                     return Ok(ExprStmt {
-                        span: span!(self, start),
+                        span: expr.span(),
                         expr,
                     }
                     .into());
