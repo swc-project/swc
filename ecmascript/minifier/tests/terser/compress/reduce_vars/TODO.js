@@ -1,23 +1,3 @@
-use_before_var: {
-    options = {
-        evaluate: true,
-        reduce_funcs: true,
-        reduce_vars: true,
-    }
-    input: {
-        function f() {
-            console.log(t);
-            var t = 1;
-        }
-    }
-    expect: {
-        function f() {
-            console.log(t);
-            var t = 1;
-        }
-    }
-}
-
 inner_var_if: {
     options = {
         evaluate: true,
@@ -38,62 +18,6 @@ inner_var_if: {
                 var t = 1;
             if (!t)
                 console.log(t);
-        }
-    }
-}
-
-inner_var_label: {
-    options = {
-        evaluate: true,
-        reduce_funcs: true,
-        reduce_vars: true,
-    }
-    input: {
-        function f(a) {
-            l: {
-                if (a) break l;
-                var t = 1;
-            }
-            console.log(t);
-        }
-    }
-    expect: {
-        function f(a) {
-            l: {
-                if (a) break l;
-                var t = 1;
-            }
-            console.log(t);
-        }
-    }
-}
-
-inner_var_for_1: {
-    options = {
-        evaluate: true,
-        reduce_funcs: true,
-        reduce_vars: true,
-    }
-    input: {
-        function f() {
-            var a = 1;
-            x(a, b, d);
-            for (var b = 2, c = 3; x(a, b, c, d); x(a, b, c, d)) {
-                var d = 4, e = 5;
-                x(a, b, c, d, e);
-            }
-            x(a, b, c, d, e);
-        }
-    }
-    expect: {
-        function f() {
-            var a = 1;
-            x(1, b, d);
-            for (var b = 2, c = 3; x(1, b, 3, d); x(1, b, 3, d)) {
-                var d = 4, e = 5;
-                x(1, b, 3, d, e);
-            }
-            x(1, b, 3, d, e);
         }
     }
 }
