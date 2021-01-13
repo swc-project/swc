@@ -286,6 +286,9 @@ pub enum SyntaxError {
     InvalidInterfaceModifier {
         modifier: JsWord,
     },
+    InvalidParentOfClass {
+        parent: JsWord,
+    },
 }
 
 impl SyntaxError {
@@ -846,6 +849,9 @@ impl SyntaxError {
             SyntaxError::ExpectedEnumMember => "Enum member expected".into(),
             SyntaxError::InvalidInterfaceModifier { modifier } => {
                 format!("'{}' modifier is not allowed for interfaces", modifier).into()
+            }
+            SyntaxError::InvalidParentOfClass { parent } => {
+                format!("A class cannot extend '{}'", parent).into()
             }
         }
     }

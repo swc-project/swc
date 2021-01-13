@@ -126,7 +126,35 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         let (mut super_class, mut super_type_params) = if eat!(self, "extends") {
-            let super_class = self.parse_lhs_expr().map(Some)?;
+            let super_class = self
+                .parse_lhs_expr()
+                .map(|class| {
+                    match &*class {
+                        Expr::Ident(Ident { span, sym, .. }) => {
+                            //
+                            match *sym {
+                                js_word!("undefined")
+                                | js_word!("number")
+                                | js_word!("boolean")
+                                | js_word!("void")
+                                | js_word!("null")
+                                | js_word!("any") => {
+                                    self.emit_err(
+                                        *span,
+                                        SyntaxError::InvalidParentOfClass {
+                                            parent: sym.clone(),
+                                        },
+                                    );
+                                }
+                                _ => {}
+                            }
+                        }
+                        _ => {}
+                    }
+
+                    class
+                })
+                .map(Some)?;
             let super_type_params = if self.input.syntax().typescript() && is!(self, '<') {
                 Some(self.parse_ts_type_args()?)
             } else {

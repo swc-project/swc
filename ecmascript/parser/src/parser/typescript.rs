@@ -959,7 +959,9 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         self.parse_ts_delimited_list(ParsingContext::HeritageClauseElement, |p| {
-            p.parse_expr_with_type_args()
+            let expr = p.parse_expr_with_type_args()?;
+
+            Ok(expr)
         })
     }
 
