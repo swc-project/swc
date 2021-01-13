@@ -68,6 +68,10 @@ impl<'a, I: Tokens> Parser<I> {
             for dec in decorators {
                 self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
             }
+            if eat!(self, "=>") {
+                let body: BlockStmtOrExpr = self.parse_fn_body(true, false)?;
+                return Ok(Box::new(Expr::Invalid(Invalid { span: body.span() })));
+            }
         }
 
         if self.input.syntax().typescript() {
