@@ -1,0 +1,6 @@
+error: Unexpected eof
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/parserKeywordsAsIdentifierName2/input.ts:2:12
+  |
+2 | a.public /*
+  |            ^
+

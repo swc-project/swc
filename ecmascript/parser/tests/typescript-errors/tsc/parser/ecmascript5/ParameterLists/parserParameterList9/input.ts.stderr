@@ -1,0 +1,6 @@
+error[1047]: A rest parameter cannot be optional
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ParameterLists/parserParameterList9/input.ts:2:14
+  |
+2 |    foo(...bar?) { }
+  |              ^
+
