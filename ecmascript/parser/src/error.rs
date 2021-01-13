@@ -403,6 +403,8 @@ impl SyntaxError {
             SyntaxError::ExpectedExpr => Some(1109),
 
             SyntaxError::ExpectedStatement => Some(1128),
+            SyntaxError::EscapeInReservedWord { .. } => Some(1260),
+
             _ => None,
         }
     }
@@ -443,7 +445,7 @@ impl SyntaxError {
             SyntaxError::UnterminatedStrLit => "Unterminated string constant".into(),
             SyntaxError::ExpectedUnicodeEscape => "Expected unicode escape".into(),
             SyntaxError::EscapeInReservedWord { ref word } => {
-                format!("Unexpected escape sequence in reserved word: {}", word).into()
+                format!("Keywords cannot contain escape characters: '{}'", word).into()
             }
             SyntaxError::UnterminatedRegxp => "Unterminated regexp literal".into(),
             SyntaxError::UnterminatedTpl => "Unterminated template".into(),
