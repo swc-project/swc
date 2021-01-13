@@ -1,0 +1,6 @@
+error[1094]: An accessor cannot have type parameters
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Accessors/parserGetAccessorWithTypeParameters1/input.ts:3:7
+  |
+3 |   get foo<T>() { }
+  |       ^^^
+
