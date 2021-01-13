@@ -1,0 +1,6 @@
+error: A class cannot extend 'void'
+ --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classHeritageSpecification/classExtendingPrimitive2/input.ts:3:19
+  |
+3 | class C4a extends void {}
+  |                   ^^^^
+

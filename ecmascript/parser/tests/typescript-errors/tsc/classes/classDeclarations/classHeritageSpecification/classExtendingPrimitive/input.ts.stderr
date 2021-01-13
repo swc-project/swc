@@ -1,0 +1,30 @@
+error: A class cannot extend 'number'
+ --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classHeritageSpecification/classExtendingPrimitive/input.ts:3:17
+  |
+3 | class C extends number { }
+  |                 ^^^^^^
+
+error: A class cannot extend 'string'
+ --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classHeritageSpecification/classExtendingPrimitive/input.ts:4:18
+  |
+4 | class C2 extends string { }
+  |                  ^^^^^^
+
+error: A class cannot extend 'boolean'
+ --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classHeritageSpecification/classExtendingPrimitive/input.ts:5:18
+  |
+5 | class C3 extends boolean { }
+  |                  ^^^^^^^
+
+error: A class cannot extend 'void'
+ --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classHeritageSpecification/classExtendingPrimitive/input.ts:7:19
+  |
+7 | class C4a extends void {}
+  |                   ^^^^
+
+error: A class cannot extend 'undefined'
+  --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classHeritageSpecification/classExtendingPrimitive/input.ts:10:18
+   |
+10 | class C6 extends undefined { }
+   |                  ^^^^^^^^^
+
