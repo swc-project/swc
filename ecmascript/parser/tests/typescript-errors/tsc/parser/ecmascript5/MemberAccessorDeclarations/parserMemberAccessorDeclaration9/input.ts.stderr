@@ -1,0 +1,6 @@
+error[1029]: 'public' modifier must precede 'static' modifier
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/MemberAccessorDeclarations/parserMemberAccessorDeclaration9/input.ts:3:12
+  |
+3 |     static public get Foo() { }
+  |            ^^^^^^
+

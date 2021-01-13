@@ -1,0 +1,12 @@
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/InterfaceDeclarations/parserInterfaceDeclaration4/input.ts:1:1
+  |
+1 | static interface I {
+  | ^^^^^^
+
+error: 'static' modifier is not allowed for interfaces
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/InterfaceDeclarations/parserInterfaceDeclaration4/input.ts:1:1
+  |
+1 | static interface I {
+  | ^^^^^^
+

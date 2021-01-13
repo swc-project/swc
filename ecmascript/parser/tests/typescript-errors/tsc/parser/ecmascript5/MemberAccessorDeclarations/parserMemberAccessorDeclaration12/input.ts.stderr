@@ -1,0 +1,6 @@
+error[1054]: A 'get' accessor cannot have parameters
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/MemberAccessorDeclarations/parserMemberAccessorDeclaration12/input.ts:3:4
+  |
+3 |    get Foo(a: number) { }
+  |    ^^^
+
