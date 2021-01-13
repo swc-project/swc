@@ -176,6 +176,8 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let right = {
+            trace_cur!(self, parse_bin_op_recursively_inner__rhs);
+
             let left_of_right = if is_exact!(self, ';')
                 || self.input.has_linebreak_between_cur_and_peeked()
                 || is_one_of!(self, "case", "default")
