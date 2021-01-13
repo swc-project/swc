@@ -839,7 +839,7 @@ impl SyntaxError {
             }
             SyntaxError::ExpectedEnumMember => "Enum member expected".into(),
             SyntaxError::InvalidInterfaceModifier { modifier } => {
-                format!("'{}' modifier is not allowed for interfaces", modifier)
+                format!("'{}' modifier is not allowed for interfaces", modifier).into()
             }
         }
     }
