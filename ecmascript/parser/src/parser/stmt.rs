@@ -491,8 +491,9 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if eat!(self, ';') {
+            let hi = self.input.cur_span().hi;
             Ok(Stmt::Expr(ExprStmt {
-                span: span!(self, start),
+                span: Span::new(start, hi, Default::default()),
                 expr,
             }))
         } else {
