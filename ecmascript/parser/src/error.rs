@@ -193,6 +193,7 @@ pub enum SyntaxError {
     TS1056,
     TS1085,
     TS1089(JsWord),
+    TS1089,
     TS1092,
     TS1096,
     TS1098,
@@ -303,7 +304,7 @@ impl SyntaxError {
             SyntaxError::TS1047 => Some(1047),
             SyntaxError::TS1048 => Some(1048),
             SyntaxError::TS1056 => Some(1056),
-            SyntaxError::TS1085 => Some(1085),
+            SyntaxError::LegacyOctal => Some(1085),
             SyntaxError::TS1089 => Some(1089),
             SyntaxError::TS1092 => Some(1092),
             SyntaxError::TS1096 => Some(1096),
@@ -667,6 +668,9 @@ impl SyntaxError {
                 word
             )
             .into(),
+            SyntaxError::TS1089 => {
+                "'private' modifier cannot appear on a constructor declaration".into()
+            }
             SyntaxError::TS1092 => {
                 "Type parameters cannot appear on a constructor declaration".into()
             }
