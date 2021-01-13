@@ -1562,6 +1562,17 @@ impl<'a, I: Tokens> Parser<I> {
             {
                 self.emit_err(key.span(), SyntaxError::TS1056);
             }
+
+            MethodKind::Getter
+                if self.input.syntax().typescript() && function.type_params.is_some() =>
+            {
+                self.emit_err(key.span(), SyntaxError::GetterShouldNotHaveTypeParam);
+            }
+            MethodKind::Setter
+                if self.input.syntax().typescript() && function.type_params.is_some() =>
+            {
+                self.emit_err(key.span(), SyntaxError::SetterShouldNotHaveTypeParam);
+            }
             _ => {}
         }
 
