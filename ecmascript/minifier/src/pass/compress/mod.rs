@@ -3,6 +3,7 @@ use crate::pass::compress::hoist_decls::decl_hoister;
 use crate::util::Optional;
 use drop_console::drop_console;
 use hoist_props::property_hoister;
+use reduce_vars::var_reducer;
 use std::borrow::Cow;
 use swc_common::chain;
 use swc_common::pass::CompilerPass;
@@ -116,6 +117,7 @@ impl VisitMut for Compressor<'_> {
     fn visit_mut_module(&mut self, n: &mut Module) {
         if self.pass > 0 || self.options.reduce_vars {
             // reset_opt_flags
+            n.visit_mut_with(&mut var_reducer());
         }
 
         n.visit_mut_children_with(self);

@@ -1,3 +1,5 @@
+use crate::util::usage::ScopeData;
+use crate::util::usage::UsageAnalyzer;
 use fxhash::FxHashMap;
 use retain_mut::RetainMut;
 use swc_common::DUMMY_SP;
@@ -9,9 +11,6 @@ use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
-
-use crate::util::usage::ScopeData;
-use crate::util::usage::UsageAnalyzer;
 
 pub(super) fn property_hoister() -> Hoister {
     Hoister::default()
