@@ -1,0 +1,12 @@
+error: Expected ;, got biz
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserModifierOnPropertySignature1/input.ts:2:12
+  |
+2 |     public biz;
+  |            ^^^
+
+error[1005]: Expected '}'
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserModifierOnPropertySignature1/input.ts:3:1
+  |
+3 | }
+  | ^
+

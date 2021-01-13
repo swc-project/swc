@@ -1,0 +1,12 @@
+error: Expected ,, got {
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ParameterLists/parserErrorRecovery_ParameterList1/input.ts:1:14
+  |
+1 | function f(a {
+  |              ^
+
+error: Expected ), got <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ParameterLists/parserErrorRecovery_ParameterList1/input.ts:2:1
+  |
+2 | }
+  | ^
+

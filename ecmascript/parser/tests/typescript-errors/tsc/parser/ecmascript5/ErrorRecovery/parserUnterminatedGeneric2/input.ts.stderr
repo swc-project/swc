@@ -1,0 +1,78 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserUnterminatedGeneric2/input.ts:2:34
+  |
+2 |     interfaceICompiledExpression {
+  |                                  ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserUnterminatedGeneric2/input.ts:2:5
+  |
+2 |     interfaceICompiledExpression {
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Expected =>, got ;
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserUnterminatedGeneric2/input.ts:3:42
+  |
+3 |         (context: any, locals?: any): any;
+  |                                          ^
+
+error: Expected ,, got :
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserUnterminatedGeneric2/input.ts:4:23
+  |
+4 |         assign(context: any, value: any): any;
+  |                       ^
+
+error[1005]: Expected a statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserUnterminatedGeneric2/input.ts:4:23
+  |
+4 |         assign(context: any, value: any): any;
+  |                       ^
+
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserUnterminatedGeneric2/input.ts:4:35
+  |
+4 |         assign(context: any, value: any): any;
+  |                                   ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserUnterminatedGeneric2/input.ts:4:25
+  |
+4 |         assign(context: any, value: any): any;
+  |                         ^^^^^^^^^^
+
+error[1005]: Expected a statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserUnterminatedGeneric2/input.ts:4:35
+  |
+4 |         assign(context: any, value: any): any;
+  |                                   ^
+
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserUnterminatedGeneric2/input.ts:4:40
+  |
+4 |         assign(context: any, value: any): any;
+  |                                        ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserUnterminatedGeneric2/input.ts:4:37
+  |
+4 |         assign(context: any, value: any): any;
+  |                                     ^^^
+
+error[1005]: Expected a statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserUnterminatedGeneric2/input.ts:4:40
+  |
+4 |         assign(context: any, value: any): any;
+  |                                        ^
+
+error[1005]: Expected a statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserUnterminatedGeneric2/input.ts:4:41
+  |
+4 |         assign(context: any, value: any): any;
+  |                                         ^
+
+error: Unexpected eof
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserUnterminatedGeneric2/input.ts:8:54
+  |
+8 |         all(promises: IPromise < any > []): IPromise<
+  |                                                      ^
+

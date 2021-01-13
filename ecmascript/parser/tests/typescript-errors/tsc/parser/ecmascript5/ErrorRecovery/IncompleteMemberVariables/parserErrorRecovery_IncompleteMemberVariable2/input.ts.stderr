@@ -1,0 +1,6 @@
+error[1005]: Expected a semicolon
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/IncompleteMemberVariables/parserErrorRecovery_IncompleteMemberVariable2/input.ts:12:22
+   |
+12 |         public con:C "hello";
+   |                      ^^^^^^^
+

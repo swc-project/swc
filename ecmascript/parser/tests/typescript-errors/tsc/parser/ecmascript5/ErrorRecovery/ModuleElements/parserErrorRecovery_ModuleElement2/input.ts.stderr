@@ -1,0 +1,6 @@
+error[1005]: Expected a statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ModuleElements/parserErrorRecovery_ModuleElement2/input.ts:7:1
+  |
+7 | )
+  | ^
+

@@ -1,0 +1,12 @@
+error[1108]: A 'return' statement can only be used within a function body.
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ModuleElements/parserErrorRecovery_ModuleElement1/input.ts:1:1
+  |
+1 | return foo;
+  | ^^^^^^^^^^^
+
+error[1005]: Expected '}'
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ModuleElements/parserErrorRecovery_ModuleElement1/input.ts:2:1
+  |
+2 | }
+  | ^
+

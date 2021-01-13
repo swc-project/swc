@@ -1,0 +1,54 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserFuzz1/input.ts:1:9
+  |
+1 | cla <ss {
+  |         ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserFuzz1/input.ts:1:1
+  |
+1 | cla <ss {
+  | ^^^^^^^
+
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserFuzz1/input.ts:2:5
+  |
+2 |   _ static try
+  |     ^^^^^^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserFuzz1/input.ts:2:3
+  |
+2 |   _ static try
+  |   ^
+
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserFuzz1/input.ts:2:5
+  |
+2 |   _ static try
+  |     ^^^^^^
+
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserFuzz1/input.ts:2:12
+  |
+2 |   _ static try
+  |            ^^^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserFuzz1/input.ts:2:5
+  |
+2 |   _ static try
+  |     ^^^^^^
+
+error: Expected {, got <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserFuzz1/input.ts:2:12
+  |
+2 |   _ static try
+  |            ^^^
+
+error[1005]: Expected a statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserFuzz1/input.ts:2:12
+  |
+2 |   _ static try
+  |            ^^^
+

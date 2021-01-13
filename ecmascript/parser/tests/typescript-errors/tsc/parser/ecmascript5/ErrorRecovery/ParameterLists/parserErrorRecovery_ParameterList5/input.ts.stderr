@@ -1,0 +1,6 @@
+error: Unexpected eof
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ParameterLists/parserErrorRecovery_ParameterList5/input.ts:1:17
+  |
+1 | (a:number => { }
+  |                 ^
+

@@ -1,0 +1,18 @@
+error: Expected }, got class
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/SwitchStatements/parserErrorRecovery_SwitchStatement2/input.ts:5:1
+  |
+5 | class D {
+  | ^^^^^
+
+error[1005]: Expected a statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/SwitchStatements/parserErrorRecovery_SwitchStatement2/input.ts:6:1
+  |
+6 | }
+  | ^
+
+error: Expected }, got <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/SwitchStatements/parserErrorRecovery_SwitchStatement2/input.ts:6:1
+  |
+6 | }
+  | ^
+

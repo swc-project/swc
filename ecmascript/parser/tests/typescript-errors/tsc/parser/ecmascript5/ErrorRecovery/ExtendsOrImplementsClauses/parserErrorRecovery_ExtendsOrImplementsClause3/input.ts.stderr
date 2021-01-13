@@ -1,0 +1,24 @@
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ExtendsOrImplementsClauses/parserErrorRecovery_ExtendsOrImplementsClause3/input.ts:1:17
+  |
+1 | class C extends implements A {
+  |                 ^^^^^^^^^^
+
+error: Expected {, got A
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ExtendsOrImplementsClauses/parserErrorRecovery_ExtendsOrImplementsClause3/input.ts:1:28
+  |
+1 | class C extends implements A {
+  |                            ^
+
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ExtendsOrImplementsClauses/parserErrorRecovery_ExtendsOrImplementsClause3/input.ts:1:30
+  |
+1 | class C extends implements A {
+  |                              ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ExtendsOrImplementsClauses/parserErrorRecovery_ExtendsOrImplementsClause3/input.ts:1:28
+  |
+1 | class C extends implements A {
+  |                            ^
+

@@ -1,0 +1,12 @@
+error: Unexpected token `)`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ArrowFunctions/parserX_ArrowFunction1/input.ts:1:13
+  |
+1 | var v = (a: ) => {
+  |             ^
+
+error[1005]: Expected a statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ArrowFunctions/parserX_ArrowFunction1/input.ts:1:13
+  |
+1 | var v = (a: ) => {
+  |             ^
+

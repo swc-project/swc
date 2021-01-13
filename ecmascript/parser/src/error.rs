@@ -372,7 +372,6 @@ impl SyntaxError {
             | SyntaxError::ExpectedPropertyName
             | SyntaxError::ExpectedBindingPat
             | SyntaxError::ExpectedRBracket
-            | SyntaxError::ExpectedStatement
             | SyntaxError::DotAfterUpdate
             | SyntaxError::InvalidOptional
             | SyntaxError::TypePredicateNotAllowed => Some(1005),
@@ -400,6 +399,7 @@ impl SyntaxError {
             SyntaxError::ExpectedEnumMember => Some(1132),
             SyntaxError::ExpectedExpr => Some(1109),
 
+            SyntaxError::ExpectedStatement => Some(1128),
             _ => None,
         }
     }
@@ -814,7 +814,7 @@ impl SyntaxError {
             }
             SyntaxError::ExpectedBindingPat => "Expected a binding pattern".into(),
             SyntaxError::ExpectedRBracket => "Expected '}'".into(),
-            SyntaxError::ExpectedStatement => "Expected a statement".into(),
+            SyntaxError::ExpectedStatement => "Declaration or statement expected".into(),
             SyntaxError::DotAfterUpdate => "'.' cannot follow an update expression".into(),
             SyntaxError::InvalidOptional => "Unexpected '?'".into(),
             SyntaxError::InvalidTemplateMember => {
