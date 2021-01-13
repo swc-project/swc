@@ -52,6 +52,8 @@ fn terser_compress(input: PathBuf) {
         );
         let output = NormalizedOutput::from(print(cm.clone(), &[output]));
 
+        eprintln!("---- Output -----\n{}", output);
+
         output.compare_to_file(dir.join("output.js")).unwrap();
 
         Ok(())
