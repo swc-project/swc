@@ -559,7 +559,7 @@ impl<'a, I: Tokens> Parser<I> {
         let (expect_rparen, test) = if self.errors_for_backtraing.is_none()
             && (is!(self, '}') || self.input.has_linebreak_between_cur_and_peeked())
         {
-            self.emit_err(self.input.cur_span(), SyntaxError::ExpectedExpr);
+            self.emit_err(self.input.cur_span(), SyntaxError::ExpectedRParen);
             let span = self.input.prev_span();
             (false, Box::new(Expr::Invalid(Invalid { span })))
         } else {
