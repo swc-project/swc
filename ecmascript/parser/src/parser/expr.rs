@@ -427,7 +427,8 @@ impl<'a, I: Tokens> Parser<I> {
                     return_type: None,
                     type_params: None,
                 })));
-            } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!(self, "=>") {
+            }
+            if can_be_arrow && !self.input.had_line_break_before_cur() && eat!(self, "=>") {
                 let params = vec![id.into()];
                 let body = self.parse_fn_body(false, false)?;
 
@@ -442,9 +443,9 @@ impl<'a, I: Tokens> Parser<I> {
                     // TODO
                     type_params: None,
                 })));
-            } else {
-                return Ok(Box::new(Expr::Ident(id)));
             }
+
+            return Ok(Box::new(Expr::Ident(id)));
         }
 
         syntax_error!(self, SyntaxError::ExpectedExpr)
