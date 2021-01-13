@@ -2211,22 +2211,36 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_ts_type_operator_or_higher);
 
         debug_assert!(self.input.syntax().typescript());
+        let mut readonly_span = None;
 
         let operator = if is!(self, "keyof") {
             Some(TsTypeOperatorOp::KeyOf)
         } else if is!(self, "unique") {
             Some(TsTypeOperatorOp::Unique)
         } else if is!(self, "readonly") {
+            readonly_span = Some(self.input.cur_span());
             Some(TsTypeOperatorOp::ReadOnly)
         } else {
             None
         };
 
         match operator {
-            Some(operator) => self
-                .parse_ts_type_operator(operator)
-                .map(TsType::from)
-                .map(Box::new),
+            Some(operator) => {
+                let ty = self
+                    .parse_ts_type_operator(operator)
+                    .map(TsType::from)
+                    .map(Box::new)?;
+                if let Some(readonly_span) = readonly_span {
+                    match &*ty {
+                        TsType::TsArrayType(..) | TsType::TsTupleType(..) => {}
+                        _ => {
+                            self.emit_err(readonly_span, SyntaxError::InvalidReadonly);
+                        }
+                    }
+                }
+
+                Ok(ty)
+            }
             None => {
                 trace_cur!(self, parse_ts_type_operator_or_higher__not_operator);
 
