@@ -1,0 +1,30 @@
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/constAssertions/input.ts:57:10
+   |
+57 | let q1 = <const> 10;
+   |          ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/constAssertions/input.ts:58:10
+   |
+58 | let q2 = <const> 'abc';
+   |          ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/constAssertions/input.ts:59:10
+   |
+59 | let q3 = <const> true;
+   |          ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/constAssertions/input.ts:60:10
+   |
+60 | let q4 = <const> [1, 2, 3];
+   |          ^
+
+error[1109]: Expected an expression
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/constAssertions/input.ts:61:10
+   |
+61 | let q5 = <const> { x: 10, y: 20 };
+   |          ^
+
