@@ -49,7 +49,7 @@ fn terser_compress(input: PathBuf) {
             .map_err(|err| {
                 err.into_diagnostic(&handler).emit();
             })
-            .fold_with(&mut resolver())?;
+            .map(|module| module.fold_with(&mut resolver()))?;
 
         let output = optimize(
             module,
