@@ -1,6 +1,0 @@
-error[1221]: An overload signature cannot be declared as a generator
- --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/generatorInAmbientContext3.d/input.ts:3:5
-  |
-3 |     *generator(): any;
-  |     ^
-
