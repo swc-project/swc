@@ -462,7 +462,9 @@ impl<'a, I: Tokens> Parser<I> {
                                 if i.sym == js_word!("abstract") {
                                     SyntaxError::InvalidAbstractModifier
                                 } else {
-                                    SyntaxError::InvalidInterfaceModifier { modifier: i.sym }
+                                    SyntaxError::InvalidInterfaceModifier {
+                                        modifier: i.sym.clone(),
+                                    }
                                 },
                             );
                             return self
