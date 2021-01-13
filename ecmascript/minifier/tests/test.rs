@@ -54,6 +54,10 @@ fn terser_compress(input: PathBuf) {
 
         eprintln!("---- Output -----\n{}", output);
 
+        let expected = read_to_string(&dir.join("output.js")).unwrap();
+
+        eprintln!("---- Expected -----\n{}", expected);
+
         output.compare_to_file(dir.join("output.js")).unwrap();
 
         Ok(())
