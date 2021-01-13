@@ -5,8 +5,6 @@ use serde::Deserialize;
 #[serde(deny_unknown_fields)]
 pub struct MinifyOptions {
     #[serde(default)]
-    pub arguments: bool,
-    #[serde(default)]
     pub rename: bool,
     #[serde(flatten)]
     pub compress: Option<CompressOptions>,

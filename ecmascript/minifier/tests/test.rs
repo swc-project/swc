@@ -8,6 +8,7 @@ use swc_ecma_ast::*;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_minifier::optimize;
+use swc_ecma_minifier::option::CompressOptions;
 use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_parser::lexer::input::SourceFileInput;
 use swc_ecma_parser::lexer::Lexer;
@@ -16,12 +17,12 @@ use testing::NormalizedOutput;
 use walkdir::WalkDir;
 
 /// Tests ported from terser.
-#[testing::fixture("terser/**/input.js")]
-fn terser(input: PathBuf) {
+#[testing::fixture("terser/compress/**/input.js")]
+fn terser_compress(input: PathBuf) {
     let dir = input.parent().unwrap();
     let config = dir.join("config.json");
     let config = read_to_string(&config).expect("failed to read config.json");
-    let config: MinifyOptions =
+    let config: CompressOptions =
         serde_json::from_str(&config).expect("failed to deserialize config.json");
 
     testing::run_test2(false, |cm, handler| {
@@ -37,7 +38,14 @@ fn terser(input: PathBuf) {
             err.into_diagnostic(&handler).emit();
         })?;
 
-        let output = optimize(module, None, &config);
+        let output = optimize(
+            module,
+            None,
+            &MinifyOptions {
+                compress: Some(config),
+                ..serde_json::from_str("{}").unwrap()
+            },
+        );
         let output = NormalizedOutput::from(print(cm.clone(), &[output]));
 
         output.compare_to_file(dir.join("output.js")).unwrap();
