@@ -1,0 +1,6 @@
+error[1108]: A 'return' statement can only be used within a function body.
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Statements/ReturnStatements/parserReturnStatement1/input.ts:1:1
+  |
+1 | return;
+  | ^^^^^^^
+
