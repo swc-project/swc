@@ -1,10 +1,10 @@
-error: Unexpected token `super`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
+error: Expected a type
  --> $DIR/tests/typescript-errors/tsc/classes/constructorDeclarations/superCalls/derivedClassSuperCallsInNonConstructorMembers/input.ts:8:8
   |
 8 |     a: super();
   |        ^^^^^
 
-error: Unexpected token `super`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
+error: Expected a type
   --> $DIR/tests/typescript-errors/tsc/classes/constructorDeclarations/superCalls/derivedClassSuperCallsInNonConstructorMembers/input.ts:20:15
    |
 20 |     static a: super();
