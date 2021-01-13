@@ -81,7 +81,7 @@ impl<'a, I: Tokens> Parser<I> {
         if self.errors_for_backtraing.is_none() {
             match cur!(self, true) {
                 Ok(token) => match token {
-                    Token::BinOp(BinOpToken::Add) | Token::BinOp(BinOpToken::Minus) => {}
+                    Token::BinOp(BinOpToken::Add) | Token::BinOp(BinOpToken::Sub) => {}
                     Token::AssignOp(..) | Token::BinOp(..) => {
                         self.emit_err(self.input.cur_span(), SyntaxError::ExpectedExpr);
                         bump!(self);
