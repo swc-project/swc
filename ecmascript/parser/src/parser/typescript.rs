@@ -615,6 +615,14 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
+        if eat!(self, ',') {
+            self.emit_err(self.input.prev_span(), SyntaxError::ExpectedEnumMember);
+            return Ok(TsEnumMember {
+                span: self.input.prev_span(),
+                id: TsEnumMemberId::Ident(Ident::new(js_word!(""), self.input.prev_span())),
+                init: None,
+            });
+        }
         // Computed property names are grammar errors in an enum, so accept just string
         // literal or identifier.
         let id = match *cur!(self, true)? {

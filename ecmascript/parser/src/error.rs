@@ -281,6 +281,7 @@ pub enum SyntaxError {
     InvalidAbstractModifier,
     InvalidAsyncModifier,
     InvalidEnumMemberFollowing,
+    ExpectedEnumMember,
 }
 
 impl SyntaxError {
@@ -396,6 +397,7 @@ impl SyntaxError {
             SyntaxError::InvalidAbstractModifier => Some(1242),
             SyntaxError::InvalidAsyncModifier => Some(1042),
             SyntaxError::InvalidEnumMemberFollowing => Some(1357),
+            SyntaxError::ExpectedEnumMember => Some(1132),
 
             _ => None,
         }
@@ -831,6 +833,7 @@ impl SyntaxError {
             SyntaxError::InvalidEnumMemberFollowing => {
                 "An enum member name must be followed by a ',', '=', or '}'".into()
             }
+            SyntaxError::ExpectedEnumMember => "Enum member expected".into(),
         }
     }
 }
