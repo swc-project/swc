@@ -2232,10 +2232,17 @@ impl<I: Tokens> Parser<I> {
                     .map(Box::new)?;
                 if let Some(readonly_span) = readonly_span {
                     match &*ty {
-                        TsType::TsArrayType(..) | TsType::TsTupleType(..) => {}
-                        _ => {
-                            self.emit_err(readonly_span, SyntaxError::InvalidReadonly);
-                        }
+                        TsType::TsTypeOperator(TsTypeOperator {
+                            span,
+                            op: TsTypeOperatorOp::ReadOnly,
+                            type_ann,
+                        }) => match &**type_ann {
+                            TsType::TsArrayType(..) | TsType::TsTupleType(..) => {}
+                            _ => {
+                                self.emit_err(readonly_span, SyntaxError::InvalidReadonly);
+                            }
+                        },
+                        _ => {}
                     }
                 }
 
