@@ -133,7 +133,7 @@ impl<'a, I: Tokens> Parser<I> {
                         Expr::Ident(Ident { span, sym, .. }) => {
                             //
                             match *sym {
-                                js_word!("undefined") | js_word!("void") | js_word!("null") => {
+                                js_word!("undefined") | js_word!("void") => {
                                     self.emit_err(
                                         *span,
                                         SyntaxError::InvalidParentOfClass {
