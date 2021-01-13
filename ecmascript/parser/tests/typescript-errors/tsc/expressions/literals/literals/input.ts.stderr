@@ -1,22 +1,10 @@
-error[1085]: Legacy octal literals are not available when targeting ECMAScript 5 and higher
+error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/expressions/literals/literals/input.ts:21:9
    |
 21 | var n = 001; // Error in ES5
    |         ^^^
 
-error: Legacy octal escape is not permitted in strict mode
-  --> $DIR/tests/typescript-errors/tsc/expressions/literals/literals/input.ts:21:9
-   |
-21 | var n = 001; // Error in ES5
-   |         ^^^
-
-error[1085]: Legacy octal literals are not available when targeting ECMAScript 5 and higher
-  --> $DIR/tests/typescript-errors/tsc/expressions/literals/literals/input.ts:26:10
-   |
-26 | var n = -003; // Error in ES5
-   |          ^^^
-
-error: Legacy octal escape is not permitted in strict mode
+error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/expressions/literals/literals/input.ts:26:10
    |
 26 | var n = -003; // Error in ES5

@@ -1,94 +1,46 @@
-error[1085]: Legacy octal literals are not available when targeting ECMAScript 5 and higher
+error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:35:13
    |
 35 | var r12 = i[01]
    |             ^^
 
-error: Legacy octal escape is not permitted in strict mode
-  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:35:13
-   |
-35 | var r12 = i[01]
-   |             ^^
-
-error[1085]: Legacy octal literals are not available when targeting ECMAScript 5 and higher
+error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:36:14
    |
 36 | var r13 = i[-01]
    |              ^^
 
-error: Legacy octal escape is not permitted in strict mode
-  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:36:14
-   |
-36 | var r13 = i[-01]
-   |              ^^
-
-error[1085]: Legacy octal literals are not available when targeting ECMAScript 5 and higher
+error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:66:13
    |
 66 | var r12 = i[01]
    |             ^^
 
-error: Legacy octal escape is not permitted in strict mode
-  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:66:13
-   |
-66 | var r12 = i[01]
-   |             ^^
-
-error[1085]: Legacy octal literals are not available when targeting ECMAScript 5 and higher
+error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:67:14
    |
 67 | var r13 = i[-01]
    |              ^^
 
-error: Legacy octal escape is not permitted in strict mode
-  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:67:14
-   |
-67 | var r13 = i[-01]
-   |              ^^
-
-error[1085]: Legacy octal literals are not available when targeting ECMAScript 5 and higher
+error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:96:13
    |
 96 | var r12 = i[01]
    |             ^^
 
-error: Legacy octal escape is not permitted in strict mode
-  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:96:13
-   |
-96 | var r12 = i[01]
-   |             ^^
-
-error[1085]: Legacy octal literals are not available when targeting ECMAScript 5 and higher
+error[1085]: Legacy octal escape is not permitted in strict mode
   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:97:14
    |
 97 | var r13 = i[-01]
    |              ^^
 
-error: Legacy octal escape is not permitted in strict mode
-  --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:97:14
-   |
-97 | var r13 = i[-01]
-   |              ^^
-
-error[1085]: Legacy octal literals are not available when targeting ECMAScript 5 and higher
+error[1085]: Legacy octal escape is not permitted in strict mode
    --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:126:13
     |
 126 | var r12 = i[01]
     |             ^^
 
-error: Legacy octal escape is not permitted in strict mode
-   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:126:13
-    |
-126 | var r12 = i[01]
-    |             ^^
-
-error[1085]: Legacy octal literals are not available when targeting ECMAScript 5 and higher
-   --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:127:14
-    |
-127 | var r13 = i[-01]
-    |              ^^
-
-error: Legacy octal escape is not permitted in strict mode
+error[1085]: Legacy octal escape is not permitted in strict mode
    --> $DIR/tests/typescript-errors/tsc/types/members/objectTypeWithStringNamedNumericProperty/input.ts:127:14
     |
 127 | var r13 = i[-01]
