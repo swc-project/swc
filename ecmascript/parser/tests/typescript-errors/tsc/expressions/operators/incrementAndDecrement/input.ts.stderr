@@ -1,0 +1,168 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:9:5
+  |
+9 | x++ = 4; // Error
+  |     ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:9:1
+  |
+9 | x++ = 4; // Error
+  | ^^^
+
+error[1005]: Expected a statement
+ --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:9:5
+  |
+9 | x++ = 4; // Error
+  |     ^
+
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:12:5
+   |
+12 | x-- = 5; // Error
+   |     ^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:12:1
+   |
+12 | x-- = 5; // Error
+   | ^^^
+
+error[1005]: Expected a statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:12:5
+   |
+12 | x-- = 5; // Error
+   |     ^
+
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:15:5
+   |
+15 | ++x = 4; // Error
+   |     ^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:15:1
+   |
+15 | ++x = 4; // Error
+   | ^^^
+
+error[1005]: Expected a statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:15:5
+   |
+15 | ++x = 4; // Error
+   |     ^
+
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:18:5
+   |
+18 | --x = 5; // Error
+   |     ^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:18:1
+   |
+18 | --x = 5; // Error
+   | ^^^
+
+error[1005]: Expected a statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:18:5
+   |
+18 | --x = 5; // Error
+   |     ^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:25:3
+   |
+25 | ++x++; // Error
+   |   ^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:26:3
+   |
+26 | --x--; // Error
+   |   ^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:27:3
+   |
+27 | ++x--; // Error
+   |   ^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:28:3
+   |
+28 | --x++; // Error
+   |   ^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:35:3
+   |
+35 | ++e++; // Error
+   |   ^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:36:3
+   |
+36 | --e--; // Error
+   |   ^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:37:3
+   |
+37 | ++e--; // Error
+   |   ^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:38:3
+   |
+38 | --e++; // Error
+   |   ^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:45:3
+   |
+45 | ++a++; // Error
+   |   ^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:46:3
+   |
+46 | --a--; // Error
+   |   ^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:47:3
+   |
+47 | ++a--; // Error
+   |   ^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:48:3
+   |
+48 | --a++; // Error
+   |   ^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:56:3
+   |
+56 | ++w++; // Error
+   |   ^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:57:3
+   |
+57 | --w--; // Error
+   |   ^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:58:3
+   |
+58 | ++w--; // Error
+   |   ^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:59:3
+   |
+59 | --w++; // Error
+   |   ^^^
+
