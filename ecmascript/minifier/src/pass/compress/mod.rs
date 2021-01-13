@@ -77,6 +77,13 @@ impl Repeated for Compressor<'_> {
 }
 
 impl Compressor<'_> {
+    fn hoist_props<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike,
+        Vec<T>: VisitMutWith<Self>,
+    {
+    }
+
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
@@ -100,7 +107,8 @@ impl Compressor<'_> {
             return;
         }
 
-        // TODO: Hoist properties
+        self.hoist_props(stmts);
+
         // TODO: Hoist decls
 
         stmts.visit_mut_children_with(self);
