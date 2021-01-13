@@ -1,0 +1,6 @@
+error: Parenthized expression cannot be empty
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/RegressionTests/parser566700/input.ts:1:9
+  |
+1 | var v = ()({});
+  |         ^^
+

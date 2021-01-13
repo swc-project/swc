@@ -1,0 +1,6 @@
+error: Unexpected token `icecream`. Expected * for generator, private key, identifier or async
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/RegressionTests/parser585151/input.ts:2:7
+  |
+2 |   var icecream = "chocolate";
+  |       ^^^^^^^^
+

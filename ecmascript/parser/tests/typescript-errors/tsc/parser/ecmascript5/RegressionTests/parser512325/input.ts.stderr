@@ -1,0 +1,6 @@
+error: Not a pattern
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/RegressionTests/parser512325/input.ts:1:14
+  |
+1 | var tt = (a, (b, c)) => a+b+c;
+  |              ^^^^^^
+
