@@ -20,6 +20,7 @@ use swc_ecma_visit::VisitMutWith;
 mod drop_console;
 mod hoist_decls;
 mod hoist_props;
+mod reduce_vars;
 
 pub fn compressor(options: &CompressOptions) -> impl '_ + JsPass {
     let console_remover = Optional {
