@@ -1,4 +1,3 @@
-use crate::pass::compress::CompressOptions;
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
@@ -16,4 +15,13 @@ pub struct Options {
 #[serde(rename_all = "camelCase")]
 pub struct MangleOptions {
     pub properties: bool,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CompressOptions {
+    /// Should we simplify expressions?
+    pub expr: bool,
+    pub drop_console: bool,
+    pub reduce_vars: bool,
 }

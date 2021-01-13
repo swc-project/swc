@@ -1,7 +1,7 @@
+use crate::option::CompressOptions;
 use crate::util::Optional;
 use drop_console::drop_console;
 use hoist_props::property_hoister;
-use serde::Deserialize;
 use std::borrow::Cow;
 use swc_common::chain;
 use swc_common::pass::CompilerPass;
@@ -18,14 +18,6 @@ use swc_ecma_visit::VisitMutWith;
 
 mod drop_console;
 mod hoist_props;
-
-#[derive(Debug, Clone, Default, Deserialize)]
-pub struct CompressOptions {
-    /// Should we simplify expressions?
-    pub expr: bool,
-    pub drop_console: bool,
-    pub reduce_vars: bool,
-}
 
 pub fn compressor(options: &CompressOptions) -> impl '_ + JsPass {
     let console_remover = Optional {
