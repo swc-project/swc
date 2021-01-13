@@ -63,7 +63,7 @@ impl VisitMut for Hoister {
     fn visit_mut_export_all(&mut self, _: &mut ExportAll) {}
 
     #[inline]
-    fn visit_mut_export_specifier(&mut self, n: &mut ExportSpecifier) {}
+    fn visit_mut_export_specifier(&mut self, _: &mut ExportSpecifier) {}
 
     fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
         n.retain_mut(|decl| {
