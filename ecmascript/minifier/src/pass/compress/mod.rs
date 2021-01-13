@@ -1,5 +1,6 @@
 use crate::util::Optional;
 use drop_console::drop_console;
+use hoist_props::property_hoister;
 use serde::Deserialize;
 use std::borrow::Cow;
 use swc_common::chain;
@@ -78,17 +79,10 @@ impl Repeated for Compressor<'_> {
 }
 
 impl Compressor<'_> {
-    fn hoist_props<T>(&mut self, stmts: &mut Vec<T>)
-    where
-        T: StmtLike,
-        Vec<T>: VisitMutWith<Self>,
-    {
-    }
-
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
-        Vec<T>: VisitMutWith<Self>,
+        Vec<T>: VisitMutWith<Self> + VisitMutWith<hoist_props::Hoister>,
     {
         // Skip if `use asm` exists.
         if stmts.iter().any(|stmt| match stmt.as_stmt() {
@@ -108,7 +102,7 @@ impl Compressor<'_> {
             return;
         }
 
-        self.hoist_props(stmts);
+        stmts.visit_mut_with(&mut property_hoister());
 
         // TODO: Hoist decls
 
