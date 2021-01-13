@@ -1,4 +1,4 @@
-error: Expected an expression
+error[1109]: Expected an expression
  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ArgumentLists/parserErrorRecovery_ArgumentList2/input.ts:2:8
   |
 2 |    bar(;
