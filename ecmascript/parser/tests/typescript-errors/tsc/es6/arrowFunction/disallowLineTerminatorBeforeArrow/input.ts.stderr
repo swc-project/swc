@@ -1,0 +1,112 @@
+error: Unexpected line break between arrow head and arrow
+ --> $DIR/tests/typescript-errors/tsc/es6/arrowFunction/disallowLineTerminatorBeforeArrow/input.ts:1:10
+  |
+1 | var f1 = ()
+  |          ^^
+
+error: Unexpected line break between arrow head and arrow
+ --> $DIR/tests/typescript-errors/tsc/es6/arrowFunction/disallowLineTerminatorBeforeArrow/input.ts:3:10
+  |
+3 | var f2 = (x: string, y: string) /*
+  |          ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Unexpected line break between arrow head and arrow
+ --> $DIR/tests/typescript-errors/tsc/es6/arrowFunction/disallowLineTerminatorBeforeArrow/input.ts:5:10
+  |
+5 | var f3 = (x: string, y: number, ...rest)
+  |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Unexpected line break between arrow head and arrow
+ --> $DIR/tests/typescript-errors/tsc/es6/arrowFunction/disallowLineTerminatorBeforeArrow/input.ts:7:10
+  |
+7 | var f4 = (x: string, y: number, ...rest) /*
+  |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Unexpected line break between arrow head and arrow
+ --> $DIR/tests/typescript-errors/tsc/es6/arrowFunction/disallowLineTerminatorBeforeArrow/input.ts:9:10
+  |
+9 | var f5 = (...rest)
+  |          ^^^^^^^^^
+
+error: Unexpected line break between arrow head and arrow
+  --> $DIR/tests/typescript-errors/tsc/es6/arrowFunction/disallowLineTerminatorBeforeArrow/input.ts:11:10
+   |
+11 | var f6 = (...rest) /*
+   |          ^^^^^^^^^
+
+error: Unexpected line break between arrow head and arrow
+  --> $DIR/tests/typescript-errors/tsc/es6/arrowFunction/disallowLineTerminatorBeforeArrow/input.ts:13:10
+   |
+13 | var f7 = (x: string, y: number, z = 10)
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Unexpected line break between arrow head and arrow
+  --> $DIR/tests/typescript-errors/tsc/es6/arrowFunction/disallowLineTerminatorBeforeArrow/input.ts:15:10
+   |
+15 | var f8 = (x: string, y: number, z = 10) /*
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Unexpected line break between arrow head and arrow
+  --> $DIR/tests/typescript-errors/tsc/es6/arrowFunction/disallowLineTerminatorBeforeArrow/input.ts:17:10
+   |
+17 | var f9 = (a: number): number
+   |          ^^^^^^^^^^^^^^^^^^^
+
+error: Unexpected line break between arrow head and arrow
+  --> $DIR/tests/typescript-errors/tsc/es6/arrowFunction/disallowLineTerminatorBeforeArrow/input.ts:19:11
+   |
+19 |   var f10 = (a: number) :
+   |  ___________^
+20 | |   number
+   | |________^
+
+error: Unexpected line break between arrow head and arrow
+  --> $DIR/tests/typescript-errors/tsc/es6/arrowFunction/disallowLineTerminatorBeforeArrow/input.ts:22:11
+   |
+22 | var f11 = (a: number): number /*
+   |           ^^^^^^^^^^^^^^^^^^^
+
+error: Unexpected line break between arrow head and arrow
+  --> $DIR/tests/typescript-errors/tsc/es6/arrowFunction/disallowLineTerminatorBeforeArrow/input.ts:24:11
+   |
+24 |   var f12 = (a: number) :
+   |  ___________^
+25 | |   number /*
+   | |________^
+
+error: Unexpected line break between arrow head and arrow
+  --> $DIR/tests/typescript-errors/tsc/es6/arrowFunction/disallowLineTerminatorBeforeArrow/input.ts:51:5
+   |
+51 | foo(()
+   |     ^^
+
+error: Unexpected line break between arrow head and arrow
+  --> $DIR/tests/typescript-errors/tsc/es6/arrowFunction/disallowLineTerminatorBeforeArrow/input.ts:53:5
+   |
+53 | foo(()
+   |     ^^
+
+error: Unexpected line break between arrow head and arrow
+  --> $DIR/tests/typescript-errors/tsc/es6/arrowFunction/disallowLineTerminatorBeforeArrow/input.ts:58:40
+   |
+58 |         constructor(x: number, thing = ()
+   |                                        ^^
+
+error: Unexpected line break between arrow head and arrow
+  --> $DIR/tests/typescript-errors/tsc/es6/arrowFunction/disallowLineTerminatorBeforeArrow/input.ts:62:20
+   |
+62 |         public m = ()
+   |                    ^^
+
+error: Unexpected line break between arrow head and arrow
+  --> $DIR/tests/typescript-errors/tsc/es6/arrowFunction/disallowLineTerminatorBeforeArrow/input.ts:67:17
+   |
+67 |         claw = (()
+   |                 ^^
+
+error: Unexpected line break between arrow head and arrow
+  --> $DIR/tests/typescript-errors/tsc/es6/arrowFunction/disallowLineTerminatorBeforeArrow/input.ts:72:9
+   |
+72 |         => new City(Enum.claw);
+   |         ^^
+
