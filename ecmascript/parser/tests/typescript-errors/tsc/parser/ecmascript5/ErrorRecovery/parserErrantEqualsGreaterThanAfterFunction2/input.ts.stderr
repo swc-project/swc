@@ -1,0 +1,12 @@
+error[1005]: Expected '{'
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserErrantEqualsGreaterThanAfterFunction2/input.ts:1:18
+  |
+1 | function f(p: A) => p;
+  |                  ^^
+
+error[1109]: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserErrantEqualsGreaterThanAfterFunction2/input.ts:1:18
+  |
+1 | function f(p: A) => p;
+  |                  ^^
+
