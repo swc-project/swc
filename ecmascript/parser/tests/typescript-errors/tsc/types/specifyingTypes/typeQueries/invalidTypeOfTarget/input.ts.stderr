@@ -35,6 +35,12 @@ error: Expected ident
   |                ^
 
 error[1005]: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/types/specifyingTypes/typeQueries/invalidTypeOfTarget/input.ts:6:20
+  |
+6 | var x6: typeof null;
+  |                    ^
+
+error[1005]: Expected a semicolon
  --> $DIR/tests/typescript-errors/tsc/types/specifyingTypes/typeQueries/invalidTypeOfTarget/input.ts:7:25
   |
 7 | var x7: typeof function f() { };
