@@ -1260,11 +1260,17 @@ impl<'a, I: Tokens> Parser<I> {
 
                 Ok((expr, false))
             }
-            ExprOrSuper::Super(..) => {
+            ExprOrSuper::Super(s) => {
                 if no_call {
-                    syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidSuperCall);
+                    self.recover_hard_error(self.input.cur_span(), SyntaxError::InvalidSuperCall)?;
+                } else {
+                    self.recover_hard_error(
+                        self.input.cur_span(),
+                        SyntaxError::InvalidSuperAccess,
+                    )?;
                 }
-                syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidSuper);
+
+                Ok((Box::new(Expr::Invalid(Invalid { span: s.span })), true))
             }
         }
     }

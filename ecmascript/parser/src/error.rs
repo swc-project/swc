@@ -40,7 +40,7 @@ pub enum SyntaxError {
     PrivateNameInInterface,
 
     InvalidSuperCall,
-    InvalidSuper,
+    InvalidSuperAccess,
 
     ArrowNotAllowed,
     ExportNotAllowed,
@@ -623,7 +623,7 @@ impl SyntaxError {
             SyntaxError::DeclNotAllowed => "Declaration is now allowed".into(),
             SyntaxError::DeclNotAllowed => "Declatation is not allowed".into(),
             SyntaxError::InvalidSuperCall => "Invalid `super()`".into(),
-            SyntaxError::InvalidSuper => "Invalid access to super".into(),
+            SyntaxError::InvalidSuperAccess => "Invalid access to super".into(),
             SyntaxError::ArrowNotAllowed => "An arrow function is not allowed here".into(),
             SyntaxError::ExportNotAllowed => "`export` is not allowed here".into(),
             SyntaxError::GetterSetterCannotBeReadonly => {
