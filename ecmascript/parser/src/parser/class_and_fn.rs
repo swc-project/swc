@@ -141,7 +141,10 @@ impl<'a, I: Tokens> Parser<I> {
                                         },
                                     );
                                 }
-                                js_word!("any") | js_word!("number") | js_word!("boolean")
+                                js_word!("any")
+                                | js_word!("number")
+                                | js_word!("boolean")
+                                | js_word!("string")
                                     if self.syntax().typescript() =>
                                 {
                                     self.emit_err(
