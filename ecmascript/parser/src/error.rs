@@ -398,6 +398,7 @@ impl SyntaxError {
             SyntaxError::InvalidAsyncModifier => Some(1042),
             SyntaxError::InvalidEnumMemberFollowing => Some(1357),
             SyntaxError::ExpectedEnumMember => Some(1132),
+            SyntaxError::ExpectedExpr => Some(1109),
 
             _ => None,
         }

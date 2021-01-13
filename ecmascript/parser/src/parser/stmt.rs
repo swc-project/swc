@@ -554,8 +554,19 @@ impl<'a, I: Tokens> Parser<I> {
         assert_and_bump!(self, "if");
 
         expect!(self, '(');
-        let test = self.include_in_expr(true).parse_expr()?;
-        if !eat!(self, ')') {
+
+        // Error reocovery for `if (`
+        let (expect_rparen, test) = if self.errors_for_backtraing.is_none()
+            && (is!(self, '}') || self.input.has_linebreak_between_cur_and_peeked())
+        {
+            self.emit_err(self.input.cur_span(), SyntaxError::ExpectedExpr);
+            let span = self.input.prev_span();
+            (false, Box::new(Expr::Invalid(Invalid { span })))
+        } else {
+            (true, self.include_in_expr(true).parse_expr()?)
+        };
+
+        if expect_rparen && !eat!(self, ')') {
             self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
 
             let span = span!(self, start);
