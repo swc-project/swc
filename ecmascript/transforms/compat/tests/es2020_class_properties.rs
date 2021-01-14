@@ -4840,3 +4840,37 @@ export class HygieneTest {
 }",
     ok_if_code_eq
 );
+
+test!(
+    syntax(),
+    |_| class_properties(),
+    issue_1306,
+    r#"
+    class Animal {
+      #name;
+    
+      constructor(name) {
+        this.#name = name
+      }
+    
+      noise() {
+        return this.#name.toUpperCase()
+      }
+    }
+"#,
+    "
+    class Animal {
+      noise() {
+          return this.#name.toUpperCase();
+      }
+      constructor(name){
+          _name.set(this, {
+              writable: true,
+              value: void 0
+          });
+          _classPrivateFieldSet(this, _name, name);
+      }
+  }
+  var _name = new WeakMap();
+"
+);
