@@ -314,6 +314,7 @@ impl VisitMut for Reducer {
                         match var_decl.take() {
                             Some(mut upper) if upper.kind == below.kind => {
                                 upper.decls.extend(below.decls);
+                                self.changed = true;
                                 var_decl = Some(upper);
                             }
                             _ => {
