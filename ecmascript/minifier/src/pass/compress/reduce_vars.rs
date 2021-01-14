@@ -13,13 +13,23 @@ use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
 
-/// Merge varaibles.
-pub(super) fn var_reducer() -> impl VisitMut {
-    Reducer::default()
+#[derive(Debug)]
+pub(super) struct ReducerConfig {
+    pub bools: bool,
 }
 
-#[derive(Debug, Default)]
+/// Merge varaibles.
+pub(super) fn var_reducer(config: ReducerConfig) -> impl VisitMut {
+    Reducer {
+        config,
+        vars: Default::default(),
+        data: Default::default(),
+    }
+}
+
+#[derive(Debug)]
 struct Reducer {
+    config: ReducerConfig,
     vars: FxHashMap<Id, Box<Expr>>,
     data: Option<ScopeData>,
 }
@@ -78,6 +88,23 @@ impl VisitMut for Reducer {
                 }
             }
             _ => {}
+        }
+
+        if self.config.bools {
+            match n {
+                Expr::Lit(Lit::Bool(v)) => {
+                    //
+                    *n = Expr::Unary(UnaryExpr {
+                        span: v.span,
+                        op: op!("!"),
+                        arg: Box::new(Expr::Lit(Lit::Num(Number {
+                            span: DUMMY_SP,
+                            value: if v.value { 0.0 } else { 1.0 },
+                        }))),
+                    });
+                }
+                _ => {}
+            }
         }
     }
 
