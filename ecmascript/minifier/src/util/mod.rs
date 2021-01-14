@@ -6,6 +6,7 @@ use swc_ecma_visit::Fold;
 use swc_ecma_visit::FoldWith;
 
 pub(crate) mod base54;
+pub(crate) mod sort;
 pub(crate) mod usage;
 
 pub trait ValueExt<T>: Into<Value<T>> {
