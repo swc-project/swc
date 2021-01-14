@@ -1,0 +1,6 @@
+error: Expected a literal
+ --> $DIR/tests/typescript-errors/tsc/types/import/importTypeNonString/input.ts:3:24
+  |
+3 | export const x: import({x: 12}) = undefined as any;
+  |                        ^
+
