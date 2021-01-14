@@ -1,4 +1,4 @@
-use crate::util::is_var_decl_without_init;
+use crate::util::is_hoisted_var_decl_without_init;
 use crate::util::sort::is_sorted_by_key;
 use crate::util::IsModuleItem;
 use swc_common::pass::Repeated;
@@ -54,7 +54,8 @@ impl Hoister {
             },
             None => 3,
         }) || stmts.windows(2).any(|stmts| {
-            is_var_decl_without_init(&stmts[0]) && is_var_decl_without_init(&stmts[1])
+            is_hoisted_var_decl_without_init(&stmts[0])
+                && is_hoisted_var_decl_without_init(&stmts[1])
         });
 
         if !should_hoist {

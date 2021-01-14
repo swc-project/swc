@@ -15,6 +15,7 @@ use swc_ecma_visit::FoldWith;
 use swc_ecma_visit::VisitMutWith;
 use timing::Timings;
 
+mod debug;
 mod id;
 pub mod option;
 pub mod pass;

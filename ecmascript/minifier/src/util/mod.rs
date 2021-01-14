@@ -10,12 +10,18 @@ pub(crate) mod base54;
 pub(crate) mod sort;
 pub(crate) mod usage;
 
-pub(crate) fn is_var_decl_without_init<T>(t: &T) -> bool
+/// This method returns true only if `T` is `var`. (Not `const` or `let`)
+pub(crate) fn is_hoisted_var_decl_without_init<T>(t: &T) -> bool
 where
     T: StmtLike,
 {
     let var = match t.as_stmt() {
-        Some(Stmt::Decl(Decl::Var(v))) => v,
+        Some(Stmt::Decl(Decl::Var(
+            v @ VarDecl {
+                kind: VarDeclKind::Var,
+                ..
+            },
+        ))) => v,
         _ => return false,
     };
     var.decls.iter().all(|decl| decl.init.is_none())

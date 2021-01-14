@@ -1,3 +1,4 @@
+use crate::debug::dump;
 use crate::option::CompressOptions;
 use crate::pass::compress::hoist_decls::decl_hoister;
 use crate::util::Optional;
@@ -118,6 +119,7 @@ impl VisitMut for Compressor<'_> {
 
     fn visit_mut_module(&mut self, n: &mut Module) {
         dbg!(self.pass);
+        eprintln!("{}", dump(&*n));
         if self.pass > 0 || self.options.reduce_vars {
             // reset_opt_flags
             let mut visitor = var_reducer(ReducerConfig {
