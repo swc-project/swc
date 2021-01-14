@@ -78,6 +78,30 @@ impl Reducer {
 
         None
     }
+
+    /// This method converts `!1` to `0`.
+    fn optimize_expr_in_bool_ctx(&mut self, n: &mut Expr) {
+        match n {
+            Expr::Unary(UnaryExpr {
+                span,
+                op: op!("!"),
+                arg,
+            }) => {
+                self.optimize_expr_in_bool_ctx(&mut **arg);
+
+                match &**arg {
+                    Expr::Lit(Lit::Num(Number { value, .. })) => {
+                        *n = Expr::Lit(Lit::Num(Number {
+                            span: *span,
+                            value: if *value == 0.0 { 1.0 } else { 0.0 },
+                        }))
+                    }
+                    _ => {}
+                }
+            }
+            _ => {}
+        }
+    }
 }
 
 impl VisitMut for Reducer {
@@ -132,6 +156,8 @@ impl VisitMut for Reducer {
             },
             _ => {}
         }
+
+        self.optimize_expr_in_bool_ctx(&mut n.test);
     }
 
     fn visit_mut_var_declarators(&mut self, vars: &mut Vec<VarDeclarator>) {
