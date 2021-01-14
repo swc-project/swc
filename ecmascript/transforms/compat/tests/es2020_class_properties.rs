@@ -4844,20 +4844,67 @@ export class HygieneTest {
 test!(
     syntax(),
     |_| class_properties(),
-    issue_1306,
+    issue_1306_1,
     r#"
-    class Animal {
-      #name;
-    
-      constructor(name) {
-        this.#name = name
-      }
-    
-      noise() {
-        return this.#name.toUpperCase()
-      }
+  class Animal {
+    #name;
+  
+    constructor(name) {
+      this.#name = name
     }
+  
+    noise() {
+      return this.#name
+    }
+  }
 "#,
     "
+    class Animal {
+      noise() {
+          return _classPrivateFieldGet(this, _name);
+      }
+      constructor(name){
+          _name.set(this, {
+              writable: true,
+              value: void 0
+          });
+          _classPrivateFieldSet(this, _name, name);
+      }
+    }
+    var _name = new WeakMap();
+"
+);
+
+test!(
+    syntax(),
+    |_| class_properties(),
+    issue_1306_2,
+    r#"
+  class Animal {
+    #name;
+  
+    constructor(name) {
+      this.#name = name
+    }
+  
+    noise() {
+      return this.#name.toUpperCase()
+    }
+  }
+"#,
+    "
+    class Animal {
+      noise() {
+          return _classPrivateFieldGet(this, _name).toUpperCase();
+      }
+      constructor(name){
+          _name.set(this, {
+              writable: true,
+              value: void 0
+          });
+          _classPrivateFieldSet(this, _name, name);
+      }
+  }
+  var _name = new WeakMap();
 "
 );
