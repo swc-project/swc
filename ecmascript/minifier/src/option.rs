@@ -126,7 +126,9 @@ pub struct CompressOptions {
     #[serde(alias = "toplevel")]
     pub top_level: bool,
     // typeofs       : !false_by_default,
-    // unsafe        : false,
+    #[serde(default)]
+    #[serde(rename = "unsafe")]
+    pub unsafe_passes: bool,
     // unsafe_arrows : false,
     // unsafe_comps  : false,
     // unsafe_Function: false,
