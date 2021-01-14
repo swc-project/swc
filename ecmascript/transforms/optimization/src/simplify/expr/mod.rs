@@ -802,11 +802,15 @@ impl SimplifyExpr {
                     Known($value)
                 } else {
                     let new_len = format!("{}", $value).len();
-                    let orig_len = right.span().hi() - left.span().lo();
-                    if new_len <= orig_len.0 as usize {
-                        Known($value)
+                    if right.span().hi() > left.span().lo() {
+                        let orig_len = right.span().hi() - left.span().lo();
+                        if new_len <= orig_len.0 as usize {
+                            Known($value)
+                        } else {
+                            Unknown
+                        }
                     } else {
-                        Unknown
+                        Known($value)
                     }
                 }
             }};
