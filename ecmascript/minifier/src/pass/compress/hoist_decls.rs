@@ -7,11 +7,17 @@ use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
-pub(super) fn decl_hoister() -> Hoister {
-    Hoister {}
+pub(super) struct DeclHoisterConfig {
+    pub hoist_fns: bool,
 }
 
-pub(super) struct Hoister {}
+pub(super) fn decl_hoister(config: DeclHoisterConfig) -> Hoister {
+    Hoister { config }
+}
+
+pub(super) struct Hoister {
+    config: DeclHoisterConfig,
+}
 
 impl Hoister {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
@@ -48,10 +54,12 @@ impl Hoister {
         if !should_hoist {
             return;
         }
-        let mut decls = vec![];
-        let mut new = Vec::with_capacity(stmts.len());
-        new.push(T::from_stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP })));
+        let mut var_decls = vec![];
+        let mut fn_decls = Vec::with_capacity(stmts.len());
+        let mut new_stmts = Vec::with_capacity(stmts.len());
+        fn_decls.push(T::from_stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP })));
 
+        let mut found_non_var_decl = false;
         for stmt in stmts.take() {
             match stmt.try_into_stmt() {
                 Ok(stmt) => {
@@ -64,13 +72,13 @@ impl Hoister {
                                 kind: VarDeclKind::Var,
                                 ..
                             },
-                        )) => {
+                        )) if found_non_var_decl => {
                             let mut exprs = vec![];
                             for decl in var.decls {
                                 let ids: Vec<Ident> = find_ids(&decl.name);
 
                                 for id in ids {
-                                    decls.push(VarDeclarator {
+                                    var_decls.push(VarDeclarator {
                                         span: DUMMY_SP,
                                         name: Pat::Ident(id),
                                         init: None,
@@ -95,7 +103,7 @@ impl Hoister {
                             if exprs.is_empty() {
                                 continue;
                             }
-                            new.push(T::from_stmt(Stmt::Expr(ExprStmt {
+                            new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
                                 span: var.span,
                                 expr: if exprs.len() == 1 {
                                     exprs.into_iter().next().unwrap()
@@ -107,21 +115,31 @@ impl Hoister {
                                 },
                             })))
                         }
-                        _ => new.push(T::from_stmt(stmt)),
+
+                        Stmt::Decl(Decl::Fn(..)) if self.config.hoist_fns => {
+                            fn_decls.push(T::from_stmt(stmt))
+                        }
+
+                        Stmt::Decl(Decl::Var(..)) => new_stmts.push(T::from_stmt(stmt)),
+                        _ => {
+                            found_non_var_decl = true;
+                            new_stmts.push(T::from_stmt(stmt))
+                        }
                     }
                 }
-                Err(stmt) => new.push(stmt),
+                Err(stmt) => new_stmts.push(stmt),
             }
         }
 
-        *new.first_mut().unwrap() = T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+        *fn_decls.first_mut().unwrap() = T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
             span: DUMMY_SP,
             kind: VarDeclKind::Var,
             declare: false,
-            decls,
+            decls: var_decls,
         })));
+        fn_decls.extend(new_stmts);
 
-        *stmts = new;
+        *stmts = fn_decls;
     }
 }
 

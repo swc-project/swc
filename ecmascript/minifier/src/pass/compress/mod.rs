@@ -2,6 +2,7 @@ use crate::option::CompressOptions;
 use crate::pass::compress::hoist_decls::decl_hoister;
 use crate::util::Optional;
 use drop_console::drop_console;
+use hoist_decls::DeclHoisterConfig;
 use hoist_props::property_hoister;
 use reduce_vars::var_reducer;
 use reduce_vars::ReducerConfig;
@@ -95,7 +96,9 @@ impl Compressor<'_> {
         }
 
         stmts.visit_mut_with(&mut property_hoister());
-        stmts.visit_mut_with(&mut decl_hoister());
+        stmts.visit_mut_with(&mut decl_hoister(DeclHoisterConfig {
+            hoist_fns: self.options.hoist_fns,
+        }));
         // TODO: Hoist decls
 
         // This is swc version of `node.optimize(this);`.
