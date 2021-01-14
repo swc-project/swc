@@ -1,6 +1,6 @@
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeated;
-use swc_ecma_ast::Module;
+use swc_ecma_ast::*;
 use swc_ecma_utils::Value;
 use swc_ecma_visit::Fold;
 use swc_ecma_visit::FoldWith;
@@ -8,6 +8,24 @@ use swc_ecma_visit::FoldWith;
 pub(crate) mod base54;
 pub(crate) mod sort;
 pub(crate) mod usage;
+
+pub(crate) trait IsModuleItem {
+    fn is_module_item() -> bool;
+}
+
+impl IsModuleItem for Stmt {
+    #[inline]
+    fn is_module_item() -> bool {
+        false
+    }
+}
+
+impl IsModuleItem for ModuleItem {
+    #[inline]
+    fn is_module_item() -> bool {
+        true
+    }
+}
 
 pub trait ValueExt<T>: Into<Value<T>> {
     fn opt(self) -> Option<T> {
