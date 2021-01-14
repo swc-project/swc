@@ -2493,6 +2493,10 @@ fn escape_with_source<'s>(
     s: &'s str,
     single_quote: Option<bool>,
 ) -> String {
+    if target <= JscTarget::Es5 {
+        return escape_without_source(s, target, single_quote.unwrap_or(false));
+    }
+
     if span.is_dummy() {
         return escape_without_source(s, target, single_quote.unwrap_or(false));
     }

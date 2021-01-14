@@ -105,4 +105,8 @@ where
     fn write_punct(&mut self, s: &'static str) -> Result {
         (**self).write_punct(s)
     }
+
+    fn target(&self) -> JscTarget {
+        (**self).target()
+    }
 }

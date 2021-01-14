@@ -1,0 +1,16 @@
+{
+  "jsc": {
+    "target": "es2015",
+    "parser": {
+      "syntax": "ecmascript",
+      "privateMethod": false,
+      "functionBind": false,
+      "exportDefaultFrom": false,
+      "exportNamespaceFrom": false,
+      "decorators": false,
+      "decoratorsBeforeExport": false,
+      "topLevelAwait": false,
+      "importMeta": false
+    }
+  }
+}

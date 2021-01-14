@@ -1,4 +1,5 @@
 use crate::config::{GlobalPassOption, JscTarget, ModuleConfig};
+use compat::es2020::export_namespace_from;
 use either::Either;
 use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
@@ -176,6 +177,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             self.pass,
             compat_pass,
             compat::reserved_words::reserved_words(),
+            Optional::new(export_namespace_from(), need_interop_analysis),
             // module / helper
             Optional::new(
                 modules::import_analysis::import_analyzer(),
