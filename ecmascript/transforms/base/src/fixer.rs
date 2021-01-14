@@ -285,6 +285,24 @@ impl VisitMut for Fixer<'_> {
 
             _ => {}
         }
+
+        if n.op == op!("!") {
+            match &mut *n.arg {
+                Expr::Paren(arg) => match &*arg.expr {
+                    Expr::Call(call_arg) => match &call_arg.callee {
+                        ExprOrSuper::Super(_) => {}
+                        ExprOrSuper::Expr(callee) => match &**callee {
+                            Expr::Fn(..) => {
+                                n.arg = arg.expr.take();
+                            }
+                            _ => {}
+                        },
+                    },
+                    _ => {}
+                },
+                _ => {}
+            }
+        };
     }
 
     fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
