@@ -96,9 +96,13 @@ impl Compressor<'_> {
         }
 
         stmts.visit_mut_with(&mut property_hoister());
-        stmts.visit_mut_with(&mut decl_hoister(DeclHoisterConfig {
-            hoist_fns: self.options.hoist_fns,
-        }));
+        {
+            let mut v = decl_hoister(DeclHoisterConfig {
+                hoist_fns: self.options.hoist_fns,
+            });
+            stmts.visit_mut_with(&mut v);
+            self.changed |= v.changed();
+        }
         // TODO: Hoist decls
 
         // This is swc version of `node.optimize(this);`.
@@ -112,6 +116,7 @@ impl VisitMut for Compressor<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, n: &mut Module) {
+        dbg!(self.pass);
         if self.pass > 0 || self.options.reduce_vars {
             // reset_opt_flags
             let mut visitor = var_reducer(ReducerConfig {
