@@ -1,0 +1,42 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/SkippedTokens/parserSkippedTokens16/input.ts:1:6
+  |
+1 | foo(): Bar { }
+  |      ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/SkippedTokens/parserSkippedTokens16/input.ts:1:1
+  |
+1 | foo(): Bar { }
+  | ^^^^^
+
+error[1128]: Declaration or statement expected
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/SkippedTokens/parserSkippedTokens16/input.ts:1:6
+  |
+1 | foo(): Bar { }
+  |      ^
+
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/SkippedTokens/parserSkippedTokens16/input.ts:1:12
+  |
+1 | foo(): Bar { }
+  |            ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/SkippedTokens/parserSkippedTokens16/input.ts:1:8
+  |
+1 | foo(): Bar { }
+  |        ^^^
+
+error[1005]: Expected '{'
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/SkippedTokens/parserSkippedTokens16/input.ts:2:22
+  |
+2 | function Foo      () ¬   { }
+  |                      ^
+
+error: Unexpected character '¬'
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/SkippedTokens/parserSkippedTokens16/input.ts:2:22
+  |
+2 | function Foo      () ¬   { }
+  |                      ^
+
