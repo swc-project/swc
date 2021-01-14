@@ -26,6 +26,7 @@ pub(super) fn var_reducer(config: ReducerConfig) -> impl VisitMut {
         lits: Default::default(),
         vars: Default::default(),
         data: Default::default(),
+        inline_prevented: false,
     }
 }
 
@@ -36,6 +37,7 @@ struct Reducer {
     lits: FxHashMap<Id, Lit>,
     vars: FxHashMap<Id, Box<Expr>>,
     data: Option<ScopeData>,
+    inline_prevented: bool,
 }
 
 impl Reducer {
@@ -88,6 +90,15 @@ impl VisitMut for Reducer {
         n.visit_mut_children_with(self);
     }
 
+    fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
+        let old = self.inline_prevented;
+        self.inline_prevented = true;
+        n.discriminant.visit_mut_with(self);
+        self.inline_prevented = old;
+
+        n.cases.visit_mut_with(self);
+    }
+
     fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
         n.visit_mut_children_with(self);
 
@@ -126,16 +137,18 @@ impl VisitMut for Reducer {
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         n.visit_mut_children_with(self);
 
-        match n {
-            Expr::Ident(i) => {
-                //
-                if let Some(value) = self.lits.get(&i.to_id()).cloned() {
-                    *n = Expr::Lit(value);
-                } else if let Some(value) = self.vars.remove(&i.to_id()) {
-                    *n = *value;
+        if !self.inline_prevented {
+            match n {
+                Expr::Ident(i) => {
+                    //
+                    if let Some(value) = self.lits.get(&i.to_id()).cloned() {
+                        *n = Expr::Lit(value);
+                    } else if let Some(value) = self.vars.remove(&i.to_id()) {
+                        *n = *value;
+                    }
                 }
+                _ => {}
             }
-            _ => {}
         }
 
         if self.config.bools {
