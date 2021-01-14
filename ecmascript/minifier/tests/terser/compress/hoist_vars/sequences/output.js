@@ -1,5 +1,5 @@
 function f() {
-    var c, a = 1, b = 2;
+    var a = 1, b = 2, c;
     function g() {
     }
     c = 3;
