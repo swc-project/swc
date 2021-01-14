@@ -1,5 +1,6 @@
 use crate::util::usage::ScopeData;
 use crate::util::usage::UsageAnalyzer;
+use crate::util::ValueExt;
 use fxhash::FxHashMap;
 use retain_mut::RetainMut;
 use std::mem::swap;
@@ -7,6 +8,7 @@ use std::mem::take;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::Id;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::noop_visit_mut_type;
@@ -56,6 +58,25 @@ impl Reducer {
         }
 
         stmts.visit_mut_children_with(self);
+    }
+
+    fn optimize_lit_cmp(&mut self, n: &mut BinExpr) -> Option<Expr> {
+        match n.op {
+            op!("==") | op!("!=") => {
+                let l = n.left.as_pure_bool().opt()?;
+                let r = n.right.as_pure_bool().opt()?;
+
+                let value = if n.op == op!("==") { l == r } else { l != r };
+
+                return Some(Expr::Lit(Lit::Bool(Bool {
+                    span: n.span,
+                    value,
+                })));
+            }
+            _ => {}
+        }
+
+        None
     }
 }
 
@@ -166,6 +187,16 @@ impl VisitMut for Reducer {
                 }
                 _ => {}
             }
+        }
+
+        match n {
+            Expr::Bin(bin) => {
+                let expr = self.optimize_lit_cmp(bin);
+                if let Some(expr) = expr {
+                    *n = expr;
+                }
+            }
+            _ => {}
         }
     }
 

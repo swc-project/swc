@@ -1,11 +1,23 @@
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeated;
 use swc_ecma_ast::Module;
+use swc_ecma_utils::Value;
 use swc_ecma_visit::Fold;
 use swc_ecma_visit::FoldWith;
 
 pub(crate) mod base54;
 pub(crate) mod usage;
+
+pub trait ValueExt<T>: Into<Value<T>> {
+    fn opt(self) -> Option<T> {
+        match self.into() {
+            Value::Known(v) => Some(v),
+            _ => None,
+        }
+    }
+}
+
+impl<T> ValueExt<T> for Value<T> {}
 
 /// TODO(kdy1): Modify swc_visit.
 /// Actually we should implement `swc_visit::Repeated` for
