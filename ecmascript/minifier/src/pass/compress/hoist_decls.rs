@@ -1,11 +1,13 @@
 use crate::util::is_hoisted_var_decl_without_init;
 use crate::util::sort::is_sorted_by_key;
 use crate::util::IsModuleItem;
+use fxhash::FxHashSet;
 use swc_common::pass::Repeated;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::find_ids;
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
@@ -66,6 +68,7 @@ impl Hoister {
         let mut var_decls = vec![];
         let mut fn_decls = Vec::with_capacity(stmts.len());
         let mut new_stmts = Vec::with_capacity(stmts.len());
+        let mut done = FxHashSet::default();
 
         let mut found_non_var_decl = false;
         for stmt in stmts.take() {
@@ -91,12 +94,14 @@ impl Hoister {
                                 let ids: Vec<Ident> = find_ids(&decl.name);
 
                                 for id in ids {
-                                    var_decls.push(VarDeclarator {
-                                        span: DUMMY_SP,
-                                        name: Pat::Ident(id),
-                                        init: None,
-                                        definite: false,
-                                    })
+                                    if done.insert(id.to_id()) {
+                                        var_decls.push(VarDeclarator {
+                                            span: DUMMY_SP,
+                                            name: Pat::Ident(id),
+                                            init: None,
+                                            definite: false,
+                                        })
+                                    }
                                 }
 
                                 match decl.init {
@@ -142,7 +147,20 @@ impl Hoister {
                             // var b = 3;
                             //
                             // will be merged.
-                            var_decls.extend(decls);
+                            var_decls.extend(decls.into_iter().filter(|decl| {
+                                // We should preserve if init exists because
+                                //
+                                // var a = 2, a = 3;
+                                //
+                                // is valid javascript code.
+
+                                let preserve = match &decl.name {
+                                    Pat::Ident(name) => done.insert(name.to_id()),
+                                    _ => true,
+                                };
+
+                                preserve || decl.init.is_some()
+                            }));
                         }
 
                         Stmt::Decl(Decl::Var(..)) => new_stmts.push(T::from_stmt(stmt)),
