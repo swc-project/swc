@@ -66,7 +66,6 @@ impl Hoister {
         let mut var_decls = vec![];
         let mut fn_decls = Vec::with_capacity(stmts.len());
         let mut new_stmts = Vec::with_capacity(stmts.len());
-        fn_decls.push(T::from_stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP })));
 
         let mut found_non_var_decl = false;
         for stmt in stmts.take() {
@@ -157,12 +156,12 @@ impl Hoister {
             }
         }
 
-        *fn_decls.first_mut().unwrap() = T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+        fn_decls.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
             span: DUMMY_SP,
             kind: VarDeclKind::Var,
             declare: false,
             decls: var_decls,
-        })));
+        }))));
         fn_decls.extend(new_stmts);
 
         *stmts = fn_decls;
