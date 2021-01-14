@@ -1,3 +1,4 @@
+use swc_common::pass::Repeated;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -7,16 +8,32 @@ use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
+use crate::util::sort::is_sorted_by_key;
+
 pub(super) struct DeclHoisterConfig {
     pub hoist_fns: bool,
 }
 
 pub(super) fn decl_hoister(config: DeclHoisterConfig) -> Hoister {
-    Hoister { config }
+    Hoister {
+        config,
+        changed: false,
+    }
 }
 
 pub(super) struct Hoister {
     config: DeclHoisterConfig,
+    changed: bool,
+}
+
+impl Repeated for Hoister {
+    fn changed(&self) -> bool {
+        self.changed
+    }
+
+    fn reset(&mut self) {
+        self.changed = false;
+    }
 }
 
 impl Hoister {
@@ -29,31 +46,20 @@ impl Hoister {
 
         // TODO: Hoist vars, ignoring side-effect-free items like fn decl.
 
-        let should_hoist = {
-            let mut found_non_var_decl = false;
-            stmts.iter().any(|stmt| match stmt.as_stmt() {
-                Some(stmt) => match stmt {
-                    Stmt::Decl(Decl::Var(..)) => {
-                        if found_non_var_decl {
-                            return true;
-                        }
-                        false
-                    }
-                    _ => {
-                        found_non_var_decl = true;
-                        false
-                    }
-                },
-                None => {
-                    found_non_var_decl = true;
-                    false
-                }
-            })
-        };
+        let should_hoist = !is_sorted_by_key(stmts.iter(), |stmt| match stmt.as_stmt() {
+            Some(stmt) => match stmt {
+                Stmt::Decl(Decl::Fn(..)) if self.config.hoist_fns => 1,
+                Stmt::Decl(Decl::Var(..)) => 2,
+                _ => 3,
+            },
+            None => 3,
+        });
 
         if !should_hoist {
             return;
         }
+        self.changed = true;
+
         let mut var_decls = vec![];
         let mut fn_decls = Vec::with_capacity(stmts.len());
         let mut new_stmts = Vec::with_capacity(stmts.len());
