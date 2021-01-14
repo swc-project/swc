@@ -19,6 +19,7 @@ swc_atoms = {version = "0.2", path = "../../atoms"}
 swc_common = {version = "0.10.8", path = "../../common"}
 swc_ecma_ast = {version = "0.36.2", path = "../ast"}
 swc_ecma_transforms = {version = "0.32.1", path = "../transforms/", features = ["optimization"]}
+swc_ecma_transforms_base = {version = "0.1.2", path = "../transforms/base"}
 swc_ecma_utils = {version = "0.26.0", path = "../utils"}
 swc_ecma_visit = {version = "0.22.0", path = "../visit"}
 

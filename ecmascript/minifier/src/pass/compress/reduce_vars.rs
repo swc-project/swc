@@ -7,6 +7,7 @@ use std::mem::swap;
 use std::mem::take;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::Id;
@@ -107,8 +108,15 @@ impl Reducer {
 impl VisitMut for Reducer {
     noop_visit_mut_type!();
 
+    fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
+        e.ident = None;
+        e.visit_mut_children_with(self);
+    }
+
     /// Inlines function call.
     fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
+        n.visit_mut_children_with(self);
+
         let has_spread_arg = n.args.iter().any(|v| v.spread.is_some());
 
         if !has_spread_arg {
@@ -131,8 +139,6 @@ impl VisitMut for Reducer {
                 },
             }
         }
-
-        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
@@ -183,6 +189,13 @@ impl VisitMut for Reducer {
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         n.visit_mut_children_with(self);
+        // Normalize
+        match n {
+            Expr::Paren(paren) => {
+                *n = *paren.expr.take();
+            }
+            _ => {}
+        }
 
         if !self.inline_prevented {
             match n {
