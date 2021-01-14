@@ -1,6 +1,7 @@
 use super::{Result, WriteJs};
 use std::io::{self, Write};
 use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
+use swc_ecma_parser::JscTarget;
 
 ///
 /// -----
@@ -19,6 +20,7 @@ pub struct JsWriter<'a, W: Write> {
     srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
     wr: W,
     written_bytes: usize,
+    target: JscTarget,
 }
 
 impl<'a, W: Write> JsWriter<'a, W> {
@@ -27,6 +29,16 @@ impl<'a, W: Write> JsWriter<'a, W> {
         new_line: &'a str,
         wr: W,
         srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
+    ) -> Self {
+        Self::with_target(cm, new_line, wr, srcmap, JscTarget::Es2020)
+    }
+
+    pub fn with_target(
+        cm: Lrc<SourceMap>,
+        new_line: &'a str,
+        wr: W,
+        srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
+        target: JscTarget,
     ) -> Self {
         JsWriter {
             _cm: cm,
@@ -38,6 +50,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
             srcmap,
             wr,
             written_bytes: 0,
+            target,
         }
     }
 
@@ -186,6 +199,10 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     fn write_punct(&mut self, s: &'static str) -> Result {
         self.write(None, s)?;
         Ok(())
+    }
+
+    fn target(&self) -> JscTarget {
+        self.target
     }
 }
 

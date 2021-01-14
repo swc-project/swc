@@ -209,7 +209,7 @@ impl Compiler {
                         cm: self.cm.clone(),
                         wr: Box::new(self::codegen::WriterWapper {
                             target,
-                            inner: swc_ecma_codegen::text_writer::JsWriter::new(
+                            inner: swc_ecma_codegen::text_writer::JsWriter::with_target(
                                 self.cm.clone(),
                                 "\n",
                                 &mut buf,
@@ -218,6 +218,7 @@ impl Compiler {
                                 } else {
                                     None
                                 },
+                                target,
                             ),
                         }),
                     };
