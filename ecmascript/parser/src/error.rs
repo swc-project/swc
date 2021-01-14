@@ -291,6 +291,7 @@ pub enum SyntaxError {
     },
     ExpectedType,
     InferTypeNotAllowed,
+    ExpectedLiteral,
 }
 
 impl SyntaxError {
@@ -858,6 +859,7 @@ impl SyntaxError {
 
             SyntaxError::ExpectedType => "Expected a type".into(),
             SyntaxError::InferTypeNotAllowed => "An infer type is not allowed at here".into(),
+            SyntaxError::ExpectedLiteral => "Expected a literal".into(),
         }
     }
 }

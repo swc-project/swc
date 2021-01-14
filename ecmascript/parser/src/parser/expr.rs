@@ -1810,7 +1810,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }),
                 _ => unreachable!(),
             },
-            _ => unreachable!("parse_lit should not be called"),
+            _ => syntax_error!(self, SyntaxError::ExpectedLiteral),
         };
         Ok(v)
     }
