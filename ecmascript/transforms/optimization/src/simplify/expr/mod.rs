@@ -720,10 +720,17 @@ impl SimplifyExpr {
             op!("typeof") if !may_have_side_effects => {
                 return self.try_fold_typeof(UnaryExpr { span, op, arg });
             }
-            op!("!") => match arg.as_bool() {
-                (_, Known(val)) => return make_bool_expr(span, !val, iter::once(arg)),
-                _ => return Expr::Unary(UnaryExpr { op, arg, span }),
-            },
+            op!("!") => {
+                match &*arg {
+                    Expr::Lit(Lit::Num(..)) => return Expr::Unary(UnaryExpr { op, arg, span }),
+                    _ => {}
+                }
+
+                match arg.as_bool() {
+                    (_, Known(val)) => return make_bool_expr(span, !val, iter::once(arg)),
+                    _ => return Expr::Unary(UnaryExpr { op, arg, span }),
+                }
+            }
             op!(unary, "+") => match arg.as_number() {
                 Known(v) => {
                     return preserve_effects(
