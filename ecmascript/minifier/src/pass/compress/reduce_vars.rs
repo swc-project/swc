@@ -124,8 +124,21 @@ impl VisitMut for Reducer {
     noop_visit_mut_type!();
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
-        self.changed |= e.ident.is_some();
-        e.ident = None;
+        if let Some(i) = &e.ident {
+            if let Some(data) = &self.data {
+                let can_remove_ident = data
+                    .vars
+                    .get(&i.to_id())
+                    .map(|v| v.ref_count == 0)
+                    .unwrap_or(false);
+
+                if can_remove_ident {
+                    self.changed = true;
+                    e.ident = None;
+                }
+            }
+        }
+
         e.visit_mut_children_with(self);
     }
 
