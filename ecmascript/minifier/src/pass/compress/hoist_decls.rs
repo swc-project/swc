@@ -9,9 +9,11 @@ use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
 use crate::util::sort::is_sorted_by_key;
+use crate::util::IsModuleItem;
 
 pub(super) struct DeclHoisterConfig {
     pub hoist_fns: bool,
+    pub top_level: bool,
 }
 
 pub(super) fn decl_hoister(config: DeclHoisterConfig) -> Hoister {
@@ -39,12 +41,10 @@ impl Repeated for Hoister {
 impl Hoister {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike,
+        T: StmtLike + IsModuleItem,
         Vec<T>: VisitMutWith<Self>,
     {
         stmts.visit_mut_children_with(self);
-
-        // TODO: Hoist vars, ignoring side-effect-free items like fn decl.
 
         let should_hoist = !is_sorted_by_key(stmts.iter(), |stmt| match stmt.as_stmt() {
             Some(stmt) => match stmt {

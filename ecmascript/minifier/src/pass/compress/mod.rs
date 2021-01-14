@@ -99,6 +99,7 @@ impl Compressor<'_> {
         {
             let mut v = decl_hoister(DeclHoisterConfig {
                 hoist_fns: self.options.hoist_fns,
+                top_level: self.options.top_level,
             });
             stmts.visit_mut_with(&mut v);
             self.changed |= v.changed();

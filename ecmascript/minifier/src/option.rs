@@ -124,7 +124,6 @@ pub struct CompressOptions {
     // top_retain    : null,
     #[serde(default)]
     #[serde(alias = "toplevel")]
-    #[deprecated = "Not used. Exists only for api compatibility with terser."]
     pub top_level: bool,
     // typeofs       : !false_by_default,
     // unsafe        : false,
