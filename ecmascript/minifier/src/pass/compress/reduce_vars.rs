@@ -2,6 +2,7 @@ use crate::util::usage::ScopeData;
 use crate::util::usage::UsageAnalyzer;
 use fxhash::FxHashMap;
 use retain_mut::RetainMut;
+use std::mem::swap;
 use std::mem::take;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -55,6 +56,20 @@ impl Reducer {
 
 impl VisitMut for Reducer {
     noop_visit_mut_type!();
+
+    fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
+        n.visit_mut_children_with(self);
+
+        match &mut *n.test {
+            Expr::Bin(test) => match (&*test.left, &*test.right) {
+                (&Expr::Ident(..), &Expr::Lit(..)) => {
+                    swap(&mut test.left, &mut test.right);
+                }
+                _ => {}
+            },
+            _ => {}
+        }
+    }
 
     fn visit_mut_var_declarators(&mut self, vars: &mut Vec<VarDeclarator>) {
         vars.retain_mut(|var| {
