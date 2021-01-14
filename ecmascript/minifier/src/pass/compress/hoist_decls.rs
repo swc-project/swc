@@ -73,6 +73,11 @@ impl Hoister {
                 Ok(stmt) => {
                     // Seaarch for variable declarations.
                     match stmt {
+                        Stmt::Decl(Decl::Fn(..)) if self.config.hoist_fns => {
+                            // Move functions to top.
+                            fn_decls.push(T::from_stmt(stmt))
+                        }
+
                         Stmt::Decl(Decl::Var(
                             var
                             @
@@ -124,8 +129,20 @@ impl Hoister {
                             })))
                         }
 
-                        Stmt::Decl(Decl::Fn(..)) if self.config.hoist_fns => {
-                            fn_decls.push(T::from_stmt(stmt))
+                        Stmt::Decl(Decl::Var(VarDecl {
+                            kind: VarDeclKind::Var,
+                            decls,
+                            ..
+                        })) => {
+                            // It can be merged because we didn't found normal statement.
+                            //
+                            // Code like
+                            //
+                            // var a = 1;
+                            // var b = 3;
+                            //
+                            // will be merged.
+                            var_decls.extend(decls);
                         }
 
                         Stmt::Decl(Decl::Var(..)) => new_stmts.push(T::from_stmt(stmt)),
