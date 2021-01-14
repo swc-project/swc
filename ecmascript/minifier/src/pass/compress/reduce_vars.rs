@@ -332,6 +332,8 @@ impl VisitMut for Reducer {
                 }
             }
 
+            new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
+
             *stmts = new
         }
     }
