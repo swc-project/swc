@@ -15,6 +15,7 @@ use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_parser::lexer::input::SourceFileInput;
 use swc_ecma_parser::lexer::Lexer;
 use swc_ecma_parser::Parser;
+use swc_ecma_transforms::fixer;
 use swc_ecma_transforms::hygiene;
 use swc_ecma_transforms::resolver;
 use swc_ecma_visit::FoldWith;
@@ -58,7 +59,8 @@ fn terser_compress(input: PathBuf) {
                 ..Default::default()
             },
         )
-        .fold_with(&mut hygiene());
+        .fold_with(&mut hygiene())
+        .fold_with(&mut fixer(None));
         let output = print(cm.clone(), &[output]);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
