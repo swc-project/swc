@@ -40,7 +40,7 @@ struct Reducer {
     changed: bool,
     config: ReducerConfig,
     /// Cheap to clone.
-    lits: FxHashMap<Id, Lit>,
+    lits: FxHashMap<Id, Box<Expr>>,
     vars: FxHashMap<Id, Box<Expr>>,
     data: Option<ScopeData>,
     inline_prevented: bool,
@@ -155,10 +155,13 @@ impl VisitMut for Reducer {
                     Expr::Fn(callee) => {
                         // We check for parameter and argument
                         for (idx, param) in callee.function.params.iter().enumerate() {
-                            let arg = n.args.get(idx).map(|v| &*v.expr);
+                            let arg = n.args.get(idx).map(|v| &v.expr);
                             if let Pat::Ident(param) = &param.pat {
-                                if let Some(Expr::Lit(arg)) = arg {
-                                    self.lits.insert(param.to_id(), arg.clone());
+                                if let Some(arg) = arg {
+                                    let should_be_inlined = is_clone_cheap(arg);
+                                    if should_be_inlined {
+                                        self.lits.insert(param.to_id(), arg.clone());
+                                    }
                                 }
                             }
                         }
@@ -239,7 +242,7 @@ impl VisitMut for Reducer {
                     if let Some(value) = self.lits.get(&i.to_id()).cloned() {
                         self.changed = true;
 
-                        *n = Expr::Lit(value);
+                        *n = *value;
                     } else if let Some(value) = self.vars.remove(&i.to_id()) {
                         self.changed = true;
 
@@ -330,5 +333,15 @@ impl VisitMut for Reducer {
 
             *stmts = new
         }
+    }
+}
+
+fn is_clone_cheap(arg: &Expr) -> bool {
+    match arg {
+        Expr::Lit(..) => true,
+        Expr::Unary(UnaryExpr {
+            op: op!("!"), arg, ..
+        }) => is_clone_cheap(&arg),
+        _ => false,
     }
 }
