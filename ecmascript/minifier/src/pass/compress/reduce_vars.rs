@@ -134,6 +134,9 @@ impl VisitMut for Reducer {
                             }
                         }
                         callee.function.visit_mut_with(self);
+
+                        // TODO: Drop arguments if all usage is inlined. (We
+                        // should preserve parameters)
                     }
                     _ => {}
                 },
