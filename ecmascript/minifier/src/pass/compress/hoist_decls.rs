@@ -1,3 +1,6 @@
+use crate::util::is_var_decl_without_init;
+use crate::util::sort::is_sorted_by_key;
+use crate::util::IsModuleItem;
 use swc_common::pass::Repeated;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -7,9 +10,6 @@ use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
-
-use crate::util::sort::is_sorted_by_key;
-use crate::util::IsModuleItem;
 
 pub(super) struct DeclHoisterConfig {
     pub hoist_fns: bool,
@@ -53,6 +53,8 @@ impl Hoister {
                 _ => 3,
             },
             None => 3,
+        }) || stmts.windows(2).any(|stmts| {
+            is_var_decl_without_init(&stmts[0]) && is_var_decl_without_init(&stmts[1])
         });
 
         if !should_hoist {

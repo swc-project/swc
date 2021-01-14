@@ -1,6 +1,7 @@
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeated;
 use swc_ecma_ast::*;
+use swc_ecma_utils::StmtLike;
 use swc_ecma_utils::Value;
 use swc_ecma_visit::Fold;
 use swc_ecma_visit::FoldWith;
@@ -8,6 +9,17 @@ use swc_ecma_visit::FoldWith;
 pub(crate) mod base54;
 pub(crate) mod sort;
 pub(crate) mod usage;
+
+pub(crate) fn is_var_decl_without_init<T>(t: &T) -> bool
+where
+    T: StmtLike,
+{
+    let var = match t.as_stmt() {
+        Some(Stmt::Decl(Decl::Var(v))) => v,
+        _ => return false,
+    };
+    var.decls.iter().all(|decl| decl.init.is_none())
+}
 
 pub(crate) trait IsModuleItem {
     fn is_module_item() -> bool;
