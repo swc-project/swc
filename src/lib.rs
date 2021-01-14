@@ -207,20 +207,17 @@ impl Compiler {
                         cfg: swc_ecma_codegen::Config { minify },
                         comments: if minify { None } else { Some(&self.comments) },
                         cm: self.cm.clone(),
-                        wr: Box::new(self::codegen::WriterWapper {
+                        wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::with_target(
+                            self.cm.clone(),
+                            "\n",
+                            &mut buf,
+                            if source_map.enabled() {
+                                Some(&mut src_map_buf)
+                            } else {
+                                None
+                            },
                             target,
-                            inner: swc_ecma_codegen::text_writer::JsWriter::with_target(
-                                self.cm.clone(),
-                                "\n",
-                                &mut buf,
-                                if source_map.enabled() {
-                                    Some(&mut src_map_buf)
-                                } else {
-                                    None
-                                },
-                                target,
-                            ),
-                        }),
+                        )),
                     };
 
                     node.emit_with(&mut emitter)
