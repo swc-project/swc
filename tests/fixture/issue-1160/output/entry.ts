@@ -41,12 +41,12 @@ var MyEnum;
 }));
 var _dec = Decorator(), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", String);
 let Xpto = ((_class = function() {
-    class Xpto {
+    class Xpto1 {
         constructor(){
             _initializerDefineProperty(this, "value", _descriptor, this);
         }
     }
-    return Xpto;
+    return Xpto1;
 }()) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, "value", [
     _dec,
     _dec1
