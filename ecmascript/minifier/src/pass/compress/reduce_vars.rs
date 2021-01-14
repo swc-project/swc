@@ -5,6 +5,7 @@ use fxhash::FxHashMap;
 use retain_mut::RetainMut;
 use std::mem::swap;
 use std::mem::take;
+use swc_common::pass::Repeated;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -23,9 +24,10 @@ pub(super) struct ReducerConfig {
 }
 
 /// Merge varaibles.
-pub(super) fn var_reducer(config: ReducerConfig) -> impl VisitMut {
+pub(super) fn var_reducer(config: ReducerConfig) -> impl VisitMut + Repeated {
     Reducer {
         config,
+        changed: false,
         lits: Default::default(),
         vars: Default::default(),
         data: Default::default(),
@@ -35,12 +37,23 @@ pub(super) fn var_reducer(config: ReducerConfig) -> impl VisitMut {
 
 #[derive(Debug)]
 struct Reducer {
+    changed: bool,
     config: ReducerConfig,
     /// Cheap to clone.
     lits: FxHashMap<Id, Lit>,
     vars: FxHashMap<Id, Box<Expr>>,
     data: Option<ScopeData>,
     inline_prevented: bool,
+}
+
+impl Repeated for Reducer {
+    fn changed(&self) -> bool {
+        self.changed
+    }
+
+    fn reset(&mut self) {
+        self.changed = false;
+    }
 }
 
 impl Reducer {
@@ -69,6 +82,7 @@ impl Reducer {
 
                 let value = if n.op == op!("==") { l == r } else { l != r };
 
+                self.changed = true;
                 return Some(Expr::Lit(Lit::Bool(Bool {
                     span: n.span,
                     value,
@@ -92,6 +106,7 @@ impl Reducer {
 
                 match &**arg {
                     Expr::Lit(Lit::Num(Number { value, .. })) => {
+                        self.changed = true;
                         *n = Expr::Lit(Lit::Num(Number {
                             span: *span,
                             value: if *value == 0.0 { 1.0 } else { 0.0 },
@@ -109,6 +124,7 @@ impl VisitMut for Reducer {
     noop_visit_mut_type!();
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
+        self.changed |= e.ident.is_some();
         e.ident = None;
         e.visit_mut_children_with(self);
     }
@@ -159,6 +175,7 @@ impl VisitMut for Reducer {
         match &mut *n.test {
             Expr::Bin(test) => match (&*test.left, &*test.right) {
                 (&Expr::Ident(..), &Expr::Lit(..)) => {
+                    self.changed = true;
                     swap(&mut test.left, &mut test.right);
                 }
                 _ => {}
@@ -177,6 +194,7 @@ impl VisitMut for Reducer {
 
             // It will be inlined.
             if had_init && var.init.is_none() {
+                self.changed = true;
                 return false;
             }
 
@@ -195,6 +213,7 @@ impl VisitMut for Reducer {
         // Normalize
         match n {
             Expr::Paren(paren) => {
+                self.changed = true;
                 *n = *paren.expr.take();
             }
             _ => {}
@@ -205,8 +224,12 @@ impl VisitMut for Reducer {
                 Expr::Ident(i) => {
                     //
                     if let Some(value) = self.lits.get(&i.to_id()).cloned() {
+                        self.changed = true;
+
                         *n = Expr::Lit(value);
                     } else if let Some(value) = self.vars.remove(&i.to_id()) {
+                        self.changed = true;
+
                         *n = *value;
                     }
                 }
@@ -217,6 +240,7 @@ impl VisitMut for Reducer {
         if self.config.bools {
             match n {
                 Expr::Lit(Lit::Bool(v)) => {
+                    self.changed = true;
                     //
                     *n = Expr::Unary(UnaryExpr {
                         span: v.span,
@@ -235,6 +259,7 @@ impl VisitMut for Reducer {
             Expr::Bin(bin) => {
                 let expr = self.optimize_lit_cmp(bin);
                 if let Some(expr) = expr {
+                    self.changed = true;
                     *n = expr;
                 }
             }

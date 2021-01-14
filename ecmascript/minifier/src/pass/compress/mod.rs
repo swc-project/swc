@@ -41,14 +41,7 @@ pub fn compressor(options: &CompressOptions) -> impl '_ + JsPass {
 
     let repeated_passes = Repeat::new(chain!(expr_pass, as_folder(compressor)));
 
-    chain!(
-        console_remover,
-        repeated_passes,
-        Optional {
-            enabled: options.expr,
-            visitor: expr_simplifier(),
-        }
-    )
+    chain!(console_remover, repeated_passes, expr_simplifier())
 }
 
 #[derive(Debug)]
@@ -118,9 +111,11 @@ impl VisitMut for Compressor<'_> {
     fn visit_mut_module(&mut self, n: &mut Module) {
         if self.pass > 0 || self.options.reduce_vars {
             // reset_opt_flags
-            n.visit_mut_with(&mut var_reducer(ReducerConfig {
+            let mut visitor = var_reducer(ReducerConfig {
                 bools: self.options.bools,
-            }));
+            });
+            n.visit_mut_with(&mut visitor);
+            self.changed |= visitor.changed();
         }
 
         n.visit_mut_children_with(self);
