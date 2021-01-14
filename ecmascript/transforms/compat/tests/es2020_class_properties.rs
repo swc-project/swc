@@ -4859,18 +4859,5 @@ test!(
     }
 "#,
     "
-    class Animal {
-      noise() {
-          return this.#name.toUpperCase();
-      }
-      constructor(name){
-          _name.set(this, {
-              writable: true,
-              value: void 0
-          });
-          _classPrivateFieldSet(this, _name, name);
-      }
-  }
-  var _name = new WeakMap();
 "
 );
