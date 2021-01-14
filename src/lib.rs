@@ -33,7 +33,6 @@ use swc_ecma_transforms::{
 use swc_ecma_visit::FoldWith;
 
 mod builder;
-mod codegen;
 pub mod config;
 
 pub struct Compiler {
