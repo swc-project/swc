@@ -23,6 +23,7 @@ pub(super) struct ReducerConfig {
 pub(super) fn var_reducer(config: ReducerConfig) -> impl VisitMut {
     Reducer {
         config,
+        lits: Default::default(),
         vars: Default::default(),
         data: Default::default(),
     }
@@ -31,6 +32,8 @@ pub(super) fn var_reducer(config: ReducerConfig) -> impl VisitMut {
 #[derive(Debug)]
 struct Reducer {
     config: ReducerConfig,
+    /// Cheap to clone.
+    lits: FxHashMap<Id, Lit>,
     vars: FxHashMap<Id, Box<Expr>>,
     data: Option<ScopeData>,
 }
@@ -56,6 +59,34 @@ impl Reducer {
 
 impl VisitMut for Reducer {
     noop_visit_mut_type!();
+
+    /// Inlines function call.
+    fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
+        let has_spread_arg = n.args.iter().any(|v| v.spread.is_some());
+
+        if !has_spread_arg {
+            match &mut n.callee {
+                ExprOrSuper::Super(_) => {}
+                ExprOrSuper::Expr(callee) => match &mut **callee {
+                    Expr::Fn(callee) => {
+                        // We check for parameter and argument
+                        for (idx, param) in callee.function.params.iter().enumerate() {
+                            let arg = n.args.get(idx).map(|v| &*v.expr);
+                            if let Pat::Ident(param) = &param.pat {
+                                if let Some(Expr::Lit(arg)) = arg {
+                                    self.lits.insert(param.to_id(), arg.clone());
+                                }
+                            }
+                        }
+                        callee.function.visit_mut_with(self);
+                    }
+                    _ => {}
+                },
+            }
+        }
+
+        n.visit_mut_children_with(self);
+    }
 
     fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
         n.visit_mut_children_with(self);
@@ -98,7 +129,9 @@ impl VisitMut for Reducer {
         match n {
             Expr::Ident(i) => {
                 //
-                if let Some(value) = self.vars.remove(&i.to_id()) {
+                if let Some(value) = self.lits.get(&i.to_id()).cloned() {
+                    *n = Expr::Lit(value);
+                } else if let Some(value) = self.vars.remove(&i.to_id()) {
                     *n = *value;
                 }
             }
