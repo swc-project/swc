@@ -372,9 +372,20 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                     .fold_children_with(self)
                 }
             }
-            Expr::Member(e) => self.fold_private_get(e, None).0,
+            Expr::Member(e) => {
+                let e = e.fold_with(self);
+                self.fold_private_get(e, None).0
+            }
             _ => e.fold_children_with(self),
         }
+    }
+
+    fn fold_member_expr(&mut self, mut e: MemberExpr) -> MemberExpr {
+        e.obj = e.obj.fold_with(self);
+        if e.computed {
+            e.prop = e.prop.fold_with(self);
+        }
+        e
     }
 
     fn fold_pat(&mut self, p: Pat) -> Pat {
