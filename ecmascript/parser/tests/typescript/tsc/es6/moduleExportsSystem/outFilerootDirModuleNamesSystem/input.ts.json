@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 151,
-    "end": 306,
+    "end": 381,
     "ctxt": 0
   },
   "body": [
@@ -229,6 +229,53 @@
         "async": false,
         "typeParameters": null,
         "returnType": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 367,
+        "end": 381,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 367,
+          "end": 380,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 367,
+            "end": 373,
+            "ctxt": 0
+          },
+          "value": "import",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 374,
+                "end": 379,
+                "ctxt": 0
+              },
+              "value": "./a",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          }
+        ],
+        "typeArguments": null
       }
     }
   ],

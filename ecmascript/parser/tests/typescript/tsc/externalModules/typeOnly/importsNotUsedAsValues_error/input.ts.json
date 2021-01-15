@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 80,
-    "end": 808,
+    "end": 1131,
     "ctxt": 0
   },
   "body": [
@@ -1695,6 +1695,434 @@
           }
         ],
         "typeArguments": null
+      }
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 836,
+          "end": 837,
+          "ctxt": 0
+        },
+        "value": "H",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 830,
+        "end": 840,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "TsExportAssignment",
+      "span": {
+        "start": 841,
+        "end": 852,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 850,
+          "end": 851,
+          "ctxt": 0
+        },
+        "value": "H",
+        "typeAnnotation": null,
+        "optional": false
+      }
+    },
+    {
+      "type": "TsImportEqualsDeclaration",
+      "span": {
+        "start": 874,
+        "end": 900,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isExport": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 881,
+          "end": 882,
+          "ctxt": 0
+        },
+        "value": "H",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "moduleRef": {
+        "type": "TsExternalModuleReference",
+        "span": {
+          "start": 885,
+          "end": 899,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 893,
+            "end": 898,
+            "ctxt": 0
+          },
+          "value": "./h",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        }
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 910,
+        "end": 924,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 914,
+            "end": 923,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 914,
+              "end": 915,
+              "ctxt": 0
+            },
+            "value": "h",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 915,
+                "end": 918,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 917,
+                  "end": 918,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 917,
+                    "end": 918,
+                    "ctxt": 0
+                  },
+                  "value": "H",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            },
+            "optional": false
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 921,
+              "end": 923,
+              "ctxt": 0
+            },
+            "properties": []
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 925,
+        "end": 940,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 925,
+          "end": 939,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 925,
+            "end": 936,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 925,
+              "end": 932,
+              "ctxt": 0
+            },
+            "value": "console",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 933,
+              "end": 936,
+              "ctxt": 0
+            },
+            "value": "log",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 937,
+                "end": 938,
+                "ctxt": 0
+              },
+              "value": "h",
+              "typeAnnotation": null,
+              "optional": false
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "TsImportEqualsDeclaration",
+      "span": {
+        "start": 962,
+        "end": 988,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isExport": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 969,
+          "end": 970,
+          "ctxt": 0
+        },
+        "value": "H",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "moduleRef": {
+        "type": "TsExternalModuleReference",
+        "span": {
+          "start": 973,
+          "end": 987,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 981,
+            "end": 986,
+            "ctxt": 0
+          },
+          "value": "./h",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        }
+      }
+    },
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 1039,
+        "end": 1064,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isConst": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 1050,
+          "end": 1051,
+          "ctxt": 0
+        },
+        "value": "K",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 1054,
+            "end": 1057,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1054,
+              "end": 1057,
+              "ctxt": 0
+            },
+            "value": "One",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": null
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 1059,
+            "end": 1062,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1059,
+              "end": 1062,
+              "ctxt": 0
+            },
+            "value": "Two",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": null
+        }
+      ]
+    },
+    {
+      "type": "TsExportAssignment",
+      "span": {
+        "start": 1065,
+        "end": 1076,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 1074,
+          "end": 1075,
+          "ctxt": 0
+        },
+        "value": "K",
+        "typeAnnotation": null,
+        "optional": false
+      }
+    },
+    {
+      "type": "TsImportEqualsDeclaration",
+      "span": {
+        "start": 1098,
+        "end": 1124,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isExport": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 1105,
+          "end": 1106,
+          "ctxt": 0
+        },
+        "value": "K",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "moduleRef": {
+        "type": "TsExternalModuleReference",
+        "span": {
+          "start": 1109,
+          "end": 1123,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 1117,
+            "end": 1122,
+            "ctxt": 0
+          },
+          "value": "./k",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1125,
+        "end": 1131,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 1125,
+          "end": 1130,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 1125,
+            "end": 1126,
+            "ctxt": 0
+          },
+          "value": "K",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 1127,
+            "end": 1130,
+            "ctxt": 0
+          },
+          "value": "One",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "computed": false
       }
     }
   ],

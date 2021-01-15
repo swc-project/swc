@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 43,
-    "end": 6215,
+    "end": 6365,
     "ctxt": 0
   },
   "body": [
@@ -14953,6 +14953,443 @@
           }
         ],
         "typeArguments": null
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 6243,
+        "end": 6340,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 6248,
+          "end": 6251,
+          "ctxt": 0
+        },
+        "value": "Wat",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeParams": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 6251,
+          "end": 6269,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParameter",
+            "span": {
+              "start": 6252,
+              "end": 6268,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 6252,
+                "end": 6253,
+                "ctxt": 0
+              },
+              "value": "K",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "constraint": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 6262,
+                "end": 6268,
+                "ctxt": 0
+              },
+              "kind": "string"
+            },
+            "default": null
+          }
+        ]
+      },
+      "typeAnnotation": {
+        "type": "TsConditionalType",
+        "span": {
+          "start": 6272,
+          "end": 6339,
+          "ctxt": 0
+        },
+        "checkType": {
+          "type": "TsTypeLiteral",
+          "span": {
+            "start": 6272,
+            "end": 6293,
+            "ctxt": 0
+          },
+          "members": [
+            {
+              "type": "TsPropertySignature",
+              "span": {
+                "start": 6274,
+                "end": 6291,
+                "ctxt": 0
+              },
+              "readonly": false,
+              "key": {
+                "type": "Identifier",
+                "span": {
+                  "start": 6274,
+                  "end": 6275,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false,
+              "optional": false,
+              "init": null,
+              "params": [],
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 6275,
+                  "end": 6291,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsTypeLiteral",
+                  "span": {
+                    "start": 6277,
+                    "end": 6291,
+                    "ctxt": 0
+                  },
+                  "members": [
+                    {
+                      "type": "TsPropertySignature",
+                      "span": {
+                        "start": 6279,
+                        "end": 6284,
+                        "ctxt": 0
+                      },
+                      "readonly": false,
+                      "key": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 6279,
+                          "end": 6280,
+                          "ctxt": 0
+                        },
+                        "value": "y",
+                        "typeAnnotation": null,
+                        "optional": false
+                      },
+                      "computed": false,
+                      "optional": false,
+                      "init": null,
+                      "params": [],
+                      "typeAnnotation": {
+                        "type": "TsTypeAnnotation",
+                        "span": {
+                          "start": 6280,
+                          "end": 6283,
+                          "ctxt": 0
+                        },
+                        "typeAnnotation": {
+                          "type": "TsLiteralType",
+                          "span": {
+                            "start": 6282,
+                            "end": 6283,
+                            "ctxt": 0
+                          },
+                          "literal": {
+                            "type": "NumericLiteral",
+                            "span": {
+                              "start": 6282,
+                              "end": 6283,
+                              "ctxt": 0
+                            },
+                            "value": 0.0
+                          }
+                        }
+                      },
+                      "typeParams": null
+                    },
+                    {
+                      "type": "TsPropertySignature",
+                      "span": {
+                        "start": 6285,
+                        "end": 6289,
+                        "ctxt": 0
+                      },
+                      "readonly": false,
+                      "key": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 6285,
+                          "end": 6286,
+                          "ctxt": 0
+                        },
+                        "value": "z",
+                        "typeAnnotation": null,
+                        "optional": false
+                      },
+                      "computed": false,
+                      "optional": false,
+                      "init": null,
+                      "params": [],
+                      "typeAnnotation": {
+                        "type": "TsTypeAnnotation",
+                        "span": {
+                          "start": 6286,
+                          "end": 6289,
+                          "ctxt": 0
+                        },
+                        "typeAnnotation": {
+                          "type": "TsLiteralType",
+                          "span": {
+                            "start": 6288,
+                            "end": 6289,
+                            "ctxt": 0
+                          },
+                          "literal": {
+                            "type": "NumericLiteral",
+                            "span": {
+                              "start": 6288,
+                              "end": 6289,
+                              "ctxt": 0
+                            },
+                            "value": 1.0
+                          }
+                        }
+                      },
+                      "typeParams": null
+                    }
+                  ]
+                }
+              },
+              "typeParams": null
+            }
+          ]
+        },
+        "extendsType": {
+          "type": "TsTypeLiteral",
+          "span": {
+            "start": 6302,
+            "end": 6324,
+            "ctxt": 0
+          },
+          "members": [
+            {
+              "type": "TsPropertySignature",
+              "span": {
+                "start": 6304,
+                "end": 6322,
+                "ctxt": 0
+              },
+              "readonly": false,
+              "key": {
+                "type": "Identifier",
+                "span": {
+                  "start": 6304,
+                  "end": 6305,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false,
+              "optional": false,
+              "init": null,
+              "params": [],
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 6305,
+                  "end": 6322,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsMappedType",
+                  "span": {
+                    "start": 6307,
+                    "end": 6322,
+                    "ctxt": 0
+                  },
+                  "readonly": null,
+                  "typeParam": {
+                    "type": "TsTypeParameter",
+                    "span": {
+                      "start": 6310,
+                      "end": 6316,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 6310,
+                        "end": 6311,
+                        "ctxt": 0
+                      },
+                      "value": "P",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "constraint": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 6315,
+                        "end": 6316,
+                        "ctxt": 0
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 6315,
+                          "end": 6316,
+                          "ctxt": 0
+                        },
+                        "value": "K",
+                        "typeAnnotation": null,
+                        "optional": false
+                      },
+                      "typeParams": null
+                    },
+                    "default": null
+                  },
+                  "nameType": null,
+                  "optional": null,
+                  "typeAnnotation": {
+                    "type": "TsLiteralType",
+                    "span": {
+                      "start": 6319,
+                      "end": 6320,
+                      "ctxt": 0
+                    },
+                    "literal": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 6319,
+                        "end": 6320,
+                        "ctxt": 0
+                      },
+                      "value": 0.0
+                    }
+                  }
+                }
+              },
+              "typeParams": null
+            }
+          ]
+        },
+        "trueType": {
+          "type": "TsLiteralType",
+          "span": {
+            "start": 6327,
+            "end": 6331,
+            "ctxt": 0
+          },
+          "literal": {
+            "type": "BooleanLiteral",
+            "span": {
+              "start": 6327,
+              "end": 6331,
+              "ctxt": 0
+            },
+            "value": true
+          }
+        },
+        "falseType": {
+          "type": "TsLiteralType",
+          "span": {
+            "start": 6334,
+            "end": 6339,
+            "ctxt": 0
+          },
+          "literal": {
+            "type": "BooleanLiteral",
+            "span": {
+              "start": 6334,
+              "end": 6339,
+              "ctxt": 0
+            },
+            "value": false
+          }
+        }
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 6345,
+        "end": 6365,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 6350,
+          "end": 6353,
+          "ctxt": 0
+        },
+        "value": "Huh",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsTypeReference",
+        "span": {
+          "start": 6356,
+          "end": 6364,
+          "ctxt": 0
+        },
+        "typeName": {
+          "type": "Identifier",
+          "span": {
+            "start": 6356,
+            "end": 6359,
+            "ctxt": 0
+          },
+          "value": "Wat",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "typeParams": {
+          "type": "TsTypeParameterInstantiation",
+          "span": {
+            "start": 6359,
+            "end": 6364,
+            "ctxt": 0
+          },
+          "params": [
+            {
+              "type": "TsLiteralType",
+              "span": {
+                "start": 6360,
+                "end": 6363,
+                "ctxt": 0
+              },
+              "literal": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 6360,
+                  "end": 6363,
+                  "ctxt": 0
+                },
+                "value": "y",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
+              }
+            }
+          ]
+        }
       }
     }
   ],
