@@ -90,7 +90,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -178,7 +179,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -266,7 +268,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -381,7 +384,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -496,7 +500,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -609,7 +614,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -750,7 +756,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -891,7 +898,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -1004,7 +1012,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -1145,7 +1154,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -1286,7 +1296,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -1399,7 +1410,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -1540,7 +1552,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -1681,7 +1694,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -1849,7 +1863,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -1962,7 +1977,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -2130,7 +2146,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -2271,7 +2288,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -2439,7 +2457,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -2552,7 +2571,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -2720,7 +2740,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -2861,7 +2882,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -3029,7 +3051,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null

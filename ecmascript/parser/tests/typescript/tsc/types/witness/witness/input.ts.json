@@ -3777,7 +3777,8 @@
                                 },
                                 "kind": "number"
                               }
-                            }
+                            },
+                            "isAbstract": false
                           }
                         },
                         "optional": false
@@ -3966,7 +3967,8 @@
                           },
                           "kind": "number"
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false

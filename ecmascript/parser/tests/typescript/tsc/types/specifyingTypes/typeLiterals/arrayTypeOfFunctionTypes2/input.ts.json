@@ -71,7 +71,8 @@
                       "kind": "string"
                     }
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "optional": false
@@ -583,7 +584,8 @@
                           },
                           "kind": "string"
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   ]
                 }

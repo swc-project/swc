@@ -983,7 +983,8 @@
             },
             "typeParams": null
           }
-        }
+        },
+        "isAbstract": false
       }
     },
     {

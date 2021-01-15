@@ -459,7 +459,8 @@
                             "kind": "string"
                           }
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -720,7 +721,8 @@
                                   },
                                   "typeParams": null
                                 }
-                              }
+                              },
+                              "isAbstract": false
                             }
                           },
                           "optional": false
@@ -809,9 +811,11 @@
                               },
                               "typeParams": null
                             }
-                          }
+                          },
+                          "isAbstract": false
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -1072,7 +1076,8 @@
                                   },
                                   "typeParams": null
                                 }
-                              }
+                              },
+                              "isAbstract": false
                             }
                           },
                           "optional": false
@@ -1167,7 +1172,8 @@
                                   },
                                   "typeParams": null
                                 }
-                              }
+                              },
+                              "isAbstract": false
                             }
                           },
                           "optional": false
@@ -1256,9 +1262,11 @@
                               },
                               "typeParams": null
                             }
-                          }
+                          },
+                          "isAbstract": false
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -1518,7 +1526,8 @@
                           },
                           "typeParams": null
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -1900,7 +1909,8 @@
                           },
                           "typeParams": null
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -2263,7 +2273,8 @@
                             ]
                           }
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -2564,7 +2575,8 @@
                           },
                           "kind": "number"
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -4177,7 +4189,8 @@
                             "typeParams": null
                           }
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -4280,7 +4293,8 @@
                             "kind": "string"
                           }
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -4628,7 +4642,8 @@
                                   },
                                   "typeParams": null
                                 }
-                              }
+                              },
+                              "isAbstract": false
                             }
                           },
                           "optional": false
@@ -4846,9 +4861,11 @@
                               },
                               "typeParams": null
                             }
-                          }
+                          },
+                          "isAbstract": false
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -4988,7 +5005,8 @@
                                   },
                                   "typeParams": null
                                 }
-                              }
+                              },
+                              "isAbstract": false
                             }
                           },
                           "optional": false
@@ -5077,9 +5095,11 @@
                               },
                               "typeParams": null
                             }
-                          }
+                          },
+                          "isAbstract": false
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -5427,7 +5447,8 @@
                                   },
                                   "typeParams": null
                                 }
-                              }
+                              },
+                              "isAbstract": false
                             }
                           },
                           "optional": false
@@ -5732,9 +5753,11 @@
                               },
                               "typeParams": null
                             }
-                          }
+                          },
+                          "isAbstract": false
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -5969,7 +5992,8 @@
                                   },
                                   "typeParams": null
                                 }
-                              }
+                              },
+                              "isAbstract": false
                             }
                           },
                           "optional": false
@@ -6058,9 +6082,11 @@
                               },
                               "typeParams": null
                             }
-                          }
+                          },
+                          "isAbstract": false
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -6456,7 +6482,8 @@
                           },
                           "typeParams": null
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -6595,7 +6622,8 @@
                           },
                           "typeParams": null
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -7007,7 +7035,8 @@
                           },
                           "typeParams": null
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -7268,7 +7297,8 @@
                           },
                           "typeParams": null
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -7718,7 +7748,8 @@
                             ]
                           }
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -8009,7 +8040,8 @@
                           },
                           "typeParams": null
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -8460,7 +8492,8 @@
                           },
                           "typeParams": null
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -8640,7 +8673,8 @@
                           },
                           "kind": "number"
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -9099,7 +9133,8 @@
                           },
                           "kind": "number"
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -9447,7 +9482,8 @@
                                   },
                                   "typeParams": null
                                 }
-                              }
+                              },
+                              "isAbstract": false
                             }
                           },
                           "optional": false
@@ -9519,7 +9555,8 @@
                             "typeParams": null
                           }
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -9727,7 +9764,8 @@
                                   },
                                   "typeParams": null
                                 }
-                              }
+                              },
+                              "isAbstract": false
                             }
                           },
                           "optional": false
@@ -9788,7 +9826,8 @@
                             "kind": "any"
                           }
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -10048,7 +10087,8 @@
                             "typeParams": null
                           }
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -10307,7 +10347,8 @@
                             "kind": "string"
                           }
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -10525,7 +10566,8 @@
                             "kind": "string"
                           }
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false
@@ -10795,7 +10837,8 @@
                             "typeParams": null
                           }
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "optional": false

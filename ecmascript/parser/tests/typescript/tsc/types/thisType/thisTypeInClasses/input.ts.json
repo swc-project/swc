@@ -975,7 +975,8 @@
                     "ctxt": 0
                   }
                 }
-              }
+              },
+              "isAbstract": false
             }
           },
           "isStatic": false,

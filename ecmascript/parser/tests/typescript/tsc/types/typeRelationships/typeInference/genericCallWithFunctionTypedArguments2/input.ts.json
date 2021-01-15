@@ -119,7 +119,8 @@
                     },
                     "typeParams": null
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "optional": false
@@ -1241,7 +1242,8 @@
                     },
                     "typeParams": null
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "optional": false
@@ -1876,7 +1878,8 @@
                     },
                     "typeParams": null
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "optional": false

@@ -880,7 +880,8 @@
                           },
                           "kind": "void"
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "typeParams": null
@@ -995,7 +996,8 @@
                           },
                           "kind": "void"
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "typeParams": null
@@ -1124,7 +1126,8 @@
                           },
                           "kind": "void"
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "typeParams": null
@@ -1411,7 +1414,8 @@
                           },
                           "kind": "number"
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "typeParams": null
@@ -1526,7 +1530,8 @@
                           },
                           "kind": "boolean"
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "typeParams": null
@@ -1655,7 +1660,8 @@
                           },
                           "kind": "string"
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "typeParams": null
@@ -1775,7 +1781,8 @@
                           },
                           "kind": "number"
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "typeParams": null
@@ -1915,7 +1922,8 @@
                           },
                           "typeParams": null
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "typeParams": null
@@ -2056,7 +2064,8 @@
                           },
                           "kind": "string"
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "typeParams": null
@@ -2238,7 +2247,8 @@
                           },
                           "kind": "string"
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   "typeParams": null

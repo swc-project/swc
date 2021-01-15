@@ -157,7 +157,8 @@
                             },
                             "typeParams": null
                           }
-                        }
+                        },
+                        "isAbstract": false
                       }
                     },
                     "typeParams": null
@@ -466,7 +467,8 @@
                             },
                             "kind": "string"
                           }
-                        }
+                        },
+                        "isAbstract": false
                       }
                     },
                     "typeParams": null
@@ -751,7 +753,8 @@
                             },
                             "kind": "string"
                           }
-                        }
+                        },
+                        "isAbstract": false
                       }
                     },
                     "typeParams": null
@@ -984,7 +987,8 @@
                             },
                             "kind": "string"
                           }
-                        }
+                        },
+                        "isAbstract": false
                       }
                     },
                     "typeParams": null
@@ -1256,7 +1260,8 @@
                             },
                             "typeParams": null
                           }
-                        }
+                        },
+                        "isAbstract": false
                       }
                     },
                     "typeParams": null
@@ -1603,7 +1608,8 @@
                             },
                             "kind": "string"
                           }
-                        }
+                        },
+                        "isAbstract": false
                       }
                     },
                     "typeParams": null
@@ -1781,7 +1787,8 @@
                             },
                             "kind": "string"
                           }
-                        }
+                        },
+                        "isAbstract": false
                       }
                     },
                     "typeParams": null

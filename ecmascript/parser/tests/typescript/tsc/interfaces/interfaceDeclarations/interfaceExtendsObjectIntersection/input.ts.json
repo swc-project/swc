@@ -318,7 +318,8 @@
               }
             ]
           }
-        }
+        },
+        "isAbstract": false
       }
     },
     {
@@ -1314,7 +1315,8 @@
             },
             "typeParams": null
           }
-        }
+        },
+        "isAbstract": false
       }
     },
     {

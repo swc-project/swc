@@ -734,7 +734,8 @@
                           },
                           "kind": "string"
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   },
                   {
@@ -769,7 +770,8 @@
                           },
                           "kind": "number"
                         }
-                      }
+                      },
+                      "isAbstract": false
                     }
                   }
                 ]
@@ -982,7 +984,8 @@
                       }
                     ]
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "optional": false

@@ -1262,7 +1262,8 @@
             },
             "kind": "void"
           }
-        }
+        },
+        "isAbstract": false
       }
     },
     {

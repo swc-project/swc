@@ -118,7 +118,8 @@
                     },
                     "kind": "void"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -309,7 +310,8 @@
                             },
                             "kind": "void"
                           }
-                        }
+                        },
+                        "isAbstract": false
                       }
                     },
                     "typeParams": null
@@ -514,7 +516,8 @@
                     },
                     "kind": "string"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -705,7 +708,8 @@
                             },
                             "kind": "string"
                           }
-                        }
+                        },
+                        "isAbstract": false
                       }
                     },
                     "typeParams": null

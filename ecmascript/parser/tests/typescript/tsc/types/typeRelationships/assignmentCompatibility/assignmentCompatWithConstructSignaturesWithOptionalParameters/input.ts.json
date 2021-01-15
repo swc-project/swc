@@ -90,7 +90,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -178,7 +179,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -266,7 +268,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -381,7 +384,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -496,7 +500,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -611,7 +616,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "typeParams": null
@@ -736,7 +742,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "optional": false
@@ -1185,7 +1192,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "optional": false
@@ -1634,7 +1642,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "optional": false
@@ -2110,7 +2119,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "optional": false
@@ -2586,7 +2596,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "optional": false

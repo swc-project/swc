@@ -776,7 +776,8 @@
                     },
                     "kind": "number"
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "optional": false

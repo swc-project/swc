@@ -9180,7 +9180,8 @@
                       }
                     ]
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "optional": false

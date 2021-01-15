@@ -1598,7 +1598,8 @@
                       "optional": false
                     }
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "optional": false
@@ -1766,7 +1767,8 @@
                       "optional": false
                     }
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "optional": false
@@ -1999,7 +2001,8 @@
                     },
                     "typeParams": null
                   }
-                }
+                },
+                "isAbstract": false
               }
             },
             "optional": false

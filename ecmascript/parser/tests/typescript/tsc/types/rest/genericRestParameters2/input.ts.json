@@ -6182,7 +6182,8 @@
                   },
                   "kind": "void"
                 }
-              }
+              },
+              "isAbstract": false
             }
           ]
         }
@@ -6372,7 +6373,8 @@
                   },
                   "kind": "void"
                 }
-              }
+              },
+              "isAbstract": false
             }
           ]
         }
