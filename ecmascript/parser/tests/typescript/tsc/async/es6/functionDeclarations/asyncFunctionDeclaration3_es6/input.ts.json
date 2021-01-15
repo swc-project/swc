@@ -1,0 +1,87 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 40,
+    "end": 69,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 49,
+          "end": 50,
+          "ctxt": 0
+        },
+        "value": "f",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 51,
+            "end": 64,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "AssignmentPattern",
+            "span": {
+              "start": 51,
+              "end": 64,
+              "ctxt": 0
+            },
+            "left": {
+              "type": "Identifier",
+              "span": {
+                "start": 51,
+                "end": 56,
+                "ctxt": 0
+              },
+              "value": "await",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "right": {
+              "type": "Identifier",
+              "span": {
+                "start": 59,
+                "end": 64,
+                "ctxt": 0
+              },
+              "value": "await",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "typeAnnotation": null
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 40,
+        "end": 69,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 66,
+          "end": 69,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,102 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 38,
+    "end": 82,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 44,
+          "end": 45,
+          "ctxt": 0
+        },
+        "value": "C",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 38,
+        "end": 82,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 53,
+            "end": 79,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 54,
+              "end": 72,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 54,
+                "end": 60,
+                "ctxt": 0
+              },
+              "value": "Symbol",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 61,
+                "end": 72,
+                "ctxt": 0
+              },
+              "value": "toPrimitive",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false
+          },
+          "value": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 76,
+              "end": 78,
+              "ctxt": 0
+            },
+            "value": "",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": true,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

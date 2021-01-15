@@ -1,0 +1,233 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 136,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "C1",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 0,
+        "end": 136,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "Constructor",
+          "span": {
+            "start": 13,
+            "end": 43,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 13,
+              "end": 24,
+              "ctxt": 0
+            },
+            "value": "constructor",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "params": [
+            {
+              "type": "TsParameterProperty",
+              "span": {
+                "start": 25,
+                "end": 41,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "accessibility": "public",
+              "readonly": false,
+              "param": {
+                "type": "Identifier",
+                "span": {
+                  "start": 32,
+                  "end": 41,
+                  "ctxt": 0
+                },
+                "value": "p1",
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 34,
+                    "end": 41,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 35,
+                      "end": 41,
+                      "ctxt": 0
+                    },
+                    "kind": "string"
+                  }
+                },
+                "optional": false
+              }
+            }
+          ],
+          "body": null,
+          "accessibility": null,
+          "isOptional": false
+        },
+        {
+          "type": "Constructor",
+          "span": {
+            "start": 55,
+            "end": 86,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 55,
+              "end": 66,
+              "ctxt": 0
+            },
+            "value": "constructor",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "params": [
+            {
+              "type": "TsParameterProperty",
+              "span": {
+                "start": 67,
+                "end": 84,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "accessibility": "private",
+              "readonly": false,
+              "param": {
+                "type": "Identifier",
+                "span": {
+                  "start": 75,
+                  "end": 84,
+                  "ctxt": 0
+                },
+                "value": "p2",
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 77,
+                    "end": 84,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 78,
+                      "end": 84,
+                      "ctxt": 0
+                    },
+                    "kind": "number"
+                  }
+                },
+                "optional": false
+              }
+            }
+          ],
+          "body": null,
+          "accessibility": null,
+          "isOptional": false
+        },
+        {
+          "type": "Constructor",
+          "span": {
+            "start": 98,
+            "end": 127,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 98,
+              "end": 109,
+              "ctxt": 0
+            },
+            "value": "constructor",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "params": [
+            {
+              "type": "TsParameterProperty",
+              "span": {
+                "start": 110,
+                "end": 123,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "accessibility": "public",
+              "readonly": false,
+              "param": {
+                "type": "Identifier",
+                "span": {
+                  "start": 117,
+                  "end": 123,
+                  "ctxt": 0
+                },
+                "value": "p3",
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 119,
+                    "end": 123,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 120,
+                      "end": 123,
+                      "ctxt": 0
+                    },
+                    "kind": "any"
+                  }
+                },
+                "optional": false
+              }
+            }
+          ],
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 125,
+              "end": 127,
+              "ctxt": 0
+            },
+            "stmts": []
+          },
+          "accessibility": null,
+          "isOptional": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,286 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 34,
+    "end": 121,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 34,
+        "end": 75,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 38,
+            "end": 74,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 38,
+              "end": 41,
+              "ctxt": 0
+            },
+            "value": "map",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "NewExpression",
+            "span": {
+              "start": 44,
+              "end": 74,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 48,
+                "end": 51,
+                "ctxt": 0
+              },
+              "value": "Map",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ArrayExpression",
+                  "span": {
+                    "start": 52,
+                    "end": 73,
+                    "ctxt": 0
+                  },
+                  "elements": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "ArrayExpression",
+                        "span": {
+                          "start": 53,
+                          "end": 63,
+                          "ctxt": 0
+                        },
+                        "elements": [
+                          {
+                            "spread": null,
+                            "expression": {
+                              "type": "StringLiteral",
+                              "span": {
+                                "start": 54,
+                                "end": 56,
+                                "ctxt": 0
+                              },
+                              "value": "",
+                              "hasEscape": false,
+                              "kind": {
+                                "type": "normal",
+                                "containsQuote": true
+                              }
+                            }
+                          },
+                          {
+                            "spread": null,
+                            "expression": {
+                              "type": "BooleanLiteral",
+                              "span": {
+                                "start": 58,
+                                "end": 62,
+                                "ctxt": 0
+                              },
+                              "value": true
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "ArrayExpression",
+                        "span": {
+                          "start": 65,
+                          "end": 72,
+                          "ctxt": 0
+                        },
+                        "elements": [
+                          {
+                            "spread": null,
+                            "expression": {
+                              "type": "StringLiteral",
+                              "span": {
+                                "start": 66,
+                                "end": 68,
+                                "ctxt": 0
+                              },
+                              "value": "",
+                              "hasEscape": false,
+                              "kind": {
+                                "type": "normal",
+                                "containsQuote": true
+                              }
+                            }
+                          },
+                          {
+                            "spread": null,
+                            "expression": {
+                              "type": "NumericLiteral",
+                              "span": {
+                                "start": 70,
+                                "end": 71,
+                                "ctxt": 0
+                              },
+                              "value": 0.0
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ForOfStatement",
+      "span": {
+        "start": 77,
+        "end": 121,
+        "ctxt": 0
+      },
+      "await": null,
+      "left": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 82,
+          "end": 92,
+          "ctxt": 0
+        },
+        "kind": "var",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 86,
+              "end": 92,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "ArrayPattern",
+              "span": {
+                "start": 86,
+                "end": 92,
+                "ctxt": 0
+              },
+              "elements": [
+                {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 87,
+                    "end": 88,
+                    "ctxt": 0
+                  },
+                  "value": "k",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 90,
+                    "end": 91,
+                    "ctxt": 0
+                  },
+                  "value": "v",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              ],
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": null,
+            "definite": false
+          }
+        ]
+      },
+      "right": {
+        "type": "Identifier",
+        "span": {
+          "start": 96,
+          "end": 99,
+          "ctxt": 0
+        },
+        "value": "map",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 101,
+          "end": 121,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 108,
+              "end": 110,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 108,
+                "end": 109,
+                "ctxt": 0
+              },
+              "value": "k",
+              "typeAnnotation": null,
+              "optional": false
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 116,
+              "end": 118,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 116,
+                "end": 117,
+                "ctxt": 0
+              },
+              "value": "v",
+              "typeAnnotation": null,
+              "optional": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

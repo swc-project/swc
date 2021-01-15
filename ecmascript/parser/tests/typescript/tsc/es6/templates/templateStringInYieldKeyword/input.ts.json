@@ -1,0 +1,185 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 17,
+    "end": 160,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 27,
+          "end": 30,
+          "ctxt": 0
+        },
+        "value": "gen",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 17,
+        "end": 160,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 33,
+          "end": 160,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 128,
+              "end": 157,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 132,
+                  "end": 156,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 132,
+                    "end": 133,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "init": {
+                  "type": "YieldExpression",
+                  "span": {
+                    "start": 136,
+                    "end": 156,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "TemplateLiteral",
+                    "span": {
+                      "start": 142,
+                      "end": 156,
+                      "ctxt": 0
+                    },
+                    "expressions": [
+                      {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 149,
+                          "end": 150,
+                          "ctxt": 0
+                        },
+                        "value": "x",
+                        "typeAnnotation": null,
+                        "optional": false
+                      }
+                    ],
+                    "quasis": [
+                      {
+                        "type": "TemplateElement",
+                        "span": {
+                          "start": 143,
+                          "end": 146,
+                          "ctxt": 0
+                        },
+                        "tail": false,
+                        "cooked": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 143,
+                            "end": 146,
+                            "ctxt": 0
+                          },
+                          "value": "abc",
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": false
+                          }
+                        },
+                        "raw": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 143,
+                            "end": 146,
+                            "ctxt": 0
+                          },
+                          "value": "abc",
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": false
+                          }
+                        }
+                      },
+                      {
+                        "type": "TemplateElement",
+                        "span": {
+                          "start": 152,
+                          "end": 155,
+                          "ctxt": 0
+                        },
+                        "tail": true,
+                        "cooked": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 152,
+                            "end": 155,
+                            "ctxt": 0
+                          },
+                          "value": "def",
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": false
+                          }
+                        },
+                        "raw": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 152,
+                            "end": 155,
+                            "ctxt": 0
+                          },
+                          "value": "def",
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": false
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "delegate": false
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

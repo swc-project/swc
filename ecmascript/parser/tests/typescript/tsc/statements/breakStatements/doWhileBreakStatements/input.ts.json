@@ -1,0 +1,599 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 63,
+    "end": 501,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "DoWhileStatement",
+      "span": {
+        "start": 63,
+        "end": 94,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BooleanLiteral",
+        "span": {
+          "start": 89,
+          "end": 93,
+          "ctxt": 0
+        },
+        "value": true
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 66,
+          "end": 82,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "BreakStatement",
+            "span": {
+              "start": 73,
+              "end": 79,
+              "ctxt": 0
+            },
+            "label": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 98,
+        "end": 141,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 98,
+          "end": 101,
+          "ctxt": 0
+        },
+        "value": "ONE",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "DoWhileStatement",
+        "span": {
+          "start": 104,
+          "end": 141,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 136,
+            "end": 140,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 107,
+            "end": 127,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "BreakStatement",
+              "span": {
+                "start": 114,
+                "end": 124,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 120,
+                  "end": 123,
+                  "ctxt": 0
+                },
+                "value": "ONE",
+                "typeAnnotation": null,
+                "optional": false
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 145,
+        "end": 196,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 145,
+          "end": 148,
+          "ctxt": 0
+        },
+        "value": "TWO",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "LabeledStatement",
+        "span": {
+          "start": 151,
+          "end": 196,
+          "ctxt": 0
+        },
+        "label": {
+          "type": "Identifier",
+          "span": {
+            "start": 151,
+            "end": 156,
+            "ctxt": 0
+          },
+          "value": "THREE",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "body": {
+          "type": "DoWhileStatement",
+          "span": {
+            "start": 159,
+            "end": 196,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "BooleanLiteral",
+            "span": {
+              "start": 191,
+              "end": 195,
+              "ctxt": 0
+            },
+            "value": true
+          },
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 162,
+              "end": 184,
+              "ctxt": 0
+            },
+            "stmts": [
+              {
+                "type": "BreakStatement",
+                "span": {
+                  "start": 169,
+                  "end": 181,
+                  "ctxt": 0
+                },
+                "label": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 175,
+                    "end": 180,
+                    "ctxt": 0
+                  },
+                  "value": "THREE",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 200,
+        "end": 287,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 200,
+          "end": 204,
+          "ctxt": 0
+        },
+        "value": "FOUR",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "DoWhileStatement",
+        "span": {
+          "start": 207,
+          "end": 287,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 282,
+            "end": 286,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 210,
+            "end": 275,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "LabeledStatement",
+              "span": {
+                "start": 217,
+                "end": 272,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 217,
+                  "end": 221,
+                  "ctxt": 0
+                },
+                "value": "FIVE",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "body": {
+                "type": "DoWhileStatement",
+                "span": {
+                  "start": 228,
+                  "end": 272,
+                  "ctxt": 0
+                },
+                "test": {
+                  "type": "BooleanLiteral",
+                  "span": {
+                    "start": 267,
+                    "end": 271,
+                    "ctxt": 0
+                  },
+                  "value": true
+                },
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 231,
+                    "end": 260,
+                    "ctxt": 0
+                  },
+                  "stmts": [
+                    {
+                      "type": "BreakStatement",
+                      "span": {
+                        "start": 242,
+                        "end": 253,
+                        "ctxt": 0
+                      },
+                      "label": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 248,
+                          "end": 252,
+                          "ctxt": 0
+                        },
+                        "value": "FOUR",
+                        "typeAnnotation": null,
+                        "optional": false
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "DoWhileStatement",
+      "span": {
+        "start": 291,
+        "end": 351,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BooleanLiteral",
+        "span": {
+          "start": 346,
+          "end": 350,
+          "ctxt": 0
+        },
+        "value": true
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 294,
+          "end": 339,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "LabeledStatement",
+            "span": {
+              "start": 301,
+              "end": 336,
+              "ctxt": 0
+            },
+            "label": {
+              "type": "Identifier",
+              "span": {
+                "start": 301,
+                "end": 304,
+                "ctxt": 0
+              },
+              "value": "SIX",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "body": {
+              "type": "DoWhileStatement",
+              "span": {
+                "start": 311,
+                "end": 336,
+                "ctxt": 0
+              },
+              "test": {
+                "type": "BooleanLiteral",
+                "span": {
+                  "start": 331,
+                  "end": 335,
+                  "ctxt": 0
+                },
+                "value": true
+              },
+              "body": {
+                "type": "BreakStatement",
+                "span": {
+                  "start": 314,
+                  "end": 324,
+                  "ctxt": 0
+                },
+                "label": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 320,
+                    "end": 323,
+                    "ctxt": 0
+                  },
+                  "value": "SIX",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 355,
+        "end": 424,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 355,
+          "end": 360,
+          "ctxt": 0
+        },
+        "value": "SEVEN",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "DoWhileStatement",
+        "span": {
+          "start": 363,
+          "end": 424,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 419,
+            "end": 423,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "body": {
+          "type": "DoWhileStatement",
+          "span": {
+            "start": 366,
+            "end": 410,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "BooleanLiteral",
+            "span": {
+              "start": 405,
+              "end": 409,
+              "ctxt": 0
+            },
+            "value": true
+          },
+          "body": {
+            "type": "DoWhileStatement",
+            "span": {
+              "start": 369,
+              "end": 397,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "BooleanLiteral",
+              "span": {
+                "start": 392,
+                "end": 396,
+                "ctxt": 0
+              },
+              "value": true
+            },
+            "body": {
+              "type": "BreakStatement",
+              "span": {
+                "start": 372,
+                "end": 384,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 378,
+                  "end": 383,
+                  "ctxt": 0
+                },
+                "value": "SEVEN",
+                "typeAnnotation": null,
+                "optional": false
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 428,
+        "end": 501,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 428,
+          "end": 433,
+          "ctxt": 0
+        },
+        "value": "EIGHT",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "DoWhileStatement",
+        "span": {
+          "start": 436,
+          "end": 501,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 496,
+            "end": 500,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 438,
+            "end": 490,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 445,
+                "end": 469,
+                "ctxt": 0
+              },
+              "kind": "var",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 449,
+                    "end": 469,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 449,
+                      "end": 451,
+                      "ctxt": 0
+                    },
+                    "value": "fn",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "init": {
+                    "type": "FunctionExpression",
+                    "identifier": null,
+                    "params": [],
+                    "decorators": [],
+                    "span": {
+                      "start": 454,
+                      "end": 469,
+                      "ctxt": 0
+                    },
+                    "body": {
+                      "type": "BlockStatement",
+                      "span": {
+                        "start": 466,
+                        "end": 469,
+                        "ctxt": 0
+                      },
+                      "stmts": []
+                    },
+                    "generator": false,
+                    "async": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  },
+                  "definite": false
+                }
+              ]
+            },
+            {
+              "type": "BreakStatement",
+              "span": {
+                "start": 475,
+                "end": 487,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 481,
+                  "end": 486,
+                  "ctxt": 0
+                },
+                "value": "EIGHT",
+                "typeAnnotation": null,
+                "optional": false
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

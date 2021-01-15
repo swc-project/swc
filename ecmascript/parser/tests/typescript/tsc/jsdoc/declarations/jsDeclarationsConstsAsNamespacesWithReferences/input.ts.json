@@ -1,0 +1,184 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 121,
+    "end": 242,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 121,
+        "end": 175,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 128,
+          "end": 175,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 134,
+              "end": 174,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 134,
+                "end": 140,
+                "ctxt": 0
+              },
+              "value": "colors",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "init": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 143,
+                "end": 174,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 150,
+                      "end": 159,
+                      "ctxt": 0
+                    },
+                    "value": "royalBlue",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 161,
+                      "end": 170,
+                      "ctxt": 0
+                    },
+                    "value": "#6400e4",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ]
+            },
+            "definite": false
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 179,
+        "end": 242,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 186,
+          "end": 242,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 192,
+              "end": 241,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 192,
+                "end": 203,
+                "ctxt": 0
+              },
+              "value": "brandColors",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "init": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 206,
+                "end": 241,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 213,
+                      "end": 219,
+                      "ctxt": 0
+                    },
+                    "value": "purple",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 221,
+                      "end": 237,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 221,
+                        "end": 227,
+                        "ctxt": 0
+                      },
+                      "value": "colors",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 228,
+                        "end": 237,
+                        "ctxt": 0
+                      },
+                      "value": "royalBlue",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "computed": false
+                  }
+                }
+              ]
+            },
+            "definite": false
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

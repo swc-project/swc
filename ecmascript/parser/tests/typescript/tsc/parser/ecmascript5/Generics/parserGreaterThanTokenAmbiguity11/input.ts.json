@@ -1,0 +1,46 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 8,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 8,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 0,
+          "end": 7,
+          "ctxt": 0
+        },
+        "operator": ">>=",
+        "left": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 0,
+            "end": 1,
+            "ctxt": 0
+          },
+          "value": 1.0
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 6,
+            "end": 7,
+            "ctxt": 0
+          },
+          "value": 2.0
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

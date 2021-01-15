@@ -1,0 +1,1157 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 60,
+    "end": 631,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 60,
+        "end": 85,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": true,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 72,
+            "end": 84,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 72,
+              "end": 79,
+              "ctxt": 0
+            },
+            "value": "console",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 79,
+                "end": 84,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 81,
+                  "end": 84,
+                  "ctxt": 0
+                },
+                "kind": "any"
+              }
+            },
+            "optional": false
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 87,
+        "end": 134,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 103,
+            "end": 104,
+            "ctxt": 0
+          },
+          "value": "_",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": false,
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 94,
+          "end": 134,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 107,
+            "end": 134,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ExpressionStatement",
+              "span": {
+                "start": 114,
+                "end": 131,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 114,
+                  "end": 130,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "MemberExpression",
+                  "span": {
+                    "start": 114,
+                    "end": 125,
+                    "ctxt": 0
+                  },
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 114,
+                      "end": 121,
+                      "ctxt": 0
+                    },
+                    "value": "console",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 122,
+                      "end": 125,
+                      "ctxt": 0
+                    },
+                    "value": "log",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "computed": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 126,
+                        "end": 129,
+                        "ctxt": 0
+                      },
+                      "value": "_",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 136,
+        "end": 185,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 152,
+            "end": 154,
+            "ctxt": 0
+          },
+          "value": "__",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": false,
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 143,
+          "end": 185,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 157,
+            "end": 185,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ExpressionStatement",
+              "span": {
+                "start": 164,
+                "end": 182,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 164,
+                  "end": 181,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "MemberExpression",
+                  "span": {
+                    "start": 164,
+                    "end": 175,
+                    "ctxt": 0
+                  },
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 164,
+                      "end": 171,
+                      "ctxt": 0
+                    },
+                    "value": "console",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 172,
+                      "end": 175,
+                      "ctxt": 0
+                    },
+                    "value": "log",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "computed": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 176,
+                        "end": 180,
+                        "ctxt": 0
+                      },
+                      "value": "__",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 187,
+        "end": 238,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 203,
+            "end": 206,
+            "ctxt": 0
+          },
+          "value": "___",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": false,
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 194,
+          "end": 238,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 209,
+            "end": 238,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ExpressionStatement",
+              "span": {
+                "start": 216,
+                "end": 235,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 216,
+                  "end": 234,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "MemberExpression",
+                  "span": {
+                    "start": 216,
+                    "end": 227,
+                    "ctxt": 0
+                  },
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 216,
+                      "end": 223,
+                      "ctxt": 0
+                    },
+                    "value": "console",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 224,
+                      "end": 227,
+                      "ctxt": 0
+                    },
+                    "value": "log",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "computed": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 228,
+                        "end": 233,
+                        "ctxt": 0
+                      },
+                      "value": "___",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 240,
+        "end": 291,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 256,
+            "end": 259,
+            "ctxt": 0
+          },
+          "value": "_hi",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": false,
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 247,
+          "end": 291,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 262,
+            "end": 291,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ExpressionStatement",
+              "span": {
+                "start": 269,
+                "end": 288,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 269,
+                  "end": 287,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "MemberExpression",
+                  "span": {
+                    "start": 269,
+                    "end": 280,
+                    "ctxt": 0
+                  },
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 269,
+                      "end": 276,
+                      "ctxt": 0
+                    },
+                    "value": "console",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 277,
+                      "end": 280,
+                      "ctxt": 0
+                    },
+                    "value": "log",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "computed": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 281,
+                        "end": 286,
+                        "ctxt": 0
+                      },
+                      "value": "_hi",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 293,
+        "end": 352,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 309,
+            "end": 316,
+            "ctxt": 0
+          },
+          "value": "__proto",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": false,
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 300,
+          "end": 352,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 319,
+            "end": 352,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ExpressionStatement",
+              "span": {
+                "start": 326,
+                "end": 349,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 326,
+                  "end": 348,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "MemberExpression",
+                  "span": {
+                    "start": 326,
+                    "end": 337,
+                    "ctxt": 0
+                  },
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 326,
+                      "end": 333,
+                      "ctxt": 0
+                    },
+                    "value": "console",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 334,
+                      "end": 337,
+                      "ctxt": 0
+                    },
+                    "value": "log",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "computed": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 338,
+                        "end": 347,
+                        "ctxt": 0
+                      },
+                      "value": "__proto",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 354,
+        "end": 419,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 370,
+            "end": 380,
+            "ctxt": 0
+          },
+          "value": "__esmodule",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": false,
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 361,
+          "end": 419,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 383,
+            "end": 419,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ExpressionStatement",
+              "span": {
+                "start": 390,
+                "end": 416,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 390,
+                  "end": 415,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "MemberExpression",
+                  "span": {
+                    "start": 390,
+                    "end": 401,
+                    "ctxt": 0
+                  },
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 390,
+                      "end": 397,
+                      "ctxt": 0
+                    },
+                    "value": "console",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 398,
+                      "end": 401,
+                      "ctxt": 0
+                    },
+                    "value": "log",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "computed": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 402,
+                        "end": 414,
+                        "ctxt": 0
+                      },
+                      "value": "__esmodule",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 421,
+        "end": 481,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 437,
+            "end": 445,
+            "ctxt": 0
+          },
+          "value": "___hello",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": false,
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 428,
+          "end": 481,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 447,
+            "end": 481,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ExpressionStatement",
+              "span": {
+                "start": 454,
+                "end": 478,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 454,
+                  "end": 477,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "MemberExpression",
+                  "span": {
+                    "start": 454,
+                    "end": 465,
+                    "ctxt": 0
+                  },
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 454,
+                      "end": 461,
+                      "ctxt": 0
+                    },
+                    "value": "console",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 462,
+                      "end": 465,
+                      "ctxt": 0
+                    },
+                    "value": "log",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "computed": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 466,
+                        "end": 476,
+                        "ctxt": 0
+                      },
+                      "value": "___hello",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 506,
+        "end": 570,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 514,
+            "end": 515,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 514,
+              "end": 515,
+              "ctxt": 0
+            },
+            "value": "_",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "imported": null
+        },
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 517,
+            "end": 519,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 517,
+              "end": 519,
+              "ctxt": 0
+            },
+            "value": "__",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "imported": null
+        },
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 521,
+            "end": 529,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 521,
+              "end": 529,
+              "ctxt": 0
+            },
+            "value": "___hello",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "imported": null
+        },
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 531,
+            "end": 541,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 531,
+              "end": 541,
+              "ctxt": 0
+            },
+            "value": "__esmodule",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "imported": null
+        },
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 543,
+            "end": 550,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 543,
+              "end": 550,
+              "ctxt": 0
+            },
+            "value": "__proto",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "imported": null
+        },
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 552,
+            "end": 555,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 552,
+              "end": 555,
+              "ctxt": 0
+            },
+            "value": "_hi",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "imported": null
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 563,
+          "end": 569,
+          "ctxt": 0
+        },
+        "value": "./m1",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 572,
+        "end": 576,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 572,
+          "end": 575,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 572,
+            "end": 573,
+            "ctxt": 0
+          },
+          "value": "_",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 578,
+        "end": 583,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 578,
+          "end": 582,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 578,
+            "end": 580,
+            "ctxt": 0
+          },
+          "value": "__",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 585,
+        "end": 596,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 585,
+          "end": 595,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 585,
+            "end": 593,
+            "ctxt": 0
+          },
+          "value": "___hello",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 598,
+        "end": 611,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 598,
+          "end": 610,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 598,
+            "end": 608,
+            "ctxt": 0
+          },
+          "value": "__esmodule",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 613,
+        "end": 623,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 613,
+          "end": 622,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 613,
+            "end": 620,
+            "ctxt": 0
+          },
+          "value": "__proto",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 625,
+        "end": 631,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 625,
+          "end": 630,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 625,
+            "end": 628,
+            "ctxt": 0
+          },
+          "value": "_hi",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,268 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 66,
+    "end": 194,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 66,
+        "end": 194,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 79,
+            "end": 80,
+            "ctxt": 0
+          },
+          "value": "A",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 73,
+          "end": 194,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "PrivateProperty",
+            "span": {
+              "start": 88,
+              "end": 103,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "PrivateName",
+              "span": {
+                "start": 88,
+                "end": 93,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 89,
+                  "end": 93,
+                  "ctxt": 0
+                },
+                "value": "used",
+                "typeAnnotation": null,
+                "optional": false
+              }
+            },
+            "value": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 96,
+                "end": 102,
+                "ctxt": 0
+              },
+              "value": "used",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            },
+            "typeAnnotation": null,
+            "isStatic": false,
+            "decorators": [],
+            "computed": false,
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false,
+            "readonly": false,
+            "definite": false
+          },
+          {
+            "type": "PrivateProperty",
+            "span": {
+              "start": 109,
+              "end": 128,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "PrivateName",
+              "span": {
+                "start": 109,
+                "end": 116,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 110,
+                  "end": 116,
+                  "ctxt": 0
+                },
+                "value": "unused",
+                "typeAnnotation": null,
+                "optional": false
+              }
+            },
+            "value": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 119,
+                "end": 127,
+                "ctxt": 0
+              },
+              "value": "unused",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            },
+            "typeAnnotation": null,
+            "isStatic": false,
+            "decorators": [],
+            "computed": false,
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false,
+            "readonly": false,
+            "definite": false
+          },
+          {
+            "type": "Constructor",
+            "span": {
+              "start": 134,
+              "end": 191,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 134,
+                "end": 145,
+                "ctxt": 0
+              },
+              "value": "constructor",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "params": [],
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 149,
+                "end": 191,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 160,
+                    "end": 184,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 160,
+                      "end": 183,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "MemberExpression",
+                      "span": {
+                        "start": 160,
+                        "end": 171,
+                        "ctxt": 0
+                      },
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 160,
+                          "end": 167,
+                          "ctxt": 0
+                        },
+                        "value": "console",
+                        "typeAnnotation": null,
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 168,
+                          "end": 171,
+                          "ctxt": 0
+                        },
+                        "value": "log",
+                        "typeAnnotation": null,
+                        "optional": false
+                      },
+                      "computed": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "MemberExpression",
+                          "span": {
+                            "start": 172,
+                            "end": 182,
+                            "ctxt": 0
+                          },
+                          "object": {
+                            "type": "ThisExpression",
+                            "span": {
+                              "start": 172,
+                              "end": 176,
+                              "ctxt": 0
+                            }
+                          },
+                          "property": {
+                            "type": "PrivateName",
+                            "span": {
+                              "start": 177,
+                              "end": 182,
+                              "ctxt": 0
+                            },
+                            "id": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 178,
+                                "end": 182,
+                                "ctxt": 0
+                              },
+                              "value": "used",
+                              "typeAnnotation": null,
+                              "optional": false
+                            }
+                          },
+                          "computed": false
+                        }
+                      }
+                    ],
+                    "typeArguments": null
+                  }
+                }
+              ]
+            },
+            "accessibility": null,
+            "isOptional": false
+          }
+        ],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    }
+  ],
+  "interpreter": null
+}

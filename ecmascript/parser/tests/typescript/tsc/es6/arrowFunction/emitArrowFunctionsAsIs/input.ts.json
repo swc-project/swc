@@ -1,0 +1,220 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 95,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 16,
+        "end": 38,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 20,
+            "end": 37,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 20,
+              "end": 26,
+              "ctxt": 0
+            },
+            "value": "arrow1",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 29,
+              "end": 37,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 29,
+                  "end": 30,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "typeAnnotation": null,
+                "optional": false
+              }
+            ],
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 34,
+                "end": 37,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 40,
+        "end": 64,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 44,
+            "end": 63,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 44,
+              "end": 50,
+              "ctxt": 0
+            },
+            "value": "arrow2",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 53,
+              "end": 63,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 54,
+                  "end": 55,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "typeAnnotation": null,
+                "optional": false
+              }
+            ],
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 60,
+                "end": 63,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 68,
+        "end": 95,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 72,
+            "end": 94,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 72,
+              "end": 78,
+              "ctxt": 0
+            },
+            "value": "arrow3",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 81,
+              "end": 94,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 82,
+                  "end": 83,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 85,
+                  "end": 86,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "typeAnnotation": null,
+                "optional": false
+              }
+            ],
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 91,
+                "end": 94,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

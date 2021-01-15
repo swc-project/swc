@@ -1,0 +1,272 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 27,
+    "end": 100,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 27,
+        "end": 56,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 31,
+            "end": 55,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 31,
+              "end": 32,
+              "ctxt": 0
+            },
+            "value": "x",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 32,
+                "end": 55,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsFunctionType",
+                "span": {
+                  "start": 34,
+                  "end": 55,
+                  "ctxt": 0
+                },
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 35,
+                      "end": 44,
+                      "ctxt": 0
+                    },
+                    "value": "a",
+                    "typeAnnotation": {
+                      "type": "TsTypeAnnotation",
+                      "span": {
+                        "start": 36,
+                        "end": 44,
+                        "ctxt": 0
+                      },
+                      "typeAnnotation": {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 38,
+                          "end": 44,
+                          "ctxt": 0
+                        },
+                        "kind": "string"
+                      }
+                    },
+                    "optional": false
+                  }
+                ],
+                "typeParams": null,
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 46,
+                    "end": 55,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 49,
+                      "end": 55,
+                      "ctxt": 0
+                    },
+                    "kind": "string"
+                  }
+                }
+              }
+            },
+            "optional": false
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 58,
+        "end": 71,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 62,
+            "end": 70,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 62,
+              "end": 63,
+              "ctxt": 0
+            },
+            "value": "y",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "BooleanLiteral",
+            "span": {
+              "start": 66,
+              "end": 70,
+              "ctxt": 0
+            },
+            "value": true
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 75,
+        "end": 100,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 75,
+          "end": 99,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 75,
+            "end": 76,
+            "ctxt": 0
+          },
+          "value": "x",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "right": {
+          "type": "BinaryExpression",
+          "span": {
+            "start": 79,
+            "end": 99,
+            "ctxt": 0
+          },
+          "operator": "&&",
+          "left": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 79,
+              "end": 87,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "ArrowFunctionExpression",
+              "span": {
+                "start": 80,
+                "end": 86,
+                "ctxt": 0
+              },
+              "params": [
+                {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 80,
+                    "end": 81,
+                    "ctxt": 0
+                  },
+                  "value": "a",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              ],
+              "body": {
+                "type": "Identifier",
+                "span": {
+                  "start": 85,
+                  "end": 86,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "async": false,
+              "generator": false,
+              "typeParameters": null,
+              "returnType": null
+            }
+          },
+          "right": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 91,
+              "end": 99,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "ArrowFunctionExpression",
+              "span": {
+                "start": 92,
+                "end": 98,
+                "ctxt": 0
+              },
+              "params": [
+                {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 92,
+                    "end": 93,
+                    "ctxt": 0
+                  },
+                  "value": "b",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              ],
+              "body": {
+                "type": "Identifier",
+                "span": {
+                  "start": 97,
+                  "end": 98,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "async": false,
+              "generator": false,
+              "typeParameters": null,
+              "returnType": null
+            }
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

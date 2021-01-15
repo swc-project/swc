@@ -1,0 +1,46 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 42,
+    "end": 59,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 52,
+          "end": 53,
+          "ctxt": 0
+        },
+        "value": "g",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 42,
+        "end": 59,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 56,
+          "end": 59,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

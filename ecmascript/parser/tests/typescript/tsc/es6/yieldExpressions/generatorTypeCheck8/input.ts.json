@@ -1,0 +1,181 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 119,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 16,
+        "end": 85,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 26,
+          "end": 38,
+          "ctxt": 0
+        },
+        "value": "BadGenerator",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [
+        {
+          "type": "TsExpressionWithTypeArguments",
+          "span": {
+            "start": 47,
+            "end": 63,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 47,
+              "end": 55,
+              "ctxt": 0
+            },
+            "value": "Iterator",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "typeArguments": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 55,
+              "end": 63,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 56,
+                  "end": 62,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            ]
+          }
+        },
+        {
+          "type": "TsExpressionWithTypeArguments",
+          "span": {
+            "start": 65,
+            "end": 81,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 65,
+              "end": 73,
+              "ctxt": 0
+            },
+            "value": "Iterable",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "typeArguments": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 73,
+              "end": 81,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 74,
+                  "end": 80,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            ]
+          }
+        }
+      ],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 82,
+          "end": 85,
+          "ctxt": 0
+        },
+        "body": []
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 97,
+          "end": 99,
+          "ctxt": 0
+        },
+        "value": "g3",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 87,
+        "end": 119,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 116,
+          "end": 119,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 101,
+          "end": 115,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsTypeReference",
+          "span": {
+            "start": 103,
+            "end": 115,
+            "ctxt": 0
+          },
+          "typeName": {
+            "type": "Identifier",
+            "span": {
+              "start": 103,
+              "end": 115,
+              "ctxt": 0
+            },
+            "value": "BadGenerator",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "typeParams": null
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

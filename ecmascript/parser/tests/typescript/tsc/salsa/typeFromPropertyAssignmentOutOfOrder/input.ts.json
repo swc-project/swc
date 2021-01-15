@@ -1,0 +1,429 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 97,
+    "end": 344,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 97,
+        "end": 120,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 97,
+          "end": 120,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 97,
+            "end": 107,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 97,
+              "end": 102,
+              "ctxt": 0
+            },
+            "value": "First",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 103,
+              "end": 107,
+              "ctxt": 0
+            },
+            "value": "Item",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "ClassExpression",
+          "identifier": {
+            "type": "Identifier",
+            "span": {
+              "start": 116,
+              "end": 117,
+              "ctxt": 0
+            },
+            "value": "I",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "span": {
+            "start": 110,
+            "end": 120,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "body": [],
+          "superClass": null,
+          "isAbstract": false,
+          "typeParams": null,
+          "superTypeParams": null,
+          "implements": []
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 122,
+        "end": 165,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 122,
+          "end": 165,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 122,
+            "end": 135,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 122,
+              "end": 128,
+              "ctxt": 0
+            },
+            "value": "Common",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 129,
+              "end": 135,
+              "ctxt": 0
+            },
+            "value": "Object",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "ClassExpression",
+          "identifier": null,
+          "span": {
+            "start": 138,
+            "end": 165,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "body": [],
+          "superClass": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 152,
+              "end": 162,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 152,
+                "end": 157,
+                "ctxt": 0
+              },
+              "value": "First",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 158,
+                "end": 162,
+                "ctxt": 0
+              },
+              "value": "Item",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false
+          },
+          "isAbstract": false,
+          "typeParams": null,
+          "superTypeParams": null,
+          "implements": []
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 169,
+        "end": 218,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 169,
+          "end": 218,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 169,
+            "end": 185,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 169,
+              "end": 178,
+              "ctxt": 0
+            },
+            "value": "Workspace",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 179,
+              "end": 185,
+              "ctxt": 0
+            },
+            "value": "Object",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "ClassExpression",
+          "identifier": null,
+          "span": {
+            "start": 188,
+            "end": 218,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "body": [],
+          "superClass": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 202,
+              "end": 215,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 202,
+                "end": 208,
+                "ctxt": 0
+              },
+              "value": "Common",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 209,
+                "end": 215,
+                "ctxt": 0
+              },
+              "value": "Object",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false
+          },
+          "isAbstract": false,
+          "typeParams": null,
+          "superTypeParams": null,
+          "implements": []
+        }
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 255,
+        "end": 262,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 259,
+            "end": 261,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 259,
+              "end": 261,
+              "ctxt": 0
+            },
+            "value": "am",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 290,
+        "end": 305,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 294,
+            "end": 304,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 294,
+              "end": 299,
+              "ctxt": 0
+            },
+            "value": "First",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 302,
+              "end": 304,
+              "ctxt": 0
+            },
+            "properties": []
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 307,
+        "end": 323,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 311,
+            "end": 322,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 311,
+              "end": 317,
+              "ctxt": 0
+            },
+            "value": "Common",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 320,
+              "end": 322,
+              "ctxt": 0
+            },
+            "properties": []
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 325,
+        "end": 344,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 329,
+            "end": 343,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 329,
+              "end": 338,
+              "ctxt": 0
+            },
+            "value": "Workspace",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 341,
+              "end": 343,
+              "ctxt": 0
+            },
+            "properties": []
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

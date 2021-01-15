@@ -1,0 +1,590 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 25,
+    "end": 496,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 25,
+        "end": 117,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 32,
+          "end": 33,
+          "ctxt": 0
+        },
+        "value": "A",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 34,
+          "end": 117,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 41,
+              "end": 114,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "TsModuleDeclaration",
+              "span": {
+                "start": 48,
+                "end": 114,
+                "ctxt": 0
+              },
+              "declare": false,
+              "global": false,
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 55,
+                  "end": 60,
+                  "ctxt": 0
+                },
+                "value": "Point",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "body": {
+                "type": "TsModuleBlock",
+                "span": {
+                  "start": 61,
+                  "end": 114,
+                  "ctxt": 0
+                },
+                "body": [
+                  {
+                    "type": "ExportDeclaration",
+                    "span": {
+                      "start": 72,
+                      "end": 107,
+                      "ctxt": 0
+                    },
+                    "declaration": {
+                      "type": "VariableDeclaration",
+                      "span": {
+                        "start": 79,
+                        "end": 107,
+                        "ctxt": 0
+                      },
+                      "kind": "var",
+                      "declare": false,
+                      "declarations": [
+                        {
+                          "type": "VariableDeclarator",
+                          "span": {
+                            "start": 83,
+                            "end": 106,
+                            "ctxt": 0
+                          },
+                          "id": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 83,
+                              "end": 89,
+                              "ctxt": 0
+                            },
+                            "value": "Origin",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "init": {
+                            "type": "ObjectExpression",
+                            "span": {
+                              "start": 92,
+                              "end": 106,
+                              "ctxt": 0
+                            },
+                            "properties": [
+                              {
+                                "type": "KeyValueProperty",
+                                "key": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 94,
+                                    "end": 95,
+                                    "ctxt": 0
+                                  },
+                                  "value": "x",
+                                  "typeAnnotation": null,
+                                  "optional": false
+                                },
+                                "value": {
+                                  "type": "NumericLiteral",
+                                  "span": {
+                                    "start": 97,
+                                    "end": 98,
+                                    "ctxt": 0
+                                  },
+                                  "value": 0.0
+                                }
+                              },
+                              {
+                                "type": "KeyValueProperty",
+                                "key": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 100,
+                                    "end": 101,
+                                    "ctxt": 0
+                                  },
+                                  "value": "y",
+                                  "typeAnnotation": null,
+                                  "optional": false
+                                },
+                                "value": {
+                                  "type": "NumericLiteral",
+                                  "span": {
+                                    "start": 103,
+                                    "end": 104,
+                                    "ctxt": 0
+                                  },
+                                  "value": 0.0
+                                }
+                              }
+                            ]
+                          },
+                          "definite": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 148,
+        "end": 266,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 155,
+          "end": 156,
+          "ctxt": 0
+        },
+        "value": "A",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 157,
+          "end": 266,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 199,
+              "end": 263,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "FunctionDeclaration",
+              "identifier": {
+                "type": "Identifier",
+                "span": {
+                  "start": 215,
+                  "end": 220,
+                  "ctxt": 0
+                },
+                "value": "Point",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "declare": false,
+              "params": [],
+              "decorators": [],
+              "span": {
+                "start": 206,
+                "end": 263,
+                "ctxt": 0
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 223,
+                  "end": 263,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "ReturnStatement",
+                    "span": {
+                      "start": 234,
+                      "end": 256,
+                      "ctxt": 0
+                    },
+                    "argument": {
+                      "type": "ObjectExpression",
+                      "span": {
+                        "start": 241,
+                        "end": 255,
+                        "ctxt": 0
+                      },
+                      "properties": [
+                        {
+                          "type": "KeyValueProperty",
+                          "key": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 243,
+                              "end": 244,
+                              "ctxt": 0
+                            },
+                            "value": "x",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "value": {
+                            "type": "NumericLiteral",
+                            "span": {
+                              "start": 246,
+                              "end": 247,
+                              "ctxt": 0
+                            },
+                            "value": 0.0
+                          }
+                        },
+                        {
+                          "type": "KeyValueProperty",
+                          "key": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 249,
+                              "end": 250,
+                              "ctxt": 0
+                            },
+                            "value": "y",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "value": {
+                            "type": "NumericLiteral",
+                            "span": {
+                              "start": 252,
+                              "end": 253,
+                              "ctxt": 0
+                            },
+                            "value": 0.0
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "generator": false,
+              "async": false,
+              "typeParameters": null,
+              "returnType": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 295,
+        "end": 496,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 302,
+          "end": 303,
+          "ctxt": 0
+        },
+        "value": "B",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 304,
+          "end": 496,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 313,
+              "end": 386,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "TsModuleDeclaration",
+              "span": {
+                "start": 320,
+                "end": 386,
+                "ctxt": 0
+              },
+              "declare": false,
+              "global": false,
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 327,
+                  "end": 332,
+                  "ctxt": 0
+                },
+                "value": "Point",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "body": {
+                "type": "TsModuleBlock",
+                "span": {
+                  "start": 333,
+                  "end": 386,
+                  "ctxt": 0
+                },
+                "body": [
+                  {
+                    "type": "ExportDeclaration",
+                    "span": {
+                      "start": 344,
+                      "end": 379,
+                      "ctxt": 0
+                    },
+                    "declaration": {
+                      "type": "VariableDeclaration",
+                      "span": {
+                        "start": 351,
+                        "end": 379,
+                        "ctxt": 0
+                      },
+                      "kind": "var",
+                      "declare": false,
+                      "declarations": [
+                        {
+                          "type": "VariableDeclarator",
+                          "span": {
+                            "start": 355,
+                            "end": 378,
+                            "ctxt": 0
+                          },
+                          "id": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 355,
+                              "end": 361,
+                              "ctxt": 0
+                            },
+                            "value": "Origin",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "init": {
+                            "type": "ObjectExpression",
+                            "span": {
+                              "start": 364,
+                              "end": 378,
+                              "ctxt": 0
+                            },
+                            "properties": [
+                              {
+                                "type": "KeyValueProperty",
+                                "key": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 366,
+                                    "end": 367,
+                                    "ctxt": 0
+                                  },
+                                  "value": "x",
+                                  "typeAnnotation": null,
+                                  "optional": false
+                                },
+                                "value": {
+                                  "type": "NumericLiteral",
+                                  "span": {
+                                    "start": 369,
+                                    "end": 370,
+                                    "ctxt": 0
+                                  },
+                                  "value": 0.0
+                                }
+                              },
+                              {
+                                "type": "KeyValueProperty",
+                                "key": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 372,
+                                    "end": 373,
+                                    "ctxt": 0
+                                  },
+                                  "value": "y",
+                                  "typeAnnotation": null,
+                                  "optional": false
+                                },
+                                "value": {
+                                  "type": "NumericLiteral",
+                                  "span": {
+                                    "start": 375,
+                                    "end": 376,
+                                    "ctxt": 0
+                                  },
+                                  "value": 0.0
+                                }
+                              }
+                            ]
+                          },
+                          "definite": false
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 429,
+              "end": 493,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "FunctionDeclaration",
+              "identifier": {
+                "type": "Identifier",
+                "span": {
+                  "start": 445,
+                  "end": 450,
+                  "ctxt": 0
+                },
+                "value": "Point",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "declare": false,
+              "params": [],
+              "decorators": [],
+              "span": {
+                "start": 436,
+                "end": 493,
+                "ctxt": 0
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 453,
+                  "end": 493,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "ReturnStatement",
+                    "span": {
+                      "start": 464,
+                      "end": 486,
+                      "ctxt": 0
+                    },
+                    "argument": {
+                      "type": "ObjectExpression",
+                      "span": {
+                        "start": 471,
+                        "end": 485,
+                        "ctxt": 0
+                      },
+                      "properties": [
+                        {
+                          "type": "KeyValueProperty",
+                          "key": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 473,
+                              "end": 474,
+                              "ctxt": 0
+                            },
+                            "value": "x",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "value": {
+                            "type": "NumericLiteral",
+                            "span": {
+                              "start": 476,
+                              "end": 477,
+                              "ctxt": 0
+                            },
+                            "value": 0.0
+                          }
+                        },
+                        {
+                          "type": "KeyValueProperty",
+                          "key": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 479,
+                              "end": 480,
+                              "ctxt": 0
+                            },
+                            "value": "y",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "value": {
+                            "type": "NumericLiteral",
+                            "span": {
+                              "start": 482,
+                              "end": 483,
+                              "ctxt": 0
+                            },
+                            "value": 0.0
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "generator": false,
+              "async": false,
+              "typeParameters": null,
+              "returnType": null
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

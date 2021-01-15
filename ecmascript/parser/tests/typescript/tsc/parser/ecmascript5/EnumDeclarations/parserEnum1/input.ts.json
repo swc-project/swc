@@ -1,0 +1,190 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 8,
+    "end": 156,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 8,
+        "end": 156,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 15,
+          "end": 156,
+          "ctxt": 0
+        },
+        "declare": false,
+        "isConst": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 20,
+            "end": 34,
+            "ctxt": 0
+          },
+          "value": "SignatureFlags",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "members": [
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 46,
+              "end": 54,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 46,
+                "end": 50,
+                "ctxt": 0
+              },
+              "value": "None",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 53,
+                "end": 54,
+                "ctxt": 0
+              },
+              "value": 0.0
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 65,
+              "end": 78,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 65,
+                "end": 74,
+                "ctxt": 0
+              },
+              "value": "IsIndexer",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 77,
+                "end": 78,
+                "ctxt": 0
+              },
+              "value": 1.0
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 89,
+              "end": 113,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 89,
+                "end": 104,
+                "ctxt": 0
+              },
+              "value": "IsStringIndexer",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "init": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 107,
+                "end": 113,
+                "ctxt": 0
+              },
+              "operator": "<<",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 107,
+                  "end": 108,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 112,
+                  "end": 113,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              }
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 124,
+              "end": 148,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 124,
+                "end": 139,
+                "ctxt": 0
+              },
+              "value": "IsNumberIndexer",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "init": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 142,
+                "end": 148,
+                "ctxt": 0
+              },
+              "operator": "<<",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 142,
+                  "end": 143,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 147,
+                  "end": 148,
+                  "ctxt": 0
+                },
+                "value": 2.0
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

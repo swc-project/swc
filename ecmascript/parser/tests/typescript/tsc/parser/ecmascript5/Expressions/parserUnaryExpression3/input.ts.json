@@ -1,0 +1,51 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 6,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 6,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UpdateExpression",
+        "span": {
+          "start": 0,
+          "end": 5,
+          "ctxt": 0
+        },
+        "operator": "++",
+        "prefix": true,
+        "argument": {
+          "type": "ArrayExpression",
+          "span": {
+            "start": 2,
+            "end": 5,
+            "ctxt": 0
+          },
+          "elements": [
+            {
+              "spread": null,
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 3,
+                  "end": 4,
+                  "ctxt": 0
+                },
+                "value": 0.0
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

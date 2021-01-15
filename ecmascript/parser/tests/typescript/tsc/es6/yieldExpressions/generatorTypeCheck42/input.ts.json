@@ -1,0 +1,138 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 92,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 26,
+          "end": 27,
+          "ctxt": 0
+        },
+        "value": "g",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 16,
+        "end": 92,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 30,
+          "end": 92,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 37,
+              "end": 89,
+              "ctxt": 0
+            },
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 41,
+                  "end": 89,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 41,
+                    "end": 42,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "init": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 45,
+                    "end": 89,
+                    "ctxt": 0
+                  },
+                  "properties": [
+                    {
+                      "type": "MethodProperty",
+                      "key": {
+                        "type": "Computed",
+                        "span": {
+                          "start": 56,
+                          "end": 65,
+                          "ctxt": 0
+                        },
+                        "expression": {
+                          "type": "YieldExpression",
+                          "span": {
+                            "start": 57,
+                            "end": 64,
+                            "ctxt": 0
+                          },
+                          "argument": {
+                            "type": "NumericLiteral",
+                            "span": {
+                              "start": 63,
+                              "end": 64,
+                              "ctxt": 0
+                            },
+                            "value": 0.0
+                          },
+                          "delegate": false
+                        }
+                      },
+                      "params": [],
+                      "decorators": [],
+                      "span": {
+                        "start": 56,
+                        "end": 82,
+                        "ctxt": 0
+                      },
+                      "body": {
+                        "type": "BlockStatement",
+                        "span": {
+                          "start": 68,
+                          "end": 82,
+                          "ctxt": 0
+                        },
+                        "stmts": []
+                      },
+                      "generator": false,
+                      "async": false,
+                      "typeParameters": null,
+                      "returnType": null
+                    }
+                  ]
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

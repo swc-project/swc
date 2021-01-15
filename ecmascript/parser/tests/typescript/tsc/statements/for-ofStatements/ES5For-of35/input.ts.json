@@ -1,0 +1,222 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 49,
+    "end": 112,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ForOfStatement",
+      "span": {
+        "start": 49,
+        "end": 112,
+        "ctxt": 0
+      },
+      "await": null,
+      "left": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 54,
+          "end": 80,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 60,
+              "end": 80,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "ObjectPattern",
+              "span": {
+                "start": 60,
+                "end": 80,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "KeyValuePatternProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 61,
+                      "end": 62,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "AssignmentPattern",
+                    "span": {
+                      "start": 64,
+                      "end": 69,
+                      "ctxt": 0
+                    },
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 64,
+                        "end": 65,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "right": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 68,
+                        "end": 69,
+                        "ctxt": 0
+                      },
+                      "value": 0.0
+                    },
+                    "typeAnnotation": null
+                  }
+                },
+                {
+                  "type": "KeyValuePatternProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 71,
+                      "end": 72,
+                      "ctxt": 0
+                    },
+                    "value": "y",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "AssignmentPattern",
+                    "span": {
+                      "start": 74,
+                      "end": 79,
+                      "ctxt": 0
+                    },
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 74,
+                        "end": 75,
+                        "ctxt": 0
+                      },
+                      "value": "b",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "right": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 78,
+                        "end": 79,
+                        "ctxt": 0
+                      },
+                      "value": 1.0
+                    },
+                    "typeAnnotation": null
+                  }
+                }
+              ],
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": null,
+            "definite": false
+          }
+        ]
+      },
+      "right": {
+        "type": "ArrayExpression",
+        "span": {
+          "start": 84,
+          "end": 90,
+          "ctxt": 0
+        },
+        "elements": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 85,
+                "end": 86,
+                "ctxt": 0
+              },
+              "value": 2.0
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 88,
+                "end": 89,
+                "ctxt": 0
+              },
+              "value": 3.0
+            }
+          }
+        ]
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 92,
+          "end": 112,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 99,
+              "end": 101,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 99,
+                "end": 100,
+                "ctxt": 0
+              },
+              "value": "a",
+              "typeAnnotation": null,
+              "optional": false
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 107,
+              "end": 109,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 107,
+                "end": 108,
+                "ctxt": 0
+              },
+              "value": "b",
+              "typeAnnotation": null,
+              "optional": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

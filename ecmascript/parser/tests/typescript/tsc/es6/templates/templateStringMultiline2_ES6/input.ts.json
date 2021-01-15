@@ -1,0 +1,67 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 37,
+    "end": 42,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 37,
+        "end": 42,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "TemplateLiteral",
+        "span": {
+          "start": 37,
+          "end": 42,
+          "ctxt": 0
+        },
+        "expressions": [],
+        "quasis": [
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 38,
+              "end": 41,
+              "ctxt": 0
+            },
+            "tail": true,
+            "cooked": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 38,
+                "end": 41,
+                "ctxt": 0
+              },
+              "value": "\n",
+              "hasEscape": true,
+              "kind": {
+                "type": "normal",
+                "containsQuote": false
+              }
+            },
+            "raw": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 38,
+                "end": 41,
+                "ctxt": 0
+              },
+              "value": "\n\\\n",
+              "hasEscape": true,
+              "kind": {
+                "type": "normal",
+                "containsQuote": false
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

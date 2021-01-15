@@ -1,0 +1,404 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 228,
+    "end": 1129,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 228,
+        "end": 273,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 234,
+            "end": 272,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 234,
+              "end": 241,
+              "ctxt": 0
+            },
+            "value": "myTypes",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 244,
+              "end": 272,
+              "ctxt": 0
+            },
+            "properties": []
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 542,
+        "end": 559,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 550,
+            "end": 557,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 550,
+              "end": 557,
+              "ctxt": 0
+            },
+            "value": "myTypes",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "exported": null
+        }
+      ],
+      "source": null,
+      "typeOnly": false
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 585,
+        "end": 619,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 593,
+            "end": 600,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 593,
+              "end": 600,
+              "ctxt": 0
+            },
+            "value": "myTypes",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "imported": null
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 607,
+          "end": 618,
+          "ctxt": 0
+        },
+        "value": "./file.js",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 701,
+        "end": 750,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 707,
+            "end": 749,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 707,
+              "end": 718,
+              "ctxt": 0
+            },
+            "value": "testFnTypes",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 721,
+              "end": 749,
+              "ctxt": 0
+            },
+            "properties": []
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 970,
+          "end": 976,
+          "ctxt": 0
+        },
+        "value": "testFn",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 977,
+            "end": 982,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 977,
+              "end": 982,
+              "ctxt": 0
+            },
+            "value": "input",
+            "typeAnnotation": null,
+            "optional": false
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 961,
+        "end": 1096,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 984,
+          "end": 1096,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "IfStatement",
+            "span": {
+              "start": 991,
+              "end": 1093,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 995,
+                "end": 1020,
+                "ctxt": 0
+              },
+              "operator": "===",
+              "left": {
+                "type": "UnaryExpression",
+                "span": {
+                  "start": 995,
+                  "end": 1007,
+                  "ctxt": 0
+                },
+                "operator": "typeof",
+                "argument": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1002,
+                    "end": 1007,
+                    "ctxt": 0
+                  },
+                  "value": "input",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              "right": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 1012,
+                  "end": 1020,
+                  "ctxt": 0
+                },
+                "value": "number",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
+              }
+            },
+            "consequent": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 1022,
+                "end": 1057,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 1033,
+                    "end": 1050,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 1040,
+                      "end": 1049,
+                      "ctxt": 0
+                    },
+                    "operator": "*",
+                    "left": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 1040,
+                        "end": 1041,
+                        "ctxt": 0
+                      },
+                      "value": 2.0
+                    },
+                    "right": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1044,
+                        "end": 1049,
+                        "ctxt": 0
+                      },
+                      "value": "input",
+                      "typeAnnotation": null,
+                      "optional": false
+                    }
+                  }
+                }
+              ]
+            },
+            "alternate": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 1063,
+                "end": 1093,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 1074,
+                    "end": 1086,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "NullLiteral",
+                    "span": {
+                      "start": 1081,
+                      "end": 1085,
+                      "ctxt": 0
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 1100,
+        "end": 1129,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 1108,
+            "end": 1114,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 1108,
+              "end": 1114,
+              "ctxt": 0
+            },
+            "value": "testFn",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "exported": null
+        },
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 1116,
+            "end": 1127,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 1116,
+              "end": 1127,
+              "ctxt": 0
+            },
+            "value": "testFnTypes",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "exported": null
+        }
+      ],
+      "source": null,
+      "typeOnly": false
+    }
+  ],
+  "interpreter": null
+}

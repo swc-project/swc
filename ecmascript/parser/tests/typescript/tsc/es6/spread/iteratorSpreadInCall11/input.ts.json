@@ -1,0 +1,484 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 280,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 25,
+          "end": 28,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 32,
+            "end": 41,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "RestElement",
+            "span": {
+              "start": 32,
+              "end": 41,
+              "ctxt": 0
+            },
+            "rest": {
+              "start": 32,
+              "end": 35,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 35,
+                "end": 36,
+                "ctxt": 0
+              },
+              "value": "s",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 36,
+                "end": 41,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsArrayType",
+                "span": {
+                  "start": 38,
+                  "end": 41,
+                  "ctxt": 0
+                },
+                "elemType": {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 38,
+                    "end": 39,
+                    "ctxt": 0
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 38,
+                      "end": 39,
+                      "ctxt": 0
+                    },
+                    "value": "T",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 16,
+        "end": 58,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 43,
+          "end": 58,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 45,
+              "end": 56,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 52,
+                "end": 56,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 52,
+                  "end": 53,
+                  "ctxt": 0
+                },
+                "value": "s",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 54,
+                  "end": 55,
+                  "ctxt": 0
+                },
+                "value": 0.0
+              },
+              "computed": true
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 28,
+          "end": 31,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParameter",
+            "span": {
+              "start": 29,
+              "end": 30,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 29,
+                "end": 30,
+                "ctxt": 0
+              },
+              "value": "T",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "constraint": null,
+            "default": null
+          }
+        ]
+      },
+      "returnType": null
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 66,
+          "end": 80,
+          "ctxt": 0
+        },
+        "value": "SymbolIterator",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 60,
+        "end": 249,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 88,
+            "end": 188,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 88,
+              "end": 92,
+              "ctxt": 0
+            },
+            "value": "next",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 88,
+              "end": 188,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 95,
+                "end": 188,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 106,
+                    "end": 181,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "ObjectExpression",
+                    "span": {
+                      "start": 113,
+                      "end": 180,
+                      "ctxt": 0
+                    },
+                    "properties": [
+                      {
+                        "type": "KeyValueProperty",
+                        "key": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 128,
+                            "end": 133,
+                            "ctxt": 0
+                          },
+                          "value": "value",
+                          "typeAnnotation": null,
+                          "optional": false
+                        },
+                        "value": {
+                          "type": "CallExpression",
+                          "span": {
+                            "start": 135,
+                            "end": 143,
+                            "ctxt": 0
+                          },
+                          "callee": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 135,
+                              "end": 141,
+                              "ctxt": 0
+                            },
+                            "value": "Symbol",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "arguments": [],
+                          "typeArguments": null
+                        }
+                      },
+                      {
+                        "type": "KeyValueProperty",
+                        "key": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 158,
+                            "end": 162,
+                            "ctxt": 0
+                          },
+                          "value": "done",
+                          "typeAnnotation": null,
+                          "optional": false
+                        },
+                        "value": {
+                          "type": "BooleanLiteral",
+                          "span": {
+                            "start": 164,
+                            "end": 169,
+                            "ctxt": 0
+                          },
+                          "value": false
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 196,
+            "end": 246,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Computed",
+            "span": {
+              "start": 196,
+              "end": 213,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 197,
+                "end": 212,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 197,
+                  "end": 203,
+                  "ctxt": 0
+                },
+                "value": "Symbol",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 204,
+                  "end": 212,
+                  "ctxt": 0
+                },
+                "value": "iterator",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            }
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 196,
+              "end": 246,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 216,
+                "end": 246,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 227,
+                    "end": 239,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "ThisExpression",
+                    "span": {
+                      "start": 234,
+                      "end": 238,
+                      "ctxt": 0
+                    }
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 253,
+        "end": 280,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 253,
+          "end": 279,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 253,
+            "end": 256,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": {
+              "start": 257,
+              "end": 260,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "NewExpression",
+              "span": {
+                "start": 260,
+                "end": 278,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 264,
+                  "end": 278,
+                  "ctxt": 0
+                },
+                "value": "SymbolIterator",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "arguments": null,
+              "typeArguments": null
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}
