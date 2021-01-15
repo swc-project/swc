@@ -1826,7 +1826,20 @@ to!(
 );
 
 to_ts!(
-    as_operator_ambiguity,
+    ts_module_name_1,
+    "
+    module A {
+        export function b() {
+            
+        }
+    }
+    A.b()
+    ",
+    ""
+);
+
+to_ts!(
+    ts_as_operator_ambiguity_1,
     "
     interface A<T> { x: T; }
     interface B { m: string; }
