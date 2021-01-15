@@ -1,0 +1,243 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 45,
+    "end": 242,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 51,
+          "end": 52,
+          "ctxt": 0
+        },
+        "value": "x",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 45,
+        "end": 54,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "TsExportAssignment",
+      "span": {
+        "start": 56,
+        "end": 67,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 65,
+          "end": 66,
+          "ctxt": 0
+        },
+        "value": "x",
+        "typeAnnotation": null,
+        "optional": false
+      }
+    },
+    {
+      "type": "TsImportEqualsDeclaration",
+      "span": {
+        "start": 95,
+        "end": 127,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isExport": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 102,
+          "end": 106,
+          "ctxt": 0
+        },
+        "value": "foo1",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "moduleRef": {
+        "type": "TsExternalModuleReference",
+        "span": {
+          "start": 109,
+          "end": 126,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 117,
+            "end": 125,
+            "ctxt": 0
+          },
+          "value": "./foo1",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        }
+      }
+    },
+    {
+      "type": "TsExportAssignment",
+      "span": {
+        "start": 131,
+        "end": 157,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ObjectExpression",
+        "span": {
+          "start": 140,
+          "end": 157,
+          "ctxt": 0
+        },
+        "properties": [
+          {
+            "type": "KeyValueProperty",
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 147,
+                "end": 148,
+                "ctxt": 0
+              },
+              "value": "x",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "value": {
+              "type": "Identifier",
+              "span": {
+                "start": 150,
+                "end": 154,
+                "ctxt": 0
+              },
+              "value": "foo1",
+              "typeAnnotation": null,
+              "optional": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsImportEqualsDeclaration",
+      "span": {
+        "start": 184,
+        "end": 215,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isExport": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 191,
+          "end": 195,
+          "ctxt": 0
+        },
+        "value": "foo2",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "moduleRef": {
+        "type": "TsExternalModuleReference",
+        "span": {
+          "start": 198,
+          "end": 215,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 206,
+            "end": 214,
+            "ctxt": 0
+          },
+          "value": "./foo2",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        }
+      }
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 223,
+          "end": 224,
+          "ctxt": 0
+        },
+        "value": "x",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 217,
+        "end": 242,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 233,
+          "end": 239,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 233,
+            "end": 237,
+            "ctxt": 0
+          },
+          "value": "foo2",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 238,
+            "end": 239,
+            "ctxt": 0
+          },
+          "value": "x",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "computed": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

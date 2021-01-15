@@ -1,0 +1,293 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 23,
+    "end": 226,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 23,
+        "end": 61,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 39,
+            "end": 40,
+            "ctxt": 0
+          },
+          "value": "x",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": false,
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 30,
+          "end": 61,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 42,
+            "end": 61,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ReturnStatement",
+              "span": {
+                "start": 46,
+                "end": 58,
+                "ctxt": 0
+              },
+              "argument": {
+                "type": "BooleanLiteral",
+                "span": {
+                  "start": 53,
+                  "end": 57,
+                  "ctxt": 0
+                },
+                "value": true
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "TsImportEqualsDeclaration",
+      "span": {
+        "start": 88,
+        "end": 120,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isExport": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 95,
+          "end": 99,
+          "ctxt": 0
+        },
+        "value": "foo1",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "moduleRef": {
+        "type": "TsExternalModuleReference",
+        "span": {
+          "start": 102,
+          "end": 119,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 110,
+            "end": 118,
+            "ctxt": 0
+          },
+          "value": "./foo1",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        }
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 122,
+        "end": 137,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 126,
+            "end": 136,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 126,
+              "end": 127,
+              "ctxt": 0
+            },
+            "value": "x",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 130,
+              "end": 136,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 130,
+                "end": 134,
+                "ctxt": 0
+              },
+              "value": "foo1",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 135,
+                "end": 136,
+                "ctxt": 0
+              },
+              "value": "x",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "TsExportAssignment",
+      "span": {
+        "start": 139,
+        "end": 150,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 148,
+          "end": 149,
+          "ctxt": 0
+        },
+        "value": "x",
+        "typeAnnotation": null,
+        "optional": false
+      }
+    },
+    {
+      "type": "TsImportEqualsDeclaration",
+      "span": {
+        "start": 177,
+        "end": 209,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isExport": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 184,
+          "end": 188,
+          "ctxt": 0
+        },
+        "value": "foo2",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "moduleRef": {
+        "type": "TsExternalModuleReference",
+        "span": {
+          "start": 191,
+          "end": 208,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 199,
+            "end": 207,
+            "ctxt": 0
+          },
+          "value": "./foo2",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        }
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 211,
+        "end": 226,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 215,
+            "end": 225,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 215,
+              "end": 216,
+              "ctxt": 0
+            },
+            "value": "x",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 219,
+              "end": 225,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 219,
+                "end": 223,
+                "ctxt": 0
+              },
+              "value": "foo2",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,475 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 30,
+    "end": 158,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 30,
+        "end": 57,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 34,
+            "end": 56,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 34,
+              "end": 38,
+              "ctxt": 0
+            },
+            "value": "getX",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 38,
+                "end": 56,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsFunctionType",
+                "span": {
+                  "start": 40,
+                  "end": 56,
+                  "ctxt": 0
+                },
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 41,
+                      "end": 45,
+                      "ctxt": 0
+                    },
+                    "value": "a",
+                    "typeAnnotation": {
+                      "type": "TsTypeAnnotation",
+                      "span": {
+                        "start": 42,
+                        "end": 45,
+                        "ctxt": 0
+                      },
+                      "typeAnnotation": {
+                        "type": "TsTypeReference",
+                        "span": {
+                          "start": 44,
+                          "end": 45,
+                          "ctxt": 0
+                        },
+                        "typeName": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 44,
+                            "end": 45,
+                            "ctxt": 0
+                          },
+                          "value": "A",
+                          "typeAnnotation": null,
+                          "optional": false
+                        },
+                        "typeParams": null
+                      }
+                    },
+                    "optional": false
+                  }
+                ],
+                "typeParams": null,
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 47,
+                    "end": 56,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 50,
+                      "end": 56,
+                      "ctxt": 0
+                    },
+                    "kind": "number"
+                  }
+                }
+              }
+            },
+            "optional": false
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 67,
+          "end": 68,
+          "ctxt": 0
+        },
+        "value": "A",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 61,
+        "end": 129,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "PrivateProperty",
+          "span": {
+            "start": 76,
+            "end": 85,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 76,
+              "end": 78,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 77,
+                "end": 78,
+                "ctxt": 0
+              },
+              "value": "x",
+              "typeAnnotation": null,
+              "optional": false
+            }
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 81,
+              "end": 84,
+              "ctxt": 0
+            },
+            "value": 100.0
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "readonly": false,
+          "definite": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 91,
+            "end": 126,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Computed",
+            "span": {
+              "start": 91,
+              "end": 121,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "ParenthesisExpression",
+              "span": {
+                "start": 92,
+                "end": 120,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "SequenceExpression",
+                "span": {
+                  "start": 93,
+                  "end": 119,
+                  "ctxt": 0
+                },
+                "expressions": [
+                  {
+                    "type": "AssignmentExpression",
+                    "span": {
+                      "start": 93,
+                      "end": 114,
+                      "ctxt": 0
+                    },
+                    "operator": "=",
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 93,
+                        "end": 97,
+                        "ctxt": 0
+                      },
+                      "value": "getX",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "right": {
+                      "type": "ArrowFunctionExpression",
+                      "span": {
+                        "start": 100,
+                        "end": 114,
+                        "ctxt": 0
+                      },
+                      "params": [
+                        {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 101,
+                            "end": 105,
+                            "ctxt": 0
+                          },
+                          "value": "a",
+                          "typeAnnotation": {
+                            "type": "TsTypeAnnotation",
+                            "span": {
+                              "start": 102,
+                              "end": 105,
+                              "ctxt": 0
+                            },
+                            "typeAnnotation": {
+                              "type": "TsTypeReference",
+                              "span": {
+                                "start": 104,
+                                "end": 105,
+                                "ctxt": 0
+                              },
+                              "typeName": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 104,
+                                  "end": 105,
+                                  "ctxt": 0
+                                },
+                                "value": "A",
+                                "typeAnnotation": null,
+                                "optional": false
+                              },
+                              "typeParams": null
+                            }
+                          },
+                          "optional": false
+                        }
+                      ],
+                      "body": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 110,
+                          "end": 114,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 110,
+                            "end": 111,
+                            "ctxt": 0
+                          },
+                          "value": "a",
+                          "typeAnnotation": null,
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "PrivateName",
+                          "span": {
+                            "start": 112,
+                            "end": 114,
+                            "ctxt": 0
+                          },
+                          "id": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 113,
+                              "end": 114,
+                              "ctxt": 0
+                            },
+                            "value": "x",
+                            "typeAnnotation": null,
+                            "optional": false
+                          }
+                        },
+                        "computed": false
+                      },
+                      "async": false,
+                      "generator": false,
+                      "typeParameters": null,
+                      "returnType": null
+                    }
+                  },
+                  {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 116,
+                      "end": 119,
+                      "ctxt": 0
+                    },
+                    "value": "_",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 91,
+              "end": 126,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 124,
+                "end": 126,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 133,
+        "end": 158,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 133,
+          "end": 157,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 133,
+            "end": 144,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 133,
+              "end": 140,
+              "ctxt": 0
+            },
+            "value": "console",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 141,
+              "end": 144,
+              "ctxt": 0
+            },
+            "value": "log",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 145,
+                "end": 156,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 145,
+                  "end": 149,
+                  "ctxt": 0
+                },
+                "value": "getX",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "NewExpression",
+                    "span": {
+                      "start": 150,
+                      "end": 155,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 154,
+                        "end": 155,
+                        "ctxt": 0
+                      },
+                      "value": "A",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "arguments": null,
+                    "typeArguments": null
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,6332 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 20,
+    "end": 2445,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 37,
+          "end": 40,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": true,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 41,
+            "end": 50,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 41,
+              "end": 50,
+              "ctxt": 0
+            },
+            "value": "a",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 42,
+                "end": 50,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 44,
+                  "end": 50,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            },
+            "optional": false
+          }
+        },
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 52,
+            "end": 61,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 52,
+              "end": 61,
+              "ctxt": 0
+            },
+            "value": "b",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 53,
+                "end": 61,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 55,
+                  "end": 61,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            },
+            "optional": false
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 20,
+        "end": 71,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 62,
+          "end": 70,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 64,
+            "end": 70,
+            "ctxt": 0
+          },
+          "kind": "string"
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 92,
+          "end": 102,
+          "ctxt": 0
+        },
+        "value": "overloaded",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": true,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 103,
+            "end": 112,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 103,
+              "end": 112,
+              "ctxt": 0
+            },
+            "value": "s",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 104,
+                "end": 112,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 106,
+                  "end": 112,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            },
+            "optional": false
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 75,
+        "end": 122,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 113,
+          "end": 121,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 115,
+            "end": 121,
+            "ctxt": 0
+          },
+          "kind": "number"
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 141,
+          "end": 151,
+          "ctxt": 0
+        },
+        "value": "overloaded",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": true,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 152,
+            "end": 161,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 152,
+              "end": 161,
+              "ctxt": 0
+            },
+            "value": "n",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 153,
+                "end": 161,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 155,
+                  "end": 161,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            },
+            "optional": false
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 124,
+        "end": 171,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 162,
+          "end": 170,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 164,
+            "end": 170,
+            "ctxt": 0
+          },
+          "kind": "string"
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 192,
+          "end": 199,
+          "ctxt": 0
+        },
+        "value": "generic",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": true,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 203,
+            "end": 207,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 203,
+              "end": 207,
+              "ctxt": 0
+            },
+            "value": "x",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 204,
+                "end": 207,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 206,
+                  "end": 207,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 206,
+                    "end": 207,
+                    "ctxt": 0
+                  },
+                  "value": "T",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            },
+            "optional": false
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 175,
+        "end": 212,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 199,
+          "end": 202,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParameter",
+            "span": {
+              "start": 200,
+              "end": 201,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 200,
+                "end": 201,
+                "ctxt": 0
+              },
+              "value": "T",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "constraint": null,
+            "default": null
+          }
+        ]
+      },
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 208,
+          "end": 211,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsTypeReference",
+          "span": {
+            "start": 210,
+            "end": 211,
+            "ctxt": 0
+          },
+          "typeName": {
+            "type": "Identifier",
+            "span": {
+              "start": 210,
+              "end": 211,
+              "ctxt": 0
+            },
+            "value": "T",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "typeParams": null
+        }
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 216,
+        "end": 246,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 220,
+            "end": 245,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 220,
+              "end": 223,
+              "ctxt": 0
+            },
+            "value": "f00",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 226,
+              "end": 245,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 226,
+                "end": 234,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 226,
+                  "end": 229,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 230,
+                  "end": 234,
+                  "ctxt": 0
+                },
+                "value": "bind",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 235,
+                    "end": 244,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 248,
+        "end": 282,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 252,
+            "end": 281,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 252,
+              "end": 255,
+              "ctxt": 0
+            },
+            "value": "f01",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 258,
+              "end": 281,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 258,
+                "end": 266,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 258,
+                  "end": 261,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 262,
+                  "end": 266,
+                  "ctxt": 0
+                },
+                "value": "bind",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 267,
+                    "end": 276,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 278,
+                    "end": 280,
+                    "ctxt": 0
+                  },
+                  "value": 10.0
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 284,
+        "end": 327,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 288,
+            "end": 326,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 288,
+              "end": 291,
+              "ctxt": 0
+            },
+            "value": "f02",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 294,
+              "end": 326,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 294,
+                "end": 302,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 294,
+                  "end": 297,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 298,
+                  "end": 302,
+                  "ctxt": 0
+                },
+                "value": "bind",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 303,
+                    "end": 312,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 314,
+                    "end": 316,
+                    "ctxt": 0
+                  },
+                  "value": 10.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 318,
+                    "end": 325,
+                    "ctxt": 0
+                  },
+                  "value": "hello",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 329,
+        "end": 367,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 333,
+            "end": 366,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 333,
+              "end": 336,
+              "ctxt": 0
+            },
+            "value": "f03",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 339,
+              "end": 366,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 339,
+                "end": 347,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 339,
+                  "end": 342,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 343,
+                  "end": 347,
+                  "ctxt": 0
+                },
+                "value": "bind",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 348,
+                    "end": 357,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 359,
+                    "end": 361,
+                    "ctxt": 0
+                  },
+                  "value": 10.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 363,
+                    "end": 365,
+                    "ctxt": 0
+                  },
+                  "value": 20.0
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 381,
+        "end": 418,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 385,
+            "end": 417,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 385,
+              "end": 388,
+              "ctxt": 0
+            },
+            "value": "f04",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 391,
+              "end": 417,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 391,
+                "end": 406,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 391,
+                  "end": 401,
+                  "ctxt": 0
+                },
+                "value": "overloaded",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 402,
+                  "end": 406,
+                  "ctxt": 0
+                },
+                "value": "bind",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 407,
+                    "end": 416,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 442,
+        "end": 476,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 446,
+            "end": 475,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 446,
+              "end": 449,
+              "ctxt": 0
+            },
+            "value": "f05",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 452,
+              "end": 475,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 452,
+                "end": 464,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 452,
+                  "end": 459,
+                  "ctxt": 0
+                },
+                "value": "generic",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 460,
+                  "end": 464,
+                  "ctxt": 0
+                },
+                "value": "bind",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 465,
+                    "end": 474,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 499,
+        "end": 542,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 503,
+            "end": 541,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 503,
+              "end": 506,
+              "ctxt": 0
+            },
+            "value": "c00",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 509,
+              "end": 541,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 509,
+                "end": 517,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 509,
+                  "end": 512,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 513,
+                  "end": 517,
+                  "ctxt": 0
+                },
+                "value": "call",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 518,
+                    "end": 527,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 529,
+                    "end": 531,
+                    "ctxt": 0
+                  },
+                  "value": 10.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 533,
+                    "end": 540,
+                    "ctxt": 0
+                  },
+                  "value": "hello",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 544,
+        "end": 578,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 548,
+            "end": 577,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 548,
+              "end": 551,
+              "ctxt": 0
+            },
+            "value": "c01",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 554,
+              "end": 577,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 554,
+                "end": 562,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 554,
+                  "end": 557,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 558,
+                  "end": 562,
+                  "ctxt": 0
+                },
+                "value": "call",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 563,
+                    "end": 572,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 574,
+                    "end": 576,
+                    "ctxt": 0
+                  },
+                  "value": 10.0
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 590,
+        "end": 628,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 594,
+            "end": 627,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 594,
+              "end": 597,
+              "ctxt": 0
+            },
+            "value": "c02",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 600,
+              "end": 627,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 600,
+                "end": 608,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 600,
+                  "end": 603,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 604,
+                  "end": 608,
+                  "ctxt": 0
+                },
+                "value": "call",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 609,
+                    "end": 618,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 620,
+                    "end": 622,
+                    "ctxt": 0
+                  },
+                  "value": 10.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 624,
+                    "end": 626,
+                    "ctxt": 0
+                  },
+                  "value": 20.0
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 640,
+        "end": 687,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 644,
+            "end": 686,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 644,
+              "end": 647,
+              "ctxt": 0
+            },
+            "value": "c03",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 650,
+              "end": 686,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 650,
+                "end": 658,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 650,
+                  "end": 653,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 654,
+                  "end": 658,
+                  "ctxt": 0
+                },
+                "value": "call",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 659,
+                    "end": 668,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 670,
+                    "end": 672,
+                    "ctxt": 0
+                  },
+                  "value": 10.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 674,
+                    "end": 681,
+                    "ctxt": 0
+                  },
+                  "value": "hello",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 683,
+                    "end": 685,
+                    "ctxt": 0
+                  },
+                  "value": 30.0
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 701,
+        "end": 747,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 705,
+            "end": 746,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 705,
+              "end": 708,
+              "ctxt": 0
+            },
+            "value": "a00",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 711,
+              "end": 746,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 711,
+                "end": 720,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 711,
+                  "end": 714,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 715,
+                  "end": 720,
+                  "ctxt": 0
+                },
+                "value": "apply",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 721,
+                    "end": 730,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ArrayExpression",
+                  "span": {
+                    "start": 732,
+                    "end": 745,
+                    "ctxt": 0
+                  },
+                  "elements": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 733,
+                          "end": 735,
+                          "ctxt": 0
+                        },
+                        "value": 10.0
+                      }
+                    },
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 737,
+                          "end": 744,
+                          "ctxt": 0
+                        },
+                        "value": "hello",
+                        "hasEscape": false,
+                        "kind": {
+                          "type": "normal",
+                          "containsQuote": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 749,
+        "end": 786,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 753,
+            "end": 785,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 753,
+              "end": 756,
+              "ctxt": 0
+            },
+            "value": "a01",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 759,
+              "end": 785,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 759,
+                "end": 768,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 759,
+                  "end": 762,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 763,
+                  "end": 768,
+                  "ctxt": 0
+                },
+                "value": "apply",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 769,
+                    "end": 778,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ArrayExpression",
+                  "span": {
+                    "start": 780,
+                    "end": 784,
+                    "ctxt": 0
+                  },
+                  "elements": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 781,
+                          "end": 783,
+                          "ctxt": 0
+                        },
+                        "value": 10.0
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 798,
+        "end": 839,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 802,
+            "end": 838,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 802,
+              "end": 805,
+              "ctxt": 0
+            },
+            "value": "a02",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 808,
+              "end": 838,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 808,
+                "end": 817,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 808,
+                  "end": 811,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 812,
+                  "end": 817,
+                  "ctxt": 0
+                },
+                "value": "apply",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 818,
+                    "end": 827,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ArrayExpression",
+                  "span": {
+                    "start": 829,
+                    "end": 837,
+                    "ctxt": 0
+                  },
+                  "elements": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 830,
+                          "end": 832,
+                          "ctxt": 0
+                        },
+                        "value": 10.0
+                      }
+                    },
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 834,
+                          "end": 836,
+                          "ctxt": 0
+                        },
+                        "value": 20.0
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 851,
+        "end": 901,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 855,
+            "end": 900,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 855,
+              "end": 858,
+              "ctxt": 0
+            },
+            "value": "a03",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 861,
+              "end": 900,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 861,
+                "end": 870,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 861,
+                  "end": 864,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 865,
+                  "end": 870,
+                  "ctxt": 0
+                },
+                "value": "apply",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 871,
+                    "end": 880,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ArrayExpression",
+                  "span": {
+                    "start": 882,
+                    "end": 899,
+                    "ctxt": 0
+                  },
+                  "elements": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 883,
+                          "end": 885,
+                          "ctxt": 0
+                        },
+                        "value": 10.0
+                      }
+                    },
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 887,
+                          "end": 894,
+                          "ctxt": 0
+                        },
+                        "value": "hello",
+                        "hasEscape": false,
+                        "kind": {
+                          "type": "normal",
+                          "containsQuote": true
+                        }
+                      }
+                    },
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 896,
+                          "end": 898,
+                          "ctxt": 0
+                        },
+                        "value": 30.0
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 921,
+          "end": 922,
+          "ctxt": 0
+        },
+        "value": "C",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 915,
+        "end": 1199,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "Constructor",
+          "span": {
+            "start": 930,
+            "end": 966,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 930,
+              "end": 941,
+              "ctxt": 0
+            },
+            "value": "constructor",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "params": [
+            {
+              "type": "Parameter",
+              "span": {
+                "start": 942,
+                "end": 951,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "pat": {
+                "type": "Identifier",
+                "span": {
+                  "start": 942,
+                  "end": 951,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 943,
+                    "end": 951,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 945,
+                      "end": 951,
+                      "ctxt": 0
+                    },
+                    "kind": "number"
+                  }
+                },
+                "optional": false
+              }
+            },
+            {
+              "type": "Parameter",
+              "span": {
+                "start": 953,
+                "end": 962,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "pat": {
+                "type": "Identifier",
+                "span": {
+                  "start": 953,
+                  "end": 962,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 954,
+                    "end": 962,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 956,
+                      "end": 962,
+                      "ctxt": 0
+                    },
+                    "kind": "string"
+                  }
+                },
+                "optional": false
+              }
+            }
+          ],
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 964,
+              "end": 966,
+              "ctxt": 0
+            },
+            "stmts": []
+          },
+          "accessibility": null,
+          "isOptional": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 972,
+            "end": 1031,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 972,
+              "end": 975,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "function": {
+            "params": [
+              {
+                "type": "Parameter",
+                "span": {
+                  "start": 976,
+                  "end": 986,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 976,
+                    "end": 986,
+                    "ctxt": 0
+                  },
+                  "value": "this",
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 980,
+                      "end": 986,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsThisType",
+                      "span": {
+                        "start": 982,
+                        "end": 986,
+                        "ctxt": 0
+                      }
+                    }
+                  },
+                  "optional": false
+                }
+              },
+              {
+                "type": "Parameter",
+                "span": {
+                  "start": 988,
+                  "end": 997,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 988,
+                    "end": 997,
+                    "ctxt": 0
+                  },
+                  "value": "a",
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 989,
+                      "end": 997,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 991,
+                        "end": 997,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
+                    }
+                  },
+                  "optional": false
+                }
+              },
+              {
+                "type": "Parameter",
+                "span": {
+                  "start": 999,
+                  "end": 1008,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 999,
+                    "end": 1008,
+                    "ctxt": 0
+                  },
+                  "value": "b",
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 1000,
+                      "end": 1008,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 1002,
+                        "end": 1008,
+                        "ctxt": 0
+                      },
+                      "kind": "string"
+                    }
+                  },
+                  "optional": false
+                }
+              }
+            ],
+            "decorators": [],
+            "span": {
+              "start": 972,
+              "end": 1031,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 1018,
+                "end": 1031,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 1020,
+                    "end": 1029,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1027,
+                      "end": 1029,
+                      "ctxt": 0
+                    },
+                    "value": "",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 1009,
+                "end": 1017,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 1011,
+                  "end": 1017,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            }
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 1037,
+            "end": 1067,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 1037,
+              "end": 1047,
+              "ctxt": 0
+            },
+            "value": "overloaded",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "function": {
+            "params": [
+              {
+                "type": "Parameter",
+                "span": {
+                  "start": 1048,
+                  "end": 1057,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1048,
+                    "end": 1057,
+                    "ctxt": 0
+                  },
+                  "value": "s",
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 1049,
+                      "end": 1057,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 1051,
+                        "end": 1057,
+                        "ctxt": 0
+                      },
+                      "kind": "string"
+                    }
+                  },
+                  "optional": false
+                }
+              }
+            ],
+            "decorators": [],
+            "span": {
+              "start": 1037,
+              "end": 1067,
+              "ctxt": 0
+            },
+            "body": null,
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 1058,
+                "end": 1066,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 1060,
+                  "end": 1066,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            }
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 1073,
+            "end": 1103,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 1073,
+              "end": 1083,
+              "ctxt": 0
+            },
+            "value": "overloaded",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "function": {
+            "params": [
+              {
+                "type": "Parameter",
+                "span": {
+                  "start": 1084,
+                  "end": 1093,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1084,
+                    "end": 1093,
+                    "ctxt": 0
+                  },
+                  "value": "n",
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 1085,
+                      "end": 1093,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 1087,
+                        "end": 1093,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
+                    }
+                  },
+                  "optional": false
+                }
+              }
+            ],
+            "decorators": [],
+            "span": {
+              "start": 1073,
+              "end": 1103,
+              "ctxt": 0
+            },
+            "body": null,
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 1094,
+                "end": 1102,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 1096,
+                  "end": 1102,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            }
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 1109,
+            "end": 1158,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 1109,
+              "end": 1119,
+              "ctxt": 0
+            },
+            "value": "overloaded",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "function": {
+            "params": [
+              {
+                "type": "Parameter",
+                "span": {
+                  "start": 1120,
+                  "end": 1126,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1120,
+                    "end": 1126,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 1121,
+                      "end": 1126,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 1123,
+                        "end": 1126,
+                        "ctxt": 0
+                      },
+                      "kind": "any"
+                    }
+                  },
+                  "optional": false
+                }
+              }
+            ],
+            "decorators": [],
+            "span": {
+              "start": 1109,
+              "end": 1158,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 1133,
+                "end": 1158,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 1135,
+                    "end": 1156,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "TsTypeAssertion",
+                    "span": {
+                      "start": 1142,
+                      "end": 1156,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1147,
+                        "end": 1156,
+                        "ctxt": 0
+                      },
+                      "value": "undefined",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 1143,
+                        "end": 1146,
+                        "ctxt": 0
+                      },
+                      "kind": "any"
+                    }
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 1127,
+                "end": 1132,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 1129,
+                  "end": 1132,
+                  "ctxt": 0
+                },
+                "kind": "any"
+              }
+            }
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 1164,
+            "end": 1196,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 1164,
+              "end": 1171,
+              "ctxt": 0
+            },
+            "value": "generic",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "function": {
+            "params": [
+              {
+                "type": "Parameter",
+                "span": {
+                  "start": 1175,
+                  "end": 1179,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1175,
+                    "end": 1179,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 1176,
+                      "end": 1179,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 1178,
+                        "end": 1179,
+                        "ctxt": 0
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1178,
+                          "end": 1179,
+                          "ctxt": 0
+                        },
+                        "value": "T",
+                        "typeAnnotation": null,
+                        "optional": false
+                      },
+                      "typeParams": null
+                    }
+                  },
+                  "optional": false
+                }
+              }
+            ],
+            "decorators": [],
+            "span": {
+              "start": 1164,
+              "end": 1196,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 1184,
+                "end": 1196,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 1186,
+                    "end": 1194,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1193,
+                      "end": 1194,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "typeAnnotation": null,
+                    "optional": false
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": {
+              "type": "TsTypeParameterDeclaration",
+              "span": {
+                "start": 1171,
+                "end": 1174,
+                "ctxt": 0
+              },
+              "parameters": [
+                {
+                  "type": "TsTypeParameter",
+                  "span": {
+                    "start": 1172,
+                    "end": 1173,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1172,
+                      "end": 1173,
+                      "ctxt": 0
+                    },
+                    "value": "T",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "constraint": null,
+                  "default": null
+                }
+              ]
+            },
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 1180,
+                "end": 1183,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 1182,
+                  "end": 1183,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1182,
+                    "end": 1183,
+                    "ctxt": 0
+                  },
+                  "value": "T",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            }
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1203,
+        "end": 1220,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": true,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1215,
+            "end": 1219,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1215,
+              "end": 1216,
+              "ctxt": 0
+            },
+            "value": "c",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 1216,
+                "end": 1219,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 1218,
+                  "end": 1219,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1218,
+                    "end": 1219,
+                    "ctxt": 0
+                  },
+                  "value": "C",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            },
+            "optional": false
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1222,
+        "end": 1242,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": true,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1234,
+            "end": 1241,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1234,
+              "end": 1237,
+              "ctxt": 0
+            },
+            "value": "obj",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 1237,
+                "end": 1241,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeLiteral",
+                "span": {
+                  "start": 1239,
+                  "end": 1241,
+                  "ctxt": 0
+                },
+                "members": []
+              }
+            },
+            "optional": false
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1246,
+        "end": 1270,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1250,
+            "end": 1269,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1250,
+              "end": 1253,
+              "ctxt": 0
+            },
+            "value": "f10",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1256,
+              "end": 1269,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1256,
+                "end": 1266,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1256,
+                  "end": 1261,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1256,
+                    "end": 1257,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1258,
+                    "end": 1261,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "computed": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1262,
+                  "end": 1266,
+                  "ctxt": 0
+                },
+                "value": "bind",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1267,
+                    "end": 1268,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1272,
+        "end": 1300,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1276,
+            "end": 1299,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1276,
+              "end": 1279,
+              "ctxt": 0
+            },
+            "value": "f11",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1282,
+              "end": 1299,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1282,
+                "end": 1292,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1282,
+                  "end": 1287,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1282,
+                    "end": 1283,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1284,
+                    "end": 1287,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "computed": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1288,
+                  "end": 1292,
+                  "ctxt": 0
+                },
+                "value": "bind",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1293,
+                    "end": 1294,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 1296,
+                    "end": 1298,
+                    "ctxt": 0
+                  },
+                  "value": 10.0
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1302,
+        "end": 1339,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1306,
+            "end": 1338,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1306,
+              "end": 1309,
+              "ctxt": 0
+            },
+            "value": "f12",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1312,
+              "end": 1338,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1312,
+                "end": 1322,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1312,
+                  "end": 1317,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1312,
+                    "end": 1313,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1314,
+                    "end": 1317,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "computed": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1318,
+                  "end": 1322,
+                  "ctxt": 0
+                },
+                "value": "bind",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1323,
+                    "end": 1324,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 1326,
+                    "end": 1328,
+                    "ctxt": 0
+                  },
+                  "value": 10.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 1330,
+                    "end": 1337,
+                    "ctxt": 0
+                  },
+                  "value": "hello",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1341,
+        "end": 1373,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1345,
+            "end": 1372,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1345,
+              "end": 1348,
+              "ctxt": 0
+            },
+            "value": "f13",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1351,
+              "end": 1372,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1351,
+                "end": 1361,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1351,
+                  "end": 1356,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1351,
+                    "end": 1352,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1353,
+                    "end": 1356,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "computed": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1357,
+                  "end": 1361,
+                  "ctxt": 0
+                },
+                "value": "bind",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1362,
+                    "end": 1363,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 1365,
+                    "end": 1367,
+                    "ctxt": 0
+                  },
+                  "value": 10.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 1369,
+                    "end": 1371,
+                    "ctxt": 0
+                  },
+                  "value": 20.0
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1385,
+        "end": 1417,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1389,
+            "end": 1416,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1389,
+              "end": 1392,
+              "ctxt": 0
+            },
+            "value": "f14",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1395,
+              "end": 1416,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1395,
+                "end": 1405,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1395,
+                  "end": 1400,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1395,
+                    "end": 1396,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1397,
+                    "end": 1400,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "computed": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1401,
+                  "end": 1405,
+                  "ctxt": 0
+                },
+                "value": "bind",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1406,
+                    "end": 1415,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1431,
+        "end": 1462,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1435,
+            "end": 1461,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1435,
+              "end": 1438,
+              "ctxt": 0
+            },
+            "value": "f15",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1441,
+              "end": 1461,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1441,
+                "end": 1458,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1441,
+                  "end": 1453,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1441,
+                    "end": 1442,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1443,
+                    "end": 1453,
+                    "ctxt": 0
+                  },
+                  "value": "overloaded",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "computed": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1454,
+                  "end": 1458,
+                  "ctxt": 0
+                },
+                "value": "bind",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1459,
+                    "end": 1460,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1498,
+        "end": 1526,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1502,
+            "end": 1525,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1502,
+              "end": 1505,
+              "ctxt": 0
+            },
+            "value": "f16",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1508,
+              "end": 1525,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1508,
+                "end": 1522,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1508,
+                  "end": 1517,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1508,
+                    "end": 1509,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1510,
+                    "end": 1517,
+                    "ctxt": 0
+                  },
+                  "value": "generic",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "computed": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1518,
+                  "end": 1522,
+                  "ctxt": 0
+                },
+                "value": "bind",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1523,
+                    "end": 1524,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1561,
+        "end": 1598,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1565,
+            "end": 1597,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1565,
+              "end": 1568,
+              "ctxt": 0
+            },
+            "value": "c10",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1571,
+              "end": 1597,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1571,
+                "end": 1581,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1571,
+                  "end": 1576,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1571,
+                    "end": 1572,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1573,
+                    "end": 1576,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "computed": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1577,
+                  "end": 1581,
+                  "ctxt": 0
+                },
+                "value": "call",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1582,
+                    "end": 1583,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 1585,
+                    "end": 1587,
+                    "ctxt": 0
+                  },
+                  "value": 10.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 1589,
+                    "end": 1596,
+                    "ctxt": 0
+                  },
+                  "value": "hello",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1600,
+        "end": 1628,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1604,
+            "end": 1627,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1604,
+              "end": 1607,
+              "ctxt": 0
+            },
+            "value": "c11",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1610,
+              "end": 1627,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1610,
+                "end": 1620,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1610,
+                  "end": 1615,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1610,
+                    "end": 1611,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1612,
+                    "end": 1615,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "computed": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1616,
+                  "end": 1620,
+                  "ctxt": 0
+                },
+                "value": "call",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1621,
+                    "end": 1622,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 1624,
+                    "end": 1626,
+                    "ctxt": 0
+                  },
+                  "value": 10.0
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1640,
+        "end": 1672,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1644,
+            "end": 1671,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1644,
+              "end": 1647,
+              "ctxt": 0
+            },
+            "value": "c12",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1650,
+              "end": 1671,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1650,
+                "end": 1660,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1650,
+                  "end": 1655,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1650,
+                    "end": 1651,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1652,
+                    "end": 1655,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "computed": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1656,
+                  "end": 1660,
+                  "ctxt": 0
+                },
+                "value": "call",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1661,
+                    "end": 1662,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 1664,
+                    "end": 1666,
+                    "ctxt": 0
+                  },
+                  "value": 10.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 1668,
+                    "end": 1670,
+                    "ctxt": 0
+                  },
+                  "value": 20.0
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1684,
+        "end": 1725,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1688,
+            "end": 1724,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1688,
+              "end": 1691,
+              "ctxt": 0
+            },
+            "value": "c13",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1694,
+              "end": 1724,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1694,
+                "end": 1704,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1694,
+                  "end": 1699,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1694,
+                    "end": 1695,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1696,
+                    "end": 1699,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "computed": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1700,
+                  "end": 1704,
+                  "ctxt": 0
+                },
+                "value": "call",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1705,
+                    "end": 1706,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 1708,
+                    "end": 1710,
+                    "ctxt": 0
+                  },
+                  "value": 10.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 1712,
+                    "end": 1719,
+                    "ctxt": 0
+                  },
+                  "value": "hello",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 1721,
+                    "end": 1723,
+                    "ctxt": 0
+                  },
+                  "value": 30.0
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1737,
+        "end": 1782,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1741,
+            "end": 1781,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1741,
+              "end": 1744,
+              "ctxt": 0
+            },
+            "value": "c14",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1747,
+              "end": 1781,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1747,
+                "end": 1757,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1747,
+                  "end": 1752,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1747,
+                    "end": 1748,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1749,
+                    "end": 1752,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "computed": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1753,
+                  "end": 1757,
+                  "ctxt": 0
+                },
+                "value": "call",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1758,
+                    "end": 1767,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 1769,
+                    "end": 1771,
+                    "ctxt": 0
+                  },
+                  "value": 10.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 1773,
+                    "end": 1780,
+                    "ctxt": 0
+                  },
+                  "value": "hello",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1796,
+        "end": 1836,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1800,
+            "end": 1835,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1800,
+              "end": 1803,
+              "ctxt": 0
+            },
+            "value": "a10",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1806,
+              "end": 1835,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1806,
+                "end": 1817,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1806,
+                  "end": 1811,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1806,
+                    "end": 1807,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1808,
+                    "end": 1811,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "computed": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1812,
+                  "end": 1817,
+                  "ctxt": 0
+                },
+                "value": "apply",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1818,
+                    "end": 1819,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ArrayExpression",
+                  "span": {
+                    "start": 1821,
+                    "end": 1834,
+                    "ctxt": 0
+                  },
+                  "elements": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 1822,
+                          "end": 1824,
+                          "ctxt": 0
+                        },
+                        "value": 10.0
+                      }
+                    },
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 1826,
+                          "end": 1833,
+                          "ctxt": 0
+                        },
+                        "value": "hello",
+                        "hasEscape": false,
+                        "kind": {
+                          "type": "normal",
+                          "containsQuote": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1838,
+        "end": 1869,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1842,
+            "end": 1868,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1842,
+              "end": 1845,
+              "ctxt": 0
+            },
+            "value": "a11",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1848,
+              "end": 1868,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1848,
+                "end": 1859,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1848,
+                  "end": 1853,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1848,
+                    "end": 1849,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1850,
+                    "end": 1853,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "computed": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1854,
+                  "end": 1859,
+                  "ctxt": 0
+                },
+                "value": "apply",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1860,
+                    "end": 1861,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ArrayExpression",
+                  "span": {
+                    "start": 1863,
+                    "end": 1867,
+                    "ctxt": 0
+                  },
+                  "elements": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 1864,
+                          "end": 1866,
+                          "ctxt": 0
+                        },
+                        "value": 10.0
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1881,
+        "end": 1916,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1885,
+            "end": 1915,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1885,
+              "end": 1888,
+              "ctxt": 0
+            },
+            "value": "a12",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1891,
+              "end": 1915,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1891,
+                "end": 1902,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1891,
+                  "end": 1896,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1891,
+                    "end": 1892,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1893,
+                    "end": 1896,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "computed": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1897,
+                  "end": 1902,
+                  "ctxt": 0
+                },
+                "value": "apply",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1903,
+                    "end": 1904,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ArrayExpression",
+                  "span": {
+                    "start": 1906,
+                    "end": 1914,
+                    "ctxt": 0
+                  },
+                  "elements": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 1907,
+                          "end": 1909,
+                          "ctxt": 0
+                        },
+                        "value": 10.0
+                      }
+                    },
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 1911,
+                          "end": 1913,
+                          "ctxt": 0
+                        },
+                        "value": 20.0
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1928,
+        "end": 1972,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1932,
+            "end": 1971,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1932,
+              "end": 1935,
+              "ctxt": 0
+            },
+            "value": "a13",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1938,
+              "end": 1971,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1938,
+                "end": 1949,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1938,
+                  "end": 1943,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1938,
+                    "end": 1939,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1940,
+                    "end": 1943,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "computed": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1944,
+                  "end": 1949,
+                  "ctxt": 0
+                },
+                "value": "apply",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1950,
+                    "end": 1951,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ArrayExpression",
+                  "span": {
+                    "start": 1953,
+                    "end": 1970,
+                    "ctxt": 0
+                  },
+                  "elements": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 1954,
+                          "end": 1956,
+                          "ctxt": 0
+                        },
+                        "value": 10.0
+                      }
+                    },
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 1958,
+                          "end": 1965,
+                          "ctxt": 0
+                        },
+                        "value": "hello",
+                        "hasEscape": false,
+                        "kind": {
+                          "type": "normal",
+                          "containsQuote": true
+                        }
+                      }
+                    },
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 1967,
+                          "end": 1969,
+                          "ctxt": 0
+                        },
+                        "value": 30.0
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1984,
+        "end": 2032,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1988,
+            "end": 2031,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1988,
+              "end": 1991,
+              "ctxt": 0
+            },
+            "value": "a14",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1994,
+              "end": 2031,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1994,
+                "end": 2005,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1994,
+                  "end": 1999,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1994,
+                    "end": 1995,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1996,
+                    "end": 1999,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "computed": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2000,
+                  "end": 2005,
+                  "ctxt": 0
+                },
+                "value": "apply",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2006,
+                    "end": 2015,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ArrayExpression",
+                  "span": {
+                    "start": 2017,
+                    "end": 2030,
+                    "ctxt": 0
+                  },
+                  "elements": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 2018,
+                          "end": 2020,
+                          "ctxt": 0
+                        },
+                        "value": 10.0
+                      }
+                    },
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 2022,
+                          "end": 2029,
+                          "ctxt": 0
+                        },
+                        "value": "hello",
+                        "hasEscape": false,
+                        "kind": {
+                          "type": "normal",
+                          "containsQuote": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 2046,
+        "end": 2074,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 2050,
+            "end": 2073,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 2050,
+              "end": 2053,
+              "ctxt": 0
+            },
+            "value": "f20",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 2056,
+              "end": 2073,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 2056,
+                "end": 2062,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2056,
+                  "end": 2057,
+                  "ctxt": 0
+                },
+                "value": "C",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2058,
+                  "end": 2062,
+                  "ctxt": 0
+                },
+                "value": "bind",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2063,
+                    "end": 2072,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 2076,
+        "end": 2108,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 2080,
+            "end": 2107,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 2080,
+              "end": 2083,
+              "ctxt": 0
+            },
+            "value": "f21",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 2086,
+              "end": 2107,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 2086,
+                "end": 2092,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2086,
+                  "end": 2087,
+                  "ctxt": 0
+                },
+                "value": "C",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2088,
+                  "end": 2092,
+                  "ctxt": 0
+                },
+                "value": "bind",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2093,
+                    "end": 2102,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 2104,
+                    "end": 2106,
+                    "ctxt": 0
+                  },
+                  "value": 10.0
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 2110,
+        "end": 2151,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 2114,
+            "end": 2150,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 2114,
+              "end": 2117,
+              "ctxt": 0
+            },
+            "value": "f22",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 2120,
+              "end": 2150,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 2120,
+                "end": 2126,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2120,
+                  "end": 2121,
+                  "ctxt": 0
+                },
+                "value": "C",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2122,
+                  "end": 2126,
+                  "ctxt": 0
+                },
+                "value": "bind",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2127,
+                    "end": 2136,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 2138,
+                    "end": 2140,
+                    "ctxt": 0
+                  },
+                  "value": 10.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 2142,
+                    "end": 2149,
+                    "ctxt": 0
+                  },
+                  "value": "hello",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 2153,
+        "end": 2189,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 2157,
+            "end": 2188,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 2157,
+              "end": 2160,
+              "ctxt": 0
+            },
+            "value": "f23",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 2163,
+              "end": 2188,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 2163,
+                "end": 2169,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2163,
+                  "end": 2164,
+                  "ctxt": 0
+                },
+                "value": "C",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2165,
+                  "end": 2169,
+                  "ctxt": 0
+                },
+                "value": "bind",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2170,
+                    "end": 2179,
+                    "ctxt": 0
+                  },
+                  "value": "undefined",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 2181,
+                    "end": 2183,
+                    "ctxt": 0
+                  },
+                  "value": 10.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 2185,
+                    "end": 2187,
+                    "ctxt": 0
+                  },
+                  "value": 20.0
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2203,
+        "end": 2226,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 2203,
+          "end": 2225,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 2203,
+            "end": 2209,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 2203,
+              "end": 2204,
+              "ctxt": 0
+            },
+            "value": "C",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 2205,
+              "end": 2209,
+              "ctxt": 0
+            },
+            "value": "call",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 2210,
+                "end": 2211,
+                "ctxt": 0
+              },
+              "value": "c",
+              "typeAnnotation": null,
+              "optional": false
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 2213,
+                "end": 2215,
+                "ctxt": 0
+              },
+              "value": 10.0
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 2217,
+                "end": 2224,
+                "ctxt": 0
+              },
+              "value": "hello",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2228,
+        "end": 2242,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 2228,
+          "end": 2241,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 2228,
+            "end": 2234,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 2228,
+              "end": 2229,
+              "ctxt": 0
+            },
+            "value": "C",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 2230,
+              "end": 2234,
+              "ctxt": 0
+            },
+            "value": "call",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 2235,
+                "end": 2236,
+                "ctxt": 0
+              },
+              "value": "c",
+              "typeAnnotation": null,
+              "optional": false
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 2238,
+                "end": 2240,
+                "ctxt": 0
+              },
+              "value": 10.0
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2254,
+        "end": 2272,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 2254,
+          "end": 2271,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 2254,
+            "end": 2260,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 2254,
+              "end": 2255,
+              "ctxt": 0
+            },
+            "value": "C",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 2256,
+              "end": 2260,
+              "ctxt": 0
+            },
+            "value": "call",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 2261,
+                "end": 2262,
+                "ctxt": 0
+              },
+              "value": "c",
+              "typeAnnotation": null,
+              "optional": false
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 2264,
+                "end": 2266,
+                "ctxt": 0
+              },
+              "value": 10.0
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 2268,
+                "end": 2270,
+                "ctxt": 0
+              },
+              "value": 20.0
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2284,
+        "end": 2311,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 2284,
+          "end": 2310,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 2284,
+            "end": 2290,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 2284,
+              "end": 2285,
+              "ctxt": 0
+            },
+            "value": "C",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 2286,
+              "end": 2290,
+              "ctxt": 0
+            },
+            "value": "call",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 2291,
+                "end": 2292,
+                "ctxt": 0
+              },
+              "value": "c",
+              "typeAnnotation": null,
+              "optional": false
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 2294,
+                "end": 2296,
+                "ctxt": 0
+              },
+              "value": 10.0
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 2298,
+                "end": 2305,
+                "ctxt": 0
+              },
+              "value": "hello",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 2307,
+                "end": 2309,
+                "ctxt": 0
+              },
+              "value": 30.0
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2325,
+        "end": 2351,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 2325,
+          "end": 2350,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 2325,
+            "end": 2332,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 2325,
+              "end": 2326,
+              "ctxt": 0
+            },
+            "value": "C",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 2327,
+              "end": 2332,
+              "ctxt": 0
+            },
+            "value": "apply",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 2333,
+                "end": 2334,
+                "ctxt": 0
+              },
+              "value": "c",
+              "typeAnnotation": null,
+              "optional": false
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "ArrayExpression",
+              "span": {
+                "start": 2336,
+                "end": 2349,
+                "ctxt": 0
+              },
+              "elements": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 2337,
+                      "end": 2339,
+                      "ctxt": 0
+                    },
+                    "value": 10.0
+                  }
+                },
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 2341,
+                      "end": 2348,
+                      "ctxt": 0
+                    },
+                    "value": "hello",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2353,
+        "end": 2370,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 2353,
+          "end": 2369,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 2353,
+            "end": 2360,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 2353,
+              "end": 2354,
+              "ctxt": 0
+            },
+            "value": "C",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 2355,
+              "end": 2360,
+              "ctxt": 0
+            },
+            "value": "apply",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 2361,
+                "end": 2362,
+                "ctxt": 0
+              },
+              "value": "c",
+              "typeAnnotation": null,
+              "optional": false
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "ArrayExpression",
+              "span": {
+                "start": 2364,
+                "end": 2368,
+                "ctxt": 0
+              },
+              "elements": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 2365,
+                      "end": 2367,
+                      "ctxt": 0
+                    },
+                    "value": 10.0
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2382,
+        "end": 2403,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 2382,
+          "end": 2402,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 2382,
+            "end": 2389,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 2382,
+              "end": 2383,
+              "ctxt": 0
+            },
+            "value": "C",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 2384,
+              "end": 2389,
+              "ctxt": 0
+            },
+            "value": "apply",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 2390,
+                "end": 2391,
+                "ctxt": 0
+              },
+              "value": "c",
+              "typeAnnotation": null,
+              "optional": false
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "ArrayExpression",
+              "span": {
+                "start": 2393,
+                "end": 2401,
+                "ctxt": 0
+              },
+              "elements": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 2394,
+                      "end": 2396,
+                      "ctxt": 0
+                    },
+                    "value": 10.0
+                  }
+                },
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 2398,
+                      "end": 2400,
+                      "ctxt": 0
+                    },
+                    "value": 20.0
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2415,
+        "end": 2445,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 2415,
+          "end": 2444,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 2415,
+            "end": 2422,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 2415,
+              "end": 2416,
+              "ctxt": 0
+            },
+            "value": "C",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 2417,
+              "end": 2422,
+              "ctxt": 0
+            },
+            "value": "apply",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 2423,
+                "end": 2424,
+                "ctxt": 0
+              },
+              "value": "c",
+              "typeAnnotation": null,
+              "optional": false
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "ArrayExpression",
+              "span": {
+                "start": 2426,
+                "end": 2443,
+                "ctxt": 0
+              },
+              "elements": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 2427,
+                      "end": 2429,
+                      "ctxt": 0
+                    },
+                    "value": 10.0
+                  }
+                },
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 2431,
+                      "end": 2438,
+                      "ctxt": 0
+                    },
+                    "value": "hello",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                },
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 2440,
+                      "end": 2442,
+                      "ctxt": 0
+                    },
+                    "value": 30.0
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}
