@@ -434,6 +434,7 @@ pub struct TsConstructorType {
     pub type_params: Option<TsTypeParamDecl>,
     #[serde(rename = "typeAnnotation")]
     pub type_ann: TsTypeAnn,
+    pub is_abstract: bool,
 }
 
 #[ast_node("TsTypeReference")]

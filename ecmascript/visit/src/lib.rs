@@ -1418,6 +1418,7 @@ define!({
         pub params: Vec<TsFnParam>,
         pub type_params: Option<TsTypeParamDecl>,
         pub type_ann: TsTypeAnn,
+        pub is_abstract: bool,
     }
     pub struct TsTypeRef {
         pub span: Span,
