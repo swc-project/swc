@@ -1,5 +1,0 @@
-const testing = ():
-    string =>
-{
-    return "";
-};

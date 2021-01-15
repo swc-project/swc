@@ -1,1 +1,0 @@
-export type Link = { key: string; text: string };

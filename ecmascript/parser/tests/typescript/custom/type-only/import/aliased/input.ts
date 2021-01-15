@@ -1,1 +1,0 @@
-import type { Foo as Bar } from 'foo';

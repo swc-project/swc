@@ -1,1 +1,0 @@
-let x = <const>"hello";

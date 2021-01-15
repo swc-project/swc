@@ -1,4 +1,0 @@
-namespace A {
-    namespace B {
-    }
-}
