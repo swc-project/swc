@@ -1828,19 +1828,23 @@ to!(
 to_ts!(
     ts_module_name_1,
     "
-    module A {
-        export function b() {
-            
+    module Top {
+        module A {
+            export function b() {
+                
+            }
         }
+        A.b()
     }
-    A.b()
     ",
     "
-    module A__0 {
-        export function b() {
+    module Top {
+        module A__2 {
+            export function b__0() {
+            }
         }
-    }
-    A__0.b();
+        A__2.b();
+    }    
     "
 );
 
@@ -1855,7 +1859,17 @@ to_ts!(
     var y = x as A<B>[];
     var z = y[0].m; // z should be string
     ",
-    ""
+    "
+    interface A<T__2> {
+        x: T__2;
+    }
+    interface B {
+        m: string;
+    }
+    var x: any;
+    var y = x as A<B>[];
+    var z = y[0].m;
+    "
 );
 
 to_ts!(
@@ -1870,5 +1884,18 @@ to_ts!(
         var z = y[0].m; // z should be string
     }
     ",
-    ""
+    "
+    module Top {
+        interface A__2<T__3> {
+            x: T__3;
+        }
+        interface B__2 {
+            m: string;
+        }
+        var x: any;
+        var y = x as A__2<B__2>[];
+        var z = y[0].m;
+    }
+    
+    "
 );
