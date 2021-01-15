@@ -74,7 +74,7 @@
     "progress": "^2.0.3",
     "source-map": "^0.7.3",
     "sourcemap-validator": "^1.1.1",
-    "typescript": "^3.9.7"
+    "typescript": "^4.2.0-beta"
   },
   "funding": {
     "type": "opencollective",
