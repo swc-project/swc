@@ -1,0 +1,383 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 197,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 0,
+        "end": 84,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "A",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 9,
+          "end": 84,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 16,
+              "end": 47,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "TsEnumDeclaration",
+              "span": {
+                "start": 23,
+                "end": 47,
+                "ctxt": 0
+              },
+              "declare": false,
+              "isConst": false,
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 28,
+                  "end": 33,
+                  "ctxt": 0
+                },
+                "value": "Color",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "members": [
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 36,
+                    "end": 39,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 36,
+                      "end": 39,
+                      "ctxt": 0
+                    },
+                    "value": "Red",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 41,
+                    "end": 45,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 41,
+                      "end": 45,
+                      "ctxt": 0
+                    },
+                    "value": "Blue",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "init": null
+                }
+              ]
+            }
+          },
+          {
+            "type": "TsEnumDeclaration",
+            "span": {
+              "start": 53,
+              "end": 81,
+              "ctxt": 0
+            },
+            "declare": false,
+            "isConst": false,
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 58,
+                "end": 61,
+                "ctxt": 0
+              },
+              "value": "Day",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "members": [
+              {
+                "type": "TsEnumMember",
+                "span": {
+                  "start": 64,
+                  "end": 70,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 64,
+                    "end": 70,
+                    "ctxt": 0
+                  },
+                  "value": "Monday",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "init": null
+              },
+              {
+                "type": "TsEnumMember",
+                "span": {
+                  "start": 72,
+                  "end": 79,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 72,
+                    "end": 79,
+                    "ctxt": 0
+                  },
+                  "value": "Tuesday",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "init": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 120,
+        "end": 149,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 124,
+            "end": 148,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 124,
+              "end": 125,
+              "ctxt": 0
+            },
+            "value": "a",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 125,
+                "end": 134,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 127,
+                  "end": 134,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "TsQualifiedName",
+                  "left": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 127,
+                      "end": 128,
+                      "ctxt": 0
+                    },
+                    "value": "A",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "right": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 129,
+                      "end": 134,
+                      "ctxt": 0
+                    },
+                    "value": "Color",
+                    "typeAnnotation": null,
+                    "optional": false
+                  }
+                },
+                "typeParams": null
+              }
+            },
+            "optional": false
+          },
+          "init": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 137,
+              "end": 148,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 137,
+                "end": 144,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 137,
+                  "end": 138,
+                  "ctxt": 0
+                },
+                "value": "A",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 139,
+                  "end": 144,
+                  "ctxt": 0
+                },
+                "value": "Color",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 145,
+                "end": 148,
+                "ctxt": 0
+              },
+              "value": "Red",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 176,
+        "end": 197,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 180,
+            "end": 196,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 180,
+              "end": 181,
+              "ctxt": 0
+            },
+            "value": "b",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 184,
+              "end": 196,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 184,
+                "end": 189,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 184,
+                  "end": 185,
+                  "ctxt": 0
+                },
+                "value": "A",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 186,
+                  "end": 189,
+                  "ctxt": 0
+                },
+                "value": "Day",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 190,
+                "end": 196,
+                "ctxt": 0
+              },
+              "value": "Monday",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

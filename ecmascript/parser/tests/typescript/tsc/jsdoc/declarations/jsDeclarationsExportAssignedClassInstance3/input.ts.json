@@ -1,0 +1,261 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 121,
+    "end": 242,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 127,
+          "end": 130,
+          "ctxt": 0
+        },
+        "value": "Foo",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 121,
+        "end": 176,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 138,
+            "end": 155,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 145,
+              "end": 149,
+              "ctxt": 0
+            },
+            "value": "stat",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 152,
+              "end": 154,
+              "ctxt": 0
+            },
+            "value": 10.0
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 161,
+            "end": 173,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 161,
+              "end": 167,
+              "ctxt": 0
+            },
+            "value": "member",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 170,
+              "end": 172,
+              "ctxt": 0
+            },
+            "value": 10.0
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 180,
+        "end": 207,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 180,
+          "end": 206,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 180,
+            "end": 194,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 180,
+              "end": 186,
+              "ctxt": 0
+            },
+            "value": "module",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 187,
+              "end": 194,
+              "ctxt": 0
+            },
+            "value": "exports",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "NewExpression",
+          "span": {
+            "start": 197,
+            "end": 206,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 201,
+              "end": 204,
+              "ctxt": 0
+            },
+            "value": "Foo",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "arguments": [],
+          "typeArguments": null
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 211,
+        "end": 242,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 211,
+          "end": 241,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 211,
+            "end": 236,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 211,
+              "end": 225,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 211,
+                "end": 217,
+                "ctxt": 0
+              },
+              "value": "module",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 218,
+                "end": 225,
+                "ctxt": 0
+              },
+              "value": "exports",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 226,
+              "end": 236,
+              "ctxt": 0
+            },
+            "value": "additional",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 239,
+            "end": 241,
+            "ctxt": 0
+          },
+          "value": 20.0
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

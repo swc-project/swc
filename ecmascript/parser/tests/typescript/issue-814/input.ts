@@ -1,0 +1,5 @@
+const testing = ():
+    string =>
+{
+    return "";
+};

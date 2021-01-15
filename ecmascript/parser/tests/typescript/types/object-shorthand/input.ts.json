@@ -1,0 +1,216 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 87,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 87,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 6,
+            "end": 86,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 6,
+              "end": 11,
+              "ctxt": 0
+            },
+            "value": "table",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 14,
+              "end": 86,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "MethodProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 18,
+                    "end": 21,
+                    "ctxt": 0
+                  },
+                  "value": "put",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "params": [
+                  {
+                    "type": "Parameter",
+                    "span": {
+                      "start": 48,
+                      "end": 56,
+                      "ctxt": 0
+                    },
+                    "decorators": [],
+                    "pat": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 48,
+                        "end": 56,
+                        "ctxt": 0
+                      },
+                      "value": "value",
+                      "typeAnnotation": {
+                        "type": "TsTypeAnnotation",
+                        "span": {
+                          "start": 53,
+                          "end": 56,
+                          "ctxt": 0
+                        },
+                        "typeAnnotation": {
+                          "type": "TsTypeReference",
+                          "span": {
+                            "start": 55,
+                            "end": 56,
+                            "ctxt": 0
+                          },
+                          "typeName": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 55,
+                              "end": 56,
+                              "ctxt": 0
+                            },
+                            "value": "T",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "typeParams": null
+                        }
+                      },
+                      "optional": false
+                    }
+                  }
+                ],
+                "decorators": [],
+                "span": {
+                  "start": 18,
+                  "end": 84,
+                  "ctxt": 0
+                },
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 58,
+                    "end": 84,
+                    "ctxt": 0
+                  },
+                  "stmts": []
+                },
+                "generator": false,
+                "async": false,
+                "typeParameters": {
+                  "type": "TsTypeParameterDeclaration",
+                  "span": {
+                    "start": 21,
+                    "end": 47,
+                    "ctxt": 0
+                  },
+                  "parameters": [
+                    {
+                      "type": "TsTypeParameter",
+                      "span": {
+                        "start": 22,
+                        "end": 46,
+                        "ctxt": 0
+                      },
+                      "name": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 22,
+                          "end": 23,
+                          "ctxt": 0
+                        },
+                        "value": "T",
+                        "typeAnnotation": null,
+                        "optional": false
+                      },
+                      "constraint": {
+                        "type": "TsTypeLiteral",
+                        "span": {
+                          "start": 32,
+                          "end": 46,
+                          "ctxt": 0
+                        },
+                        "members": [
+                          {
+                            "type": "TsPropertySignature",
+                            "span": {
+                              "start": 34,
+                              "end": 44,
+                              "ctxt": 0
+                            },
+                            "readonly": false,
+                            "key": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 34,
+                                "end": 36,
+                                "ctxt": 0
+                              },
+                              "value": "id",
+                              "typeAnnotation": null,
+                              "optional": false
+                            },
+                            "computed": false,
+                            "optional": false,
+                            "init": null,
+                            "params": [],
+                            "typeAnnotation": {
+                              "type": "TsTypeAnnotation",
+                              "span": {
+                                "start": 36,
+                                "end": 44,
+                                "ctxt": 0
+                              },
+                              "typeAnnotation": {
+                                "type": "TsKeywordType",
+                                "span": {
+                                  "start": 38,
+                                  "end": 44,
+                                  "ctxt": 0
+                                },
+                                "kind": "string"
+                              }
+                            },
+                            "typeParams": null
+                          }
+                        ]
+                      },
+                      "default": null
+                    }
+                  ]
+                },
+                "returnType": null
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

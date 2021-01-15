@@ -1,0 +1,450 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 2,
+    "end": 315,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 11,
+          "end": 13,
+          "ctxt": 0
+        },
+        "value": "fn",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 2,
+        "end": 315,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 16,
+          "end": 315,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "TryStatement",
+            "span": {
+              "start": 23,
+              "end": 40,
+              "ctxt": 0
+            },
+            "block": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 27,
+                "end": 30,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "handler": {
+              "type": "CatchClause",
+              "span": {
+                "start": 31,
+                "end": 40,
+                "ctxt": 0
+              },
+              "param": null,
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 37,
+                  "end": 40,
+                  "ctxt": 0
+                },
+                "stmts": []
+              }
+            },
+            "finalizer": null
+          },
+          {
+            "type": "TryStatement",
+            "span": {
+              "start": 48,
+              "end": 166,
+              "ctxt": 0
+            },
+            "block": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 52,
+                "end": 55,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "handler": {
+              "type": "CatchClause",
+              "span": {
+                "start": 56,
+                "end": 166,
+                "ctxt": 0
+              },
+              "param": null,
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 62,
+                  "end": 166,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "TryStatement",
+                    "span": {
+                      "start": 74,
+                      "end": 132,
+                      "ctxt": 0
+                    },
+                    "block": {
+                      "type": "BlockStatement",
+                      "span": {
+                        "start": 78,
+                        "end": 81,
+                        "ctxt": 0
+                      },
+                      "stmts": []
+                    },
+                    "handler": {
+                      "type": "CatchClause",
+                      "span": {
+                        "start": 82,
+                        "end": 132,
+                        "ctxt": 0
+                      },
+                      "param": null,
+                      "body": {
+                        "type": "BlockStatement",
+                        "span": {
+                          "start": 88,
+                          "end": 132,
+                          "ctxt": 0
+                        },
+                        "stmts": [
+                          {
+                            "type": "TryStatement",
+                            "span": {
+                              "start": 104,
+                              "end": 121,
+                              "ctxt": 0
+                            },
+                            "block": {
+                              "type": "BlockStatement",
+                              "span": {
+                                "start": 108,
+                                "end": 111,
+                                "ctxt": 0
+                              },
+                              "stmts": []
+                            },
+                            "handler": {
+                              "type": "CatchClause",
+                              "span": {
+                                "start": 112,
+                                "end": 121,
+                                "ctxt": 0
+                              },
+                              "param": null,
+                              "body": {
+                                "type": "BlockStatement",
+                                "span": {
+                                  "start": 118,
+                                  "end": 121,
+                                  "ctxt": 0
+                                },
+                                "stmts": []
+                              }
+                            },
+                            "finalizer": null
+                          }
+                        ]
+                      }
+                    },
+                    "finalizer": null
+                  },
+                  {
+                    "type": "TryStatement",
+                    "span": {
+                      "start": 142,
+                      "end": 159,
+                      "ctxt": 0
+                    },
+                    "block": {
+                      "type": "BlockStatement",
+                      "span": {
+                        "start": 146,
+                        "end": 149,
+                        "ctxt": 0
+                      },
+                      "stmts": []
+                    },
+                    "handler": {
+                      "type": "CatchClause",
+                      "span": {
+                        "start": 150,
+                        "end": 159,
+                        "ctxt": 0
+                      },
+                      "param": null,
+                      "body": {
+                        "type": "BlockStatement",
+                        "span": {
+                          "start": 156,
+                          "end": 159,
+                          "ctxt": 0
+                        },
+                        "stmts": []
+                      }
+                    },
+                    "finalizer": null
+                  }
+                ]
+              }
+            },
+            "finalizer": null
+          },
+          {
+            "type": "TryStatement",
+            "span": {
+              "start": 174,
+              "end": 207,
+              "ctxt": 0
+            },
+            "block": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 178,
+                "end": 181,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "handler": {
+              "type": "CatchClause",
+              "span": {
+                "start": 182,
+                "end": 207,
+                "ctxt": 0
+              },
+              "param": {
+                "type": "Identifier",
+                "span": {
+                  "start": 189,
+                  "end": 190,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 192,
+                  "end": 207,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "VariableDeclaration",
+                    "span": {
+                      "start": 194,
+                      "end": 205,
+                      "ctxt": 0
+                    },
+                    "kind": "var",
+                    "declare": false,
+                    "declarations": [
+                      {
+                        "type": "VariableDeclarator",
+                        "span": {
+                          "start": 198,
+                          "end": 204,
+                          "ctxt": 0
+                        },
+                        "id": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 198,
+                            "end": 199,
+                            "ctxt": 0
+                          },
+                          "value": "x",
+                          "typeAnnotation": {
+                            "type": "TsTypeAnnotation",
+                            "span": {
+                              "start": 199,
+                              "end": 204,
+                              "ctxt": 0
+                            },
+                            "typeAnnotation": {
+                              "type": "TsKeywordType",
+                              "span": {
+                                "start": 201,
+                                "end": 204,
+                                "ctxt": 0
+                              },
+                              "kind": "any"
+                            }
+                          },
+                          "optional": false
+                        },
+                        "init": null,
+                        "definite": false
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "finalizer": null
+          },
+          {
+            "type": "TryStatement",
+            "span": {
+              "start": 215,
+              "end": 234,
+              "ctxt": 0
+            },
+            "block": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 219,
+                "end": 222,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "handler": null,
+            "finalizer": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 231,
+                "end": 234,
+                "ctxt": 0
+              },
+              "stmts": []
+            }
+          },
+          {
+            "type": "TryStatement",
+            "span": {
+              "start": 242,
+              "end": 271,
+              "ctxt": 0
+            },
+            "block": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 246,
+                "end": 249,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "handler": {
+              "type": "CatchClause",
+              "span": {
+                "start": 250,
+                "end": 259,
+                "ctxt": 0
+              },
+              "param": null,
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 256,
+                  "end": 259,
+                  "ctxt": 0
+                },
+                "stmts": []
+              }
+            },
+            "finalizer": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 268,
+                "end": 271,
+                "ctxt": 0
+              },
+              "stmts": []
+            }
+          },
+          {
+            "type": "TryStatement",
+            "span": {
+              "start": 279,
+              "end": 312,
+              "ctxt": 0
+            },
+            "block": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 283,
+                "end": 286,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "handler": {
+              "type": "CatchClause",
+              "span": {
+                "start": 287,
+                "end": 300,
+                "ctxt": 0
+              },
+              "param": {
+                "type": "Identifier",
+                "span": {
+                  "start": 294,
+                  "end": 295,
+                  "ctxt": 0
+                },
+                "value": "z",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 297,
+                  "end": 300,
+                  "ctxt": 0
+                },
+                "stmts": []
+              }
+            },
+            "finalizer": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 309,
+                "end": 312,
+                "ctxt": 0
+              },
+              "stmts": []
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

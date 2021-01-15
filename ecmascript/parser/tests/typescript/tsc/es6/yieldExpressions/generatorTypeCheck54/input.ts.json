@@ -1,0 +1,297 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 130,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 22,
+          "end": 25,
+          "ctxt": 0
+        },
+        "value": "Foo",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 16,
+        "end": 39,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 28,
+            "end": 37,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 28,
+              "end": 29,
+              "ctxt": 0
+            },
+            "value": "x",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "value": null,
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 29,
+              "end": 37,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 31,
+                "end": 37,
+                "ctxt": 0
+              },
+              "kind": "number"
+            }
+          },
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 47,
+          "end": 50,
+          "ctxt": 0
+        },
+        "value": "Baz",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 41,
+        "end": 64,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 53,
+            "end": 62,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 53,
+              "end": 54,
+              "ctxt": 0
+            },
+            "value": "z",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "value": null,
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 54,
+              "end": 62,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 56,
+                "end": 62,
+                "ctxt": 0
+              },
+              "kind": "number"
+            }
+          },
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 76,
+          "end": 77,
+          "ctxt": 0
+        },
+        "value": "g",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 66,
+        "end": 130,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 80,
+          "end": 130,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 87,
+              "end": 104,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "YieldExpression",
+              "span": {
+                "start": 87,
+                "end": 103,
+                "ctxt": 0
+              },
+              "argument": {
+                "type": "ArrayExpression",
+                "span": {
+                  "start": 94,
+                  "end": 103,
+                  "ctxt": 0
+                },
+                "elements": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "NewExpression",
+                      "span": {
+                        "start": 95,
+                        "end": 102,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 99,
+                          "end": 102,
+                          "ctxt": 0
+                        },
+                        "value": "Foo",
+                        "typeAnnotation": null,
+                        "optional": false
+                      },
+                      "arguments": null,
+                      "typeArguments": null
+                    }
+                  }
+                ]
+              },
+              "delegate": true
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 110,
+              "end": 127,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "YieldExpression",
+              "span": {
+                "start": 110,
+                "end": 126,
+                "ctxt": 0
+              },
+              "argument": {
+                "type": "ArrayExpression",
+                "span": {
+                  "start": 117,
+                  "end": 126,
+                  "ctxt": 0
+                },
+                "elements": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "NewExpression",
+                      "span": {
+                        "start": 118,
+                        "end": 125,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 122,
+                          "end": 125,
+                          "ctxt": 0
+                        },
+                        "value": "Baz",
+                        "typeAnnotation": null,
+                        "optional": false
+                      },
+                      "arguments": null,
+                      "typeArguments": null
+                    }
+                  }
+                ]
+              },
+              "delegate": true
+            }
+          }
+        ]
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

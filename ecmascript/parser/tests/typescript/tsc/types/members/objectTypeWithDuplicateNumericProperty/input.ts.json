@@ -1,0 +1,551 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 101,
+    "end": 327,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 107,
+          "end": 108,
+          "ctxt": 0
+        },
+        "value": "C",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 101,
+        "end": 151,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 116,
+            "end": 118,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 116,
+              "end": 117,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "value": null,
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 124,
+            "end": 128,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 124,
+              "end": 127,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "value": null,
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 134,
+            "end": 137,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 134,
+              "end": 136,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "value": null,
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 143,
+            "end": 148,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 143,
+              "end": 147,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "value": null,
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 155,
+        "end": 209,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 165,
+          "end": 166,
+          "ctxt": 0
+        },
+        "value": "I",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 167,
+          "end": 209,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 174,
+              "end": 176,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 174,
+                "end": 175,
+                "ctxt": 0
+              },
+              "value": 1.0
+            },
+            "computed": false,
+            "optional": false,
+            "init": null,
+            "params": [],
+            "typeAnnotation": null,
+            "typeParams": null
+          },
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 182,
+              "end": 186,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 182,
+                "end": 185,
+                "ctxt": 0
+              },
+              "value": 1.0
+            },
+            "computed": false,
+            "optional": false,
+            "init": null,
+            "params": [],
+            "typeAnnotation": null,
+            "typeParams": null
+          },
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 192,
+              "end": 195,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 192,
+                "end": 194,
+                "ctxt": 0
+              },
+              "value": 1.0
+            },
+            "computed": false,
+            "optional": false,
+            "init": null,
+            "params": [],
+            "typeAnnotation": null,
+            "typeParams": null
+          },
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 201,
+              "end": 206,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 201,
+                "end": 205,
+                "ctxt": 0
+              },
+              "value": 1.0
+            },
+            "computed": false,
+            "optional": false,
+            "init": null,
+            "params": [],
+            "typeAnnotation": null,
+            "typeParams": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 213,
+        "end": 262,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 217,
+            "end": 262,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 217,
+              "end": 218,
+              "ctxt": 0
+            },
+            "value": "a",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 218,
+                "end": 262,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeLiteral",
+                "span": {
+                  "start": 220,
+                  "end": 262,
+                  "ctxt": 0
+                },
+                "members": [
+                  {
+                    "type": "TsPropertySignature",
+                    "span": {
+                      "start": 227,
+                      "end": 229,
+                      "ctxt": 0
+                    },
+                    "readonly": false,
+                    "key": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 227,
+                        "end": 228,
+                        "ctxt": 0
+                      },
+                      "value": 1.0
+                    },
+                    "computed": false,
+                    "optional": false,
+                    "init": null,
+                    "params": [],
+                    "typeAnnotation": null,
+                    "typeParams": null
+                  },
+                  {
+                    "type": "TsPropertySignature",
+                    "span": {
+                      "start": 235,
+                      "end": 239,
+                      "ctxt": 0
+                    },
+                    "readonly": false,
+                    "key": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 235,
+                        "end": 238,
+                        "ctxt": 0
+                      },
+                      "value": 1.0
+                    },
+                    "computed": false,
+                    "optional": false,
+                    "init": null,
+                    "params": [],
+                    "typeAnnotation": null,
+                    "typeParams": null
+                  },
+                  {
+                    "type": "TsPropertySignature",
+                    "span": {
+                      "start": 245,
+                      "end": 248,
+                      "ctxt": 0
+                    },
+                    "readonly": false,
+                    "key": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 245,
+                        "end": 247,
+                        "ctxt": 0
+                      },
+                      "value": 1.0
+                    },
+                    "computed": false,
+                    "optional": false,
+                    "init": null,
+                    "params": [],
+                    "typeAnnotation": null,
+                    "typeParams": null
+                  },
+                  {
+                    "type": "TsPropertySignature",
+                    "span": {
+                      "start": 254,
+                      "end": 259,
+                      "ctxt": 0
+                    },
+                    "readonly": false,
+                    "key": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 254,
+                        "end": 258,
+                        "ctxt": 0
+                      },
+                      "value": 1.0
+                    },
+                    "computed": false,
+                    "optional": false,
+                    "init": null,
+                    "params": [],
+                    "typeAnnotation": null,
+                    "typeParams": null
+                  }
+                ]
+              }
+            },
+            "optional": false
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 266,
+        "end": 327,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 270,
+            "end": 327,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 270,
+              "end": 271,
+              "ctxt": 0
+            },
+            "value": "b",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 274,
+              "end": 327,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 281,
+                    "end": 282,
+                    "ctxt": 0
+                  },
+                  "value": 1.0
+                },
+                "value": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 284,
+                    "end": 285,
+                    "ctxt": 0
+                  },
+                  "value": 1.0
+                }
+              },
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 292,
+                    "end": 295,
+                    "ctxt": 0
+                  },
+                  "value": 1.0
+                },
+                "value": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 297,
+                    "end": 298,
+                    "ctxt": 0
+                  },
+                  "value": 1.0
+                }
+              },
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 305,
+                    "end": 307,
+                    "ctxt": 0
+                  },
+                  "value": 1.0
+                },
+                "value": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 309,
+                    "end": 310,
+                    "ctxt": 0
+                  },
+                  "value": 1.0
+                }
+              },
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 317,
+                    "end": 321,
+                    "ctxt": 0
+                  },
+                  "value": 1.0
+                },
+                "value": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 323,
+                    "end": 324,
+                    "ctxt": 0
+                  },
+                  "value": 1.0
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

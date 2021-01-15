@@ -1,0 +1,1 @@
+const fn = <T extends string | number>(x: T) => x;

@@ -1,0 +1,33 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 6,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 6,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 0,
+          "end": 5,
+          "ctxt": 0
+        },
+        "value": " \u0000 ",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

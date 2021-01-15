@@ -1,0 +1,3780 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 30,
+    "end": 2415,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 30,
+        "end": 62,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 40,
+          "end": 41,
+          "ctxt": 0
+        },
+        "value": "X",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 42,
+          "end": 62,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 49,
+              "end": 59,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 49,
+                "end": 50,
+                "ctxt": 0
+              },
+              "value": "x",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "init": null,
+            "params": [],
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 50,
+                "end": 58,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 52,
+                  "end": 58,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            },
+            "typeParams": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 66,
+        "end": 98,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 76,
+          "end": 77,
+          "ctxt": 0
+        },
+        "value": "Y",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 78,
+          "end": 98,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 85,
+              "end": 95,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 85,
+                "end": 86,
+                "ctxt": 0
+              },
+              "value": "y",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "init": null,
+            "params": [],
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 86,
+                "end": 94,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 88,
+                  "end": 94,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            },
+            "typeParams": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 102,
+        "end": 134,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 112,
+          "end": 113,
+          "ctxt": 0
+        },
+        "value": "Z",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 114,
+          "end": 134,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 121,
+              "end": 131,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 121,
+                "end": 122,
+                "ctxt": 0
+              },
+              "value": "z",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "init": null,
+            "params": [],
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 122,
+                "end": 130,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 124,
+                  "end": 130,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            },
+            "typeParams": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 155,
+          "end": 158,
+          "ctxt": 0
+        },
+        "value": "isX",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": true,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 159,
+            "end": 167,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 159,
+              "end": 167,
+              "ctxt": 0
+            },
+            "value": "obj",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 162,
+                "end": 167,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 164,
+                  "end": 167,
+                  "ctxt": 0
+                },
+                "kind": "any"
+              }
+            },
+            "optional": false
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 138,
+        "end": 179,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 168,
+          "end": 178,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsTypePredicate",
+          "span": {
+            "start": 170,
+            "end": 178,
+            "ctxt": 0
+          },
+          "asserts": false,
+          "paramName": {
+            "type": "Identifier",
+            "span": {
+              "start": 170,
+              "end": 173,
+              "ctxt": 0
+            },
+            "value": "obj",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 177,
+              "end": 178,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 177,
+                "end": 178,
+                "ctxt": 0
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 177,
+                  "end": 178,
+                  "ctxt": 0
+                },
+                "value": "X",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "typeParams": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 198,
+          "end": 201,
+          "ctxt": 0
+        },
+        "value": "isY",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": true,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 202,
+            "end": 210,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 202,
+              "end": 210,
+              "ctxt": 0
+            },
+            "value": "obj",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 205,
+                "end": 210,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 207,
+                  "end": 210,
+                  "ctxt": 0
+                },
+                "kind": "any"
+              }
+            },
+            "optional": false
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 181,
+        "end": 222,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 211,
+          "end": 221,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsTypePredicate",
+          "span": {
+            "start": 213,
+            "end": 221,
+            "ctxt": 0
+          },
+          "asserts": false,
+          "paramName": {
+            "type": "Identifier",
+            "span": {
+              "start": 213,
+              "end": 216,
+              "ctxt": 0
+            },
+            "value": "obj",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 220,
+              "end": 221,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 220,
+                "end": 221,
+                "ctxt": 0
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 220,
+                  "end": 221,
+                  "ctxt": 0
+                },
+                "value": "Y",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "typeParams": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 241,
+          "end": 244,
+          "ctxt": 0
+        },
+        "value": "isZ",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": true,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 245,
+            "end": 253,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 245,
+              "end": 253,
+              "ctxt": 0
+            },
+            "value": "obj",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 248,
+                "end": 253,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 250,
+                  "end": 253,
+                  "ctxt": 0
+                },
+                "kind": "any"
+              }
+            },
+            "optional": false
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 224,
+        "end": 265,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 254,
+          "end": 264,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsTypePredicate",
+          "span": {
+            "start": 256,
+            "end": 264,
+            "ctxt": 0
+          },
+          "asserts": false,
+          "paramName": {
+            "type": "Identifier",
+            "span": {
+              "start": 256,
+              "end": 259,
+              "ctxt": 0
+            },
+            "value": "obj",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 263,
+              "end": 264,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 263,
+                "end": 264,
+                "ctxt": 0
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 263,
+                  "end": 264,
+                  "ctxt": 0
+                },
+                "value": "Z",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "typeParams": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 278,
+          "end": 280,
+          "ctxt": 0
+        },
+        "value": "f1",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 281,
+            "end": 292,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 281,
+              "end": 292,
+              "ctxt": 0
+            },
+            "value": "obj",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 284,
+                "end": 292,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 286,
+                  "end": 292,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 286,
+                    "end": 292,
+                    "ctxt": 0
+                  },
+                  "value": "Object",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            },
+            "optional": false
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 269,
+        "end": 430,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 294,
+          "end": 430,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "IfStatement",
+            "span": {
+              "start": 301,
+              "end": 361,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 305,
+                "end": 337,
+                "ctxt": 0
+              },
+              "operator": "||",
+              "left": {
+                "type": "BinaryExpression",
+                "span": {
+                  "start": 305,
+                  "end": 325,
+                  "ctxt": 0
+                },
+                "operator": "||",
+                "left": {
+                  "type": "CallExpression",
+                  "span": {
+                    "start": 305,
+                    "end": 313,
+                    "ctxt": 0
+                  },
+                  "callee": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 305,
+                      "end": 308,
+                      "ctxt": 0
+                    },
+                    "value": "isX",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "arguments": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 309,
+                          "end": 312,
+                          "ctxt": 0
+                        },
+                        "value": "obj",
+                        "typeAnnotation": null,
+                        "optional": false
+                      }
+                    }
+                  ],
+                  "typeArguments": null
+                },
+                "right": {
+                  "type": "CallExpression",
+                  "span": {
+                    "start": 317,
+                    "end": 325,
+                    "ctxt": 0
+                  },
+                  "callee": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 317,
+                      "end": 320,
+                      "ctxt": 0
+                    },
+                    "value": "isY",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "arguments": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 321,
+                          "end": 324,
+                          "ctxt": 0
+                        },
+                        "value": "obj",
+                        "typeAnnotation": null,
+                        "optional": false
+                      }
+                    }
+                  ],
+                  "typeArguments": null
+                }
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 329,
+                  "end": 337,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 329,
+                    "end": 332,
+                    "ctxt": 0
+                  },
+                  "value": "isZ",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 333,
+                        "end": 336,
+                        "ctxt": 0
+                      },
+                      "value": "obj",
+                      "typeAnnotation": null,
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            },
+            "consequent": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 339,
+                "end": 361,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 350,
+                    "end": 354,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 350,
+                      "end": 353,
+                      "ctxt": 0
+                    },
+                    "value": "obj",
+                    "typeAnnotation": null,
+                    "optional": false
+                  }
+                }
+              ]
+            },
+            "alternate": null
+          },
+          {
+            "type": "IfStatement",
+            "span": {
+              "start": 367,
+              "end": 427,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 371,
+                "end": 403,
+                "ctxt": 0
+              },
+              "operator": "&&",
+              "left": {
+                "type": "BinaryExpression",
+                "span": {
+                  "start": 371,
+                  "end": 391,
+                  "ctxt": 0
+                },
+                "operator": "&&",
+                "left": {
+                  "type": "CallExpression",
+                  "span": {
+                    "start": 371,
+                    "end": 379,
+                    "ctxt": 0
+                  },
+                  "callee": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 371,
+                      "end": 374,
+                      "ctxt": 0
+                    },
+                    "value": "isX",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "arguments": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 375,
+                          "end": 378,
+                          "ctxt": 0
+                        },
+                        "value": "obj",
+                        "typeAnnotation": null,
+                        "optional": false
+                      }
+                    }
+                  ],
+                  "typeArguments": null
+                },
+                "right": {
+                  "type": "CallExpression",
+                  "span": {
+                    "start": 383,
+                    "end": 391,
+                    "ctxt": 0
+                  },
+                  "callee": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 383,
+                      "end": 386,
+                      "ctxt": 0
+                    },
+                    "value": "isY",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "arguments": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 387,
+                          "end": 390,
+                          "ctxt": 0
+                        },
+                        "value": "obj",
+                        "typeAnnotation": null,
+                        "optional": false
+                      }
+                    }
+                  ],
+                  "typeArguments": null
+                }
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 395,
+                  "end": 403,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 395,
+                    "end": 398,
+                    "ctxt": 0
+                  },
+                  "value": "isZ",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 399,
+                        "end": 402,
+                        "ctxt": 0
+                      },
+                      "value": "obj",
+                      "typeAnnotation": null,
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            },
+            "consequent": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 405,
+                "end": 427,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 416,
+                    "end": 420,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 416,
+                      "end": 419,
+                      "ctxt": 0
+                    },
+                    "value": "obj",
+                    "typeAnnotation": null,
+                    "optional": false
+                  }
+                }
+              ]
+            },
+            "alternate": null
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 476,
+        "end": 506,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 486,
+          "end": 487,
+          "ctxt": 0
+        },
+        "value": "A",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 488,
+          "end": 506,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 493,
+              "end": 503,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 493,
+                "end": 494,
+                "ctxt": 0
+              },
+              "value": "a",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "init": null,
+            "params": [],
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 494,
+                "end": 502,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 496,
+                  "end": 502,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            },
+            "typeParams": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 510,
+        "end": 540,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 520,
+          "end": 521,
+          "ctxt": 0
+        },
+        "value": "B",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 522,
+          "end": 540,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 527,
+              "end": 537,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 527,
+                "end": 528,
+                "ctxt": 0
+              },
+              "value": "b",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "init": null,
+            "params": [],
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 528,
+                "end": 536,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 530,
+                  "end": 536,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            },
+            "typeParams": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 576,
+          "end": 579,
+          "ctxt": 0
+        },
+        "value": "isB",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 580,
+            "end": 591,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 580,
+              "end": 591,
+              "ctxt": 0
+            },
+            "value": "toTest",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 586,
+                "end": 591,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 588,
+                  "end": 591,
+                  "ctxt": 0
+                },
+                "kind": "any"
+              }
+            },
+            "optional": false
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 567,
+        "end": 640,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 606,
+          "end": 640,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 611,
+              "end": 637,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 618,
+                "end": 636,
+                "ctxt": 0
+              },
+              "operator": "&&",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 618,
+                  "end": 624,
+                  "ctxt": 0
+                },
+                "value": "toTest",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "right": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 628,
+                  "end": 636,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 628,
+                    "end": 634,
+                    "ctxt": 0
+                  },
+                  "value": "toTest",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 635,
+                    "end": 636,
+                    "ctxt": 0
+                  },
+                  "value": "b",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "computed": false
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 592,
+          "end": 605,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsTypePredicate",
+          "span": {
+            "start": 594,
+            "end": 605,
+            "ctxt": 0
+          },
+          "asserts": false,
+          "paramName": {
+            "type": "Identifier",
+            "span": {
+              "start": 594,
+              "end": 600,
+              "ctxt": 0
+            },
+            "value": "toTest",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 604,
+              "end": 605,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 604,
+                "end": 605,
+                "ctxt": 0
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 604,
+                  "end": 605,
+                  "ctxt": 0
+                },
+                "value": "B",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "typeParams": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 698,
+          "end": 703,
+          "ctxt": 0
+        },
+        "value": "union",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 704,
+            "end": 708,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 704,
+              "end": 708,
+              "ctxt": 0
+            },
+            "value": "a",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 705,
+                "end": 708,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 707,
+                  "end": 708,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 707,
+                    "end": 708,
+                    "ctxt": 0
+                  },
+                  "value": "A",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            },
+            "optional": false
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 689,
+        "end": 795,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 724,
+          "end": 795,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "IfStatement",
+            "span": {
+              "start": 729,
+              "end": 792,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "CallExpression",
+              "span": {
+                "start": 733,
+                "end": 739,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 733,
+                  "end": 736,
+                  "ctxt": 0
+                },
+                "value": "isB",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 737,
+                      "end": 738,
+                      "ctxt": 0
+                    },
+                    "value": "a",
+                    "typeAnnotation": null,
+                    "optional": false
+                  }
+                }
+              ],
+              "typeArguments": null
+            },
+            "consequent": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 741,
+                "end": 762,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 748,
+                    "end": 757,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 755,
+                      "end": 756,
+                      "ctxt": 0
+                    },
+                    "value": "a",
+                    "typeAnnotation": null,
+                    "optional": false
+                  }
+                }
+              ]
+            },
+            "alternate": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 768,
+                "end": 792,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 775,
+                    "end": 787,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "NullLiteral",
+                    "span": {
+                      "start": 782,
+                      "end": 786,
+                      "ctxt": 0
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 709,
+          "end": 723,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsUnionType",
+          "span": {
+            "start": 711,
+            "end": 723,
+            "ctxt": 0
+          },
+          "types": [
+            {
+              "type": "TsIntersectionType",
+              "span": {
+                "start": 711,
+                "end": 716,
+                "ctxt": 0
+              },
+              "types": [
+                {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 711,
+                    "end": 712,
+                    "ctxt": 0
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 711,
+                      "end": 712,
+                      "ctxt": 0
+                    },
+                    "value": "A",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "typeParams": null
+                },
+                {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 715,
+                    "end": 716,
+                    "ctxt": 0
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 715,
+                      "end": 716,
+                      "ctxt": 0
+                    },
+                    "value": "B",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              ]
+            },
+            {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 719,
+                "end": 723,
+                "ctxt": 0
+              },
+              "kind": "null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 839,
+          "end": 842,
+          "ctxt": 0
+        },
+        "value": "log",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": true,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 843,
+            "end": 852,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 843,
+              "end": 852,
+              "ctxt": 0
+            },
+            "value": "s",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 844,
+                "end": 852,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 846,
+                  "end": 852,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            },
+            "optional": false
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 822,
+        "end": 860,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 853,
+          "end": 859,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 855,
+            "end": 859,
+            "ctxt": 0
+          },
+          "kind": "void"
+        }
+      }
+    },
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 893,
+        "end": 947,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 903,
+          "end": 908,
+          "ctxt": 0
+        },
+        "value": "Beast",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 913,
+          "end": 947,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 915,
+              "end": 931,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 915,
+                "end": 920,
+                "ctxt": 0
+              },
+              "value": "wings",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false,
+            "optional": true,
+            "init": null,
+            "params": [],
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 921,
+                "end": 930,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 923,
+                  "end": 930,
+                  "ctxt": 0
+                },
+                "kind": "boolean"
+              }
+            },
+            "typeParams": null
+          },
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 932,
+              "end": 945,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 932,
+                "end": 936,
+                "ctxt": 0
+              },
+              "value": "legs",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false,
+            "optional": true,
+            "init": null,
+            "params": [],
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 937,
+                "end": 945,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 939,
+                  "end": 945,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            },
+            "typeParams": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 949,
+        "end": 986,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 959,
+          "end": 965,
+          "ctxt": 0
+        },
+        "value": "Legged",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 969,
+          "end": 986,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 971,
+              "end": 984,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 971,
+                "end": 975,
+                "ctxt": 0
+              },
+              "value": "legs",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "init": null,
+            "params": [],
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 975,
+                "end": 983,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 977,
+                  "end": 983,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            },
+            "typeParams": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 988,
+        "end": 1027,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 998,
+          "end": 1004,
+          "ctxt": 0
+        },
+        "value": "Winged",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 1008,
+          "end": 1027,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 1010,
+              "end": 1025,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 1010,
+                "end": 1015,
+                "ctxt": 0
+              },
+              "value": "wings",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "init": null,
+            "params": [],
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 1015,
+                "end": 1024,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 1017,
+                  "end": 1024,
+                  "ctxt": 0
+                },
+                "kind": "boolean"
+              }
+            },
+            "typeParams": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 1097,
+          "end": 1104,
+          "ctxt": 0
+        },
+        "value": "hasLegs",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 1105,
+            "end": 1113,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 1105,
+              "end": 1113,
+              "ctxt": 0
+            },
+            "value": "x",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 1106,
+                "end": 1113,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 1108,
+                  "end": 1113,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1108,
+                    "end": 1113,
+                    "ctxt": 0
+                  },
+                  "value": "Beast",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            },
+            "optional": false
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 1088,
+        "end": 1171,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1128,
+          "end": 1171,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 1130,
+              "end": 1169,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 1137,
+                "end": 1168,
+                "ctxt": 0
+              },
+              "operator": "&&",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1137,
+                  "end": 1138,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "right": {
+                "type": "BinaryExpression",
+                "span": {
+                  "start": 1142,
+                  "end": 1168,
+                  "ctxt": 0
+                },
+                "operator": "===",
+                "left": {
+                  "type": "UnaryExpression",
+                  "span": {
+                    "start": 1142,
+                    "end": 1155,
+                    "ctxt": 0
+                  },
+                  "operator": "typeof",
+                  "argument": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 1149,
+                      "end": 1155,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1149,
+                        "end": 1150,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1151,
+                        "end": 1155,
+                        "ctxt": 0
+                      },
+                      "value": "legs",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "computed": false
+                  }
+                },
+                "right": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 1160,
+                    "end": 1168,
+                    "ctxt": 0
+                  },
+                  "value": "number",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 1114,
+          "end": 1127,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsTypePredicate",
+          "span": {
+            "start": 1116,
+            "end": 1127,
+            "ctxt": 0
+          },
+          "asserts": false,
+          "paramName": {
+            "type": "Identifier",
+            "span": {
+              "start": 1116,
+              "end": 1117,
+              "ctxt": 0
+            },
+            "value": "x",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 1121,
+              "end": 1127,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 1121,
+                "end": 1127,
+                "ctxt": 0
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1121,
+                  "end": 1127,
+                  "ctxt": 0
+                },
+                "value": "Legged",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "typeParams": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 1182,
+          "end": 1190,
+          "ctxt": 0
+        },
+        "value": "hasWings",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 1191,
+            "end": 1199,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 1191,
+              "end": 1199,
+              "ctxt": 0
+            },
+            "value": "x",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 1192,
+                "end": 1199,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 1194,
+                  "end": 1199,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1194,
+                    "end": 1199,
+                    "ctxt": 0
+                  },
+                  "value": "Beast",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            },
+            "optional": false
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 1173,
+        "end": 1240,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1214,
+          "end": 1240,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 1216,
+              "end": 1238,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 1223,
+                "end": 1237,
+                "ctxt": 0
+              },
+              "operator": "&&",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1223,
+                  "end": 1224,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "right": {
+                "type": "UnaryExpression",
+                "span": {
+                  "start": 1228,
+                  "end": 1237,
+                  "ctxt": 0
+                },
+                "operator": "!",
+                "argument": {
+                  "type": "UnaryExpression",
+                  "span": {
+                    "start": 1229,
+                    "end": 1237,
+                    "ctxt": 0
+                  },
+                  "operator": "!",
+                  "argument": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 1230,
+                      "end": 1237,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1230,
+                        "end": 1231,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1232,
+                        "end": 1237,
+                        "ctxt": 0
+                      },
+                      "value": "wings",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "computed": false
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 1200,
+          "end": 1213,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsTypePredicate",
+          "span": {
+            "start": 1202,
+            "end": 1213,
+            "ctxt": 0
+          },
+          "asserts": false,
+          "paramName": {
+            "type": "Identifier",
+            "span": {
+              "start": 1202,
+              "end": 1203,
+              "ctxt": 0
+            },
+            "value": "x",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 1207,
+              "end": 1213,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 1207,
+                "end": 1213,
+                "ctxt": 0
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1207,
+                  "end": 1213,
+                  "ctxt": 0
+                },
+                "value": "Winged",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "typeParams": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 1318,
+          "end": 1331,
+          "ctxt": 0
+        },
+        "value": "identifyBeast",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 1332,
+            "end": 1344,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 1332,
+              "end": 1344,
+              "ctxt": 0
+            },
+            "value": "beast",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 1337,
+                "end": 1344,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 1339,
+                  "end": 1344,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1339,
+                    "end": 1344,
+                    "ctxt": 0
+                  },
+                  "value": "Beast",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            },
+            "optional": false
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 1309,
+        "end": 2159,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1346,
+          "end": 2159,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "IfStatement",
+            "span": {
+              "start": 1384,
+              "end": 2156,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1388,
+                "end": 1402,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1388,
+                  "end": 1395,
+                  "ctxt": 0
+                },
+                "value": "hasLegs",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1396,
+                      "end": 1401,
+                      "ctxt": 0
+                    },
+                    "value": "beast",
+                    "typeAnnotation": null,
+                    "optional": false
+                  }
+                }
+              ],
+              "typeArguments": null
+            },
+            "consequent": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 1404,
+                "end": 1933,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "IfStatement",
+                  "span": {
+                    "start": 1457,
+                    "end": 1926,
+                    "ctxt": 0
+                  },
+                  "test": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 1461,
+                      "end": 1476,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1461,
+                        "end": 1469,
+                        "ctxt": 0
+                      },
+                      "value": "hasWings",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 1470,
+                            "end": 1475,
+                            "ctxt": 0
+                          },
+                          "value": "beast",
+                          "typeAnnotation": null,
+                          "optional": false
+                        }
+                      }
+                    ],
+                    "typeArguments": null
+                  },
+                  "consequent": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 1478,
+                      "end": 1790,
+                      "ctxt": 0
+                    },
+                    "stmts": [
+                      {
+                        "type": "IfStatement",
+                        "span": {
+                          "start": 1493,
+                          "end": 1779,
+                          "ctxt": 0
+                        },
+                        "test": {
+                          "type": "BinaryExpression",
+                          "span": {
+                            "start": 1497,
+                            "end": 1513,
+                            "ctxt": 0
+                          },
+                          "operator": "===",
+                          "left": {
+                            "type": "MemberExpression",
+                            "span": {
+                              "start": 1497,
+                              "end": 1507,
+                              "ctxt": 0
+                            },
+                            "object": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 1497,
+                                "end": 1502,
+                                "ctxt": 0
+                              },
+                              "value": "beast",
+                              "typeAnnotation": null,
+                              "optional": false
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 1503,
+                                "end": 1507,
+                                "ctxt": 0
+                              },
+                              "value": "legs",
+                              "typeAnnotation": null,
+                              "optional": false
+                            },
+                            "computed": false
+                          },
+                          "right": {
+                            "type": "NumericLiteral",
+                            "span": {
+                              "start": 1512,
+                              "end": 1513,
+                              "ctxt": 0
+                            },
+                            "value": 4.0
+                          }
+                        },
+                        "consequent": {
+                          "type": "BlockStatement",
+                          "span": {
+                            "start": 1515,
+                            "end": 1580,
+                            "ctxt": 0
+                          },
+                          "stmts": [
+                            {
+                              "type": "ExpressionStatement",
+                              "span": {
+                                "start": 1534,
+                                "end": 1565,
+                                "ctxt": 0
+                              },
+                              "expression": {
+                                "type": "CallExpression",
+                                "span": {
+                                  "start": 1534,
+                                  "end": 1564,
+                                  "ctxt": 0
+                                },
+                                "callee": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 1534,
+                                    "end": 1537,
+                                    "ctxt": 0
+                                  },
+                                  "value": "log",
+                                  "typeAnnotation": null,
+                                  "optional": false
+                                },
+                                "arguments": [
+                                  {
+                                    "spread": null,
+                                    "expression": {
+                                      "type": "TemplateLiteral",
+                                      "span": {
+                                        "start": 1538,
+                                        "end": 1563,
+                                        "ctxt": 0
+                                      },
+                                      "expressions": [],
+                                      "quasis": [
+                                        {
+                                          "type": "TemplateElement",
+                                          "span": {
+                                            "start": 1539,
+                                            "end": 1562,
+                                            "ctxt": 0
+                                          },
+                                          "tail": true,
+                                          "cooked": {
+                                            "type": "StringLiteral",
+                                            "span": {
+                                              "start": 1539,
+                                              "end": 1562,
+                                              "ctxt": 0
+                                            },
+                                            "value": "pegasus - 4 legs, wings",
+                                            "hasEscape": false,
+                                            "kind": {
+                                              "type": "normal",
+                                              "containsQuote": false
+                                            }
+                                          },
+                                          "raw": {
+                                            "type": "StringLiteral",
+                                            "span": {
+                                              "start": 1539,
+                                              "end": 1562,
+                                              "ctxt": 0
+                                            },
+                                            "value": "pegasus - 4 legs, wings",
+                                            "hasEscape": false,
+                                            "kind": {
+                                              "type": "normal",
+                                              "containsQuote": false
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "typeArguments": null
+                              }
+                            }
+                          ]
+                        },
+                        "alternate": {
+                          "type": "IfStatement",
+                          "span": {
+                            "start": 1599,
+                            "end": 1779,
+                            "ctxt": 0
+                          },
+                          "test": {
+                            "type": "BinaryExpression",
+                            "span": {
+                              "start": 1603,
+                              "end": 1619,
+                              "ctxt": 0
+                            },
+                            "operator": "===",
+                            "left": {
+                              "type": "MemberExpression",
+                              "span": {
+                                "start": 1603,
+                                "end": 1613,
+                                "ctxt": 0
+                              },
+                              "object": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 1603,
+                                  "end": 1608,
+                                  "ctxt": 0
+                                },
+                                "value": "beast",
+                                "typeAnnotation": null,
+                                "optional": false
+                              },
+                              "property": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 1609,
+                                  "end": 1613,
+                                  "ctxt": 0
+                                },
+                                "value": "legs",
+                                "typeAnnotation": null,
+                                "optional": false
+                              },
+                              "computed": false
+                            },
+                            "right": {
+                              "type": "NumericLiteral",
+                              "span": {
+                                "start": 1618,
+                                "end": 1619,
+                                "ctxt": 0
+                              },
+                              "value": 2.0
+                            }
+                          },
+                          "consequent": {
+                            "type": "BlockStatement",
+                            "span": {
+                              "start": 1621,
+                              "end": 1683,
+                              "ctxt": 0
+                            },
+                            "stmts": [
+                              {
+                                "type": "ExpressionStatement",
+                                "span": {
+                                  "start": 1640,
+                                  "end": 1668,
+                                  "ctxt": 0
+                                },
+                                "expression": {
+                                  "type": "CallExpression",
+                                  "span": {
+                                    "start": 1640,
+                                    "end": 1667,
+                                    "ctxt": 0
+                                  },
+                                  "callee": {
+                                    "type": "Identifier",
+                                    "span": {
+                                      "start": 1640,
+                                      "end": 1643,
+                                      "ctxt": 0
+                                    },
+                                    "value": "log",
+                                    "typeAnnotation": null,
+                                    "optional": false
+                                  },
+                                  "arguments": [
+                                    {
+                                      "spread": null,
+                                      "expression": {
+                                        "type": "TemplateLiteral",
+                                        "span": {
+                                          "start": 1644,
+                                          "end": 1666,
+                                          "ctxt": 0
+                                        },
+                                        "expressions": [],
+                                        "quasis": [
+                                          {
+                                            "type": "TemplateElement",
+                                            "span": {
+                                              "start": 1645,
+                                              "end": 1665,
+                                              "ctxt": 0
+                                            },
+                                            "tail": true,
+                                            "cooked": {
+                                              "type": "StringLiteral",
+                                              "span": {
+                                                "start": 1645,
+                                                "end": 1665,
+                                                "ctxt": 0
+                                              },
+                                              "value": "bird - 2 legs, wings",
+                                              "hasEscape": false,
+                                              "kind": {
+                                                "type": "normal",
+                                                "containsQuote": false
+                                              }
+                                            },
+                                            "raw": {
+                                              "type": "StringLiteral",
+                                              "span": {
+                                                "start": 1645,
+                                                "end": 1665,
+                                                "ctxt": 0
+                                              },
+                                              "value": "bird - 2 legs, wings",
+                                              "hasEscape": false,
+                                              "kind": {
+                                                "type": "normal",
+                                                "containsQuote": false
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "typeArguments": null
+                                }
+                              }
+                            ]
+                          },
+                          "alternate": {
+                            "type": "BlockStatement",
+                            "span": {
+                              "start": 1702,
+                              "end": 1779,
+                              "ctxt": 0
+                            },
+                            "stmts": [
+                              {
+                                "type": "ExpressionStatement",
+                                "span": {
+                                  "start": 1721,
+                                  "end": 1764,
+                                  "ctxt": 0
+                                },
+                                "expression": {
+                                  "type": "CallExpression",
+                                  "span": {
+                                    "start": 1721,
+                                    "end": 1763,
+                                    "ctxt": 0
+                                  },
+                                  "callee": {
+                                    "type": "Identifier",
+                                    "span": {
+                                      "start": 1721,
+                                      "end": 1724,
+                                      "ctxt": 0
+                                    },
+                                    "value": "log",
+                                    "typeAnnotation": null,
+                                    "optional": false
+                                  },
+                                  "arguments": [
+                                    {
+                                      "spread": null,
+                                      "expression": {
+                                        "type": "TemplateLiteral",
+                                        "span": {
+                                          "start": 1725,
+                                          "end": 1762,
+                                          "ctxt": 0
+                                        },
+                                        "expressions": [
+                                          {
+                                            "type": "MemberExpression",
+                                            "span": {
+                                              "start": 1738,
+                                              "end": 1748,
+                                              "ctxt": 0
+                                            },
+                                            "object": {
+                                              "type": "Identifier",
+                                              "span": {
+                                                "start": 1738,
+                                                "end": 1743,
+                                                "ctxt": 0
+                                              },
+                                              "value": "beast",
+                                              "typeAnnotation": null,
+                                              "optional": false
+                                            },
+                                            "property": {
+                                              "type": "Identifier",
+                                              "span": {
+                                                "start": 1744,
+                                                "end": 1748,
+                                                "ctxt": 0
+                                              },
+                                              "value": "legs",
+                                              "typeAnnotation": null,
+                                              "optional": false
+                                            },
+                                            "computed": false
+                                          }
+                                        ],
+                                        "quasis": [
+                                          {
+                                            "type": "TemplateElement",
+                                            "span": {
+                                              "start": 1726,
+                                              "end": 1736,
+                                              "ctxt": 0
+                                            },
+                                            "tail": false,
+                                            "cooked": {
+                                              "type": "StringLiteral",
+                                              "span": {
+                                                "start": 1726,
+                                                "end": 1736,
+                                                "ctxt": 0
+                                              },
+                                              "value": "unknown - ",
+                                              "hasEscape": false,
+                                              "kind": {
+                                                "type": "normal",
+                                                "containsQuote": false
+                                              }
+                                            },
+                                            "raw": {
+                                              "type": "StringLiteral",
+                                              "span": {
+                                                "start": 1726,
+                                                "end": 1736,
+                                                "ctxt": 0
+                                              },
+                                              "value": "unknown - ",
+                                              "hasEscape": false,
+                                              "kind": {
+                                                "type": "normal",
+                                                "containsQuote": false
+                                              }
+                                            }
+                                          },
+                                          {
+                                            "type": "TemplateElement",
+                                            "span": {
+                                              "start": 1749,
+                                              "end": 1761,
+                                              "ctxt": 0
+                                            },
+                                            "tail": true,
+                                            "cooked": {
+                                              "type": "StringLiteral",
+                                              "span": {
+                                                "start": 1749,
+                                                "end": 1761,
+                                                "ctxt": 0
+                                              },
+                                              "value": " legs, wings",
+                                              "hasEscape": false,
+                                              "kind": {
+                                                "type": "normal",
+                                                "containsQuote": false
+                                              }
+                                            },
+                                            "raw": {
+                                              "type": "StringLiteral",
+                                              "span": {
+                                                "start": 1749,
+                                                "end": 1761,
+                                                "ctxt": 0
+                                              },
+                                              "value": " legs, wings",
+                                              "hasEscape": false,
+                                              "kind": {
+                                                "type": "normal",
+                                                "containsQuote": false
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "typeArguments": null
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "alternate": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 1851,
+                      "end": 1926,
+                      "ctxt": 0
+                    },
+                    "stmts": [
+                      {
+                        "type": "ExpressionStatement",
+                        "span": {
+                          "start": 1866,
+                          "end": 1915,
+                          "ctxt": 0
+                        },
+                        "expression": {
+                          "type": "CallExpression",
+                          "span": {
+                            "start": 1866,
+                            "end": 1914,
+                            "ctxt": 0
+                          },
+                          "callee": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 1866,
+                              "end": 1869,
+                              "ctxt": 0
+                            },
+                            "value": "log",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "arguments": [
+                            {
+                              "spread": null,
+                              "expression": {
+                                "type": "TemplateLiteral",
+                                "span": {
+                                  "start": 1870,
+                                  "end": 1913,
+                                  "ctxt": 0
+                                },
+                                "expressions": [
+                                  {
+                                    "type": "MemberExpression",
+                                    "span": {
+                                      "start": 1886,
+                                      "end": 1896,
+                                      "ctxt": 0
+                                    },
+                                    "object": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 1886,
+                                        "end": 1891,
+                                        "ctxt": 0
+                                      },
+                                      "value": "beast",
+                                      "typeAnnotation": null,
+                                      "optional": false
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 1892,
+                                        "end": 1896,
+                                        "ctxt": 0
+                                      },
+                                      "value": "legs",
+                                      "typeAnnotation": null,
+                                      "optional": false
+                                    },
+                                    "computed": false
+                                  }
+                                ],
+                                "quasis": [
+                                  {
+                                    "type": "TemplateElement",
+                                    "span": {
+                                      "start": 1871,
+                                      "end": 1884,
+                                      "ctxt": 0
+                                    },
+                                    "tail": false,
+                                    "cooked": {
+                                      "type": "StringLiteral",
+                                      "span": {
+                                        "start": 1871,
+                                        "end": 1884,
+                                        "ctxt": 0
+                                      },
+                                      "value": "manbearpig - ",
+                                      "hasEscape": false,
+                                      "kind": {
+                                        "type": "normal",
+                                        "containsQuote": false
+                                      }
+                                    },
+                                    "raw": {
+                                      "type": "StringLiteral",
+                                      "span": {
+                                        "start": 1871,
+                                        "end": 1884,
+                                        "ctxt": 0
+                                      },
+                                      "value": "manbearpig - ",
+                                      "hasEscape": false,
+                                      "kind": {
+                                        "type": "normal",
+                                        "containsQuote": false
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "type": "TemplateElement",
+                                    "span": {
+                                      "start": 1897,
+                                      "end": 1912,
+                                      "ctxt": 0
+                                    },
+                                    "tail": true,
+                                    "cooked": {
+                                      "type": "StringLiteral",
+                                      "span": {
+                                        "start": 1897,
+                                        "end": 1912,
+                                        "ctxt": 0
+                                      },
+                                      "value": " legs, no wings",
+                                      "hasEscape": false,
+                                      "kind": {
+                                        "type": "normal",
+                                        "containsQuote": false
+                                      }
+                                    },
+                                    "raw": {
+                                      "type": "StringLiteral",
+                                      "span": {
+                                        "start": 1897,
+                                        "end": 1912,
+                                        "ctxt": 0
+                                      },
+                                      "value": " legs, no wings",
+                                      "hasEscape": false,
+                                      "kind": {
+                                        "type": "normal",
+                                        "containsQuote": false
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "typeArguments": null
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "alternate": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 1982,
+                "end": 2156,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "IfStatement",
+                  "span": {
+                    "start": 1993,
+                    "end": 2149,
+                    "ctxt": 0
+                  },
+                  "test": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 1997,
+                      "end": 2012,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1997,
+                        "end": 2005,
+                        "ctxt": 0
+                      },
+                      "value": "hasWings",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 2006,
+                            "end": 2011,
+                            "ctxt": 0
+                          },
+                          "value": "beast",
+                          "typeAnnotation": null,
+                          "optional": false
+                        }
+                      }
+                    ],
+                    "typeArguments": null
+                  },
+                  "consequent": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 2014,
+                      "end": 2076,
+                      "ctxt": 0
+                    },
+                    "stmts": [
+                      {
+                        "type": "ExpressionStatement",
+                        "span": {
+                          "start": 2029,
+                          "end": 2065,
+                          "ctxt": 0
+                        },
+                        "expression": {
+                          "type": "CallExpression",
+                          "span": {
+                            "start": 2029,
+                            "end": 2065,
+                            "ctxt": 0
+                          },
+                          "callee": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 2029,
+                              "end": 2032,
+                              "ctxt": 0
+                            },
+                            "value": "log",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "arguments": [
+                            {
+                              "spread": null,
+                              "expression": {
+                                "type": "TemplateLiteral",
+                                "span": {
+                                  "start": 2033,
+                                  "end": 2064,
+                                  "ctxt": 0
+                                },
+                                "expressions": [],
+                                "quasis": [
+                                  {
+                                    "type": "TemplateElement",
+                                    "span": {
+                                      "start": 2034,
+                                      "end": 2063,
+                                      "ctxt": 0
+                                    },
+                                    "tail": true,
+                                    "cooked": {
+                                      "type": "StringLiteral",
+                                      "span": {
+                                        "start": 2034,
+                                        "end": 2063,
+                                        "ctxt": 0
+                                      },
+                                      "value": "quetzalcoatl - no legs, wings",
+                                      "hasEscape": false,
+                                      "kind": {
+                                        "type": "normal",
+                                        "containsQuote": false
+                                      }
+                                    },
+                                    "raw": {
+                                      "type": "StringLiteral",
+                                      "span": {
+                                        "start": 2034,
+                                        "end": 2063,
+                                        "ctxt": 0
+                                      },
+                                      "value": "quetzalcoatl - no legs, wings",
+                                      "hasEscape": false,
+                                      "kind": {
+                                        "type": "normal",
+                                        "containsQuote": false
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "typeArguments": null
+                        }
+                      }
+                    ]
+                  },
+                  "alternate": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 2091,
+                      "end": 2149,
+                      "ctxt": 0
+                    },
+                    "stmts": [
+                      {
+                        "type": "ExpressionStatement",
+                        "span": {
+                          "start": 2106,
+                          "end": 2138,
+                          "ctxt": 0
+                        },
+                        "expression": {
+                          "type": "CallExpression",
+                          "span": {
+                            "start": 2106,
+                            "end": 2138,
+                            "ctxt": 0
+                          },
+                          "callee": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 2106,
+                              "end": 2109,
+                              "ctxt": 0
+                            },
+                            "value": "log",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "arguments": [
+                            {
+                              "spread": null,
+                              "expression": {
+                                "type": "TemplateLiteral",
+                                "span": {
+                                  "start": 2110,
+                                  "end": 2137,
+                                  "ctxt": 0
+                                },
+                                "expressions": [],
+                                "quasis": [
+                                  {
+                                    "type": "TemplateElement",
+                                    "span": {
+                                      "start": 2111,
+                                      "end": 2136,
+                                      "ctxt": 0
+                                    },
+                                    "tail": true,
+                                    "cooked": {
+                                      "type": "StringLiteral",
+                                      "span": {
+                                        "start": 2111,
+                                        "end": 2136,
+                                        "ctxt": 0
+                                      },
+                                      "value": "snake - no legs, no wings",
+                                      "hasEscape": false,
+                                      "kind": {
+                                        "type": "normal",
+                                        "containsQuote": false
+                                      }
+                                    },
+                                    "raw": {
+                                      "type": "StringLiteral",
+                                      "span": {
+                                        "start": 2111,
+                                        "end": 2136,
+                                        "ctxt": 0
+                                      },
+                                      "value": "snake - no legs, no wings",
+                                      "hasEscape": false,
+                                      "kind": {
+                                        "type": "normal",
+                                        "containsQuote": false
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "typeArguments": null
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 2172,
+          "end": 2180,
+          "ctxt": 0
+        },
+        "value": "beastFoo",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 2181,
+            "end": 2194,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 2181,
+              "end": 2194,
+              "ctxt": 0
+            },
+            "value": "beast",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 2186,
+                "end": 2194,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 2188,
+                  "end": 2194,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2188,
+                    "end": 2194,
+                    "ctxt": 0
+                  },
+                  "value": "Object",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            },
+            "optional": false
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 2163,
+        "end": 2415,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 2196,
+          "end": 2415,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "IfStatement",
+            "span": {
+              "start": 2203,
+              "end": 2321,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 2207,
+                "end": 2240,
+                "ctxt": 0
+              },
+              "operator": "&&",
+              "left": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 2207,
+                  "end": 2222,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2207,
+                    "end": 2215,
+                    "ctxt": 0
+                  },
+                  "value": "hasWings",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2216,
+                        "end": 2221,
+                        "ctxt": 0
+                      },
+                      "value": "beast",
+                      "typeAnnotation": null,
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 2226,
+                  "end": 2240,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2226,
+                    "end": 2233,
+                    "ctxt": 0
+                  },
+                  "value": "hasLegs",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2234,
+                        "end": 2239,
+                        "ctxt": 0
+                      },
+                      "value": "beast",
+                      "typeAnnotation": null,
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            },
+            "consequent": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 2242,
+                "end": 2286,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 2253,
+                    "end": 2259,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2253,
+                      "end": 2258,
+                      "ctxt": 0
+                    },
+                    "value": "beast",
+                    "typeAnnotation": null,
+                    "optional": false
+                  }
+                }
+              ]
+            },
+            "alternate": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 2297,
+                "end": 2321,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 2308,
+                    "end": 2314,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2308,
+                      "end": 2313,
+                      "ctxt": 0
+                    },
+                    "value": "beast",
+                    "typeAnnotation": null,
+                    "optional": false
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "IfStatement",
+            "span": {
+              "start": 2329,
+              "end": 2412,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 2333,
+                "end": 2366,
+                "ctxt": 0
+              },
+              "operator": "&&",
+              "left": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 2333,
+                  "end": 2347,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2333,
+                    "end": 2340,
+                    "ctxt": 0
+                  },
+                  "value": "hasLegs",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2341,
+                        "end": 2346,
+                        "ctxt": 0
+                      },
+                      "value": "beast",
+                      "typeAnnotation": null,
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 2351,
+                  "end": 2366,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2351,
+                    "end": 2359,
+                    "ctxt": 0
+                  },
+                  "value": "hasWings",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2360,
+                        "end": 2365,
+                        "ctxt": 0
+                      },
+                      "value": "beast",
+                      "typeAnnotation": null,
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            },
+            "consequent": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 2368,
+                "end": 2412,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 2379,
+                    "end": 2385,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2379,
+                      "end": 2384,
+                      "ctxt": 0
+                    },
+                    "value": "beast",
+                    "typeAnnotation": null,
+                    "optional": false
+                  }
+                }
+              ]
+            },
+            "alternate": null
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

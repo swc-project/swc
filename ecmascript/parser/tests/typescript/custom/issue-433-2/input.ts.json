@@ -1,0 +1,126 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 38,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 38,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 6,
+            "end": 37,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 6,
+              "end": 13,
+              "ctxt": 0
+            },
+            "value": "result2",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 16,
+              "end": 37,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "ParenthesisExpression",
+              "span": {
+                "start": 16,
+                "end": 34,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "ArrowFunctionExpression",
+                "span": {
+                  "start": 17,
+                  "end": 33,
+                  "ctxt": 0
+                },
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 18,
+                      "end": 27,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "typeAnnotation": {
+                      "type": "TsTypeAnnotation",
+                      "span": {
+                        "start": 19,
+                        "end": 27,
+                        "ctxt": 0
+                      },
+                      "typeAnnotation": {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 21,
+                          "end": 27,
+                          "ctxt": 0
+                        },
+                        "kind": "number"
+                      }
+                    },
+                    "optional": false
+                  }
+                ],
+                "body": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 32,
+                    "end": 33,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "async": false,
+                "generator": false,
+                "typeParameters": null,
+                "returnType": null
+              }
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 35,
+                    "end": 36,
+                    "ctxt": 0
+                  },
+                  "value": 1.0
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

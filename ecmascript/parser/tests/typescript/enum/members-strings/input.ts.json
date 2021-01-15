@@ -1,0 +1,88 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 35,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 0,
+        "end": 35,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 5,
+          "end": 6,
+          "ctxt": 0
+        },
+        "value": "E",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 13,
+            "end": 18,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 13,
+              "end": 18,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
+          },
+          "init": null
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 24,
+            "end": 33,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 24,
+              "end": 29,
+              "ctxt": 0
+            },
+            "value": "bar",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 32,
+              "end": 33,
+              "ctxt": 0
+            },
+            "value": 1.0
+          }
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,727 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 131,
+    "end": 789,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 131,
+        "end": 142,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": null,
+      "typeOnly": false
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 144,
+        "end": 259,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 159,
+          "end": 174,
+          "ctxt": 0
+        },
+        "value": "./argument.js",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 175,
+          "end": 259,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsInterfaceDeclaration",
+            "span": {
+              "start": 182,
+              "end": 256,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 192,
+                "end": 200,
+                "ctxt": 0
+              },
+              "value": "Argument",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "declare": false,
+            "typeParams": null,
+            "extends": [],
+            "body": {
+              "type": "TsInterfaceBody",
+              "span": {
+                "start": 201,
+                "end": 256,
+                "ctxt": 0
+              },
+              "body": [
+                {
+                  "type": "TsPropertySignature",
+                  "span": {
+                    "start": 212,
+                    "end": 225,
+                    "ctxt": 0
+                  },
+                  "readonly": false,
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 212,
+                      "end": 219,
+                      "ctxt": 0
+                    },
+                    "value": "idlType",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "computed": false,
+                  "optional": false,
+                  "init": null,
+                  "params": [],
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 219,
+                      "end": 224,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 221,
+                        "end": 224,
+                        "ctxt": 0
+                      },
+                      "kind": "any"
+                    }
+                  },
+                  "typeParams": null
+                },
+                {
+                  "type": "TsPropertySignature",
+                  "span": {
+                    "start": 235,
+                    "end": 249,
+                    "ctxt": 0
+                  },
+                  "readonly": false,
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 235,
+                      "end": 242,
+                      "ctxt": 0
+                    },
+                    "value": "default",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "computed": false,
+                  "optional": false,
+                  "init": null,
+                  "params": [],
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 242,
+                      "end": 248,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 244,
+                        "end": 248,
+                        "ctxt": 0
+                      },
+                      "kind": "null"
+                    }
+                  },
+                  "typeParams": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 284,
+        "end": 460,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 297,
+            "end": 301,
+            "ctxt": 0
+          },
+          "value": "Base",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 291,
+          "end": 460,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "Constructor",
+            "span": {
+              "start": 309,
+              "end": 326,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 309,
+                "end": 320,
+                "ctxt": 0
+              },
+              "value": "constructor",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "params": [],
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 323,
+                "end": 326,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "accessibility": null,
+            "isOptional": false
+          },
+          {
+            "type": "ClassMethod",
+            "span": {
+              "start": 334,
+              "end": 457,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 334,
+                "end": 340,
+                "ctxt": 0
+              },
+              "value": "toJSON",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "function": {
+              "params": [],
+              "decorators": [],
+              "span": {
+                "start": 334,
+                "end": 457,
+                "ctxt": 0
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 343,
+                  "end": 457,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "VariableDeclaration",
+                    "span": {
+                      "start": 354,
+                      "end": 428,
+                      "ctxt": 0
+                    },
+                    "kind": "const",
+                    "declare": false,
+                    "declarations": [
+                      {
+                        "type": "VariableDeclarator",
+                        "span": {
+                          "start": 360,
+                          "end": 427,
+                          "ctxt": 0
+                        },
+                        "id": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 360,
+                            "end": 364,
+                            "ctxt": 0
+                          },
+                          "value": "json",
+                          "typeAnnotation": null,
+                          "optional": false
+                        },
+                        "init": {
+                          "type": "ObjectExpression",
+                          "span": {
+                            "start": 367,
+                            "end": 427,
+                            "ctxt": 0
+                          },
+                          "properties": [
+                            {
+                              "type": "KeyValueProperty",
+                              "key": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 369,
+                                  "end": 373,
+                                  "ctxt": 0
+                                },
+                                "value": "type",
+                                "typeAnnotation": null,
+                                "optional": false
+                              },
+                              "value": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 375,
+                                  "end": 384,
+                                  "ctxt": 0
+                                },
+                                "value": "undefined",
+                                "typeAnnotation": null,
+                                "optional": false
+                              }
+                            },
+                            {
+                              "type": "KeyValueProperty",
+                              "key": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 386,
+                                  "end": 390,
+                                  "ctxt": 0
+                                },
+                                "value": "name",
+                                "typeAnnotation": null,
+                                "optional": false
+                              },
+                              "value": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 392,
+                                  "end": 401,
+                                  "ctxt": 0
+                                },
+                                "value": "undefined",
+                                "typeAnnotation": null,
+                                "optional": false
+                              }
+                            },
+                            {
+                              "type": "KeyValueProperty",
+                              "key": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 403,
+                                  "end": 414,
+                                  "ctxt": 0
+                                },
+                                "value": "inheritance",
+                                "typeAnnotation": null,
+                                "optional": false
+                              },
+                              "value": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 416,
+                                  "end": 425,
+                                  "ctxt": 0
+                                },
+                                "value": "undefined",
+                                "typeAnnotation": null,
+                                "optional": false
+                              }
+                            }
+                          ]
+                        },
+                        "definite": false
+                      }
+                    ]
+                  },
+                  {
+                    "type": "ReturnStatement",
+                    "span": {
+                      "start": 438,
+                      "end": 450,
+                      "ctxt": 0
+                    },
+                    "argument": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 445,
+                        "end": 449,
+                        "ctxt": 0
+                      },
+                      "value": "json",
+                      "typeAnnotation": null,
+                      "optional": false
+                    }
+                  }
+                ]
+              },
+              "generator": false,
+              "async": false,
+              "typeParameters": null,
+              "returnType": null
+            },
+            "kind": "method",
+            "isStatic": false,
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false
+          }
+        ],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 489,
+        "end": 522,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 498,
+            "end": 502,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 498,
+              "end": 502,
+              "ctxt": 0
+            },
+            "value": "Base",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "imported": null
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 510,
+          "end": 521,
+          "ctxt": 0
+        },
+        "value": "./base.js",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 524,
+        "end": 789,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 537,
+            "end": 545,
+            "ctxt": 0
+          },
+          "value": "Argument",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 531,
+          "end": 789,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "ClassMethod",
+            "span": {
+              "start": 613,
+              "end": 662,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 620,
+                "end": 625,
+                "ctxt": 0
+              },
+              "value": "parse",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "function": {
+              "params": [
+                {
+                  "type": "Parameter",
+                  "span": {
+                    "start": 626,
+                    "end": 635,
+                    "ctxt": 0
+                  },
+                  "decorators": [],
+                  "pat": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 626,
+                      "end": 635,
+                      "ctxt": 0
+                    },
+                    "value": "tokeniser",
+                    "typeAnnotation": null,
+                    "optional": false
+                  }
+                }
+              ],
+              "decorators": [],
+              "span": {
+                "start": 613,
+                "end": 662,
+                "ctxt": 0
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 637,
+                  "end": 662,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "ReturnStatement",
+                    "span": {
+                      "start": 648,
+                      "end": 655,
+                      "ctxt": 0
+                    },
+                    "argument": null
+                  }
+                ]
+              },
+              "generator": false,
+              "async": false,
+              "typeParameters": null,
+              "returnType": null
+            },
+            "kind": "method",
+            "isStatic": true,
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false
+          },
+          {
+            "type": "ClassMethod",
+            "span": {
+              "start": 670,
+              "end": 717,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 674,
+                "end": 678,
+                "ctxt": 0
+              },
+              "value": "type",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "function": {
+              "params": [],
+              "decorators": [],
+              "span": {
+                "start": 670,
+                "end": 717,
+                "ctxt": 0
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 681,
+                  "end": 717,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "ReturnStatement",
+                    "span": {
+                      "start": 692,
+                      "end": 710,
+                      "ctxt": 0
+                    },
+                    "argument": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 699,
+                        "end": 709,
+                        "ctxt": 0
+                      },
+                      "value": "argument",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    }
+                  }
+                ]
+              },
+              "generator": false,
+              "async": false,
+              "typeParameters": null,
+              "returnType": null
+            },
+            "kind": "getter",
+            "isStatic": false,
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false
+          },
+          {
+            "type": "ClassMethod",
+            "span": {
+              "start": 767,
+              "end": 786,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 768,
+                "end": 776,
+                "ctxt": 0
+              },
+              "value": "validate",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "function": {
+              "params": [
+                {
+                  "type": "Parameter",
+                  "span": {
+                    "start": 777,
+                    "end": 781,
+                    "ctxt": 0
+                  },
+                  "decorators": [],
+                  "pat": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 777,
+                      "end": 781,
+                      "ctxt": 0
+                    },
+                    "value": "defs",
+                    "typeAnnotation": null,
+                    "optional": false
+                  }
+                }
+              ],
+              "decorators": [],
+              "span": {
+                "start": 767,
+                "end": 786,
+                "ctxt": 0
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 783,
+                  "end": 786,
+                  "ctxt": 0
+                },
+                "stmts": []
+              },
+              "generator": true,
+              "async": false,
+              "typeParameters": null,
+              "returnType": null
+            },
+            "kind": "method",
+            "isStatic": false,
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false
+          }
+        ],
+        "superClass": {
+          "type": "Identifier",
+          "span": {
+            "start": 554,
+            "end": 558,
+            "ctxt": 0
+          },
+          "value": "Base",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    }
+  ],
+  "interpreter": null
+}

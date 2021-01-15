@@ -1,0 +1,132 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 17,
+    "end": 77,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 17,
+        "end": 77,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 24,
+          "end": 25,
+          "ctxt": 0
+        },
+        "value": "M",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 26,
+          "end": 77,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 33,
+              "end": 74,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 37,
+                  "end": 74,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 37,
+                    "end": 40,
+                    "ctxt": 0
+                  },
+                  "value": "obj",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "init": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 43,
+                    "end": 74,
+                    "ctxt": 0
+                  },
+                  "properties": [
+                    {
+                      "type": "KeyValueProperty",
+                      "key": {
+                        "type": "Computed",
+                        "span": {
+                          "start": 54,
+                          "end": 64,
+                          "ctxt": 0
+                        },
+                        "expression": {
+                          "type": "MemberExpression",
+                          "span": {
+                            "start": 55,
+                            "end": 63,
+                            "ctxt": 0
+                          },
+                          "object": {
+                            "type": "ThisExpression",
+                            "span": {
+                              "start": 55,
+                              "end": 59,
+                              "ctxt": 0
+                            }
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 60,
+                              "end": 63,
+                              "ctxt": 0
+                            },
+                            "value": "bar",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "computed": false
+                        }
+                      },
+                      "value": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 66,
+                          "end": 67,
+                          "ctxt": 0
+                        },
+                        "value": 0.0
+                      }
+                    }
+                  ]
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

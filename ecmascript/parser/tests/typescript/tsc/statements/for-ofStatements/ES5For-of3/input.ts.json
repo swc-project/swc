@@ -1,0 +1,157 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 20,
+    "end": 66,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ForOfStatement",
+      "span": {
+        "start": 20,
+        "end": 66,
+        "ctxt": 0
+      },
+      "await": null,
+      "left": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 25,
+          "end": 30,
+          "ctxt": 0
+        },
+        "kind": "var",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 29,
+              "end": 30,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 29,
+                "end": 30,
+                "ctxt": 0
+              },
+              "value": "v",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "init": null,
+            "definite": false
+          }
+        ]
+      },
+      "right": {
+        "type": "ArrayExpression",
+        "span": {
+          "start": 34,
+          "end": 49,
+          "ctxt": 0
+        },
+        "elements": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 35,
+                "end": 38,
+                "ctxt": 0
+              },
+              "value": "a",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 40,
+                "end": 43,
+                "ctxt": 0
+              },
+              "value": "b",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 45,
+                "end": 48,
+                "ctxt": 0
+              },
+              "value": "c",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          }
+        ]
+      },
+      "body": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 56,
+          "end": 66,
+          "ctxt": 0
+        },
+        "kind": "var",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 60,
+              "end": 65,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 60,
+                "end": 61,
+                "ctxt": 0
+              },
+              "value": "x",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "init": {
+              "type": "Identifier",
+              "span": {
+                "start": 64,
+                "end": 65,
+                "ctxt": 0
+              },
+              "value": "v",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "definite": false
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

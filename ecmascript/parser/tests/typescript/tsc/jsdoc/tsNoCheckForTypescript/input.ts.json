@@ -1,0 +1,276 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 66,
+    "end": 371,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 66,
+        "end": 90,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 73,
+          "end": 90,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 79,
+              "end": 89,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 79,
+                "end": 80,
+                "ctxt": 0
+              },
+              "value": "a",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "init": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 83,
+                "end": 89,
+                "ctxt": 0
+              },
+              "operator": "+",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 83,
+                  "end": 84,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              },
+              "right": {
+                "type": "ObjectExpression",
+                "span": {
+                  "start": 87,
+                  "end": 89,
+                  "ctxt": 0
+                },
+                "properties": []
+              }
+            },
+            "definite": false
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 226,
+        "end": 269,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsInterfaceDeclaration",
+        "span": {
+          "start": 233,
+          "end": 269,
+          "ctxt": 0
+        },
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 243,
+            "end": 248,
+            "ctxt": 0
+          },
+          "value": "Aleph",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": false,
+        "typeParams": null,
+        "extends": [],
+        "body": {
+          "type": "TsInterfaceBody",
+          "span": {
+            "start": 249,
+            "end": 269,
+            "ctxt": 0
+          },
+          "body": [
+            {
+              "type": "TsPropertySignature",
+              "span": {
+                "start": 256,
+                "end": 266,
+                "ctxt": 0
+              },
+              "readonly": false,
+              "key": {
+                "type": "Identifier",
+                "span": {
+                  "start": 256,
+                  "end": 257,
+                  "ctxt": 0
+                },
+                "value": "q",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false,
+              "optional": false,
+              "init": null,
+              "params": [],
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 257,
+                  "end": 265,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 259,
+                    "end": 265,
+                    "ctxt": 0
+                  },
+                  "kind": "number"
+                }
+              },
+              "typeParams": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 273,
+        "end": 371,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 286,
+            "end": 289,
+            "ctxt": 0
+          },
+          "value": "Bet",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 280,
+          "end": 371,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "ClassProperty",
+            "span": {
+              "start": 314,
+              "end": 331,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 314,
+                "end": 315,
+                "ctxt": 0
+              },
+              "value": "q",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "value": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 326,
+                "end": 331,
+                "ctxt": 0
+              },
+              "value": "lol",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            },
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 315,
+                "end": 323,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 317,
+                  "end": 323,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            },
+            "isStatic": false,
+            "decorators": [],
+            "computed": false,
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false,
+            "readonly": false,
+            "declare": false,
+            "definite": false
+          }
+        ],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": [
+          {
+            "type": "TsExpressionWithTypeArguments",
+            "span": {
+              "start": 301,
+              "end": 306,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 301,
+                "end": 306,
+                "ctxt": 0
+              },
+              "value": "Aleph",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "typeArguments": null
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

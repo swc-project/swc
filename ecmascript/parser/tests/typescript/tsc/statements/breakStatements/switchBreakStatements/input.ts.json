@@ -1,0 +1,870 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 63,
+    "end": 979,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "SwitchStatement",
+      "span": {
+        "start": 63,
+        "end": 110,
+        "ctxt": 0
+      },
+      "discriminant": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 71,
+          "end": 73,
+          "ctxt": 0
+        },
+        "value": "",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "cases": [
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 82,
+            "end": 107,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 87,
+              "end": 90,
+              "ctxt": 0
+            },
+            "value": "a",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
+          },
+          "consequent": [
+            {
+              "type": "BreakStatement",
+              "span": {
+                "start": 101,
+                "end": 107,
+                "ctxt": 0
+              },
+              "label": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 114,
+        "end": 171,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 114,
+          "end": 117,
+          "ctxt": 0
+        },
+        "value": "ONE",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "SwitchStatement",
+        "span": {
+          "start": 120,
+          "end": 171,
+          "ctxt": 0
+        },
+        "discriminant": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 128,
+            "end": 130,
+            "ctxt": 0
+          },
+          "value": "",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        },
+        "cases": [
+          {
+            "type": "SwitchCase",
+            "span": {
+              "start": 139,
+              "end": 168,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 144,
+                "end": 147,
+                "ctxt": 0
+              },
+              "value": "a",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            },
+            "consequent": [
+              {
+                "type": "BreakStatement",
+                "span": {
+                  "start": 158,
+                  "end": 168,
+                  "ctxt": 0
+                },
+                "label": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 164,
+                    "end": 167,
+                    "ctxt": 0
+                  },
+                  "value": "ONE",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 175,
+        "end": 242,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 175,
+          "end": 178,
+          "ctxt": 0
+        },
+        "value": "TWO",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "LabeledStatement",
+        "span": {
+          "start": 181,
+          "end": 242,
+          "ctxt": 0
+        },
+        "label": {
+          "type": "Identifier",
+          "span": {
+            "start": 181,
+            "end": 186,
+            "ctxt": 0
+          },
+          "value": "THREE",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "body": {
+          "type": "SwitchStatement",
+          "span": {
+            "start": 189,
+            "end": 242,
+            "ctxt": 0
+          },
+          "discriminant": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 197,
+              "end": 199,
+              "ctxt": 0
+            },
+            "value": "",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
+          },
+          "cases": [
+            {
+              "type": "SwitchCase",
+              "span": {
+                "start": 208,
+                "end": 239,
+                "ctxt": 0
+              },
+              "test": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 213,
+                  "end": 216,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
+              },
+              "consequent": [
+                {
+                  "type": "BreakStatement",
+                  "span": {
+                    "start": 227,
+                    "end": 239,
+                    "ctxt": 0
+                  },
+                  "label": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 233,
+                      "end": 238,
+                      "ctxt": 0
+                    },
+                    "value": "THREE",
+                    "typeAnnotation": null,
+                    "optional": false
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 246,
+        "end": 385,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 246,
+          "end": 250,
+          "ctxt": 0
+        },
+        "value": "FOUR",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "SwitchStatement",
+        "span": {
+          "start": 253,
+          "end": 385,
+          "ctxt": 0
+        },
+        "discriminant": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 261,
+            "end": 263,
+            "ctxt": 0
+          },
+          "value": "",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        },
+        "cases": [
+          {
+            "type": "SwitchCase",
+            "span": {
+              "start": 272,
+              "end": 382,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 277,
+                "end": 280,
+                "ctxt": 0
+              },
+              "value": "a",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            },
+            "consequent": [
+              {
+                "type": "LabeledStatement",
+                "span": {
+                  "start": 291,
+                  "end": 382,
+                  "ctxt": 0
+                },
+                "label": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 291,
+                    "end": 295,
+                    "ctxt": 0
+                  },
+                  "value": "FIVE",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "body": {
+                  "type": "SwitchStatement",
+                  "span": {
+                    "start": 306,
+                    "end": 382,
+                    "ctxt": 0
+                  },
+                  "discriminant": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 314,
+                      "end": 316,
+                      "ctxt": 0
+                    },
+                    "value": "",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  },
+                  "cases": [
+                    {
+                      "type": "SwitchCase",
+                      "span": {
+                        "start": 333,
+                        "end": 371,
+                        "ctxt": 0
+                      },
+                      "test": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 338,
+                          "end": 341,
+                          "ctxt": 0
+                        },
+                        "value": "a",
+                        "hasEscape": false,
+                        "kind": {
+                          "type": "normal",
+                          "containsQuote": true
+                        }
+                      },
+                      "consequent": [
+                        {
+                          "type": "BreakStatement",
+                          "span": {
+                            "start": 360,
+                            "end": 371,
+                            "ctxt": 0
+                          },
+                          "label": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 366,
+                              "end": 370,
+                              "ctxt": 0
+                            },
+                            "value": "FOUR",
+                            "typeAnnotation": null,
+                            "optional": false
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "SwitchStatement",
+      "span": {
+        "start": 389,
+        "end": 519,
+        "ctxt": 0
+      },
+      "discriminant": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 397,
+          "end": 399,
+          "ctxt": 0
+        },
+        "value": "",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "cases": [
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 408,
+            "end": 516,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 413,
+              "end": 416,
+              "ctxt": 0
+            },
+            "value": "a",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
+          },
+          "consequent": [
+            {
+              "type": "LabeledStatement",
+              "span": {
+                "start": 427,
+                "end": 516,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 427,
+                  "end": 430,
+                  "ctxt": 0
+                },
+                "value": "SIX",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "body": {
+                "type": "SwitchStatement",
+                "span": {
+                  "start": 441,
+                  "end": 516,
+                  "ctxt": 0
+                },
+                "discriminant": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 449,
+                    "end": 451,
+                    "ctxt": 0
+                  },
+                  "value": "",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                },
+                "cases": [
+                  {
+                    "type": "SwitchCase",
+                    "span": {
+                      "start": 468,
+                      "end": 505,
+                      "ctxt": 0
+                    },
+                    "test": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 473,
+                        "end": 476,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    },
+                    "consequent": [
+                      {
+                        "type": "BreakStatement",
+                        "span": {
+                          "start": 495,
+                          "end": 505,
+                          "ctxt": 0
+                        },
+                        "label": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 501,
+                            "end": 504,
+                            "ctxt": 0
+                          },
+                          "value": "SIX",
+                          "typeAnnotation": null,
+                          "optional": false
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 523,
+        "end": 979,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 523,
+          "end": 528,
+          "ctxt": 0
+        },
+        "value": "SEVEN",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "SwitchStatement",
+        "span": {
+          "start": 531,
+          "end": 979,
+          "ctxt": 0
+        },
+        "discriminant": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 539,
+            "end": 541,
+            "ctxt": 0
+          },
+          "value": "",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        },
+        "cases": [
+          {
+            "type": "SwitchCase",
+            "span": {
+              "start": 550,
+              "end": 976,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 555,
+                "end": 558,
+                "ctxt": 0
+              },
+              "value": "a",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            },
+            "consequent": [
+              {
+                "type": "SwitchStatement",
+                "span": {
+                  "start": 569,
+                  "end": 976,
+                  "ctxt": 0
+                },
+                "discriminant": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 577,
+                    "end": 579,
+                    "ctxt": 0
+                  },
+                  "value": "",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                },
+                "cases": [
+                  {
+                    "type": "SwitchCase",
+                    "span": {
+                      "start": 596,
+                      "end": 965,
+                      "ctxt": 0
+                    },
+                    "test": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 601,
+                        "end": 604,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    },
+                    "consequent": [
+                      {
+                        "type": "SwitchStatement",
+                        "span": {
+                          "start": 623,
+                          "end": 965,
+                          "ctxt": 0
+                        },
+                        "discriminant": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 631,
+                            "end": 633,
+                            "ctxt": 0
+                          },
+                          "value": "",
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": true
+                          }
+                        },
+                        "cases": [
+                          {
+                            "type": "SwitchCase",
+                            "span": {
+                              "start": 658,
+                              "end": 946,
+                              "ctxt": 0
+                            },
+                            "test": {
+                              "type": "StringLiteral",
+                              "span": {
+                                "start": 663,
+                                "end": 666,
+                                "ctxt": 0
+                              },
+                              "value": "a",
+                              "hasEscape": false,
+                              "kind": {
+                                "type": "normal",
+                                "containsQuote": true
+                              }
+                            },
+                            "consequent": [
+                              {
+                                "type": "BreakStatement",
+                                "span": {
+                                  "start": 693,
+                                  "end": 705,
+                                  "ctxt": 0
+                                },
+                                "label": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 699,
+                                    "end": 704,
+                                    "ctxt": 0
+                                  },
+                                  "value": "SEVEN",
+                                  "typeAnnotation": null,
+                                  "optional": false
+                                }
+                              },
+                              {
+                                "type": "LabeledStatement",
+                                "span": {
+                                  "start": 731,
+                                  "end": 946,
+                                  "ctxt": 0
+                                },
+                                "label": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 731,
+                                    "end": 736,
+                                    "ctxt": 0
+                                  },
+                                  "value": "EIGHT",
+                                  "typeAnnotation": null,
+                                  "optional": false
+                                },
+                                "body": {
+                                  "type": "SwitchStatement",
+                                  "span": {
+                                    "start": 763,
+                                    "end": 946,
+                                    "ctxt": 0
+                                  },
+                                  "discriminant": {
+                                    "type": "StringLiteral",
+                                    "span": {
+                                      "start": 771,
+                                      "end": 773,
+                                      "ctxt": 0
+                                    },
+                                    "value": "",
+                                    "hasEscape": false,
+                                    "kind": {
+                                      "type": "normal",
+                                      "containsQuote": true
+                                    }
+                                  },
+                                  "cases": [
+                                    {
+                                      "type": "SwitchCase",
+                                      "span": {
+                                        "start": 806,
+                                        "end": 919,
+                                        "ctxt": 0
+                                      },
+                                      "test": {
+                                        "type": "StringLiteral",
+                                        "span": {
+                                          "start": 811,
+                                          "end": 814,
+                                          "ctxt": 0
+                                        },
+                                        "value": "a",
+                                        "hasEscape": false,
+                                        "kind": {
+                                          "type": "normal",
+                                          "containsQuote": true
+                                        }
+                                      },
+                                      "consequent": [
+                                        {
+                                          "type": "VariableDeclaration",
+                                          "span": {
+                                            "start": 849,
+                                            "end": 873,
+                                            "ctxt": 0
+                                          },
+                                          "kind": "var",
+                                          "declare": false,
+                                          "declarations": [
+                                            {
+                                              "type": "VariableDeclarator",
+                                              "span": {
+                                                "start": 853,
+                                                "end": 873,
+                                                "ctxt": 0
+                                              },
+                                              "id": {
+                                                "type": "Identifier",
+                                                "span": {
+                                                  "start": 853,
+                                                  "end": 855,
+                                                  "ctxt": 0
+                                                },
+                                                "value": "fn",
+                                                "typeAnnotation": null,
+                                                "optional": false
+                                              },
+                                              "init": {
+                                                "type": "FunctionExpression",
+                                                "identifier": null,
+                                                "params": [],
+                                                "decorators": [],
+                                                "span": {
+                                                  "start": 858,
+                                                  "end": 873,
+                                                  "ctxt": 0
+                                                },
+                                                "body": {
+                                                  "type": "BlockStatement",
+                                                  "span": {
+                                                    "start": 870,
+                                                    "end": 873,
+                                                    "ctxt": 0
+                                                  },
+                                                  "stmts": []
+                                                },
+                                                "generator": false,
+                                                "async": false,
+                                                "typeParameters": null,
+                                                "returnType": null
+                                              },
+                                              "definite": false
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "BreakStatement",
+                                          "span": {
+                                            "start": 907,
+                                            "end": 919,
+                                            "ctxt": 0
+                                          },
+                                          "label": {
+                                            "type": "Identifier",
+                                            "span": {
+                                              "start": 913,
+                                              "end": 918,
+                                              "ctxt": 0
+                                            },
+                                            "value": "EIGHT",
+                                            "typeAnnotation": null,
+                                            "optional": false
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

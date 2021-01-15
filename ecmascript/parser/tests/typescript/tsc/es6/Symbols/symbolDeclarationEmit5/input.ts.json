@@ -1,0 +1,104 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 38,
+    "end": 98,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 38,
+        "end": 98,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 48,
+          "end": 49,
+          "ctxt": 0
+        },
+        "value": "I",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 50,
+          "end": 98,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsMethodSignature",
+            "span": {
+              "start": 57,
+              "end": 95,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 58,
+                "end": 83,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 58,
+                  "end": 64,
+                  "ctxt": 0
+                },
+                "value": "Symbol",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 65,
+                  "end": 83,
+                  "ctxt": 0
+                },
+                "value": "isConcatSpreadable",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "computed": true,
+            "optional": false,
+            "params": [],
+            "typeAnn": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 86,
+                "end": 94,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 88,
+                  "end": 94,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            },
+            "typeParams": null
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

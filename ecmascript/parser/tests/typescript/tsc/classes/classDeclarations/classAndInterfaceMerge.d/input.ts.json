@@ -1,0 +1,387 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 2,
+    "end": 276,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 2,
+        "end": 17,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 12,
+          "end": 13,
+          "ctxt": 0
+        },
+        "value": "C",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 14,
+          "end": 17,
+          "ctxt": 0
+        },
+        "body": []
+      }
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 35,
+          "end": 36,
+          "ctxt": 0
+        },
+        "value": "C",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": true,
+      "span": {
+        "start": 21,
+        "end": 40,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 44,
+        "end": 59,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 54,
+          "end": 55,
+          "ctxt": 0
+        },
+        "value": "C",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 56,
+          "end": 59,
+          "ctxt": 0
+        },
+        "body": []
+      }
+    },
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 63,
+        "end": 78,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 73,
+          "end": 74,
+          "ctxt": 0
+        },
+        "value": "C",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 75,
+          "end": 78,
+          "ctxt": 0
+        },
+        "body": []
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 82,
+        "end": 222,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 97,
+          "end": 98,
+          "ctxt": 0
+        },
+        "value": "M",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 99,
+          "end": 222,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsInterfaceDeclaration",
+            "span": {
+              "start": 108,
+              "end": 124,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 118,
+                "end": 120,
+                "ctxt": 0
+              },
+              "value": "C1",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "declare": false,
+            "typeParams": null,
+            "extends": [],
+            "body": {
+              "type": "TsInterfaceBody",
+              "span": {
+                "start": 121,
+                "end": 124,
+                "ctxt": 0
+              },
+              "body": []
+            }
+          },
+          {
+            "type": "ClassDeclaration",
+            "identifier": {
+              "type": "Identifier",
+              "span": {
+                "start": 138,
+                "end": 140,
+                "ctxt": 0
+              },
+              "value": "C1",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "declare": false,
+            "span": {
+              "start": 132,
+              "end": 144,
+              "ctxt": 0
+            },
+            "decorators": [],
+            "body": [],
+            "superClass": null,
+            "isAbstract": false,
+            "typeParams": null,
+            "superTypeParams": null,
+            "implements": []
+          },
+          {
+            "type": "TsInterfaceDeclaration",
+            "span": {
+              "start": 152,
+              "end": 168,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 162,
+                "end": 164,
+                "ctxt": 0
+              },
+              "value": "C1",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "declare": false,
+            "typeParams": null,
+            "extends": [],
+            "body": {
+              "type": "TsInterfaceBody",
+              "span": {
+                "start": 165,
+                "end": 168,
+                "ctxt": 0
+              },
+              "body": []
+            }
+          },
+          {
+            "type": "TsInterfaceDeclaration",
+            "span": {
+              "start": 176,
+              "end": 192,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 186,
+                "end": 188,
+                "ctxt": 0
+              },
+              "value": "C1",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "declare": false,
+            "typeParams": null,
+            "extends": [],
+            "body": {
+              "type": "TsInterfaceBody",
+              "span": {
+                "start": 189,
+                "end": 192,
+                "ctxt": 0
+              },
+              "body": []
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 200,
+              "end": 219,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "ClassDeclaration",
+              "identifier": {
+                "type": "Identifier",
+                "span": {
+                  "start": 213,
+                  "end": 215,
+                  "ctxt": 0
+                },
+                "value": "C2",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "declare": false,
+              "span": {
+                "start": 207,
+                "end": 219,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "body": [],
+              "superClass": null,
+              "isAbstract": false,
+              "typeParams": null,
+              "superTypeParams": null,
+              "implements": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 226,
+        "end": 276,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 241,
+          "end": 242,
+          "ctxt": 0
+        },
+        "value": "M",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 243,
+          "end": 276,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 250,
+              "end": 273,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "TsInterfaceDeclaration",
+              "span": {
+                "start": 257,
+                "end": 273,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 267,
+                  "end": 269,
+                  "ctxt": 0
+                },
+                "value": "C2",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "declare": false,
+              "typeParams": null,
+              "extends": [],
+              "body": {
+                "type": "TsInterfaceBody",
+                "span": {
+                  "start": 270,
+                  "end": 273,
+                  "ctxt": 0
+                },
+                "body": []
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

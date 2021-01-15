@@ -1,0 +1,175 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 48,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 0,
+        "end": 48,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 5,
+          "end": 12,
+          "ctxt": 0
+        },
+        "value": "Element",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeParams": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 12,
+          "end": 15,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParameter",
+            "span": {
+              "start": 13,
+              "end": 14,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 13,
+                "end": 14,
+                "ctxt": 0
+              },
+              "value": "T",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "constraint": null,
+            "default": null
+          }
+        ]
+      },
+      "typeAnnotation": {
+        "type": "TsConditionalType",
+        "span": {
+          "start": 18,
+          "end": 47,
+          "ctxt": 0
+        },
+        "checkType": {
+          "type": "TsTypeReference",
+          "span": {
+            "start": 18,
+            "end": 19,
+            "ctxt": 0
+          },
+          "typeName": {
+            "type": "Identifier",
+            "span": {
+              "start": 18,
+              "end": 19,
+              "ctxt": 0
+            },
+            "value": "T",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "typeParams": null
+        },
+        "extendsType": {
+          "type": "TsArrayType",
+          "span": {
+            "start": 28,
+            "end": 39,
+            "ctxt": 0
+          },
+          "elemType": {
+            "type": "TsParenthesizedType",
+            "span": {
+              "start": 28,
+              "end": 37,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsInferType",
+              "span": {
+                "start": 29,
+                "end": 36,
+                "ctxt": 0
+              },
+              "typeParam": {
+                "type": "TsTypeParameter",
+                "span": {
+                  "start": 35,
+                  "end": 36,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 35,
+                    "end": 36,
+                    "ctxt": 0
+                  },
+                  "value": "U",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "constraint": null,
+                "default": null
+              }
+            }
+          }
+        },
+        "trueType": {
+          "type": "TsTypeReference",
+          "span": {
+            "start": 42,
+            "end": 43,
+            "ctxt": 0
+          },
+          "typeName": {
+            "type": "Identifier",
+            "span": {
+              "start": 42,
+              "end": 43,
+              "ctxt": 0
+            },
+            "value": "U",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "typeParams": null
+        },
+        "falseType": {
+          "type": "TsTypeReference",
+          "span": {
+            "start": 46,
+            "end": 47,
+            "ctxt": 0
+          },
+          "typeName": {
+            "type": "Identifier",
+            "span": {
+              "start": 46,
+              "end": 47,
+              "ctxt": 0
+            },
+            "value": "T",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "typeParams": null
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

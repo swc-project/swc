@@ -1,0 +1,102 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 49,
+    "end": 101,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 49,
+        "end": 60,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": null,
+      "typeOnly": false
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 64,
+        "end": 101,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 72,
+          "end": 78,
+          "ctxt": 0
+        },
+        "value": "global",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 79,
+          "end": 101,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 84,
+              "end": 98,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 88,
+                  "end": 97,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 88,
+                    "end": 89,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 89,
+                      "end": 97,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 91,
+                        "end": 97,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
+                    }
+                  },
+                  "optional": false
+                },
+                "init": null,
+                "definite": false
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

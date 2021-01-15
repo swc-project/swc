@@ -1,0 +1,97 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 24,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 9,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 0,
+          "end": 9,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 0,
+            "end": 4,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "consequent": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 5,
+            "end": 7,
+            "ctxt": 0
+          },
+          "value": 0.3
+        },
+        "alternate": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 8,
+            "end": 9,
+            "ctxt": 0
+          },
+          "value": 0.0
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 11,
+        "end": 24,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 11,
+          "end": 24,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 11,
+            "end": 15,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "consequent": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 18,
+            "end": 20,
+            "ctxt": 0
+          },
+          "value": 0.3
+        },
+        "alternate": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 23,
+            "end": 24,
+            "ctxt": 0
+          },
+          "value": 0.0
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

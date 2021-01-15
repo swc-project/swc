@@ -1,0 +1,269 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 146,
+    "end": 321,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 152,
+          "end": 155,
+          "ctxt": 0
+        },
+        "value": "Foo",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 146,
+        "end": 158,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 160,
+        "end": 181,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 160,
+          "end": 180,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 160,
+            "end": 174,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 160,
+              "end": 166,
+              "ctxt": 0
+            },
+            "value": "module",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 167,
+              "end": 174,
+              "ctxt": 0
+            },
+            "value": "exports",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 177,
+            "end": 180,
+            "ctxt": 0
+          },
+          "value": "Foo",
+          "typeAnnotation": null,
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 209,
+        "end": 247,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 217,
+            "end": 232,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 228,
+              "end": 232,
+              "ctxt": 0
+            },
+            "value": "Fooa",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "imported": {
+            "type": "Identifier",
+            "span": {
+              "start": 217,
+              "end": 224,
+              "ctxt": 0
+            },
+            "value": "default",
+            "typeAnnotation": null,
+            "optional": false
+          }
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 239,
+          "end": 246,
+          "ctxt": 0
+        },
+        "value": "./cls",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 251,
+        "end": 279,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 258,
+          "end": 279,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 264,
+              "end": 278,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 264,
+                "end": 265,
+                "ctxt": 0
+              },
+              "value": "x",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "init": {
+              "type": "NewExpression",
+              "span": {
+                "start": 268,
+                "end": 278,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 272,
+                  "end": 276,
+                  "ctxt": 0
+                },
+                "value": "Fooa",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "arguments": [],
+              "typeArguments": null
+            },
+            "definite": false
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 283,
+        "end": 321,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 291,
+            "end": 306,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 291,
+              "end": 298,
+              "ctxt": 0
+            },
+            "value": "default",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "exported": {
+            "type": "Identifier",
+            "span": {
+              "start": 302,
+              "end": 306,
+              "ctxt": 0
+            },
+            "value": "Foob",
+            "typeAnnotation": null,
+            "optional": false
+          }
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 313,
+          "end": 320,
+          "ctxt": 0
+        },
+        "value": "./cls",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false
+    }
+  ],
+  "interpreter": null
+}

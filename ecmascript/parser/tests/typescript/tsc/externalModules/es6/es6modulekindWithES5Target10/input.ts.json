@@ -1,0 +1,103 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 39,
+    "end": 110,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsImportEqualsDeclaration",
+      "span": {
+        "start": 39,
+        "end": 65,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isExport": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 46,
+          "end": 47,
+          "ctxt": 0
+        },
+        "value": "i",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "moduleRef": {
+        "type": "TsExternalModuleReference",
+        "span": {
+          "start": 50,
+          "end": 64,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 58,
+            "end": 63,
+            "ctxt": 0
+          },
+          "value": "mod",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        }
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 81,
+        "end": 97,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 91,
+          "end": 92,
+          "ctxt": 0
+        },
+        "value": "N",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 93,
+          "end": 97,
+          "ctxt": 0
+        },
+        "body": []
+      }
+    },
+    {
+      "type": "TsExportAssignment",
+      "span": {
+        "start": 99,
+        "end": 110,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 108,
+          "end": 109,
+          "ctxt": 0
+        },
+        "value": "N",
+        "typeAnnotation": null,
+        "optional": false
+      }
+    }
+  ],
+  "interpreter": null
+}

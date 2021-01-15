@@ -1,0 +1,127 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 177,
+    "end": 220,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 186,
+          "end": 187,
+          "ctxt": 0
+        },
+        "value": "g",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 188,
+            "end": 191,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 188,
+              "end": 191,
+              "ctxt": 0
+            },
+            "value": "xyz",
+            "typeAnnotation": null,
+            "optional": false
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 177,
+        "end": 220,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 193,
+          "end": 220,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 200,
+              "end": 217,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 207,
+                "end": 216,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 207,
+                  "end": 214,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 207,
+                    "end": 210,
+                    "ctxt": 0
+                  },
+                  "value": "xyz",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 211,
+                    "end": 214,
+                    "ctxt": 0
+                  },
+                  "value": "bar",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "computed": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 215,
+                  "end": 216,
+                  "ctxt": 0
+                },
+                "value": "p",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}
