@@ -1,0 +1,675 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 450,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 0,
+        "end": 81,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "A",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 9,
+          "end": 81,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 15,
+              "end": 79,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "ClassDeclaration",
+              "identifier": {
+                "type": "Identifier",
+                "span": {
+                  "start": 28,
+                  "end": 33,
+                  "ctxt": 0
+                },
+                "value": "Point",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "declare": false,
+              "span": {
+                "start": 22,
+                "end": 79,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "body": [
+                {
+                  "type": "ClassProperty",
+                  "span": {
+                    "start": 44,
+                    "end": 54,
+                    "ctxt": 0
+                  },
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 44,
+                      "end": 45,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "value": null,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 45,
+                      "end": 53,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 47,
+                        "end": 53,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
+                    }
+                  },
+                  "isStatic": false,
+                  "decorators": [],
+                  "computed": false,
+                  "accessibility": null,
+                  "isAbstract": false,
+                  "isOptional": false,
+                  "readonly": false,
+                  "declare": false,
+                  "definite": false
+                },
+                {
+                  "type": "ClassProperty",
+                  "span": {
+                    "start": 63,
+                    "end": 73,
+                    "ctxt": 0
+                  },
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 63,
+                      "end": 64,
+                      "ctxt": 0
+                    },
+                    "value": "y",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "value": null,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 64,
+                      "end": 72,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 66,
+                        "end": 72,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
+                    }
+                  },
+                  "isStatic": false,
+                  "decorators": [],
+                  "computed": false,
+                  "accessibility": null,
+                  "isAbstract": false,
+                  "isOptional": false,
+                  "readonly": false,
+                  "declare": false,
+                  "definite": false
+                }
+              ],
+              "superClass": null,
+              "isAbstract": false,
+              "typeParams": null,
+              "superTypeParams": null,
+              "implements": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 83,
+        "end": 194,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 90,
+          "end": 91,
+          "ctxt": 0
+        },
+        "value": "A",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 91,
+          "end": 194,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 119,
+              "end": 192,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "ClassDeclaration",
+              "identifier": {
+                "type": "Identifier",
+                "span": {
+                  "start": 132,
+                  "end": 137,
+                  "ctxt": 0
+                },
+                "value": "Point",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "declare": false,
+              "span": {
+                "start": 126,
+                "end": 192,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "body": [
+                {
+                  "type": "ClassProperty",
+                  "span": {
+                    "start": 148,
+                    "end": 163,
+                    "ctxt": 0
+                  },
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 148,
+                      "end": 154,
+                      "ctxt": 0
+                    },
+                    "value": "origin",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "value": null,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 154,
+                      "end": 162,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 156,
+                        "end": 162,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
+                    }
+                  },
+                  "isStatic": false,
+                  "decorators": [],
+                  "computed": false,
+                  "accessibility": null,
+                  "isAbstract": false,
+                  "isOptional": false,
+                  "readonly": false,
+                  "declare": false,
+                  "definite": false
+                },
+                {
+                  "type": "ClassProperty",
+                  "span": {
+                    "start": 172,
+                    "end": 186,
+                    "ctxt": 0
+                  },
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 172,
+                      "end": 177,
+                      "ctxt": 0
+                    },
+                    "value": "angle",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "value": null,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 177,
+                      "end": 185,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 179,
+                        "end": 185,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
+                    }
+                  },
+                  "isStatic": false,
+                  "decorators": [],
+                  "computed": false,
+                  "accessibility": null,
+                  "isAbstract": false,
+                  "isOptional": false,
+                  "readonly": false,
+                  "declare": false,
+                  "definite": false
+                }
+              ],
+              "superClass": null,
+              "isAbstract": false,
+              "typeParams": null,
+              "superTypeParams": null,
+              "implements": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 196,
+        "end": 266,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 203,
+          "end": 204,
+          "ctxt": 0
+        },
+        "value": "X",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "TsNamespaceDeclaration",
+        "span": {
+          "start": 205,
+          "end": 266,
+          "ctxt": 0
+        },
+        "declare": false,
+        "global": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 205,
+            "end": 206,
+            "ctxt": 0
+          },
+          "value": "Y",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "body": {
+          "type": "TsNamespaceDeclaration",
+          "span": {
+            "start": 207,
+            "end": 266,
+            "ctxt": 0
+          },
+          "declare": false,
+          "global": false,
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 207,
+              "end": 208,
+              "ctxt": 0
+            },
+            "value": "Z",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "body": {
+            "type": "TsModuleBlock",
+            "span": {
+              "start": 209,
+              "end": 266,
+              "ctxt": 0
+            },
+            "body": [
+              {
+                "type": "ExportDeclaration",
+                "span": {
+                  "start": 215,
+                  "end": 264,
+                  "ctxt": 0
+                },
+                "declaration": {
+                  "type": "ClassDeclaration",
+                  "identifier": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 228,
+                      "end": 232,
+                      "ctxt": 0
+                    },
+                    "value": "Line",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "declare": false,
+                  "span": {
+                    "start": 222,
+                    "end": 264,
+                    "ctxt": 0
+                  },
+                  "decorators": [],
+                  "body": [
+                    {
+                      "type": "ClassProperty",
+                      "span": {
+                        "start": 243,
+                        "end": 258,
+                        "ctxt": 0
+                      },
+                      "key": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 243,
+                          "end": 249,
+                          "ctxt": 0
+                        },
+                        "value": "length",
+                        "typeAnnotation": null,
+                        "optional": false
+                      },
+                      "value": null,
+                      "typeAnnotation": {
+                        "type": "TsTypeAnnotation",
+                        "span": {
+                          "start": 249,
+                          "end": 257,
+                          "ctxt": 0
+                        },
+                        "typeAnnotation": {
+                          "type": "TsKeywordType",
+                          "span": {
+                            "start": 251,
+                            "end": 257,
+                            "ctxt": 0
+                          },
+                          "kind": "number"
+                        }
+                      },
+                      "isStatic": false,
+                      "decorators": [],
+                      "computed": false,
+                      "accessibility": null,
+                      "isAbstract": false,
+                      "isOptional": false,
+                      "readonly": false,
+                      "declare": false,
+                      "definite": false
+                    }
+                  ],
+                  "superClass": null,
+                  "isAbstract": false,
+                  "typeParams": null,
+                  "superTypeParams": null,
+                  "implements": []
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 268,
+        "end": 450,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 275,
+          "end": 276,
+          "ctxt": 0
+        },
+        "value": "X",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 277,
+          "end": 450,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 283,
+              "end": 448,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "TsModuleDeclaration",
+              "span": {
+                "start": 290,
+                "end": 448,
+                "ctxt": 0
+              },
+              "declare": false,
+              "global": false,
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 297,
+                  "end": 298,
+                  "ctxt": 0
+                },
+                "value": "Y",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "body": {
+                "type": "TsModuleBlock",
+                "span": {
+                  "start": 299,
+                  "end": 448,
+                  "ctxt": 0
+                },
+                "body": [
+                  {
+                    "type": "ExportDeclaration",
+                    "span": {
+                      "start": 309,
+                      "end": 442,
+                      "ctxt": 0
+                    },
+                    "declaration": {
+                      "type": "TsModuleDeclaration",
+                      "span": {
+                        "start": 316,
+                        "end": 442,
+                        "ctxt": 0
+                      },
+                      "declare": false,
+                      "global": false,
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 323,
+                          "end": 324,
+                          "ctxt": 0
+                        },
+                        "value": "Z",
+                        "typeAnnotation": null,
+                        "optional": false
+                      },
+                      "body": {
+                        "type": "TsModuleBlock",
+                        "span": {
+                          "start": 325,
+                          "end": 442,
+                          "ctxt": 0
+                        },
+                        "body": [
+                          {
+                            "type": "ExportDeclaration",
+                            "span": {
+                              "start": 369,
+                              "end": 432,
+                              "ctxt": 0
+                            },
+                            "declaration": {
+                              "type": "ClassDeclaration",
+                              "identifier": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 382,
+                                  "end": 386,
+                                  "ctxt": 0
+                                },
+                                "value": "Line",
+                                "typeAnnotation": null,
+                                "optional": false
+                              },
+                              "declare": false,
+                              "span": {
+                                "start": 376,
+                                "end": 432,
+                                "ctxt": 0
+                              },
+                              "decorators": [],
+                              "body": [
+                                {
+                                  "type": "ClassProperty",
+                                  "span": {
+                                    "start": 405,
+                                    "end": 418,
+                                    "ctxt": 0
+                                  },
+                                  "key": {
+                                    "type": "Identifier",
+                                    "span": {
+                                      "start": 405,
+                                      "end": 409,
+                                      "ctxt": 0
+                                    },
+                                    "value": "name",
+                                    "typeAnnotation": null,
+                                    "optional": false
+                                  },
+                                  "value": null,
+                                  "typeAnnotation": {
+                                    "type": "TsTypeAnnotation",
+                                    "span": {
+                                      "start": 409,
+                                      "end": 417,
+                                      "ctxt": 0
+                                    },
+                                    "typeAnnotation": {
+                                      "type": "TsKeywordType",
+                                      "span": {
+                                        "start": 411,
+                                        "end": 417,
+                                        "ctxt": 0
+                                      },
+                                      "kind": "string"
+                                    }
+                                  },
+                                  "isStatic": false,
+                                  "decorators": [],
+                                  "computed": false,
+                                  "accessibility": null,
+                                  "isAbstract": false,
+                                  "isOptional": false,
+                                  "readonly": false,
+                                  "declare": false,
+                                  "definite": false
+                                }
+                              ],
+                              "superClass": null,
+                              "isAbstract": false,
+                              "typeParams": null,
+                              "superTypeParams": null,
+                              "implements": []
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

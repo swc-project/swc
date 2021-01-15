@@ -1,0 +1,91 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 118,
+    "end": 137,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 118,
+        "end": 137,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 118,
+          "end": 137,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 118,
+            "end": 133,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "ThisExpression",
+            "span": {
+              "start": 118,
+              "end": 122,
+              "ctxt": 0
+            }
+          },
+          "property": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 123,
+              "end": 132,
+              "ctxt": 0
+            },
+            "operator": "+",
+            "left": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 123,
+                "end": 126,
+                "ctxt": 0
+              },
+              "value": "a",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            },
+            "right": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 129,
+                "end": 132,
+                "ctxt": 0
+              },
+              "value": "b",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          },
+          "computed": true
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 136,
+            "end": 137,
+            "ctxt": 0
+          },
+          "value": 0.0
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

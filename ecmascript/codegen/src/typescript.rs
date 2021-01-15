@@ -93,6 +93,11 @@ impl<'a> Emitter<'a> {
     fn emit_ts_constructor_type(&mut self, n: &TsConstructorType) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
+        if n.is_abstract {
+            keyword!("abstract");
+            space!();
+        }
+
         keyword!("new");
         space!();
         if let Some(type_params) = &n.type_params {

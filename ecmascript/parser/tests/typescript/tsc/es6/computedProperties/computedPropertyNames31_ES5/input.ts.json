@@ -1,0 +1,347 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 245,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 22,
+          "end": 26,
+          "ctxt": 0
+        },
+        "value": "Base",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 16,
+        "end": 66,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 33,
+            "end": 64,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 33,
+              "end": 36,
+              "ctxt": 0
+            },
+            "value": "bar",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 33,
+              "end": 64,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 39,
+                "end": 64,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 49,
+                    "end": 58,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 56,
+                      "end": 57,
+                      "ctxt": 0
+                    },
+                    "value": 0.0
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 73,
+          "end": 74,
+          "ctxt": 0
+        },
+        "value": "C",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 67,
+        "end": 245,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 94,
+            "end": 243,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 94,
+              "end": 97,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 94,
+              "end": 243,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 100,
+                "end": 243,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 110,
+                    "end": 219,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "ArrowFunctionExpression",
+                    "span": {
+                      "start": 110,
+                      "end": 219,
+                      "ctxt": 0
+                    },
+                    "params": [],
+                    "body": {
+                      "type": "BlockStatement",
+                      "span": {
+                        "start": 116,
+                        "end": 219,
+                        "ctxt": 0
+                      },
+                      "stmts": [
+                        {
+                          "type": "VariableDeclaration",
+                          "span": {
+                            "start": 130,
+                            "end": 209,
+                            "ctxt": 0
+                          },
+                          "kind": "var",
+                          "declare": false,
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "span": {
+                                "start": 134,
+                                "end": 208,
+                                "ctxt": 0
+                              },
+                              "id": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 134,
+                                  "end": 137,
+                                  "ctxt": 0
+                                },
+                                "value": "obj",
+                                "typeAnnotation": null,
+                                "optional": false
+                              },
+                              "init": {
+                                "type": "ObjectExpression",
+                                "span": {
+                                  "start": 140,
+                                  "end": 208,
+                                  "ctxt": 0
+                                },
+                                "properties": [
+                                  {
+                                    "type": "MethodProperty",
+                                    "key": {
+                                      "type": "Computed",
+                                      "span": {
+                                        "start": 158,
+                                        "end": 171,
+                                        "ctxt": 0
+                                      },
+                                      "expression": {
+                                        "type": "CallExpression",
+                                        "span": {
+                                          "start": 159,
+                                          "end": 170,
+                                          "ctxt": 0
+                                        },
+                                        "callee": {
+                                          "type": "MemberExpression",
+                                          "span": {
+                                            "start": 159,
+                                            "end": 168,
+                                            "ctxt": 0
+                                          },
+                                          "object": {
+                                            "type": "Super",
+                                            "span": {
+                                              "start": 159,
+                                              "end": 164,
+                                              "ctxt": 0
+                                            }
+                                          },
+                                          "property": {
+                                            "type": "Identifier",
+                                            "span": {
+                                              "start": 165,
+                                              "end": 168,
+                                              "ctxt": 0
+                                            },
+                                            "value": "bar",
+                                            "typeAnnotation": null,
+                                            "optional": false
+                                          },
+                                          "computed": false
+                                        },
+                                        "arguments": [],
+                                        "typeArguments": null
+                                      }
+                                    },
+                                    "params": [],
+                                    "decorators": [],
+                                    "span": {
+                                      "start": 158,
+                                      "end": 177,
+                                      "ctxt": 0
+                                    },
+                                    "body": {
+                                      "type": "BlockStatement",
+                                      "span": {
+                                        "start": 174,
+                                        "end": 177,
+                                        "ctxt": 0
+                                      },
+                                      "stmts": []
+                                    },
+                                    "generator": false,
+                                    "async": false,
+                                    "typeParameters": null,
+                                    "returnType": null
+                                  }
+                                ]
+                              },
+                              "definite": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "async": false,
+                    "generator": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  }
+                },
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 228,
+                    "end": 237,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 235,
+                      "end": 236,
+                      "ctxt": 0
+                    },
+                    "value": 0.0
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false
+        }
+      ],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 83,
+          "end": 87,
+          "ctxt": 0
+        },
+        "value": "Base",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

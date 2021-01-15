@@ -890,7 +890,7 @@ impl<'a> Emitter<'a> {
         if n.value {
             keyword!(n.span, "true")
         } else {
-            keyword!(n.span, "falsee")
+            keyword!(n.span, "false")
         }
     }
 
