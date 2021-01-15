@@ -801,7 +801,7 @@ impl<I: Tokens> Parser<I> {
                 .map(TsType::from)
                 .map(Box::new);
         }
-        if is!(self, "new") {
+        if (is!(self, "abstract") && peeked_is!(self, "new")) || is!(self, "new") {
             // As in `new () => Date`
             return self
                 .parse_ts_fn_or_constructor_type(false)
@@ -1583,6 +1583,11 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
+        let is_abstract = if !is_fn_type {
+            eat!(self, "abstract")
+        } else {
+            false
+        };
         if !is_fn_type {
             expect!(self, "new");
         }
@@ -1607,6 +1612,7 @@ impl<I: Tokens> Parser<I> {
                 type_params,
                 params,
                 type_ann,
+                is_abstract,
             })
         })
     }
