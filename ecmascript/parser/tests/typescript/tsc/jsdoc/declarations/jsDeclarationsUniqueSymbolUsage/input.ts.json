@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 129,
-    "end": 394,
+    "start": 123,
+    "end": 376,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 129,
-        "end": 172,
+        "start": 123,
+        "end": 166,
         "ctxt": 0
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 136,
-          "end": 172,
+          "start": 130,
+          "end": 166,
           "ctxt": 0
         },
         "kind": "const",
@@ -26,15 +26,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 142,
-              "end": 171,
+              "start": 136,
+              "end": 165,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 142,
-                "end": 149,
+                "start": 136,
+                "end": 143,
                 "ctxt": 0
               },
               "value": "kSymbol",
@@ -44,15 +44,15 @@
             "init": {
               "type": "CallExpression",
               "span": {
-                "start": 152,
-                "end": 171,
+                "start": 146,
+                "end": 165,
                 "ctxt": 0
               },
               "callee": {
                 "type": "Identifier",
                 "span": {
-                  "start": 152,
-                  "end": 158,
+                  "start": 146,
+                  "end": 152,
                   "ctxt": 0
                 },
                 "value": "Symbol",
@@ -65,8 +65,8 @@
                   "expression": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 159,
-                      "end": 170,
+                      "start": 153,
+                      "end": 164,
                       "ctxt": 0
                     },
                     "value": "my-symbol",
@@ -88,8 +88,8 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 346,
-        "end": 394,
+        "start": 330,
+        "end": 376,
         "ctxt": 0
       },
       "declaration": {
@@ -97,8 +97,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 362,
-            "end": 363,
+            "start": 346,
+            "end": 347,
             "ctxt": 0
           },
           "value": "b",
@@ -110,16 +110,16 @@
           {
             "type": "Parameter",
             "span": {
-              "start": 364,
-              "end": 369,
+              "start": 348,
+              "end": 353,
               "ctxt": 0
             },
             "decorators": [],
             "pat": {
               "type": "Identifier",
               "span": {
-                "start": 364,
-                "end": 369,
+                "start": 348,
+                "end": 353,
                 "ctxt": 0
               },
               "value": "value",
@@ -130,30 +130,30 @@
         ],
         "decorators": [],
         "span": {
-          "start": 353,
-          "end": 394,
+          "start": 337,
+          "end": 376,
           "ctxt": 0
         },
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 371,
-            "end": 394,
+            "start": 355,
+            "end": 376,
             "ctxt": 0
           },
           "stmts": [
             {
               "type": "ReturnStatement",
               "span": {
-                "start": 378,
-                "end": 391,
+                "start": 361,
+                "end": 374,
                 "ctxt": 0
               },
               "argument": {
                 "type": "Identifier",
                 "span": {
-                  "start": 385,
-                  "end": 390,
+                  "start": 368,
+                  "end": 373,
                   "ctxt": 0
                 },
                 "value": "value",

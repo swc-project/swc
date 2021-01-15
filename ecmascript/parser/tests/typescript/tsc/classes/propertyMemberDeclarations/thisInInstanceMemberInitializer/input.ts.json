@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 72,
+    "end": 65,
     "ctxt": 0
   },
   "body": [
@@ -22,7 +22,7 @@
       "declare": false,
       "span": {
         "start": 0,
-        "end": 27,
+        "end": 25,
         "ctxt": 0
       },
       "decorators": [],
@@ -30,15 +30,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 15,
-            "end": 24,
+            "start": 14,
+            "end": 23,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 15,
-              "end": 16,
+              "start": 14,
+              "end": 15,
               "ctxt": 0
             },
             "value": "x",
@@ -48,8 +48,8 @@
           "value": {
             "type": "ThisExpression",
             "span": {
-              "start": 19,
-              "end": 23,
+              "start": 18,
+              "end": 22,
               "ctxt": 0
             }
           },
@@ -76,8 +76,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 37,
-          "end": 38,
+          "start": 33,
+          "end": 34,
           "ctxt": 0
         },
         "value": "D",
@@ -86,8 +86,8 @@
       },
       "declare": false,
       "span": {
-        "start": 31,
-        "end": 72,
+        "start": 27,
+        "end": 65,
         "ctxt": 0
       },
       "decorators": [],
@@ -95,15 +95,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 49,
-            "end": 58,
+            "start": 44,
+            "end": 53,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 49,
-              "end": 50,
+              "start": 44,
+              "end": 45,
               "ctxt": 0
             },
             "value": "x",
@@ -113,8 +113,8 @@
           "value": {
             "type": "ThisExpression",
             "span": {
-              "start": 53,
-              "end": 57,
+              "start": 48,
+              "end": 52,
               "ctxt": 0
             }
           },
@@ -132,15 +132,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 64,
-            "end": 69,
+            "start": 58,
+            "end": 63,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 64,
-              "end": 65,
+              "start": 58,
+              "end": 59,
               "ctxt": 0
             },
             "value": "y",
@@ -151,22 +151,22 @@
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 65,
-              "end": 68,
+              "start": 59,
+              "end": 62,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsTypeReference",
               "span": {
-                "start": 67,
-                "end": 68,
+                "start": 61,
+                "end": 62,
                 "ctxt": 0
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
-                  "start": 67,
-                  "end": 68,
+                  "start": 61,
+                  "end": 62,
                   "ctxt": 0
                 },
                 "value": "T",
@@ -192,23 +192,23 @@
       "typeParams": {
         "type": "TsTypeParameterDeclaration",
         "span": {
-          "start": 38,
-          "end": 41,
+          "start": 34,
+          "end": 37,
           "ctxt": 0
         },
         "parameters": [
           {
             "type": "TsTypeParameter",
             "span": {
-              "start": 39,
-              "end": 40,
+              "start": 35,
+              "end": 36,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 39,
-                "end": 40,
+                "start": 35,
+                "end": 36,
                 "ctxt": 0
               },
               "value": "T",

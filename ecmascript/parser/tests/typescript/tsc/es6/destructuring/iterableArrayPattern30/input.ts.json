@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 16,
-    "end": 83,
+    "start": 15,
+    "end": 82,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 16,
-        "end": 83,
+        "start": 15,
+        "end": 82,
         "ctxt": 0
       },
       "kind": "const",
@@ -19,31 +19,31 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 22,
-            "end": 83,
+            "start": 21,
+            "end": 82,
             "ctxt": 0
           },
           "id": {
             "type": "ArrayPattern",
             "span": {
-              "start": 22,
-              "end": 42,
+              "start": 21,
+              "end": 41,
               "ctxt": 0
             },
             "elements": [
               {
                 "type": "ArrayPattern",
                 "span": {
-                  "start": 23,
-                  "end": 31,
+                  "start": 22,
+                  "end": 30,
                   "ctxt": 0
                 },
                 "elements": [
                   {
                     "type": "Identifier",
                     "span": {
-                      "start": 24,
-                      "end": 26,
+                      "start": 23,
+                      "end": 25,
                       "ctxt": 0
                     },
                     "value": "k1",
@@ -53,8 +53,8 @@
                   {
                     "type": "Identifier",
                     "span": {
-                      "start": 28,
-                      "end": 30,
+                      "start": 27,
+                      "end": 29,
                       "ctxt": 0
                     },
                     "value": "v1",
@@ -68,16 +68,16 @@
               {
                 "type": "ArrayPattern",
                 "span": {
-                  "start": 33,
-                  "end": 41,
+                  "start": 32,
+                  "end": 40,
                   "ctxt": 0
                 },
                 "elements": [
                   {
                     "type": "Identifier",
                     "span": {
-                      "start": 34,
-                      "end": 36,
+                      "start": 33,
+                      "end": 35,
                       "ctxt": 0
                     },
                     "value": "k2",
@@ -87,8 +87,8 @@
                   {
                     "type": "Identifier",
                     "span": {
-                      "start": 38,
-                      "end": 40,
+                      "start": 37,
+                      "end": 39,
                       "ctxt": 0
                     },
                     "value": "v2",
@@ -106,15 +106,15 @@
           "init": {
             "type": "NewExpression",
             "span": {
-              "start": 45,
-              "end": 83,
+              "start": 44,
+              "end": 82,
               "ctxt": 0
             },
             "callee": {
               "type": "Identifier",
               "span": {
-                "start": 49,
-                "end": 52,
+                "start": 48,
+                "end": 51,
                 "ctxt": 0
               },
               "value": "Map",
@@ -127,8 +127,8 @@
                 "expression": {
                   "type": "ArrayExpression",
                   "span": {
-                    "start": 53,
-                    "end": 82,
+                    "start": 52,
+                    "end": 81,
                     "ctxt": 0
                   },
                   "elements": [
@@ -137,8 +137,8 @@
                       "expression": {
                         "type": "ArrayExpression",
                         "span": {
-                          "start": 54,
-                          "end": 64,
+                          "start": 53,
+                          "end": 63,
                           "ctxt": 0
                         },
                         "elements": [
@@ -147,8 +147,8 @@
                             "expression": {
                               "type": "StringLiteral",
                               "span": {
-                                "start": 55,
-                                "end": 57,
+                                "start": 54,
+                                "end": 56,
                                 "ctxt": 0
                               },
                               "value": "",
@@ -164,8 +164,8 @@
                             "expression": {
                               "type": "BooleanLiteral",
                               "span": {
-                                "start": 59,
-                                "end": 63,
+                                "start": 58,
+                                "end": 62,
                                 "ctxt": 0
                               },
                               "value": true
@@ -179,8 +179,8 @@
                       "expression": {
                         "type": "ArrayExpression",
                         "span": {
-                          "start": 66,
-                          "end": 81,
+                          "start": 65,
+                          "end": 80,
                           "ctxt": 0
                         },
                         "elements": [
@@ -189,8 +189,8 @@
                             "expression": {
                               "type": "StringLiteral",
                               "span": {
-                                "start": 67,
-                                "end": 74,
+                                "start": 66,
+                                "end": 73,
                                 "ctxt": 0
                               },
                               "value": "hello",
@@ -206,8 +206,8 @@
                             "expression": {
                               "type": "BooleanLiteral",
                               "span": {
-                                "start": 76,
-                                "end": 80,
+                                "start": 75,
+                                "end": 79,
                                 "ctxt": 0
                               },
                               "value": true

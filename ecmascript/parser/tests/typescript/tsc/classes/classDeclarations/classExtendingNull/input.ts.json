@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 124,
+    "end": 121,
     "ctxt": 0
   },
   "body": [
@@ -45,8 +45,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 33,
-          "end": 35,
+          "start": 32,
+          "end": 34,
           "ctxt": 0
         },
         "value": "C2",
@@ -55,8 +55,8 @@
       },
       "declare": false,
       "span": {
-        "start": 27,
-        "end": 54,
+        "start": 26,
+        "end": 53,
         "ctxt": 0
       },
       "decorators": [],
@@ -64,15 +64,15 @@
       "superClass": {
         "type": "ParenthesisExpression",
         "span": {
-          "start": 44,
-          "end": 50,
+          "start": 43,
+          "end": 49,
           "ctxt": 0
         },
         "expression": {
           "type": "NullLiteral",
           "span": {
-            "start": 45,
-            "end": 49,
+            "start": 44,
+            "end": 48,
             "ctxt": 0
           }
         }
@@ -87,8 +87,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 62,
-          "end": 64,
+          "start": 60,
+          "end": 62,
           "ctxt": 0
         },
         "value": "C3",
@@ -97,8 +97,8 @@
       },
       "declare": false,
       "span": {
-        "start": 56,
-        "end": 88,
+        "start": 54,
+        "end": 86,
         "ctxt": 0
       },
       "decorators": [],
@@ -106,15 +106,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 80,
-            "end": 86,
+            "start": 78,
+            "end": 84,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 80,
-              "end": 81,
+              "start": 78,
+              "end": 79,
               "ctxt": 0
             },
             "value": "x",
@@ -124,8 +124,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 84,
-              "end": 85,
+              "start": 82,
+              "end": 83,
               "ctxt": 0
             },
             "value": 1.0
@@ -145,8 +145,8 @@
       "superClass": {
         "type": "NullLiteral",
         "span": {
-          "start": 73,
-          "end": 77,
+          "start": 71,
+          "end": 75,
           "ctxt": 0
         }
       },
@@ -160,8 +160,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 96,
-          "end": 98,
+          "start": 93,
+          "end": 95,
           "ctxt": 0
         },
         "value": "C4",
@@ -170,8 +170,8 @@
       },
       "declare": false,
       "span": {
-        "start": 90,
-        "end": 124,
+        "start": 87,
+        "end": 121,
         "ctxt": 0
       },
       "decorators": [],
@@ -179,15 +179,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 116,
-            "end": 122,
+            "start": 113,
+            "end": 119,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 116,
-              "end": 117,
+              "start": 113,
+              "end": 114,
               "ctxt": 0
             },
             "value": "x",
@@ -197,8 +197,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 120,
-              "end": 121,
+              "start": 117,
+              "end": 118,
               "ctxt": 0
             },
             "value": 1.0
@@ -218,15 +218,15 @@
       "superClass": {
         "type": "ParenthesisExpression",
         "span": {
-          "start": 107,
-          "end": 113,
+          "start": 104,
+          "end": 110,
           "ctxt": 0
         },
         "expression": {
           "type": "NullLiteral",
           "span": {
-            "start": 108,
-            "end": 112,
+            "start": 105,
+            "end": 109,
             "ctxt": 0
           }
         }

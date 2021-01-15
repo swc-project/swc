@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 121,
-    "end": 620,
+    "start": 115,
+    "end": 591,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsImportEqualsDeclaration",
       "span": {
-        "start": 121,
-        "end": 153,
+        "start": 115,
+        "end": 147,
         "ctxt": 0
       },
       "declare": false,
@@ -18,8 +18,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 128,
-          "end": 133,
+          "start": 122,
+          "end": 127,
           "ctxt": 0
         },
         "value": "React",
@@ -29,15 +29,15 @@
       "moduleRef": {
         "type": "TsExternalModuleReference",
         "span": {
-          "start": 136,
-          "end": 152,
+          "start": 130,
+          "end": 146,
           "ctxt": 0
         },
         "expression": {
           "type": "StringLiteral",
           "span": {
-            "start": 144,
-            "end": 151,
+            "start": 138,
+            "end": 145,
             "ctxt": 0
           },
           "value": "react",
@@ -52,15 +52,15 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 157,
-        "end": 218,
+        "start": 149,
+        "end": 207,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 167,
-          "end": 174,
+          "start": 159,
+          "end": 166,
           "ctxt": 0
         },
         "value": "Address",
@@ -73,24 +73,24 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 175,
-          "end": 218,
+          "start": 167,
+          "end": 207,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 180,
-              "end": 195,
+              "start": 171,
+              "end": 186,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 180,
-                "end": 186,
+                "start": 171,
+                "end": 177,
                 "ctxt": 0
               },
               "value": "street",
@@ -104,15 +104,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 186,
-                "end": 194,
+                "start": 177,
+                "end": 185,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 188,
-                  "end": 194,
+                  "start": 179,
+                  "end": 185,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -123,16 +123,16 @@
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 199,
-              "end": 215,
+              "start": 189,
+              "end": 205,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 199,
-                "end": 206,
+                "start": 189,
+                "end": 196,
                 "ctxt": 0
               },
               "value": "country",
@@ -146,15 +146,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 206,
-                "end": 214,
+                "start": 196,
+                "end": 204,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 208,
-                  "end": 214,
+                  "start": 198,
+                  "end": 204,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -168,15 +168,15 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 222,
-        "end": 293,
+        "start": 209,
+        "end": 278,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 232,
-          "end": 247,
+          "start": 219,
+          "end": 234,
           "ctxt": 0
         },
         "value": "CanadianAddress",
@@ -189,15 +189,15 @@
         {
           "type": "TsExpressionWithTypeArguments",
           "span": {
-            "start": 256,
-            "end": 263,
+            "start": 243,
+            "end": 250,
             "ctxt": 0
           },
           "expression": {
             "type": "Identifier",
             "span": {
-              "start": 256,
-              "end": 263,
+              "start": 243,
+              "end": 250,
               "ctxt": 0
             },
             "value": "Address",
@@ -210,24 +210,24 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 264,
-          "end": 293,
+          "start": 251,
+          "end": 278,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 271,
-              "end": 290,
+              "start": 257,
+              "end": 276,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 271,
-                "end": 281,
+                "start": 257,
+                "end": 267,
                 "ctxt": 0
               },
               "value": "postalCode",
@@ -241,15 +241,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 281,
-                "end": 289,
+                "start": 267,
+                "end": 275,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 283,
-                  "end": 289,
+                  "start": 269,
+                  "end": 275,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -263,15 +263,15 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 297,
-        "end": 365,
+        "start": 280,
+        "end": 346,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 307,
-          "end": 322,
+          "start": 290,
+          "end": 305,
           "ctxt": 0
         },
         "value": "AmericanAddress",
@@ -284,15 +284,15 @@
         {
           "type": "TsExpressionWithTypeArguments",
           "span": {
-            "start": 331,
-            "end": 338,
+            "start": 314,
+            "end": 321,
             "ctxt": 0
           },
           "expression": {
             "type": "Identifier",
             "span": {
-              "start": 331,
-              "end": 338,
+              "start": 314,
+              "end": 321,
               "ctxt": 0
             },
             "value": "Address",
@@ -305,24 +305,24 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 339,
-          "end": 365,
+          "start": 322,
+          "end": 346,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 346,
-              "end": 362,
+              "start": 328,
+              "end": 344,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 346,
-                "end": 353,
+                "start": 328,
+                "end": 335,
                 "ctxt": 0
               },
               "value": "zipCode",
@@ -336,15 +336,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 353,
-                "end": 361,
+                "start": 335,
+                "end": 343,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 355,
-                  "end": 361,
+                  "start": 337,
+                  "end": 343,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -358,16 +358,16 @@
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
-        "start": 369,
-        "end": 421,
+        "start": 348,
+        "end": 400,
         "ctxt": 0
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 374,
-          "end": 384,
+          "start": 353,
+          "end": 363,
           "ctxt": 0
         },
         "value": "Properties",
@@ -378,23 +378,23 @@
       "typeAnnotation": {
         "type": "TsUnionType",
         "span": {
-          "start": 387,
-          "end": 420,
+          "start": 366,
+          "end": 399,
           "ctxt": 0
         },
         "types": [
           {
             "type": "TsTypeReference",
             "span": {
-              "start": 387,
-              "end": 402,
+              "start": 366,
+              "end": 381,
               "ctxt": 0
             },
             "typeName": {
               "type": "Identifier",
               "span": {
-                "start": 387,
-                "end": 402,
+                "start": 366,
+                "end": 381,
                 "ctxt": 0
               },
               "value": "CanadianAddress",
@@ -406,15 +406,15 @@
           {
             "type": "TsTypeReference",
             "span": {
-              "start": 405,
-              "end": 420,
+              "start": 384,
+              "end": 399,
               "ctxt": 0
             },
             "typeName": {
               "type": "Identifier",
               "span": {
-                "start": 405,
-                "end": 420,
+                "start": 384,
+                "end": 399,
                 "ctxt": 0
               },
               "value": "AmericanAddress",
@@ -429,8 +429,8 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 425,
-        "end": 540,
+        "start": 402,
+        "end": 513,
         "ctxt": 0
       },
       "declaration": {
@@ -438,8 +438,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 438,
-            "end": 449,
+            "start": 415,
+            "end": 426,
             "ctxt": 0
           },
           "value": "AddressComp",
@@ -448,8 +448,8 @@
         },
         "declare": false,
         "span": {
-          "start": 432,
-          "end": 540,
+          "start": 409,
+          "end": 513,
           "ctxt": 0
         },
         "decorators": [],
@@ -457,15 +457,15 @@
           {
             "type": "ClassMethod",
             "span": {
-              "start": 497,
-              "end": 537,
+              "start": 473,
+              "end": 511,
               "ctxt": 0
             },
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 504,
-                "end": 510,
+                "start": 480,
+                "end": 486,
                 "ctxt": 0
               },
               "value": "render",
@@ -476,30 +476,30 @@
               "params": [],
               "decorators": [],
               "span": {
-                "start": 497,
-                "end": 537,
+                "start": 473,
+                "end": 511,
                 "ctxt": 0
               },
               "body": {
                 "type": "BlockStatement",
                 "span": {
-                  "start": 513,
-                  "end": 537,
+                  "start": 489,
+                  "end": 511,
                   "ctxt": 0
                 },
                 "stmts": [
                   {
                     "type": "ReturnStatement",
                     "span": {
-                      "start": 520,
-                      "end": 532,
+                      "start": 495,
+                      "end": 507,
                       "ctxt": 0
                     },
                     "argument": {
                       "type": "NullLiteral",
                       "span": {
-                        "start": 527,
-                        "end": 531,
+                        "start": 502,
+                        "end": 506,
                         "ctxt": 0
                       }
                     }
@@ -521,15 +521,15 @@
         "superClass": {
           "type": "MemberExpression",
           "span": {
-            "start": 458,
-            "end": 473,
+            "start": 435,
+            "end": 450,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 458,
-              "end": 463,
+              "start": 435,
+              "end": 440,
               "ctxt": 0
             },
             "value": "React",
@@ -539,8 +539,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 464,
-              "end": 473,
+              "start": 441,
+              "end": 450,
               "ctxt": 0
             },
             "value": "Component",
@@ -554,23 +554,23 @@
         "superTypeParams": {
           "type": "TsTypeParameterInstantiation",
           "span": {
-            "start": 473,
-            "end": 491,
+            "start": 450,
+            "end": 468,
             "ctxt": 0
           },
           "params": [
             {
               "type": "TsTypeReference",
               "span": {
-                "start": 474,
-                "end": 484,
+                "start": 451,
+                "end": 461,
                 "ctxt": 0
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
-                  "start": 474,
-                  "end": 484,
+                  "start": 451,
+                  "end": 461,
                   "ctxt": 0
                 },
                 "value": "Properties",
@@ -582,8 +582,8 @@
             {
               "type": "TsKeywordType",
               "span": {
-                "start": 486,
-                "end": 490,
+                "start": 463,
+                "end": 467,
                 "ctxt": 0
               },
               "kind": "void"
@@ -596,8 +596,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 544,
-        "end": 620,
+        "start": 515,
+        "end": 591,
         "ctxt": 0
       },
       "kind": "let",
@@ -606,15 +606,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 548,
-            "end": 620,
+            "start": 519,
+            "end": 591,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 548,
-              "end": 549,
+              "start": 519,
+              "end": 520,
               "ctxt": 0
             },
             "value": "a",
@@ -624,8 +624,8 @@
           "init": {
             "type": "JSXElement",
             "span": {
-              "start": 552,
-              "end": 620,
+              "start": 523,
+              "end": 591,
               "ctxt": 0
             },
             "opening": {
@@ -633,8 +633,8 @@
               "name": {
                 "type": "Identifier",
                 "span": {
-                  "start": 553,
-                  "end": 564,
+                  "start": 524,
+                  "end": 535,
                   "ctxt": 0
                 },
                 "value": "AddressComp",
@@ -642,23 +642,23 @@
                 "optional": false
               },
               "span": {
-                "start": 552,
-                "end": 620,
+                "start": 523,
+                "end": 591,
                 "ctxt": 0
               },
               "attributes": [
                 {
                   "type": "JSXAttribute",
                   "span": {
-                    "start": 565,
-                    "end": 585,
+                    "start": 536,
+                    "end": 556,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 565,
-                      "end": 575,
+                      "start": 536,
+                      "end": 546,
                       "ctxt": 0
                     },
                     "value": "postalCode",
@@ -668,8 +668,8 @@
                   "value": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 576,
-                      "end": 585,
+                      "start": 547,
+                      "end": 556,
                       "ctxt": 0
                     },
                     "value": "T1B 0L3",
@@ -683,15 +683,15 @@
                 {
                   "type": "JSXAttribute",
                   "span": {
-                    "start": 586,
-                    "end": 604,
+                    "start": 557,
+                    "end": 575,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 586,
-                      "end": 592,
+                      "start": 557,
+                      "end": 563,
                       "ctxt": 0
                     },
                     "value": "street",
@@ -701,8 +701,8 @@
                   "value": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 593,
-                      "end": 604,
+                      "start": 564,
+                      "end": 575,
                       "ctxt": 0
                     },
                     "value": "vancouver",
@@ -716,15 +716,15 @@
                 {
                   "type": "JSXAttribute",
                   "span": {
-                    "start": 605,
-                    "end": 617,
+                    "start": 576,
+                    "end": 588,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 605,
-                      "end": 612,
+                      "start": 576,
+                      "end": 583,
                       "ctxt": 0
                     },
                     "value": "country",
@@ -734,8 +734,8 @@
                   "value": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 613,
-                      "end": 617,
+                      "start": 584,
+                      "end": 588,
                       "ctxt": 0
                     },
                     "value": "CA",

@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 157,
+    "end": 150,
     "ctxt": 0
   },
   "body": [
@@ -22,7 +22,7 @@
       "declare": false,
       "span": {
         "start": 0,
-        "end": 48,
+        "end": 46,
         "ctxt": 0
       },
       "decorators": [],
@@ -30,15 +30,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 18,
-            "end": 45,
+            "start": 17,
+            "end": 44,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 33,
-              "end": 36,
+              "start": 32,
+              "end": 35,
               "ctxt": 0
             },
             "value": "foo",
@@ -49,15 +49,15 @@
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 36,
-              "end": 44,
+              "start": 35,
+              "end": 43,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 38,
-                "end": 44,
+                "start": 37,
+                "end": 43,
                 "ctxt": 0
               },
               "kind": "string"
@@ -85,8 +85,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 58,
-          "end": 65,
+          "start": 54,
+          "end": 61,
           "ctxt": 0
         },
         "value": "Derived",
@@ -95,8 +95,8 @@
       },
       "declare": false,
       "span": {
-        "start": 52,
-        "end": 157,
+        "start": 48,
+        "end": 150,
         "ctxt": 0
       },
       "decorators": [],
@@ -104,15 +104,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 86,
-            "end": 108,
+            "start": 81,
+            "end": 103,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 93,
-              "end": 96,
+              "start": 88,
+              "end": 91,
               "ctxt": 0
             },
             "value": "bar",
@@ -122,15 +122,15 @@
           "value": {
             "type": "MemberExpression",
             "span": {
-              "start": 99,
-              "end": 107,
+              "start": 94,
+              "end": 102,
               "ctxt": 0
             },
             "object": {
               "type": "Identifier",
               "span": {
-                "start": 99,
-                "end": 103,
+                "start": 94,
+                "end": 98,
                 "ctxt": 0
               },
               "value": "Base",
@@ -140,8 +140,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 104,
-                "end": 107,
+                "start": 99,
+                "end": 102,
                 "ctxt": 0
               },
               "value": "foo",
@@ -164,15 +164,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 123,
-            "end": 145,
+            "start": 117,
+            "end": 139,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 123,
-              "end": 127,
+              "start": 117,
+              "end": 121,
               "ctxt": 0
             },
             "value": "bing",
@@ -182,23 +182,23 @@
           "value": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 130,
-              "end": 144,
+              "start": 124,
+              "end": 138,
               "ctxt": 0
             },
             "params": [],
             "body": {
               "type": "MemberExpression",
               "span": {
-                "start": 136,
-                "end": 144,
+                "start": 130,
+                "end": 138,
                 "ctxt": 0
               },
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 136,
-                  "end": 140,
+                  "start": 130,
+                  "end": 134,
                   "ctxt": 0
                 },
                 "value": "Base",
@@ -208,8 +208,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 141,
-                  "end": 144,
+                  "start": 135,
+                  "end": 138,
                   "ctxt": 0
                 },
                 "value": "foo",
@@ -238,8 +238,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 74,
-          "end": 78,
+          "start": 70,
+          "end": 74,
           "ctxt": 0
         },
         "value": "Base",

@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 161,
+    "end": 154,
     "ctxt": 0
   },
   "body": [
@@ -83,8 +83,8 @@
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 28,
-        "end": 161,
+        "start": 26,
+        "end": 154,
         "ctxt": 0
       },
       "declare": false,
@@ -92,8 +92,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 35,
-          "end": 36,
+          "start": 33,
+          "end": 34,
           "ctxt": 0
         },
         "value": "M",
@@ -103,16 +103,16 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 37,
-          "end": 161,
+          "start": 35,
+          "end": 154,
           "ctxt": 0
         },
         "body": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 44,
-              "end": 54,
+              "start": 41,
+              "end": 51,
               "ctxt": 0
             },
             "kind": "var",
@@ -121,15 +121,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 48,
-                  "end": 53,
+                  "start": 45,
+                  "end": 50,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 48,
-                    "end": 49,
+                    "start": 45,
+                    "end": 46,
                     "ctxt": 0
                   },
                   "value": "C",
@@ -139,8 +139,8 @@
                 "init": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 52,
-                    "end": 53,
+                    "start": 49,
+                    "end": 50,
                     "ctxt": 0
                   },
                   "value": 1.0
@@ -154,8 +154,8 @@
             "identifier": {
               "type": "Identifier",
               "span": {
-                "start": 66,
-                "end": 67,
+                "start": 62,
+                "end": 63,
                 "ctxt": 0
               },
               "value": "D",
@@ -164,8 +164,8 @@
             },
             "declare": false,
             "span": {
-              "start": 60,
-              "end": 158,
+              "start": 56,
+              "end": 152,
               "ctxt": 0
             },
             "decorators": [],
@@ -173,15 +173,15 @@
               {
                 "type": "ClassProperty",
                 "span": {
-                  "start": 139,
-                  "end": 151,
+                  "start": 134,
+                  "end": 146,
                   "ctxt": 0
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 139,
-                    "end": 142,
+                    "start": 134,
+                    "end": 137,
                     "ctxt": 0
                   },
                   "value": "bar",
@@ -192,15 +192,15 @@
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
-                    "start": 142,
-                    "end": 150,
+                    "start": 137,
+                    "end": 145,
                     "ctxt": 0
                   },
                   "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 144,
-                      "end": 150,
+                      "start": 139,
+                      "end": 145,
                       "ctxt": 0
                     },
                     "kind": "string"
@@ -220,8 +220,8 @@
             "superClass": {
               "type": "Identifier",
               "span": {
-                "start": 76,
-                "end": 77,
+                "start": 72,
+                "end": 73,
                 "ctxt": 0
               },
               "value": "C",

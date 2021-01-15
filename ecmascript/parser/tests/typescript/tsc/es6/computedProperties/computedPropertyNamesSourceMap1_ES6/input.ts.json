@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 38,
-    "end": 131,
+    "start": 36,
+    "end": 122,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 44,
-          "end": 45,
+          "start": 42,
+          "end": 43,
           "ctxt": 0
         },
         "value": "C",
@@ -21,8 +21,8 @@
       },
       "declare": false,
       "span": {
-        "start": 38,
-        "end": 131,
+        "start": 36,
+        "end": 122,
         "ctxt": 0
       },
       "decorators": [],
@@ -30,22 +30,22 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 53,
-            "end": 89,
+            "start": 50,
+            "end": 84,
             "ctxt": 0
           },
           "key": {
             "type": "Computed",
             "span": {
-              "start": 53,
-              "end": 62,
+              "start": 50,
+              "end": 59,
               "ctxt": 0
             },
             "expression": {
               "type": "StringLiteral",
               "span": {
-                "start": 54,
-                "end": 61,
+                "start": 51,
+                "end": 58,
                 "ctxt": 0
               },
               "value": "hello",
@@ -60,23 +60,23 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 53,
-              "end": 89,
+              "start": 50,
+              "end": 84,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 65,
-                "end": 89,
+                "start": 62,
+                "end": 84,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "DebuggerStatement",
                   "span": {
-                    "start": 76,
-                    "end": 85,
+                    "start": 72,
+                    "end": 81,
                     "ctxt": 0
                   }
                 }
@@ -96,22 +96,22 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 92,
-            "end": 128,
+            "start": 86,
+            "end": 120,
             "ctxt": 0
           },
           "key": {
             "type": "Computed",
             "span": {
-              "start": 96,
-              "end": 107,
+              "start": 90,
+              "end": 101,
               "ctxt": 0
             },
             "expression": {
               "type": "StringLiteral",
               "span": {
-                "start": 97,
-                "end": 106,
+                "start": 91,
+                "end": 100,
                 "ctxt": 0
               },
               "value": "goodbye",
@@ -126,30 +126,30 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 92,
-              "end": 128,
+              "start": 86,
+              "end": 120,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 110,
-                "end": 128,
+                "start": 104,
+                "end": 120,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
-                    "start": 115,
-                    "end": 124,
+                    "start": 108,
+                    "end": 117,
                     "ctxt": 0
                   },
                   "argument": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 122,
-                      "end": 123,
+                      "start": 115,
+                      "end": 116,
                       "ctxt": 0
                     },
                     "value": 0.0

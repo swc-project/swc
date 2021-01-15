@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 96,
+    "end": 88,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 0,
-        "end": 63,
+        "end": 59,
         "ctxt": 0
       },
       "declare": false,
@@ -30,15 +30,15 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 9,
-          "end": 63,
+          "end": 59,
           "ctxt": 0
         },
         "body": [
           {
             "type": "ExportDeclaration",
             "span": {
-              "start": 16,
-              "end": 42,
+              "start": 15,
+              "end": 41,
               "ctxt": 0
             },
             "declaration": {
@@ -46,8 +46,8 @@
               "identifier": {
                 "type": "Identifier",
                 "span": {
-                  "start": 38,
-                  "end": 39,
+                  "start": 37,
+                  "end": 38,
                   "ctxt": 0
                 },
                 "value": "A",
@@ -56,8 +56,8 @@
               },
               "declare": false,
               "span": {
-                "start": 23,
-                "end": 42,
+                "start": 22,
+                "end": 41,
                 "ctxt": 0
               },
               "decorators": [],
@@ -72,22 +72,22 @@
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 54,
-              "end": 60,
+              "start": 51,
+              "end": 57,
               "ctxt": 0
             },
             "expression": {
               "type": "NewExpression",
               "span": {
-                "start": 54,
-                "end": 59,
+                "start": 51,
+                "end": 56,
                 "ctxt": 0
               },
               "callee": {
                 "type": "Identifier",
                 "span": {
-                  "start": 58,
-                  "end": 59,
+                  "start": 55,
+                  "end": 56,
                   "ctxt": 0
                 },
                 "value": "A",
@@ -104,8 +104,8 @@
     {
       "type": "TsImportEqualsDeclaration",
       "span": {
-        "start": 67,
-        "end": 84,
+        "start": 61,
+        "end": 78,
         "ctxt": 0
       },
       "declare": false,
@@ -113,8 +113,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 74,
-          "end": 77,
+          "start": 68,
+          "end": 71,
           "ctxt": 0
         },
         "value": "myA",
@@ -126,8 +126,8 @@
         "left": {
           "type": "Identifier",
           "span": {
-            "start": 80,
-            "end": 81,
+            "start": 74,
+            "end": 75,
             "ctxt": 0
           },
           "value": "M",
@@ -137,8 +137,8 @@
         "right": {
           "type": "Identifier",
           "span": {
-            "start": 82,
-            "end": 83,
+            "start": 76,
+            "end": 77,
             "ctxt": 0
           },
           "value": "A",
@@ -150,22 +150,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 88,
-        "end": 96,
+        "start": 80,
+        "end": 88,
         "ctxt": 0
       },
       "expression": {
         "type": "NewExpression",
         "span": {
-          "start": 88,
-          "end": 95,
+          "start": 80,
+          "end": 87,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 92,
-            "end": 95,
+            "start": 84,
+            "end": 87,
             "ctxt": 0
           },
           "value": "myA",

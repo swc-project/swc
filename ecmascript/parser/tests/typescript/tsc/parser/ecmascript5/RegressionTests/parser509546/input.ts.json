@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 38,
+    "end": 36,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 0,
-        "end": 38,
+        "end": 36,
         "ctxt": 0
       },
       "declaration": {
@@ -29,7 +29,7 @@
         "declare": false,
         "span": {
           "start": 7,
-          "end": 38,
+          "end": 36,
           "ctxt": 0
         },
         "decorators": [],
@@ -37,15 +37,15 @@
           {
             "type": "ClassProperty",
             "span": {
-              "start": 29,
-              "end": 35,
+              "start": 28,
+              "end": 34,
               "ctxt": 0
             },
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 29,
-                "end": 35,
+                "start": 28,
+                "end": 34,
                 "ctxt": 0
               },
               "value": "public",

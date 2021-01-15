@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 31,
-    "end": 120,
+    "start": 29,
+    "end": 111,
     "ctxt": 0
   },
   "body": [
     {
       "type": "LabeledStatement",
       "span": {
-        "start": 31,
-        "end": 120,
+        "start": 29,
+        "end": 111,
         "ctxt": 0
       },
       "label": {
         "type": "Identifier",
         "span": {
-          "start": 31,
-          "end": 37,
+          "start": 29,
+          "end": 35,
           "ctxt": 0
         },
         "value": "target",
@@ -27,15 +27,15 @@
       "body": {
         "type": "WhileStatement",
         "span": {
-          "start": 40,
-          "end": 120,
+          "start": 37,
+          "end": 111,
           "ctxt": 0
         },
         "test": {
           "type": "BooleanLiteral",
           "span": {
-            "start": 47,
-            "end": 51,
+            "start": 44,
+            "end": 48,
             "ctxt": 0
           },
           "value": true
@@ -43,8 +43,8 @@
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 53,
-            "end": 120,
+            "start": 50,
+            "end": 111,
             "ctxt": 0
           },
           "stmts": [
@@ -53,8 +53,8 @@
               "identifier": {
                 "type": "Identifier",
                 "span": {
-                  "start": 67,
-                  "end": 68,
+                  "start": 63,
+                  "end": 64,
                   "ctxt": 0
                 },
                 "value": "f",
@@ -65,30 +65,30 @@
               "params": [],
               "decorators": [],
               "span": {
-                "start": 58,
-                "end": 117,
+                "start": 54,
+                "end": 109,
                 "ctxt": 0
               },
               "body": {
                 "type": "BlockStatement",
                 "span": {
-                  "start": 71,
-                  "end": 117,
+                  "start": 67,
+                  "end": 109,
                   "ctxt": 0
                 },
                 "stmts": [
                   {
                     "type": "LabeledStatement",
                     "span": {
-                      "start": 78,
-                      "end": 112,
+                      "start": 73,
+                      "end": 105,
                       "ctxt": 0
                     },
                     "label": {
                       "type": "Identifier",
                       "span": {
-                        "start": 78,
-                        "end": 84,
+                        "start": 73,
+                        "end": 79,
                         "ctxt": 0
                       },
                       "value": "target",
@@ -98,15 +98,15 @@
                     "body": {
                       "type": "WhileStatement",
                       "span": {
-                        "start": 91,
-                        "end": 112,
+                        "start": 85,
+                        "end": 105,
                         "ctxt": 0
                       },
                       "test": {
                         "type": "BooleanLiteral",
                         "span": {
-                          "start": 98,
-                          "end": 102,
+                          "start": 92,
+                          "end": 96,
                           "ctxt": 0
                         },
                         "value": true
@@ -114,8 +114,8 @@
                       "body": {
                         "type": "BlockStatement",
                         "span": {
-                          "start": 104,
-                          "end": 112,
+                          "start": 98,
+                          "end": 105,
                           "ctxt": 0
                         },
                         "stmts": []

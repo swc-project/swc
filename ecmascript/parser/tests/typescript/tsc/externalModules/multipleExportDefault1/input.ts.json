@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 94,
+    "end": 88,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "ExportDefaultDeclaration",
       "span": {
         "start": 15,
-        "end": 40,
+        "end": 38,
         "ctxt": 0
       },
       "decl": {
@@ -30,14 +30,14 @@
         "decorators": [],
         "span": {
           "start": 15,
-          "end": 40,
+          "end": 38,
           "ctxt": 0
         },
         "body": {
           "type": "BlockStatement",
           "span": {
             "start": 30,
-            "end": 40,
+            "end": 38,
             "ctxt": 0
           },
           "stmts": []
@@ -51,15 +51,15 @@
     {
       "type": "ExportDefaultExpression",
       "span": {
-        "start": 44,
-        "end": 94,
+        "start": 40,
+        "end": 88,
         "ctxt": 0
       },
       "expression": {
         "type": "ObjectExpression",
         "span": {
-          "start": 59,
-          "end": 93,
+          "start": 55,
+          "end": 87,
           "ctxt": 0
         },
         "properties": [
@@ -68,8 +68,8 @@
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 66,
-                "end": 70,
+                "start": 61,
+                "end": 65,
                 "ctxt": 0
               },
               "value": "uhoh",
@@ -79,8 +79,8 @@
             "value": {
               "type": "StringLiteral",
               "span": {
-                "start": 72,
-                "end": 89,
+                "start": 67,
+                "end": 84,
                 "ctxt": 0
               },
               "value": "another default",

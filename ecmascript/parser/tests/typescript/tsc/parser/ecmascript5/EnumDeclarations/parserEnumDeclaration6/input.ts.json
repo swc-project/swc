@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 56,
+    "end": 51,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "TsEnumDeclaration",
       "span": {
         "start": 0,
-        "end": 56,
+        "end": 51,
         "ctxt": 0
       },
       "declare": false,
@@ -30,15 +30,15 @@
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 14,
-            "end": 19,
+            "start": 13,
+            "end": 18,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 14,
-              "end": 15,
+              "start": 13,
+              "end": 14,
               "ctxt": 0
             },
             "value": "A",
@@ -48,8 +48,8 @@
           "init": {
             "type": "NumericLiteral",
             "span": {
-              "start": 18,
-              "end": 19,
+              "start": 17,
+              "end": 18,
               "ctxt": 0
             },
             "value": 1.0
@@ -58,15 +58,15 @@
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 26,
-            "end": 27,
+            "start": 24,
+            "end": 25,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 26,
-              "end": 27,
+              "start": 24,
+              "end": 25,
               "ctxt": 0
             },
             "value": "B",
@@ -78,15 +78,15 @@
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 34,
-            "end": 44,
+            "start": 31,
+            "end": 41,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 34,
-              "end": 35,
+              "start": 31,
+              "end": 32,
               "ctxt": 0
             },
             "value": "C",
@@ -96,16 +96,16 @@
           "init": {
             "type": "BinaryExpression",
             "span": {
-              "start": 38,
-              "end": 44,
+              "start": 35,
+              "end": 41,
               "ctxt": 0
             },
             "operator": "<<",
             "left": {
               "type": "NumericLiteral",
               "span": {
-                "start": 38,
-                "end": 39,
+                "start": 35,
+                "end": 36,
                 "ctxt": 0
               },
               "value": 1.0
@@ -113,8 +113,8 @@
             "right": {
               "type": "NumericLiteral",
               "span": {
-                "start": 43,
-                "end": 44,
+                "start": 40,
+                "end": 41,
                 "ctxt": 0
               },
               "value": 1.0
@@ -124,15 +124,15 @@
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 51,
-            "end": 52,
+            "start": 47,
+            "end": 48,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 51,
-              "end": 52,
+              "start": 47,
+              "end": 48,
               "ctxt": 0
             },
             "value": "D",

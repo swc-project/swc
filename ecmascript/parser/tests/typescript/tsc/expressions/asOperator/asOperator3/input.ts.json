@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 354,
+    "end": 345,
     "ctxt": 0
   },
   "body": [
@@ -111,8 +111,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 43,
-        "end": 76,
+        "start": 41,
+        "end": 74,
         "ctxt": 0
       },
       "kind": "var",
@@ -121,15 +121,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 47,
-            "end": 75,
+            "start": 45,
+            "end": 73,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 47,
-              "end": 48,
+              "start": 45,
+              "end": 46,
               "ctxt": 0
             },
             "value": "a",
@@ -139,31 +139,31 @@
           "init": {
             "type": "TemplateLiteral",
             "span": {
-              "start": 51,
-              "end": 75,
+              "start": 49,
+              "end": 73,
               "ctxt": 0
             },
             "expressions": [
               {
                 "type": "TsAsExpression",
                 "span": {
-                  "start": 54,
-                  "end": 73,
+                  "start": 52,
+                  "end": 71,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "BinaryExpression",
                   "span": {
-                    "start": 54,
-                    "end": 63,
+                    "start": 52,
+                    "end": 61,
                     "ctxt": 0
                   },
                   "operator": "+",
                   "left": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 54,
-                      "end": 57,
+                      "start": 52,
+                      "end": 55,
                       "ctxt": 0
                     },
                     "value": 123.0
@@ -171,8 +171,8 @@
                   "right": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 60,
-                      "end": 63,
+                      "start": 58,
+                      "end": 61,
                       "ctxt": 0
                     },
                     "value": 456.0
@@ -181,8 +181,8 @@
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 67,
-                    "end": 73,
+                    "start": 65,
+                    "end": 71,
                     "ctxt": 0
                   },
                   "kind": "number"
@@ -193,16 +193,16 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 52,
-                  "end": 52,
+                  "start": 50,
+                  "end": 50,
                   "ctxt": 0
                 },
                 "tail": false,
                 "cooked": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 52,
-                    "end": 52,
+                    "start": 50,
+                    "end": 50,
                     "ctxt": 0
                   },
                   "value": "",
@@ -215,8 +215,8 @@
                 "raw": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 52,
-                    "end": 52,
+                    "start": 50,
+                    "end": 50,
                     "ctxt": 0
                   },
                   "value": "",
@@ -230,16 +230,16 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 74,
-                  "end": 74,
+                  "start": 72,
+                  "end": 72,
                   "ctxt": 0
                 },
                 "tail": true,
                 "cooked": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 74,
-                    "end": 74,
+                    "start": 72,
+                    "end": 72,
                     "ctxt": 0
                   },
                   "value": "",
@@ -252,8 +252,8 @@
                 "raw": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 74,
-                    "end": 74,
+                    "start": 72,
+                    "end": 72,
                     "ctxt": 0
                   },
                   "value": "",
@@ -273,8 +273,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 78,
-        "end": 119,
+        "start": 75,
+        "end": 116,
         "ctxt": 0
       },
       "kind": "var",
@@ -283,15 +283,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 82,
-            "end": 118,
+            "start": 79,
+            "end": 115,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 82,
-              "end": 83,
+              "start": 79,
+              "end": 80,
               "ctxt": 0
             },
             "value": "b",
@@ -301,31 +301,31 @@
           "init": {
             "type": "TemplateLiteral",
             "span": {
-              "start": 86,
-              "end": 118,
+              "start": 83,
+              "end": 115,
               "ctxt": 0
             },
             "expressions": [
               {
                 "type": "TsAsExpression",
                 "span": {
-                  "start": 97,
-                  "end": 116,
+                  "start": 94,
+                  "end": 113,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "BinaryExpression",
                   "span": {
-                    "start": 97,
-                    "end": 106,
+                    "start": 94,
+                    "end": 103,
                     "ctxt": 0
                   },
                   "operator": "+",
                   "left": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 97,
-                      "end": 100,
+                      "start": 94,
+                      "end": 97,
                       "ctxt": 0
                     },
                     "value": 123.0
@@ -333,8 +333,8 @@
                   "right": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 103,
-                      "end": 106,
+                      "start": 100,
+                      "end": 103,
                       "ctxt": 0
                     },
                     "value": 456.0
@@ -343,8 +343,8 @@
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 110,
-                    "end": 116,
+                    "start": 107,
+                    "end": 113,
                     "ctxt": 0
                   },
                   "kind": "number"
@@ -355,16 +355,16 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 87,
-                  "end": 95,
+                  "start": 84,
+                  "end": 92,
                   "ctxt": 0
                 },
                 "tail": false,
                 "cooked": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 87,
-                    "end": 95,
+                    "start": 84,
+                    "end": 92,
                     "ctxt": 0
                   },
                   "value": "leading ",
@@ -377,8 +377,8 @@
                 "raw": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 87,
-                    "end": 95,
+                    "start": 84,
+                    "end": 92,
                     "ctxt": 0
                   },
                   "value": "leading ",
@@ -392,16 +392,16 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 117,
-                  "end": 117,
+                  "start": 114,
+                  "end": 114,
                   "ctxt": 0
                 },
                 "tail": true,
                 "cooked": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 117,
-                    "end": 117,
+                    "start": 114,
+                    "end": 114,
                     "ctxt": 0
                   },
                   "value": "",
@@ -414,8 +414,8 @@
                 "raw": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 117,
-                    "end": 117,
+                    "start": 114,
+                    "end": 114,
                     "ctxt": 0
                   },
                   "value": "",
@@ -435,8 +435,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 121,
-        "end": 163,
+        "start": 117,
+        "end": 159,
         "ctxt": 0
       },
       "kind": "var",
@@ -445,15 +445,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 125,
-            "end": 162,
+            "start": 121,
+            "end": 158,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 125,
-              "end": 126,
+              "start": 121,
+              "end": 122,
               "ctxt": 0
             },
             "value": "c",
@@ -463,31 +463,31 @@
           "init": {
             "type": "TemplateLiteral",
             "span": {
-              "start": 129,
-              "end": 162,
+              "start": 125,
+              "end": 158,
               "ctxt": 0
             },
             "expressions": [
               {
                 "type": "TsAsExpression",
                 "span": {
-                  "start": 132,
-                  "end": 151,
+                  "start": 128,
+                  "end": 147,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "BinaryExpression",
                   "span": {
-                    "start": 132,
-                    "end": 141,
+                    "start": 128,
+                    "end": 137,
                     "ctxt": 0
                   },
                   "operator": "+",
                   "left": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 132,
-                      "end": 135,
+                      "start": 128,
+                      "end": 131,
                       "ctxt": 0
                     },
                     "value": 123.0
@@ -495,8 +495,8 @@
                   "right": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 138,
-                      "end": 141,
+                      "start": 134,
+                      "end": 137,
                       "ctxt": 0
                     },
                     "value": 456.0
@@ -505,8 +505,8 @@
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 145,
-                    "end": 151,
+                    "start": 141,
+                    "end": 147,
                     "ctxt": 0
                   },
                   "kind": "number"
@@ -517,16 +517,16 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 130,
-                  "end": 130,
+                  "start": 126,
+                  "end": 126,
                   "ctxt": 0
                 },
                 "tail": false,
                 "cooked": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 130,
-                    "end": 130,
+                    "start": 126,
+                    "end": 126,
                     "ctxt": 0
                   },
                   "value": "",
@@ -539,8 +539,8 @@
                 "raw": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 130,
-                    "end": 130,
+                    "start": 126,
+                    "end": 126,
                     "ctxt": 0
                   },
                   "value": "",
@@ -554,16 +554,16 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 152,
-                  "end": 161,
+                  "start": 148,
+                  "end": 157,
                   "ctxt": 0
                 },
                 "tail": true,
                 "cooked": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 152,
-                    "end": 161,
+                    "start": 148,
+                    "end": 157,
                     "ctxt": 0
                   },
                   "value": " trailing",
@@ -576,8 +576,8 @@
                 "raw": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 152,
-                    "end": 161,
+                    "start": 148,
+                    "end": 157,
                     "ctxt": 0
                   },
                   "value": " trailing",
@@ -597,8 +597,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 165,
-        "end": 204,
+        "start": 160,
+        "end": 199,
         "ctxt": 0
       },
       "kind": "var",
@@ -607,15 +607,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 169,
-            "end": 203,
+            "start": 164,
+            "end": 198,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 169,
-              "end": 170,
+              "start": 164,
+              "end": 165,
               "ctxt": 0
             },
             "value": "d",
@@ -625,23 +625,23 @@
           "init": {
             "type": "TsAsExpression",
             "span": {
-              "start": 173,
-              "end": 203,
+              "start": 168,
+              "end": 198,
               "ctxt": 0
             },
             "expression": {
               "type": "TemplateLiteral",
               "span": {
-                "start": 173,
-                "end": 193,
+                "start": 168,
+                "end": 188,
                 "ctxt": 0
               },
               "expressions": [
                 {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 182,
-                    "end": 185,
+                    "start": 177,
+                    "end": 180,
                     "ctxt": 0
                   },
                   "value": 123.0
@@ -651,16 +651,16 @@
                 {
                   "type": "TemplateElement",
                   "span": {
-                    "start": 174,
-                    "end": 180,
+                    "start": 169,
+                    "end": 175,
                     "ctxt": 0
                   },
                   "tail": false,
                   "cooked": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 174,
-                      "end": 180,
+                      "start": 169,
+                      "end": 175,
                       "ctxt": 0
                     },
                     "value": "Hello ",
@@ -673,8 +673,8 @@
                   "raw": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 174,
-                      "end": 180,
+                      "start": 169,
+                      "end": 175,
                       "ctxt": 0
                     },
                     "value": "Hello ",
@@ -688,16 +688,16 @@
                 {
                   "type": "TemplateElement",
                   "span": {
-                    "start": 186,
-                    "end": 192,
+                    "start": 181,
+                    "end": 187,
                     "ctxt": 0
                   },
                   "tail": true,
                   "cooked": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 186,
-                      "end": 192,
+                      "start": 181,
+                      "end": 187,
                       "ctxt": 0
                     },
                     "value": " World",
@@ -710,8 +710,8 @@
                   "raw": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 186,
-                      "end": 192,
+                      "start": 181,
+                      "end": 187,
                       "ctxt": 0
                     },
                     "value": " World",
@@ -727,8 +727,8 @@
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 197,
-                "end": 203,
+                "start": 192,
+                "end": 198,
                 "ctxt": 0
               },
               "kind": "string"
@@ -741,8 +741,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 206,
-        "end": 232,
+        "start": 200,
+        "end": 226,
         "ctxt": 0
       },
       "kind": "var",
@@ -751,15 +751,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 210,
-            "end": 231,
+            "start": 204,
+            "end": 225,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 210,
-              "end": 211,
+              "start": 204,
+              "end": 205,
               "ctxt": 0
             },
             "value": "e",
@@ -769,15 +769,15 @@
           "init": {
             "type": "TsAsExpression",
             "span": {
-              "start": 214,
-              "end": 231,
+              "start": 208,
+              "end": 225,
               "ctxt": 0
             },
             "expression": {
               "type": "TemplateLiteral",
               "span": {
-                "start": 214,
-                "end": 221,
+                "start": 208,
+                "end": 215,
                 "ctxt": 0
               },
               "expressions": [],
@@ -785,16 +785,16 @@
                 {
                   "type": "TemplateElement",
                   "span": {
-                    "start": 215,
-                    "end": 220,
+                    "start": 209,
+                    "end": 214,
                     "ctxt": 0
                   },
                   "tail": true,
                   "cooked": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 215,
-                      "end": 220,
+                      "start": 209,
+                      "end": 214,
                       "ctxt": 0
                     },
                     "value": "Hello",
@@ -807,8 +807,8 @@
                   "raw": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 215,
-                      "end": 220,
+                      "start": 209,
+                      "end": 214,
                       "ctxt": 0
                     },
                     "value": "Hello",
@@ -824,8 +824,8 @@
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 225,
-                "end": 231,
+                "start": 219,
+                "end": 225,
                 "ctxt": 0
               },
               "kind": "string"
@@ -838,8 +838,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 234,
-        "end": 277,
+        "start": 227,
+        "end": 270,
         "ctxt": 0
       },
       "kind": "var",
@@ -848,15 +848,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 238,
-            "end": 276,
+            "start": 231,
+            "end": 269,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 238,
-              "end": 239,
+              "start": 231,
+              "end": 232,
               "ctxt": 0
             },
             "value": "f",
@@ -866,23 +866,23 @@
           "init": {
             "type": "TsAsExpression",
             "span": {
-              "start": 242,
-              "end": 276,
+              "start": 235,
+              "end": 269,
               "ctxt": 0
             },
             "expression": {
               "type": "BinaryExpression",
               "span": {
-                "start": 242,
-                "end": 266,
+                "start": 235,
+                "end": 259,
                 "ctxt": 0
               },
               "operator": "+",
               "left": {
                 "type": "NumericLiteral",
                 "span": {
-                  "start": 242,
-                  "end": 243,
+                  "start": 235,
+                  "end": 236,
                   "ctxt": 0
                 },
                 "value": 1.0
@@ -890,16 +890,16 @@
               "right": {
                 "type": "TemplateLiteral",
                 "span": {
-                  "start": 246,
-                  "end": 266,
+                  "start": 239,
+                  "end": 259,
                   "ctxt": 0
                 },
                 "expressions": [
                   {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 249,
-                      "end": 250,
+                      "start": 242,
+                      "end": 243,
                       "ctxt": 0
                     },
                     "value": 1.0
@@ -909,16 +909,16 @@
                   {
                     "type": "TemplateElement",
                     "span": {
-                      "start": 247,
-                      "end": 247,
+                      "start": 240,
+                      "end": 240,
                       "ctxt": 0
                     },
                     "tail": false,
                     "cooked": {
                       "type": "StringLiteral",
                       "span": {
-                        "start": 247,
-                        "end": 247,
+                        "start": 240,
+                        "end": 240,
                         "ctxt": 0
                       },
                       "value": "",
@@ -931,8 +931,8 @@
                     "raw": {
                       "type": "StringLiteral",
                       "span": {
-                        "start": 247,
-                        "end": 247,
+                        "start": 240,
+                        "end": 240,
                         "ctxt": 0
                       },
                       "value": "",
@@ -946,16 +946,16 @@
                   {
                     "type": "TemplateElement",
                     "span": {
-                      "start": 251,
-                      "end": 265,
+                      "start": 244,
+                      "end": 258,
                       "ctxt": 0
                     },
                     "tail": true,
                     "cooked": {
                       "type": "StringLiteral",
                       "span": {
-                        "start": 251,
-                        "end": 265,
+                        "start": 244,
+                        "end": 258,
                         "ctxt": 0
                       },
                       "value": " end of string",
@@ -968,8 +968,8 @@
                     "raw": {
                       "type": "StringLiteral",
                       "span": {
-                        "start": 251,
-                        "end": 265,
+                        "start": 244,
+                        "end": 258,
                         "ctxt": 0
                       },
                       "value": " end of string",
@@ -986,8 +986,8 @@
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 270,
-                "end": 276,
+                "start": 263,
+                "end": 269,
                 "ctxt": 0
               },
               "kind": "string"
@@ -1000,8 +1000,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 279,
-        "end": 322,
+        "start": 271,
+        "end": 314,
         "ctxt": 0
       },
       "kind": "var",
@@ -1010,15 +1010,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 283,
-            "end": 321,
+            "start": 275,
+            "end": 313,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 283,
-              "end": 284,
+              "start": 275,
+              "end": 276,
               "ctxt": 0
             },
             "value": "g",
@@ -1028,22 +1028,22 @@
           "init": {
             "type": "TsAsExpression",
             "span": {
-              "start": 287,
-              "end": 321,
+              "start": 279,
+              "end": 313,
               "ctxt": 0
             },
             "expression": {
               "type": "TaggedTemplateExpression",
               "span": {
-                "start": 287,
-                "end": 311,
+                "start": 279,
+                "end": 303,
                 "ctxt": 0
               },
               "tag": {
                 "type": "Identifier",
                 "span": {
-                  "start": 287,
-                  "end": 290,
+                  "start": 279,
+                  "end": 282,
                   "ctxt": 0
                 },
                 "value": "tag",
@@ -1054,8 +1054,8 @@
                 {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 300,
-                    "end": 303,
+                    "start": 292,
+                    "end": 295,
                     "ctxt": 0
                   },
                   "value": 123.0
@@ -1065,16 +1065,16 @@
                 {
                   "type": "TemplateElement",
                   "span": {
-                    "start": 292,
-                    "end": 298,
+                    "start": 284,
+                    "end": 290,
                     "ctxt": 0
                   },
                   "tail": false,
                   "cooked": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 292,
-                      "end": 298,
+                      "start": 284,
+                      "end": 290,
                       "ctxt": 0
                     },
                     "value": "Hello ",
@@ -1087,8 +1087,8 @@
                   "raw": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 292,
-                      "end": 298,
+                      "start": 284,
+                      "end": 290,
                       "ctxt": 0
                     },
                     "value": "Hello ",
@@ -1102,16 +1102,16 @@
                 {
                   "type": "TemplateElement",
                   "span": {
-                    "start": 304,
-                    "end": 310,
+                    "start": 296,
+                    "end": 302,
                     "ctxt": 0
                   },
                   "tail": true,
                   "cooked": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 304,
-                      "end": 310,
+                      "start": 296,
+                      "end": 302,
                       "ctxt": 0
                     },
                     "value": " World",
@@ -1124,8 +1124,8 @@
                   "raw": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 304,
-                      "end": 310,
+                      "start": 296,
+                      "end": 302,
                       "ctxt": 0
                     },
                     "value": " World",
@@ -1142,8 +1142,8 @@
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 315,
-                "end": 321,
+                "start": 307,
+                "end": 313,
                 "ctxt": 0
               },
               "kind": "string"
@@ -1156,8 +1156,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 324,
-        "end": 354,
+        "start": 315,
+        "end": 345,
         "ctxt": 0
       },
       "kind": "var",
@@ -1166,15 +1166,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 328,
-            "end": 353,
+            "start": 319,
+            "end": 344,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 328,
-              "end": 329,
+              "start": 319,
+              "end": 320,
               "ctxt": 0
             },
             "value": "h",
@@ -1184,22 +1184,22 @@
           "init": {
             "type": "TsAsExpression",
             "span": {
-              "start": 332,
-              "end": 353,
+              "start": 323,
+              "end": 344,
               "ctxt": 0
             },
             "expression": {
               "type": "TaggedTemplateExpression",
               "span": {
-                "start": 332,
-                "end": 343,
+                "start": 323,
+                "end": 334,
                 "ctxt": 0
               },
               "tag": {
                 "type": "Identifier",
                 "span": {
-                  "start": 332,
-                  "end": 335,
+                  "start": 323,
+                  "end": 326,
                   "ctxt": 0
                 },
                 "value": "tag",
@@ -1211,16 +1211,16 @@
                 {
                   "type": "TemplateElement",
                   "span": {
-                    "start": 337,
-                    "end": 342,
+                    "start": 328,
+                    "end": 333,
                     "ctxt": 0
                   },
                   "tail": true,
                   "cooked": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 337,
-                      "end": 342,
+                      "start": 328,
+                      "end": 333,
                       "ctxt": 0
                     },
                     "value": "Hello",
@@ -1233,8 +1233,8 @@
                   "raw": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 337,
-                      "end": 342,
+                      "start": 328,
+                      "end": 333,
                       "ctxt": 0
                     },
                     "value": "Hello",
@@ -1251,8 +1251,8 @@
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 347,
-                "end": 353,
+                "start": 338,
+                "end": 344,
                 "ctxt": 0
               },
               "kind": "string"

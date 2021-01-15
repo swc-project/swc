@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 291,
+    "end": 280,
     "ctxt": 0
   },
   "body": [
@@ -71,8 +71,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 56,
-          "end": 80,
+          "start": 55,
+          "end": 79,
           "ctxt": 0
         },
         "value": "StringTreeCollectionBase",
@@ -81,8 +81,8 @@
       },
       "declare": false,
       "span": {
-        "start": 50,
-        "end": 115,
+        "start": 49,
+        "end": 112,
         "ctxt": 0
       },
       "decorators": [],
@@ -93,23 +93,23 @@
             {
               "type": "Identifier",
               "span": {
-                "start": 89,
-                "end": 98,
+                "start": 87,
+                "end": 96,
                 "ctxt": 0
               },
               "value": "n",
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 90,
-                  "end": 98,
+                  "start": 88,
+                  "end": 96,
                   "ctxt": 0
                 },
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 92,
-                    "end": 98,
+                    "start": 90,
+                    "end": 96,
                     "ctxt": 0
                   },
                   "kind": "number"
@@ -121,22 +121,22 @@
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 99,
-              "end": 111,
+              "start": 97,
+              "end": 109,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsTypeReference",
               "span": {
-                "start": 101,
-                "end": 111,
+                "start": 99,
+                "end": 109,
                 "ctxt": 0
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
-                  "start": 101,
-                  "end": 111,
+                  "start": 99,
+                  "end": 109,
                   "ctxt": 0
                 },
                 "value": "StringTree",
@@ -148,8 +148,8 @@
           },
           "readonly": false,
           "span": {
-            "start": 88,
-            "end": 112,
+            "start": 86,
+            "end": 110,
             "ctxt": 0
           }
         }
@@ -165,8 +165,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 125,
-          "end": 145,
+          "start": 120,
+          "end": 140,
           "ctxt": 0
         },
         "value": "StringTreeCollection",
@@ -175,8 +175,8 @@
       },
       "declare": false,
       "span": {
-        "start": 119,
-        "end": 182,
+        "start": 114,
+        "end": 177,
         "ctxt": 0
       },
       "decorators": [],
@@ -184,8 +184,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 154,
-          "end": 178,
+          "start": 149,
+          "end": 173,
           "ctxt": 0
         },
         "value": "StringTreeCollectionBase",
@@ -200,8 +200,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 186,
-        "end": 204,
+        "start": 179,
+        "end": 197,
         "ctxt": 0
       },
       "kind": "var",
@@ -210,37 +210,37 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 190,
-            "end": 203,
+            "start": 183,
+            "end": 196,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 190,
-              "end": 191,
+              "start": 183,
+              "end": 184,
               "ctxt": 0
             },
             "value": "x",
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 191,
-                "end": 203,
+                "start": 184,
+                "end": 196,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 193,
-                  "end": 203,
+                  "start": 186,
+                  "end": 196,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 193,
-                    "end": 203,
+                    "start": 186,
+                    "end": 196,
                     "ctxt": 0
                   },
                   "value": "StringTree",
@@ -260,31 +260,31 @@
     {
       "type": "IfStatement",
       "span": {
-        "start": 206,
-        "end": 291,
+        "start": 198,
+        "end": 280,
         "ctxt": 0
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
-          "start": 210,
-          "end": 231,
+          "start": 202,
+          "end": 223,
           "ctxt": 0
         },
         "operator": "!==",
         "left": {
           "type": "UnaryExpression",
           "span": {
-            "start": 210,
-            "end": 218,
+            "start": 202,
+            "end": 210,
             "ctxt": 0
           },
           "operator": "typeof",
           "argument": {
             "type": "Identifier",
             "span": {
-              "start": 217,
-              "end": 218,
+              "start": 209,
+              "end": 210,
               "ctxt": 0
             },
             "value": "x",
@@ -295,8 +295,8 @@
         "right": {
           "type": "StringLiteral",
           "span": {
-            "start": 223,
-            "end": 231,
+            "start": 215,
+            "end": 223,
             "ctxt": 0
           },
           "value": "string",
@@ -310,38 +310,38 @@
       "consequent": {
         "type": "BlockStatement",
         "span": {
-          "start": 233,
-          "end": 291,
+          "start": 225,
+          "end": 280,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 240,
-              "end": 250,
+              "start": 231,
+              "end": 241,
               "ctxt": 0
             },
             "expression": {
               "type": "AssignmentExpression",
               "span": {
-                "start": 240,
-                "end": 249,
+                "start": 231,
+                "end": 240,
                 "ctxt": 0
               },
               "operator": "=",
               "left": {
                 "type": "MemberExpression",
                 "span": {
-                  "start": 240,
-                  "end": 244,
+                  "start": 231,
+                  "end": 235,
                   "ctxt": 0
                 },
                 "object": {
                   "type": "Identifier",
                   "span": {
-                    "start": 240,
-                    "end": 241,
+                    "start": 231,
+                    "end": 232,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -351,8 +351,8 @@
                 "property": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 242,
-                    "end": 243,
+                    "start": 233,
+                    "end": 234,
                     "ctxt": 0
                   },
                   "value": 0.0
@@ -362,8 +362,8 @@
               "right": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 247,
-                  "end": 249,
+                  "start": 238,
+                  "end": 240,
                   "ctxt": 0
                 },
                 "value": "",
@@ -378,30 +378,30 @@
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 256,
-              "end": 288,
+              "start": 246,
+              "end": 278,
               "ctxt": 0
             },
             "expression": {
               "type": "AssignmentExpression",
               "span": {
-                "start": 256,
-                "end": 287,
+                "start": 246,
+                "end": 277,
                 "ctxt": 0
               },
               "operator": "=",
               "left": {
                 "type": "MemberExpression",
                 "span": {
-                  "start": 256,
-                  "end": 260,
+                  "start": 246,
+                  "end": 250,
                   "ctxt": 0
                 },
                 "object": {
                   "type": "Identifier",
                   "span": {
-                    "start": 256,
-                    "end": 257,
+                    "start": 246,
+                    "end": 247,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -411,8 +411,8 @@
                 "property": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 258,
-                    "end": 259,
+                    "start": 248,
+                    "end": 249,
                     "ctxt": 0
                   },
                   "value": 0.0
@@ -422,15 +422,15 @@
               "right": {
                 "type": "NewExpression",
                 "span": {
-                  "start": 263,
-                  "end": 287,
+                  "start": 253,
+                  "end": 277,
                   "ctxt": 0
                 },
                 "callee": {
                   "type": "Identifier",
                   "span": {
-                    "start": 267,
-                    "end": 287,
+                    "start": 257,
+                    "end": 277,
                     "ctxt": 0
                   },
                   "value": "StringTreeCollection",

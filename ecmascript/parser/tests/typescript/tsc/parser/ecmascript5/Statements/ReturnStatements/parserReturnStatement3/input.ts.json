@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 29,
+    "end": 27,
     "ctxt": 0
   },
   "body": [
@@ -24,22 +24,22 @@
       "decorators": [],
       "span": {
         "start": 0,
-        "end": 29,
+        "end": 27,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 13,
-          "end": 29,
+          "end": 27,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
-              "start": 19,
-              "end": 26,
+              "start": 18,
+              "end": 25,
               "ctxt": 0
             },
             "argument": null

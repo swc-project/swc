@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 18,
-    "end": 93,
+    "start": 16,
+    "end": 88,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 27,
-          "end": 34,
+          "start": 25,
+          "end": 32,
           "ctxt": 0
         },
         "value": "declare",
@@ -24,31 +24,31 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 35,
-            "end": 41,
+            "start": 33,
+            "end": 39,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
-              "start": 35,
-              "end": 41,
+              "start": 33,
+              "end": 39,
               "ctxt": 0
             },
             "value": "x",
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 36,
-                "end": 41,
+                "start": 34,
+                "end": 39,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 38,
-                  "end": 41,
+                  "start": 36,
+                  "end": 39,
                   "ctxt": 0
                 },
                 "kind": "any"
@@ -60,28 +60,28 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 43,
-            "end": 55,
+            "start": 41,
+            "end": 53,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "RestElement",
             "span": {
-              "start": 43,
-              "end": 55,
+              "start": 41,
+              "end": 53,
               "ctxt": 0
             },
             "rest": {
-              "start": 43,
-              "end": 46,
+              "start": 41,
+              "end": 44,
               "ctxt": 0
             },
             "argument": {
               "type": "Identifier",
               "span": {
-                "start": 46,
-                "end": 48,
+                "start": 44,
+                "end": 46,
                 "ctxt": 0
               },
               "value": "ys",
@@ -91,22 +91,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 48,
-                "end": 55,
+                "start": 46,
+                "end": 53,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsArrayType",
                 "span": {
-                  "start": 50,
-                  "end": 55,
+                  "start": 48,
+                  "end": 53,
                   "ctxt": 0
                 },
                 "elemType": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 50,
-                    "end": 53,
+                    "start": 48,
+                    "end": 51,
                     "ctxt": 0
                   },
                   "kind": "any"
@@ -118,15 +118,15 @@
       ],
       "decorators": [],
       "span": {
-        "start": 18,
-        "end": 61,
+        "start": 16,
+        "end": 58,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 57,
-          "end": 61,
+          "start": 55,
+          "end": 58,
           "ctxt": 0
         },
         "stmts": []
@@ -139,22 +139,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 65,
-        "end": 93,
+        "start": 60,
+        "end": 88,
         "ctxt": 0
       },
       "expression": {
         "type": "TaggedTemplateExpression",
         "span": {
-          "start": 65,
-          "end": 92,
+          "start": 60,
+          "end": 87,
           "ctxt": 0
         },
         "tag": {
           "type": "Identifier",
           "span": {
-            "start": 65,
-            "end": 72,
+            "start": 60,
+            "end": 67,
             "ctxt": 0
           },
           "value": "declare",
@@ -165,8 +165,8 @@
           {
             "type": "NumericLiteral",
             "span": {
-              "start": 82,
-              "end": 83,
+              "start": 77,
+              "end": 78,
               "ctxt": 0
             },
             "value": 0.0
@@ -176,16 +176,16 @@
           {
             "type": "TemplateElement",
             "span": {
-              "start": 74,
-              "end": 80,
+              "start": 69,
+              "end": 75,
               "ctxt": 0
             },
             "tail": false,
             "cooked": {
               "type": "StringLiteral",
               "span": {
-                "start": 74,
-                "end": 80,
+                "start": 69,
+                "end": 75,
                 "ctxt": 0
               },
               "value": "Hello ",
@@ -198,8 +198,8 @@
             "raw": {
               "type": "StringLiteral",
               "span": {
-                "start": 74,
-                "end": 80,
+                "start": 69,
+                "end": 75,
                 "ctxt": 0
               },
               "value": "Hello ",
@@ -213,16 +213,16 @@
           {
             "type": "TemplateElement",
             "span": {
-              "start": 84,
-              "end": 91,
+              "start": 79,
+              "end": 86,
               "ctxt": 0
             },
             "tail": true,
             "cooked": {
               "type": "StringLiteral",
               "span": {
-                "start": 84,
-                "end": 91,
+                "start": 79,
+                "end": 86,
                 "ctxt": 0
               },
               "value": " world!",
@@ -235,8 +235,8 @@
             "raw": {
               "type": "StringLiteral",
               "span": {
-                "start": 84,
-                "end": 91,
+                "start": 79,
+                "end": 86,
                 "ctxt": 0
               },
               "value": " world!",

@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 141,
-    "end": 285,
+    "start": 135,
+    "end": 273,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 150,
-          "end": 155,
+          "start": 144,
+          "end": 149,
           "ctxt": 0
         },
         "value": "test0",
@@ -24,38 +24,38 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 156,
-            "end": 177,
+            "start": 150,
+            "end": 171,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "AssignmentPattern",
             "span": {
-              "start": 156,
-              "end": 177,
+              "start": 150,
+              "end": 171,
               "ctxt": 0
             },
             "left": {
               "type": "ObjectPattern",
               "span": {
-                "start": 156,
-                "end": 172,
+                "start": 150,
+                "end": 166,
                 "ctxt": 0
               },
               "properties": [
                 {
                   "type": "AssignmentPatternProperty",
                   "span": {
-                    "start": 158,
-                    "end": 163,
+                    "start": 152,
+                    "end": 157,
                     "ctxt": 0
                   },
                   "key": {
                     "type": "Identifier",
                     "span": {
-                      "start": 158,
-                      "end": 159,
+                      "start": 152,
+                      "end": 153,
                       "ctxt": 0
                     },
                     "value": "a",
@@ -65,8 +65,8 @@
                   "value": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 162,
-                      "end": 163,
+                      "start": 156,
+                      "end": 157,
                       "ctxt": 0
                     },
                     "value": 0.0
@@ -75,15 +75,15 @@
                 {
                   "type": "AssignmentPatternProperty",
                   "span": {
-                    "start": 165,
-                    "end": 170,
+                    "start": 159,
+                    "end": 164,
                     "ctxt": 0
                   },
                   "key": {
                     "type": "Identifier",
                     "span": {
-                      "start": 165,
-                      "end": 166,
+                      "start": 159,
+                      "end": 160,
                       "ctxt": 0
                     },
                     "value": "b",
@@ -93,8 +93,8 @@
                   "value": {
                     "type": "Identifier",
                     "span": {
-                      "start": 169,
-                      "end": 170,
+                      "start": 163,
+                      "end": 164,
                       "ctxt": 0
                     },
                     "value": "a",
@@ -109,8 +109,8 @@
             "right": {
               "type": "ObjectExpression",
               "span": {
-                "start": 175,
-                "end": 177,
+                "start": 169,
+                "end": 171,
                 "ctxt": 0
               },
               "properties": []
@@ -121,38 +121,38 @@
       ],
       "decorators": [],
       "span": {
-        "start": 141,
-        "end": 205,
+        "start": 135,
+        "end": 197,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 179,
-          "end": 205,
+          "start": 173,
+          "end": 197,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
-              "start": 186,
-              "end": 202,
+              "start": 179,
+              "end": 195,
               "ctxt": 0
             },
             "argument": {
               "type": "ObjectExpression",
               "span": {
-                "start": 193,
-                "end": 201,
+                "start": 186,
+                "end": 194,
                 "ctxt": 0
               },
               "properties": [
                 {
                   "type": "Identifier",
                   "span": {
-                    "start": 195,
-                    "end": 196,
+                    "start": 188,
+                    "end": 189,
                     "ctxt": 0
                   },
                   "value": "a",
@@ -162,8 +162,8 @@
                 {
                   "type": "Identifier",
                   "span": {
-                    "start": 198,
-                    "end": 199,
+                    "start": 191,
+                    "end": 192,
                     "ctxt": 0
                   },
                   "value": "b",
@@ -185,8 +185,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 218,
-          "end": 223,
+          "start": 208,
+          "end": 213,
           "ctxt": 0
         },
         "value": "test1",
@@ -198,23 +198,23 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 224,
-            "end": 257,
+            "start": 214,
+            "end": 247,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "AssignmentPattern",
             "span": {
-              "start": 224,
-              "end": 257,
+              "start": 214,
+              "end": 247,
               "ctxt": 0
             },
             "left": {
               "type": "ObjectPattern",
               "span": {
-                "start": 224,
-                "end": 252,
+                "start": 214,
+                "end": 242,
                 "ctxt": 0
               },
               "properties": [
@@ -223,8 +223,8 @@
                   "key": {
                     "type": "Identifier",
                     "span": {
-                      "start": 226,
-                      "end": 227,
+                      "start": 216,
+                      "end": 217,
                       "ctxt": 0
                     },
                     "value": "c",
@@ -234,30 +234,30 @@
                   "value": {
                     "type": "AssignmentPattern",
                     "span": {
-                      "start": 229,
-                      "end": 250,
+                      "start": 219,
+                      "end": 240,
                       "ctxt": 0
                     },
                     "left": {
                       "type": "ObjectPattern",
                       "span": {
-                        "start": 229,
-                        "end": 245,
+                        "start": 219,
+                        "end": 235,
                         "ctxt": 0
                       },
                       "properties": [
                         {
                           "type": "AssignmentPatternProperty",
                           "span": {
-                            "start": 231,
-                            "end": 236,
+                            "start": 221,
+                            "end": 226,
                             "ctxt": 0
                           },
                           "key": {
                             "type": "Identifier",
                             "span": {
-                              "start": 231,
-                              "end": 232,
+                              "start": 221,
+                              "end": 222,
                               "ctxt": 0
                             },
                             "value": "a",
@@ -267,8 +267,8 @@
                           "value": {
                             "type": "NumericLiteral",
                             "span": {
-                              "start": 235,
-                              "end": 236,
+                              "start": 225,
+                              "end": 226,
                               "ctxt": 0
                             },
                             "value": 0.0
@@ -277,15 +277,15 @@
                         {
                           "type": "AssignmentPatternProperty",
                           "span": {
-                            "start": 238,
-                            "end": 243,
+                            "start": 228,
+                            "end": 233,
                             "ctxt": 0
                           },
                           "key": {
                             "type": "Identifier",
                             "span": {
-                              "start": 238,
-                              "end": 239,
+                              "start": 228,
+                              "end": 229,
                               "ctxt": 0
                             },
                             "value": "b",
@@ -295,8 +295,8 @@
                           "value": {
                             "type": "Identifier",
                             "span": {
-                              "start": 242,
-                              "end": 243,
+                              "start": 232,
+                              "end": 233,
                               "ctxt": 0
                             },
                             "value": "a",
@@ -311,8 +311,8 @@
                     "right": {
                       "type": "ObjectExpression",
                       "span": {
-                        "start": 248,
-                        "end": 250,
+                        "start": 238,
+                        "end": 240,
                         "ctxt": 0
                       },
                       "properties": []
@@ -327,8 +327,8 @@
             "right": {
               "type": "ObjectExpression",
               "span": {
-                "start": 255,
-                "end": 257,
+                "start": 245,
+                "end": 247,
                 "ctxt": 0
               },
               "properties": []
@@ -339,38 +339,38 @@
       ],
       "decorators": [],
       "span": {
-        "start": 209,
-        "end": 285,
+        "start": 199,
+        "end": 273,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 259,
-          "end": 285,
+          "start": 249,
+          "end": 273,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
-              "start": 266,
-              "end": 282,
+              "start": 255,
+              "end": 271,
               "ctxt": 0
             },
             "argument": {
               "type": "ObjectExpression",
               "span": {
-                "start": 273,
-                "end": 281,
+                "start": 262,
+                "end": 270,
                 "ctxt": 0
               },
               "properties": [
                 {
                   "type": "Identifier",
                   "span": {
-                    "start": 275,
-                    "end": 276,
+                    "start": 264,
+                    "end": 265,
                     "ctxt": 0
                   },
                   "value": "a",
@@ -380,8 +380,8 @@
                 {
                   "type": "Identifier",
                   "span": {
-                    "start": 278,
-                    "end": 279,
+                    "start": 267,
+                    "end": 268,
                     "ctxt": 0
                   },
                   "value": "b",

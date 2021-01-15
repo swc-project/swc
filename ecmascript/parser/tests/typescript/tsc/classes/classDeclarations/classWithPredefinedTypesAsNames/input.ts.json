@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 51,
-    "end": 119,
+    "start": 49,
+    "end": 114,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 57,
-          "end": 60,
+          "start": 55,
+          "end": 58,
           "ctxt": 0
         },
         "value": "any",
@@ -21,8 +21,8 @@
       },
       "declare": false,
       "span": {
-        "start": 51,
-        "end": 64,
+        "start": 49,
+        "end": 62,
         "ctxt": 0
       },
       "decorators": [],
@@ -38,8 +38,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 72,
-          "end": 78,
+          "start": 69,
+          "end": 75,
           "ctxt": 0
         },
         "value": "number",
@@ -48,8 +48,8 @@
       },
       "declare": false,
       "span": {
-        "start": 66,
-        "end": 82,
+        "start": 63,
+        "end": 79,
         "ctxt": 0
       },
       "decorators": [],
@@ -65,8 +65,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 90,
-          "end": 97,
+          "start": 86,
+          "end": 93,
           "ctxt": 0
         },
         "value": "boolean",
@@ -75,8 +75,8 @@
       },
       "declare": false,
       "span": {
-        "start": 84,
-        "end": 101,
+        "start": 80,
+        "end": 97,
         "ctxt": 0
       },
       "decorators": [],
@@ -92,8 +92,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 109,
-          "end": 115,
+          "start": 104,
+          "end": 110,
           "ctxt": 0
         },
         "value": "string",
@@ -102,8 +102,8 @@
       },
       "declare": false,
       "span": {
-        "start": 103,
-        "end": 119,
+        "start": 98,
+        "end": 114,
         "ctxt": 0
       },
       "decorators": [],

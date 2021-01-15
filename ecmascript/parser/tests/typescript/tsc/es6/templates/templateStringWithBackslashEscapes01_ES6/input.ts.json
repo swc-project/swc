@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 19,
-    "end": 119,
+    "start": 17,
+    "end": 114,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 19,
-        "end": 41,
+        "start": 17,
+        "end": 39,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 23,
-            "end": 40,
+            "start": 21,
+            "end": 38,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 23,
-              "end": 24,
+              "start": 21,
+              "end": 22,
               "ctxt": 0
             },
             "value": "a",
@@ -37,8 +37,8 @@
           "init": {
             "type": "TemplateLiteral",
             "span": {
-              "start": 27,
-              "end": 40,
+              "start": 25,
+              "end": 38,
               "ctxt": 0
             },
             "expressions": [],
@@ -46,16 +46,16 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 28,
-                  "end": 39,
+                  "start": 26,
+                  "end": 37,
                   "ctxt": 0
                 },
                 "tail": true,
                 "cooked": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 28,
-                    "end": 39,
+                    "start": 26,
+                    "end": 37,
                     "ctxt": 0
                   },
                   "value": "helloworld",
@@ -68,8 +68,8 @@
                 "raw": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 28,
-                    "end": 39,
+                    "start": 26,
+                    "end": 37,
                     "ctxt": 0
                   },
                   "value": "hello\\world",
@@ -89,8 +89,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 43,
-        "end": 66,
+        "start": 40,
+        "end": 63,
         "ctxt": 0
       },
       "kind": "var",
@@ -99,15 +99,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 47,
-            "end": 65,
+            "start": 44,
+            "end": 62,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 47,
-              "end": 48,
+              "start": 44,
+              "end": 45,
               "ctxt": 0
             },
             "value": "b",
@@ -117,8 +117,8 @@
           "init": {
             "type": "TemplateLiteral",
             "span": {
-              "start": 51,
-              "end": 65,
+              "start": 48,
+              "end": 62,
               "ctxt": 0
             },
             "expressions": [],
@@ -126,16 +126,16 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 52,
-                  "end": 64,
+                  "start": 49,
+                  "end": 61,
                   "ctxt": 0
                 },
                 "tail": true,
                 "cooked": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 52,
-                    "end": 64,
+                    "start": 49,
+                    "end": 61,
                     "ctxt": 0
                   },
                   "value": "hello\\world",
@@ -148,8 +148,8 @@
                 "raw": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 52,
-                    "end": 64,
+                    "start": 49,
+                    "end": 61,
                     "ctxt": 0
                   },
                   "value": "hello\\\\world",
@@ -169,8 +169,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 68,
-        "end": 92,
+        "start": 64,
+        "end": 88,
         "ctxt": 0
       },
       "kind": "var",
@@ -179,15 +179,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 72,
-            "end": 91,
+            "start": 68,
+            "end": 87,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 72,
-              "end": 73,
+              "start": 68,
+              "end": 69,
               "ctxt": 0
             },
             "value": "c",
@@ -197,8 +197,8 @@
           "init": {
             "type": "TemplateLiteral",
             "span": {
-              "start": 76,
-              "end": 91,
+              "start": 72,
+              "end": 87,
               "ctxt": 0
             },
             "expressions": [],
@@ -206,16 +206,16 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 77,
-                  "end": 90,
+                  "start": 73,
+                  "end": 86,
                   "ctxt": 0
                 },
                 "tail": true,
                 "cooked": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 77,
-                    "end": 90,
+                    "start": 73,
+                    "end": 86,
                     "ctxt": 0
                   },
                   "value": "hello\\world",
@@ -228,8 +228,8 @@
                 "raw": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 77,
-                    "end": 90,
+                    "start": 73,
+                    "end": 86,
                     "ctxt": 0
                   },
                   "value": "hello\\\\\\world",
@@ -249,8 +249,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 94,
-        "end": 119,
+        "start": 89,
+        "end": 114,
         "ctxt": 0
       },
       "kind": "var",
@@ -259,15 +259,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 98,
-            "end": 118,
+            "start": 93,
+            "end": 113,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 98,
-              "end": 99,
+              "start": 93,
+              "end": 94,
               "ctxt": 0
             },
             "value": "d",
@@ -277,8 +277,8 @@
           "init": {
             "type": "TemplateLiteral",
             "span": {
-              "start": 102,
-              "end": 118,
+              "start": 97,
+              "end": 113,
               "ctxt": 0
             },
             "expressions": [],
@@ -286,16 +286,16 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 103,
-                  "end": 117,
+                  "start": 98,
+                  "end": 112,
                   "ctxt": 0
                 },
                 "tail": true,
                 "cooked": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 103,
-                    "end": 117,
+                    "start": 98,
+                    "end": 112,
                     "ctxt": 0
                   },
                   "value": "hello\\\\world",
@@ -308,8 +308,8 @@
                 "raw": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 103,
-                    "end": 117,
+                    "start": 98,
+                    "end": 112,
                     "ctxt": 0
                   },
                   "value": "hello\\\\\\\\world",

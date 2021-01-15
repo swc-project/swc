@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 41,
-    "end": 187,
+    "start": 39,
+    "end": 174,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 41,
-        "end": 148,
+        "start": 39,
+        "end": 141,
         "ctxt": 0
       },
       "declare": true,
@@ -18,8 +18,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 56,
-          "end": 59,
+          "start": 54,
+          "end": 57,
           "ctxt": 0
         },
         "value": "JSX",
@@ -29,23 +29,23 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 60,
-          "end": 148,
+          "start": 58,
+          "end": 141,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsInterfaceDeclaration",
             "span": {
-              "start": 64,
-              "end": 85,
+              "start": 61,
+              "end": 82,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 74,
-                "end": 81,
+                "start": 71,
+                "end": 78,
                 "ctxt": 0
               },
               "value": "Element",
@@ -58,8 +58,8 @@
             "body": {
               "type": "TsInterfaceBody",
               "span": {
-                "start": 82,
-                "end": 85,
+                "start": 79,
+                "end": 82,
                 "ctxt": 0
               },
               "body": []
@@ -68,15 +68,15 @@
           {
             "type": "TsInterfaceDeclaration",
             "span": {
-              "start": 88,
-              "end": 145,
+              "start": 84,
+              "end": 139,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 98,
-                "end": 115,
+                "start": 94,
+                "end": 111,
                 "ctxt": 0
               },
               "value": "IntrinsicElements",
@@ -89,8 +89,8 @@
             "body": {
               "type": "TsInterfaceBody",
               "span": {
-                "start": 116,
-                "end": 145,
+                "start": 112,
+                "end": 139,
                 "ctxt": 0
               },
               "body": [
@@ -100,23 +100,23 @@
                     {
                       "type": "Identifier",
                       "span": {
-                        "start": 125,
-                        "end": 134,
+                        "start": 120,
+                        "end": 129,
                         "ctxt": 0
                       },
                       "value": "x",
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
-                          "start": 126,
-                          "end": 134,
+                          "start": 121,
+                          "end": 129,
                           "ctxt": 0
                         },
                         "typeAnnotation": {
                           "type": "TsKeywordType",
                           "span": {
-                            "start": 128,
-                            "end": 134,
+                            "start": 123,
+                            "end": 129,
                             "ctxt": 0
                           },
                           "kind": "string"
@@ -128,15 +128,15 @@
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 135,
-                      "end": 140,
+                      "start": 130,
+                      "end": 135,
                       "ctxt": 0
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 137,
-                        "end": 140,
+                        "start": 132,
+                        "end": 135,
                         "ctxt": 0
                       },
                       "kind": "any"
@@ -144,8 +144,8 @@
                   },
                   "readonly": false,
                   "span": {
-                    "start": 124,
-                    "end": 141,
+                    "start": 119,
+                    "end": 136,
                     "ctxt": 0
                   }
                 }
@@ -158,15 +158,15 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 159,
-        "end": 167,
+        "start": 149,
+        "end": 157,
         "ctxt": 0
       },
       "expression": {
         "type": "JSXElement",
         "span": {
-          "start": 159,
-          "end": 166,
+          "start": 149,
+          "end": 156,
           "ctxt": 0
         },
         "opening": {
@@ -174,8 +174,8 @@
           "name": {
             "type": "Identifier",
             "span": {
-              "start": 160,
-              "end": 163,
+              "start": 150,
+              "end": 153,
               "ctxt": 0
             },
             "value": "div",
@@ -183,8 +183,8 @@
             "optional": false
           },
           "span": {
-            "start": 159,
-            "end": 166,
+            "start": 149,
+            "end": 156,
             "ctxt": 0
           },
           "attributes": [],
@@ -198,15 +198,15 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 178,
-        "end": 187,
+        "start": 165,
+        "end": 174,
         "ctxt": 0
       },
       "expression": {
         "type": "JSXElement",
         "span": {
-          "start": 178,
-          "end": 186,
+          "start": 165,
+          "end": 173,
           "ctxt": 0
         },
         "opening": {
@@ -214,8 +214,8 @@
           "name": {
             "type": "Identifier",
             "span": {
-              "start": 179,
-              "end": 183,
+              "start": 166,
+              "end": 170,
               "ctxt": 0
             },
             "value": "span",
@@ -223,8 +223,8 @@
             "optional": false
           },
           "span": {
-            "start": 178,
-            "end": 186,
+            "start": 165,
+            "end": 173,
             "ctxt": 0
           },
           "attributes": [],

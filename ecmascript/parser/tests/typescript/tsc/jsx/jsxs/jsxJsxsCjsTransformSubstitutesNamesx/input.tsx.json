@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 118,
-    "end": 153,
+    "start": 114,
+    "end": 147,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 118,
-        "end": 139,
+        "start": 114,
+        "end": 135,
         "ctxt": 0
       },
       "kind": "const",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 124,
-            "end": 139,
+            "start": 120,
+            "end": 135,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 124,
-              "end": 125,
+              "start": 120,
+              "end": 121,
               "ctxt": 0
             },
             "value": "a",
@@ -37,8 +37,8 @@
           "init": {
             "type": "JSXElement",
             "span": {
-              "start": 128,
-              "end": 139,
+              "start": 124,
+              "end": 135,
               "ctxt": 0
             },
             "opening": {
@@ -46,8 +46,8 @@
               "name": {
                 "type": "Identifier",
                 "span": {
-                  "start": 129,
-                  "end": 132,
+                  "start": 125,
+                  "end": 128,
                   "ctxt": 0
                 },
                 "value": "div",
@@ -55,8 +55,8 @@
                 "optional": false
               },
               "span": {
-                "start": 128,
-                "end": 133,
+                "start": 124,
+                "end": 129,
                 "ctxt": 0
               },
               "attributes": [],
@@ -67,15 +67,15 @@
             "closing": {
               "type": "JSXClosingElement",
               "span": {
-                "start": 133,
-                "end": 139,
+                "start": 129,
+                "end": 135,
                 "ctxt": 0
               },
               "name": {
                 "type": "Identifier",
                 "span": {
-                  "start": 135,
-                  "end": 138,
+                  "start": 131,
+                  "end": 134,
                   "ctxt": 0
                 },
                 "value": "div",
@@ -91,8 +91,8 @@
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 143,
-        "end": 153,
+        "start": 137,
+        "end": 147,
         "ctxt": 0
       },
       "specifiers": [],

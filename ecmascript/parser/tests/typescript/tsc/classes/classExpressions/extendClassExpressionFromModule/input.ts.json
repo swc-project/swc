@@ -1,8 +1,8 @@
 {
   "type": "Module",
   "span": {
-    "start": 45,
-    "end": 166,
+    "start": 43,
+    "end": 157,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 51,
-          "end": 52,
+          "start": 49,
+          "end": 50,
           "ctxt": 0
         },
         "value": "x",
@@ -21,8 +21,8 @@
       },
       "declare": false,
       "span": {
-        "start": 45,
-        "end": 54,
+        "start": 43,
+        "end": 52,
         "ctxt": 0
       },
       "decorators": [],
@@ -36,15 +36,15 @@
     {
       "type": "TsExportAssignment",
       "span": {
-        "start": 58,
-        "end": 69,
+        "start": 54,
+        "end": 65,
         "ctxt": 0
       },
       "expression": {
         "type": "Identifier",
         "span": {
-          "start": 67,
-          "end": 68,
+          "start": 63,
+          "end": 64,
           "ctxt": 0
         },
         "value": "x",
@@ -55,8 +55,8 @@
     {
       "type": "TsImportEqualsDeclaration",
       "span": {
-        "start": 97,
-        "end": 129,
+        "start": 90,
+        "end": 122,
         "ctxt": 0
       },
       "declare": false,
@@ -64,8 +64,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 104,
-          "end": 108,
+          "start": 97,
+          "end": 101,
           "ctxt": 0
         },
         "value": "foo1",
@@ -75,15 +75,15 @@
       "moduleRef": {
         "type": "TsExternalModuleReference",
         "span": {
-          "start": 111,
-          "end": 128,
+          "start": 104,
+          "end": 121,
           "ctxt": 0
         },
         "expression": {
           "type": "StringLiteral",
           "span": {
-            "start": 119,
-            "end": 127,
+            "start": 112,
+            "end": 120,
             "ctxt": 0
           },
           "value": "./foo1",
@@ -98,8 +98,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 131,
-        "end": 144,
+        "start": 123,
+        "end": 136,
         "ctxt": 0
       },
       "kind": "var",
@@ -108,15 +108,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 135,
-            "end": 143,
+            "start": 127,
+            "end": 135,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 135,
-              "end": 136,
+              "start": 127,
+              "end": 128,
               "ctxt": 0
             },
             "value": "x",
@@ -126,8 +126,8 @@
           "init": {
             "type": "Identifier",
             "span": {
-              "start": 139,
-              "end": 143,
+              "start": 131,
+              "end": 135,
               "ctxt": 0
             },
             "value": "foo1",
@@ -143,8 +143,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 152,
-          "end": 153,
+          "start": 143,
+          "end": 144,
           "ctxt": 0
         },
         "value": "y",
@@ -153,8 +153,8 @@
       },
       "declare": false,
       "span": {
-        "start": 146,
-        "end": 166,
+        "start": 137,
+        "end": 157,
         "ctxt": 0
       },
       "decorators": [],
@@ -162,8 +162,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 162,
-          "end": 163,
+          "start": 153,
+          "end": 154,
           "ctxt": 0
         },
         "value": "x",

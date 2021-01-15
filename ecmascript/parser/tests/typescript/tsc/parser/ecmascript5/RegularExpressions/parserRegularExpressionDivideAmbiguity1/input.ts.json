@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 22,
+    "end": 21,
     "ctxt": 0
   },
   "body": [
@@ -10,14 +10,14 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 0,
-        "end": 22,
+        "end": 21,
         "ctxt": 0
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
           "start": 0,
-          "end": 21,
+          "end": 20,
           "ctxt": 0
         },
         "operator": "/",
@@ -25,7 +25,7 @@
           "type": "BinaryExpression",
           "span": {
             "start": 0,
-            "end": 13,
+            "end": 12,
             "ctxt": 0
           },
           "operator": "/",
@@ -41,8 +41,8 @@
           "right": {
             "type": "Identifier",
             "span": {
-              "start": 4,
-              "end": 13,
+              "start": 3,
+              "end": 12,
               "ctxt": 0
             },
             "value": "notregexp",
@@ -53,22 +53,22 @@
         "right": {
           "type": "CallExpression",
           "span": {
-            "start": 14,
-            "end": 21,
+            "start": 13,
+            "end": 20,
             "ctxt": 0
           },
           "callee": {
             "type": "MemberExpression",
             "span": {
-              "start": 14,
-              "end": 19,
+              "start": 13,
+              "end": 18,
               "ctxt": 0
             },
             "object": {
               "type": "Identifier",
               "span": {
-                "start": 14,
-                "end": 15,
+                "start": 13,
+                "end": 14,
                 "ctxt": 0
               },
               "value": "a",
@@ -78,8 +78,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 16,
-                "end": 19,
+                "start": 15,
+                "end": 18,
                 "ctxt": 0
               },
               "value": "foo",

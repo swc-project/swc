@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 188,
+    "end": 179,
     "ctxt": 0
   },
   "body": [
@@ -22,7 +22,7 @@
       "declare": false,
       "span": {
         "start": 0,
-        "end": 48,
+        "end": 46,
         "ctxt": 0
       },
       "decorators": [],
@@ -30,15 +30,15 @@
         {
           "type": "Constructor",
           "span": {
-            "start": 18,
-            "end": 45,
+            "start": 17,
+            "end": 44,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 28,
-              "end": 39,
+              "start": 27,
+              "end": 38,
               "ctxt": 0
             },
             "value": "constructor",
@@ -49,8 +49,8 @@
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 42,
-              "end": 45,
+              "start": 41,
+              "end": 44,
               "ctxt": 0
             },
             "stmts": []
@@ -70,8 +70,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 56,
-          "end": 63,
+          "start": 53,
+          "end": 60,
           "ctxt": 0
         },
         "value": "Derived",
@@ -80,8 +80,8 @@
       },
       "declare": false,
       "span": {
-        "start": 50,
-        "end": 121,
+        "start": 47,
+        "end": 116,
         "ctxt": 0
       },
       "decorators": [],
@@ -89,15 +89,15 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 84,
-            "end": 112,
+            "start": 80,
+            "end": 108,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 91,
-              "end": 95,
+              "start": 87,
+              "end": 91,
               "ctxt": 0
             },
             "value": "make",
@@ -108,37 +108,37 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 84,
-              "end": 112,
+              "start": 80,
+              "end": 108,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 98,
-                "end": 112,
+                "start": 94,
+                "end": 108,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ExpressionStatement",
                   "span": {
-                    "start": 100,
-                    "end": 110,
+                    "start": 96,
+                    "end": 106,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "NewExpression",
                     "span": {
-                      "start": 100,
-                      "end": 110,
+                      "start": 96,
+                      "end": 106,
                       "ctxt": 0
                     },
                     "callee": {
                       "type": "Identifier",
                       "span": {
-                        "start": 104,
-                        "end": 108,
+                        "start": 100,
+                        "end": 104,
                         "ctxt": 0
                       },
                       "value": "Base",
@@ -166,8 +166,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 72,
-          "end": 76,
+          "start": 69,
+          "end": 73,
           "ctxt": 0
         },
         "value": "Base",
@@ -184,8 +184,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 131,
-          "end": 140,
+          "start": 124,
+          "end": 133,
           "ctxt": 0
         },
         "value": "Unrelated",
@@ -194,8 +194,8 @@
       },
       "declare": false,
       "span": {
-        "start": 125,
-        "end": 188,
+        "start": 118,
+        "end": 179,
         "ctxt": 0
       },
       "decorators": [],
@@ -203,15 +203,15 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 148,
-            "end": 176,
+            "start": 140,
+            "end": 168,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 155,
-              "end": 159,
+              "start": 147,
+              "end": 151,
               "ctxt": 0
             },
             "value": "fake",
@@ -222,37 +222,37 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 148,
-              "end": 176,
+              "start": 140,
+              "end": 168,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 162,
-                "end": 176,
+                "start": 154,
+                "end": 168,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ExpressionStatement",
                   "span": {
-                    "start": 164,
-                    "end": 174,
+                    "start": 156,
+                    "end": 166,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "NewExpression",
                     "span": {
-                      "start": 164,
-                      "end": 174,
+                      "start": 156,
+                      "end": 166,
                       "ctxt": 0
                     },
                     "callee": {
                       "type": "Identifier",
                       "span": {
-                        "start": 168,
-                        "end": 172,
+                        "start": 160,
+                        "end": 164,
                         "ctxt": 0
                       },
                       "value": "Base",

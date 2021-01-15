@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 24,
+    "end": 23,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "LabeledStatement",
       "span": {
         "start": 0,
-        "end": 24,
+        "end": 23,
         "ctxt": 0
       },
       "label": {
@@ -27,15 +27,15 @@
       "body": {
         "type": "BreakStatement",
         "span": {
-          "start": 11,
-          "end": 24,
+          "start": 10,
+          "end": 23,
           "ctxt": 0
         },
         "label": {
           "type": "Identifier",
           "span": {
-            "start": 17,
-            "end": 23,
+            "start": 16,
+            "end": 22,
             "ctxt": 0
           },
           "value": "target",

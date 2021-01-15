@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 19,
-    "end": 136,
+    "start": 17,
+    "end": 130,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 28,
-          "end": 29,
+          "start": 26,
+          "end": 27,
           "ctxt": 0
         },
         "value": "f",
@@ -24,28 +24,28 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 30,
-            "end": 41,
+            "start": 28,
+            "end": 39,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "RestElement",
             "span": {
-              "start": 30,
-              "end": 41,
+              "start": 28,
+              "end": 39,
               "ctxt": 0
             },
             "rest": {
-              "start": 30,
-              "end": 33,
+              "start": 28,
+              "end": 31,
               "ctxt": 0
             },
             "argument": {
               "type": "Identifier",
               "span": {
-                "start": 33,
-                "end": 34,
+                "start": 31,
+                "end": 32,
                 "ctxt": 0
               },
               "value": "x",
@@ -55,22 +55,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 34,
-                "end": 41,
+                "start": 32,
+                "end": 39,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsArrayType",
                 "span": {
-                  "start": 36,
-                  "end": 41,
+                  "start": 34,
+                  "end": 39,
                   "ctxt": 0
                 },
                 "elemType": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 36,
-                    "end": 39,
+                    "start": 34,
+                    "end": 37,
                     "ctxt": 0
                   },
                   "kind": "any"
@@ -82,15 +82,15 @@
       ],
       "decorators": [],
       "span": {
-        "start": 19,
-        "end": 49,
+        "start": 17,
+        "end": 45,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 43,
-          "end": 49,
+          "start": 41,
+          "end": 45,
           "ctxt": 0
         },
         "stmts": []
@@ -103,22 +103,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 53,
-        "end": 136,
+        "start": 47,
+        "end": 130,
         "ctxt": 0
       },
       "expression": {
         "type": "TaggedTemplateExpression",
         "span": {
-          "start": 53,
-          "end": 136,
+          "start": 47,
+          "end": 130,
           "ctxt": 0
         },
         "tag": {
           "type": "Identifier",
           "span": {
-            "start": 53,
-            "end": 54,
+            "start": 47,
+            "end": 48,
             "ctxt": 0
           },
           "value": "f",
@@ -130,16 +130,16 @@
           {
             "type": "TemplateElement",
             "span": {
-              "start": 56,
-              "end": 135,
+              "start": 50,
+              "end": 129,
               "ctxt": 0
             },
             "tail": true,
             "cooked": {
               "type": "StringLiteral",
               "span": {
-                "start": 56,
-                "end": 135,
+                "start": 50,
+                "end": 129,
                 "ctxt": 0
               },
               "value": "0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 2028 2029 0085 t v f b r n",
@@ -152,8 +152,8 @@
             "raw": {
               "type": "StringLiteral",
               "span": {
-                "start": 56,
-                "end": 135,
+                "start": 50,
+                "end": 129,
                 "ctxt": 0
               },
               "value": "0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 2028 2029 0085 t v f b r n",

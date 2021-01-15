@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 52,
+    "end": 51,
     "ctxt": 0
   },
   "body": [
@@ -95,51 +95,51 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 28,
-        "end": 52,
+        "start": 27,
+        "end": 51,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 28,
-          "end": 51,
+          "start": 27,
+          "end": 50,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "ArrayPattern",
           "span": {
-            "start": 28,
-            "end": 40,
+            "start": 27,
+            "end": 39,
             "ctxt": 0
           },
           "elements": [
             {
               "type": "RestElement",
               "span": {
-                "start": 32,
-                "end": 39,
+                "start": 31,
+                "end": 38,
                 "ctxt": 0
               },
               "rest": {
-                "start": 29,
-                "end": 32,
+                "start": 28,
+                "end": 31,
                 "ctxt": 0
               },
               "argument": {
                 "type": "ArrayPattern",
                 "span": {
-                  "start": 32,
-                  "end": 39,
+                  "start": 31,
+                  "end": 38,
                   "ctxt": 0
                 },
                 "elements": [
                   {
                     "type": "Identifier",
                     "span": {
-                      "start": 33,
-                      "end": 34,
+                      "start": 32,
+                      "end": 33,
                       "ctxt": 0
                     },
                     "value": "s",
@@ -149,8 +149,8 @@
                   {
                     "type": "Identifier",
                     "span": {
-                      "start": 36,
-                      "end": 38,
+                      "start": 35,
+                      "end": 37,
                       "ctxt": 0
                     },
                     "value": "s2",
@@ -170,8 +170,8 @@
         "right": {
           "type": "ArrayExpression",
           "span": {
-            "start": 43,
-            "end": 51,
+            "start": 42,
+            "end": 50,
             "ctxt": 0
           },
           "elements": [
@@ -180,8 +180,8 @@
               "expression": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 44,
-                  "end": 46,
+                  "start": 43,
+                  "end": 45,
                   "ctxt": 0
                 },
                 "value": "",
@@ -197,8 +197,8 @@
               "expression": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 48,
-                  "end": 50,
+                  "start": 47,
+                  "end": 49,
                   "ctxt": 0
                 },
                 "value": "",

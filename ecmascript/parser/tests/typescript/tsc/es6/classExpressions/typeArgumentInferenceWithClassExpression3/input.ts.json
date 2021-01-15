@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 110,
+    "end": 106,
     "ctxt": 0
   },
   "body": [
@@ -128,29 +128,29 @@
       "decorators": [],
       "span": {
         "start": 0,
-        "end": 69,
+        "end": 67,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 42,
-          "end": 69,
+          "end": 67,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
-              "start": 49,
-              "end": 66,
+              "start": 48,
+              "end": 65,
               "ctxt": 0
             },
             "argument": {
               "type": "Identifier",
               "span": {
-                "start": 56,
-                "end": 65,
+                "start": 55,
+                "end": 64,
                 "ctxt": 0
               },
               "value": "undefined",
@@ -225,29 +225,29 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 73,
-        "end": 110,
+        "start": 69,
+        "end": 106,
         "ctxt": 0
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
-          "start": 73,
-          "end": 109,
+          "start": 69,
+          "end": 105,
           "ctxt": 0
         },
         "object": {
           "type": "CallExpression",
           "span": {
-            "start": 73,
-            "end": 102,
+            "start": 69,
+            "end": 98,
             "ctxt": 0
           },
           "callee": {
             "type": "Identifier",
             "span": {
-              "start": 73,
-              "end": 76,
+              "start": 69,
+              "end": 72,
               "ctxt": 0
             },
             "value": "foo",
@@ -261,8 +261,8 @@
                 "type": "ClassExpression",
                 "identifier": null,
                 "span": {
-                  "start": 77,
-                  "end": 101,
+                  "start": 73,
+                  "end": 97,
                   "ctxt": 0
                 },
                 "decorators": [],
@@ -270,15 +270,15 @@
                   {
                     "type": "ClassProperty",
                     "span": {
-                      "start": 85,
-                      "end": 99,
+                      "start": 81,
+                      "end": 95,
                       "ctxt": 0
                     },
                     "key": {
                       "type": "Identifier",
                       "span": {
-                        "start": 85,
-                        "end": 89,
+                        "start": 81,
+                        "end": 85,
                         "ctxt": 0
                       },
                       "value": "prop",
@@ -288,8 +288,8 @@
                     "value": {
                       "type": "StringLiteral",
                       "span": {
-                        "start": 92,
-                        "end": 99,
+                        "start": 88,
+                        "end": 95,
                         "ctxt": 0
                       },
                       "value": "hello",
@@ -324,8 +324,8 @@
         "property": {
           "type": "Identifier",
           "span": {
-            "start": 103,
-            "end": 109,
+            "start": 99,
+            "end": 105,
             "ctxt": 0
           },
           "value": "length",

@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 19,
-    "end": 222,
+    "start": 17,
+    "end": 206,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 34,
-          "end": 37,
+          "start": 32,
+          "end": 35,
           "ctxt": 0
         },
         "value": "bar",
@@ -23,45 +23,45 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 19,
-        "end": 66,
+        "start": 17,
+        "end": 62,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 40,
-          "end": 66,
+          "start": 38,
+          "end": 62,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 47,
-              "end": 57,
+              "start": 44,
+              "end": 54,
               "ctxt": 0
             },
             "expression": {
               "type": "UnaryExpression",
               "span": {
-                "start": 47,
-                "end": 56,
+                "start": 44,
+                "end": 53,
                 "ctxt": 0
               },
               "operator": "!",
               "argument": {
                 "type": "AwaitExpression",
                 "span": {
-                  "start": 48,
-                  "end": 56,
+                  "start": 45,
+                  "end": 53,
                   "ctxt": 0
                 },
                 "argument": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 54,
-                    "end": 56,
+                    "start": 51,
+                    "end": 53,
                     "ctxt": 0
                   },
                   "value": 42.0
@@ -81,8 +81,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 85,
-          "end": 89,
+          "start": 79,
+          "end": 83,
           "ctxt": 0
         },
         "value": "bar1",
@@ -93,45 +93,45 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 70,
-        "end": 118,
+        "start": 64,
+        "end": 110,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 92,
-          "end": 118,
+          "start": 86,
+          "end": 110,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 99,
-              "end": 109,
+              "start": 92,
+              "end": 102,
               "ctxt": 0
             },
             "expression": {
               "type": "UnaryExpression",
               "span": {
-                "start": 99,
-                "end": 108,
+                "start": 92,
+                "end": 101,
                 "ctxt": 0
               },
               "operator": "+",
               "argument": {
                 "type": "AwaitExpression",
                 "span": {
-                  "start": 100,
-                  "end": 108,
+                  "start": 93,
+                  "end": 101,
                   "ctxt": 0
                 },
                 "argument": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 106,
-                    "end": 108,
+                    "start": 99,
+                    "end": 101,
                     "ctxt": 0
                   },
                   "value": 42.0
@@ -151,8 +151,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 137,
-          "end": 141,
+          "start": 127,
+          "end": 131,
           "ctxt": 0
         },
         "value": "bar3",
@@ -163,45 +163,45 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 122,
-        "end": 170,
+        "start": 112,
+        "end": 158,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 144,
-          "end": 170,
+          "start": 134,
+          "end": 158,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 151,
-              "end": 161,
+              "start": 140,
+              "end": 150,
               "ctxt": 0
             },
             "expression": {
               "type": "UnaryExpression",
               "span": {
-                "start": 151,
-                "end": 160,
+                "start": 140,
+                "end": 149,
                 "ctxt": 0
               },
               "operator": "-",
               "argument": {
                 "type": "AwaitExpression",
                 "span": {
-                  "start": 152,
-                  "end": 160,
+                  "start": 141,
+                  "end": 149,
                   "ctxt": 0
                 },
                 "argument": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 158,
-                    "end": 160,
+                    "start": 147,
+                    "end": 149,
                     "ctxt": 0
                   },
                   "value": 42.0
@@ -221,8 +221,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 189,
-          "end": 193,
+          "start": 175,
+          "end": 179,
           "ctxt": 0
         },
         "value": "bar4",
@@ -233,45 +233,45 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 174,
-        "end": 222,
+        "start": 160,
+        "end": 206,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 196,
-          "end": 222,
+          "start": 182,
+          "end": 206,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 203,
-              "end": 213,
+              "start": 188,
+              "end": 198,
               "ctxt": 0
             },
             "expression": {
               "type": "UnaryExpression",
               "span": {
-                "start": 203,
-                "end": 212,
+                "start": 188,
+                "end": 197,
                 "ctxt": 0
               },
               "operator": "~",
               "argument": {
                 "type": "AwaitExpression",
                 "span": {
-                  "start": 204,
-                  "end": 212,
+                  "start": 189,
+                  "end": 197,
                   "ctxt": 0
                 },
                 "argument": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 210,
-                    "end": 212,
+                    "start": 195,
+                    "end": 197,
                     "ctxt": 0
                   },
                   "value": 42.0

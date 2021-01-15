@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 45,
+    "end": 43,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "ForOfStatement",
       "span": {
         "start": 0,
-        "end": 33,
+        "end": 32,
         "ctxt": 0
       },
       "await": null,
@@ -59,8 +59,8 @@
       "body": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 23,
-          "end": 33,
+          "start": 22,
+          "end": 32,
           "ctxt": 0
         },
         "kind": "var",
@@ -69,15 +69,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 27,
-              "end": 32,
+              "start": 26,
+              "end": 31,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 27,
-                "end": 28,
+                "start": 26,
+                "end": 27,
                 "ctxt": 0
               },
               "value": "x",
@@ -87,8 +87,8 @@
             "init": {
               "type": "Identifier",
               "span": {
-                "start": 31,
-                "end": 32,
+                "start": 30,
+                "end": 31,
                 "ctxt": 0
               },
               "value": "v",
@@ -103,8 +103,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 35,
-        "end": 45,
+        "start": 33,
+        "end": 43,
         "ctxt": 0
       },
       "kind": "var",
@@ -113,15 +113,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 39,
-            "end": 44,
+            "start": 37,
+            "end": 42,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 39,
-              "end": 40,
+              "start": 37,
+              "end": 38,
               "ctxt": 0
             },
             "value": "y",
@@ -131,8 +131,8 @@
           "init": {
             "type": "Identifier",
             "span": {
-              "start": 43,
-              "end": 44,
+              "start": 41,
+              "end": 42,
               "ctxt": 0
             },
             "value": "v",

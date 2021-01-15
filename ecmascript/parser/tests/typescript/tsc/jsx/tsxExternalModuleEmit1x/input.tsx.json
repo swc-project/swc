@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 66,
-    "end": 580,
+    "start": 62,
+    "end": 549,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 66,
-        "end": 121,
+        "start": 62,
+        "end": 115,
         "ctxt": 0
       },
       "declare": true,
@@ -18,8 +18,8 @@
       "id": {
         "type": "StringLiteral",
         "span": {
-          "start": 81,
-          "end": 88,
+          "start": 77,
+          "end": 84,
           "ctxt": 0
         },
         "value": "react",
@@ -32,8 +32,8 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 89,
-          "end": 121,
+          "start": 85,
+          "end": 115,
           "ctxt": 0
         },
         "body": [
@@ -42,8 +42,8 @@
             "identifier": {
               "type": "Identifier",
               "span": {
-                "start": 99,
-                "end": 108,
+                "start": 94,
+                "end": 103,
                 "ctxt": 0
               },
               "value": "Component",
@@ -52,8 +52,8 @@
             },
             "declare": false,
             "span": {
-              "start": 93,
-              "end": 118,
+              "start": 88,
+              "end": 113,
               "ctxt": 0
             },
             "decorators": [],
@@ -63,23 +63,23 @@
             "typeParams": {
               "type": "TsTypeParameterDeclaration",
               "span": {
-                "start": 108,
-                "end": 114,
+                "start": 103,
+                "end": 109,
                 "ctxt": 0
               },
               "parameters": [
                 {
                   "type": "TsTypeParameter",
                   "span": {
-                    "start": 109,
-                    "end": 110,
+                    "start": 104,
+                    "end": 105,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 109,
-                      "end": 110,
+                      "start": 104,
+                      "end": 105,
                       "ctxt": 0
                     },
                     "value": "T",
@@ -92,15 +92,15 @@
                 {
                   "type": "TsTypeParameter",
                   "span": {
-                    "start": 112,
-                    "end": 113,
+                    "start": 107,
+                    "end": 108,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 112,
-                      "end": 113,
+                      "start": 107,
+                      "end": 108,
                       "ctxt": 0
                     },
                     "value": "U",
@@ -121,23 +121,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 147,
-        "end": 178,
+        "start": 138,
+        "end": 169,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportNamespaceSpecifier",
           "span": {
-            "start": 154,
-            "end": 164,
+            "start": 145,
+            "end": 155,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 159,
-              "end": 164,
+              "start": 150,
+              "end": 155,
               "ctxt": 0
             },
             "value": "React",
@@ -149,8 +149,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 170,
-          "end": 177,
+          "start": 161,
+          "end": 168,
           "ctxt": 0
         },
         "value": "react",
@@ -166,23 +166,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 237,
-        "end": 271,
+        "start": 225,
+        "end": 259,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 246,
-            "end": 252,
+            "start": 234,
+            "end": 240,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 246,
-              "end": 252,
+              "start": 234,
+              "end": 240,
               "ctxt": 0
             },
             "value": "Button",
@@ -195,8 +195,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 260,
-          "end": 270,
+          "start": 248,
+          "end": 258,
           "ctxt": 0
         },
         "value": "./button",
@@ -212,8 +212,8 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 275,
-        "end": 385,
+        "start": 261,
+        "end": 365,
         "ctxt": 0
       },
       "declaration": {
@@ -221,8 +221,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 288,
-            "end": 291,
+            "start": 274,
+            "end": 277,
             "ctxt": 0
           },
           "value": "App",
@@ -231,8 +231,8 @@
         },
         "declare": false,
         "span": {
-          "start": 282,
-          "end": 385,
+          "start": 268,
+          "end": 365,
           "ctxt": 0
         },
         "decorators": [],
@@ -240,15 +240,15 @@
           {
             "type": "ClassMethod",
             "span": {
-              "start": 335,
-              "end": 380,
+              "start": 319,
+              "end": 362,
               "ctxt": 0
             },
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 335,
-                "end": 341,
+                "start": 319,
+                "end": 325,
                 "ctxt": 0
               },
               "value": "render",
@@ -259,30 +259,30 @@
               "params": [],
               "decorators": [],
               "span": {
-                "start": 335,
-                "end": 380,
+                "start": 319,
+                "end": 362,
                 "ctxt": 0
               },
               "body": {
                 "type": "BlockStatement",
                 "span": {
-                  "start": 344,
-                  "end": 380,
+                  "start": 328,
+                  "end": 362,
                   "ctxt": 0
                 },
                 "stmts": [
                   {
                     "type": "ReturnStatement",
                     "span": {
-                      "start": 355,
-                      "end": 373,
+                      "start": 338,
+                      "end": 356,
                       "ctxt": 0
                     },
                     "argument": {
                       "type": "JSXElement",
                       "span": {
-                        "start": 362,
-                        "end": 372,
+                        "start": 345,
+                        "end": 355,
                         "ctxt": 0
                       },
                       "opening": {
@@ -290,8 +290,8 @@
                         "name": {
                           "type": "Identifier",
                           "span": {
-                            "start": 363,
-                            "end": 369,
+                            "start": 346,
+                            "end": 352,
                             "ctxt": 0
                           },
                           "value": "Button",
@@ -299,8 +299,8 @@
                           "optional": false
                         },
                         "span": {
-                          "start": 362,
-                          "end": 372,
+                          "start": 345,
+                          "end": 355,
                           "ctxt": 0
                         },
                         "attributes": [],
@@ -328,15 +328,15 @@
         "superClass": {
           "type": "MemberExpression",
           "span": {
-            "start": 300,
-            "end": 315,
+            "start": 286,
+            "end": 301,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 300,
-              "end": 305,
+              "start": 286,
+              "end": 291,
               "ctxt": 0
             },
             "value": "React",
@@ -346,8 +346,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 306,
-              "end": 315,
+              "start": 292,
+              "end": 301,
               "ctxt": 0
             },
             "value": "Component",
@@ -361,16 +361,16 @@
         "superTypeParams": {
           "type": "TsTypeParameterInstantiation",
           "span": {
-            "start": 315,
-            "end": 325,
+            "start": 301,
+            "end": 311,
             "ctxt": 0
           },
           "params": [
             {
               "type": "TsKeywordType",
               "span": {
-                "start": 316,
-                "end": 319,
+                "start": 302,
+                "end": 305,
                 "ctxt": 0
               },
               "kind": "any"
@@ -378,8 +378,8 @@
             {
               "type": "TsKeywordType",
               "span": {
-                "start": 321,
-                "end": 324,
+                "start": 307,
+                "end": 310,
                 "ctxt": 0
               },
               "kind": "any"
@@ -392,23 +392,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 414,
-        "end": 445,
+        "start": 391,
+        "end": 422,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportNamespaceSpecifier",
           "span": {
-            "start": 421,
-            "end": 431,
+            "start": 398,
+            "end": 408,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 426,
-              "end": 431,
+              "start": 403,
+              "end": 408,
               "ctxt": 0
             },
             "value": "React",
@@ -420,8 +420,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 437,
-          "end": 444,
+          "start": 414,
+          "end": 421,
           "ctxt": 0
         },
         "value": "react",
@@ -437,8 +437,8 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 449,
-        "end": 580,
+        "start": 424,
+        "end": 549,
         "ctxt": 0
       },
       "declaration": {
@@ -446,8 +446,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 462,
-            "end": 468,
+            "start": 437,
+            "end": 443,
             "ctxt": 0
           },
           "value": "Button",
@@ -456,8 +456,8 @@
         },
         "declare": false,
         "span": {
-          "start": 456,
-          "end": 580,
+          "start": 431,
+          "end": 549,
           "ctxt": 0
         },
         "decorators": [],
@@ -465,15 +465,15 @@
           {
             "type": "ClassMethod",
             "span": {
-              "start": 512,
-              "end": 575,
+              "start": 485,
+              "end": 546,
               "ctxt": 0
             },
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 512,
-                "end": 518,
+                "start": 485,
+                "end": 491,
                 "ctxt": 0
               },
               "value": "render",
@@ -484,30 +484,30 @@
               "params": [],
               "decorators": [],
               "span": {
-                "start": 512,
-                "end": 575,
+                "start": 485,
+                "end": 546,
                 "ctxt": 0
               },
               "body": {
                 "type": "BlockStatement",
                 "span": {
-                  "start": 521,
-                  "end": 575,
+                  "start": 494,
+                  "end": 546,
                   "ctxt": 0
                 },
                 "stmts": [
                   {
                     "type": "ReturnStatement",
                     "span": {
-                      "start": 532,
-                      "end": 568,
+                      "start": 504,
+                      "end": 540,
                       "ctxt": 0
                     },
                     "argument": {
                       "type": "JSXElement",
                       "span": {
-                        "start": 539,
-                        "end": 567,
+                        "start": 511,
+                        "end": 539,
                         "ctxt": 0
                       },
                       "opening": {
@@ -515,8 +515,8 @@
                         "name": {
                           "type": "Identifier",
                           "span": {
-                            "start": 540,
-                            "end": 546,
+                            "start": 512,
+                            "end": 518,
                             "ctxt": 0
                           },
                           "value": "button",
@@ -524,8 +524,8 @@
                           "optional": false
                         },
                         "span": {
-                          "start": 539,
-                          "end": 547,
+                          "start": 511,
+                          "end": 519,
                           "ctxt": 0
                         },
                         "attributes": [],
@@ -536,8 +536,8 @@
                         {
                           "type": "JSXText",
                           "span": {
-                            "start": 547,
-                            "end": 558,
+                            "start": 519,
+                            "end": 530,
                             "ctxt": 0
                           },
                           "value": "Some button",
@@ -547,15 +547,15 @@
                       "closing": {
                         "type": "JSXClosingElement",
                         "span": {
-                          "start": 558,
-                          "end": 567,
+                          "start": 530,
+                          "end": 539,
                           "ctxt": 0
                         },
                         "name": {
                           "type": "Identifier",
                           "span": {
-                            "start": 560,
-                            "end": 566,
+                            "start": 532,
+                            "end": 538,
                             "ctxt": 0
                           },
                           "value": "button",
@@ -582,15 +582,15 @@
         "superClass": {
           "type": "MemberExpression",
           "span": {
-            "start": 477,
-            "end": 492,
+            "start": 452,
+            "end": 467,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 477,
-              "end": 482,
+              "start": 452,
+              "end": 457,
               "ctxt": 0
             },
             "value": "React",
@@ -600,8 +600,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 483,
-              "end": 492,
+              "start": 458,
+              "end": 467,
               "ctxt": 0
             },
             "value": "Component",
@@ -615,16 +615,16 @@
         "superTypeParams": {
           "type": "TsTypeParameterInstantiation",
           "span": {
-            "start": 492,
-            "end": 502,
+            "start": 467,
+            "end": 477,
             "ctxt": 0
           },
           "params": [
             {
               "type": "TsKeywordType",
               "span": {
-                "start": 493,
-                "end": 496,
+                "start": 468,
+                "end": 471,
                 "ctxt": 0
               },
               "kind": "any"
@@ -632,8 +632,8 @@
             {
               "type": "TsKeywordType",
               "span": {
-                "start": 498,
-                "end": 501,
+                "start": 473,
+                "end": 476,
                 "ctxt": 0
               },
               "kind": "any"

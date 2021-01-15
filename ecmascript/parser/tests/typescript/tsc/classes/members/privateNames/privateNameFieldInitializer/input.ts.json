@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 22,
-    "end": 73,
+    "start": 20,
+    "end": 68,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 28,
-          "end": 29,
+          "start": 26,
+          "end": 27,
           "ctxt": 0
         },
         "value": "A",
@@ -21,8 +21,8 @@
       },
       "declare": false,
       "span": {
-        "start": 22,
-        "end": 73,
+        "start": 20,
+        "end": 68,
         "ctxt": 0
       },
       "decorators": [],
@@ -30,22 +30,22 @@
         {
           "type": "PrivateProperty",
           "span": {
-            "start": 37,
-            "end": 49,
+            "start": 34,
+            "end": 46,
             "ctxt": 0
           },
           "key": {
             "type": "PrivateName",
             "span": {
-              "start": 37,
-              "end": 43,
+              "start": 34,
+              "end": 40,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 38,
-                "end": 43,
+                "start": 35,
+                "end": 40,
                 "ctxt": 0
               },
               "value": "field",
@@ -56,8 +56,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 46,
-              "end": 48,
+              "start": 43,
+              "end": 45,
               "ctxt": 0
             },
             "value": 10.0
@@ -75,22 +75,22 @@
         {
           "type": "PrivateProperty",
           "span": {
-            "start": 55,
-            "end": 70,
+            "start": 51,
+            "end": 66,
             "ctxt": 0
           },
           "key": {
             "type": "PrivateName",
             "span": {
-              "start": 55,
-              "end": 69,
+              "start": 51,
+              "end": 65,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 56,
-                "end": 69,
+                "start": 52,
+                "end": 65,
                 "ctxt": 0
               },
               "value": "uninitialized",

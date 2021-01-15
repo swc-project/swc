@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 108,
+    "end": 104,
     "ctxt": 0
   },
   "body": [
@@ -44,8 +44,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 22,
-        "end": 40,
+        "start": 20,
+        "end": 38,
         "ctxt": 0
       },
       "kind": "var",
@@ -54,15 +54,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 26,
-            "end": 39,
+            "start": 24,
+            "end": 37,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 26,
-              "end": 27,
+              "start": 24,
+              "end": 25,
               "ctxt": 0
             },
             "value": "x",
@@ -72,15 +72,15 @@
           "init": {
             "type": "NewExpression",
             "span": {
-              "start": 30,
-              "end": 39,
+              "start": 28,
+              "end": 37,
               "ctxt": 0
             },
             "callee": {
               "type": "Identifier",
               "span": {
-                "start": 34,
-                "end": 37,
+                "start": 32,
+                "end": 35,
                 "ctxt": 0
               },
               "value": "foo",
@@ -99,8 +99,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 91,
-          "end": 92,
+          "start": 87,
+          "end": 88,
           "ctxt": 0
         },
         "value": "C",
@@ -109,8 +109,8 @@
       },
       "declare": false,
       "span": {
-        "start": 85,
-        "end": 108,
+        "start": 81,
+        "end": 104,
         "ctxt": 0
       },
       "decorators": [],
@@ -118,8 +118,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 101,
-          "end": 104,
+          "start": 97,
+          "end": 100,
           "ctxt": 0
         },
         "value": "foo",

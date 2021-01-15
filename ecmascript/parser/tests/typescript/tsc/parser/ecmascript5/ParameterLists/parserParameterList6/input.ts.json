@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 56,
+    "end": 53,
     "ctxt": 0
   },
   "body": [
@@ -22,7 +22,7 @@
       "declare": false,
       "span": {
         "start": 0,
-        "end": 56,
+        "end": 53,
         "ctxt": 0
       },
       "decorators": [],
@@ -30,15 +30,15 @@
         {
           "type": "Constructor",
           "span": {
-            "start": 13,
-            "end": 53,
+            "start": 12,
+            "end": 51,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 13,
-              "end": 24,
+              "start": 12,
+              "end": 23,
               "ctxt": 0
             },
             "value": "constructor",
@@ -49,39 +49,39 @@
             {
               "type": "Parameter",
               "span": {
-                "start": 25,
-                "end": 45,
+                "start": 24,
+                "end": 44,
                 "ctxt": 0
               },
               "decorators": [],
               "pat": {
                 "type": "Identifier",
                 "span": {
-                  "start": 25,
-                  "end": 45,
+                  "start": 24,
+                  "end": 44,
                   "ctxt": 0
                 },
                 "value": "C",
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
-                    "start": 26,
-                    "end": 45,
+                    "start": 25,
+                    "end": 44,
                     "ctxt": 0
                   },
                   "typeAnnotation": {
                     "type": "TsFunctionType",
                     "span": {
-                      "start": 28,
-                      "end": 45,
+                      "start": 27,
+                      "end": 44,
                       "ctxt": 0
                     },
                     "params": [
                       {
                         "type": "Identifier",
                         "span": {
-                          "start": 36,
-                          "end": 37,
+                          "start": 35,
+                          "end": 36,
                           "ctxt": 0
                         },
                         "value": "A",
@@ -93,15 +93,15 @@
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
-                        "start": 39,
-                        "end": 45,
+                        "start": 38,
+                        "end": 44,
                         "ctxt": 0
                       },
                       "typeAnnotation": {
                         "type": "TsKeywordType",
                         "span": {
-                          "start": 42,
-                          "end": 45,
+                          "start": 41,
+                          "end": 44,
                           "ctxt": 0
                         },
                         "kind": "any"
@@ -116,8 +116,8 @@
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 47,
-              "end": 53,
+              "start": 46,
+              "end": 51,
               "ctxt": 0
             },
             "stmts": []
