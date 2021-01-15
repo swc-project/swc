@@ -3,6 +3,7 @@
 
 
 *.ts    text merge=union eol=lf
+*.tsx   text merge=union eol=lf
 *.rs    text merge=union eol=lf
 *.js    text merge=union eol=lf
 *.json  text merge=union eol=lf
