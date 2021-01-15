@@ -1835,7 +1835,13 @@ to_ts!(
     }
     A.b()
     ",
-    ""
+    "
+    module A__0 {
+        export function b() {
+        }
+    }
+    A__0.b();
+    "
 );
 
 to_ts!(
