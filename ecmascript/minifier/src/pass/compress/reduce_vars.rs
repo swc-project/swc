@@ -5,6 +5,7 @@ use fxhash::FxHashMap;
 use retain_mut::RetainMut;
 use std::mem::swap;
 use std::mem::take;
+use swc_atoms::JsWord;
 use swc_common::pass::Repeated;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -26,10 +27,11 @@ pub(super) struct ReducerConfig {
 /// Merge varaibles.
 pub(super) fn var_reducer(config: ReducerConfig) -> impl VisitMut + Repeated {
     Reducer {
-        config,
         changed: false,
+        config,
         lits: Default::default(),
         vars: Default::default(),
+        simple_props: Default::default(),
         data: Default::default(),
         inline_prevented: false,
     }
@@ -42,6 +44,7 @@ struct Reducer {
     /// Cheap to clone.
     lits: FxHashMap<Id, Box<Expr>>,
     vars: FxHashMap<Id, Box<Expr>>,
+    simple_props: FxHashMap<(Id, JsWord), Box<Expr>>,
     data: Option<ScopeData>,
     inline_prevented: bool,
 }
