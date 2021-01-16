@@ -133,7 +133,7 @@ impl VisitMut for Reducer {
                     .vars
                     .get(&i.to_id())
                     .map(|v| v.ref_count == 0)
-                    .unwrap_or(false);
+                    .unwrap_or(true);
 
                 if can_remove_ident {
                     self.changed = true;
