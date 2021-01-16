@@ -7,7 +7,6 @@ use std::mem::swap;
 use std::mem::take;
 use swc_atoms::JsWord;
 use swc_common::pass::Repeated;
-use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -347,6 +346,20 @@ impl VisitMut for Reducer {
             new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
 
             *stmts = new
+        }
+    }
+
+    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            Stmt::Expr(ExprStmt { expr, .. }) => {
+                //
+                if !expr.may_have_side_effects() {
+                    *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP })
+                }
+            }
+            _ => {}
         }
     }
 }
