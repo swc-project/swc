@@ -165,6 +165,17 @@ impl Hoister {
 
                         Stmt::Decl(Decl::Var(..)) => new_stmts.push(T::from_stmt(stmt)),
                         _ => {
+                            match stmt {
+                                Stmt::Throw(..) => {
+                                    fn_decls.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                        span: DUMMY_SP,
+                                        kind: VarDeclKind::Var,
+                                        declare: false,
+                                        decls: var_decls.take(),
+                                    }))));
+                                }
+                                _ => {}
+                            }
                             found_non_var_decl = true;
                             new_stmts.push(T::from_stmt(stmt))
                         }
