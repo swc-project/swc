@@ -174,7 +174,10 @@ impl VisitMut for Reducer {
                                 }
                             }
                         }
+                        let old = self.inline_prevented;
+                        self.inline_prevented = false;
                         callee.function.visit_mut_with(self);
+                        self.inline_prevented = old;
 
                         // TODO: Drop arguments if all usage is inlined. (We
                         // should preserve parameters)
