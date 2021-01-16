@@ -7,6 +7,7 @@ use std::mem::swap;
 use std::mem::take;
 use swc_atoms::JsWord;
 use swc_common::pass::Repeated;
+use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -147,7 +148,12 @@ impl VisitMut for Reducer {
 
     /// Inlines function call.
     fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
-        n.visit_mut_children_with(self);
+        n.callee.visit_mut_with(self);
+
+        let old = self.inline_prevented;
+        self.inline_prevented = true;
+        n.args.visit_mut_with(self);
+        self.inline_prevented = old;
 
         let has_spread_arg = n.args.iter().any(|v| v.spread.is_some());
 
