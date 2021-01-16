@@ -356,6 +356,7 @@ impl VisitMut for Reducer {
             Stmt::Expr(ExprStmt { expr, .. }) => {
                 //
                 if !expr.may_have_side_effects() {
+                    self.changed = true;
                     *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP })
                 }
             }
