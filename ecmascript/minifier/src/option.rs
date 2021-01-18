@@ -51,8 +51,14 @@ pub struct CompressOptions {
     #[serde(alias = "comparisons")]
     pub comparisons: bool,
 
-    // computed_props: !false_by_default,
-    // conditionals  : !false_by_default,
+    #[serde(default)]
+    #[serde(alias = "computed_props")]
+    pub computed_props: bool,
+
+    #[serde(default)]
+    #[serde(alias = "conditionals")]
+    pub conditionals: bool,
+
     #[serde(default)]
     #[serde(alias = "dead_code")]
     pub dead_code: bool,
