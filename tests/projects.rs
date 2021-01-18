@@ -67,6 +67,22 @@ fn project(dir: &str) {
                 }
 
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
+
+                if c.config_for_file(
+                    &Options {
+                        swcrc: true,
+                        is_module: true,
+
+                        ..Default::default()
+                    },
+                    &fm.name,
+                )
+                .expect("failed to read config")
+                .is_none()
+                {
+                    continue;
+                }
+
                 match c.process_js_file(
                     fm,
                     &Options {

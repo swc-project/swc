@@ -38,7 +38,7 @@ jobs:
           export PATH="$PATH:$HOME/npm/bin"
 
           npm run build:dev
-          npm i -g @swc/cli
+          npm i -g @swc/cli@0.1.32
           npm link
 
       - name: (swc) three.js
@@ -50,7 +50,7 @@ jobs:
           # Download three.js
           git clone --depth 1 https://github.com/mrdoob/three.js.git -b r117 integration-tests/three-js/repo
 
-          swc --sync integration-tests/three-js/repo/ -d integration-tests/three-js/build/
+          swc --sync --extensions '.js' integration-tests/three-js/repo/ -d integration-tests/three-js/build/
           # swc integration-tests/three-js/repo/src/ -d integration-tests/three-js/repo/build/
           # swc integration-tests/three-js/repo/test/unit/**/*.js -d integration-tests/three-js/repo/test/unit/build/
 

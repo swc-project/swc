@@ -277,7 +277,7 @@ impl Compiler {
         }
     }
 
-    pub fn read_config(&self, opts: &Options, name: &FileName) -> Result<Config, Error> {
+    pub fn read_config(&self, opts: &Options, name: &FileName) -> Result<Option<Config>, Error> {
         self.run(|| -> Result<_, Error> {
             let Options {
                 ref root,
@@ -344,6 +344,8 @@ impl Compiler {
         .with_context(|| format!("failed to read swcrc file ('{:?}')", name))
     }
 
+    /// This method returns [None] if a file should be skipped.
+    ///
     /// This method handles merging of config.
     ///
     /// This method does **not** parse module.
@@ -351,9 +353,13 @@ impl Compiler {
         &'a self,
         opts: &Options,
         name: &FileName,
-    ) -> Result<BuiltConfig<impl 'a + swc_ecma_visit::Fold>, Error> {
+    ) -> Result<Option<BuiltConfig<impl 'a + swc_ecma_visit::Fold>>, Error> {
         self.run(|| -> Result<_, Error> {
             let config = self.read_config(opts, name)?;
+            let config = match config {
+                Some(v) => v,
+                None => return Ok(None),
+            };
             let built = opts.build(
                 &self.cm,
                 &self.handler,
@@ -361,7 +367,7 @@ impl Compiler {
                 Some(config),
                 Some(&self.comments),
             );
-            Ok(built)
+            Ok(Some(built))
         })
         .with_context(|| format!("failed to load config for file '{:?}'", name))
     }
@@ -401,6 +407,12 @@ impl Compiler {
     {
         self.run(|| -> Result<_, Error> {
             let config = self.run(|| self.config_for_file(opts, &fm.name))?;
+            let config = match config {
+                Some(v) => v,
+                None => {
+                    bail!("cannot process file because it's ignored by .swcrc")
+                }
+            };
             let config = BuiltConfig {
                 pass: chain!(config.pass, custom_after_pass),
                 syntax: config.syntax,
@@ -443,6 +455,13 @@ impl Compiler {
             let orig = self.get_orig_src_map(&fm, &opts.input_source_map)?;
 
             let config = self.run(|| self.config_for_file(opts, &fm.name))?;
+
+            let config = match config {
+                Some(v) => v,
+                None => {
+                    bail!("cannot process file because it's ignored by .swcrc")
+                }
+            };
 
             self.process_js_inner(program, orig.as_ref(), config)
         })

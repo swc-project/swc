@@ -527,6 +527,7 @@ impl Strip {
         body.body.visit_mut_with(self);
 
         let private_name = private_ident!(module_name.sym.clone());
+        let mut delayed_vars = vec![];
 
         for item in body.body {
             // Drop
@@ -543,7 +544,24 @@ impl Strip {
                             for decl in v.decls {
                                 let init = match decl.init {
                                     Some(v) => v,
-                                    None => continue,
+                                    None => {
+                                        // We should handle enums
+
+                                        match &decl.name {
+                                            Pat::Ident(name) => {
+                                                delayed_vars.push(name.clone());
+                                                init_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                                                    span: DUMMY_SP,
+                                                    kind: v.kind,
+                                                    declare: false,
+                                                    decls: vec![decl],
+                                                })))
+                                            }
+                                            _ => {}
+                                        }
+
+                                        continue;
+                                    }
                                 };
                                 match decl.name {
                                     Pat::Ident(name) => {
@@ -624,6 +642,35 @@ impl Strip {
                 ModuleItem::Stmt(stmt) => init_stmts.push(stmt),
                 _ => {}
             }
+        }
+
+        if !delayed_vars.is_empty() {
+            init_stmts.push(Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr: Box::new(Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: delayed_vars
+                        .into_iter()
+                        .map(|id| {
+                            //
+                            let mut prop = id.clone();
+                            prop.span.ctxt = SyntaxContext::empty();
+                            Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                                    span: DUMMY_SP,
+                                    obj: private_name.clone().as_obj(),
+                                    prop: Box::new(Expr::Ident(prop)),
+                                    computed: false,
+                                }))),
+                                right: Box::new(Expr::Ident(id)),
+                            })
+                        })
+                        .map(Box::new)
+                        .collect(),
+                })),
+            }))
         }
 
         let init_fn_expr = FnExpr {
@@ -1192,6 +1239,7 @@ impl VisitMut for Strip {
                             }],
                         }),
                     })));
+
                     self.handle_enum(e, &mut stmts)
                 }
                 ModuleItem::Stmt(Stmt::Decl(Decl::TsEnum(e))) => {
