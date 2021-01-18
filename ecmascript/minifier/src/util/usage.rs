@@ -1,3 +1,5 @@
+use std::collections::hash_map::Entry;
+
 use fxhash::FxHashMap;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -30,6 +32,23 @@ pub(crate) struct UsageAnalyzer {
     pub data: ScopeData,
 }
 
+impl UsageAnalyzer {
+    fn report_usage(&mut self, i: &Ident, is_assign: bool) {
+        match self.data.vars.entry(i.to_id()) {
+            Entry::Occupied(mut e) => {
+                e.get_mut().ref_count += 1;
+            }
+            Entry::Vacant(e) => {
+                e.insert(VarUsageInfo {
+                    used_above_decl: true,
+                    ref_count: 1,
+                    ..Default::default()
+                });
+            }
+        }
+    }
+}
+
 impl Visit for UsageAnalyzer {
     noop_visit_type!();
 
@@ -38,7 +57,7 @@ impl Visit for UsageAnalyzer {
 
         match e {
             Expr::Ident(i) => {
-                self.data.vars.entry(i.to_id()).or_default().ref_count += 1;
+                self.report_usage(i, false);
             }
             _ => {}
         }
@@ -49,7 +68,7 @@ impl Visit for UsageAnalyzer {
 
         match n {
             Prop::Shorthand(i) => {
-                self.data.vars.entry(i.to_id()).or_default().ref_count += 1;
+                self.report_usage(i, false);
             }
             _ => {}
         }
