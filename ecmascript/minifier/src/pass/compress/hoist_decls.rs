@@ -63,6 +63,7 @@ impl Hoister {
         if !should_hoist {
             return;
         }
+        // TODO: Handle usages between original declaration and hoisted declaration.
         self.changed = true;
 
         let mut var_decls = vec![];
