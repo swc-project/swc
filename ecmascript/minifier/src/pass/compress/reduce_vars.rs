@@ -146,7 +146,19 @@ impl Reducer {
             Expr::Bin(BinExpr {
                 left, op, right, ..
             }) => match &**right {
-                Expr::Ident(r) if lhs.sym == r.sym && lhs.span.ctxt == r.span.ctxt => (op, left),
+                Expr::Ident(r) if lhs.sym == r.sym && lhs.span.ctxt == r.span.ctxt => {
+                    // We need this check because a function call like below can change value of
+                    // operand.
+                    //
+                    // x = g() * x;
+
+                    match &**left {
+                        Expr::This(..) | Expr::Ident(..) | Expr::Lit(..) => {}
+                        _ => return,
+                    }
+
+                    (op, left)
+                }
                 _ => return,
             },
             _ => return,
