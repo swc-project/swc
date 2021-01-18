@@ -15,6 +15,8 @@ pub(crate) struct VarUsageInfo {
     pub reassigned: bool,
     pub has_property_access: bool,
     pub exported: bool,
+    /// True if used **above** the declaration. (Not eval order).
+    pub used_above_decl: bool,
 }
 
 #[derive(Debug, Default)]
