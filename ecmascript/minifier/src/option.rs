@@ -53,9 +53,18 @@ pub struct CompressOptions {
 
     // computed_props: !false_by_default,
     // conditionals  : !false_by_default,
-    // dead_code     : !false_by_default,
-    // defaults      : true,
-    // directives    : !false_by_default,
+    #[serde(default)]
+    #[serde(alias = "dead_code")]
+    pub dead_code: bool,
+
+    #[serde(default = "true_by_default")]
+    #[serde(alias = "defaults")]
+    pub defaults: bool,
+
+    #[serde(default)]
+    #[serde(alias = "directives")]
+    pub directives: bool,
+
     /// Should we simplify expressions?
     #[serde(default)]
     #[serde(alias = "expression")]
