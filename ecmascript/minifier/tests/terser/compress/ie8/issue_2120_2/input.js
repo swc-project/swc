@@ -1,13 +1,13 @@
 "aaaaaaaa";
 var a = 1,
-  b = "FAIL";
+	b = "FAIL";
 try {
-  throw 1;
+	throw 1;
 } catch (c) {
-  try {
-    throw 0;
-  } catch (a) {
-    if (c) b = "PASS";
-  }
+	try {
+		throw 0;
+	} catch (a) {
+		if (c) b = "PASS";
+	}
 }
 console.log(b);

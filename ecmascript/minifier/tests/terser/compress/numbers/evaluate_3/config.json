@@ -1,5 +1,5 @@
 {
-  "evaluate": true,
-  "unsafe": true,
-  "unsafe_math": true
+	"evaluate": true,
+	"unsafe": true,
+	"unsafe_math": true
 }

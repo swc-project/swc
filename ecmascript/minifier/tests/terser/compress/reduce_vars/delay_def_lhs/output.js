@@ -1,7 +1,7 @@
 console.log(
-  (function () {
-    long_name++;
-    return long_name;
-    var long_name;
-  })()
+	(function () {
+		long_name++;
+		return long_name;
+		var long_name;
+	})()
 );

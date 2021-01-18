@@ -1,3 +1,3 @@
 (function (n) {
-  console.log("hello", n);
+	console.log("hello", n);
 })(42);

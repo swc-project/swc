@@ -1,6 +1,6 @@
 {
-  "booleans": true,
-  "side_effects": true,
-  "toplevel": true,
-  "unused": true
+	"booleans": true,
+	"side_effects": true,
+	"toplevel": true,
+	"unused": true
 }

@@ -1,7 +1,7 @@
 {
-  "toplevel": true,
-  "evaluate": true,
-  "inline": true,
-  "reduce_vars": true,
-  "unused": true
+	"toplevel": true,
+	"evaluate": true,
+	"inline": true,
+	"reduce_vars": true,
+	"unused": true
 }

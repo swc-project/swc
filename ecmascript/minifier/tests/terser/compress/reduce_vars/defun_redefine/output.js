@@ -1,6 +1,6 @@
 function f() {
-  (function () {
-    return 3;
-  });
-  return 3 + 2;
+	(function () {
+		return 3;
+	});
+	return 3 + 2;
 }

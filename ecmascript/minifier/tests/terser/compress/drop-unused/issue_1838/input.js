@@ -1,4 +1,4 @@
 function f() {
-  var b = a;
-  while (c);
+	var b = a;
+	while (c);
 }

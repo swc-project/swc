@@ -1,7 +1,7 @@
 function f(x) {
-  if (x) {
-    return true;
-  }
-  foo();
-  bar();
+	if (x) {
+		return true;
+	}
+	foo();
+	bar();
 }

@@ -1,9 +1,9 @@
 function f() {
-  return "PASS";
+	return "PASS";
 }
 console.log(
-  (function (a, a) {
-    f++;
-    return a;
-  })("FAIL", f())
+	(function (a, a) {
+		f++;
+		return a;
+	})("FAIL", f())
 );

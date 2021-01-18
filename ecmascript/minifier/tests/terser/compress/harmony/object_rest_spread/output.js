@@ -10,10 +10,10 @@ console.log(l);
 ({ b: g, ...n } = { a: 4, b: 5, c: 6 });
 console.log(n);
 (function ({ y: o, ...l }) {
-  console.log(l);
+	console.log(l);
 })({ x: 1, y: 2, z: 3 });
 (({ y: o, ...l }) => {
-  console.log(l);
+	console.log(l);
 })({ x: 4, y: 5, z: 6 });
 const w = { a: 1, b: 2 };
 console.log({ ...w, w: 0, ...n, K: 9 });

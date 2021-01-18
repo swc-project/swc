@@ -1,4 +1,4 @@
 function foo() {
-  class Bar {}
-  class BarElement {}
+	class Bar {}
+	class BarElement {}
 }

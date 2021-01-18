@@ -1,6 +1,6 @@
 {
-  "reduce_vars": true,
-  "inline": true,
-  "unused": true,
-  "toplevel": true
+	"reduce_vars": true,
+	"inline": true,
+	"unused": true,
+	"toplevel": true
 }

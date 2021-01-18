@@ -1,3 +1,3 @@
 var a,
-  b = (a = "PASS");
+	b = (a = "PASS");
 console.log(b);

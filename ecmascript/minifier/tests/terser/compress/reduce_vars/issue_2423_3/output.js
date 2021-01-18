@@ -1,7 +1,7 @@
 (function () {
-  console.log(
-    (function () {
-      return 1;
-    })()
-  );
+	console.log(
+		(function () {
+			return 1;
+		})()
+	);
 })();

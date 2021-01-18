@@ -1,19 +1,19 @@
 !(async function () {
-  await 3;
+	await 3;
 })();
 !(async function (x) {
-  await console.log(4);
+	await console.log(4);
 })();
 function invoke(x, y) {
-  return x(y);
+	return x(y);
 }
 invoke(async function () {
-  return await 1;
+	return await 1;
 });
 invoke(async function (x) {
-  await console.log(x);
+	await console.log(x);
 }, 2);
 console.log("top");
 !(async function () {
-  console.log("async_top");
+	console.log("async_top");
 })();

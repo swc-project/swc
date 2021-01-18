@@ -1,5 +1,5 @@
 {
-  "reduce_vars": true,
-  "inline": true,
-  "unused": true
+	"reduce_vars": true,
+	"inline": true,
+	"unused": true
 }

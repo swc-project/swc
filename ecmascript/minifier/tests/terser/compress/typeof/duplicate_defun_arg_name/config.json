@@ -1,5 +1,5 @@
 {
-  "evaluate": true,
-  "reduce_vars": true,
-  "typeofs": true
+	"evaluate": true,
+	"reduce_vars": true,
+	"typeofs": true
 }

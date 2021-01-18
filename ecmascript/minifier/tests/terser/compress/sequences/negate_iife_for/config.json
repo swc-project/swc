@@ -1,4 +1,4 @@
 {
-  "negate_iife": true,
-  "sequences": true
+	"negate_iife": true,
+	"sequences": true
 }

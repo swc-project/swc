@@ -1,3 +1,3 @@
 function f(a, b) {
-  Math.floor(c / b);
+	Math.floor(c / b);
 }

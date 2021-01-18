@@ -1,7 +1,7 @@
 function x() {
-  obj = {
-    o() {
-      return 1;
-    },
-  };
+	obj = {
+		o() {
+			return 1;
+		},
+	};
 }

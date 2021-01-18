@@ -1,5 +1,5 @@
 function f() {}
 function g() {
-  return f;
+	return f;
 }
 console.log(g() === g());

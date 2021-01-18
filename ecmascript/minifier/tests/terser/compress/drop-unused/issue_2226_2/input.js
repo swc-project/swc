@@ -1,6 +1,6 @@
 console.log(
-  (function (a, b) {
-    a += b;
-    return a;
-  })(1, 2)
+	(function (a, b) {
+		a += b;
+		return a;
+	})(1, 2)
 );

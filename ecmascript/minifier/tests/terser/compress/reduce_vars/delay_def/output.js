@@ -1,8 +1,8 @@
 function f() {
-  return;
+	return;
 }
 function g() {
-  return a;
-  var a = 1;
+	return a;
+	var a = 1;
 }
 console.log(f(), g());

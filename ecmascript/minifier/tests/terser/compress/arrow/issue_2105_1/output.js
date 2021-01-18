@@ -1,6 +1,6 @@
 ({
-  prop() {
-    console.log;
-    console.log("PASS");
-  },
+	prop() {
+		console.log;
+		console.log("PASS");
+	},
 }.prop());

@@ -1,8 +1,8 @@
 function f(r) {
-  return function () {
-    function n(r) {
-      return r * r;
-    }
-    return r(n);
-  };
+	return function () {
+		function n(r) {
+			return r * r;
+		}
+		return r(n);
+	};
 }

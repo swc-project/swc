@@ -1,3 +1,3 @@
 function* fn() {
-  yield remote();
+	yield remote();
 }

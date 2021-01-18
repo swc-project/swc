@@ -1,5 +1,5 @@
 console.log(
-  (function () {
-    return "PASS";
-  })()
+	(function () {
+		return "PASS";
+	})()
 );

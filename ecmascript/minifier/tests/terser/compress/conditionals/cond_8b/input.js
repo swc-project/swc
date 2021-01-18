@@ -6,14 +6,14 @@ a = condition ? !0 : !1;
 a = !condition ? !null : !2;
 a = condition() ? !0 : !-3.5;
 if (condition) {
-  a = true;
+	a = true;
 } else {
-  a = false;
+	a = false;
 }
 if (condition) {
-  a = !0;
+	a = !0;
 } else {
-  a = !1;
+	a = !1;
 }
 a = condition ? false : true;
 a = !condition ? false : true;
@@ -22,14 +22,14 @@ a = condition ? !3 : !0;
 a = !condition ? !2 : !0;
 a = condition() ? !1 : !0;
 if (condition) {
-  a = false;
+	a = false;
 } else {
-  a = true;
+	a = true;
 }
 if (condition) {
-  a = !1;
+	a = !1;
 } else {
-  a = !0;
+	a = !0;
 }
 a = condition ? 1 : false;
 a = !condition ? true : 0;

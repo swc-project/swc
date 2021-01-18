@@ -1,6 +1,6 @@
 function func() {
-  foo();
+	foo();
 }
 if (func() || true) {
-  bar();
+	bar();
 }

@@ -1,3 +1,3 @@
 function foo() {
-  class Bar {}
+	class Bar {}
 }

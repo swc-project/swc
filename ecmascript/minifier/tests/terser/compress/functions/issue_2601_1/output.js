@@ -1,10 +1,10 @@
 var a = "FAIL";
 (function () {
-  var b;
-  (b = "foo"),
-    (function (b) {
-      b && b();
-    })(),
-    b && (a = "PASS");
+	var b;
+	(b = "foo"),
+		(function (b) {
+			b && b();
+		})(),
+		b && (a = "PASS");
 })(),
-  console.log(a);
+	console.log(a);

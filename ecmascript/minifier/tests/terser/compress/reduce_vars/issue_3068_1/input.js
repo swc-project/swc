@@ -1,6 +1,6 @@
 (function () {
-  do {
-    continue;
-    var b = "defined";
-  } while (b && b.c);
+	do {
+		continue;
+		var b = "defined";
+	} while (b && b.c);
 })();

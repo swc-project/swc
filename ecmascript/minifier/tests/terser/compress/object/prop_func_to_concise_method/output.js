@@ -1,8 +1,8 @@
 ({
-  emit: function NamedFunctionExpression() {
-    console.log("PASS");
-  },
-  run() {
-    this.emit();
-  },
+	emit: function NamedFunctionExpression() {
+		console.log("PASS");
+	},
+	run() {
+		this.emit();
+	},
 }.run());

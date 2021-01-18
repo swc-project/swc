@@ -1,7 +1,7 @@
 console.log(
-  {
-    p: function () {
-      return 42;
-    },
-  }.p()
+	{
+		p: function () {
+			return 42;
+		},
+	}.p()
 );

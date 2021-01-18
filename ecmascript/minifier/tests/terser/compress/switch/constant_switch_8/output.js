@@ -1,5 +1,5 @@
 OUT: {
-  x();
-  for (;;) break OUT;
-  y();
+	x();
+	for (;;) break OUT;
+	y();
 }

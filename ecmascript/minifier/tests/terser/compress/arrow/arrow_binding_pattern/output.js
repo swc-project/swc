@@ -2,7 +2,7 @@ var foo = ([]) => "foo";
 var bar = ({}) => "bar";
 var with_default = (foo = "default") => foo;
 var object_with_default = ({ foo: foo = "default", bar: baz = "default" }) =>
-  foo;
+	foo;
 var array_after_spread = (...[foo]) => foo;
 var array_after_spread = (...{ foo: foo }) => foo;
 var computed = ({ [compute()]: x }) => {};

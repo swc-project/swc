@@ -1,5 +1,5 @@
 ({
-  async run() {
-    console.log("PASS");
-  },
+	async run() {
+		console.log("PASS");
+	},
 }.run());

@@ -1,3 +1,3 @@
 let {} = Object,
-  [] = {},
-  unused = console.log("not reached");
+	[] = {},
+	unused = console.log("not reached");

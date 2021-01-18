@@ -1,5 +1,5 @@
 while (foo) {
-  x();
-  y();
-  break;
+	x();
+	y();
+	break;
 }

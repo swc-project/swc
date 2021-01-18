@@ -1,3 +1,3 @@
 function f(x) {
-  return !!x || void 0;
+	return !!x || void 0;
 }

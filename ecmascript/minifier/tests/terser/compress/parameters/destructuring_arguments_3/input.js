@@ -1,7 +1,7 @@
 function fn3({
-  x: {
-    y: { z: {} = 42 },
-  },
+	x: {
+		y: { z: {} = 42 },
+	},
 }) {}
 const { a = function () {}, b = (0, function () {}) } = {};
 let { c = function () {}, d = (0, function () {}) } = {};

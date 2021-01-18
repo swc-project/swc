@@ -1,5 +1,5 @@
 ({
-  run() {
-    console.log("PASS");
-  },
+	run() {
+		console.log("PASS");
+	},
 }.run());

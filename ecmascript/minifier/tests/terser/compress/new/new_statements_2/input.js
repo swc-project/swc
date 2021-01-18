@@ -5,8 +5,8 @@ new true();
 new 0();
 new (!0)();
 new (bar = function (foo) {
-  this.foo = foo;
+	this.foo = foo;
 })(123);
 new (bar = function (foo) {
-  this.foo = foo;
+	this.foo = foo;
 })();

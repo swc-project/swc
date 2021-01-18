@@ -1,5 +1,5 @@
 {
-  "keep_fargs": false,
-  "toplevel": "vars",
-  "unused": true
+	"keep_fargs": false,
+	"toplevel": "vars",
+	"unused": true
 }

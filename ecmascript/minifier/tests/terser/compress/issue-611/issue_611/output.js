@@ -1,4 +1,4 @@
 define(function () {
-  function fn() {}
-  if (fn()) return void fn();
+	function fn() {}
+	if (fn()) return void fn();
 });

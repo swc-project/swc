@@ -1,5 +1,5 @@
 {
-  "conditionals": true,
-  "evaluate": true,
-  "booleans": true
+	"conditionals": true,
+	"evaluate": true,
+	"booleans": true
 }

@@ -1,10 +1,10 @@
 class SomeClass {
-  constructor() {}
-  foo() {}
+	constructor() {}
+	foo() {}
 }
 class NoSemi {
-  constructor(...args) {}
-  foo() {}
+	constructor(...args) {}
+	foo() {}
 }
 class ChildClass extends SomeClass {}
 var asExpression = class AsExpression {};

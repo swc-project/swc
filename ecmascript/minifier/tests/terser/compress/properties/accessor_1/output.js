@@ -1,8 +1,8 @@
 console.log(
-  {
-    a: "FAIL",
-    get a() {
-      return "PASS";
-    },
-  }.a
+	{
+		a: "FAIL",
+		get a() {
+			return "PASS";
+		},
+	}.a
 );

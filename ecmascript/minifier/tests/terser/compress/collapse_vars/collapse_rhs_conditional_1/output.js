@@ -1,5 +1,5 @@
 var a = "PASS",
-  b = "FAIL";
+	b = "FAIL";
 b = a;
 "function" == typeof f && f(a);
 console.log(a, b);

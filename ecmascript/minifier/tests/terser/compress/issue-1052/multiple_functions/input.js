@@ -1,7 +1,7 @@
 (function () {
-  if (!window) {
-    return;
-  }
-  function f() {}
-  function g() {}
+	if (!window) {
+		return;
+	}
+	function f() {}
+	function g() {}
 })();

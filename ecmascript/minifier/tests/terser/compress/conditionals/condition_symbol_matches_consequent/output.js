@@ -1,8 +1,8 @@
 function foo(x, y) {
-  return x || y;
+	return x || y;
 }
 function bar() {
-  return g || h;
+	return g || h;
 }
 var g = 4;
 var h = 5;

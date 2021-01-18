@@ -1,14 +1,14 @@
 const selectServer = () => {
-  selectServers();
+	selectServers();
 };
 function selectServers() {
-  function retrySelection() {
-    var descriptionChangedHandler = () => {
-      selectServers();
-    };
-    leak(descriptionChangedHandler);
-  }
-  retrySelection();
+	function retrySelection() {
+		var descriptionChangedHandler = () => {
+			selectServers();
+		};
+		leak(descriptionChangedHandler);
+	}
+	retrySelection();
 }
 leak(() => Topology);
 console.log("PASS");

@@ -1,5 +1,5 @@
 (function () {
-  var n = 1;
-  const r = { prop: n };
-  return r;
+	var n = 1;
+	const r = { prop: n };
+	return r;
 })();

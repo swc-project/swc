@@ -1,9 +1,9 @@
 switch (foo) {
-  case bar:
-    qux();
-    break;
-  case fall:
-  case baz:
-  default:
-    qux();
+	case bar:
+		qux();
+		break;
+	case fall:
+	case baz:
+	default:
+		qux();
 }

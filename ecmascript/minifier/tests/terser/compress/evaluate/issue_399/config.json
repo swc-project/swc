@@ -1,5 +1,5 @@
 {
-  "unsafe": true,
-  "evaluate": true,
-  "unsafe_regexp": true
+	"unsafe": true,
+	"evaluate": true,
+	"unsafe_regexp": true
 }

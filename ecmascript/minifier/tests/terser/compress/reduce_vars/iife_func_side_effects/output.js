@@ -1,22 +1,22 @@
 function x() {
-  console.log("x");
+	console.log("x");
 }
 function y() {
-  console.log("y");
+	console.log("y");
 }
 function z() {
-  console.log("z");
+	console.log("z");
 }
 (function (a, b, c) {
-  return (
-    function () {
-      console.log("FAIL");
-    } + b()
-  );
+	return (
+		function () {
+			console.log("FAIL");
+		} + b()
+	);
 })(
-  x(),
-  function () {
-    return y();
-  },
-  z()
+	x(),
+	function () {
+		return y();
+	},
+	z()
 );

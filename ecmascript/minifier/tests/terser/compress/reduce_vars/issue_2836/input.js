@@ -1,7 +1,7 @@
 function f() {
-  return "FAIL";
+	return "FAIL";
 }
 console.log(f());
 function f() {
-  return "PASS";
+	return "PASS";
 }

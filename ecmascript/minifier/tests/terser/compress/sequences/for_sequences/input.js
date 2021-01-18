@@ -9,6 +9,6 @@ for (; false; );
 x = foo in bar;
 for (y = 5; false; );
 x = function () {
-  foo in bar;
+	foo in bar;
 };
 for (y = 5; false; );

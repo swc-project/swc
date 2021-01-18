@@ -1,5 +1,5 @@
 !(function () {
-  !(function () {
-    L: while (1) break L;
-  })();
+	!(function () {
+		L: while (1) break L;
+	})();
 })();

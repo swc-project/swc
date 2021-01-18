@@ -1,4 +1,4 @@
 var a = "FAIL",
-  b;
+	b;
 while (((a = "PASS"), --b) && "PASS" == b);
 console.log(a, b);

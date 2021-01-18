@@ -1,3 +1,3 @@
 class C4 {
-  *["constructor"]() {}
+	*["constructor"]() {}
 }

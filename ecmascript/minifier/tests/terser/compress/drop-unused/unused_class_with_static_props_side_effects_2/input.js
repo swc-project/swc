@@ -1,8 +1,8 @@
 let x = "FAIL";
 function impure() {
-  x = "PASS";
+	x = "PASS";
 }
 class Unused {
-  static _ = impure();
+	static _ = impure();
 }
 console.log(x);

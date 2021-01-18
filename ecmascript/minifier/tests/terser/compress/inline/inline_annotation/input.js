@@ -1,5 +1,5 @@
 function inline() {
-  return external();
+	return external();
 }
 inline();
 inline();

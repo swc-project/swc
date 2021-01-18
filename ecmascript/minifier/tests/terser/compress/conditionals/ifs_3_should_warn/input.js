@@ -1,13 +1,13 @@
 var x, y;
 if (x && !(x + "1") && y) {
-  var qq;
-  foo();
+	var qq;
+	foo();
 } else {
-  bar();
+	bar();
 }
 if (x || !!(x + "1") || y) {
-  foo();
+	foo();
 } else {
-  var jj;
-  bar();
+	var jj;
+	bar();
 }

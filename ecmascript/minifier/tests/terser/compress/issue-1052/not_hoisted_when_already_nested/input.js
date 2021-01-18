@@ -1,6 +1,6 @@
 (function () {
-  if (!window) {
-    return;
-  }
-  if (foo) function f() {}
+	if (!window) {
+		return;
+	}
+	if (foo) function f() {}
 })();

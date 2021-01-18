@@ -1,7 +1,7 @@
 function a() {
-  if (b()) {
-    c();
-    return;
-  }
-  throw e;
+	if (b()) {
+		c();
+		return;
+	}
+	throw e;
 }

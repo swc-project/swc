@@ -1,5 +1,5 @@
 {
-  "ecma": 2020,
-  "toplevel": true,
-  "conditionals": true
+	"ecma": 2020,
+	"toplevel": true,
+	"conditionals": true
 }

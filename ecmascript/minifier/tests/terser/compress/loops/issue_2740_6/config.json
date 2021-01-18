@@ -1,4 +1,4 @@
 {
-  "dead_code": true,
-  "loops": true
+	"dead_code": true,
+	"loops": true
 }

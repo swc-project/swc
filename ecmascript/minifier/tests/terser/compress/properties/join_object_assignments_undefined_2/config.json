@@ -1,5 +1,5 @@
 {
-  "evaluate": true,
-  "join_vars": true,
-  "properties": true
+	"evaluate": true,
+	"join_vars": true,
+	"properties": true
 }

@@ -1,5 +1,5 @@
 {
-  "dead_code": true,
-  "evaluate": true,
-  "reduce_vars": true
+	"dead_code": true,
+	"evaluate": true,
+	"reduce_vars": true
 }

@@ -1,8 +1,8 @@
 {
-  let x;
-  const y = 1;
-  class Zee {}
-  var w;
+	let x;
+	const y = 1;
+	class Zee {}
+	var w;
 }
 let ex;
 const why = 2;

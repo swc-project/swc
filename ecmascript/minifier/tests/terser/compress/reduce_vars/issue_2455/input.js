@@ -1,4 +1,4 @@
 function foo() {
-  var that = this;
-  for (;;) that.bar();
+	var that = this;
+	for (;;) that.bar();
 }

@@ -1,5 +1,5 @@
 function f() {
-  return function g() {
-    var a = g;
-  };
+	return function g() {
+		var a = g;
+	};
 }

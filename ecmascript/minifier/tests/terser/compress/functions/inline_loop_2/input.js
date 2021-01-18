@@ -1,4 +1,4 @@
 for (;;) f();
 function f() {
-  return x();
+	return x();
 }

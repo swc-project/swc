@@ -1,5 +1,5 @@
 function f(x) {
-  if (x) {
-    return true;
-  }
+	if (x) {
+		return true;
+	}
 }

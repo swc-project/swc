@@ -1,12 +1,12 @@
 function f() {
-  console.log("YES");
+	console.log("YES");
 }
 function g() {
-  h = 42;
-  console.log("NOPE");
+	h = 42;
+	console.log("NOPE");
 }
 function h() {
-  console.log("YUP");
+	console.log("YUP");
 }
 g = 42;
 "function" == typeof f && f();

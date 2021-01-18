@@ -1,8 +1,8 @@
 function a(a) {
-  console.log(a.async + " " + a.await);
+	console.log(a.async + " " + a.await);
 }
 var n = "Async",
-  c = "Await";
+	c = "Await";
 a({ async: n });
 a({ await: c });
 a({ async: n, await: c });

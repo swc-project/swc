@@ -1,4 +1,4 @@
 function f(a) {
-  return (a = x());
-  return a;
+	return (a = x());
+	return a;
 }

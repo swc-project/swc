@@ -1,7 +1,7 @@
 for (
-  function () {
-    ("foo" in {});
-  };
-  0;
+	function () {
+		("foo" in {});
+	};
+	0;
 
 );

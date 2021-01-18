@@ -1,5 +1,5 @@
 {
-  "evaluate": true,
-  "properties": true,
-  "unsafe": true
+	"evaluate": true,
+	"properties": true,
+	"unsafe": true
 }

@@ -1,3 +1,3 @@
 function f(a, b) {
-  (a = x()) ? a++ : (b = y(a))(a);
+	(a = x()) ? a++ : (b = y(a))(a);
 }

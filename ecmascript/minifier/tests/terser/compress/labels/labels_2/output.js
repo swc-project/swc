@@ -1,4 +1,4 @@
 if (foo) {
-  print("stuff");
-  console.log("here");
+	print("stuff");
+	console.log("here");
 }

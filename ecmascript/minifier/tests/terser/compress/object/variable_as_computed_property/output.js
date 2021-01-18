@@ -1,3 +1,3 @@
 function getLine(header) {
-  return { [header]: {} };
+	return { [header]: {} };
 }

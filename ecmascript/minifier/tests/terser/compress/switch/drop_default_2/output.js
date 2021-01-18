@@ -1,4 +1,4 @@
 switch (foo) {
-  case "bar":
-    baz();
+	case "bar":
+		baz();
 }

@@ -1,7 +1,7 @@
 function f(d) {
-  return function () {
-    2;
-  };
+	return function () {
+		2;
+	};
 }
 2;
 function g() {}

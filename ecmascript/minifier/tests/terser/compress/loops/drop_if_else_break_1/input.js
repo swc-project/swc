@@ -1,3 +1,3 @@
 for (;;)
-  if (foo()) bar();
-  else break;
+	if (foo()) bar();
+	else break;

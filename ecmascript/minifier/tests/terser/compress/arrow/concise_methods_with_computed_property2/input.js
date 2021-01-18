@@ -1,6 +1,6 @@
 var foo = {
-  [[1]](v) {
-    return v;
-  },
+	[[1]](v) {
+		return v;
+	},
 };
 console.log(foo[[1]]("PASS"));

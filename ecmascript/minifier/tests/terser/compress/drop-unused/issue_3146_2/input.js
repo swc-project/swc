@@ -1,9 +1,9 @@
 (function (f) {
-  f("g()");
+	f("g()");
 })(function (a) {
-  eval(a);
-  function g(b) {
-    if (!b) b = "PASS";
-    console.log(b);
-  }
+	eval(a);
+	function g(b) {
+		if (!b) b = "PASS";
+		console.log(b);
+	}
 });

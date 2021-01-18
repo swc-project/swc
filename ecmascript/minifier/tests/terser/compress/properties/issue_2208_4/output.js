@@ -1,7 +1,7 @@
 function foo() {}
 console.log(
-  (foo(),
-  function () {
-    return 42;
-  })()
+	(foo(),
+	function () {
+		return 42;
+	})()
 );

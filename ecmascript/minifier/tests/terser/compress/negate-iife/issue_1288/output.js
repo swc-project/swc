@@ -1,10 +1,10 @@
 w || !(function f() {})();
 x ||
-  !(function () {
-    x = {};
-  })();
+	!(function () {
+		x = {};
+	})();
 y
-  ? !(function () {})()
-  : !(function (z) {
-      return z;
-    })(0);
+	? !(function () {})()
+	: !(function (z) {
+			return z;
+	  })(0);

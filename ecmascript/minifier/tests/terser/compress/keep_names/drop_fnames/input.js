@@ -1,5 +1,5 @@
 function foo() {
-  function bar() {
-    return "foobar";
-  }
+	function bar() {
+		return "foobar";
+	}
 }

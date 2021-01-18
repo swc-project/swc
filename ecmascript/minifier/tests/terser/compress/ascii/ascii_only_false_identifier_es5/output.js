@@ -1,4 +1,4 @@
 function f() {
-  var o = { "𝒜": true };
-  return o["𝒜"];
+	var o = { "𝒜": true };
+	return o["𝒜"];
 }

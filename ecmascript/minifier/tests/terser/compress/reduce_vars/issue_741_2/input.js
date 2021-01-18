@@ -1,11 +1,11 @@
 var a = console.log;
 var might_change = 0;
 global.problem = () => {
-  var c = might_change;
-  a(c);
+	var c = might_change;
+	a(c);
 };
 global.increment = () => {
-  might_change++;
+	might_change++;
 };
 increment();
 problem();

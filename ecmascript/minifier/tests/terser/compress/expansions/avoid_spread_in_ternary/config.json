@@ -1,5 +1,5 @@
 {
-  "comparisons": true,
-  "conditionals": true,
-  "evaluate": true
+	"comparisons": true,
+	"conditionals": true,
+	"evaluate": true
 }

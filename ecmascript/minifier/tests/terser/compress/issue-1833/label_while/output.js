@@ -1,3 +1,3 @@
 function f() {
-  L: 0;
+	L: 0;
 }

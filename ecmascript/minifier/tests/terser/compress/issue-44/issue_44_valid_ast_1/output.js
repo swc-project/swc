@@ -1,4 +1,4 @@
 function a(b) {
-  var i = 0;
-  for (b.qoo(); ; i++);
+	var i = 0;
+	for (b.qoo(); ; i++);
 }

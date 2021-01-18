@@ -1,5 +1,5 @@
 {
-  "pure_funcs": ["_classCallCheck"],
-  "side_effects": true,
-  "unused": true
+	"pure_funcs": ["_classCallCheck"],
+	"side_effects": true,
+	"unused": true
 }

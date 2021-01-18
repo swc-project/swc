@@ -1,6 +1,6 @@
 do {
-  switch (a) {
-    case b:
-      continue;
-  }
+	switch (a) {
+		case b:
+			continue;
+	}
 } while (false);

@@ -1,7 +1,7 @@
 try {
-  var a = A,
-    b = 1;
-  throw a;
+	var a = A,
+		b = 1;
+	throw a;
 } catch (e) {
-  console.log(b);
+	console.log(b);
 }

@@ -1,5 +1,5 @@
 {
-  "computed_props": true,
-  "evaluate": true,
-  "properties": true
+	"computed_props": true,
+	"evaluate": true,
+	"properties": true
 }

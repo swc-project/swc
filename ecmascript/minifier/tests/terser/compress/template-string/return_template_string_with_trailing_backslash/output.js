@@ -1,18 +1,18 @@
 function a() {
-  return `foo`;
+	return `foo`;
 }
 function b() {
-  return `\nbar`;
+	return `\nbar`;
 }
 function c() {
-  return;
-  `baz`;
+	return;
+	`baz`;
 }
 function d() {
-  return;
-  `qux`;
+	return;
+	`qux`;
 }
 function e() {
-  return `\nfin`;
+	return `\nfin`;
 }
 console.log(a(), b(), c(), d(), e());

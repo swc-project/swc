@@ -1,7 +1,7 @@
 console.log(
-  {
-    bar: function () {
-      return 2;
-    },
-  }.bar()
+	{
+		bar: function () {
+			return 2;
+		},
+	}.bar()
 );

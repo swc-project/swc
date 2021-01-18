@@ -1,4 +1,4 @@
 {
-  "reduce_funcs": true,
-  "reduce_vars": true
+	"reduce_funcs": true,
+	"reduce_vars": true
 }

@@ -1,4 +1,4 @@
 function a() {
-  if (!b()) throw e;
-  c();
+	if (!b()) throw e;
+	c();
 }

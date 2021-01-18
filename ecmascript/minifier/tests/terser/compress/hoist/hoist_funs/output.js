@@ -1,4 +1,4 @@
 function a() {
-  function foo() {}
-  bar();
+	function foo() {}
+	bar();
 }

@@ -1,4 +1,4 @@
 var GeneratorPrototype = Object.getPrototypeOf(
-  Object.getPrototypeOf((function* () {})())
+	Object.getPrototypeOf((function* () {})())
 );
 evaluate(GeneratorPrototype);

@@ -1,9 +1,9 @@
 try {
-  Promise;
-  Number;
-  Object;
-  String;
-  Array;
+	Promise;
+	Number;
+	Object;
+	String;
+	Array;
 } catch (e) {
-  console.log("side effect!");
+	console.log("side effect!");
 }

@@ -1,4 +1,4 @@
 !(function () {
-  var a = "test";
-  console.log(a.indexOf("e"));
+	var a = "test";
+	console.log(a.indexOf("e"));
 })();

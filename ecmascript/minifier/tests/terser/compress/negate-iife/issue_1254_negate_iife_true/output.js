@@ -1,5 +1,5 @@
 !(function () {
-  return function () {
-    console.log("test");
-  };
+	return function () {
+		console.log("test");
+	};
 })()();

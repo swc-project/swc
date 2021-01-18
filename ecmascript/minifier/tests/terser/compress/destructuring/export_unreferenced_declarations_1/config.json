@@ -1,5 +1,5 @@
 {
-  "module": true,
-  "pure_getters": true,
-  "unused": true
+	"module": true,
+	"pure_getters": true,
+	"unused": true
 }

@@ -1,5 +1,5 @@
 class Foo {
-  static async *bar() {
-    yield await Promise.resolve(4);
-  }
+	static async *bar() {
+		yield await Promise.resolve(4);
+	}
 }

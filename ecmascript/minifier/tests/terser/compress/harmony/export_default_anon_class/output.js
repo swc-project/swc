@@ -1,5 +1,5 @@
 export default class {
-  foo() {
-    console.log(3);
-  }
+	foo() {
+		console.log(3);
+	}
 }

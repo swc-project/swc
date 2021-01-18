@@ -1,5 +1,5 @@
 function foo() {
-  function o() {
-    return "foobar";
-  }
+	function o() {
+		return "foobar";
+	}
 }

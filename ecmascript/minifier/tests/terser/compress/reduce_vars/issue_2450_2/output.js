@@ -1,4 +1,4 @@
 function g() {
-  return function () {};
+	return function () {};
 }
 console.log(g() === g());

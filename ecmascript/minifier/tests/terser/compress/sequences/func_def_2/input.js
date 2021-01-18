@@ -1,5 +1,5 @@
 console.log(
-  (function f() {
-    return (f = 0), !!f;
-  })()
+	(function f() {
+		return (f = 0), !!f;
+	})()
 );

@@ -1,5 +1,5 @@
 function f(a) {
-  a.b = "PASS";
+	a.b = "PASS";
 }
 var o = {};
 f(o);

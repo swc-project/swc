@@ -1,5 +1,5 @@
 !(function () {
-  !(function () {
-    L: for (;;) break L;
-  })();
+	!(function () {
+		L: for (;;) break L;
+	})();
 })();

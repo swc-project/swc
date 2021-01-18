@@ -1,4 +1,4 @@
 console,
-  (function (...a) {
-    console.log(...a);
-  })(1, 2, 3, 4);
+	(function (...a) {
+		console.log(...a);
+	})(1, 2, 3, 4);

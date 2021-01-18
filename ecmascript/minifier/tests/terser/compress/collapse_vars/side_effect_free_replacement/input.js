@@ -1,4 +1,4 @@
 var b;
 (function (a) {
-  x(a);
+	x(a);
 })(b);

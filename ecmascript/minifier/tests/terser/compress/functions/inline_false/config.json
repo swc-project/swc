@@ -1,5 +1,5 @@
 {
-  "inline": false,
-  "side_effects": true,
-  "toplevel": true
+	"inline": false,
+	"side_effects": true,
+	"toplevel": true
 }

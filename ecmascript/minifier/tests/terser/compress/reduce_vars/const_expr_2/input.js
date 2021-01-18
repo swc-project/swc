@@ -1,5 +1,5 @@
 Object.prototype.c = function () {
-  this.a++;
+	this.a++;
 };
 var o = { a: 1, b: 2 };
 o.c();

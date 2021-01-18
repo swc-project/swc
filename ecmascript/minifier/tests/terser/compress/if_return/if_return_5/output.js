@@ -1,3 +1,3 @@
 function f() {
-  if (!x) return 7;
+	if (!x) return 7;
 }

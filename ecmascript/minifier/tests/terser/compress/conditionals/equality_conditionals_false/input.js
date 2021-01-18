@@ -1,14 +1,14 @@
 function f(a, b, c) {
-  console.log(
-    a == (b ? a : a),
-    a == (b ? a : c),
-    a != (b ? a : a),
-    a != (b ? a : c),
-    a === (b ? a : a),
-    a === (b ? a : c),
-    a !== (b ? a : a),
-    a !== (b ? a : c)
-  );
+	console.log(
+		a == (b ? a : a),
+		a == (b ? a : c),
+		a != (b ? a : a),
+		a != (b ? a : c),
+		a === (b ? a : a),
+		a === (b ? a : c),
+		a !== (b ? a : a),
+		a !== (b ? a : c)
+	);
 }
 f(0, 0, 0);
 f(0, true, 0);

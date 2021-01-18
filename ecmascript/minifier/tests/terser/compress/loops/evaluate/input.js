@@ -1,12 +1,12 @@
 while (true) {
-  a();
+	a();
 }
 while (false) {
-  b();
+	b();
 }
 do {
-  c();
+	c();
 } while (true);
 do {
-  d();
+	d();
 } while (false);

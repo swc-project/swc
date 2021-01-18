@@ -1,3 +1,3 @@
 function f() {
-  return 42;
+	return 42;
 }

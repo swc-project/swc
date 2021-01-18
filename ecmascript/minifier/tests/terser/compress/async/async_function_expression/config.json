@@ -1,5 +1,5 @@
 {
-  "evaluate": true,
-  "side_effects": true,
-  "unused": true
+	"evaluate": true,
+	"side_effects": true,
+	"unused": true
 }

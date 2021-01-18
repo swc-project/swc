@@ -1,9 +1,9 @@
 console.log(
-  (function (a) {
-    return a;
-  })(
-    !(function () {
-      return this;
-    })()
-  )
+	(function (a) {
+		return a;
+	})(
+		!(function () {
+			return this;
+		})()
+	)
 );

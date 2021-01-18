@@ -1,4 +1,4 @@
 for (; bar(); ) {
-  if (foo()) baz();
-  else break;
+	if (foo()) baz();
+	else break;
 }

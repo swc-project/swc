@@ -1,5 +1,5 @@
 async () => {
-  +(await x);
-  await y;
-  return await z;
+	+(await x);
+	await y;
+	return await z;
 };

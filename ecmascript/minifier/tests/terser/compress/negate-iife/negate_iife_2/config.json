@@ -1,4 +1,4 @@
 {
-  "inline": true,
-  "negate_iife": true
+	"inline": true,
+	"negate_iife": true
 }

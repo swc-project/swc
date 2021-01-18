@@ -1,3 +1,3 @@
 function f(x) {
-  if (x) return !0;
+	if (x) return !0;
 }

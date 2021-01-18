@@ -1,6 +1,6 @@
 {
-  "conditionals": true,
-  "evaluate": true,
-  "inline": true,
-  "negate_iife": true
+	"conditionals": true,
+	"evaluate": true,
+	"inline": true,
+	"negate_iife": true
 }
