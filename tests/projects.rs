@@ -66,6 +66,20 @@ fn project(dir: &str) {
                     continue;
                 }
 
+                if c.config_for_file(
+                    &Options {
+                        swcrc: true,
+                        is_module: true,
+
+                        ..Default::default()
+                    },
+                    &entry.path(),
+                )?
+                .is_none()
+                {
+                    continue;
+                }
+
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
                 match c.process_js_file(
                     fm,
