@@ -1,1 +1,2 @@
-new x,y();w(),new x,y();
+new x(), y();
+w(), new x(), y();

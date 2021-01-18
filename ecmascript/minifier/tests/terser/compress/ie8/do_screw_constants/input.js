@@ -1,1 +1,1 @@
-f(undefined,Infinity);
+f(undefined, Infinity);

@@ -1,1 +1,2 @@
-var a=[1,2];console.log(a[0],a[1]);
+var a = [1, 2];
+console.log(a[0], a[1]);

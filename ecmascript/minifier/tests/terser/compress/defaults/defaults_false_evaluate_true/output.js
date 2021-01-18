@@ -1,1 +1,1 @@
-if(true)console.log(3);
+if (true) console.log(3);

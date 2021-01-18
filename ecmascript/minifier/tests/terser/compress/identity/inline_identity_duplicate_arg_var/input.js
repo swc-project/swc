@@ -1,1 +1,5 @@
-const id=x=>{return x;var x};console.log(id(1),id(2));
+const id = (x) => {
+  return x;
+  var x;
+};
+console.log(id(1), id(2));

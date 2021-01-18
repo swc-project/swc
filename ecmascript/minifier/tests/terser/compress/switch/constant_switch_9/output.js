@@ -1,1 +1,7 @@
-OUT:{x();for(;;)if(foo)break OUT;y();bar();def()}
+OUT: {
+  x();
+  for (;;) if (foo) break OUT;
+  y();
+  bar();
+  def();
+}

@@ -1,1 +1,3 @@
-function f(){if(!x)return 7}
+function f() {
+  if (!x) return 7;
+}

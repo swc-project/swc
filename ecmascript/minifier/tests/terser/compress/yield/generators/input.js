@@ -1,1 +1,1 @@
-function*fn(){}
+function* fn() {}

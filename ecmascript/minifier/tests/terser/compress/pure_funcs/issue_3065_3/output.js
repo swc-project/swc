@@ -1,1 +1,3 @@
-(function(){console.log("PASS")})();
+(function () {
+  console.log("PASS");
+})();

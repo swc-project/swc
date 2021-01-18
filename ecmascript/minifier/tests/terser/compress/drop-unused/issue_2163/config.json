@@ -1,6 +1,4 @@
 {
-    "pure_funcs": [
-        "pure"
-    ],
-    "side_effects": true
+  "pure_funcs": ["pure"],
+  "side_effects": true
 }

@@ -1,1 +1,2 @@
-var a="foo";var 𐀀="bar";
+var a = "foo";
+var 𐀀 = "bar";

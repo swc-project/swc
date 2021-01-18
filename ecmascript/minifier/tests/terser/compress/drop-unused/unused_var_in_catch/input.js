@@ -1,1 +1,7 @@
-function foo(){try{foo()}catch(ex){var x=10}}
+function foo() {
+  try {
+    foo();
+  } catch (ex) {
+    var x = 10;
+  }
+}

@@ -1,1 +1,3 @@
-try{throw{}}catch({xCover=(0,function(){})}){}
+try {
+  throw {};
+} catch ({ xCover = (0, function () {}) }) {}

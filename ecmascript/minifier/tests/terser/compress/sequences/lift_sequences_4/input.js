@@ -1,1 +1,2 @@
-var x,foo,bar,baz;x=(foo,bar,baz);
+var x, foo, bar, baz;
+x = (foo, bar, baz);

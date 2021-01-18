@@ -1,1 +1,9 @@
-switch(function(){return xxx}){case xxx:if(console.log("FAIL"))function xxx(){}break}
+switch (
+  function () {
+    return xxx;
+  }
+) {
+  case xxx:
+    if (console.log("FAIL")) function xxx() {}
+    break;
+}

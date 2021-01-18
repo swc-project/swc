@@ -1,1 +1,3 @@
-new function(){this.x=7,console.log(this)};
+new (function () {
+  (this.x = 7), console.log(this);
+})();

@@ -1,1 +1,2 @@
-var c="FAIL";c="PASS",console.log(c);
+var c = "FAIL";
+(c = "PASS"), console.log(c);

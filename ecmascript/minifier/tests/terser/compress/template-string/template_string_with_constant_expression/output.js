@@ -1,1 +1,1 @@
-var foo="8 equals 4 + 4";
+var foo = "8 equals 4 + 4";

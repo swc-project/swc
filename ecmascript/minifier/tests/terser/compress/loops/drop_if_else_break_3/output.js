@@ -1,1 +1,5 @@
-for(;bar()&&foo();){baz();stuff1();stuff2()}
+for (; bar() && foo(); ) {
+  baz();
+  stuff1();
+  stuff2();
+}

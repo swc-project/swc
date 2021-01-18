@@ -1,4 +1,4 @@
 {
-    "evaluate": true,
-    "reduce_vars": true
+  "evaluate": true,
+  "reduce_vars": true
 }

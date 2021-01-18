@@ -1,1 +1,4 @@
-function g(){return function(){}}console.log(g()===g());
+function g() {
+  return function () {};
+}
+console.log(g() === g());

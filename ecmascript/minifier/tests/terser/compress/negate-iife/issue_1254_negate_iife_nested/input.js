@@ -1,1 +1,5 @@
-(function(){return function(){console.log("test")}})()()()()();
+(function () {
+  return function () {
+    console.log("test");
+  };
+})()()()()();

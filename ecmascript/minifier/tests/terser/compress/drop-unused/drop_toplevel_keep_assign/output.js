@@ -1,1 +1,4 @@
-var a,b=1;a=2;console.log(b=3);
+var a,
+  b = 1;
+a = 2;
+console.log((b = 3));

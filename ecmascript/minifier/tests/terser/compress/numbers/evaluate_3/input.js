@@ -1,1 +1,1 @@
-console.log(1+Number(x)+2);
+console.log(1 + Number(x) + 2);

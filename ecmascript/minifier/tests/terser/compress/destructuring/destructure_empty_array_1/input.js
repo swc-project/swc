@@ -1,1 +1,3 @@
-let{}=Object,[]={},unused=console.log("not reached");
+let {} = Object,
+  [] = {},
+  unused = console.log("not reached");

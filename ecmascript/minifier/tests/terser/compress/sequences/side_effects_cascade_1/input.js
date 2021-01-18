@@ -1,1 +1,5 @@
-function f(a,b){a-=42;if(a<0)a=0;b.a=a}
+function f(a, b) {
+  a -= 42;
+  if (a < 0) a = 0;
+  b.a = a;
+}

@@ -1,1 +1,3 @@
-var o={Infinity:"oInfinity"};var vInfinity="Infinity";vInfinity=1/0;
+var o = { Infinity: "oInfinity" };
+var vInfinity = "Infinity";
+vInfinity = 1 / 0;

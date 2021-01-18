@@ -1,1 +1,3 @@
-function x(){return a()?b():c()?d():(e(),f(),void 0)}
+function x() {
+  return a() ? b() : c() ? d() : (e(), f(), void 0);
+}

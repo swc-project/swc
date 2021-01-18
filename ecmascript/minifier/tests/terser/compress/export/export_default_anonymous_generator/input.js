@@ -1,1 +1,3 @@
-export default function*(){yield foo()}
+export default function* () {
+  yield foo();
+}

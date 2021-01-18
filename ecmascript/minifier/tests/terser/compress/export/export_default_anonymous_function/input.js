@@ -1,1 +1,3 @@
-export default function(){foo()}
+export default function () {
+  foo();
+}

@@ -1,1 +1,1 @@
-if(foo);
+if (foo);

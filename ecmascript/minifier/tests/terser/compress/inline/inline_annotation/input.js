@@ -1,1 +1,5 @@
-function inline(){return external()}inline();inline();
+function inline() {
+  return external();
+}
+inline();
+inline();

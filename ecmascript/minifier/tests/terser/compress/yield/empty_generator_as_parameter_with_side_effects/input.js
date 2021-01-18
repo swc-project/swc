@@ -1,1 +1,4 @@
-var GeneratorPrototype=Object.getPrototypeOf(Object.getPrototypeOf(function*(){}()));evaluate(GeneratorPrototype);
+var GeneratorPrototype = Object.getPrototypeOf(
+  Object.getPrototypeOf((function* () {})())
+);
+evaluate(GeneratorPrototype);

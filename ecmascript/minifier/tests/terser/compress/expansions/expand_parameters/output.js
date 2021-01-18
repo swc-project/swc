@@ -1,1 +1,2 @@
-(function(a,...b){});(function(...args){});
+(function (a, ...b) {});
+(function (...args) {});

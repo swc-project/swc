@@ -1,1 +1,11 @@
-(function(){if(!window){return}function f(){}function g(){}if(!document){return}function h(){}})();
+(function () {
+  if (!window) {
+    return;
+  }
+  function f() {}
+  function g() {}
+  if (!document) {
+    return;
+  }
+  function h() {}
+})();

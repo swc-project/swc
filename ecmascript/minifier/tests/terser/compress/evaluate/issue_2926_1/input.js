@@ -1,1 +1,3 @@
-(function f(a){console.log(f.name.length,f.length)})();
+(function f(a) {
+  console.log(f.name.length, f.length);
+})();

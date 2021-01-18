@@ -1,7 +1,7 @@
 {
-    "hoist_props": true,
-    "reduce_vars": true,
-    "top_retain": "o",
-    "toplevel": true,
-    "unused": true
+  "hoist_props": true,
+  "reduce_vars": true,
+  "top_retain": "o",
+  "toplevel": true,
+  "unused": true
 }

@@ -1,1 +1,5 @@
-export default class{foo(){console.log(3)}}
+export default class {
+  foo() {
+    console.log(3);
+  }
+}

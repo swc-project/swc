@@ -1,1 +1,4 @@
-if(foo){print("stuff");console.log("here")}
+if (foo) {
+  print("stuff");
+  console.log("here");
+}

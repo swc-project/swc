@@ -1,1 +1,3 @@
-if(0){var{x:x,y:y}=foo()}
+if (0) {
+  var { x: x, y: y } = foo();
+}

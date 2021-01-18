@@ -1,1 +1,8 @@
-console.log(function(){var a=function(){return}();return a}());
+console.log(
+  (function () {
+    var a = (function () {
+      return;
+    })();
+    return a;
+  })()
+);

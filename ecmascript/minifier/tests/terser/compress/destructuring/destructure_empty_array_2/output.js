@@ -1,1 +1,3 @@
-let{}=Object,[]={};console.log("not reached");
+let {} = Object,
+  [] = {};
+console.log("not reached");

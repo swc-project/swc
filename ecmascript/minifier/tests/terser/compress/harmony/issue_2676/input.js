@@ -1,1 +1,2 @@
-class A{}A.a=42;
+class A {}
+A.a = 42;

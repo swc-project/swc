@@ -1,1 +1,6 @@
-console.log(function(b){return b+"ING";var b}("PASS"));
+console.log(
+  (function (b) {
+    return b + "ING";
+    var b;
+  })("PASS")
+);

@@ -1,5 +1,5 @@
 {
-    "hoist_props": true,
-    "reduce_vars": true,
-    "toplevel": true
+  "hoist_props": true,
+  "reduce_vars": true,
+  "toplevel": true
 }

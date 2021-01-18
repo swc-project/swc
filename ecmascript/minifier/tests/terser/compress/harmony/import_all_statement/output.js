@@ -1,1 +1,1 @@
-import*as Lel from"lel";
+import * as Lel from "lel";

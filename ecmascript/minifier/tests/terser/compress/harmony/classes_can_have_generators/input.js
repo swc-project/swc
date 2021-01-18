@@ -1,1 +1,4 @@
-class Foo{*bar(){}static*baz(){}}
+class Foo {
+  *bar() {}
+  static *baz() {}
+}

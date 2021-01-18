@@ -1,1 +1,5 @@
-console.log(function(a,b){return a+=2}(1));
+console.log(
+  (function (a, b) {
+    return (a += 2);
+  })(1)
+);

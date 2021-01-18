@@ -1,1 +1,1 @@
-console.log("world",[1][0],true);
+console.log("world", [1][0], true);

@@ -1,1 +1,5 @@
-try{throw"foo"}catch(o){console.log(o)}
+try {
+  throw "foo";
+} catch (o) {
+  console.log(o);
+}

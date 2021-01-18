@@ -1,1 +1,3 @@
-function foo(){class o{}}
+function foo() {
+  class o {}
+}

@@ -1,8 +1,8 @@
 {
-    "collapse_vars": true,
-    "evaluate": true,
-    "pure_getters": "strict",
-    "reduce_funcs": true,
-    "reduce_vars": true,
-    "unused": true
+  "collapse_vars": true,
+  "evaluate": true,
+  "pure_getters": "strict",
+  "reduce_funcs": true,
+  "reduce_vars": true,
+  "unused": true
 }

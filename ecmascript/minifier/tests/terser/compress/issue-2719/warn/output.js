@@ -1,1 +1,5 @@
-console.log(function g(){return g.caller.arguments}().length);
+console.log(
+  (function g() {
+    return g.caller.arguments;
+  })().length
+);

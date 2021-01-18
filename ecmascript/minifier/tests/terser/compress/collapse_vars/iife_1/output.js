@@ -1,1 +1,3 @@
-(function(x){console.log(x)})(bar());
+(function (x) {
+  console.log(x);
+})(bar());

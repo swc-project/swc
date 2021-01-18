@@ -1,1 +1,3 @@
-function f(){var a=/b/}
+function f() {
+  var a = /b/;
+}

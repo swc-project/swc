@@ -1,1 +1,5 @@
-console.log(function(a){return a^=1}());
+console.log(
+  (function (a) {
+    return (a ^= 1);
+  })()
+);

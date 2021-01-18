@@ -1,1 +1,6 @@
-try{throw{}}catch(e){var e;console.log(!!e)}
+try {
+  throw {};
+} catch (e) {
+  var e;
+  console.log(!!e);
+}

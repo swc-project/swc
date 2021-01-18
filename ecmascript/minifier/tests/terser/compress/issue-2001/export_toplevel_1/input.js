@@ -1,1 +1,3 @@
-function f(){}export function g(){}export default function h(){}
+function f() {}
+export function g() {}
+export default function h() {}

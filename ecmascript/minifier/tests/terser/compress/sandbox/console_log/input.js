@@ -1,1 +1,2 @@
-console.log("%% %s");console.log("%% %s","%s");
+console.log("%% %s");
+console.log("%% %s", "%s");

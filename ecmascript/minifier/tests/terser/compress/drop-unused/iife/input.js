@@ -1,1 +1,4 @@
-function f(){var a;~function(){}(b)}
+function f() {
+  var a;
+  ~(function () {})(b);
+}

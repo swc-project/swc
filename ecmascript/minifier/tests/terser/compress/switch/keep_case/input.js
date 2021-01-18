@@ -1,1 +1,7 @@
-switch(foo){case"bar":baz();break;case moo:break}
+switch (foo) {
+  case "bar":
+    baz();
+    break;
+  case moo:
+    break;
+}

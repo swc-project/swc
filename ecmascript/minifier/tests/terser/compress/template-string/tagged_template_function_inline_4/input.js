@@ -1,1 +1,2 @@
-const t={pl:function(){}};t.pl`test`;
+const t = { pl: function () {} };
+t.pl`test`;

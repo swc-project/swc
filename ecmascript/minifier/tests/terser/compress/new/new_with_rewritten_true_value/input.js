@@ -1,1 +1,1 @@
-new true;
+new true();

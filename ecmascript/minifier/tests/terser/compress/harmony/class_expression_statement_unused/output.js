@@ -1,1 +1,2 @@
-let expr=class{};class C{}
+let expr = class {};
+class C {}

@@ -1,1 +1,2 @@
-const t={pl(){}};t.pl`test`;
+const t = { pl() {} };
+t.pl`test`;

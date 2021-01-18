@@ -1,1 +1,5 @@
-function a([anArg]){bar();var var1;var anArg}
+function a([anArg]) {
+  bar();
+  var var1;
+  var anArg;
+}

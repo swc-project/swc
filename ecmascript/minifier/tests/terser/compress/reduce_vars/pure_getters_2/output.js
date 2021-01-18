@@ -1,1 +1,1 @@
-var a=a&&a.b;
+var a = a && a.b;

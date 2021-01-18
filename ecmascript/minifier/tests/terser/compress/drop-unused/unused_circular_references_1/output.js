@@ -1,1 +1,3 @@
-function f(x,y){return x+y}
+function f(x, y) {
+  return x + y;
+}

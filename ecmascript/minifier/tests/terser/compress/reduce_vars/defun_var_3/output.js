@@ -1,1 +1,3 @@
-function a(){}console.log(typeof a,"function");var a=42;
+function a() {}
+console.log(typeof a, "function");
+var a = 42;

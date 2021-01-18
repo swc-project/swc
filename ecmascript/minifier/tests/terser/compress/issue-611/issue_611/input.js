@@ -1,1 +1,7 @@
-define((function(){function fn(){}if(fn()){fn();return void 0}}));
+define(function () {
+  function fn() {}
+  if (fn()) {
+    fn();
+    return void 0;
+  }
+});

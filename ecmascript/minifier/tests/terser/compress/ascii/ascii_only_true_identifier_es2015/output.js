@@ -1,1 +1,4 @@
-function f(){var o={\u{1d49c}:true};return o.\u{1d49c}}
+function f() {
+  var o = { 𝒜: true };
+  return o.𝒜;
+}

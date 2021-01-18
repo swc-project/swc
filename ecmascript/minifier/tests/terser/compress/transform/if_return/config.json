@@ -1,6 +1,6 @@
 {
-    "booleans": true,
-    "conditionals": true,
-    "if_return": true,
-    "sequences": true
+  "booleans": true,
+  "conditionals": true,
+  "if_return": true,
+  "sequences": true
 }

@@ -1,1 +1,5 @@
-function f(){return function g(){var a=g}}
+function f() {
+  return function g() {
+    var a = g;
+  };
+}

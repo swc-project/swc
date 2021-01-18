@@ -1,4 +1,4 @@
 {
-    "hoist_funs": false,
-    "if_return": true
+  "hoist_funs": false,
+  "if_return": true
 }

@@ -1,1 +1,6 @@
-(async()=>{await fetch()})();(()=>{plain()})();
+(async () => {
+  await fetch();
+})();
+(() => {
+  plain();
+})();

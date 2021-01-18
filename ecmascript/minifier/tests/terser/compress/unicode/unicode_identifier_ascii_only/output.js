@@ -1,1 +1,3 @@
-var a="hi";var bar="hello";var \u{10000}="testing \u{101111}";
+var a = "hi";
+var bar = "hello";
+var 𐀀 = "testing \u{101111}";

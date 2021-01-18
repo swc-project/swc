@@ -1,1 +1,1 @@
-console.log((({async:async="PASS"})=>async)({}));
+console.log((({ async: async = "PASS" }) => async)({}));

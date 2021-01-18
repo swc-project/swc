@@ -1,1 +1,3 @@
-var[,,,,]=a;var[,,b]=c;var[d,,]=e;
+var [, , , ,] = a;
+var [, , b] = c;
+var [d, ,] = e;

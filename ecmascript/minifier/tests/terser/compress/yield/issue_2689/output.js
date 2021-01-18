@@ -1,1 +1,3 @@
-function*y(){return new(yield x())}
+function* y() {
+  return new (yield x())();
+}

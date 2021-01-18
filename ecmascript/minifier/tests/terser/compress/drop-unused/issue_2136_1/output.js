@@ -1,1 +1,3 @@
-!function(a,...b){console.log(b)}();
+!(function (a, ...b) {
+  console.log(b);
+})();

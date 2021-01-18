@@ -1,1 +1,3 @@
-var c;f(...a);pure(b,...c);
+var c;
+f(...a);
+pure(b, ...c);

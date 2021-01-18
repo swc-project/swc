@@ -1,5 +1,5 @@
 {
-    "reduce_vars": true,
-    "unused": true,
-    "keep_fnames": {}
+  "reduce_vars": true,
+  "unused": true,
+  "keep_fnames": {}
 }

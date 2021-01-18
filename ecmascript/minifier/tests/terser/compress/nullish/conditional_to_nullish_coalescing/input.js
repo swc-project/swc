@@ -1,1 +1,2 @@
-const foo=id("something");leak(foo==null?bar:foo);
+const foo = id("something");
+leak(foo == null ? bar : foo);

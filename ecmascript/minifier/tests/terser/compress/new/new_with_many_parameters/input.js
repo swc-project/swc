@@ -1,1 +1,2 @@
-new foo.bar("baz");new x(/123/,456);
+new foo.bar("baz");
+new x(/123/, 456);

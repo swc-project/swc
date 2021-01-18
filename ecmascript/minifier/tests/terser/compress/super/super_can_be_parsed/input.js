@@ -1,1 +1,2 @@
-super(1,2);super.meth();
+super(1, 2);
+super.meth();

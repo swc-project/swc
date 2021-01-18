@@ -1,4 +1,4 @@
 {
-    "hoist_vars": true,
-    "unused": true
+  "hoist_vars": true,
+  "unused": true
 }

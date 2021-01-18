@@ -1,1 +1,5 @@
-({get c(){console.log(1)}}).c;
+({
+  get c() {
+    console.log(1);
+  },
+}.c);

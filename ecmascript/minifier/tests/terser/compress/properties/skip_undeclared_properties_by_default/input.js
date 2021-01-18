@@ -1,1 +1,5 @@
-var Foo={foo:function(){return Bar.bar()}};
+var Foo = {
+  foo: function () {
+    return Bar.bar();
+  },
+};

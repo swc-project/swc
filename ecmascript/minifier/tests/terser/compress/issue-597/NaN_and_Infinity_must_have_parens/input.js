@@ -1,1 +1,2 @@
-Infinity.toString();NaN.toString();
+Infinity.toString();
+NaN.toString();

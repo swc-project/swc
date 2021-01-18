@@ -1,1 +1,8 @@
-console.log({a:"FAIL",get a(){return"PASS"}}.a);
+console.log(
+  {
+    a: "FAIL",
+    get a() {
+      return "PASS";
+    },
+  }.a
+);

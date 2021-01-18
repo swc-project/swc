@@ -1,1 +1,3 @@
-(function(){if(window)if(foo)function f(){}})();
+(function () {
+  if (window) if (foo) function f() {}
+})();

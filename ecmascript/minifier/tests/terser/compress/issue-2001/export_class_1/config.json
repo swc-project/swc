@@ -1,5 +1,5 @@
 {
-    "hoist_funs": true,
-    "toplevel": true,
-    "unused": true
+  "hoist_funs": true,
+  "toplevel": true,
+  "unused": true
 }

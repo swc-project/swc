@@ -1,1 +1,1 @@
-console.log(null.toString(),(void 0).toString());
+console.log(null.toString(), (void 0).toString());

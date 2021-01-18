@@ -1,1 +1,4 @@
-function shouldBePure(){return arguments.length}shouldBePure();
+function shouldBePure() {
+  return arguments.length;
+}
+shouldBePure();

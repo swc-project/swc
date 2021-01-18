@@ -1,1 +1,3 @@
-class C4{static["constructor"](){}}
+class C4 {
+  static ["constructor"]() {}
+}

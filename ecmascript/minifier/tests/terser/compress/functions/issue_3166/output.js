@@ -1,1 +1,4 @@
-"use strict";function f(){"use asm"}
+"use strict";
+function f() {
+  "use asm";
+}

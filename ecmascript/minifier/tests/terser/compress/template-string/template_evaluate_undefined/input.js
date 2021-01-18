@@ -1,1 +1,4 @@
-()=>{let x;console.log(x+`?ts=${Date.now()}`)};
+() => {
+  let x;
+  console.log(x + `?ts=${Date.now()}`);
+};

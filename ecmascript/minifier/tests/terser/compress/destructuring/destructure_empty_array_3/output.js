@@ -1,1 +1,2 @@
-let[]={};console.log("not reached");
+let [] = {};
+console.log("not reached");

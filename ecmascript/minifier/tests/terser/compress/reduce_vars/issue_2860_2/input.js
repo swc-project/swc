@@ -1,1 +1,6 @@
-console.log(function(a){return a^=1;a^=2}());
+console.log(
+  (function (a) {
+    return (a ^= 1);
+    a ^= 2;
+  })()
+);

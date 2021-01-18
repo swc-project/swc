@@ -1,1 +1,1 @@
-var foo=`     `;
+var foo = `     `;

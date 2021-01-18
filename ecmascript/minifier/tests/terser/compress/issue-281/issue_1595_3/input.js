@@ -1,1 +1,3 @@
-(function f(a){return g(a+1)})(2);
+(function f(a) {
+  return g(a + 1);
+})(2);

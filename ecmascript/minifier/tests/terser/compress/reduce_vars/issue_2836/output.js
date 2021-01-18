@@ -1,1 +1,5 @@
-console.log(function(){return"PASS"}());
+console.log(
+  (function () {
+    return "PASS";
+  })()
+);

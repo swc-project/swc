@@ -1,1 +1,2 @@
-external();external();
+external();
+external();

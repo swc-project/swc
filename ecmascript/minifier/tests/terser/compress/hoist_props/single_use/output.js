@@ -1,1 +1,7 @@
-console.log({bar:function(){return 42}}.bar());
+console.log(
+  {
+    bar: function () {
+      return 42;
+    },
+  }.bar()
+);

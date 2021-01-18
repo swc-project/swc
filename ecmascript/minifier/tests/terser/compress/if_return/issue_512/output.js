@@ -1,1 +1,4 @@
-function a(){if(!b())throw e;c()}
+function a() {
+  if (!b()) throw e;
+  c();
+}

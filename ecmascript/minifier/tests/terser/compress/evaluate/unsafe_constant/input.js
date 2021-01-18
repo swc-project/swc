@@ -1,1 +1,1 @@
-console.log(true.a,false.a,null.a,undefined.a);
+console.log(true.a, false.a, null.a, undefined.a);

@@ -1,1 +1,4 @@
-!function(){var a="test";console.log(a.indexOf("e"))}();
+!(function () {
+  var a = "test";
+  console.log(a.indexOf("e"));
+})();

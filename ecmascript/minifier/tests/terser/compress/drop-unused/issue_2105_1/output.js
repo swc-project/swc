@@ -1,1 +1,6 @@
-({prop:function(){console.log;console.log("PASS")}}).prop();
+({
+  prop: function () {
+    console.log;
+    console.log("PASS");
+  },
+}.prop());

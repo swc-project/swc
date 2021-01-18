@@ -1,1 +1,2 @@
-export default function Foo(){}export function Far(){}
+export default function Foo() {}
+export function Far() {}

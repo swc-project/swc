@@ -1,1 +1,2 @@
-const x=()=>null;console.log(id(x)===id(x));
+const x = () => null;
+console.log(id(x) === id(x));

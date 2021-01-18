@@ -1,1 +1,3 @@
-function getLine(header){return{[header]:{}}}
+function getLine(header) {
+  return { [header]: {} };
+}

@@ -1,1 +1,2 @@
-var tpl=()=>{};tpl`test`;
+var tpl = () => {};
+tpl`test`;

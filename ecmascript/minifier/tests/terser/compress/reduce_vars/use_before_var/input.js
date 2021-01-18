@@ -1,1 +1,4 @@
-function f(){console.log(t);var t=1}
+function f() {
+  console.log(t);
+  var t = 1;
+}

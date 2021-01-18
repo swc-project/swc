@@ -1,1 +1,5 @@
-function f(x){if(x){return true}}
+function f(x) {
+  if (x) {
+    return true;
+  }
+}

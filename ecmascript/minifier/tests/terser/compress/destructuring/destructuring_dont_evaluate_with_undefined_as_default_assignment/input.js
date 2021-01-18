@@ -1,1 +1,1 @@
-[foo=undefined]=bar;
+[foo = undefined] = bar;

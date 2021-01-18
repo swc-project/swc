@@ -1,4 +1,4 @@
 {
-    "pure_getters": "strict",
-    "side_effects": true
+  "pure_getters": "strict",
+  "side_effects": true
 }

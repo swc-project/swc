@@ -1,1 +1,2 @@
-export class B{}export default class C{}
+export class B {}
+export default class C {}

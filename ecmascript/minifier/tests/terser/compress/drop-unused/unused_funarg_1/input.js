@@ -1,1 +1,3 @@
-function f(a,b,c,d,e){return a+b}
+function f(a, b, c, d, e) {
+  return a + b;
+}

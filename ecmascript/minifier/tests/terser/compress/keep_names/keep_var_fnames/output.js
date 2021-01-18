@@ -1,1 +1,4 @@
-const foo=function(){return"barfoo"};const bar=()=>"foobar";
+const foo = function () {
+  return "barfoo";
+};
+const bar = () => "foobar";

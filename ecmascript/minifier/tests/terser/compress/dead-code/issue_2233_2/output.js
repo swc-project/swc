@@ -1,1 +1,7 @@
-var RegExp;UndeclaredGlobal;function foo(){var Number;AnotherUndeclaredGlobal;Number.isNaN}
+var RegExp;
+UndeclaredGlobal;
+function foo() {
+  var Number;
+  AnotherUndeclaredGlobal;
+  Number.isNaN;
+}

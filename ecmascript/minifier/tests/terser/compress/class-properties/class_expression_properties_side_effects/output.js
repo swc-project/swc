@@ -1,1 +1,4 @@
-global.side=()=>{console.log("PASS")};side(),side(),side();
+global.side = () => {
+  console.log("PASS");
+};
+side(), side(), side();

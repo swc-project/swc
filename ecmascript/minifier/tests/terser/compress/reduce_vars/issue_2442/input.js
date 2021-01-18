@@ -1,1 +1,3 @@
-function foo(){foo()}
+function foo() {
+  foo();
+}

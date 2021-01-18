@@ -1,1 +1,3 @@
-function f(){L:0}
+function f() {
+  L: 0;
+}

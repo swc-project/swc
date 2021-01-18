@@ -1,4 +1,4 @@
 {
-    "ecma": 2015,
-    "unsafe_methods": false
+  "ecma": 2015,
+  "unsafe_methods": false
 }

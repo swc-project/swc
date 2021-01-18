@@ -1,5 +1,5 @@
 {
-    "keep_classnames": true,
-    "keep_fnames": false,
-    "unused": true
+  "keep_classnames": true,
+  "keep_fnames": false,
+  "unused": true
 }

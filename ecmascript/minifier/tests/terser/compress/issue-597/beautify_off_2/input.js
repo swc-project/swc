@@ -1,1 +1,1 @@
-console.log(null.toString(),undefined.toString());
+console.log(null.toString(), undefined.toString());

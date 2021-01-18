@@ -1,1 +1,5 @@
-export class C{go(r,e){return r-e+r}}
+export class C {
+  go(r, e) {
+    return r - e + r;
+  }
+}

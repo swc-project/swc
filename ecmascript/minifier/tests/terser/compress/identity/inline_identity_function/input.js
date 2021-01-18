@@ -1,1 +1,4 @@
-function id(x){return x}console.log(id(1),id(2));
+function id(x) {
+  return x;
+}
+console.log(id(1), id(2));

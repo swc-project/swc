@@ -1,1 +1,2 @@
-var foo=typeof(x=>null);console.log(foo);
+var foo = typeof ((x) => null);
+console.log(foo);

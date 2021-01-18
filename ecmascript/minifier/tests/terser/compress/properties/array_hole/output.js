@@ -1,1 +1,1 @@
-console.log(2,void 0,3);
+console.log(2, void 0, 3);

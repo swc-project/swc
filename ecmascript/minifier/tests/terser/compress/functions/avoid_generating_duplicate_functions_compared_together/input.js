@@ -1,1 +1,3 @@
-const x=()=>null;const y=()=>x;console.log(y()===y());
+const x = () => null;
+const y = () => x;
+console.log(y() === y());

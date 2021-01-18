@@ -1,1 +1,3 @@
-new function(a){this.a=a}(42);
+new (function (a) {
+  this.a = a;
+})(42);

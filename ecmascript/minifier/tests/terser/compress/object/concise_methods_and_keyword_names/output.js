@@ -1,1 +1,1 @@
-x={catch(){},throw(){}};
+x = { catch() {}, throw() {} };

@@ -1,1 +1,2 @@
-debugger;if(foo)debugger;
+debugger;
+if (foo) debugger;

@@ -1,1 +1,7 @@
-if(x()){var a;y()}else{z();var b}
+if (x()) {
+  var a;
+  y();
+} else {
+  z();
+  var b;
+}

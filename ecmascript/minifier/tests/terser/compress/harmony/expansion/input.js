@@ -1,1 +1,3 @@
-function f(a,...b){console.log(a)}
+function f(a, ...b) {
+  console.log(a);
+}

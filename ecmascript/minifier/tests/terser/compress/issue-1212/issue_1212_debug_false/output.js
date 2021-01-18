@@ -1,1 +1,6 @@
-class foo{bar(){console.log("PROD")}}(new foo).bar();
+class foo {
+  bar() {
+    console.log("PROD");
+  }
+}
+new foo().bar();

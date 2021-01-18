@@ -1,1 +1,1 @@
-console.log("number","function");
+console.log("number", "function");

@@ -1,1 +1,6 @@
-function f(){console.log(1+h());var h=function(){return 2}}
+function f() {
+  console.log(1 + h());
+  var h = function () {
+    return 2;
+  };
+}

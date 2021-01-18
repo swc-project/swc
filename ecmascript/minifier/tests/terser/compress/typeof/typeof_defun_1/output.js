@@ -1,1 +1,5 @@
-function h(){console.log("YUP")}console.log("YES");h();
+function h() {
+  console.log("YUP");
+}
+console.log("YES");
+h();

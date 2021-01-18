@@ -1,1 +1,3 @@
-function f(a){var b=a}
+function f(a) {
+  var b = a;
+}

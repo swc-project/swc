@@ -1,1 +1,4 @@
-function foo(){function bar(){}function barElement(){}}
+function foo() {
+  function bar() {}
+  function barElement() {}
+}

@@ -1,1 +1,3 @@
-!function(){L:for(console.log(1);!1;)continue L}();
+!(function () {
+  L: for (console.log(1); !1; ) continue L;
+})();

@@ -1,1 +1,1 @@
-console.log(undefined,NaN,Infinity);
+console.log(undefined, NaN, Infinity);

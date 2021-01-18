@@ -1,1 +1,1 @@
-console.log("<\/sCrIpT>");
+console.log("</sCrIpT>");

@@ -1,1 +1,2 @@
-function tpl(){}tpl`test`;
+function tpl() {}
+tpl`test`;

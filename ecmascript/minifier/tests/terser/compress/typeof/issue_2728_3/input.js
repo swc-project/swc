@@ -1,1 +1,4 @@
-(function(){function arguments(){}console.log(typeof arguments)})();
+(function () {
+  function arguments() {}
+  console.log(typeof arguments);
+})();

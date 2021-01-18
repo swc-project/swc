@@ -1,1 +1,6 @@
-w;x||function(){x={}}();y;
+w;
+x ||
+  (function () {
+    x = {};
+  })();
+y;

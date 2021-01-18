@@ -1,1 +1,5 @@
-switch(foo){case"bar":baz();default:}
+switch (foo) {
+  case "bar":
+    baz();
+  default:
+}

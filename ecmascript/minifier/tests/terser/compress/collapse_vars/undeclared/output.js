@@ -1,1 +1,4 @@
-function f(x,y){b=y;return b+x}
+function f(x, y) {
+  b = y;
+  return b + x;
+}

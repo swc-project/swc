@@ -1,1 +1,4 @@
-for(;;)f();function f(){return x()}
+for (;;) f();
+function f() {
+  return x();
+}

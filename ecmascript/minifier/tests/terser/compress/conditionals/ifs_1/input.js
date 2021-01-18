@@ -1,1 +1,7 @@
-if(foo)bar();if(!foo);else bar();if(foo);else bar();if(foo);else;
+if (foo) bar();
+if (!foo);
+else bar();
+if (foo);
+else bar();
+if (foo);
+else;

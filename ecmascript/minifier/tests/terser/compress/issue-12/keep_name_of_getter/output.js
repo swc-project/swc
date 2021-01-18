@@ -1,1 +1,1 @@
-a={get foo(){}};
+a = { get foo() {} };

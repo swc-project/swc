@@ -1,1 +1,1 @@
-while(foo())bar();
+while (foo()) bar();

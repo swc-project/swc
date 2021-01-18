@@ -1,1 +1,4 @@
-do{x()}while(false);y();
+do {
+  x();
+} while (false);
+y();

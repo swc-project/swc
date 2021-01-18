@@ -1,1 +1,2 @@
-export default function f(){}f();
+export default function f() {}
+f();

@@ -1,1 +1,3 @@
-function f(){alert(33)}
+function f() {
+  alert(33);
+}

@@ -1,1 +1,4 @@
-function f(){function noop(){}return noop}
+function f() {
+  function noop() {}
+  return noop;
+}

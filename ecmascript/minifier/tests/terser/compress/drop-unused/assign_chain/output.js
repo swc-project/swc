@@ -1,1 +1,3 @@
-function f(){x=y=42}
+function f() {
+  x = y = 42;
+}

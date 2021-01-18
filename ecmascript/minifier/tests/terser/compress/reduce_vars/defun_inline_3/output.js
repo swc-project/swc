@@ -1,1 +1,3 @@
-function f(){return 2}
+function f() {
+  return 2;
+}

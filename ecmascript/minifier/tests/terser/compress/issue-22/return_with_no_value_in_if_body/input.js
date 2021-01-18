@@ -1,1 +1,7 @@
-function foo(bar){if(bar){return}else{return 1}}
+function foo(bar) {
+  if (bar) {
+    return;
+  } else {
+    return 1;
+  }
+}

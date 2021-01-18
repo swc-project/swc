@@ -1,1 +1,1 @@
-const x={[console.log("PASS")]:123};
+const x = { [console.log("PASS")]: 123 };

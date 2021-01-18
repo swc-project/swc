@@ -1,1 +1,3 @@
-function f(){for(x();1;);}
+function f() {
+  for (x(); 1; );
+}

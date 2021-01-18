@@ -1,1 +1,5 @@
-(new class{c(){console.log(1)}}).c();
+new (class {
+  c() {
+    console.log(1);
+  }
+})().c();

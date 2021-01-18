@@ -1,6 +1,6 @@
 {
-    "conditionals": true,
-    "if_return": true,
-    "sequences": true,
-    "side_effects": true
+  "conditionals": true,
+  "if_return": true,
+  "sequences": true,
+  "side_effects": true
 }

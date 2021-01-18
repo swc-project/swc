@@ -1,1 +1,3 @@
-(function arguments(arguments){console.log(typeof arguments)})();
+(function arguments(arguments) {
+  console.log(typeof arguments);
+})();

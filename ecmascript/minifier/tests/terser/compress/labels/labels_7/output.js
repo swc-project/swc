@@ -1,1 +1,4 @@
-while(foo){x();y()}
+while (foo) {
+  x();
+  y();
+}

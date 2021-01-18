@@ -1,8 +1,4 @@
 {
-    "top_retain": [
-        "f",
-        "a",
-        "o"
-    ],
-    "unused": true
+  "top_retain": ["f", "a", "o"],
+  "unused": true
 }

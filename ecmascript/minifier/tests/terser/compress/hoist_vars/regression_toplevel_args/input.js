@@ -1,1 +1,2 @@
-var Foo;var Bar;
+var Foo;
+var Bar;

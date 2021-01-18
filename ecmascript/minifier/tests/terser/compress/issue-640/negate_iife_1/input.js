@@ -1,1 +1,3 @@
-(function(){stuff()})();
+(function () {
+  stuff();
+})();

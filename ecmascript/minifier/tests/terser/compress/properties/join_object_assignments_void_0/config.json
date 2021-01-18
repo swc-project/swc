@@ -1,4 +1,4 @@
 {
-    "evaluate": true,
-    "join_vars": true
+  "evaluate": true,
+  "join_vars": true
 }

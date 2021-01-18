@@ -1,6 +1,6 @@
 {
-    "if_return": true,
-    "inline": true,
-    "reduce_vars": true,
-    "unused": true
+  "if_return": true,
+  "inline": true,
+  "reduce_vars": true,
+  "unused": true
 }

@@ -1,1 +1,2 @@
-class Foo{}console.log(Foo.name);
+class Foo {}
+console.log(Foo.name);

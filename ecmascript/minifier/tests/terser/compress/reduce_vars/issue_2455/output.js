@@ -1,1 +1,3 @@
-function foo(){for(;;)this.bar()}
+function foo() {
+  for (;;) this.bar();
+}

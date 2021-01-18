@@ -1,1 +1,5 @@
-function f(){if(x)return;return 7;if(y)return j}
+function f() {
+  if (x) return;
+  return 7;
+  if (y) return j;
+}

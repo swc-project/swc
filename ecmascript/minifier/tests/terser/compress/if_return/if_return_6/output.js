@@ -1,1 +1,3 @@
-function f(x){return!!x||void 0}
+function f(x) {
+  return !!x || void 0;
+}

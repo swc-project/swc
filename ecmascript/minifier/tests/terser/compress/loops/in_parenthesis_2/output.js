@@ -1,1 +1,7 @@
-for(function(){"foo"in{}};0;);
+for (
+  function () {
+    ("foo" in {});
+  };
+  0;
+
+);

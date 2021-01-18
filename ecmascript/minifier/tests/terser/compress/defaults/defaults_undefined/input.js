@@ -1,1 +1,3 @@
-if(true){console.log(1+2)}
+if (true) {
+  console.log(1 + 2);
+}

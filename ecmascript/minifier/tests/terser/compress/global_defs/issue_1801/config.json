@@ -1,6 +1,6 @@
 {
-    "booleans": true,
-    "global_defs": {
-        "CONFIG.FOO.BAR": true
-    }
+  "booleans": true,
+  "global_defs": {
+    "CONFIG.FOO.BAR": true
+  }
 }

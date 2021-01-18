@@ -1,1 +1,5 @@
-!function(){!function(){L:for(;;)break L}()}();
+!(function () {
+  !(function () {
+    L: for (;;) break L;
+  })();
+})();

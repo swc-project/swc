@@ -1,1 +1,3 @@
-(function f(a){console.log(1,1)})();
+(function f(a) {
+  console.log(1, 1);
+})();

@@ -1,1 +1,4 @@
-class C{}function F(){}(class c{});(function(){});
+class C {}
+function F() {}
+(class c {});
+(function () {});

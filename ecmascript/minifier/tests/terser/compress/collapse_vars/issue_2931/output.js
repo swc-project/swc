@@ -1,1 +1,7 @@
-console.log(function(){return function(){return}()}());
+console.log(
+  (function () {
+    return (function () {
+      return;
+    })();
+  })()
+);

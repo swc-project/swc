@@ -1,1 +1,5 @@
-(function(){(function(){f(1).bar=1})()})();
+(function () {
+  (function () {
+    f(1).bar = 1;
+  })();
+})();

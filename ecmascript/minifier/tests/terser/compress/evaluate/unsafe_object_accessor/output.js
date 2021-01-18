@@ -1,1 +1,4 @@
-function f(){var a={get b(){},set b(){}};return{a:a}}
+function f() {
+  var a = { get b() {}, set b() {} };
+  return { a: a };
+}

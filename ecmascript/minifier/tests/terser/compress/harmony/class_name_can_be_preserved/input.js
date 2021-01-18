@@ -1,1 +1,4 @@
-function x(){(class Baz{});class Foo{}}
+function x() {
+  (class Baz {});
+  class Foo {}
+}

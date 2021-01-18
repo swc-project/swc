@@ -1,1 +1,3 @@
-export default function*_$GEN$_(){yield foo()}
+export default function* _$GEN$_() {
+  yield foo();
+}

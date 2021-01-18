@@ -1,1 +1,2 @@
-var a;console.log(delete(1,a));
+var a;
+console.log(delete (1, a));

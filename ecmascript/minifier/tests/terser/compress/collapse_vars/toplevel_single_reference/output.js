@@ -1,1 +1,4 @@
-for(var b in x){var a;b(a=b)}
+for (var b in x) {
+  var a;
+  b((a = b));
+}

@@ -1,3 +1,3 @@
 function f() {
-    for (a; c; ) ;
+  for (a; c; );
 }

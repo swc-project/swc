@@ -1,1 +1,4 @@
-!function(){var a=1;a=[].length,console.log(a)}();
+!(function () {
+  var a = 1;
+  (a = [].length), console.log(a);
+})();

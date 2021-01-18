@@ -1,1 +1,4 @@
-function f(a){return a=x();return a}
+function f(a) {
+  return (a = x());
+  return a;
+}

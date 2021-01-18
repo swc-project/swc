@@ -1,1 +1,5 @@
-!function(){return t}()?console.log(false):console.log(true);
+!(function () {
+  return t;
+})()
+  ? console.log(false)
+  : console.log(true);

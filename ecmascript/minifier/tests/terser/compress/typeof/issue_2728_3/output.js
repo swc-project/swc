@@ -1,1 +1,4 @@
-(function(){function arguments(){}console.log("function")})();
+(function () {
+  function arguments() {}
+  console.log("function");
+})();

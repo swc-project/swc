@@ -1,1 +1,6 @@
-function func(){foo()}if(func()||true){bar()}
+function func() {
+  foo();
+}
+if (func() || true) {
+  bar();
+}

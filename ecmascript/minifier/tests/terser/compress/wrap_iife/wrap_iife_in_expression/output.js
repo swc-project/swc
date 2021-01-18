@@ -1,1 +1,3 @@
-foo=(function(){return bar()})();
+foo = (function () {
+  return bar();
+})();

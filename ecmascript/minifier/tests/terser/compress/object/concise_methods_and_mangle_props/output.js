@@ -1,1 +1,7 @@
-function x(){obj={o(){return 1}}}
+function x() {
+  obj = {
+    o() {
+      return 1;
+    },
+  };
+}

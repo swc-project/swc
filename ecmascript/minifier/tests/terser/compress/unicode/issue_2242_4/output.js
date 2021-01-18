@@ -1,1 +1,1 @@
-console.log("😀","\ud83d@\ude00");
+console.log("😀", "\ud83d@\ude00");

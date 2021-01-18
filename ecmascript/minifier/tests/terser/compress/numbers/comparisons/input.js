@@ -1,1 +1,1 @@
-console.log(~x===42,x%n===42);
+console.log(~x === 42, x % n === 42);

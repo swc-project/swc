@@ -1,1 +1,9 @@
-function f(){var t;try{x()}catch(t){y()}alert(t)}
+function f() {
+  var t;
+  try {
+    x();
+  } catch (t) {
+    y();
+  }
+  alert(t);
+}

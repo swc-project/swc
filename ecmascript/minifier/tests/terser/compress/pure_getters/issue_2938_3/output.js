@@ -1,1 +1,6 @@
-function f(a){a.b="PASS"}var o={};f(o);console.log(o.b);
+function f(a) {
+  a.b = "PASS";
+}
+var o = {};
+f(o);
+console.log(o.b);

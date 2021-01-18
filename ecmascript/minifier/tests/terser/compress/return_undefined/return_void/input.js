@@ -1,1 +1,6 @@
-function f(){function g(){h()}return g()}
+function f() {
+  function g() {
+    h();
+  }
+  return g();
+}

@@ -1,1 +1,5 @@
-try{window}catch(e){console.log("PASS")}
+try {
+  window;
+} catch (e) {
+  console.log("PASS");
+}

@@ -1,1 +1,5 @@
-function p(){console.log(1)}p();p();
+function p() {
+  console.log(1);
+}
+p();
+p();

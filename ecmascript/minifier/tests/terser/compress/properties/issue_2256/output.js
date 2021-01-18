@@ -1,1 +1,2 @@
-var g={};g.keep=g.g;
+var g = {};
+g.keep = g.g;

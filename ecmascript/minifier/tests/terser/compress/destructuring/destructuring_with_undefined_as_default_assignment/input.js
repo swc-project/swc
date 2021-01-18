@@ -1,1 +1,2 @@
-[foo=undefined]=bar;[foo=void 0]=bar;
+[foo = undefined] = bar;
+[foo = void 0] = bar;

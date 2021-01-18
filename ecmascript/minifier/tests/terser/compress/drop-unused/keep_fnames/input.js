@@ -1,1 +1,3 @@
-function foo(){return function bar(baz){}}
+function foo() {
+  return function bar(baz) {};
+}

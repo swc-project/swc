@@ -1,1 +1,4 @@
-L:if(true){a;break L}
+L: if (true) {
+  a;
+  break L;
+}

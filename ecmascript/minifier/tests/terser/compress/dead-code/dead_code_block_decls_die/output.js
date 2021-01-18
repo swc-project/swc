@@ -1,1 +1,2 @@
-var qux;console.log(foo,bar,Baz);
+var qux;
+console.log(foo, bar, Baz);

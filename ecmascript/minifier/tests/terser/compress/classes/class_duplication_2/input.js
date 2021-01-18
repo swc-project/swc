@@ -1,1 +1,6 @@
-class Foo{foo(){leak(new Foo)}}leak(Foo);
+class Foo {
+  foo() {
+    leak(new Foo());
+  }
+}
+leak(Foo);

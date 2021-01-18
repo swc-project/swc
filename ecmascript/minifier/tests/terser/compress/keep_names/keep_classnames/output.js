@@ -1,1 +1,3 @@
-function foo(){class Bar{}}
+function foo() {
+  class Bar {}
+}

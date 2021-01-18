@@ -1,1 +1,3 @@
-if(1){function xyz(){}}
+if (1) {
+  function xyz() {}
+}

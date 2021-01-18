@@ -1,1 +1,3 @@
-class foo{foo(){}}
+class foo {
+  foo() {}
+}

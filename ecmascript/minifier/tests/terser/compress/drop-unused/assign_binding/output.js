@@ -1,1 +1,3 @@
-function f(){(0,f.g)()}
+function f() {
+  (0, f.g)();
+}

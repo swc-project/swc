@@ -1,1 +1,5 @@
-new{f:function(a){this.a=a}}.f(42);
+new {
+  f: function (a) {
+    this.a = a;
+  },
+}.f(42);

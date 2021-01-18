@@ -1,1 +1,5 @@
-try{unknown()}catch{console.log("PASS")}
+try {
+  unknown();
+} catch {
+  console.log("PASS");
+}

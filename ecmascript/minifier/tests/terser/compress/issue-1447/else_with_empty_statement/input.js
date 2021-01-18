@@ -1,1 +1,2 @@
-if(x)yes();else;
+if (x) yes();
+else;

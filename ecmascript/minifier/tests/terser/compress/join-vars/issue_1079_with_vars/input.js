@@ -1,1 +1,4 @@
-var netmaskBinary="";for(var i=0;i<netmaskBits;++i){netmaskBinary+="1"}
+var netmaskBinary = "";
+for (var i = 0; i < netmaskBits; ++i) {
+  netmaskBinary += "1";
+}

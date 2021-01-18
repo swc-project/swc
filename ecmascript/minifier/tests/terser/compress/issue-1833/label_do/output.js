@@ -1,1 +1,3 @@
-L:do{continue L}while(0);
+L: do {
+  continue L;
+} while (0);

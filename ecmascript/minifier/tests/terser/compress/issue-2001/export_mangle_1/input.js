@@ -1,1 +1,3 @@
-export function foo(one,two){return one-two}
+export function foo(one, two) {
+  return one - two;
+}

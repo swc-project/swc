@@ -1,1 +1,4 @@
-function foo(){class Bar{}class BarElement{}}
+function foo() {
+  class Bar {}
+  class BarElement {}
+}

@@ -1,1 +1,1 @@
-export{default as Alias}from"module.js";
+export { default as Alias } from "module.js";

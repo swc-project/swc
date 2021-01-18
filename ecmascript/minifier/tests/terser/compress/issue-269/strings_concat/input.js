@@ -1,1 +1,1 @@
-f(String(x+"str"),String("str"+x));
+f(String(x + "str"), String("str" + x));

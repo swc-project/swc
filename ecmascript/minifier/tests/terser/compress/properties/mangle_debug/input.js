@@ -1,1 +1,3 @@
-var a={};a.foo="bar";x={baz:"ban"};
+var a = {};
+a.foo = "bar";
+x = { baz: "ban" };

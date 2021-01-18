@@ -1,1 +1,7 @@
-out:while(foo){x();y();break out;z();k()}
+out: while (foo) {
+  x();
+  y();
+  break out;
+  z();
+  k();
+}

@@ -1,1 +1,9 @@
-good=function(n){return function(t){try{n()}catch(n){t(n)}}};
+good = function (n) {
+  return function (t) {
+    try {
+      n();
+    } catch (n) {
+      t(n);
+    }
+  };
+};

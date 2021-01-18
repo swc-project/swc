@@ -1,1 +1,2 @@
-const id=x=>x;console.log(id(),id(undefined));
+const id = (x) => x;
+console.log(id(), id(undefined));

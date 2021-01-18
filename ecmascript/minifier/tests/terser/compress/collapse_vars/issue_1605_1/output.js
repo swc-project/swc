@@ -1,1 +1,5 @@
-function foo(x){return x}var o=new Object;o.p=1;
+function foo(x) {
+  return x;
+}
+var o = new Object();
+o.p = 1;

@@ -1,1 +1,2 @@
-let u;console.log(u,void 0);
+let u;
+console.log(u, void 0);

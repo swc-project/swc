@@ -1,5 +1,5 @@
 {
-    "conditionals": true,
-    "join_vars": true,
-    "sequences": true
+  "conditionals": true,
+  "join_vars": true,
+  "sequences": true
 }

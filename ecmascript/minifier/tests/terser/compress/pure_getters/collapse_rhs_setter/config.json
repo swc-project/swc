@@ -1,4 +1,4 @@
 {
-    "collapse_vars": true,
-    "pure_getters": "strict"
+  "collapse_vars": true,
+  "pure_getters": "strict"
 }

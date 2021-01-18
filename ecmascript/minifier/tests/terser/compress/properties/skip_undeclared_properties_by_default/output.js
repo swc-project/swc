@@ -1,1 +1,5 @@
-var r={o:function(){return a.bar()}};
+var r = {
+  o: function () {
+    return a.bar();
+  },
+};

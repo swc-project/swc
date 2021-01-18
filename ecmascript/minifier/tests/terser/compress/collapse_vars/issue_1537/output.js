@@ -1,1 +1,2 @@
-var k="";for(k in{prop:"val"});
+var k = "";
+for (k in { prop: "val" });

@@ -1,1 +1,3 @@
-class C4{*["constructor"](){}}
+class C4 {
+  *["constructor"]() {}
+}

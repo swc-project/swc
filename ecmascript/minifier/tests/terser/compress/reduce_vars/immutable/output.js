@@ -1,1 +1,3 @@
-!function(){console.log("test".indexOf("e"))}();
+!(function () {
+  console.log("test".indexOf("e"));
+})();

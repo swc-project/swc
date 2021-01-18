@@ -1,1 +1,3 @@
-function f(){class rx1 extends(/rx/){}}
+function f() {
+  class rx1 extends /rx/ {}
+}

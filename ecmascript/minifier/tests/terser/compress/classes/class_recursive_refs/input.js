@@ -1,1 +1,15 @@
-class a{set(){class b{set[b](c){}}}}class b{constructor(){b()}}class c{[c]=42}
+class a {
+  set() {
+    class b {
+      set [b](c) {}
+    }
+  }
+}
+class b {
+  constructor() {
+    b();
+  }
+}
+class c {
+  [c] = 42;
+}

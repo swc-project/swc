@@ -1,1 +1,2 @@
-function arguments(){}console.log("function");
+function arguments() {}
+console.log("function");

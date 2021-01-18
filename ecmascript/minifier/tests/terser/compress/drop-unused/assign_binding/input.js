@@ -1,1 +1,4 @@
-function f(){var a;a=f.g,a()}
+function f() {
+  var a;
+  (a = f.g), a();
+}

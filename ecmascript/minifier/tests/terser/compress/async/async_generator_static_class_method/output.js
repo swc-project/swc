@@ -1,1 +1,5 @@
-class Foo{static async*bar(){yield await Promise.resolve(4)}}
+class Foo {
+  static async *bar() {
+    yield await Promise.resolve(4);
+  }
+}

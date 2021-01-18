@@ -1,1 +1,8 @@
-global.side=()=>{console.log("PASS")};(class{static foo=side();[side()](){}[side()]=4});
+global.side = () => {
+  console.log("PASS");
+};
+(class {
+  static foo = side();
+  [side()]() {}
+  [side()] = 4;
+});

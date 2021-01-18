@@ -1,1 +1,5 @@
-let x="FAIL";class X{static _=x="PASS"}console.log(x);
+let x = "FAIL";
+class X {
+  static _ = (x = "PASS");
+}
+console.log(x);

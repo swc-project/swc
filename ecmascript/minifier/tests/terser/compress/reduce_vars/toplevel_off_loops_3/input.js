@@ -1,1 +1,2 @@
-var x=3;while(x)bar();
+var x = 3;
+while (x) bar();

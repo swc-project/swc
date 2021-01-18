@@ -1,1 +1,2 @@
-var b=1;console.log(b--&&++b);
+var b = 1;
+console.log(b-- && ++b);

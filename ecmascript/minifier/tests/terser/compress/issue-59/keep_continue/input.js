@@ -1,1 +1,10 @@
-while(a){if(b){switch(true){case c():d()}continue}f()}
+while (a) {
+  if (b) {
+    switch (true) {
+      case c():
+        d();
+    }
+    continue;
+  }
+  f();
+}

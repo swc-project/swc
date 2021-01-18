@@ -1,1 +1,1 @@
-const obj={foo:(1,2)};
+const obj = { foo: (1, 2) };

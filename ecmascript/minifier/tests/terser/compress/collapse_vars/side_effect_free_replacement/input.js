@@ -1,1 +1,4 @@
-var b;(function(a){x(a)})(b);
+var b;
+(function (a) {
+  x(a);
+})(b);

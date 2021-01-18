@@ -1,1 +1,3 @@
-var a,b=a="PASS";console.log(b);
+var a,
+  b = (a = "PASS");
+console.log(b);

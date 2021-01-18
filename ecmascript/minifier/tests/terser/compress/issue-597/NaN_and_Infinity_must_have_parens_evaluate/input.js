@@ -1,1 +1,2 @@
-(123456789/0).toString();(+"foo").toString();
+(123456789 / 0).toString();
+(+"foo").toString();

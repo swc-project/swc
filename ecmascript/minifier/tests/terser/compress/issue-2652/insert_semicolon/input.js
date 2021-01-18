@@ -1,4 +1,4 @@
-var a
-/* foo */;
+var a;
+  /* foo */
 
 var b;

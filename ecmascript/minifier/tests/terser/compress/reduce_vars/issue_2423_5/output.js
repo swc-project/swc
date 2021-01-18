@@ -1,1 +1,5 @@
-function z(){console.log(1)}z();z();
+function z() {
+  console.log(1);
+}
+z();
+z();

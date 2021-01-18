@@ -1,1 +1,6 @@
-function f(x,y){function g(){something()}return x+y}
+function f(x, y) {
+  function g() {
+    something();
+  }
+  return x + y;
+}

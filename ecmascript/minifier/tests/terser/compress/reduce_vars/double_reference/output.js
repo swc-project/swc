@@ -1,1 +1,5 @@
-function f(){(function g(){g()})()}
+function f() {
+  (function g() {
+    g();
+  })();
+}

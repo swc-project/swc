@@ -1,1 +1,2 @@
-const obj={foo:1};obj.foo=2;
+const obj = { foo: 1 };
+obj.foo = 2;

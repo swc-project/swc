@@ -1,1 +1,5 @@
-function foo(){try{foo()}catch(ex){}}
+function foo() {
+  try {
+    foo();
+  } catch (ex) {}
+}

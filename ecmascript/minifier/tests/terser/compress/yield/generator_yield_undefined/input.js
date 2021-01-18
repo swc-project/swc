@@ -1,1 +1,3 @@
-function*fn(){yield}
+function* fn() {
+  yield;
+}

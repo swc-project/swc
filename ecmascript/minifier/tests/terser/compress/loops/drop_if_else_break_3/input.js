@@ -1,1 +1,6 @@
-for(;bar();){if(foo())baz();else break;stuff1();stuff2()}
+for (; bar(); ) {
+  if (foo()) baz();
+  else break;
+  stuff1();
+  stuff2();
+}

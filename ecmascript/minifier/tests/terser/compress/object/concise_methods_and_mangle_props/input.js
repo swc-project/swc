@@ -1,1 +1,7 @@
-function x(){obj={_foo(){return 1}}}
+function x() {
+  obj = {
+    _foo() {
+      return 1;
+    },
+  };
+}

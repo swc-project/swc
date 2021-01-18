@@ -1,1 +1,7 @@
-var o={a:[o],f:function(x){console.log(x)}};o.f(o.a);
+var o = {
+  a: [o],
+  f: function (x) {
+    console.log(x);
+  },
+};
+o.f(o.a);

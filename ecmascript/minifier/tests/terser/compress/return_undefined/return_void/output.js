@@ -1,1 +1,3 @@
-function f(){h()}
+function f() {
+  h();
+}

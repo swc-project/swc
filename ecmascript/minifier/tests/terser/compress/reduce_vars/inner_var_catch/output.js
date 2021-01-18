@@ -1,1 +1,8 @@
-function f(){try{a()}catch(e){var b=1}console.log(b)}
+function f() {
+  try {
+    a();
+  } catch (e) {
+    var b = 1;
+  }
+  console.log(b);
+}

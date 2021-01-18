@@ -1,1 +1,4 @@
-if(isDevMode()){greetOverlord()}doWork();
+if (isDevMode()) {
+  greetOverlord();
+}
+doWork();

@@ -1,1 +1,4 @@
-function f(){return f=0,!!f}console.log(f());
+function f() {
+  return (f = 0), !!f;
+}
+console.log(f());

@@ -1,1 +1,1 @@
-new/*@__PURE__*/c;
+new /*@__PURE__*/ c();

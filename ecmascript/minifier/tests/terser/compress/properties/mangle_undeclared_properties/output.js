@@ -1,1 +1,5 @@
-var r={o:function(){return a.t()}};
+var r = {
+  o: function () {
+    return a.t();
+  },
+};
