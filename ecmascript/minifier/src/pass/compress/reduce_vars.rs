@@ -5,6 +5,7 @@ use fxhash::FxHashMap;
 use retain_mut::RetainMut;
 use std::mem::swap;
 use std::mem::take;
+use swc_atoms::js_word;
 use swc_atoms::JsWord;
 use swc_common::pass::Repeated;
 use swc_common::DUMMY_SP;
@@ -361,6 +362,22 @@ impl VisitMut for Reducer {
                 }
             }
             _ => {}
+        }
+    }
+
+    fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {
+        n.visit_mut_children_with(self);
+
+        if let Some(arg) = &n.arg {
+            match &**arg {
+                Expr::Ident(Ident {
+                    sym: js_word!("undefined"),
+                    ..
+                }) => {
+                    n.arg = None;
+                }
+                _ => {}
+            }
         }
     }
 }
