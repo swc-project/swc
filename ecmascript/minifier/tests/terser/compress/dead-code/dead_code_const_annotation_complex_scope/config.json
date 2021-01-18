@@ -1,0 +1,12 @@
+{
+    "booleans": true,
+    "conditionals": true,
+    "dead_code": true,
+    "evaluate": true,
+    "loops": true,
+    "reduce_funcs": true,
+    "reduce_vars": true,
+    "sequences": true,
+    "side_effects": true,
+    "toplevel": true
+}

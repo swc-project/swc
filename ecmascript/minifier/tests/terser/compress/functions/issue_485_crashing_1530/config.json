@@ -1,0 +1,7 @@
+{
+    "conditionals": true,
+    "dead_code": true,
+    "evaluate": true,
+    "inline": true,
+    "side_effects": true
+}

@@ -1,0 +1,6 @@
+{
+    "keep_classnames": true,
+    "reduce_vars": true,
+    "toplevel": true,
+    "unused": true
+}

@@ -1,0 +1,1 @@
+var \u00b5\u00fe="\xb5\xfe";

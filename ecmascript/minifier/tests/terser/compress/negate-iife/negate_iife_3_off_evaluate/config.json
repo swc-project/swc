@@ -1,0 +1,6 @@
+{
+    "conditionals": true,
+    "evaluate": true,
+    "inline": true,
+    "negate_iife": false
+}

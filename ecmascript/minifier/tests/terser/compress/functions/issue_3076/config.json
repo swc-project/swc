@@ -1,0 +1,6 @@
+{
+    "dead_code": true,
+    "inline": true,
+    "sequences": true,
+    "unused": true
+}

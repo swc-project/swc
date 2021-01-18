@@ -1,0 +1,9 @@
+{
+    "collapse_vars": true,
+    "evaluate": true,
+    "inline": true,
+    "reduce_vars": true,
+    "side_effects": true,
+    "unsafe": true,
+    "unused": true
+}

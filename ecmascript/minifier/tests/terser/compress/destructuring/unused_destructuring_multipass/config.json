@@ -1,0 +1,9 @@
+{
+    "conditionals": true,
+    "evaluate": true,
+    "toplevel": true,
+    "passes": 2,
+    "pure_getters": true,
+    "side_effects": true,
+    "unused": true
+}

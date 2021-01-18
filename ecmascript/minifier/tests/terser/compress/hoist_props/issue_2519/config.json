@@ -1,0 +1,7 @@
+{
+    "collapse_vars": true,
+    "evaluate": true,
+    "hoist_props": true,
+    "reduce_vars": true,
+    "unused": true
+}

@@ -1,0 +1,1 @@
+function f(){var o={\u{1d49c}:true};return o.\u{1d49c}}

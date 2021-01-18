@@ -1,0 +1,6 @@
+{
+    "collapse_vars": true,
+    "conditionals": true,
+    "sequences": true,
+    "side_effects": true
+}

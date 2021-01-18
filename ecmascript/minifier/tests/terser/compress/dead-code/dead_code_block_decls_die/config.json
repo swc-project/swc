@@ -1,0 +1,7 @@
+{
+    "booleans": true,
+    "conditionals": true,
+    "dead_code": true,
+    "evaluate": true,
+    "side_effects": true
+}

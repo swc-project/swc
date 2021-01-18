@@ -1,0 +1,10 @@
+{
+    "pure_getters": true,
+    "toplevel": true,
+    "top_retain": [
+        "a",
+        "e",
+        "w"
+    ],
+    "unused": true
+}

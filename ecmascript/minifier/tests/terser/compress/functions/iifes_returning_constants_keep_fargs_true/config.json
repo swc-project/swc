@@ -1,0 +1,16 @@
+{
+    "booleans": true,
+    "collapse_vars": true,
+    "comparisons": true,
+    "conditionals": true,
+    "dead_code": true,
+    "evaluate": true,
+    "if_return": true,
+    "inline": true,
+    "join_vars": true,
+    "keep_fargs": true,
+    "reduce_funcs": true,
+    "reduce_vars": true,
+    "side_effects": true,
+    "unused": true
+}

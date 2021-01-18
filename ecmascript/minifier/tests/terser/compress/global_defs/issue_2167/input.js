@@ -1,0 +1,1 @@
+if(isDevMode()){greetOverlord()}doWork();

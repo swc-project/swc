@@ -1,0 +1,10 @@
+{
+    "evaluate": true,
+    "inline": true,
+    "reduce_vars": true,
+    "sequences": true,
+    "side_effects": true,
+    "toplevel": true,
+    "unsafe": true,
+    "unused": true
+}

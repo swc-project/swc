@@ -1,0 +1,11 @@
+{
+    "collapse_vars": true,
+    "global_defs": {
+        "@o": "{fn:function(){var a=42;console.log(a)}}"
+    },
+    "inline": true,
+    "properties": true,
+    "reduce_vars": true,
+    "side_effects": true,
+    "unused": true
+}

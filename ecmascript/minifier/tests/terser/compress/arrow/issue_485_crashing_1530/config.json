@@ -1,0 +1,9 @@
+{
+    "arrows": true,
+    "conditionals": true,
+    "dead_code": true,
+    "ecma": 2015,
+    "evaluate": true,
+    "inline": true,
+    "side_effects": true
+}

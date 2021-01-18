@@ -1,0 +1,5 @@
+{
+    "conditionals": true,
+    "join_vars": true,
+    "sequences": true
+}

@@ -1,0 +1,1 @@
+foo=(function(){return bar()})();

@@ -1,0 +1,6 @@
+{
+    "conditionals": true,
+    "negate_iife": false,
+    "passes": 2,
+    "sequences": true
+}

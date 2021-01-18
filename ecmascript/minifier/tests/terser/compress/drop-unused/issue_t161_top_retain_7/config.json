@@ -1,0 +1,7 @@
+{
+    "evaluate": true,
+    "reduce_vars": true,
+    "side_effects": true,
+    "top_retain": "y",
+    "unused": true
+}
