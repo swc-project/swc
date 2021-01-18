@@ -123,7 +123,7 @@ impl Reducer {
         }
     }
 
-    fn compress_bin_assignment(&mut self, e: &mut AssignExpr) {
+    fn compress_bin_assignment_to_left(&mut self, e: &mut AssignExpr) {
         // TODO: Handle pure properties.
         let lhs = match &e.left {
             PatOrExpr::Expr(e) => match &**e {
@@ -217,7 +217,7 @@ impl VisitMut for Reducer {
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
         e.visit_mut_children_with(self);
 
-        self.compress_bin_assignment(e);
+        self.compress_bin_assignment_to_left(e);
     }
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
