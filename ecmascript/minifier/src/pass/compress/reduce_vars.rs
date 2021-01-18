@@ -123,6 +123,56 @@ impl Reducer {
         }
     }
 
+    /// This method does
+    ///
+    /// - `x *= 3` => `x = 3 * x`
+    /// - `x = 3 | x` `x |= 3`
+    /// - `x = 3 & x` => `x &= 3;`
+    /// - `x ^= 3` => `x = 3 ^ x`
+    fn compress_bin_assignment_to_right(&mut self, e: &mut AssignExpr) {
+        // TODO: Handle pure properties.
+        let lhs = match &e.left {
+            PatOrExpr::Expr(e) => match &**e {
+                Expr::Ident(i) => i,
+                _ => return,
+            },
+            PatOrExpr::Pat(p) => match &**p {
+                Pat::Ident(i) => i,
+                _ => return,
+            },
+        };
+
+        let (op, left) = match &mut *e.right {
+            Expr::Bin(BinExpr {
+                left, op, right, ..
+            }) => match &**right {
+                Expr::Ident(r) if lhs.sym == r.sym && lhs.span.ctxt == r.span.ctxt => (op, left),
+                _ => return,
+            },
+            _ => return,
+        };
+
+        let op = match op {
+            BinaryOp::Mul => {
+                op!("*=")
+            }
+            BinaryOp::BitOr => {
+                op!("|=")
+            }
+            BinaryOp::BitXor => {
+                op!("^=")
+            }
+            BinaryOp::BitAnd => {
+                op!("&=")
+            }
+            _ => return,
+        };
+
+        e.op = op;
+        e.right = left.take();
+    }
+
+    /// `a = a + 1` => `a += 1`.
     fn compress_bin_assignment_to_left(&mut self, e: &mut AssignExpr) {
         // TODO: Handle pure properties.
         let lhs = match &e.left {
@@ -142,9 +192,7 @@ impl Reducer {
             Expr::Bin(BinExpr {
                 left, op, right, ..
             }) => match &**left {
-                Expr::Ident(r) if lhs.sym == r.sym && lhs.span.ctxt == r.span.ctxt => {
-                    (op, right.take())
-                }
+                Expr::Ident(r) if lhs.sym == r.sym && lhs.span.ctxt == r.span.ctxt => (op, right),
                 _ => return,
             },
             _ => return,
@@ -206,7 +254,7 @@ impl Reducer {
         };
 
         e.op = op;
-        e.right = right;
+        e.right = right.take();
         // Now we can compress it to an assigment
     }
 }
@@ -218,6 +266,7 @@ impl VisitMut for Reducer {
         e.visit_mut_children_with(self);
 
         self.compress_bin_assignment_to_left(e);
+        self.compress_bin_assignment_to_right(e);
     }
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
