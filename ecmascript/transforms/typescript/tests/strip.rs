@@ -3418,11 +3418,22 @@ to!(
             A = 'A',
             B = 'B',
         }
-    }
+      }
       
     console(Test.DummyValues.A);
     ",
     "
-   
+    var Test;
+    (function(Test1) {
+        var DummyValues;
+        (function(DummyValues) {
+            DummyValues['A'] = 'A';
+            DummyValues['B'] = 'B';
+        })(DummyValues || (DummyValues = {
+        }));
+        Test1.DummyValues = DummyValues;
+    })(Test || (Test = {
+    }));
+    console(Test.DummyValues.A);
     "
 );
