@@ -30,6 +30,7 @@ pub(crate) struct ScopeData {
 #[derive(Debug, Default)]
 pub(crate) struct UsageAnalyzer {
     pub data: ScopeData,
+    in_pat_of_var_decl: bool,
 }
 
 impl UsageAnalyzer {
@@ -51,6 +52,31 @@ impl UsageAnalyzer {
 
 impl Visit for UsageAnalyzer {
     noop_visit_type!();
+
+    fn visit_var_declarator(&mut self, e: &VarDeclarator, _: &dyn Node) {
+        let old_in_pat_of_var_decl = self.in_pat_of_var_decl;
+        self.in_pat_of_var_decl = true;
+        e.name.visit_with(e, self);
+        self.in_pat_of_var_decl = false;
+
+        e.init.visit_with(e, self);
+        self.in_pat_of_var_decl = old_in_pat_of_var_decl;
+    }
+
+    fn visit_pat(&mut self, n: &Pat, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        match n {
+            Pat::Ident(i) => {
+                if self.in_pat_of_var_decl {
+                    self.data.vars.entry(i.to_id()).or_default();
+                } else {
+                    self.report_usage(i, true);
+                }
+            }
+            _ => {}
+        }
+    }
 
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
         e.visit_children_with(self);
