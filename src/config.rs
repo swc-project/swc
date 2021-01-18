@@ -392,18 +392,19 @@ impl Default for Rc {
 }
 
 impl Rc {
-    pub fn into_config(self, filename: Option<&Path>) -> Result<Config, Error> {
-        let mut cs = match self {
+    /// This method returns `Ok(None)` if the file should be ignored.
+    pub fn into_config(self, filename: Option<&Path>) -> Result<Option<Config>, Error> {
+        let cs = match self {
             Rc::Single(c) => match filename {
                 Some(filename) => {
                     if c.matches(filename)? {
-                        return Ok(c);
+                        return Ok(Some(c));
                     } else {
-                        bail!("not matched")
+                        return Ok(None);
                     }
                 }
                 // TODO
-                None => return Ok(c),
+                None => return Ok(Some(c)),
             },
             Rc::Multi(cs) => cs,
         };
@@ -412,12 +413,12 @@ impl Rc {
             Some(filename) => {
                 for c in cs {
                     if c.matches(filename)? {
-                        return Ok(c);
+                        return Ok(Some(c));
                     }
                 }
             }
             // TODO
-            None => return Ok(cs.remove(0)),
+            None => return Ok(None),
         }
 
         bail!("not matched")
