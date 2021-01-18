@@ -226,6 +226,7 @@ macro_rules! tr_only {
                             "rxjs/src/internal/observable/dom/AjaxObservable.ts".into(),
                         ),
                     )
+                    .unwrap()
                     .unwrap();
                 let program = c.run_transform(true, || program.fold_with(&mut config.pass));
                 black_box(program)

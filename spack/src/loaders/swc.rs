@@ -69,7 +69,7 @@ impl Load for SwcLoader {
 
             program
         } else {
-            let mut config = self.compiler.config_for_file(
+            let config = self.compiler.config_for_file(
                 &swc::config::Options {
                     config: {
                         if let Some(c) = &self.options.config {
@@ -130,25 +130,38 @@ impl Load for SwcLoader {
             // We run transform at this phase to strip out unused dependencies.
             //
             // Note that we don't apply compat transform at loading phase.
-            let program =
-                self.compiler
-                    .parse_js(fm.clone(), JscTarget::Es2020, config.syntax, true, true)?;
+            let program = self.compiler.parse_js(
+                fm.clone(),
+                JscTarget::Es2020,
+                config.as_ref().map(|v| v.syntax).unwrap_or_default(),
+                true,
+                true,
+            );
+            let program = if config.is_some() {
+                program?
+            } else {
+                program.context("tried to parse as ecmaascript as it's exlcuded by .swcrc")?
+            };
 
             log::trace!("JsLoader.load: parsed");
 
             // Fold module
-            let program = helpers::HELPERS.set(&helpers, || {
-                swc_ecma_utils::HANDLER.set(&self.compiler.handler, || {
-                    let program =
-                        program.fold_with(&mut inline_globals(env_map(), Default::default()));
-                    let program = program.fold_with(&mut expr_simplifier());
-                    let program = program.fold_with(&mut dead_branch_remover());
+            let program = if let Some(mut config) = config {
+                helpers::HELPERS.set(&helpers, || {
+                    swc_ecma_utils::HANDLER.set(&self.compiler.handler, || {
+                        let program =
+                            program.fold_with(&mut inline_globals(env_map(), Default::default()));
+                        let program = program.fold_with(&mut expr_simplifier());
+                        let program = program.fold_with(&mut dead_branch_remover());
 
-                    let program = program.fold_with(&mut config.pass);
+                        let program = program.fold_with(&mut config.pass);
 
-                    program
+                        program
+                    })
                 })
-            });
+            } else {
+                program
+            };
 
             log::trace!("JsLoader.load: applied transforms");
 
