@@ -554,7 +554,7 @@ impl Strip {
                                                     span: DUMMY_SP,
                                                     kind: v.kind,
                                                     declare: false,
-                                                    decls:  vec![decl],
+                                                    decls: vec![decl],
                                                 })))
                                             }
                                             _ => {}
