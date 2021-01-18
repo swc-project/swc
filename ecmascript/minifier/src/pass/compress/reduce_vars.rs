@@ -122,10 +122,103 @@ impl Reducer {
             _ => {}
         }
     }
+
+    fn compress_bin_assignment(&mut self, e: &mut AssignExpr) {
+        // TODO: Handle pure properties.
+        let lhs = match &e.left {
+            PatOrExpr::Expr(e) => match &**e {
+                Expr::Ident(i) => i,
+                _ => return,
+            },
+            PatOrExpr::Pat(p) => match &**p {
+                Pat::Ident(i) => i,
+                _ => return,
+            },
+        };
+
+        // If left operand of a binary expression is not same as lhs, this method has
+        // nothing to do.
+        let (op, right) = match &mut *e.right {
+            Expr::Bin(BinExpr {
+                left, op, right, ..
+            }) => match &**left {
+                Expr::Ident(r) if lhs.sym == r.sym && lhs.span.ctxt == r.span.ctxt => {
+                    (op, right.take())
+                }
+                _ => return,
+            },
+            _ => return,
+        };
+
+        let op = match op {
+            BinaryOp::In | BinaryOp::InstanceOf => return,
+
+            BinaryOp::EqEq | BinaryOp::NotEq | BinaryOp::EqEqEq | BinaryOp::NotEqEq => {
+                // TODO(kdy1): Check if this is optimizable.
+                return;
+            }
+
+            BinaryOp::Lt | BinaryOp::LtEq | BinaryOp::Gt | BinaryOp::GtEq => return,
+
+            BinaryOp::LShift => op!("<<="),
+            BinaryOp::RShift => {
+                op!(">>=")
+            }
+            BinaryOp::ZeroFillRShift => {
+                op!(">>>=")
+            }
+            BinaryOp::Add => {
+                op!("+=")
+            }
+            BinaryOp::Sub => {
+                op!("-=")
+            }
+            BinaryOp::Mul => {
+                op!("*=")
+            }
+            BinaryOp::Div => {
+                op!("/=")
+            }
+            BinaryOp::Mod => {
+                op!("%=")
+            }
+            BinaryOp::BitOr => {
+                op!("|=")
+            }
+            BinaryOp::BitXor => {
+                op!("^=")
+            }
+            BinaryOp::BitAnd => {
+                op!("&=")
+            }
+            BinaryOp::LogicalOr => {
+                op!("||=")
+            }
+            BinaryOp::LogicalAnd => {
+                op!("&&=")
+            }
+            BinaryOp::Exp => {
+                op!("**=")
+            }
+            BinaryOp::NullishCoalescing => {
+                op!("??=")
+            }
+        };
+
+        e.op = op;
+        e.right = right;
+        // Now we can compress it to an assigment
+    }
 }
 
 impl VisitMut for Reducer {
     noop_visit_mut_type!();
+
+    fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
+        e.visit_mut_children_with(self);
+
+        self.compress_bin_assignment(e);
+    }
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
         if let Some(i) = &e.ident {
