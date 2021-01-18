@@ -423,7 +423,6 @@ impl<'a> VisitMut for Resolver<'a> {
     typed!(visit_mut_ts_parenthesized_type, TsParenthesizedType);
     typed!(visit_mut_ts_type_lit, TsTypeLit);
     typed!(visit_mut_ts_type_element, TsTypeElement);
-    typed!(visit_mut_ts_module_decl, TsModuleDecl);
     typed!(visit_mut_ts_signature_decl, TsSignatureDecl);
     typed!(visit_mut_ts_module_block, TsModuleBlock);
     typed!(visit_mut_ts_namespace_body, TsNamespaceBody);
@@ -1123,6 +1122,26 @@ impl<'a> VisitMut for Resolver<'a> {
 
         // Phase 2.
         stmts.visit_mut_children_with(self)
+    }
+
+    fn visit_mut_ts_module_decl(&mut self, decl: &mut TsModuleDecl) {
+        match &mut decl.id {
+            TsModuleName::Ident(i) => {
+                self.visit_mut_binding_ident(i, None);
+            }
+            TsModuleName::Str(_) => {}
+        }
+
+        let child_mark = Mark::fresh(self.mark);
+
+        let mut child_folder = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Block, Some(&self.current)),
+            self.cur_defining.take(),
+            self.handle_types,
+        );
+
+        decl.body.visit_mut_children_with(&mut child_folder);
     }
 }
 

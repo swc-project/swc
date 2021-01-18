@@ -317,6 +317,10 @@ impl<'a> Emitter<'a> {
 
         emit!(n.id);
 
+        if let Some(type_params) = &n.type_params {
+            emit!(type_params);
+        }
+
         if !n.extends.is_empty() {
             space!();
 
