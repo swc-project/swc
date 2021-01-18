@@ -115,6 +115,10 @@ impl VisitMut for Compressor<'_> {
 
     fn visit_mut_module(&mut self, n: &mut Module) {
         dbg!(self.pass);
+        // Temporary
+        if self.pass > 10 {
+            panic!("Infinite loop detected")
+        }
         eprintln!("{}", dump(&*n));
         if self.pass > 0 || self.options.reduce_vars {
             // reset_opt_flags
