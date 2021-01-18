@@ -1,5 +1,7 @@
 use crate::util::is_hoisted_var_decl_without_init;
 use crate::util::sort::is_sorted_by_key;
+use crate::util::usage::ScopeData;
+use crate::util::usage::UsageAnalyzer;
 use crate::util::IsModuleItem;
 use fxhash::FxHashSet;
 use swc_common::pass::Repeated;
@@ -8,10 +10,12 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::find_ids;
 use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::Id;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::VisitWith;
 
 pub(super) struct DeclHoisterConfig {
     pub hoist_fns: bool,
@@ -22,12 +26,14 @@ pub(super) fn decl_hoister(config: DeclHoisterConfig) -> Hoister {
     Hoister {
         config,
         changed: false,
+        data: None,
     }
 }
 
 pub(super) struct Hoister {
     config: DeclHoisterConfig,
     changed: bool,
+    data: Option<ScopeData>,
 }
 
 impl Repeated for Hoister {
@@ -44,14 +50,40 @@ impl Hoister {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + IsModuleItem,
-        Vec<T>: VisitMutWith<Self>,
+        Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer>,
     {
+        match self.data {
+            None => {
+                let mut analyzer = UsageAnalyzer::default();
+                stmts.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
+                self.data = Some(analyzer.data);
+            }
+            _ => {}
+        }
+
         stmts.visit_mut_children_with(self);
 
         let should_hoist = !is_sorted_by_key(stmts.iter(), |stmt| match stmt.as_stmt() {
             Some(stmt) => match stmt {
                 Stmt::Decl(Decl::Fn(..)) if self.config.hoist_fns => 1,
-                Stmt::Decl(Decl::Var(..)) => 2,
+                Stmt::Decl(Decl::Var(var)) => {
+                    if let Some(data) = &self.data {
+                        let ids: Vec<Id> = find_ids(&var.decls);
+
+                        if ids.iter().any(|id| {
+                            data.vars
+                                .get(id)
+                                .map(|v| !v.used_above_decl)
+                                .unwrap_or(false)
+                        }) {
+                            2
+                        } else {
+                            3
+                        }
+                    } else {
+                        2
+                    }
+                }
                 _ => 3,
             },
             None => 3,
@@ -63,7 +95,6 @@ impl Hoister {
         if !should_hoist {
             return;
         }
-        // TODO: Handle usages between original declaration and hoisted declaration.
         self.changed = true;
 
         let mut var_decls = vec![];
