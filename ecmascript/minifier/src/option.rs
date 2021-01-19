@@ -113,7 +113,10 @@ pub struct CompressOptions {
     // keep_infinity : false,
     // loops         : !false_by_default,
     // module        : false,
-    // negate_iife   : !false_by_default,
+    #[serde(default = "true_by_default")]
+    #[serde(alias = "negate_iife")]
+    pub negate_iife: bool,
+
     #[serde(default = "one_by_default")]
     #[serde(alias = "passes")]
     pub passes: usize,
@@ -128,7 +131,10 @@ pub struct CompressOptions {
     #[serde(alias = "reduce_vars")]
     pub reduce_vars: bool,
 
-    // sequences     : !false_by_default,
+    #[serde(default = "true_by_default")]
+    #[serde(alias = "sequences")]
+    pub sequences: bool,
+
     #[serde(default = "true_by_default")]
     #[serde(alias = "side_effects")]
     pub side_effects: bool,
