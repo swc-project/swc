@@ -78,6 +78,14 @@ impl Reducer {
                 }));
             }
 
+            Expr::Lit(Lit::Num(num)) => {
+                self.changed = true;
+                *n = Expr::Lit(Lit::Num(Number {
+                    span: num.span,
+                    value: if num.value == 0.0 { 0.0 } else { 1.0 },
+                }));
+            }
+
             _ => {}
         }
     }
