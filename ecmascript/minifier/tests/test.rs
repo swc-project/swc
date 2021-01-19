@@ -1,9 +1,12 @@
 use ansi_term::Color;
+use once_cell::sync::Lazy;
+use std::env;
 use std::fmt;
 use std::fmt::Debug;
 use std::fmt::Display;
 use std::fmt::Formatter;
 use std::fs::read_to_string;
+use std::path::Path;
 use std::path::PathBuf;
 use swc_common::sync::Lrc;
 use swc_common::FileName;
@@ -23,9 +26,37 @@ use swc_ecma_visit::FoldWith;
 use testing::assert_eq;
 use testing::NormalizedOutput;
 
+fn is_ignored(path: &Path) -> bool {
+    let s = path.to_string_lossy();
+    static GOLDEN: Lazy<Vec<String>> = Lazy::new(|| {
+        let lines = read_to_string("tests/golden.txt").unwrap();
+        lines
+            .lines()
+            .filter(|v| !v.trim().is_empty())
+            .map(|v| v.to_string())
+            .collect()
+    });
+
+    if let Ok(one) = env::var("GOLDEN") {
+        if one == "1" {
+            if GOLDEN.iter().any(|golden| s.contains(&**golden)) {
+                return false;
+            }
+
+            return true;
+        }
+    }
+
+    false
+}
+
 /// Tests ported from terser.
 #[testing::fixture("terser/compress/**/input.js")]
 fn terser_compress(input: PathBuf) {
+    if is_ignored(&input) {
+        return;
+    }
+
     let dir = input.parent().unwrap();
     let config = dir.join("config.json");
     let config = read_to_string(&config).expect("failed to read config.json");
