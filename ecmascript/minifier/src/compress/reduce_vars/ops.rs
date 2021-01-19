@@ -1,5 +1,6 @@
 use super::Reducer;
 use crate::util::ValueExt;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ExprExt;
@@ -77,6 +78,17 @@ impl Reducer {
         }
     }
 
+    /// TODO: Handle special cases like !1 or !0
+    fn negate_as_bool(&mut self, e: &mut Expr) {
+        let arg = Box::new(e.take());
+
+        *e = Expr::Unary(UnaryExpr {
+            span: DUMMY_SP,
+            op: op!("!"),
+            arg,
+        });
+    }
+
     pub(super) fn handle_negated_seq(&mut self, n: &mut Expr) {
         match &mut *n {
             Expr::Unary(e) => {
@@ -86,8 +98,12 @@ impl Reducer {
                             return;
                         }
 
-                        // Negate last element.
-                        self.optimize_expr_in_bool_ctx(exprs.last_mut().unwrap());
+                        {
+                            let last = exprs.last_mut().unwrap();
+                            self.optimize_expr_in_bool_ctx(last);
+                            // Negate last element.
+                            self.negate_as_bool(last);
+                        }
 
                         *n = *e.arg.take();
                     }
