@@ -367,6 +367,7 @@ impl Reducer {
 
         match lit {
             Lit::Bool(v) => {
+                self.changed = true;
                 *e = Expr::Unary(UnaryExpr {
                     span: v.span,
                     op: op!("!"),
@@ -608,24 +609,6 @@ impl VisitMut for Reducer {
 
                         *n = *value;
                     }
-                }
-                _ => {}
-            }
-        }
-
-        if self.config.bools {
-            match n {
-                Expr::Lit(Lit::Bool(v)) => {
-                    self.changed = true;
-                    //
-                    *n = Expr::Unary(UnaryExpr {
-                        span: v.span,
-                        op: op!("!"),
-                        arg: Box::new(Expr::Lit(Lit::Num(Number {
-                            span: DUMMY_SP,
-                            value: if v.value { 0.0 } else { 1.0 },
-                        }))),
-                    });
                 }
                 _ => {}
             }
