@@ -417,14 +417,14 @@ impl Reducer {
                     return None;
                 }
                 //
-                let exprs = seq
+                let mut exprs = seq
                     .exprs
                     .iter_mut()
                     .filter_map(|expr| self.ignore_return_value(&mut **expr))
                     .map(Box::new)
                     .collect::<Vec<_>>();
-                if seq.exprs.len() <= 1 {
-                    return seq.exprs.pop().map(|v| *v);
+                if exprs.len() <= 1 {
+                    return exprs.pop().map(|v| *v);
                 } else {
                     return Some(Expr::Seq(SeqExpr {
                         span: seq.span,
