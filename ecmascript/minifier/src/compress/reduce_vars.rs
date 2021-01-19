@@ -315,6 +315,40 @@ impl Reducer {
             _ => {}
         }
     }
+
+    fn inline_fn_call(&mut self, n: &mut CallExpr) {
+        let has_spread_arg = n.args.iter().any(|v| v.spread.is_some());
+
+        if !has_spread_arg {
+            match &mut n.callee {
+                ExprOrSuper::Super(_) => {}
+                ExprOrSuper::Expr(callee) => match &mut **callee {
+                    Expr::Fn(callee) => {
+                        // We check for parameter and argument
+                        for (idx, param) in callee.function.params.iter().enumerate() {
+                            let arg = n.args.get(idx).map(|v| &v.expr);
+                            if let Pat::Ident(param) = &param.pat {
+                                if let Some(arg) = arg {
+                                    let should_be_inlined = is_clone_cheap(arg);
+                                    if should_be_inlined {
+                                        self.lits.insert(param.to_id(), arg.clone());
+                                    }
+                                }
+                            }
+                        }
+                        let old = self.inline_prevented;
+                        self.inline_prevented = false;
+                        callee.function.visit_mut_with(self);
+                        self.inline_prevented = old;
+
+                        // TODO: Drop arguments if all usage is inlined. (We
+                        // should preserve parameters)
+                    }
+                    _ => {}
+                },
+            }
+        }
+    }
 }
 
 impl VisitMut for Reducer {
@@ -355,37 +389,7 @@ impl VisitMut for Reducer {
         n.args.visit_mut_with(self);
         self.inline_prevented = old;
 
-        let has_spread_arg = n.args.iter().any(|v| v.spread.is_some());
-
-        if !has_spread_arg {
-            match &mut n.callee {
-                ExprOrSuper::Super(_) => {}
-                ExprOrSuper::Expr(callee) => match &mut **callee {
-                    Expr::Fn(callee) => {
-                        // We check for parameter and argument
-                        for (idx, param) in callee.function.params.iter().enumerate() {
-                            let arg = n.args.get(idx).map(|v| &v.expr);
-                            if let Pat::Ident(param) = &param.pat {
-                                if let Some(arg) = arg {
-                                    let should_be_inlined = is_clone_cheap(arg);
-                                    if should_be_inlined {
-                                        self.lits.insert(param.to_id(), arg.clone());
-                                    }
-                                }
-                            }
-                        }
-                        let old = self.inline_prevented;
-                        self.inline_prevented = false;
-                        callee.function.visit_mut_with(self);
-                        self.inline_prevented = old;
-
-                        // TODO: Drop arguments if all usage is inlined. (We
-                        // should preserve parameters)
-                    }
-                    _ => {}
-                },
-            }
-        }
+        self.inline_fn_call(n);
     }
 
     fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
