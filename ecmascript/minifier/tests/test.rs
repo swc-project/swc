@@ -1,4 +1,8 @@
 use ansi_term::Color;
+use std::fmt;
+use std::fmt::Debug;
+use std::fmt::Display;
+use std::fmt::Formatter;
 use std::fs::read_to_string;
 use std::path::PathBuf;
 use swc_common::sync::Lrc;
@@ -16,6 +20,7 @@ use swc_ecma_transforms::fixer;
 use swc_ecma_transforms::hygiene;
 use swc_ecma_transforms::resolver;
 use swc_ecma_visit::FoldWith;
+use testing::assert_eq;
 use testing::NormalizedOutput;
 
 /// Tests ported from terser.
@@ -87,6 +92,8 @@ fn terser_compress(input: PathBuf) {
             expected
         );
 
+        assert_eq!(DebugUsingDisplay(&output), DebugUsingDisplay(&expected));
+
         NormalizedOutput::from(output)
             .compare_to_file(dir.join("output.js"))
             .unwrap();
@@ -113,4 +120,13 @@ fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N]) -> String {
     }
 
     String::from_utf8(buf).unwrap()
+}
+
+#[derive(PartialEq, Eq)]
+struct DebugUsingDisplay<'a>(&'a str);
+
+impl<'a> Debug for DebugUsingDisplay<'a> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        Display::fmt(self.0, f)
+    }
 }
