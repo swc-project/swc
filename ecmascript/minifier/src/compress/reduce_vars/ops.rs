@@ -41,7 +41,15 @@ impl Reducer {
                     | Expr::Bin(BinExpr {
                         op: op!("instanceof"),
                         ..
-                    }) => {
+                    })
+                    | Expr::Bin(BinExpr { op: op!("=="), .. })
+                    | Expr::Bin(BinExpr { op: op!("!="), .. })
+                    | Expr::Bin(BinExpr { op: op!("==="), .. })
+                    | Expr::Bin(BinExpr { op: op!("!=="), .. })
+                    | Expr::Bin(BinExpr { op: op!("<="), .. })
+                    | Expr::Bin(BinExpr { op: op!("<"), .. })
+                    | Expr::Bin(BinExpr { op: op!(">="), .. })
+                    | Expr::Bin(BinExpr { op: op!(">"), .. }) => {
                         *e = *arg.take();
                         return;
                     }
