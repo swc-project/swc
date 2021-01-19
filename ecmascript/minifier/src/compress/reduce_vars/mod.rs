@@ -265,10 +265,14 @@ impl Reducer {
                 return;
             }
 
-            match &*e.args[0].expr {
-                Expr::Lit(Lit::Str(s)) => s.value.clone(),
-                Expr::Lit(Lit::Null(..)) => js_word!("null"),
-                _ => return,
+            if is_pure_undefind(&e.args[0].expr) {
+                ",".into()
+            } else {
+                match &*e.args[0].expr {
+                    Expr::Lit(Lit::Str(s)) => s.value.clone(),
+                    Expr::Lit(Lit::Null(..)) => js_word!("null"),
+                    _ => return,
+                }
             }
         } else {
             return;
