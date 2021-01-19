@@ -114,6 +114,14 @@ impl Reducer {
                     *e = *arg.take();
                     return;
                 }
+                Expr::Bin(BinExpr { op: op!("in"), .. })
+                | Expr::Bin(BinExpr {
+                    op: op!("instanceof"),
+                    ..
+                }) => {
+                    *e = *arg.take();
+                    return
+                }
                 _ => {}
             },
             _ => {}
