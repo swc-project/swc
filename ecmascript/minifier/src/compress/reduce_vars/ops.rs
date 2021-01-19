@@ -33,20 +33,16 @@ impl Reducer {
                 span,
                 op: op!("!"),
                 arg,
-            }) => {
-                self.optimize_expr_in_bool_ctx(&mut **arg);
-
-                match &**arg {
-                    Expr::Lit(Lit::Num(Number { value, .. })) => {
-                        self.changed = true;
-                        *n = Expr::Lit(Lit::Num(Number {
-                            span: *span,
-                            value: if *value == 0.0 { 1.0 } else { 0.0 },
-                        }))
-                    }
-                    _ => {}
+            }) => match &**arg {
+                Expr::Lit(Lit::Num(Number { value, .. })) => {
+                    self.changed = true;
+                    *n = Expr::Lit(Lit::Num(Number {
+                        span: *span,
+                        value: if *value == 0.0 { 1.0 } else { 0.0 },
+                    }))
                 }
-            }
+                _ => {}
+            },
 
             Expr::Unary(UnaryExpr {
                 span,
@@ -73,6 +69,13 @@ impl Reducer {
                     })
                 }
             },
+
+            Expr::Lit(Lit::Str(s)) => {
+                Box::new(Expr::Lit(Lit::Num(Number {
+                    span: s.span,
+                    value: if s.value.is_empty() { 1.0 } else { 0.0 },
+                })));
+            }
 
             _ => {}
         }
