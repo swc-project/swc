@@ -92,7 +92,7 @@ fn terser_compress(input: PathBuf) {
             expected
         );
 
-        assert_eq!(DebugUsingDisplay(&output), DebugUsingDisplay(&expected));
+        assert_eq!(DebugUsingDisplay(&expected), DebugUsingDisplay(&output));
 
         NormalizedOutput::from(output)
             .compare_to_file(dir.join("output.js"))
