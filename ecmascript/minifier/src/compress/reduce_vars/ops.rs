@@ -5,6 +5,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::Value;
 
 impl Reducer {
     pub(super) fn optimize_lit_cmp(&mut self, n: &mut BinExpr) -> Option<Expr> {
@@ -237,11 +238,30 @@ impl Reducer {
     ///
     ///
     /// # Examples
+    ///
     /// - `x() && true` => `!!x()`
     pub(super) fn optimize_logical_exprs(&mut self, e: &mut Expr) {
         let bin = match e {
             Expr::Bin(bin) => bin,
             _ => return,
         };
+
+        match bin.op {
+            op!("&&") => {
+                let rb = bin.right.as_pure_bool();
+                let rb = match rb {
+                    Value::Known(v) => v,
+                    _ => return,
+                };
+
+                if rb {
+                    self.negate(&mut bin.left);
+                    self.negate(&mut bin.left);
+                    *e = *bin.left.take();
+                }
+            }
+            op!("||") => {}
+            _ => {}
+        }
     }
 }
