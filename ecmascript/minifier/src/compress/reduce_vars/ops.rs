@@ -72,6 +72,28 @@ impl Reducer {
                     })
                 }
             },
+
+            _ => {}
+        }
+    }
+
+    pub(super) fn handle_negated_seq(&mut self, n: &mut Expr) {
+        match &mut *n {
+            Expr::Unary(e) => {
+                match &mut *e.arg {
+                    Expr::Seq(SeqExpr { exprs, .. }) => {
+                        if exprs.is_empty() {
+                            return;
+                        }
+
+                        // Negate last element.
+                        self.optimize_expr_in_bool_ctx(exprs.last_mut().unwrap());
+
+                        *n = *e.arg.take();
+                    }
+                    _ => {}
+                }
+            }
             _ => {}
         }
     }

@@ -459,6 +459,8 @@ impl VisitMut for Reducer {
             _ => {}
         }
 
+        self.handle_negated_seq(n);
+
         if !self.inline_prevented {
             match n {
                 Expr::Ident(i) => {
