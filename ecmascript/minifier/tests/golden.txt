@@ -363,6 +363,9 @@ transform/booleans_evaluate/input.js
 try_catch/catch_destructuring_with_sequence/input.js
 try_catch/parameterless_catch/input.js
 typeof/issue_1668/input.js
+typeof/issue_2728_1/input.js
+typeof/issue_2728_2/input.js
+typeof/issue_2728_6/input.js
 unicode/ID_continue_with_surrogate_pair/input.js
 unicode/check_escape_style/input.js
 unicode/escape_non_escaped_identifier/input.js
