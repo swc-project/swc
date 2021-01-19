@@ -607,6 +607,12 @@ impl VisitMut for Reducer {
             _ => {}
         }
     }
+
+    fn visit_mut_cond_expr(&mut self, n: &mut CondExpr) {
+        n.visit_mut_children_with(self);
+
+        self.optimize_expr_in_bool_ctx(&mut n.test);
+    }
 }
 
 fn is_pure_undefind(e: &Expr) -> bool {

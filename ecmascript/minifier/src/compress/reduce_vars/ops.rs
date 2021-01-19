@@ -46,6 +46,21 @@ impl Reducer {
                     _ => {}
                 }
             }
+
+            Expr::Unary(UnaryExpr {
+                span,
+                op: op!("typeof"),
+                arg,
+            }) => match &**arg {
+                Expr::Ident(..) => {
+                    self.changed = true;
+                    *n = Expr::Lit(Lit::Num(Number {
+                        span: *span,
+                        value: 1.0,
+                    }))
+                }
+                _ => {}
+            },
             _ => {}
         }
     }
