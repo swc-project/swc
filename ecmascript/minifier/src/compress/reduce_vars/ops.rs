@@ -79,6 +79,10 @@ impl Reducer {
             }
 
             Expr::Lit(Lit::Num(num)) => {
+                if num.value == 1.0 || num.value == 0.0 {
+                    return;
+                }
+
                 self.changed = true;
                 *n = Expr::Lit(Lit::Num(Number {
                     span: num.span,
