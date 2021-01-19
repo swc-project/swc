@@ -1,12 +1,9 @@
 use ansi_term::Color;
 use std::fs::read_to_string;
 use std::path::PathBuf;
-use swc_common::errors::ColorConfig;
-use swc_common::errors::Handler;
 use swc_common::sync::Lrc;
 use swc_common::FileName;
 use swc_common::SourceMap;
-use swc_ecma_ast::*;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_minifier::optimize;
@@ -20,7 +17,6 @@ use swc_ecma_transforms::hygiene;
 use swc_ecma_transforms::resolver;
 use swc_ecma_visit::FoldWith;
 use testing::NormalizedOutput;
-use walkdir::WalkDir;
 
 /// Tests ported from terser.
 #[testing::fixture("terser/compress/**/input.js")]
