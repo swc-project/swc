@@ -1,4 +1,4 @@
 function* fn() {
-	var x = {};
-	x.prop = yield 5;
+    var x = {};
+    x.prop = yield 5;
 }

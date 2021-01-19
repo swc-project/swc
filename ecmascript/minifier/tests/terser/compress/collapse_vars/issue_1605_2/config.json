@@ -1,5 +1,5 @@
 {
-	"collapse_vars": true,
-	"toplevel": "vars",
-	"unused": true
+    "collapse_vars": true,
+    "toplevel": "vars",
+    "unused": true
 }

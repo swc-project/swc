@@ -1,7 +1,7 @@
 function bar() {
-	console.log("bar:");
+    console.log("bar:");
 }
 var x = 3;
 do {
-	bar();
+    bar();
 } while (x);

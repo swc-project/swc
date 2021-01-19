@@ -1,3 +1,3 @@
 function f() {
-	var a = /b/;
+    var a = /b/;
 }

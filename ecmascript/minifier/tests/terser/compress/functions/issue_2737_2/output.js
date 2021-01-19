@@ -1,5 +1,5 @@
 (function (bar) {
-	for (; bar(); ) break;
+    for (; bar(); ) break;
 })(function qux() {
-	return console.log("PASS"), qux;
+    return console.log("PASS"), qux;
 });

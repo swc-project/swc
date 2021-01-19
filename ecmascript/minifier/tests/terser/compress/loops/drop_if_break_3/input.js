@@ -1,5 +1,5 @@
 for (; bar(); ) {
-	if (foo()) break;
-	stuff1();
-	stuff2();
+    if (foo()) break;
+    stuff1();
+    stuff2();
 }

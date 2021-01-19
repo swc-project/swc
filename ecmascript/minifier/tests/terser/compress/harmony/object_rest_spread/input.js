@@ -10,10 +10,10 @@ console.log(V);
 ({ b: b, ...L } = { a: 4, b: 5, c: 6 });
 console.log(L);
 (function ({ y: y, ...p }) {
-	console.log(p);
+    console.log(p);
 })({ x: 1, y: 2, z: 3 });
 (({ y: y, ...p }) => {
-	console.log(p);
+    console.log(p);
 })({ x: 4, y: 5, z: 6 });
 const T = { a: 1, b: 2 };
 console.log({ ...T, w: 0, ...{}, ...L, ...{ K: 9 } });

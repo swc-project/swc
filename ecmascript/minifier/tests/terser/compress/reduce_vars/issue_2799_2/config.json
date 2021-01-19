@@ -1,5 +1,5 @@
 {
-	"reduce_vars": true,
-	"unsafe_proto": true,
-	"unused": true
+    "reduce_vars": true,
+    "unsafe_proto": true,
+    "unused": true
 }

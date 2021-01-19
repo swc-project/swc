@@ -1,14 +1,14 @@
 function x() {
-	y();
+    y();
 }
 function y() {
-	console.log(1);
+    console.log(1);
 }
 function z() {
-	function y() {
-		console.log(2);
-	}
-	x();
+    function y() {
+        console.log(2);
+    }
+    x();
 }
 z();
 z();

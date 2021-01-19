@@ -1,3 +1,3 @@
 !(function () {
-	if (2) console.log(2);
+    if (2) console.log(2);
 })();

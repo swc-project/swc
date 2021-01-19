@@ -1,22 +1,22 @@
 if (foo) {
-	{
-		{
-			{
-			}
-		}
-	}
-	if (bar) {
-		baz();
-	}
-	{
-		{
-		}
-	}
+    {
+        {
+            {
+            }
+        }
+    }
+    if (bar) {
+        baz();
+    }
+    {
+        {
+        }
+    }
 } else {
-	stuff();
+    stuff();
 }
 if (foo) {
-	for (var i = 0; i < 5; ++i) if (bar) baz();
+    for (var i = 0; i < 5; ++i) if (bar) baz();
 } else {
-	stuff();
+    stuff();
 }

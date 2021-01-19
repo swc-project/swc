@@ -1,22 +1,22 @@
 var a = {
-	propa: 1,
-	get propb() {
-		return 2;
-	},
-	propc: 3,
-	get propd() {
-		return 4;
-	},
+    propa: 1,
+    get propb() {
+        return 2;
+    },
+    propc: 3,
+    get propd() {
+        return 4;
+    },
 };
 var b = {
-	propa: 5,
-	get propb() {
-		return 6;
-	},
-	propc: 7,
-	get propd() {
-		return 8;
-	},
+    propa: 5,
+    get propb() {
+        return 6;
+    },
+    propc: 7,
+    get propd() {
+        return 8;
+    },
 };
 var c = {};
 Object.defineProperty(c, "propa", { value: 9 });

@@ -1,9 +1,9 @@
 function debug(msg) {
-	console.log(msg);
+    console.log(msg);
 }
 debug(
-	(function () {
-		console.log("PASS");
-		return "FAIL";
-	})()
+    (function () {
+        console.log("PASS");
+        return "FAIL";
+    })()
 );

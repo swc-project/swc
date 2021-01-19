@@ -1,3 +1,3 @@
 export default function* gen() {
-	yield foo();
+    yield foo();
 }

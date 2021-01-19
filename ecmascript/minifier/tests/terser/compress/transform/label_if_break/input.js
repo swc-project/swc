@@ -1,4 +1,4 @@
 L: if (true) {
-	a;
-	break L;
+    a;
+    break L;
 }

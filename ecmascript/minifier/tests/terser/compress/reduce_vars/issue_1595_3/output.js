@@ -1,3 +1,3 @@
 (function (a) {
-	return g(3);
+    return g(3);
 })();

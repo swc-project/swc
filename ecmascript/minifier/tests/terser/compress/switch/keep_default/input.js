@@ -1,7 +1,7 @@
 switch (foo) {
-	case "bar":
-		baz();
-	default:
-		something();
-		break;
+    case "bar":
+        baz();
+    default:
+        something();
+        break;
 }

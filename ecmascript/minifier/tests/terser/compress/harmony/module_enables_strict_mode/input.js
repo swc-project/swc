@@ -1,3 +1,3 @@
 if (1) {
-	function xyz() {}
+    function xyz() {}
 }

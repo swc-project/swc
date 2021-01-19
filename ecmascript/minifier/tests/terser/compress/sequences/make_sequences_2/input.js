@@ -1,9 +1,9 @@
 if (boo) {
-	foo();
-	bar();
-	baz();
+    foo();
+    bar();
+    baz();
 } else {
-	x();
-	y();
-	z();
+    x();
+    y();
+    z();
 }

@@ -1,7 +1,7 @@
 for (; bar(); ) {
-	x();
-	y();
-	if (foo()) break;
-	z();
-	k();
+    x();
+    y();
+    if (foo()) break;
+    z();
+    k();
 }

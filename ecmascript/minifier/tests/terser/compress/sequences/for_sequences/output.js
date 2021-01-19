@@ -5,10 +5,10 @@ for (; false; );
 x = foo in bar;
 for (y = 5; false; );
 for (
-	x = function () {
-		(foo in bar);
-	},
-		y = 5;
-	false;
+    x = function () {
+        (foo in bar);
+    },
+        y = 5;
+    false;
 
 );

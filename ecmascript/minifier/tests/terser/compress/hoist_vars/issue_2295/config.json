@@ -1,4 +1,4 @@
 {
-	"collapse_vars": true,
-	"hoist_vars": true
+    "collapse_vars": true,
+    "hoist_vars": true
 }

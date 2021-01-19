@@ -1,5 +1,5 @@
 {
-	"booleans": true,
-	"computed_props": true,
-	"evaluate": true
+    "booleans": true,
+    "computed_props": true,
+    "evaluate": true
 }

@@ -1,6 +1,6 @@
 class C {
-	Quoted() {}
-	o() {}
+    Quoted() {}
+    o() {}
 }
 f1({ Quoted() {}, o() {}, Prop: 3 });
 f2({ Quoted() {} });

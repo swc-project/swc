@@ -1,3 +1,3 @@
 !(function a() {
-	(a.foo += "") ? console.log("PASS") : console.log("FAIL");
+    (a.foo += "") ? console.log("PASS") : console.log("FAIL");
 })();

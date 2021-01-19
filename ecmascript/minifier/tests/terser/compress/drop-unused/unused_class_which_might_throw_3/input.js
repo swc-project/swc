@@ -1,11 +1,11 @@
 let x = "FAIL";
 try {
-	class X {
-		[ima_throw_lol()]() {
-			return null;
-		}
-	}
+    class X {
+        [ima_throw_lol()]() {
+            return null;
+        }
+    }
 } catch (e) {
-	x = "PASS";
+    x = "PASS";
 }
 console.log(x);

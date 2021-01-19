@@ -1,4 +1,4 @@
 {
-	"conditionals": true,
-	"negate_iife": true
+    "conditionals": true,
+    "negate_iife": true
 }

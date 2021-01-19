@@ -1,8 +1,8 @@
 function f1(x) {
-	return typeof x ? "yes" : "no";
+    return typeof x ? "yes" : "no";
 }
 function f2() {
-	return typeof g() ? "Yes" : "No";
+    return typeof g() ? "Yes" : "No";
 }
 typeof 0 ? foo() : bar();
 !typeof console.log(1);

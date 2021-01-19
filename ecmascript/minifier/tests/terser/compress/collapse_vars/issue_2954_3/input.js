@@ -1,13 +1,13 @@
 var a = "FAIL_1",
-	b;
+    b;
 try {
 } finally {
-	do {
-		b = (function () {
-			throw new Error("PASS");
-		})();
-		a = "FAIL_2";
-		b && b.c;
-	} while (0);
+    do {
+        b = (function () {
+            throw new Error("PASS");
+        })();
+        a = "FAIL_2";
+        b && b.c;
+    } while (0);
 }
 console.log(a);

@@ -1,9 +1,9 @@
 switch (
-	function () {
-		return xxx;
-	}
+    function () {
+        return xxx;
+    }
 ) {
-	case xxx:
-		if (console.log("FAIL")) function xxx() {}
-		break;
+    case xxx:
+        if (console.log("FAIL")) function xxx() {}
+        break;
 }

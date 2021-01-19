@@ -1,8 +1,8 @@
 (x = 42),
-	(function a() {})(),
-	(function b() {})(),
-	(function c() {})(),
-	(function d() {})(),
-	(function e() {})(),
-	(function f() {})(),
-	typeof (function g() {})();
+    (function a() {})(),
+    (function b() {})(),
+    (function c() {})(),
+    (function d() {})(),
+    (function e() {})(),
+    (function f() {})(),
+    typeof (function g() {})();

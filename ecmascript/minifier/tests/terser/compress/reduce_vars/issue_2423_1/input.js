@@ -1,8 +1,8 @@
 function c() {
-	return 1;
+    return 1;
 }
 function p() {
-	console.log(c());
+    console.log(c());
 }
 p();
 p();

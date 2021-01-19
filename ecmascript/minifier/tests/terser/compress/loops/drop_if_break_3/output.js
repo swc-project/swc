@@ -1,4 +1,4 @@
 for (; bar() && !foo(); ) {
-	stuff1();
-	stuff2();
+    stuff1();
+    stuff2();
 }

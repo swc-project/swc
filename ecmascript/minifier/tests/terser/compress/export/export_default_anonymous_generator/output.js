@@ -1,3 +1,3 @@
 export default function* () {
-	yield foo();
+    yield foo();
 }

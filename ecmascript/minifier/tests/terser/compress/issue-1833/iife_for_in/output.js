@@ -1,5 +1,5 @@
 !(function () {
-	!(function () {
-		L: for (var a in x) break L;
-	})();
+    !(function () {
+        L: for (var a in x) break L;
+    })();
 })();

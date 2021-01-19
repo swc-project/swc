@@ -2,5 +2,5 @@
 var foo;
 var moo;
 var x = 10,
-	y;
+    y;
 bar();

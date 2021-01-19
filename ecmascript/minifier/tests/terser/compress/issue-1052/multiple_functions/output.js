@@ -1,5 +1,5 @@
 (function () {
-	if (window);
-	function f() {}
-	function g() {}
+    if (window);
+    function f() {}
+    function g() {}
 })();

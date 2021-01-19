@@ -1,5 +1,5 @@
 {
-	"conditionals": false,
-	"if_return": true,
-	"sequences": true
+    "conditionals": false,
+    "if_return": true,
+    "sequences": true
 }

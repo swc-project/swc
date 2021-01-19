@@ -1,10 +1,10 @@
 while (a) {
-	if (b) {
-		switch (true) {
-			case c():
-				d();
-		}
-		continue;
-	}
-	f();
+    if (b) {
+        switch (true) {
+            case c():
+                d();
+        }
+        continue;
+    }
+    f();
 }

@@ -1,4 +1,4 @@
 function func() {
-	foo();
+    foo();
 }
 (func(), 1) && bar();

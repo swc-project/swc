@@ -1,4 +1,4 @@
 out: {
-	if (foo) break out;
-	console.log("bar");
+    if (foo) break out;
+    console.log("bar");
 }

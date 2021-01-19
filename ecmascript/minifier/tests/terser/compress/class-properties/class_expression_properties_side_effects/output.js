@@ -1,4 +1,4 @@
 global.side = () => {
-	console.log("PASS");
+    console.log("PASS");
 };
 side(), side(), side();

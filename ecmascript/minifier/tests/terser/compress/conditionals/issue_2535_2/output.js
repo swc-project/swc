@@ -1,6 +1,6 @@
 function x() {}
 function y() {
-	return "foo";
+    return "foo";
 }
 console.log(x() || !0);
 console.log(y() || !0);

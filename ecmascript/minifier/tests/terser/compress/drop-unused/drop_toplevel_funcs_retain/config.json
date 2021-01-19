@@ -1,5 +1,5 @@
 {
-	"top_retain": "f,a,o",
-	"toplevel": "funcs",
-	"unused": true
+    "top_retain": "f,a,o",
+    "toplevel": "funcs",
+    "unused": true
 }

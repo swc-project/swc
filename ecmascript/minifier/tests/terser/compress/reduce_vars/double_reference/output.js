@@ -1,5 +1,5 @@
 function f() {
-	(function g() {
-		g();
-	})();
+    (function g() {
+        g();
+    })();
 }

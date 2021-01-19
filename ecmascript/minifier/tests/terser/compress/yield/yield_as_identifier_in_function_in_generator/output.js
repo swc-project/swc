@@ -1,5 +1,5 @@
 var g = function* () {
-	function h() {
-		yield = 1;
-	}
+    function h() {
+        yield = 1;
+    }
 };

@@ -1,4 +1,4 @@
 var foo;
 !(function (x) {
-	console.log(x);
+    console.log(x);
 })(bar());

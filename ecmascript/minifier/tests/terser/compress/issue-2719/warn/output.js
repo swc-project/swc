@@ -1,5 +1,5 @@
 console.log(
-	(function g() {
-		return g.caller.arguments;
-	})().length
+    (function g() {
+        return g.caller.arguments;
+    })().length
 );

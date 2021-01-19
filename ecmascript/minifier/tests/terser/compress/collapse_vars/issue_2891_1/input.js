@@ -1,8 +1,8 @@
 var a = "PASS",
-	b;
+    b;
 try {
-	b = c.p = 0;
-	a = "FAIL";
-	b();
+    b = c.p = 0;
+    a = "FAIL";
+    b();
 } catch (e) {}
 console.log(a);

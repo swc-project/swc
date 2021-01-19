@@ -1,3 +1,3 @@
 function* fn() {
-	yield;
+    yield;
 }

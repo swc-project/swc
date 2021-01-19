@@ -1,4 +1,4 @@
 function func() {
-	foo();
+    foo();
 }
 if ((func(), 1)) bar();

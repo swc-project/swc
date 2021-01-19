@@ -1,7 +1,7 @@
 {
-	"conditionals": true,
-	"if_return": true,
-	"inline": true,
-	"unsafe": false,
-	"unused": true
+    "conditionals": true,
+    "if_return": true,
+    "inline": true,
+    "unsafe": false,
+    "unused": true
 }

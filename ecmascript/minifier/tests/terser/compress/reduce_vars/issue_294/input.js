@@ -1,12 +1,12 @@
 module.exports = (function (constructor) {
-	return constructor();
+    return constructor();
 })(function () {
-	return function (input) {
-		var keyToMap = input.key;
-		return {
-			mappedKey: (function (value) {
-				return value || "CONDITIONAL_DEFAULT_VALUE";
-			})(keyToMap),
-		};
-	};
+    return function (input) {
+        var keyToMap = input.key;
+        return {
+            mappedKey: (function (value) {
+                return value || "CONDITIONAL_DEFAULT_VALUE";
+            })(keyToMap),
+        };
+    };
 });

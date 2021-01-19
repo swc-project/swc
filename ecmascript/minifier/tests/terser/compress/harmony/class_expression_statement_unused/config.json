@@ -1,5 +1,5 @@
 {
-	"toplevel": false,
-	"side_effects": true,
-	"unused": true
+    "toplevel": false,
+    "side_effects": true,
+    "unused": true
 }

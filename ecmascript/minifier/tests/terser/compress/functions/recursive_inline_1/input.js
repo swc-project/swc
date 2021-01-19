@@ -1,10 +1,10 @@
 function f() {
-	h();
+    h();
 }
 function g(a) {
-	a();
+    a();
 }
 function h(b) {
-	g();
-	if (b) x();
+    g();
+    if (b) x();
 }

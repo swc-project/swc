@@ -1,5 +1,5 @@
 {
-	"dead_code": true,
-	"evaluate": true,
-	"switches": true
+    "dead_code": true,
+    "evaluate": true,
+    "switches": true
 }

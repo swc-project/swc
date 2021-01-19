@@ -1,4 +1,4 @@
 {
-	"reduce_vars": true,
-	"side_effects": true
+    "reduce_vars": true,
+    "side_effects": true
 }

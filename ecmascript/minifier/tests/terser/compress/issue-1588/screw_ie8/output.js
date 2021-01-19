@@ -1,5 +1,5 @@
 try {
-	throw "foo";
+    throw "foo";
 } catch (o) {
-	console.log(o);
+    console.log(o);
 }

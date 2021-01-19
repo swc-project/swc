@@ -1,5 +1,5 @@
 {
-	"toplevel": true,
-	"reduce_vars": true,
-	"unused": true
+    "toplevel": true,
+    "reduce_vars": true,
+    "unused": true
 }

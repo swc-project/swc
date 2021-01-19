@@ -1,4 +1,4 @@
 var f = function () {
-	return x();
+    return x();
 };
 for (;;) f();

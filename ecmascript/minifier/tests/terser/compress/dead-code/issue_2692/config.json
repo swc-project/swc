@@ -1,4 +1,4 @@
 {
-	"dead_code": true,
-	"reduce_vars": false
+    "dead_code": true,
+    "reduce_vars": false
 }

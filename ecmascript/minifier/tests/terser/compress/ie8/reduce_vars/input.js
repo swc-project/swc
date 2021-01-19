@@ -1,9 +1,9 @@
 function f() {
-	var a;
-	try {
-		x();
-	} catch (a) {
-		y();
-	}
-	alert(a);
+    var a;
+    try {
+        x();
+    } catch (a) {
+        y();
+    }
+    alert(a);
 }

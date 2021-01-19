@@ -1,7 +1,7 @@
 function foo() {
-	return bar();
+    return bar();
 }
 baz = { quux: foo };
 exec = function () {
-	return eval("foo()");
+    return eval("foo()");
 };

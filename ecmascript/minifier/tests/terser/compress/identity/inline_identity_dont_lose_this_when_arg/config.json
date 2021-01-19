@@ -1,5 +1,5 @@
 {
-	"inline": true,
-	"toplevel": true,
-	"reduce_vars": true
+    "inline": true,
+    "toplevel": true,
+    "reduce_vars": true
 }

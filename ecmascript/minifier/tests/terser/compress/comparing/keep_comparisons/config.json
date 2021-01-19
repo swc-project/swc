@@ -1,4 +1,4 @@
 {
-	"comparisons": true,
-	"unsafe_comps": false
+    "comparisons": true,
+    "unsafe_comps": false
 }

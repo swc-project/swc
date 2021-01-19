@@ -1,6 +1,6 @@
 var a,
-	b = null,
-	c = {};
+    b = null,
+    c = {};
 d;
 null.prop;
 (void 0).prop;

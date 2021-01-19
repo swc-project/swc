@@ -1,8 +1,8 @@
 {
-	"dead_code": true,
-	"loops": true,
-	"booleans": true,
-	"conditionals": true,
-	"evaluate": true,
-	"side_effects": true
+    "dead_code": true,
+    "loops": true,
+    "booleans": true,
+    "conditionals": true,
+    "evaluate": true,
+    "side_effects": true
 }

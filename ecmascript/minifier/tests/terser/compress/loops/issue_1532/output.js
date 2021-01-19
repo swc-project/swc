@@ -1,6 +1,6 @@
 function f(x, y) {
-	do {
-		if (x) break;
-		foo();
-	} while (false);
+    do {
+        if (x) break;
+        foo();
+    } while (false);
 }

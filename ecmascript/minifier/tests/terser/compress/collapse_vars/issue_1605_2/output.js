@@ -1,4 +1,4 @@
 function foo(x) {
-	return x;
+    return x;
 }
 new Object().p = 1;

@@ -1,6 +1,6 @@
 class foo {
-	bar() {
-		console.log("PROD");
-	}
+    bar() {
+        console.log("PROD");
+    }
 }
 new foo().bar();

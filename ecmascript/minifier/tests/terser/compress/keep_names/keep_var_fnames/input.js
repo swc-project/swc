@@ -1,4 +1,4 @@
 const foo = function () {
-	return "barfoo";
+    return "barfoo";
 };
 const bar = () => "foobar";

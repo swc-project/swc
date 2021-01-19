@@ -1,12 +1,12 @@
 (function (n, o = "FAIL") {
-	console.log(n);
+    console.log(n);
 })("PASS");
 (function (n, o = "PASS") {
-	console.log(o);
+    console.log(o);
 })("FAIL");
 (function (o = "PASS") {
-	console.log(o);
+    console.log(o);
 })();
 (function (n, { o: o = "FAIL" }) {
-	console.log(n);
+    console.log(n);
 })("PASS", {});

@@ -1,5 +1,5 @@
 console.log(
-	(function (c) {
-		return { x: c.a, y: c.b };
-	})(o)
+    (function (c) {
+        return { x: c.a, y: c.b };
+    })(o)
 );

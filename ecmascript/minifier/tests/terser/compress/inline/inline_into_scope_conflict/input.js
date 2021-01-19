@@ -1,14 +1,14 @@
 var mod = pass;
 const c = function c() {
-	mod();
+    mod();
 };
 const b = function b() {
-	for (;;) {
-		c();
-		break;
-	}
+    for (;;) {
+        c();
+        break;
+    }
 };
 (function () {
-	var mod = id(mod);
-	b();
+    var mod = id(mod);
+    b();
 })();

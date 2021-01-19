@@ -1,3 +1,3 @@
 (function () {
-	return {};
+    return {};
 })().x = 10;

@@ -1,6 +1,6 @@
 {
-	"dead_code": true,
-	"evaluate": true,
-	"loops": true,
-	"sequences": true
+    "dead_code": true,
+    "evaluate": true,
+    "loops": true,
+    "sequences": true
 }

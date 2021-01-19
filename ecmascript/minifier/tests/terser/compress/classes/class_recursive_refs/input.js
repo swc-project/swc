@@ -1,15 +1,15 @@
 class a {
-	set() {
-		class b {
-			set [b](c) {}
-		}
-	}
+    set() {
+        class b {
+            set [b](c) {}
+        }
+    }
 }
 class b {
-	constructor() {
-		b();
-	}
+    constructor() {
+        b();
+    }
 }
 class c {
-	[c] = 42;
+    [c] = 42;
 }

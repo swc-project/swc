@@ -1,5 +1,5 @@
 console.log(
-	(function long_name(long_name) {
-		return typeof long_name;
-	})()
+    (function long_name(long_name) {
+        return typeof long_name;
+    })()
 );

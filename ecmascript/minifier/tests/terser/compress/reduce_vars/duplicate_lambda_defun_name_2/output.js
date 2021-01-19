@@ -1,5 +1,5 @@
 console.log(
-	(function (a) {
-		return function () {}.length;
-	})()
+    (function (a) {
+        return function () {}.length;
+    })()
 );

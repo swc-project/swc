@@ -1,6 +1,6 @@
 function f() {
-	a();
-	b();
-	x = 10;
-	return;
+    a();
+    b();
+    x = 10;
+    return;
 }

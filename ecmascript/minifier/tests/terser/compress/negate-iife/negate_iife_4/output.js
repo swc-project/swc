@@ -1,8 +1,8 @@
 !(function () {
-	return t;
+    return t;
 })()
-	? console.log(false)
-	: console.log(true),
-	(function () {
-		console.log("something");
-	})();
+    ? console.log(false)
+    : console.log(true),
+    (function () {
+        console.log("something");
+    })();

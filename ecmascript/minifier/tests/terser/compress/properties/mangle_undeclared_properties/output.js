@@ -1,5 +1,5 @@
 var r = {
-	o: function () {
-		return a.t();
-	},
+    o: function () {
+        return a.t();
+    },
 };

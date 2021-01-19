@@ -1,3 +1,3 @@
 function f(a, b) {
-	return (a = x()), b(a);
+    return (a = x()), b(a);
 }

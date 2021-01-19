@@ -1,5 +1,5 @@
 {
-	"inline": true,
-	"negate_iife": true,
-	"side_effects": true
+    "inline": true,
+    "negate_iife": true,
+    "side_effects": true
 }

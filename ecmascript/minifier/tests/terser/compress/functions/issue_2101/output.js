@@ -1,6 +1,6 @@
 a = {};
 console.log(
-	(function () {
-		return this.a;
-	})() === a
+    (function () {
+        return this.a;
+    })() === a
 );

@@ -1,7 +1,7 @@
 !(function () {
-	!(function () {
-		L: do {
-			break L;
-		} while (1);
-	})();
+    !(function () {
+        L: do {
+            break L;
+        } while (1);
+    })();
 })();

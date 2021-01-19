@@ -1,7 +1,7 @@
 var a = 0,
-	b = 0;
+    b = 0;
 function f() {
-	b += a;
+    b += a;
 }
 f(f(), ++a);
 console.log(a, b);

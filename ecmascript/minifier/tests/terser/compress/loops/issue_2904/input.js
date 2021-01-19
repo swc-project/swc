@@ -1,4 +1,4 @@
 var a = 1;
 do {
-	console.log(a);
+    console.log(a);
 } while (--a);

@@ -1,3 +1,3 @@
 function foo() {
-	var { x: x, y: y } = foo;
+    var { x: x, y: y } = foo;
 }

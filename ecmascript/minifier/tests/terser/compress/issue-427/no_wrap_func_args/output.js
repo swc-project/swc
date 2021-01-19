@@ -1,6 +1,6 @@
 console.log(
-	function () {
-		return "test";
-	},
-	() => null
+    function () {
+        return "test";
+    },
+    () => null
 );

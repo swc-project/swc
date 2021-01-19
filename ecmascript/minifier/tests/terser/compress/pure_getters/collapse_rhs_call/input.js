@@ -1,6 +1,6 @@
 var o = {};
 function f() {
-	console.log("PASS");
+    console.log("PASS");
 }
 o.f = f;
 f();

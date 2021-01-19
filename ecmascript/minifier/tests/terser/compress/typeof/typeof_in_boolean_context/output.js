@@ -1,8 +1,8 @@
 function f1(x) {
-	return "yes";
+    return "yes";
 }
 function f2() {
-	return g(), "Yes";
+    return g(), "Yes";
 }
 foo();
 console.log(1);

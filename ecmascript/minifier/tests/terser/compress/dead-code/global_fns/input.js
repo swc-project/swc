@@ -21,17 +21,17 @@ TypeError(1, 2);
 unescape(1, 2);
 URIError(1, 2);
 try {
-	Function(1, 2);
+    Function(1, 2);
 } catch (e) {
-	console.log(e.name);
+    console.log(e.name);
 }
 try {
-	RegExp(1, 2);
+    RegExp(1, 2);
 } catch (e) {
-	console.log(e.name);
+    console.log(e.name);
 }
 try {
-	Array(NaN);
+    Array(NaN);
 } catch (e) {
-	console.log(e.name);
+    console.log(e.name);
 }

@@ -1,6 +1,6 @@
 console.log(
-	(function (a) {
-		arguments[0] = 2;
-		return a;
-	})(1)
+    (function (a) {
+        arguments[0] = 2;
+        return a;
+    })(1)
 );

@@ -1,5 +1,5 @@
 {
-	"reduce_vars": true,
-	"top_retain": "f",
-	"unused": true
+    "reduce_vars": true,
+    "top_retain": "f",
+    "unused": true
 }

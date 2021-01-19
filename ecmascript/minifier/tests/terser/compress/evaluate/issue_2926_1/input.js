@@ -1,3 +1,3 @@
 (function f(a) {
-	console.log(f.name.length, f.length);
+    console.log(f.name.length, f.length);
 })();

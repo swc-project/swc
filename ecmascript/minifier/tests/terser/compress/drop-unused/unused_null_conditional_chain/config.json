@@ -1,5 +1,5 @@
 {
-	"defaults": true,
-	"sequences": false,
-	"evaluate": false
+    "defaults": true,
+    "sequences": false,
+    "evaluate": false
 }

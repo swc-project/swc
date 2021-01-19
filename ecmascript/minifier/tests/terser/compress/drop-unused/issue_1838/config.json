@@ -1,5 +1,5 @@
 {
-	"join_vars": true,
-	"loops": true,
-	"unused": true
+    "join_vars": true,
+    "loops": true,
+    "unused": true
 }

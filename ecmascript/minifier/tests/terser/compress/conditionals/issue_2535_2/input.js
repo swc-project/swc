@@ -1,6 +1,6 @@
 function x() {}
 function y() {
-	return "foo";
+    return "foo";
 }
 console.log(x() || true || y());
 console.log(y() || true || x());

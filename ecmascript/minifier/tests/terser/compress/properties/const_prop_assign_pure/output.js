@@ -1,4 +1,4 @@
 function Simulator() {
-	this._aircraft = [];
+    this._aircraft = [];
 }
 x();

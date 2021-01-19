@@ -1,4 +1,4 @@
 function a([anArg]) {
-	var var1;
-	bar();
+    var var1;
+    bar();
 }

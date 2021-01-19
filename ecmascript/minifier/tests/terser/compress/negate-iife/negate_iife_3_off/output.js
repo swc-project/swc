@@ -1,5 +1,5 @@
 !(function () {
-	return t;
+    return t;
 })()
-	? console.log(false)
-	: console.log(true);
+    ? console.log(false)
+    : console.log(true);

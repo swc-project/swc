@@ -1,8 +1,8 @@
 {
-	"inline": 1,
-	"join_vars": true,
-	"reduce_vars": true,
-	"side_effects": true,
-	"passes": 2,
-	"unused": true
+    "inline": 1,
+    "join_vars": true,
+    "reduce_vars": true,
+    "side_effects": true,
+    "passes": 2,
+    "unused": true
 }

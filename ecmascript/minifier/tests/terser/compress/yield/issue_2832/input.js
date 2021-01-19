@@ -1,9 +1,9 @@
 function* gen(i) {
-	const result = yield ((x = i), -x);
-	var x;
-	console.log(x);
-	console.log(result);
-	yield 2;
+    const result = yield ((x = i), -x);
+    var x;
+    console.log(x);
+    console.log(result);
+    yield 2;
 }
 
 var x = gen(1);

@@ -1,8 +1,8 @@
 function foo(x, y) {
-	return x ? x : y;
+    return x ? x : y;
 }
 function bar() {
-	return g ? g : h;
+    return g ? g : h;
 }
 var g = 4;
 var h = 5;

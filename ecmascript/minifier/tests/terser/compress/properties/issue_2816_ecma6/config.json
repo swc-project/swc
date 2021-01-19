@@ -1,4 +1,4 @@
 {
-	"ecma": "6",
-	"join_vars": true
+    "ecma": "6",
+    "join_vars": true
 }

@@ -1,5 +1,5 @@
 var o = 42;
 with (o) {
-	var foo = "something";
+    var foo = "something";
 }
 doSomething(o);

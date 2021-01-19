@@ -1,6 +1,6 @@
 function f1(obj) {
-	return !!-+obj.LiteralProperty;
+    return !!-+obj.LiteralProperty;
 }
 function f2(obj) {
-	return ~!!-+obj.OneTwo;
+    return ~!!-+obj.OneTwo;
 }

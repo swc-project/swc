@@ -1,4 +1,4 @@
 function shouldBePure() {
-	return arguments.length;
+    return arguments.length;
 }
 shouldBePure();

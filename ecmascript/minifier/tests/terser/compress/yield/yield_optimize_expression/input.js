@@ -1,12 +1,12 @@
 function* f1() {
-	yield;
+    yield;
 }
 function* f2() {
-	yield undefined;
+    yield undefined;
 }
 function* f3() {
-	yield null;
+    yield null;
 }
 function* f4() {
-	yield* undefined;
+    yield* undefined;
 }

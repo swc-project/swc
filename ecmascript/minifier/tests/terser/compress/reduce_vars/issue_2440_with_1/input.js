@@ -1,5 +1,5 @@
 function foo() {
-	return bar();
+    return bar();
 }
 baz = { quux: foo };
 with (o) whatever();

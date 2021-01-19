@@ -1,6 +1,6 @@
 var a = 1;
 !(function () {
-	switch (a++) {
-	}
+    switch (a++) {
+    }
 })();
 console.log(a);

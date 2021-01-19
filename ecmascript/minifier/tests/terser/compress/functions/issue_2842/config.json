@@ -1,5 +1,5 @@
 {
-	"side_effects": true,
-	"reduce_vars": true,
-	"unused": true
+    "side_effects": true,
+    "reduce_vars": true,
+    "unused": true
 }

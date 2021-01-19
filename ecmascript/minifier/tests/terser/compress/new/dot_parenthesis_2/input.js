@@ -1,5 +1,5 @@
 console.log(
-	typeof new function () {
-		Math.random();
-	}.constructor()
+    typeof new function () {
+        Math.random();
+    }.constructor()
 );

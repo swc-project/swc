@@ -1,5 +1,5 @@
 out: while (foo) {
-	x();
-	y();
-	break out;
+    x();
+    y();
+    break out;
 }

@@ -1,5 +1,5 @@
 try {
-	unknown();
+    unknown();
 } catch {
-	console.log("PASS");
+    console.log("PASS");
 }

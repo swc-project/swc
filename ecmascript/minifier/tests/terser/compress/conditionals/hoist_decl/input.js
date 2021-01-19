@@ -1,7 +1,7 @@
 if (x()) {
-	var a;
-	y();
+    var a;
+    y();
 } else {
-	z();
-	var b;
+    z();
+    var b;
 }

@@ -1,5 +1,5 @@
 {
-	"conditionals": true,
-	"evaluate": false,
-	"side_effects": true
+    "conditionals": true,
+    "evaluate": false,
+    "side_effects": true
 }

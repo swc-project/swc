@@ -1,12 +1,12 @@
 function* f1() {
-	yield;
+    yield;
 }
 function* f2() {
-	yield;
+    yield;
 }
 function* f3() {
-	yield null;
+    yield null;
 }
 function* f4() {
-	yield* void 0;
+    yield* void 0;
 }

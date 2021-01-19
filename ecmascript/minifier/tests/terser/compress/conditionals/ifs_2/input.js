@@ -1,16 +1,16 @@
 if (foo) {
-	x();
+    x();
 } else if (bar) {
-	y();
+    y();
 } else if (baz) {
-	z();
+    z();
 }
 if (foo) {
-	x();
+    x();
 } else if (bar) {
-	y();
+    y();
 } else if (baz) {
-	z();
+    z();
 } else {
-	t();
+    t();
 }

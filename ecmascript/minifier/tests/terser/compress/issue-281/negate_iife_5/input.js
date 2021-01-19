@@ -1,12 +1,12 @@
 if (
-	(function () {
-		return t;
-	})()
+    (function () {
+        return t;
+    })()
 ) {
-	foo(true);
+    foo(true);
 } else {
-	bar(false);
+    bar(false);
 }
 (function () {
-	console.log("something");
+    console.log("something");
 })();

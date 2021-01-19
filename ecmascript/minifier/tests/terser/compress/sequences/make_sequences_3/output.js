@@ -1,6 +1,6 @@
 function f() {
-	return foo(), bar(), baz();
+    return foo(), bar(), baz();
 }
 function g() {
-	throw (foo(), bar(), new Error());
+    throw (foo(), bar(), new Error());
 }

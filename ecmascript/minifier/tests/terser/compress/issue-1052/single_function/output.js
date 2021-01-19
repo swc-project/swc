@@ -1,4 +1,4 @@
 (function () {
-	if (window);
-	function f() {}
+    if (window);
+    function f() {}
 })();

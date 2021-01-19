@@ -1,25 +1,25 @@
 if (foo) {
-	x();
+    x();
 } else if (bar) {
-	x();
+    x();
 } else if (baz) {
-	x();
+    x();
 }
 if (foo) {
-	x();
+    x();
 } else if (bar) {
-	x();
+    x();
 } else if (baz) {
-	x();
+    x();
 } else {
-	x();
+    x();
 }
 if (foo) {
-	x();
+    x();
 } else if (bar) {
-	x();
+    x();
 } else if (baz) {
-	x();
+    x();
 } else {
-	y();
+    y();
 }
