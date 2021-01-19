@@ -4,8 +4,8 @@
 //! them something other. Don't call methods like `visit_mut_script` nor
 //! `visit_mut_module_items`.
 
+use crate::compress::compressor;
 use crate::option::MinifyOptions;
-use crate::pass::compress::compressor;
 use crate::pass::compute_char_freq::compute_char_freq;
 use crate::pass::expand_names::name_expander;
 use crate::pass::mangle_names::name_mangler;
@@ -15,10 +15,11 @@ use swc_ecma_visit::FoldWith;
 use swc_ecma_visit::VisitMutWith;
 use timing::Timings;
 
+mod compress;
 mod debug;
 mod id;
 pub mod option;
-pub mod pass;
+mod pass;
 pub mod timing;
 mod util;
 

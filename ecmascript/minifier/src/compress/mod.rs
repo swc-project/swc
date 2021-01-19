@@ -1,6 +1,6 @@
+use crate::compress::hoist_decls::decl_hoister;
 use crate::debug::dump;
 use crate::option::CompressOptions;
-use crate::pass::compress::hoist_decls::decl_hoister;
 use crate::util::Optional;
 use drop_console::drop_console;
 use hoist_decls::DeclHoisterConfig;
