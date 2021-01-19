@@ -490,14 +490,16 @@ impl Reducer {
 
         // `cond ? true : false` => !!cond
         if lb && !rb {
-            self.negate(expr);
-            self.negate(expr);
+            self.negate(&mut cond.test);
+            self.negate(&mut cond.test);
+            *expr = *cond.test.take();
             return;
         }
 
         // `cond ? false : true` => !cond
         if !lb && rb {
-            self.negate(expr);
+            self.negate(&mut cond.test);
+            *expr = *cond.test.take();
             return;
         }
     }
