@@ -259,7 +259,7 @@ impl Reducer {
         };
 
         let separator = if e.args.is_empty() {
-            js_word!("")
+            ",".into()
         } else if e.args.len() == 1 {
             if e.args[0].spread.is_some() {
                 return;
@@ -267,6 +267,7 @@ impl Reducer {
 
             match &*e.args[0].expr {
                 Expr::Lit(Lit::Str(s)) => s.value.clone(),
+                Expr::Lit(Lit::Null(..)) => js_word!("null"),
                 _ => return,
             }
         } else {
@@ -287,10 +288,10 @@ impl Reducer {
                             v.spread.is_some()
                                 || match &*v.expr {
                                     Expr::Lit(lit) => match lit {
-                                        Lit::Str(..) | Lit::Num(..) => true,
-                                        _ => false,
+                                        Lit::Str(..) | Lit::Num(..) => false,
+                                        _ => true,
                                     },
-                                    _ => false,
+                                    _ => true,
                                 }
                         }) {
                             return;
@@ -310,21 +311,23 @@ impl Reducer {
         };
 
         let mut res = String::new();
-        for (last, elem) in arr.elems.iter().filter_map(|v| v.as_ref()).identify_last() {
-            debug_assert_eq!(elem.spread, None);
+        for (last, elem) in arr.elems.iter().identify_last() {
+            if let Some(elem) = elem {
+                debug_assert_eq!(elem.spread, None);
 
-            match &*elem.expr {
-                Expr::Lit(Lit::Str(s)) => {
-                    res.push_str(&s.value);
-                }
-                Expr::Lit(Lit::Num(n)) => {
-                    write!(res, "{}", n.value).unwrap();
-                }
-                _ => {
-                    unreachable!(
-                        "Expression {:#?} cannot be joined and it should be filtered out",
-                        elem.expr
-                    )
+                match &*elem.expr {
+                    Expr::Lit(Lit::Str(s)) => {
+                        res.push_str(&s.value);
+                    }
+                    Expr::Lit(Lit::Num(n)) => {
+                        write!(res, "{}", n.value).unwrap();
+                    }
+                    _ => {
+                        unreachable!(
+                            "Expression {:#?} cannot be joined and it should be filtered out",
+                            elem.expr
+                        )
+                    }
                 }
             }
 
