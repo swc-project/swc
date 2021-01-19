@@ -348,6 +348,9 @@ impl Reducer {
             }
         }
 
+        log::trace!("Compressing array.join()");
+
+        self.changed = true;
         *n = Expr::Lit(Lit::Str(Str {
             span: e.span,
             value: res.into(),
@@ -650,6 +653,7 @@ impl VisitMut for Reducer {
             Expr::Bin(bin) => {
                 let expr = self.optimize_lit_cmp(bin);
                 if let Some(expr) = expr {
+                    log::trace!("Optimizing: Literal comparison");
                     self.changed = true;
                     *n = expr;
                 }
