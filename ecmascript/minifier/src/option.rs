@@ -144,7 +144,11 @@ pub struct CompressOptions {
     #[serde(default)]
     #[serde(alias = "toplevel")]
     pub top_level: bool,
-    // typeofs       : !false_by_default,
+
+    #[serde(default = "true_by_default")]
+    #[serde(alias = "typeofs")]
+    pub typeofs: bool,
+
     #[serde(default)]
     #[serde(rename = "unsafe")]
     pub unsafe_passes: bool,
