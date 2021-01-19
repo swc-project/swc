@@ -81,6 +81,10 @@ impl Reducer {
         }
 
         stmts.visit_mut_children_with(self);
+        stmts.retain(|stmt| match stmt.as_stmt() {
+            Some(Stmt::Empty(..)) => false,
+            _ => true,
+        })
     }
 
     /// `a = a + 1` => `a += 1`.
@@ -350,6 +354,57 @@ impl Reducer {
             has_escape: false,
             kind: Default::default(),
         }))
+    }
+
+    fn ignore_return_value(&self, e: &mut Expr) -> Option<Expr> {
+        match e {
+            Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) => return None,
+            // Function expression cannot have a side effect.
+            Expr::Fn(_) => return None,
+
+            Expr::Paren(e) => return self.ignore_return_value(&mut e.expr),
+
+            Expr::MetaProp(_)
+            | Expr::Await(_)
+            | Expr::Call(_)
+            | Expr::New(..)
+            | Expr::Yield(_)
+            | Expr::Assign(_)
+            | Expr::PrivateName(_)
+            | Expr::Update(_) => return Some(e.take()),
+
+            // TODO: Check if it is a pure property access.
+            Expr::Member(_) => return Some(e.take()),
+
+            // Not supported. (At least at the moment)
+            Expr::JSXMember(_)
+            | Expr::JSXNamespacedName(_)
+            | Expr::JSXEmpty(_)
+            | Expr::JSXElement(_)
+            | Expr::JSXFragment(_)
+            | Expr::TsTypeAssertion(_)
+            | Expr::TsConstAssertion(_)
+            | Expr::TsNonNull(_)
+            | Expr::TsTypeCast(_)
+            | Expr::TsAs(_) => return Some(e.take()),
+
+            Expr::Array(_arr) => {}
+            Expr::Object(_) => {}
+
+            Expr::Unary(_) => {}
+            Expr::Bin(_) => {}
+            Expr::Cond(_) => {}
+            Expr::Seq(_) => {}
+            Expr::Lit(_) => {}
+            Expr::Tpl(_) => {}
+            Expr::TaggedTpl(_) => {}
+            Expr::Arrow(_) => {}
+            Expr::OptChain(_) => {}
+
+            _ => {}
+        }
+
+        Some(e.take())
     }
 }
 
@@ -622,6 +677,15 @@ impl VisitMut for Reducer {
         if n.op == op!("!") {
             self.optimize_expr_in_bool_ctx(&mut n.arg);
         }
+    }
+
+    fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
+        n.visit_mut_children_with(self);
+
+        let expr = self.ignore_return_value(&mut n.expr);
+        n.expr = expr
+            .map(Box::new)
+            .unwrap_or_else(|| Box::new(Expr::Ident(Ident::new(js_word!("undefined"), DUMMY_SP))));
     }
 }
 
