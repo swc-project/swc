@@ -3,10 +3,12 @@ use crate::util::usage::UsageAnalyzer;
 use crate::util::ValueExt;
 use fxhash::FxHashMap;
 use retain_mut::RetainMut;
+use std::fmt::Write;
 use std::mem::swap;
 use std::mem::take;
 use swc_atoms::js_word;
 use swc_atoms::JsWord;
+use swc_common::iter::IdentifyLast;
 use swc_common::pass::Repeated;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -294,7 +296,7 @@ impl Reducer {
                                 return;
                             }
 
-                            init.take();
+                            // TODO: Remove
                             return;
                         }
 
@@ -348,6 +350,100 @@ impl Reducer {
                 },
             }
         }
+    }
+
+    fn compress_array_join(&mut self, n: &mut Expr) {
+        let e = match n {
+            Expr::Call(e) => e,
+            _ => return,
+        };
+
+        let callee = match &mut e.callee {
+            ExprOrSuper::Super(_) => return,
+            ExprOrSuper::Expr(callee) => &mut **callee,
+        };
+
+        let separator = if e.args.is_empty() {
+            js_word!("")
+        } else if e.args.len() == 1 {
+            if e.args[0].spread.is_some() {
+                return;
+            }
+
+            match &*e.args[0].expr {
+                Expr::Lit(Lit::Str(s)) => s.value.clone(),
+                _ => return,
+            }
+        } else {
+            return;
+        };
+
+        let arr = match callee {
+            Expr::Member(MemberExpr {
+                obj,
+                prop,
+                computed: false,
+                ..
+            }) => match obj {
+                ExprOrSuper::Super(_) => return,
+                ExprOrSuper::Expr(obj) => match &mut **obj {
+                    Expr::Array(arr) => {
+                        if arr.elems.iter().filter_map(|v| v.as_ref()).any(|v| {
+                            v.spread.is_some()
+                                || match &*v.expr {
+                                    Expr::Lit(lit) => match lit {
+                                        Lit::Str(..) | Lit::Num(..) => true,
+                                        _ => false,
+                                    },
+                                    _ => false,
+                                }
+                        }) {
+                            return;
+                        }
+
+                        match &**prop {
+                            Expr::Ident(i) if i.sym == *"join" => {}
+                            _ => return,
+                        }
+
+                        arr
+                    }
+                    _ => return,
+                },
+            },
+            _ => return,
+        };
+
+        let mut res = String::new();
+        for (last, elem) in arr.elems.iter().filter_map(|v| v.as_ref()).identify_last() {
+            debug_assert_eq!(elem.spread, None);
+
+            match &*elem.expr {
+                Expr::Lit(Lit::Str(s)) => {
+                    res.push_str(&s.value);
+                }
+                Expr::Lit(Lit::Num(n)) => {
+                    write!(res, "{}", n.value).unwrap();
+                }
+                _ => {
+                    unreachable!(
+                        "Expression {:#?} cannot be joined and it should be filtered out",
+                        elem.expr
+                    )
+                }
+            }
+
+            if !last {
+                res.push_str(&separator);
+            }
+        }
+
+        *n = Expr::Lit(Lit::Str(Str {
+            span: e.span,
+            value: res.into(),
+            has_escape: false,
+            kind: Default::default(),
+        }))
     }
 }
 
@@ -497,6 +593,8 @@ impl VisitMut for Reducer {
             }
             _ => {}
         }
+
+        self.compress_array_join(n);
     }
 
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
