@@ -391,8 +391,6 @@ impl Reducer {
             Expr::Array(_arr) => {}
             Expr::Object(_) => {}
 
-            Expr::Unary(UnaryExpr { span, op, arg }) => {}
-
             Expr::Bin(BinExpr {
                 span, left, right, ..
             }) => {
@@ -408,7 +406,7 @@ impl Reducer {
 
             Expr::Cond(_) => {}
             Expr::Seq(seq) => {
-                if seq.is_empty() {
+                if seq.exprs.is_empty() {
                     return None;
                 }
                 //
