@@ -391,10 +391,26 @@ impl Reducer {
             Expr::Array(_arr) => {}
             Expr::Object(_) => {}
 
-            Expr::Unary(_) => {}
-            Expr::Bin(_) => {}
+            Expr::Unary(UnaryExpr { span, op, arg }) => {}
+
+            Expr::Bin(BinExpr {
+                span, left, right, ..
+            }) => {
+                let left = self.ignore_return_value(&mut **left).map(Box::new);
+                let right = self.ignore_return_value(&mut **right).map(Box::new);
+
+                let mut seq = Expr::Seq(SeqExpr {
+                    span: *span,
+                    exprs: left.into_iter().chain(right).collect(),
+                });
+                return self.ignore_return_value(&mut seq);
+            }
+
             Expr::Cond(_) => {}
             Expr::Seq(seq) => {
+                if seq.is_empty() {
+                    return None;
+                }
                 //
                 let exprs = seq
                     .exprs
