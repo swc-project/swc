@@ -79,6 +79,7 @@ fn terser_compress(input: PathBuf) {
             let expected = parser.parse_module().map_err(|err| {
                 err.into_diagnostic(&handler).emit();
             })?;
+            let expected = expected.fold_with(&mut fixer(None));
             print(cm.clone(), &[expected])
         };
 
