@@ -71,10 +71,11 @@ impl Reducer {
             },
 
             Expr::Lit(Lit::Str(s)) => {
-                Box::new(Expr::Lit(Lit::Num(Number {
+                self.changed = true;
+                *n = Expr::Lit(Lit::Num(Number {
                     span: s.span,
                     value: if s.value.is_empty() { 1.0 } else { 0.0 },
-                })));
+                }));
             }
 
             _ => {}
