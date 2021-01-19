@@ -569,8 +569,6 @@ impl VisitMut for Reducer {
             _ => {}
         }
 
-        self.handle_negated_seq(n);
-
         if !self.inline_prevented {
             match n {
                 Expr::Ident(i) => {
@@ -618,6 +616,7 @@ impl VisitMut for Reducer {
             _ => {}
         }
 
+        self.handle_negated_seq(n);
         self.compress_array_join(n);
     }
 
