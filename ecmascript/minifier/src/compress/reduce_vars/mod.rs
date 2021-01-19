@@ -539,6 +539,24 @@ impl VisitMut for Reducer {
         }
     }
 
+    fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
+        n.visit_mut_children_with(self);
+
+        let exprs = n
+            .exprs
+            .iter_mut()
+            .identify_last()
+            .filter_map(|(last, expr)| {
+                if !last {
+                    self.ignore_return_value(&mut **expr).map(Box::new)
+                } else {
+                    Some(expr.take())
+                }
+            })
+            .collect::<Vec<_>>();
+        n.exprs = exprs;
+    }
+
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         n.visit_mut_children_with(self);
         // Normalize
