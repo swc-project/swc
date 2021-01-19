@@ -271,6 +271,50 @@ impl Reducer {
         e.right = right.take();
         // Now we can compress it to an assigment
     }
+
+    fn store_var_for_inining(&mut self, var: &mut VarDeclarator) {
+        let init = match &mut var.init {
+            Some(v) => v,
+            None => return,
+        };
+
+        // TODO: Check for side effect between original decl position and inlined
+        // position
+
+        // We will inline if possible.
+        match &var.name {
+            Pat::Ident(i) => {
+                // Store variables if it's used only once
+                if let Some(data) = &mut self.data {
+                    if let Some(usage) = data.vars.get(&i.to_id()) {
+                        // No use => doppred
+                        if usage.ref_count == 0 {
+                            if init.may_have_side_effects() {
+                                // TODO: Inline partially
+                                return;
+                            }
+
+                            init.take();
+                            return;
+                        }
+
+                        // Single use => inlined
+                        if usage.ref_count == 1 {
+                            if init.may_have_side_effects() {
+                                // TODO: Inline partially
+                                return;
+                            }
+
+                            self.vars.insert(i.to_id(), init.take());
+                            return;
+                        }
+                    }
+                }
+            }
+            // TODO
+            _ => {}
+        }
+    }
 }
 
 impl VisitMut for Reducer {
@@ -389,7 +433,7 @@ impl VisitMut for Reducer {
     fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
         var.visit_mut_children_with(self);
 
-        // We will inline if possible.
+        self.store_var_for_inining(var);
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
