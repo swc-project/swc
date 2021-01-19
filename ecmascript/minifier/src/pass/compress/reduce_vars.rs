@@ -534,6 +534,36 @@ impl VisitMut for Reducer {
             }
         }
     }
+
+    fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
+        n.visit_mut_children_with(self);
+
+        match &n.value {
+            Some(value) => {
+                if is_pure_undefind(&value) {
+                    n.value = None;
+                }
+            }
+            _ => {}
+        }
+    }
+}
+
+fn is_pure_undefind(e: &Expr) -> bool {
+    match e {
+        Expr::Ident(Ident {
+            sym: js_word!("undefined"),
+            ..
+        }) => true,
+
+        Expr::Unary(UnaryExpr {
+            op: UnaryOp::Void,
+            arg,
+            ..
+        }) if !arg.may_have_side_effects() => true,
+
+        _ => false,
+    }
 }
 
 fn is_clone_cheap(arg: &Expr) -> bool {
