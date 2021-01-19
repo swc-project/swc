@@ -657,6 +657,8 @@ impl VisitMut for Reducer {
 
         self.handle_negated_seq(n);
         self.compress_array_join(n);
+
+        self.optimize_bangbang(n);
     }
 
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {

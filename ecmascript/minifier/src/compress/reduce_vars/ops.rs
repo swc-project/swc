@@ -28,6 +28,31 @@ impl Reducer {
         None
     }
 
+    /// `!!(a in b)` => `a in b`
+    pub(super) fn optimize_bangbang(&mut self, e: &mut Expr) {
+        match e {
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) => match &mut **arg {
+                Expr::Unary(UnaryExpr {
+                    op: op!("!"), arg, ..
+                }) => match &**arg {
+                    Expr::Bin(BinExpr { op: op!("in"), .. })
+                    | Expr::Bin(BinExpr {
+                        op: op!("instanceof"),
+                        ..
+                    }) => {
+                        *e = *arg.take();
+                        return;
+                    }
+                    _ => {}
+                },
+                _ => {}
+            },
+            _ => {}
+        }
+    }
+
     /// This method converts `!1` to `0`.
     pub(super) fn optimize_expr_in_bool_ctx(&mut self, n: &mut Expr) {
         match n {
@@ -120,7 +145,7 @@ impl Reducer {
                     ..
                 }) => {
                     *e = *arg.take();
-                    return
+                    return;
                 }
                 _ => {}
             },
