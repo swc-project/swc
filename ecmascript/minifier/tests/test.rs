@@ -39,11 +39,9 @@ fn is_ignored(path: &Path) -> bool {
 
     if let Ok(one) = env::var("GOLDEN") {
         if one == "1" {
-            if GOLDEN.iter().any(|golden| s.contains(&**golden)) {
-                return false;
+            if GOLDEN.iter().all(|golden| !s.contains(&**golden)) {
+                return true;
             }
-
-            return true;
         }
     }
 
