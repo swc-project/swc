@@ -132,11 +132,15 @@ impl VisitMut for Compressor<'_> {
             self.changed |= visitor.changed();
         }
 
+        eprintln!("reduce_var\n{}", dump(&*n));
+
         if self.options.conditionals || self.options.dead_code {
             let mut v = dead_branch_remover();
             n.map_with_mut(|n| n.fold_with(&mut v));
             self.changed |= v.changed();
         }
+
+        eprintln!("dead_branch_remover\n{}", dump(&*n));
 
         n.visit_mut_children_with(self);
     }

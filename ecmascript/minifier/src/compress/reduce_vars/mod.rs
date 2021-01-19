@@ -368,6 +368,7 @@ impl Reducer {
         match lit {
             Lit::Bool(v) => {
                 self.changed = true;
+                log::trace!("Compressing boolean literal");
                 *e = Expr::Unary(UnaryExpr {
                     span: v.span,
                     op: op!("!"),
@@ -526,6 +527,7 @@ impl VisitMut for Reducer {
 
                 if can_remove_ident {
                     self.changed = true;
+                    log::trace!("Removing ident of a function expression");
                     e.ident = None;
                 }
             }
@@ -724,6 +726,7 @@ impl VisitMut for Reducer {
                 //
                 if !expr.may_have_side_effects() {
                     self.changed = true;
+                    log::trace!("Dropping an expression without side effect");
                     *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP })
                 }
             }
