@@ -358,7 +358,7 @@ impl Reducer {
 
     fn ignore_return_value(&self, e: &mut Expr) -> Option<Expr> {
         match e {
-            Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) => return None,
+            Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => return None,
             // Function expression cannot have a side effect.
             Expr::Fn(_) => return None,
 
@@ -394,8 +394,23 @@ impl Reducer {
             Expr::Unary(_) => {}
             Expr::Bin(_) => {}
             Expr::Cond(_) => {}
-            Expr::Seq(_) => {}
-            Expr::Lit(_) => {}
+            Expr::Seq(seq) => {
+                //
+                let exprs = seq
+                    .exprs
+                    .iter_mut()
+                    .filter_map(|expr| self.ignore_return_value(&mut **expr))
+                    .map(Box::new)
+                    .collect::<Vec<_>>();
+                if seq.exprs.len() <= 1 {
+                    return seq.exprs.pop().map(|v| *v);
+                } else {
+                    return Some(Expr::Seq(SeqExpr {
+                        span: seq.span,
+                        exprs,
+                    }));
+                }
+            }
             Expr::Tpl(_) => {}
             Expr::TaggedTpl(_) => {}
             Expr::Arrow(_) => {}
