@@ -207,6 +207,7 @@ impl Reducer {
             _ => return,
         };
 
+        self.changed = true;
         e.op = op;
         e.right = left.take();
     }
@@ -230,5 +231,17 @@ impl Reducer {
             }
             _ => {}
         }
+    }
+
+    /// Remove meaningless literals in a binary expressions.
+    ///
+    ///
+    /// # Examples
+    /// - `x() && true` => `!!x()`
+    pub(super) fn optimize_logical_exprs(&mut self, e: &mut Expr) {
+        let bin = match e {
+            Expr::Bin(bin) => bin,
+            _ => return,
+        };
     }
 }

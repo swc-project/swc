@@ -622,6 +622,8 @@ impl VisitMut for Reducer {
 
         self.compress_lits(n);
 
+        self.optimize_logical_exprs(n);
+
         self.compress_useless_cond_expr(n);
 
         if !self.inline_prevented {
