@@ -84,7 +84,6 @@ pub struct CompressOptions {
     // ecma          : 5,
     #[serde(default = "true_by_default")]
     #[serde(alias = "evaluate")]
-    #[deprecated = "Not used. Exists only for api compatibility with terser."]
     pub evaluate: bool,
 
     // expression    : false,
@@ -124,7 +123,6 @@ pub struct CompressOptions {
     // pure_funcs    : null,
     #[serde(default)]
     #[serde(alias = "reduce_funcs")]
-    #[deprecated = "Not used. Exists only for api compatibility with terser."]
     pub reduce_fns: bool,
     #[serde(default)]
     #[serde(alias = "reduce_vars")]
