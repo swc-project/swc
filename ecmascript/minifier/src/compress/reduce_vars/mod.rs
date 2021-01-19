@@ -292,7 +292,7 @@ impl Reducer {
                             v.spread.is_some()
                                 || match &*v.expr {
                                     Expr::Lit(lit) => match lit {
-                                        Lit::Str(..) | Lit::Num(..) => false,
+                                        Lit::Str(..) | Lit::Num(..) | Lit::Null(..) => false,
                                         _ => true,
                                     },
                                     _ => true,
@@ -326,6 +326,7 @@ impl Reducer {
                     Expr::Lit(Lit::Num(n)) => {
                         write!(res, "{}", n.value).unwrap();
                     }
+                    Expr::Lit(Lit::Null(..)) => {}
                     _ => {
                         unreachable!(
                             "Expression {:#?} cannot be joined and it should be filtered out",
