@@ -33,6 +33,7 @@ pub(super) fn var_reducer(config: ReducerConfig) -> impl VisitMut + Repeated {
         lits: Default::default(),
         vars: Default::default(),
         simple_props: Default::default(),
+        simple_array_values: Default::default(),
         data: Default::default(),
         inline_prevented: false,
     }
@@ -46,6 +47,7 @@ struct Reducer {
     lits: FxHashMap<Id, Box<Expr>>,
     vars: FxHashMap<Id, Box<Expr>>,
     simple_props: FxHashMap<(Id, JsWord), Box<Expr>>,
+    simple_array_values: FxHashMap<(Id, usize), Box<Expr>>,
     data: Option<ScopeData>,
     inline_prevented: bool,
 }
