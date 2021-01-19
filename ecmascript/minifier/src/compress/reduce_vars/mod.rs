@@ -15,6 +15,7 @@ use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::Id;
 use swc_ecma_utils::StmtLike;
+use swc_ecma_utils::Value;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
@@ -466,6 +467,40 @@ impl Reducer {
 
         Some(e.take())
     }
+
+    ///
+    /// - `a ? true : false` => `!!a`
+    fn compress_useless_cond_expr(&mut self, expr: &mut Expr) {
+        let cond = match expr {
+            Expr::Cond(c) => c,
+            _ => return,
+        };
+
+        let lb = cond.cons.as_pure_bool();
+        let rb = cond.alt.as_pure_bool();
+
+        let lb = match lb {
+            Value::Known(v) => v,
+            Value::Unknown => return,
+        };
+        let rb = match rb {
+            Value::Known(v) => v,
+            Value::Unknown => return,
+        };
+
+        // `cond ? true : false` => !!cond
+        if lb && !rb {
+            self.negate(expr);
+            self.negate(expr);
+            return;
+        }
+
+        // `cond ? false : true` => !cond
+        if !lb && rb {
+            self.negate(expr);
+            return;
+        }
+    }
 }
 
 impl VisitMut for Reducer {
@@ -584,6 +619,8 @@ impl VisitMut for Reducer {
         }
 
         self.compress_lits(n);
+
+        self.compress_useless_cond_expr(n);
 
         if !self.inline_prevented {
             match n {

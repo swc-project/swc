@@ -95,9 +95,28 @@ impl Reducer {
         }
     }
 
+    /// Creates `!e` where e is the expression passed as an argument.
+    ///
+    /// # Note
+    ///
+    /// This method returns `!e` if `!!e` is given as a argument.
+    ///
     /// TODO: Handle special cases like !1 or !0
-    fn negate_as_bool(&mut self, e: &mut Expr) {
+    pub(super) fn negate(&mut self, e: &mut Expr) {
         let arg = Box::new(e.take());
+
+        match e {
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) => match &mut **arg {
+                Expr::Unary(UnaryExpr { op: op!("!"), .. }) => {
+                    *e = *arg.take();
+                    return;
+                }
+                _ => {}
+            },
+            _ => {}
+        }
 
         *e = Expr::Unary(UnaryExpr {
             span: DUMMY_SP,
@@ -119,7 +138,7 @@ impl Reducer {
                             let last = exprs.last_mut().unwrap();
                             self.optimize_expr_in_bool_ctx(last);
                             // Negate last element.
-                            self.negate_as_bool(last);
+                            self.negate(last);
                         }
 
                         *n = *e.arg.take();
