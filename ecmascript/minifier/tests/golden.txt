@@ -33,6 +33,7 @@ classes/class_duplication/input.js
 classes/class_duplication_2/input.js
 collapse_vars/cascade_if_2/input.js
 collapse_vars/cascade_return/input.js
+collapse_vars/collapse_rhs_conditional_1/input.js
 collapse_vars/collapse_rhs_conditional_2/input.js
 collapse_vars/collapse_rhs_lhs_1/input.js
 collapse_vars/cond_branch_switch/input.js
@@ -48,6 +49,7 @@ collapse_vars/issue_2873_1/input.js
 collapse_vars/issue_2873_2/input.js
 collapse_vars/issue_2891_1/input.js
 collapse_vars/issue_2908/input.js
+collapse_vars/issue_2954_1/input.js
 collapse_vars/may_throw_1/input.js
 collapse_vars/reassign_const_1/input.js
 collapse_vars/reassign_const_2/input.js
@@ -283,6 +285,8 @@ reduce_vars/array_forin_2/input.js
 reduce_vars/array_forof_1/input.js
 reduce_vars/array_forof_2/input.js
 reduce_vars/booleans/input.js
+reduce_vars/conditional_nested_2/input.js
+reduce_vars/conditional_nested_3/input.js
 reduce_vars/const_expr_1/input.js
 reduce_vars/defun_assign/input.js
 reduce_vars/defun_catch_1/input.js
@@ -290,6 +294,7 @@ reduce_vars/defun_catch_2/input.js
 reduce_vars/defun_catch_3/input.js
 reduce_vars/defun_catch_6/input.js
 reduce_vars/delay_def_lhs/input.js
+reduce_vars/do_while/input.js
 reduce_vars/for_in_prop/input.js
 reduce_vars/iife_eval_1/input.js
 reduce_vars/inner_var_catch/input.js
@@ -328,6 +333,7 @@ sequences/func_def_2/input.js
 sequences/func_def_5/input.js
 sequences/lift_sequences_4/input.js
 sequences/side_effects/input.js
+sequences/side_effects_cascade_2/input.js
 string_literal/octal_escape_sequence/input.js
 super/super_can_be_parsed/input.js
 switch/beautify/input.js
