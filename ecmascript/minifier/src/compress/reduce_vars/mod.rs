@@ -397,6 +397,40 @@ impl Reducer {
                 op: op!("delete"), ..
             }) => return Some(e.take()),
 
+            // We optimize binary expressions if operation is side-effect-free and lhs and rhs is
+            // evaluated regardless of value of lhs.
+            //
+            // Div is exlcuded because of zero.
+            // TOOD: Handle
+            Expr::Bin(BinExpr { op, .. })
+                if match op {
+                    BinaryOp::EqEq
+                    | BinaryOp::NotEq
+                    | BinaryOp::EqEqEq
+                    | BinaryOp::NotEqEq
+                    | BinaryOp::Lt
+                    | BinaryOp::LtEq
+                    | BinaryOp::Gt
+                    | BinaryOp::GtEq
+                    | BinaryOp::LShift
+                    | BinaryOp::RShift
+                    | BinaryOp::ZeroFillRShift
+                    | BinaryOp::Add
+                    | BinaryOp::Sub
+                    | BinaryOp::Mul
+                    | BinaryOp::Mod
+                    | BinaryOp::BitOr
+                    | BinaryOp::BitXor
+                    | BinaryOp::BitAnd
+                    | BinaryOp::In
+                    | BinaryOp::InstanceOf
+                    | BinaryOp::Exp => false,
+                    _ => true,
+                } =>
+            {
+                return Some(e.take())
+            }
+
             Expr::MetaProp(_)
             | Expr::Await(_)
             | Expr::Call(_)
