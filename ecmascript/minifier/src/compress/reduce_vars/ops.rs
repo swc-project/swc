@@ -1,5 +1,6 @@
 use super::Reducer;
 use crate::util::ValueExt;
+use std::mem::swap;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -189,5 +190,26 @@ impl Reducer {
 
         e.op = op;
         e.right = left.take();
+    }
+
+    pub(super) fn swap_bin_operands(&mut self, expr: &mut Expr) {
+        // Swap lhs and rhs in certain conditions.
+        match expr {
+            Expr::Bin(test) => {
+                match test.op {
+                    op!("==") | op!("!=") => {}
+                    _ => return,
+                }
+
+                match (&*test.left, &*test.right) {
+                    (&Expr::Ident(..), &Expr::Lit(..)) => {
+                        self.changed = true;
+                        swap(&mut test.left, &mut test.right);
+                    }
+                    _ => {}
+                }
+            }
+            _ => {}
+        }
     }
 }

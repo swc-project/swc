@@ -3,7 +3,6 @@ use crate::util::usage::UsageAnalyzer;
 use fxhash::FxHashMap;
 use retain_mut::RetainMut;
 use std::fmt::Write;
-use std::mem::swap;
 use std::mem::take;
 use swc_atoms::js_word;
 use swc_atoms::JsWord;
@@ -519,17 +518,7 @@ impl VisitMut for Reducer {
     fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
         n.visit_mut_children_with(self);
 
-        // Swap lhs and rhs in certain conditions.
-        match &mut *n.test {
-            Expr::Bin(test) => match (&*test.left, &*test.right) {
-                (&Expr::Ident(..), &Expr::Lit(..)) => {
-                    self.changed = true;
-                    swap(&mut test.left, &mut test.right);
-                }
-                _ => {}
-            },
-            _ => {}
-        }
+        self.swap_bin_operands(&mut n.test);
 
         self.optimize_expr_in_bool_ctx(&mut n.test);
     }
