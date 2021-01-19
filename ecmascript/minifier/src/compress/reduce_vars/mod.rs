@@ -213,6 +213,7 @@ impl Reducer {
         }
     }
 
+    /// Inlines function call.
     fn inline_fn_call(&mut self, n: &mut CallExpr) {
         let has_spread_arg = n.args.iter().any(|v| v.spread.is_some());
 
@@ -381,14 +382,11 @@ impl VisitMut for Reducer {
         e.visit_mut_children_with(self);
     }
 
-    /// Inlines function call.
     fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
         n.callee.visit_mut_with(self);
 
-        let old = self.inline_prevented;
-        self.inline_prevented = true;
+        // TODO: Prevent inline if callee is unknown.
         n.args.visit_mut_with(self);
-        self.inline_prevented = old;
 
         self.inline_fn_call(n);
     }
@@ -439,6 +437,15 @@ impl VisitMut for Reducer {
         var.visit_mut_children_with(self);
 
         self.store_var_for_inining(var);
+        match &var.init {
+            Some(init) => match &**init {
+                Expr::Invalid(..) => {
+                    var.init = None;
+                }
+                _ => {}
+            },
+            _ => {}
+        }
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
