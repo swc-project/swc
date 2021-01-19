@@ -16,6 +16,7 @@ impl Reducer {
 
                 let value = if n.op == op!("==") { l == r } else { l != r };
 
+                log::trace!("Optimizing: literal comparison => bool");
                 self.changed = true;
                 return Some(Expr::Lit(Lit::Bool(Bool {
                     span: n.span,
@@ -50,6 +51,7 @@ impl Reducer {
                     | Expr::Bin(BinExpr { op: op!("<"), .. })
                     | Expr::Bin(BinExpr { op: op!(">="), .. })
                     | Expr::Bin(BinExpr { op: op!(">"), .. }) => {
+                        log::trace!("Optimizing: `!!bool` => `bool`");
                         *e = *arg.take();
                         return;
                     }
@@ -70,6 +72,8 @@ impl Reducer {
                 arg,
             }) => match &**arg {
                 Expr::Lit(Lit::Num(Number { value, .. })) => {
+                    log::trace!("Optimizing: number => number (in book context)");
+
                     self.changed = true;
                     *n = Expr::Lit(Lit::Num(Number {
                         span: *span,
@@ -83,29 +87,34 @@ impl Reducer {
                 span,
                 op: op!("typeof"),
                 arg,
-            }) => match &**arg {
-                Expr::Ident(..) => {
-                    self.changed = true;
-                    *n = Expr::Lit(Lit::Num(Number {
-                        span: *span,
-                        value: 1.0,
-                    }))
+            }) => {
+                log::trace!("Optimizing: typeof => true (in book context)");
+
+                match &**arg {
+                    Expr::Ident(..) => {
+                        self.changed = true;
+                        *n = Expr::Lit(Lit::Num(Number {
+                            span: *span,
+                            value: 1.0,
+                        }))
+                    }
+                    _ => {
+                        // Return value of typeof is always truthy
+                        let true_expr = Box::new(Expr::Lit(Lit::Num(Number {
+                            span: *span,
+                            value: 1.0,
+                        })));
+                        self.changed = true;
+                        *n = Expr::Seq(SeqExpr {
+                            span: *span,
+                            exprs: vec![arg.take(), true_expr],
+                        })
+                    }
                 }
-                _ => {
-                    // Return value of typeof is always truthy
-                    let true_expr = Box::new(Expr::Lit(Lit::Num(Number {
-                        span: *span,
-                        value: 1.0,
-                    })));
-                    self.changed = true;
-                    *n = Expr::Seq(SeqExpr {
-                        span: *span,
-                        exprs: vec![arg.take(), true_expr],
-                    })
-                }
-            },
+            }
 
             Expr::Lit(Lit::Str(s)) => {
+                log::debug!("Converting string as boolean expressions");
                 self.changed = true;
                 *n = Expr::Lit(Lit::Num(Number {
                     span: s.span,
@@ -118,6 +127,7 @@ impl Reducer {
                     return;
                 }
 
+                log::debug!("Converting number as boolean expressions");
                 self.changed = true;
                 *n = Expr::Lit(Lit::Num(Number {
                     span: num.span,
@@ -137,6 +147,7 @@ impl Reducer {
     ///
     /// TODO: Handle special cases like !1 or !0
     pub(super) fn negate(&mut self, e: &mut Expr) {
+        self.changed = true;
         let arg = Box::new(e.take());
 
         match e {
@@ -144,6 +155,7 @@ impl Reducer {
                 op: op!("!"), arg, ..
             }) => match &mut **arg {
                 Expr::Unary(UnaryExpr { op: op!("!"), .. }) => {
+                    log::trace!("negate: !!bool => !bool");
                     *e = *arg.take();
                     return;
                 }
@@ -152,6 +164,7 @@ impl Reducer {
                     op: op!("instanceof"),
                     ..
                 }) => {
+                    log::trace!("negate: !bool => bool");
                     *e = *arg.take();
                     return;
                 }
@@ -159,6 +172,8 @@ impl Reducer {
             },
             _ => {}
         }
+
+        log::trace!("negate: e => !e");
 
         *e = Expr::Unary(UnaryExpr {
             span: DUMMY_SP,
@@ -249,6 +264,8 @@ impl Reducer {
             _ => return,
         };
 
+        log::trace!("Compressing: `e = 3 & e` => `e &= 3`");
+
         self.changed = true;
         e.op = op;
         e.right = left.take();
@@ -266,6 +283,7 @@ impl Reducer {
                 match (&*test.left, &*test.right) {
                     (&Expr::Ident(..), &Expr::Lit(..)) => {
                         self.changed = true;
+                        log::trace!("Swapping operands of binary exprssion");
                         swap(&mut test.left, &mut test.right);
                     }
                     _ => {}
@@ -294,6 +312,8 @@ impl Reducer {
                     Value::Known(v) => v,
                     _ => return,
                 };
+
+                log::trace!("Optimizing: e && true => !!e");
 
                 if rb {
                     self.negate(&mut bin.left);
