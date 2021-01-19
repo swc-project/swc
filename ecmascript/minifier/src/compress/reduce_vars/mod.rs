@@ -291,6 +291,7 @@ impl Reducer {
                         if arr.elems.iter().filter_map(|v| v.as_ref()).any(|v| {
                             v.spread.is_some()
                                 || match &*v.expr {
+                                    e if is_pure_undefind(e) => false,
                                     Expr::Lit(lit) => match lit {
                                         Lit::Str(..) | Lit::Num(..) | Lit::Null(..) => false,
                                         _ => true,
@@ -326,6 +327,7 @@ impl Reducer {
                     Expr::Lit(Lit::Num(n)) => {
                         write!(res, "{}", n.value).unwrap();
                     }
+                    e if is_pure_undefind(e) => {}
                     Expr::Lit(Lit::Null(..)) => {}
                     _ => {
                         unreachable!(
