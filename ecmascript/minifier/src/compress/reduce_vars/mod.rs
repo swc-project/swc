@@ -494,6 +494,7 @@ impl VisitMut for Reducer {
     fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
         n.visit_mut_children_with(self);
 
+        // Swap lhs and rhs in certain conditions.
         match &mut *n.test {
             Expr::Bin(test) => match (&*test.left, &*test.right) {
                 (&Expr::Ident(..), &Expr::Lit(..)) => {

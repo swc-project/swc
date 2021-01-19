@@ -13,11 +13,14 @@ use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeat;
 use swc_common::pass::Repeated;
 use swc_ecma_ast::*;
+use swc_ecma_transforms::optimization::simplify::dead_branch_remover;
 use swc_ecma_transforms::optimization::simplify::expr_simplifier;
 use swc_ecma_transforms::pass::JsPass;
+use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::as_folder;
 use swc_ecma_visit::noop_visit_mut_type;
+use swc_ecma_visit::FoldWith;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
@@ -127,6 +130,12 @@ impl VisitMut for Compressor<'_> {
             });
             n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
+        }
+
+        if self.options.conditionals {
+            let mut v = dead_branch_remover();
+            n.map_with_mut(|n| n.fold_with(&mut v));
+            self.changed |= v.changed();
         }
 
         n.visit_mut_children_with(self);

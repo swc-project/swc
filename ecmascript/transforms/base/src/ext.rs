@@ -284,6 +284,12 @@ impl MapWithMut for Class {
             type_params: Default::default(),
             super_type_params: Default::default(),
             implements: Default::default(),
+impl MapWithMut for Module {
+    fn dummy() -> Self {
+        Module {
+            span: DUMMY_SP,
+            body: vec![],
+            shebang: None,
         }
     }
 }
