@@ -356,6 +356,30 @@ impl Reducer {
         }))
     }
 
+    ///
+    /// - `true` => ``
+    /// - `` => ``
+    fn compress_lits(&mut self, e: &mut Expr) {
+        let lit = match e {
+            Expr::Lit(lit) => lit,
+            _ => return,
+        };
+
+        match lit {
+            Lit::Bool(v) => {
+                *e = Expr::Unary(UnaryExpr {
+                    span: v.span,
+                    op: op!("!"),
+                    arg: Box::new(Expr::Lit(Lit::Num(Number {
+                        span: v.span,
+                        value: if v.value { 0.0 } else { 1.0 },
+                    }))),
+                });
+            }
+            _ => {}
+        }
+    }
+
     fn ignore_return_value(&self, e: &mut Expr) -> Option<Expr> {
         match e {
             Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => return None,
@@ -568,6 +592,8 @@ impl VisitMut for Reducer {
             }
             _ => {}
         }
+
+        self.compress_lits(n);
 
         if !self.inline_prevented {
             match n {
