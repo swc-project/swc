@@ -364,6 +364,10 @@ impl Reducer {
 
             Expr::Paren(e) => return self.ignore_return_value(&mut e.expr),
 
+            Expr::Unary(UnaryExpr {
+                op: op!("delete"), ..
+            }) => return Some(e.take()),
+
             Expr::MetaProp(_)
             | Expr::Await(_)
             | Expr::Call(_)
@@ -390,6 +394,9 @@ impl Reducer {
 
             Expr::Array(_arr) => {}
             Expr::Object(_) => {}
+
+            // `delete` is handled above
+            Expr::Unary(expr) => return self.ignore_return_value(&mut expr.arg),
 
             Expr::Bin(BinExpr {
                 span, left, right, ..
