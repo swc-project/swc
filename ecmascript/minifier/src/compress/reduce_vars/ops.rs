@@ -74,7 +74,7 @@ impl Reducer {
                 self.changed = true;
                 *n = Expr::Lit(Lit::Num(Number {
                     span: s.span,
-                    value: if s.value.is_empty() { 1.0 } else { 0.0 },
+                    value: if s.value.is_empty() { 0.0 } else { 1.0 },
                 }));
             }
 
