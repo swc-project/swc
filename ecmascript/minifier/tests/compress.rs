@@ -93,7 +93,9 @@ pub struct TestOptions {
     pub drop_console: bool,
 
     // drop_debugger : !false_by_default,
-    // ecma          : 5,
+    #[serde(default = "ecma_default")]
+    pub ecma: usize,
+
     #[serde(default)]
     pub evaluate: bool,
 
@@ -165,6 +167,10 @@ pub struct TestOptions {
     pub unused: bool,
 }
 
+fn ecma_default() -> usize {
+    5
+}
+
 fn parse_config(s: &str) -> CompressOptions {
     let c: TestOptions =
         serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
@@ -183,6 +189,7 @@ fn parse_config(s: &str) -> CompressOptions {
         directives: c.directives,
         expr: c.expression,
         drop_console: c.drop_console,
+        ecma: c.ecma,
         evaluate: c.evaluate,
         hoist_fns: c.hoist_funs,
         hoist_props: c.hoist_props,

@@ -83,7 +83,9 @@ pub struct CompressOptions {
     pub drop_console: bool,
 
     // drop_debugger : !false_by_default,
-    // ecma          : 5,
+    #[serde(default = "default_ecma")]
+    pub ecma: usize,
+
     #[serde(default = "true_by_default")]
     #[serde(alias = "evaluate")]
     pub evaluate: bool,
@@ -172,6 +174,10 @@ const fn true_by_default() -> bool {
 }
 
 const fn one_by_default() -> usize {
+    1
+}
+
+const fn default_ecma() -> usize {
     1
 }
 
