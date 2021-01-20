@@ -25,6 +25,7 @@ use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
 
 mod ops;
+mod util;
 
 /// Merge varaibles.
 pub(super) fn var_reducer(options: CompressOptions) -> impl VisitMut + Repeated {
@@ -36,10 +37,16 @@ pub(super) fn var_reducer(options: CompressOptions) -> impl VisitMut + Repeated 
         simple_props: Default::default(),
         simple_array_values: Default::default(),
         data: Default::default(),
-        inline_prevented: false,
-        in_strict: false,
-        in_try_block: false,
+        ctx: Default::default(),
     }
+}
+
+#[derive(Debug, Default, Clone, Copy)]
+struct Ctx {
+    inline_prevented: bool,
+    in_strict: bool,
+    in_try_block: bool,
+    in_var_decl_of_for_in_or_of_loop: bool,
 }
 
 #[derive(Debug)]
@@ -52,9 +59,7 @@ struct Reducer {
     simple_props: FxHashMap<(Id, JsWord), Box<Expr>>,
     simple_array_values: FxHashMap<(Id, usize), Box<Expr>>,
     data: Option<ScopeData>,
-    inline_prevented: bool,
-    in_strict: bool,
-    in_try_block: bool,
+    ctx: Ctx,
 }
 
 impl Repeated for Reducer {
@@ -240,10 +245,12 @@ impl Reducer {
                                 }
                             }
                         }
-                        let old = self.inline_prevented;
-                        self.inline_prevented = false;
-                        callee.function.visit_mut_with(self);
-                        self.inline_prevented = old;
+
+                        let ctx = Ctx {
+                            inline_prevented: false,
+                            ..self.ctx
+                        };
+                        callee.function.visit_mut_with(&mut *self.with_ctx(ctx));
 
                         // TODO: Drop arguments if all usage is inlined. (We
                         // should preserve parameters)
@@ -729,7 +736,7 @@ impl Reducer {
 
     ///
     fn drop_unused_vars_without_init(&mut self, name: &mut Pat) {
-        if !self.options.unused {
+        if !self.options.unused || self.ctx.in_var_decl_of_for_in_or_of_loop {
             return;
         }
 
@@ -770,16 +777,17 @@ impl VisitMut for Reducer {
     fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
         n.visit_mut_children_with(self);
 
-        if !self.in_try_block {
+        if !self.ctx.in_try_block {
             self.optimize_in_fn_termiation(&mut n.arg);
         }
     }
 
     fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
-        let old_in_try_block = self.in_try_block;
-        self.in_try_block = true;
-        n.block.visit_mut_with(self);
-        self.in_try_block = old_in_try_block;
+        let ctx = Ctx {
+            in_try_block: true,
+            ..self.ctx
+        };
+        n.block.visit_mut_with(&mut *self.with_ctx(ctx));
 
         n.handler.visit_mut_with(self);
 
@@ -823,10 +831,11 @@ impl VisitMut for Reducer {
     }
 
     fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
-        let old = self.inline_prevented;
-        self.inline_prevented = true;
-        n.discriminant.visit_mut_with(self);
-        self.inline_prevented = old;
+        let ctx = Ctx {
+            inline_prevented: true,
+            ..self.ctx
+        };
+        n.discriminant.visit_mut_with(&mut *self.with_ctx(ctx));
 
         n.cases.visit_mut_with(self);
     }
@@ -916,7 +925,7 @@ impl VisitMut for Reducer {
 
         self.compress_useless_cond_expr(n);
 
-        if !self.inline_prevented {
+        if !self.ctx.inline_prevented {
             match n {
                 Expr::Ident(i) => {
                     //
@@ -981,7 +990,7 @@ impl VisitMut for Reducer {
                 };
 
                 if self.options.directives && is_directive {
-                    if self.in_strict
+                    if self.ctx.in_strict
                         && match &**expr {
                             Expr::Lit(Lit::Str(Str { value, .. })) => *value == *"use strict",
                             _ => false,
@@ -1062,10 +1071,11 @@ impl VisitMut for Reducer {
     }
 
     fn visit_mut_class(&mut self, n: &mut Class) {
-        let old_strict = self.in_strict;
-        self.in_strict = true;
-        n.visit_mut_children_with(self);
-        self.in_strict = old_strict;
+        let ctx = Ctx {
+            in_strict: true,
+            ..self.ctx
+        };
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 }
 
