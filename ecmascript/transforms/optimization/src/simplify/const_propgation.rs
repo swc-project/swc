@@ -74,6 +74,9 @@ impl VisitMut for ConstPropagation<'_> {
         }
     }
 
+    /// No-op
+    fn visit_mut_assign_expr(&mut self, _: &mut AssignExpr) {}
+
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         match e {
             Expr::Ident(i) => {
