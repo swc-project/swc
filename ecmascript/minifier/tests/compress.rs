@@ -9,7 +9,6 @@ use std::fmt::Formatter;
 use std::fs::read_to_string;
 use std::path::Path;
 use std::path::PathBuf;
-use std::str::FromStr;
 use swc_common::sync::Lrc;
 use swc_common::FileName;
 use swc_common::SourceMap;
@@ -130,7 +129,7 @@ pub struct TestOptions {
     // pure_getters  : !false_by_default && "strict",
     // pure_funcs    : null,
     #[serde(default)]
-    pub reduce_fns: bool,
+    pub reduce_funs: bool,
 
     #[serde(default)]
     pub reduce_vars: bool,
@@ -169,10 +168,10 @@ fn parse_config(s: &str) -> CompressOptions {
         serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
 
     CompressOptions {
-        args: c.args,
+        args: c.arguments,
         arrows: c.arrows,
-        bools: c.bools,
-        bools_as_ints: c.bools_as_ints,
+        bools: c.booleans,
+        bools_as_ints: c.booleans_as_integers,
         collapse_vars: c.collapse_vars,
         comparisons: c.comparisons,
         computed_props: c.computed_props,
@@ -180,10 +179,10 @@ fn parse_config(s: &str) -> CompressOptions {
         dead_code: c.dead_code,
         defaults: c.defaults,
         directives: c.directives,
-        expr: c.expr,
+        expr: c.expression,
         drop_console: c.drop_console,
         evaluate: c.evaluate,
-        hoist_fns: c.hoist_fns,
+        hoist_fns: c.hoist_funs,
         hoist_props: c.hoist_props,
         hoist_vars: c.hoist_vars,
         inline: c.inline,
@@ -194,8 +193,7 @@ fn parse_config(s: &str) -> CompressOptions {
         sequences: c.sequences,
         side_effects: c.side_effects,
         top_level: c.toplevel,
-        typeofs: c.typeofs
-        ,
+        typeofs: c.typeofs,
         unsafe_passes: c.unsafe_passes,
         unused: c.unused,
     }
