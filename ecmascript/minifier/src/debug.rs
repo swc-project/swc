@@ -17,6 +17,10 @@ impl VisitMut for Debugger {
     noop_visit_mut_type!();
 
     fn visit_mut_ident(&mut self, n: &mut Ident) {
+        if n.span.ctxt == SyntaxContext::empty() {
+            return;
+        }
+
         n.sym = format!("{}{:?}", n.sym, n.span.ctxt).into();
         n.span.ctxt = SyntaxContext::empty();
     }
