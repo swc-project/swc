@@ -541,6 +541,50 @@ impl Reducer {
             return;
         }
     }
+
+    fn merge_var_decls(&mut self, stmts: &mut Vec<Stmt>) {
+        // Merge var declarations fully, if possible.
+        if stmts.windows(2).any(|stmts| match (&stmts[0], &stmts[1]) {
+            (Stmt::Decl(Decl::Var(..)), Stmt::Decl(Decl::Var(..))) => true,
+            _ => false,
+        }) {
+            self.changed = true;
+            log::trace!("Merging variable declarations");
+
+            let orig = take(stmts);
+            let mut new = Vec::with_capacity(orig.len());
+
+            let mut var_decl: Option<VarDecl> = None;
+
+            for stmt in orig {
+                match stmt {
+                    Stmt::Decl(Decl::Var(below)) => {
+                        //
+                        match var_decl.take() {
+                            Some(mut upper) if upper.kind == below.kind => {
+                                upper.decls.extend(below.decls);
+                                var_decl = Some(upper);
+                            }
+                            _ => {
+                                new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
+                                var_decl = Some(below);
+                            }
+                        }
+                    }
+                    _ => {
+                        // If it's not a var decl,
+
+                        new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
+                        new.push(stmt);
+                    }
+                }
+            }
+
+            new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
+
+            *stmts = new
+        }
+    }
 }
 
 impl VisitMut for Reducer {
@@ -716,45 +760,7 @@ impl VisitMut for Reducer {
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         self.handle_stmt_likes(stmts);
 
-        // Merge var declarations fully, if possible.
-        if stmts.windows(2).any(|stmts| match (&stmts[0], &stmts[1]) {
-            (Stmt::Decl(Decl::Var(..)), Stmt::Decl(Decl::Var(..))) => true,
-            _ => false,
-        }) {
-            let orig = take(stmts);
-            let mut new = Vec::with_capacity(orig.len());
-
-            let mut var_decl: Option<VarDecl> = None;
-
-            for stmt in orig {
-                match stmt {
-                    Stmt::Decl(Decl::Var(below)) => {
-                        //
-                        match var_decl.take() {
-                            Some(mut upper) if upper.kind == below.kind => {
-                                upper.decls.extend(below.decls);
-                                self.changed = true;
-                                var_decl = Some(upper);
-                            }
-                            _ => {
-                                new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
-                                var_decl = Some(below);
-                            }
-                        }
-                    }
-                    _ => {
-                        // If it's not a var decl,
-
-                        new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
-                        new.push(stmt);
-                    }
-                }
-            }
-
-            new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
-
-            *stmts = new
-        }
+        self.merge_var_decls(stmts);
     }
 
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
