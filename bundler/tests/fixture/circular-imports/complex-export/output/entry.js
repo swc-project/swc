@@ -1,8 +1,6 @@
-const a = 'a';
-const c = 'c';
-const a1 = a;
-const a2 = a1;
+const a2 = 'a';
+const c2 = 'c';
+const a1 = a2;
 export { a1 as a };
-const c1 = c;
-const c2 = c1;
+const c1 = c2;
 export { c1 as c };
