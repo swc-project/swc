@@ -5,8 +5,7 @@ class MyError extends Error {
 }
 const MyError1 = MyError;
 const MyError2 = MyError1;
-function example() {
+function example1() {
     throw new MyError2();
 }
-const example1 = example;
-export { example as example };
+export { example1 as example };

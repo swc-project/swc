@@ -2,7 +2,7 @@ const m = "test";
 if (!m) {
     throw new Error('b');
 }
-class Comparator {
+class Comparator1 {
     constructor(comp1, optionsOrLoose = {
     }){
     }
@@ -18,7 +18,6 @@ class Comparator {
         }
     }
 }
-const x = new Comparator('boo');
+const x = new Comparator1('boo');
 x.parse('test');
-const Comparator1 = Comparator;
-export { Comparator as Comparator };
+export { Comparator1 as Comparator };

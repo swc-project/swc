@@ -3,8 +3,7 @@ class MyError extends Error {
         super("I'm in?");
     }
 }
-function example() {
+function example1() {
     throw new MyError();
 }
-const example1 = example;
-export { example as example };
+export { example1 as example };
