@@ -506,6 +506,39 @@ impl Reducer {
         Some(e.take())
     }
 
+    /// `new RegExp("([Sap]+)", "ig")` => `/([Sap]+)/gi`
+    fn compress_regexp(&mut self, e: &mut Expr) {
+        let args = match e {
+            Expr::New(NewExpr { callee, args, .. }) => match &**callee {
+                Expr::Ident(Ident {
+                    sym: js_word!("RegExp"),
+                    ..
+                }) => args,
+                _ => return,
+            },
+            _ => return,
+        };
+
+        let args = match args {
+            Some(v) => v,
+            None => return,
+        };
+        if args.is_empty() || args.len() > 2 {
+            return;
+        }
+
+        // We aborts the method if arguments are not literals.
+        if args.iter().any(|v| {
+            v.spread.is_some()
+                || match &*v.expr {
+                    Expr::Lit(Lit::Str(..)) => false,
+                    _ => true,
+                }
+        }) {
+            return;
+        }
+    }
+
     ///
     /// - `a ? true : false` => `!!a`
     fn compress_useless_cond_expr(&mut self, expr: &mut Expr) {
@@ -703,6 +736,7 @@ impl VisitMut for Reducer {
             _ => {}
         }
 
+        self.compress_regexp(n);
         self.compress_lits(n);
 
         self.optimize_logical_exprs(n);
