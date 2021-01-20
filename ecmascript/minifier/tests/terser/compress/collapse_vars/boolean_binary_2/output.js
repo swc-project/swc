@@ -1,8 +1,6 @@
 var c = 0;
 c += 1;
-((
-    function () {
-        c = 1 + c;
-    } || 9
-).toString());
+(function() {
+    c = 1 + c;
+}).toString();
 console.log(c);
