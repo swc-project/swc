@@ -98,6 +98,7 @@ pub use self::{
 };
 use serde::{Deserialize, Serialize};
 use swc_common::Span;
+pub use swc_ecma_ast::EsVersion as JscTarget;
 
 #[macro_use]
 mod macros;
@@ -302,32 +303,6 @@ pub struct TsConfig {
     /// Stage 3.
     #[serde(default)]
     pub import_assertions: bool,
-}
-
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialOrd, Ord, PartialEq, Eq)]
-pub enum JscTarget {
-    #[serde(rename = "es3")]
-    Es3,
-    #[serde(rename = "es5")]
-    Es5,
-    #[serde(rename = "es2015")]
-    Es2015,
-    #[serde(rename = "es2016")]
-    Es2016,
-    #[serde(rename = "es2017")]
-    Es2017,
-    #[serde(rename = "es2018")]
-    Es2018,
-    #[serde(rename = "es2019")]
-    Es2019,
-    #[serde(rename = "es2020")]
-    Es2020,
-}
-
-impl Default for JscTarget {
-    fn default() -> Self {
-        JscTarget::Es5
-    }
 }
 
 #[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
