@@ -529,7 +529,13 @@ impl Reducer {
         if args.iter().any(|v| {
             v.spread.is_some()
                 || match &*v.expr {
-                    Expr::Lit(Lit::Str(..)) => false,
+                    Expr::Lit(Lit::Str(s)) => {
+                        if s.value.contains(|c: char| !c.is_ascii()) {
+                            return true;
+                        }
+
+                        false
+                    }
                     _ => true,
                 }
         }) {
