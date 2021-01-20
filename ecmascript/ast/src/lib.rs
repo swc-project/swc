@@ -64,6 +64,8 @@ pub use self::{
         TsTypeQuery, TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
     },
 };
+use serde::Deserialize;
+use serde::Serialize;
 use swc_common::EqIgnoreSpan;
 use swc_common::{ast_node, Span};
 
@@ -90,4 +92,38 @@ mod typescript;
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Invalid {
     pub span: Span,
+}
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialOrd, Ord, PartialEq, Eq, Hash)]
+pub enum EsVersion {
+    #[serde(rename = "es3")]
+    Es3,
+    #[serde(rename = "es5")]
+    Es5,
+    #[serde(rename = "es2015")]
+    Es2015,
+    #[serde(rename = "es2016")]
+    Es2016,
+    #[serde(rename = "es2017")]
+    Es2017,
+    #[serde(rename = "es2018")]
+    Es2018,
+    #[serde(rename = "es2019")]
+    Es2019,
+    #[serde(rename = "es2020")]
+    Es2020,
+}
+
+impl EsVersion {
+    /// Get the latest version. This is `es2020` for now, but it will be changed
+    /// if a new version of specification is realeased.
+    pub const fn latest() -> Self {
+        EsVersion::Es2020
+    }
+}
+
+impl Default for EsVersion {
+    fn default() -> Self {
+        EsVersion::Es5
+    }
 }
