@@ -8,6 +8,7 @@ use swc_atoms::js_word;
 use swc_atoms::JsWord;
 use swc_common::iter::IdentifyLast;
 use swc_common::pass::Repeated;
+use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -508,6 +509,7 @@ impl Reducer {
 
     /// `new RegExp("([Sap]+)", "ig")` => `/([Sap]+)/gi`
     fn compress_regexp(&mut self, e: &mut Expr) {
+        let span = e.span();
         let args = match e {
             Expr::New(NewExpr { callee, args, .. }) => match &**callee {
                 Expr::Ident(Ident {
@@ -537,6 +539,34 @@ impl Reducer {
         }) {
             return;
         }
+
+        //
+        let pattern = args[0].expr.take();
+
+        let pattern = match *pattern {
+            Expr::Lit(Lit::Str(s)) => s.value.clone(),
+            _ => {
+                unreachable!()
+            }
+        };
+
+        let flags = args
+            .get_mut(1)
+            .map(|v| v.expr.take())
+            .map(|v| match *v {
+                Expr::Lit(Lit::Str(s)) => s.value.clone(),
+                _ => {
+                    unreachable!()
+                }
+            })
+            .unwrap_or(js_word!(""));
+
+        self.changed = true;
+        *e = Expr::Lit(Lit::Regex(Regex {
+            span,
+            exp: pattern,
+            flags,
+        }))
     }
 
     ///
