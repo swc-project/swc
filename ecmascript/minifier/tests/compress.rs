@@ -7,6 +7,7 @@ use std::fmt::Debug;
 use std::fmt::Display;
 use std::fmt::Formatter;
 use std::fs::read_to_string;
+use std::panic::catch_unwind;
 use std::path::Path;
 use std::path::PathBuf;
 use swc_common::sync::Lrc;
@@ -273,11 +274,16 @@ fn fixture(input: PathBuf) {
             expected
         );
 
-        let res = NormalizedOutput::from(output.clone()).compare_to_file(dir.join("output.js"));
+        {
+            let output = output.clone();
+            let _ = catch_unwind(|| {
+                NormalizedOutput::from(output)
+                    .compare_to_file(dir.join("output.js"))
+                    .unwrap();
+            });
+        }
 
         assert_eq!(DebugUsingDisplay(&expected), DebugUsingDisplay(&output));
-
-        res.unwrap();
 
         Ok(())
     })
