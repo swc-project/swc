@@ -274,6 +274,7 @@ new/new_with_many_parameters/input.js
 new/new_with_rewritten_true_value/input.js
 new/new_with_unary_prefix/input.js
 node_version/eval_let_6/input.js
+nullish/simplify_nullish_coalescing/input.js
 numbers/compress_numbers/input.js
 numbers/issue_1710/input.js
 numbers/keep_numbers/input.js
@@ -415,6 +416,7 @@ typeof/issue_1668/input.js
 typeof/issue_2728_1/input.js
 typeof/issue_2728_2/input.js
 typeof/issue_2728_6/input.js
+typeof/typeof_in_boolean_context/input.js
 unicode/ID_continue_with_surrogate_pair/input.js
 unicode/check_escape_style/input.js
 unicode/escape_non_escaped_identifier/input.js
