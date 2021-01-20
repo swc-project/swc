@@ -165,7 +165,13 @@ macro_rules! normal {
                 return;
             }
 
-            node.visit_mut_children_with(self);
+            $(
+                node.$singluar_props.visit_mut_with(self);
+            )*
+
+            $(
+                node.$array_like_props.visit_mut_with(self);
+            )*
 
             if self.marking_phase
                 $(
