@@ -7,4 +7,4 @@ const mod = function() {
     };
 }();
 const foo = mod;
-export { foo };
+export { mod as foo };

@@ -1,14 +1,13 @@
-var O2;
+var O1;
 (function(O1) {
     O1[O1["A"] = 0] = "A";
     O1[O1["B"] = 1] = "B";
     O1[O1["C"] = 2] = "C";
-})(O2 || (O2 = {
+})(O1 || (O1 = {
 }));
 function a() {
     console.log("a");
 }
-const O1 = O2;
 export { O1 as O };
 class A {
     #a;
@@ -29,4 +28,4 @@ class A {
 let a2 = new A();
 a2.a();
 a2.c();
-const O3 = O2;
+const O2 = O1;

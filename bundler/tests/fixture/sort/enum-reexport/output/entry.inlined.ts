@@ -4,5 +4,4 @@ var Status;
 })(Status || (Status = {
 }));
 const Status1 = Status;
-const Status2 = Status;
-export { Status1 as Status };
+export { Status as Status };
