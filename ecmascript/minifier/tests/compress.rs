@@ -1,5 +1,6 @@
 use ansi_term::Color;
 use once_cell::sync::Lazy;
+use serde::Deserialize;
 use std::env;
 use std::fmt;
 use std::fmt::Debug;
@@ -49,55 +50,155 @@ fn is_ignored(path: &Path) -> bool {
     false
 }
 
-fn parse_config(s: &str) -> CompressOptions {
-    let default = CompressOptions {
-        args: false,
-        arrows: false,
-        bools: false,
-        bools_as_ints: false,
-        collapse_vars: false,
-        comparisons: false,
-        computed_props: false,
-        conditionals: false,
-        dead_code: false,
-        defaults: false,
-        directives: false,
-        expr: false,
-        drop_console: false,
-        evaluate: false,
-        hoist_fns: false,
-        hoist_props: false,
-        hoist_vars: false,
-        inline: false,
-        negate_iife: false,
-        passes: 0,
-        reduce_fns: false,
-        reduce_vars: false,
-        sequences: false,
-        side_effects: false,
-        top_level: false,
-        typeofs: false,
-        unsafe_passes: false,
-        unused: false,
-    };
-    let mut default = serde_json::to_value(default)
-        .expect("failed to create serde_json::Value from default options");
-    let v = serde_json::Value::from_str(s)
-        .expect("failed to deserialize config.json into serde_json::Value");
-    {
-        let actual = default.as_object_mut().unwrap();
-        for (k, v) in v
-            .as_object()
-            .unwrap()
-            .into_iter()
-            .map(|(k, v)| (k.clone(), v.clone()))
-        {
-            actual.remove(&k);
-            actual.insert(k, v);
-        }
-    }
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct TestOptions {
+    #[serde(default)]
+    pub arguments: bool,
 
-    serde_json::from_value(default).expect("failed to deserialize value into a compressor config")
+    #[serde(default)]
+    pub arrows: bool,
+
+    #[serde(default)]
+    pub booleans: bool,
+
+    #[serde(default)]
+    pub booleans_as_integers: bool,
+
+    #[serde(default)]
+    pub collapse_vars: bool,
+
+    #[serde(default)]
+    pub comparisons: bool,
+
+    #[serde(default)]
+    pub computed_props: bool,
+
+    #[serde(default)]
+    pub conditionals: bool,
+
+    #[serde(default)]
+    pub dead_code: bool,
+
+    #[serde(default)]
+    pub defaults: bool,
+
+    #[serde(default)]
+    pub directives: bool,
+
+    #[serde(default)]
+    pub expression: bool,
+
+    #[serde(default)]
+    pub drop_console: bool,
+
+    // drop_debugger : !false_by_default,
+    // ecma          : 5,
+    #[serde(default)]
+    pub evaluate: bool,
+
+    // expression    : false,
+    // global_defs   : false,
+    #[serde(default)]
+    pub hoist_funs: bool,
+
+    #[serde(default)]
+    pub hoist_props: bool,
+
+    #[serde(default)]
+    pub hoist_vars: bool,
+
+    // ie8           : false,
+    // if_return     : !false_by_default,
+    #[serde(default)]
+    pub inline: bool,
+
+    // join_vars     : !false_by_default,
+    // keep_classnames: false,
+    // keep_fargs    : true,
+    // keep_fnames   : false,
+    // keep_infinity : false,
+    // loops         : !false_by_default,
+    // module        : false,
+    #[serde(default)]
+    pub negate_iife: bool,
+
+    #[serde(default)]
+    pub passes: usize,
+
+    // properties    : !false_by_default,
+    // pure_getters  : !false_by_default && "strict",
+    // pure_funcs    : null,
+    #[serde(default)]
+    pub reduce_fns: bool,
+
+    #[serde(default)]
+    pub reduce_vars: bool,
+
+    #[serde(default)]
+    pub sequences: bool,
+
+    #[serde(default)]
+    pub side_effects: bool,
+
+    // switches      : !false_by_default,
+    // top_retain    : null,
+    #[serde(default)]
+    pub toplevel: bool,
+
+    #[serde(default)]
+    pub typeofs: bool,
+
+    #[serde(default)]
+    pub unsafe_passes: bool,
+    // unsafe_arrows : false,
+    // unsafe_comps  : false,
+    // unsafe_Function: false,
+    // unsafe_math   : false,
+    // unsafe_symbols: false,
+    // unsafe_methods: false,
+    // unsafe_proto  : false,
+    // unsafe_regexp : false,
+    // unsafe_undefined: false,
+    #[serde(default)]
+    pub unused: bool,
+}
+
+fn parse_config(s: &str) -> CompressOptions {
+    let c: TestOptions =
+        serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
+
+    CompressOptions {
+        args: c.args,
+        arrows: c.arrows,
+        bools: c.bools,
+        bools_as_ints: c.bools_as_ints,
+        collapse_vars: c.collapse_vars,
+        comparisons: c.comparisons,
+        computed_props: c.computed_props,
+        conditionals: c.conditionals,
+        dead_code: c.dead_code,
+        defaults: c.defaults,
+        directives: c.directives,
+        expr: c.expr,
+        drop_console: c.drop_console,
+        evaluate: c.evaluate,
+        hoist_fns: c.hoist_fns,
+        hoist_props: c.hoist_props,
+        hoist_vars: c.hoist_vars,
+        inline: c.inline,
+        negate_iife: c.negate_iife,
+        passes: c.passes,
+        reduce_fns: c.reduce_funs,
+        reduce_vars: c.reduce_vars,
+        sequences: c.sequences,
+        side_effects: c.side_effects,
+        top_level: c.toplevel,
+        typeofs: c.typeofs
+        ,
+        unsafe_passes: c.unsafe_passes,
+        unused: c.unused,
+    }
 }
 
 /// Tests ported from terser.
