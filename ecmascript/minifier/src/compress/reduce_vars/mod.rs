@@ -663,10 +663,50 @@ impl Reducer {
             *stmts = new
         }
     }
+
+    /// Optimize return value or argument of throw.
+    ///
+    /// This methods removes some useless assignments.
+    ///
+    /// # Example
+    ///
+    /// Note: `a` being declared in the function is important in the example
+    /// below.
+    ///
+    /// ```ts
+    /// function foo(){
+    ///     var a;
+    ///     throw a = x();
+    /// }
+    /// ```
+    ///
+    /// can be optimized as
+    ///
+    /// ```ts
+    /// function foo(){
+    ///     var a; // Will be dropped in next pass.
+    ///     throw x();
+    /// }
+    /// ```
+    fn optimize_in_fn_termiation(&mut self, e: &mut Expr) {}
 }
 
 impl VisitMut for Reducer {
     noop_visit_mut_type!();
+
+    fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
+        n.visit_mut_children_with(self);
+
+        if let Some(arg) = &mut n.arg {
+            self.optimize_in_fn_termiation(&mut **arg);
+        }
+    }
+
+    fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
+        n.visit_mut_children_with(self);
+
+        self.optimize_in_fn_termiation(&mut n.arg);
+    }
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
         e.visit_mut_children_with(self);

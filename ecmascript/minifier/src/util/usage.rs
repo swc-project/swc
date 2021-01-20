@@ -19,6 +19,9 @@ pub(crate) struct VarUsageInfo {
     pub exported: bool,
     /// True if used **above** the declaration. (Not eval order).
     pub used_above_decl: bool,
+    /// True means it's declared by function parameters or variables declared in
+    /// a function.
+    pub declared_in_fn: bool,
 }
 
 #[derive(Debug, Default)]
@@ -31,6 +34,7 @@ pub(crate) struct ScopeData {
 pub(crate) struct UsageAnalyzer {
     pub data: ScopeData,
     in_pat_of_var_decl: bool,
+    in_pat_of_param: bool,
 }
 
 impl UsageAnalyzer {
@@ -38,11 +42,13 @@ impl UsageAnalyzer {
         match self.data.vars.entry(i.to_id()) {
             Entry::Occupied(mut e) => {
                 e.get_mut().ref_count += 1;
+                e.get_mut().reassigned |= is_assign;
             }
             Entry::Vacant(e) => {
                 e.insert(VarUsageInfo {
                     used_above_decl: true,
                     ref_count: 1,
+                    reassigned: is_assign,
                     ..Default::default()
                 });
             }
@@ -63,13 +69,24 @@ impl Visit for UsageAnalyzer {
         self.in_pat_of_var_decl = old_in_pat_of_var_decl;
     }
 
+    fn visit_param(&mut self, n: &Param, _: &dyn Node) {
+        let old = self.in_pat_of_param;
+
+        self.in_pat_of_param = false;
+        n.decorators.visit_with(n, self);
+        self.in_pat_of_param = true;
+        n.pat.visit_with(n, self);
+        self.in_pat_of_param = old;
+    }
+
     fn visit_pat(&mut self, n: &Pat, _: &dyn Node) {
         n.visit_children_with(self);
 
         match n {
             Pat::Ident(i) => {
-                if self.in_pat_of_var_decl {
-                    self.data.vars.entry(i.to_id()).or_default();
+                if self.in_pat_of_var_decl || self.in_pat_of_param {
+                    let var = self.data.vars.entry(i.to_id()).or_default();
+                    var.declared_in_fn = true;
                 } else {
                     self.report_usage(i, true);
                 }
