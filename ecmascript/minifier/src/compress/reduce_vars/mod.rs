@@ -356,6 +356,8 @@ impl Reducer {
         }))
     }
 
+    fn optimize_nullish_coalescing(&mut self, e: &mut Expr) {}
+
     ///
     /// - `true` => ``
     /// - `` => ``
@@ -780,6 +782,8 @@ impl VisitMut for Reducer {
 
         self.compress_regexp(n);
         self.compress_lits(n);
+
+        self.optimize_nullish_coalescing(n);
 
         self.optimize_logical_exprs(n);
 
