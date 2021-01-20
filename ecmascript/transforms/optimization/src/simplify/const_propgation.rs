@@ -43,9 +43,17 @@ impl VisitMut for ConstPropagation<'_> {
                         Some(init) => match &**init {
                             Expr::Lit(Lit::Bool(..))
                             | Expr::Lit(Lit::Num(..))
-                            | Expr::Lit(Lit::Null(..))
-                            | Expr::Ident(..) => {
+                            | Expr::Lit(Lit::Null(..)) => {
                                 self.scope.vars.insert(name.to_id(), init.clone());
+                            }
+
+                            Expr::Ident(init) => {
+                                // This check is required to prevent breaking some codes.
+                                if !self.scope.vars.contains_key(&init.to_id()) {
+                                    self.scope
+                                        .vars
+                                        .insert(name.to_id(), Box::new(Expr::Ident(init.clone())));
+                                }
                             }
                             _ => {}
                         },
