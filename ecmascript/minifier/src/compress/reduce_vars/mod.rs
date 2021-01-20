@@ -711,18 +711,20 @@ impl Reducer {
                     PatOrExpr::Pat(lhs) => match &**lhs {
                         Pat::Ident(lhs) => {
                             //
-                            if let Some(data) = &self.data {
-                                if let Some(data) = data.vars.get(&lhs.to_id()) {
-                                    if data.declared_in_fn {
-                                        log::trace!(
-                                            "Dropping an assigment to a varaible declared in \
-                                             function because function is being terminated"
-                                        );
-                                        self.changed = true;
-                                        *e = *assign.right.take();
-                                        return;
-                                    }
-                                }
+                            if self
+                                .data
+                                .as_ref()
+                                .and_then(|data| data.vars.get(&lhs.to_id()))
+                                .map(|var| var.declared_in_fn)
+                                .unwrap_or(false)
+                            {
+                                log::trace!(
+                                    "Dropping an assigment to a varaible declared in function \
+                                     because function is being terminated"
+                                );
+                                self.changed = true;
+                                *e = *assign.right.take();
+                                return;
                             }
                         }
                         _ => {}
