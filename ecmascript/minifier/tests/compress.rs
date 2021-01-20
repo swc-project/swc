@@ -129,7 +129,7 @@ pub struct TestOptions {
     // pure_getters  : !false_by_default && "strict",
     // pure_funcs    : null,
     #[serde(default)]
-    pub reduce_funs: bool,
+    pub reduce_funcs: bool,
 
     #[serde(default)]
     pub reduce_vars: bool,
@@ -188,7 +188,7 @@ fn parse_config(s: &str) -> CompressOptions {
         inline: c.inline,
         negate_iife: c.negate_iife,
         passes: c.passes,
-        reduce_fns: c.reduce_funs,
+        reduce_fns: c.reduce_funcs,
         reduce_vars: c.reduce_vars,
         sequences: c.sequences,
         side_effects: c.side_effects,
