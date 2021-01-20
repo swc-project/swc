@@ -33,4 +33,3 @@ class A {
 let a4 = new A();
 a4.a();
 a4.c();
-const O4 = O2;

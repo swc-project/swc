@@ -28,4 +28,3 @@ class A {
 let a2 = new A();
 a2.a();
 a2.c();
-const O2 = O1;

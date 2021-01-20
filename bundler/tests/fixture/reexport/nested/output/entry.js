@@ -1,11 +1,8 @@
-const a = 1;
-function foo() {
+const a1 = 1;
+function foo1() {
 }
-class Class {
+class Class1 {
 }
-const a1 = a;
-const foo1 = foo;
-const Class1 = Class;
-export { a as a };
-export { foo as foo };
-export { Class as Class };
+export { a1 as a };
+export { foo1 as foo };
+export { Class1 as Class };
