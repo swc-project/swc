@@ -23,6 +23,7 @@ async/async_generator_function/input.js
 async/async_generator_object_literal_method/input.js
 async/async_generator_static_class_method/input.js
 async/async_object_literal/input.js
+async/await_precedence/input.js
 async/await_precedence_call/input.js
 async/await_precedence_prop/input.js
 block_scope/let_statement/input.js
@@ -199,6 +200,10 @@ issue_1001/parenthesis_strings_in_parenthesis/input.js
 issue_1044/issue_1044/input.js
 issue_12/keep_name_of_getter/input.js
 issue_12/setter_with_operator_keys/input.js
+issue_143/tranformation_sort_order_equal/input.js
+issue_143/tranformation_sort_order_greater_or_equal/input.js
+issue_143/tranformation_sort_order_lesser_or_equal/input.js
+issue_143/tranformation_sort_order_unequal/input.js
 issue_1943/atom/input.js
 issue_1943/keyword/input.js
 issue_1943/name/input.js
@@ -332,6 +337,7 @@ reduce_vars/unsafe_evaluate_array_5/input.js
 reduce_vars/unsafe_evaluate_object_3/input.js
 reduce_vars/unsafe_evaluate_unknown/input.js
 regexp/regexp_1/input.js
+regexp/regexp_2/input.js
 sandbox/console_log/input.js
 sequences/func_def_2/input.js
 sequences/func_def_5/input.js
