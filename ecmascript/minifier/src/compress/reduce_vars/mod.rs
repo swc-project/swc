@@ -365,20 +365,22 @@ impl Reducer {
             _ => return,
         };
 
-        match lit {
-            Lit::Bool(v) => {
-                self.changed = true;
-                log::trace!("Compressing boolean literal");
-                *e = Expr::Unary(UnaryExpr {
-                    span: v.span,
-                    op: op!("!"),
-                    arg: Box::new(Expr::Lit(Lit::Num(Number {
+        if self.options.bools_as_ints || self.options.bools {
+            match lit {
+                Lit::Bool(v) => {
+                    self.changed = true;
+                    log::trace!("Compressing boolean literal");
+                    *e = Expr::Unary(UnaryExpr {
                         span: v.span,
-                        value: if v.value { 0.0 } else { 1.0 },
-                    }))),
-                });
+                        op: op!("!"),
+                        arg: Box::new(Expr::Lit(Lit::Num(Number {
+                            span: v.span,
+                            value: if v.value { 0.0 } else { 1.0 },
+                        }))),
+                    });
+                }
+                _ => {}
             }
-            _ => {}
         }
     }
 
