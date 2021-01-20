@@ -51,6 +51,10 @@ impl VisitMut for ConstPropagation<'_> {
                                 // This check is required to prevent breaking some codes.
                                 if let Some(value) = self.scope.vars.get(&init.to_id()).cloned() {
                                     self.scope.vars.insert(name.to_id(), value);
+                                } else {
+                                    self.scope
+                                        .vars
+                                        .insert(name.to_id(), Box::new(Expr::Ident(init.clone())));
                                 }
                             }
                             _ => {}
