@@ -6,5 +6,5 @@ function f2() {
 }
 foo();
 console.log(1);
-var a = !(console.log(2), 1);
+var a = (console.log(2), !1);
 foo();
