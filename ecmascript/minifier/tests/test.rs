@@ -122,11 +122,11 @@ fn terser_compress(input: PathBuf) {
             expected
         );
 
+        let res = NormalizedOutput::from(output.clone()).compare_to_file(dir.join("output.js"));
+
         assert_eq!(DebugUsingDisplay(&expected), DebugUsingDisplay(&output));
 
-        NormalizedOutput::from(output)
-            .compare_to_file(dir.join("output.js"))
-            .unwrap();
+        res.unwrap();
 
         Ok(())
     })
