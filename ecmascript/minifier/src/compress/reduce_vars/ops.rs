@@ -362,4 +362,6 @@ impl Reducer {
             _ => {}
         }
     }
+
+    pub(super) fn optimize_nullish_coalescing(&mut self, e: &mut Expr) {}
 }
