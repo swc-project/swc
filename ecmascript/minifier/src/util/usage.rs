@@ -86,7 +86,7 @@ impl Visit for UsageAnalyzer {
             Pat::Ident(i) => {
                 if self.in_pat_of_var_decl || self.in_pat_of_param {
                     let var = self.data.vars.entry(i.to_id()).or_default();
-                    var.declared_in_fn = true;
+                    var.declared_in_fn |= self.in_pat_of_param;
                 } else {
                     self.report_usage(i, true);
                 }
