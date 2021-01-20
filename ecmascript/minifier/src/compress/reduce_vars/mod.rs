@@ -899,7 +899,10 @@ impl VisitMut for Reducer {
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
         n.visit_mut_children_with(self);
 
-        if self.options.unused || (self.options.sequences && n.expr.is_seq()) {
+        if self.options.unused
+            || self.options.side_effects
+            || (self.options.sequences && n.expr.is_seq())
+        {
             let expr = self.ignore_return_value(&mut n.expr);
             n.expr = expr.map(Box::new).unwrap_or_else(|| {
                 Box::new(Expr::Ident(Ident::new(js_word!("undefined"), DUMMY_SP)))
