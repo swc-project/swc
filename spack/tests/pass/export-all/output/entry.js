@@ -1,7 +1,5 @@
-class B {
+class B1 {
 }
-const DEBUG = true;
-const B1 = B;
-const DEBUG1 = DEBUG;
-export { B as B };
-export { DEBUG as DEBUG };
+const DEBUG1 = true;
+export { B1 as B };
+export { DEBUG1 as DEBUG };

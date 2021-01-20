@@ -1,6 +1,4 @@
-const b = 2;
-const a = 1;
-const b1 = b;
-const a1 = a;
-export { b as b };
-export { a as a };
+const b1 = 2;
+const a1 = 1;
+export { b1 as b };
+export { a1 as a };
