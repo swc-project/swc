@@ -57,6 +57,9 @@ collapse_vars/may_throw_1/input.js
 collapse_vars/reassign_const_1/input.js
 collapse_vars/reassign_const_2/input.js
 collapse_vars/replace_all_var/input.js
+collapse_vars/return_1/input.js
+collapse_vars/return_2/input.js
+collapse_vars/return_3/input.js
 collapse_vars/return_4/input.js
 collapse_vars/switch_case_3/input.js
 comments/preserve_comments_by_default/input.js
@@ -74,6 +77,7 @@ dead_code/dead_code_1/input.js
 dead_code/dead_code_block_decls_die/input.js
 dead_code/issue_2383_1/input.js
 dead_code/issue_2383_2/input.js
+dead_code/issue_2597/input.js
 dead_code/issue_2666/input.js
 dead_code/issue_2701/input.js
 dead_code/issue_2929/input.js
@@ -221,10 +225,13 @@ issue_2989/inline_script_off/input.js
 issue_2989/inline_script_on/input.js
 issue_427/no_wrap_func_args/input.js
 issue_427/wrap_func_args/input.js
+issue_59/keep_continue/input.js
 issue_640/drop_value/input.js
 issue_640/issue_1254_negate_iife_nested/input.js
 issue_640/issue_1254_negate_iife_true/input.js
 issue_640/negate_iife_1/input.js
+issue_640/negate_iife_3/input.js
+issue_640/negate_iife_3_off/input.js
 issue_751/negate_booleans_2/input.js
 issue_782/dont_remove_this_binding_sequence/input.js
 issue_782/remove_redundant_sequence_items/input.js
@@ -251,6 +258,7 @@ negate_iife/issue_1254_negate_iife_false/input.js
 negate_iife/negate_iife_1_off/input.js
 new/dot_parenthesis_1/input.js
 new/new_statement/input.js
+new/new_statements_2/input.js
 new/new_with_assignement_expression/input.js
 new/new_with_many_parameters/input.js
 new/new_with_rewritten_true_value/input.js
@@ -277,6 +285,7 @@ object/property_with_operator_value/input.js
 object/variable_as_computed_property/input.js
 parameters/accept_duplicated_parameters_in_non_strict_without_spread_or_default_assignment/input.js
 parameters/destructuring_arguments_3/input.js
+parameters/regression_assign_arrow_functions/input.js
 properties/accessor_boolean/input.js
 properties/accessor_get_set/input.js
 properties/accessor_null_undefined/input.js
@@ -312,6 +321,7 @@ reduce_vars/inner_var_if/input.js
 reduce_vars/issue_1533_1/input.js
 reduce_vars/issue_1533_2/input.js
 reduce_vars/issue_1850_1/input.js
+reduce_vars/issue_1865/input.js
 reduce_vars/issue_1922_2/input.js
 reduce_vars/issue_2090_1/input.js
 reduce_vars/issue_2090_2/input.js
@@ -324,9 +334,12 @@ reduce_vars/issue_2440_with_2/input.js
 reduce_vars/issue_2450_1/input.js
 reduce_vars/issue_2450_3/input.js
 reduce_vars/issue_2455/input.js
+reduce_vars/issue_2598/input.js
 reduce_vars/issue_2919/input.js
 reduce_vars/issue_3113_4/input.js
 reduce_vars/issue_3125/input.js
+reduce_vars/issue_3140_1/input.js
+reduce_vars/issue_3140_2/input.js
 reduce_vars/issue_379/input.js
 reduce_vars/issue_581_2/input.js
 reduce_vars/method_1/input.js
@@ -336,6 +349,7 @@ reduce_vars/unsafe_evaluate_array_3/input.js
 reduce_vars/unsafe_evaluate_array_5/input.js
 reduce_vars/unsafe_evaluate_object_3/input.js
 reduce_vars/unsafe_evaluate_unknown/input.js
+reduce_vars/var_if/input.js
 regexp/regexp_1/input.js
 regexp/regexp_2/input.js
 sandbox/console_log/input.js
