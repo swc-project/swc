@@ -363,5 +363,33 @@ impl Reducer {
         }
     }
 
-    pub(super) fn optimize_nullish_coalescing(&mut self, e: &mut Expr) {}
+    pub(super) fn optimize_nullish_coalescing(&mut self, e: &mut Expr) {
+        let (l, r) = match e {
+            Expr::Bin(BinExpr {
+                op: op!("??"),
+                left,
+                right,
+                ..
+            }) => (&mut **left, &mut **right),
+            _ => return,
+        };
+
+        match l {
+            Expr::Lit(Lit::Null(..)) => {
+                self.changed = true;
+                *e = r.take();
+                return;
+            }
+            Expr::Lit(Lit::Num(..))
+            | Expr::Lit(Lit::Str(..))
+            | Expr::Lit(Lit::BigInt(..))
+            | Expr::Lit(Lit::Bool(..))
+            | Expr::Lit(Lit::Regex(..)) => {
+                self.changed = true;
+                *e = l.take();
+                return;
+            }
+            _ => {}
+        }
+    }
 }
