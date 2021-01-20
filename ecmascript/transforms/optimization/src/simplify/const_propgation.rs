@@ -95,4 +95,29 @@ impl VisitMut for ConstPropagation<'_> {
             e.prop.visit_mut_with(self);
         }
     }
+
+    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
+        if let Some(expr) = self.scope.find_var(&n.orig.to_id()) {
+            match &**expr {
+                Expr::Ident(v) => {
+                    let orig = n.orig.clone();
+                    n.orig = v.clone();
+
+                    if n.exported.is_none() {
+                        n.exported = Some(orig);
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        match &n.exported {
+            Some(exported) => {
+                if exported.sym == n.orig.sym && exported.span.ctxt == n.orig.span.ctxt {
+                    n.exported = None;
+                }
+            }
+            None => {}
+        }
+    }
 }
