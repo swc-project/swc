@@ -49,10 +49,8 @@ impl VisitMut for ConstPropagation<'_> {
 
                             Expr::Ident(init) => {
                                 // This check is required to prevent breaking some codes.
-                                if !self.scope.vars.contains_key(&init.to_id()) {
-                                    self.scope
-                                        .vars
-                                        .insert(name.to_id(), Box::new(Expr::Ident(init.clone())));
+                                if let Some(value) = self.scope.vars.get(&init.to_id()).cloned() {
+                                    self.scope.vars.insert(name.to_id(), value);
                                 }
                             }
                             _ => {}
