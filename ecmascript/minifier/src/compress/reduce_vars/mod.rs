@@ -726,6 +726,34 @@ impl Reducer {
             _ => {}
         }
     }
+
+    ///
+    fn drop_unused_vars_without_init(&mut self, name: &mut Pat) {
+        if !self.options.unused {
+            return;
+        }
+
+        match name {
+            Pat::Ident(i) => {
+                if self
+                    .data
+                    .as_ref()
+                    .and_then(|data| data.vars.get(&i.to_id()))
+                    .map(|v| v.ref_count == 0)
+                    .unwrap_or(false)
+                {
+                    log::trace!(
+                        "Dropping a variable '{}{:?}' because it is never used",
+                        i.sym,
+                        i.span.ctxt
+                    );
+                    *name = Pat::Invalid(Invalid { span: DUMMY_SP });
+                    return;
+                }
+            }
+            _ => {}
+        }
+    }
 }
 
 impl VisitMut for Reducer {
@@ -817,6 +845,12 @@ impl VisitMut for Reducer {
 
             var.visit_mut_with(self);
 
+            if var.name.is_invalid() {
+                // It will be inlined.
+                self.changed = true;
+                return false;
+            }
+
             // It will be inlined.
             if had_init && var.init.is_none() {
                 self.changed = true;
@@ -838,7 +872,9 @@ impl VisitMut for Reducer {
                 }
                 _ => {}
             },
-            _ => {}
+            None => {
+                self.drop_unused_vars_without_init(&mut var.name);
+            }
         }
     }
 
