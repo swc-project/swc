@@ -135,6 +135,20 @@ impl Reducer {
                 }));
             }
 
+            Expr::Bin(BinExpr {
+                op: op!("??"),
+                left,
+                right,
+                ..
+            }) => {
+                // Optimize if (a ?? false); as if (a);
+                if let Value::Known(false) = right.as_pure_bool() {
+                    log::debug!("Dropping right operand of `??` as it's always false");
+                    self.changed = true;
+                    *n = *left.take();
+                }
+            }
+
             _ => {}
         }
     }
