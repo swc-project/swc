@@ -1,5 +1,4 @@
-var Divider = React.createElement("div", null);
-const Divider1 = Divider;
+var Divider1 = React.createElement("div", null);
 /**
  * Don't ask why it is named as divider.
- */ export { Divider as Divider };
+ */ export { Divider1 as Divider };

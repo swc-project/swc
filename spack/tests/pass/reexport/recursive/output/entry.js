@@ -14,4 +14,3 @@ const b1 = __default1;
 console.log('a.js');
 export { b1 as b };
 console.log('entry');
-const b3 = b1;
