@@ -4,6 +4,7 @@ use std::ops::Deref;
 use std::ops::DerefMut;
 
 impl Reducer {
+    #[inline]
     pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx {
         let orig_ctx = self.ctx;
         self.ctx = ctx;
