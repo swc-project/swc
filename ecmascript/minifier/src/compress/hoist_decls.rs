@@ -19,6 +19,7 @@ use swc_ecma_visit::VisitWith;
 
 pub(super) struct DeclHoisterConfig {
     pub hoist_fns: bool,
+    pub hoist_vars: bool,
     pub top_level: bool,
 }
 
@@ -66,7 +67,7 @@ impl Hoister {
         let should_hoist = !is_sorted_by_key(stmts.iter(), |stmt| match stmt.as_stmt() {
             Some(stmt) => match stmt {
                 Stmt::Decl(Decl::Fn(..)) if self.config.hoist_fns => 1,
-                Stmt::Decl(Decl::Var(var)) => {
+                Stmt::Decl(Decl::Var(var)) if self.config.hoist_vars => {
                     if let Some(data) = &self.data {
                         let ids: Vec<Id> = find_ids(&var.decls);
 
