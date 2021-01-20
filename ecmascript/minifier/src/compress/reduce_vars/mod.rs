@@ -38,6 +38,7 @@ pub(super) fn var_reducer(options: CompressOptions) -> impl VisitMut + Repeated 
         data: Default::default(),
         inline_prevented: false,
         in_strict: false,
+        in_try_block: false,
     }
 }
 
@@ -53,6 +54,7 @@ struct Reducer {
     data: Option<ScopeData>,
     inline_prevented: bool,
     in_strict: bool,
+    in_try_block: bool,
 }
 
 impl Repeated for Reducer {
@@ -688,7 +690,42 @@ impl Reducer {
     ///     throw x();
     /// }
     /// ```
-    fn optimize_in_fn_termiation(&mut self, e: &mut Expr) {}
+    fn optimize_in_fn_termiation(&mut self, e: &mut Expr) {
+        if !self.options.dead_code {
+            return;
+        }
+
+        match e {
+            Expr::Assign(assign) => {
+                self.optimize_in_fn_termiation(&mut assign.right);
+
+                // We only handle identifiers on lhs for now.
+                match &assign.left {
+                    PatOrExpr::Pat(lhs) => match &**lhs {
+                        Pat::Ident(lhs) => {
+                            //
+                            if let Some(data) = &self.data {
+                                if let Some(data) = data.vars.get(&lhs.to_id()) {
+                                    if data.declared_in_fn {
+                                        log::trace!(
+                                            "Dropping an assigment to a varaible declared in \
+                                             function because function is being terminated"
+                                        );
+                                        self.changed = true;
+                                        *e = *assign.right.take();
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                        _ => {}
+                    },
+                    _ => {}
+                }
+            }
+            _ => {}
+        }
+    }
 }
 
 impl VisitMut for Reducer {
@@ -705,7 +742,20 @@ impl VisitMut for Reducer {
     fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
         n.visit_mut_children_with(self);
 
-        self.optimize_in_fn_termiation(&mut n.arg);
+        if !self.in_try_block {
+            self.optimize_in_fn_termiation(&mut n.arg);
+        }
+    }
+
+    fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
+        let old_in_try_block = self.in_try_block;
+        self.in_try_block = true;
+        n.block.visit_mut_with(self);
+        self.in_try_block = old_in_try_block;
+
+        n.handler.visit_mut_with(self);
+
+        n.finalizer.visit_mut_with(self);
     }
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
