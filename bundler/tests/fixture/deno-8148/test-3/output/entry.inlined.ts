@@ -13,5 +13,4 @@ const mod = function() {
         c: c
     };
 }();
-const foo = mod;
 export { mod as foo };

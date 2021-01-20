@@ -6,5 +6,4 @@ const mod = function() {
         A: A
     };
 }();
-const foo = mod;
 export { mod as foo };

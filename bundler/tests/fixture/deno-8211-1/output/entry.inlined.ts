@@ -1,7 +1,5 @@
-class Zone {
+class Zone1 {
 }
-const Zone1 = Zone;
-class FixedOffsetZone extends Zone {
+class FixedOffsetZone1 extends Zone1 {
 }
-const FixedOffsetZone1 = FixedOffsetZone;
-export { Zone as Zone, FixedOffsetZone as FixedOffsetZone };
+export { Zone1 as Zone, FixedOffsetZone1 as FixedOffsetZone };
