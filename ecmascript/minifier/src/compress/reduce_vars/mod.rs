@@ -556,7 +556,15 @@ impl Reducer {
             .get_mut(1)
             .map(|v| v.expr.take())
             .map(|v| match *v {
-                Expr::Lit(Lit::Str(s)) => s.value.clone(),
+                Expr::Lit(Lit::Str(s)) => {
+                    assert!(s.value.is_ascii());
+
+                    let s = s.value.to_string();
+                    let mut bytes = s.into_bytes();
+                    bytes.sort();
+
+                    String::from_utf8(bytes).unwrap().into()
+                }
                 _ => {
                     unreachable!()
                 }
