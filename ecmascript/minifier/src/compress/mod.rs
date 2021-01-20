@@ -6,7 +6,6 @@ use drop_console::drop_console;
 use hoist_decls::DeclHoisterConfig;
 use hoist_props::property_hoister;
 use reduce_vars::var_reducer;
-use reduce_vars::ReducerConfig;
 use std::borrow::Cow;
 use swc_common::chain;
 use swc_common::pass::CompilerPass;
@@ -125,9 +124,7 @@ impl VisitMut for Compressor<'_> {
         eprintln!("{}", dump(&*n));
         if self.pass > 0 || self.options.reduce_vars {
             // reset_opt_flags
-            let mut visitor = var_reducer(ReducerConfig {
-                bools: self.options.bools,
-            });
+            let mut visitor = var_reducer(self.options.clone());
             n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
         }

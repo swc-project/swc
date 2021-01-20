@@ -1,3 +1,4 @@
+use crate::option::CompressOptions;
 use crate::util::usage::ScopeData;
 use crate::util::usage::UsageAnalyzer;
 use fxhash::FxHashMap;
@@ -24,16 +25,11 @@ use swc_ecma_visit::VisitWith;
 
 mod ops;
 
-#[derive(Debug)]
-pub(super) struct ReducerConfig {
-    pub bools: bool,
-}
-
 /// Merge varaibles.
-pub(super) fn var_reducer(config: ReducerConfig) -> impl VisitMut + Repeated {
+pub(super) fn var_reducer(options: CompressOptions) -> impl VisitMut + Repeated {
     Reducer {
         changed: false,
-        config,
+        options,
         lits: Default::default(),
         vars: Default::default(),
         simple_props: Default::default(),
@@ -46,7 +42,7 @@ pub(super) fn var_reducer(config: ReducerConfig) -> impl VisitMut + Repeated {
 #[derive(Debug)]
 struct Reducer {
     changed: bool,
-    config: ReducerConfig,
+    options: CompressOptions,
     /// Cheap to clone.
     lits: FxHashMap<Id, Box<Expr>>,
     vars: FxHashMap<Id, Box<Expr>>,
@@ -889,10 +885,12 @@ impl VisitMut for Reducer {
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
         n.visit_mut_children_with(self);
 
-        let expr = self.ignore_return_value(&mut n.expr);
-        n.expr = expr
-            .map(Box::new)
-            .unwrap_or_else(|| Box::new(Expr::Ident(Ident::new(js_word!("undefined"), DUMMY_SP))));
+        if self.options.unused {
+            let expr = self.ignore_return_value(&mut n.expr);
+            n.expr = expr.map(Box::new).unwrap_or_else(|| {
+                Box::new(Expr::Ident(Ident::new(js_word!("undefined"), DUMMY_SP)))
+            });
+        }
     }
 }
 
