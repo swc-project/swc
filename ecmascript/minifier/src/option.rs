@@ -24,6 +24,7 @@ pub struct MangleOptions {
     pub props: bool,
 }
 
+/// https://terser.org/docs/api-reference.html#compress-options
 #[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
