@@ -13,6 +13,6 @@ set -eu
 
 ./scripts/sort.sh
 
-GOLDEN_ONLY=1 cargo test --test test
+GOLDEN_ONLY=1 cargo test --test compress
 
-cargo test --test test $@
+cargo test --test compress $@

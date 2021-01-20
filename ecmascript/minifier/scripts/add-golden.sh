@@ -4,9 +4,9 @@
 # Note that this is append-only.
 set -eu
 
-cargo test --test test \
+cargo test --test compress \
   | grep 'js .\.\. ok$' \
-  | sed -e 's!test terser_compress_terser__compress__!!' \
+  | sed -e 's!test fixture_terser__compress__!!' \
   | sed -e 's! ... ok!!' \
   | sed -e 's!__!/!g' \
   | sed -e 's!_js!.js!' \

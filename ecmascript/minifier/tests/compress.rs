@@ -1,5 +1,6 @@
 use ansi_term::Color;
 use once_cell::sync::Lazy;
+use serde_json::Value;
 use std::env;
 use std::fmt;
 use std::fmt::Debug;
@@ -8,6 +9,7 @@ use std::fmt::Formatter;
 use std::fs::read_to_string;
 use std::path::Path;
 use std::path::PathBuf;
+use std::str::FromStr;
 use swc_common::sync::Lrc;
 use swc_common::FileName;
 use swc_common::SourceMap;
@@ -48,9 +50,13 @@ fn is_ignored(path: &Path) -> bool {
     false
 }
 
+fn parse_compressor_config(s: &str) -> CompressOptions {
+    serde_json::from_str(&s).expect("failed to deserialize config.json")
+}
+
 /// Tests ported from terser.
 #[testing::fixture("terser/compress/**/input.js")]
-fn terser_compress(input: PathBuf) {
+fn fixture(input: PathBuf) {
     if is_ignored(&input) {
         return;
     }
@@ -59,8 +65,7 @@ fn terser_compress(input: PathBuf) {
     let config = dir.join("config.json");
     let config = read_to_string(&config).expect("failed to read config.json");
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
-    let config: CompressOptions =
-        serde_json::from_str(&config).expect("failed to deserialize config.json");
+    let config: CompressOptions = parse_compressor_config(&config);
 
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).expect("failed to load input.js");
