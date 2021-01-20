@@ -325,4 +325,14 @@ impl Reducer {
             _ => {}
         }
     }
+
+    ///
+    /// - `!(x == y)` => `x != y`
+    /// - `!(x === y)` => `x !== y`
+    pub(super) fn compress_negated_bin_eq(&self, e: &mut Expr) {
+        let e = match e {
+            Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => e,
+            _ => return,
+        };
+    }
 }
