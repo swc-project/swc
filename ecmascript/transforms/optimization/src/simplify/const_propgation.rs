@@ -20,7 +20,14 @@ struct Scope<'a> {
     vars: FxHashMap<Id, Box<Expr>>,
 }
 
-impl Scope<'_> {
+impl<'a> Scope<'a> {
+    fn new(parent: &'a Scope<'a>) -> Self {
+        Self {
+            parent: Some(parent),
+            vars: Default::default(),
+        }
+    }
+
     fn find_var(&self, id: &Id) -> Option<&Box<Expr>> {
         if let Some(v) = self.vars.get(id) {
             return Some(v);
@@ -32,6 +39,18 @@ impl Scope<'_> {
 
 impl VisitMut for ConstPropagation<'_> {
     noop_visit_mut_type!();
+
+    /// Altough span hygiene is magic, bundler creates invalid code in aspect of
+    /// span hygiene. (The bundled code can have two variables with identical
+    /// name with each other, with respect to span hygiene.)
+    ///
+    /// We avoid bugs caused by the bundler's wrong behavior by
+    /// scoping variables.
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        let scope = Scope::new(&self.scope);
+        let mut v = ConstPropagation { scope };
+        n.visit_mut_children_with(&mut v);
+    }
 
     fn visit_mut_var_decl(&mut self, var: &mut VarDecl) {
         var.decls.visit_mut_with(self);
@@ -91,6 +110,7 @@ impl VisitMut for ConstPropagation<'_> {
         match e {
             Expr::Ident(i) => {
                 if let Some(expr) = self.scope.find_var(&i.to_id()) {
+                    dbg!(&i, &expr);
                     *e = *expr.clone();
                     return;
                 }
