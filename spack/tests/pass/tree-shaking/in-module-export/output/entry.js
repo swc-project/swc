@@ -1,4 +1,3 @@
 const b = 1;
-const foo = b;
-const foo1 = foo;
-export { foo as foo };
+const foo1 = b;
+export { foo1 as foo };

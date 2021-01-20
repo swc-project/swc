@@ -6,6 +6,3 @@ const baz2 = baz1;
 const foo2 = foo1, bar2 = bar1;
 export { foo2 as foo, bar2 as bar };
 export { baz2 as baz };
-const foo4 = foo2;
-const bar4 = bar2;
-const baz4 = baz2;
