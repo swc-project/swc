@@ -25,6 +25,7 @@ use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
 use testing::NormalizedOutput;
+use walkdir::DirEntry;
 use walkdir::WalkDir;
 
 #[path = "common/mod.rs"]
@@ -126,121 +127,136 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
         add_test(tests, name, ignore, move || {
             eprintln!("\n\n========== Running reference test {}\n", dir_name);
 
-            testing::run_test2(false, |cm, _| {
-                let globals = Globals::default();
-                let bundler = Bundler::new(
-                    &globals,
-                    cm.clone(),
-                    Loader { cm: cm.clone() },
-                    NodeResolver,
-                    Config {
-                        require: true,
-                        disable_inliner: true,
-                        external_modules: vec![
-                            "assert",
-                            "buffer",
-                            "child_process",
-                            "console",
-                            "cluster",
-                            "crypto",
-                            "dgram",
-                            "dns",
-                            "events",
-                            "fs",
-                            "http",
-                            "http2",
-                            "https",
-                            "net",
-                            "os",
-                            "path",
-                            "perf_hooks",
-                            "process",
-                            "querystring",
-                            "readline",
-                            "repl",
-                            "stream",
-                            "string_decoder",
-                            "timers",
-                            "tls",
-                            "tty",
-                            "url",
-                            "util",
-                            "v8",
-                            "vm",
-                            "wasi",
-                            "worker",
-                            "zlib",
-                        ]
-                        .into_iter()
-                        .map(From::from)
-                        .collect(),
-                        module: Default::default(),
-                    },
-                    Box::new(Hook),
-                );
-
-                let modules = bundler
-                    .bundle(entries)
-                    .map_err(|err| println!("{:?}", err))?;
-                println!("Bundled as {} modules", modules.len());
-
-                let mut error = false;
-
-                for bundled in modules {
-                    let code = {
-                        let mut buf = vec![];
-
-                        {
-                            let mut emitter = Emitter {
-                                cfg: swc_ecma_codegen::Config {
-                                    ..Default::default()
-                                },
-                                cm: cm.clone(),
-                                comments: None,
-                                wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
-                            };
-
-                            emitter
-                                .emit_module(&bundled.module.fold_with(&mut fixer(None)))
-                                .unwrap();
-                        }
-
-                        String::from_utf8_lossy(&buf).to_string()
-                    };
-
-                    let name = match bundled.kind {
-                        BundleKind::Named { name } | BundleKind::Lib { name } => {
-                            PathBuf::from(name)
-                        }
-                        BundleKind::Dynamic => format!("dynamic.{}.js", bundled.id).into(),
-                    };
-
-                    let output_path = entry.path().join("output").join(name.file_name().unwrap());
-
-                    println!("Printing {}", output_path.display());
-
-                    let s = NormalizedOutput::from(code.to_string());
-
-                    match s.compare_to_file(&output_path) {
-                        Ok(_) => {}
-                        Err(err) => {
-                            println!("Diff: {:?}", err);
-                            error = true;
-                        }
-                    }
-                }
-
-                if error {
-                    return Err(());
-                }
-
-                Ok(())
-            })
-            .expect("failed to process a module");
+            do_test(&entry, entries.clone(), true);
+            do_test(&entry, entries, false);
         });
     }
 
     Ok(())
+}
+
+fn do_test(entry: &DirEntry, entries: HashMap<String, FileName>, inline: bool) {
+    testing::run_test2(false, |cm, _| {
+        let globals = Globals::default();
+        let bundler = Bundler::new(
+            &globals,
+            cm.clone(),
+            Loader { cm: cm.clone() },
+            NodeResolver,
+            Config {
+                require: true,
+                disable_inliner: !inline,
+                external_modules: vec![
+                    "assert",
+                    "buffer",
+                    "child_process",
+                    "console",
+                    "cluster",
+                    "crypto",
+                    "dgram",
+                    "dns",
+                    "events",
+                    "fs",
+                    "http",
+                    "http2",
+                    "https",
+                    "net",
+                    "os",
+                    "path",
+                    "perf_hooks",
+                    "process",
+                    "querystring",
+                    "readline",
+                    "repl",
+                    "stream",
+                    "string_decoder",
+                    "timers",
+                    "tls",
+                    "tty",
+                    "url",
+                    "util",
+                    "v8",
+                    "vm",
+                    "wasi",
+                    "worker",
+                    "zlib",
+                ]
+                .into_iter()
+                .map(From::from)
+                .collect(),
+                module: Default::default(),
+            },
+            Box::new(Hook),
+        );
+
+        let modules = bundler
+            .bundle(entries)
+            .map_err(|err| println!("{:?}", err))?;
+        println!("Bundled as {} modules", modules.len());
+
+        let mut error = false;
+
+        for bundled in modules {
+            let code = {
+                let mut buf = vec![];
+
+                {
+                    let mut emitter = Emitter {
+                        cfg: swc_ecma_codegen::Config {
+                            ..Default::default()
+                        },
+                        cm: cm.clone(),
+                        comments: None,
+                        wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+                    };
+
+                    emitter
+                        .emit_module(&bundled.module.fold_with(&mut fixer(None)))
+                        .unwrap();
+                }
+
+                String::from_utf8_lossy(&buf).to_string()
+            };
+
+            let name = match bundled.kind {
+                BundleKind::Named { name } | BundleKind::Lib { name } => PathBuf::from(name),
+                BundleKind::Dynamic => format!("dynamic.{}.js", bundled.id).into(),
+            };
+
+            let output_dir = entry.path().join("output");
+
+            let output_path = if inline {
+                output_dir
+                    .join(name.file_name().unwrap())
+                    .with_file_name(format!(
+                        "{}.inlined.{}",
+                        name.file_stem().unwrap().to_string_lossy(),
+                        name.extension().unwrap().to_string_lossy()
+                    ))
+            } else {
+                output_dir.join(name.file_name().unwrap())
+            };
+
+            println!("Printing {}", output_path.display());
+
+            let s = NormalizedOutput::from(code.to_string());
+
+            match s.compare_to_file(&output_path) {
+                Ok(_) => {}
+                Err(err) => {
+                    println!("Diff: {:?}", err);
+                    error = true;
+                }
+            }
+        }
+
+        if error {
+            return Err(());
+        }
+
+        Ok(())
+    })
+    .expect("failed to process a module");
 }
 
 #[test]
