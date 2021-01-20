@@ -1,6 +1,5 @@
 use ansi_term::Color;
 use once_cell::sync::Lazy;
-use serde_json::Value;
 use std::env;
 use std::fmt;
 use std::fmt::Debug;
@@ -50,8 +49,55 @@ fn is_ignored(path: &Path) -> bool {
     false
 }
 
-fn parse_compressor_config(s: &str) -> CompressOptions {
-    serde_json::from_str(&s).expect("failed to deserialize config.json")
+fn parse_config(s: &str) -> CompressOptions {
+    let default = CompressOptions {
+        args: false,
+        arrows: false,
+        bools: false,
+        bools_as_ints: false,
+        collapse_vars: false,
+        comparisons: false,
+        computed_props: false,
+        conditionals: false,
+        dead_code: false,
+        defaults: false,
+        directives: false,
+        expr: false,
+        drop_console: false,
+        evaluate: false,
+        hoist_fns: false,
+        hoist_props: false,
+        hoist_vars: false,
+        inline: false,
+        negate_iife: false,
+        passes: 0,
+        reduce_fns: false,
+        reduce_vars: false,
+        sequences: false,
+        side_effects: false,
+        top_level: false,
+        typeofs: false,
+        unsafe_passes: false,
+        unused: false,
+    };
+    let mut default = serde_json::to_value(default)
+        .expect("failed to create serde_json::Value from default options");
+    let v = serde_json::Value::from_str(s)
+        .expect("failed to deserialize config.json into serde_json::Value");
+    {
+        let actual = default.as_object_mut().unwrap();
+        for (k, v) in v
+            .as_object()
+            .unwrap()
+            .into_iter()
+            .map(|(k, v)| (k.clone(), v.clone()))
+        {
+            actual.remove(&k);
+            actual.insert(k, v);
+        }
+    }
+
+    serde_json::from_value(default).expect("failed to deserialize value into a compressor config")
 }
 
 /// Tests ported from terser.
@@ -65,7 +111,7 @@ fn fixture(input: PathBuf) {
     let config = dir.join("config.json");
     let config = read_to_string(&config).expect("failed to read config.json");
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
-    let config: CompressOptions = parse_compressor_config(&config);
+    let config: CompressOptions = parse_config(&config);
 
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).expect("failed to load input.js");
