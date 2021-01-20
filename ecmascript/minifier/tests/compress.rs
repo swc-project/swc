@@ -149,6 +149,7 @@ pub struct TestOptions {
     pub typeofs: bool,
 
     #[serde(default)]
+    #[serde(rename = "unsafe")]
     pub unsafe_passes: bool,
     // unsafe_arrows : false,
     // unsafe_comps  : false,
