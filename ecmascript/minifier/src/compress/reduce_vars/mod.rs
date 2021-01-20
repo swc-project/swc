@@ -14,6 +14,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::undefined;
 use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::Id;
 use swc_ecma_utils::StmtLike;
@@ -36,6 +37,7 @@ pub(super) fn var_reducer(options: CompressOptions) -> impl VisitMut + Repeated 
         simple_array_values: Default::default(),
         data: Default::default(),
         inline_prevented: false,
+        in_strict: false,
     }
 }
 
@@ -50,6 +52,7 @@ struct Reducer {
     simple_array_values: FxHashMap<(Id, usize), Box<Expr>>,
     data: Option<ScopeData>,
     inline_prevented: bool,
+    in_strict: bool,
 }
 
 impl Repeated for Reducer {
@@ -846,11 +849,31 @@ impl VisitMut for Reducer {
 
         match n {
             Stmt::Expr(ExprStmt { expr, .. }) => {
-                //
-                if !expr.may_have_side_effects() {
-                    self.changed = true;
-                    log::trace!("Dropping an expression without side effect");
-                    *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP })
+                let is_directive = match &**expr {
+                    Expr::Lit(Lit::Str(..)) => true,
+                    _ => false,
+                };
+
+                if self.options.directives && is_directive {
+                    if self.in_strict
+                        && match &**expr {
+                            Expr::Lit(Lit::Str(Str { value, .. })) => *value == *"use strict",
+                            _ => false,
+                        }
+                    {
+                        *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                        return;
+                    }
+                }
+
+                if self.options.unused {
+                    let can_be_removed = !is_directive && !expr.may_have_side_effects();
+
+                    if can_be_removed {
+                        self.changed = true;
+                        log::trace!("Dropping an expression without side effect");
+                        *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP })
+                    }
                 }
             }
             _ => {}
@@ -908,10 +931,15 @@ impl VisitMut for Reducer {
             || (self.options.sequences && n.expr.is_seq())
         {
             let expr = self.ignore_return_value(&mut n.expr);
-            n.expr = expr.map(Box::new).unwrap_or_else(|| {
-                Box::new(Expr::Ident(Ident::new(js_word!("undefined"), DUMMY_SP)))
-            });
+            n.expr = expr.map(Box::new).unwrap_or_else(|| undefined(DUMMY_SP));
         }
+    }
+
+    fn visit_mut_class(&mut self, n: &mut Class) {
+        let old_strict = self.in_strict;
+        self.in_strict = true;
+        n.visit_mut_children_with(self);
+        self.in_strict = old_strict;
     }
 }
 
