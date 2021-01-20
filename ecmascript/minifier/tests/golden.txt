@@ -31,6 +31,8 @@ blocks/issue_1672_for/input.js
 class_properties/mangle_class_properties_keep_quoted/input.js
 classes/class_duplication/input.js
 classes/class_duplication_2/input.js
+collapse_vars/boolean_binary_1/input.js
+collapse_vars/boolean_binary_2/input.js
 collapse_vars/cascade_if_2/input.js
 collapse_vars/cascade_return/input.js
 collapse_vars/collapse_rhs_conditional_1/input.js
@@ -285,6 +287,7 @@ reduce_vars/array_forin_1/input.js
 reduce_vars/array_forin_2/input.js
 reduce_vars/array_forof_1/input.js
 reduce_vars/array_forof_2/input.js
+reduce_vars/boolean_binary_assign/input.js
 reduce_vars/booleans/input.js
 reduce_vars/conditional_nested_2/input.js
 reduce_vars/conditional_nested_3/input.js
