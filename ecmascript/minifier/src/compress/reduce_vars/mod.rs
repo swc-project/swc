@@ -738,6 +738,10 @@ impl Reducer {
     }
 
     fn try_removing_block(&mut self, s: &mut Stmt) {
+        if !self.options.conditionals {
+            return;
+        }
+
         match s {
             Stmt::Block(block) if block.stmts.is_empty() => {
                 *s = Stmt::Empty(EmptyStmt { span: block.span });
