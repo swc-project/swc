@@ -103,6 +103,7 @@ dead_code/issue_2597/input.js
 dead_code/issue_2666/input.js
 dead_code/issue_2701/input.js
 dead_code/issue_2929/input.js
+debugger/keep_debugger/input.js
 destructuring/destructuring_arrays/input.js
 destructuring/destructuring_arrays_holes/input.js
 destructuring/destructuring_assign_of_numeric_key/input.js
@@ -231,7 +232,12 @@ html_comments/html_comment_in_less_than/input.js
 html_comments/html_comment_in_right_shift/input.js
 html_comments/html_comment_in_string_literal/input.js
 html_comments/html_comment_in_zero_fill_right_shift/input.js
+ie8/do_screw/input.js
+ie8/dont_screw/input.js
+ie8/dont_screw_constants/input.js
 ie8/issue_2120_2/input.js
+if_return/if_return_1/input.js
+if_return/issue_1437/input.js
 inline/noinline_annotation/input.js
 inline/noinline_annotation_2/input.js
 inline/noinline_annotation_3/input.js
@@ -243,6 +249,8 @@ issue_143/tranformation_sort_order_equal/input.js
 issue_143/tranformation_sort_order_greater_or_equal/input.js
 issue_143/tranformation_sort_order_lesser_or_equal/input.js
 issue_143/tranformation_sort_order_unequal/input.js
+issue_1588/support_ie8/input.js
+issue_1704/mangle_catch_ie8/input.js
 issue_1943/atom/input.js
 issue_1943/keyword/input.js
 issue_1943/name/input.js
@@ -276,6 +284,9 @@ issue_973/this_binding_conditionals/input.js
 keep_names/keep_classnames/input.js
 keep_names/keep_fnames/input.js
 keep_names/keep_var_fnames/input.js
+labels/labels_10/input.js
+labels/labels_5/input.js
+labels/labels_8/input.js
 logical_assignment/assign_in_conditional_part_reused/input.js
 logical_assignment/prematurely_evaluate_assignment/input.js
 logical_assignment/prematurely_evaluate_assignment_inv/input.js
@@ -341,6 +352,17 @@ properties/accessor_this/input.js
 properties/first_256_chars_as_properties/input.js
 properties/first_256_hex_chars_as_properties/input.js
 properties/first_256_unicode_chars_as_properties/input.js
+properties/issue_2893_1/input.js
+properties/issue_2893_2/input.js
+properties/issue_2893_3/input.js
+properties/issue_2893_4/input.js
+properties/issue_2893_5/input.js
+properties/issue_2893_6/input.js
+properties/issue_2893_7/input.js
+properties/issue_2893_8/input.js
+properties/join_object_assignments_3/input.js
+properties/join_object_assignments_NaN_1/input.js
+properties/join_object_assignments_null_0/input.js
 reduce_vars/accessor_1/input.js
 reduce_vars/accessor_2/input.js
 reduce_vars/array_forin_1/input.js
@@ -414,6 +436,7 @@ regexp/regexp_2/input.js
 regexp/regexp_simple/input.js
 regexp/regexp_slashes/input.js
 rename/issue_2120_2/input.js
+rename/mangle_catch_ie8/input.js
 sandbox/console_log/input.js
 sequences/func_def_2/input.js
 sequences/func_def_5/input.js
