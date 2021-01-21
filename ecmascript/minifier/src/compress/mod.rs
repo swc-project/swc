@@ -1,11 +1,11 @@
+use self::drop_console::drop_console;
+use self::hoist_decls::DeclHoisterConfig;
+use self::hoist_props::property_hoister;
+use self::optimize::optimizer;
 use crate::compress::hoist_decls::decl_hoister;
 use crate::debug::dump;
 use crate::option::CompressOptions;
 use crate::util::Optional;
-use drop_console::drop_console;
-use hoist_decls::DeclHoisterConfig;
-use hoist_props::property_hoister;
-use reduce_vars::var_reducer;
 use std::borrow::Cow;
 use swc_common::chain;
 use swc_common::pass::CompilerPass;
@@ -26,7 +26,7 @@ use swc_ecma_visit::VisitMutWith;
 mod drop_console;
 mod hoist_decls;
 mod hoist_props;
-mod reduce_vars;
+mod optimize;
 
 pub fn compressor(options: &CompressOptions) -> impl '_ + JsPass {
     let console_remover = Optional {
@@ -123,9 +123,9 @@ impl VisitMut for Compressor<'_> {
             panic!("Infinite loop detected")
         }
         eprintln!("{}", dump(&*n));
-        if self.pass > 0 || self.options.reduce_vars {
+        {
             // reset_opt_flags
-            let mut visitor = var_reducer(self.options.clone());
+            let mut visitor = optimizer(self.options.clone());
             n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
         }

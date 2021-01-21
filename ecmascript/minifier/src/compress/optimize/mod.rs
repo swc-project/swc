@@ -29,7 +29,7 @@ mod ops;
 mod util;
 
 /// Merge varaibles.
-pub(super) fn var_reducer(options: CompressOptions) -> impl VisitMut + Repeated {
+pub(super) fn optimizer(options: CompressOptions) -> impl VisitMut + Repeated {
     Reducer {
         changed: false,
         options,
