@@ -82,7 +82,10 @@ pub struct CompressOptions {
     #[serde(alias = "drop_console")]
     pub drop_console: bool,
 
-    // drop_debugger : !false_by_default,
+    #[serde(default = "true_by_default")]
+    #[serde(alias = "drop_debugger")]
+    pub drop_debugger: bool,
+
     #[serde(default = "default_ecma")]
     pub ecma: usize,
 
