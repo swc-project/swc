@@ -96,6 +96,12 @@ where
                 // );
             }
 
+            print_hygiene(
+                &format!("processed: {}", info.fm.name),
+                &self.cm,
+                &module.clone().into(),
+            );
+
             if is_entry {
                 self.replace_import_specifiers(&info, &mut module);
                 self.finalize_merging_of_entry(ctx, &mut module);
