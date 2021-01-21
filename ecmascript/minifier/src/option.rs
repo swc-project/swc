@@ -121,11 +121,26 @@ pub struct CompressOptions {
     #[serde(alias = "inline")]
     pub inline: bool,
 
-    // join_vars     : !false_by_default,
-    // keep_classnames: false,
-    // keep_fargs    : true,
-    // keep_fnames   : false,
-    // keep_infinity : false,
+    #[serde(default = "true_by_default")]
+    #[serde(alias = "join_vars")]
+    pub join_vars: bool,
+
+    #[serde(default)]
+    #[serde(alias = "keep_classnames")]
+    pub keep_classnames: bool,
+
+    #[serde(default = "true_by_default")]
+    #[serde(alias = "keep_fargs")]
+    pub keep_fargs: bool,
+
+    #[serde(default)]
+    #[serde(alias = "keep_fnames")]
+    pub keep_fnames: bool,
+
+    #[serde(default)]
+    #[serde(alias = "keep_infinity")]
+    pub keep_infinity: bool,
+
     // loops         : !false_by_default,
     // module        : false,
     #[serde(default = "true_by_default")]
