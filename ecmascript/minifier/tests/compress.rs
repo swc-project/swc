@@ -87,20 +87,23 @@ pub struct TestOptions {
     pub directives: bool,
 
     #[serde(default)]
-    pub expression: bool,
-
-    #[serde(default)]
     pub drop_console: bool,
 
-    // drop_debugger : !false_by_default,
+    #[serde(default)]
+    pub drop_debugger: bool,
+
     #[serde(default = "ecma_default")]
     pub ecma: usize,
 
     #[serde(default)]
     pub evaluate: bool,
 
-    // expression    : false,
-    // global_defs   : false,
+    #[serde(default)]
+    pub expression: bool,
+
+    #[serde(default)]
+    pub global_defs: bool,
+
     #[serde(default)]
     pub hoist_funs: bool,
 
@@ -110,16 +113,29 @@ pub struct TestOptions {
     #[serde(default)]
     pub hoist_vars: bool,
 
-    // ie8           : false,
-    // if_return     : !false_by_default,
+    #[serde(default)]
+    pub ie8: bool,
+
+    #[serde(default)]
+    pub if_return: bool,
+
     #[serde(default)]
     pub inline: bool,
 
-    // join_vars     : !false_by_default,
-    // keep_classnames: false,
-    // keep_fargs    : true,
-    // keep_fnames   : false,
-    // keep_infinity : false,
+    #[serde(default)]
+    pub join_vars: bool,
+
+    #[serde(default)]
+    pub keep_classnames: bool,
+
+    #[serde(default)]
+    pub keep_fargs: bool,
+
+    #[serde(default)]
+    pub keep_fnames: bool,
+
+    #[serde(default)]
+    pub keep_infinity: bool,
     // loops         : !false_by_default,
     // module        : false,
     #[serde(default)]
@@ -187,14 +203,23 @@ fn parse_config(s: &str) -> CompressOptions {
         dead_code: c.dead_code,
         defaults: c.defaults,
         directives: c.directives,
-        expr: c.expression,
         drop_console: c.drop_console,
+        drop_debugger: c.drop_debugger,
         ecma: c.ecma,
         evaluate: c.evaluate,
+        expr: c.expression,
+        global_defs: c.global_defs,
         hoist_fns: c.hoist_funs,
         hoist_props: c.hoist_props,
         hoist_vars: c.hoist_vars,
+        ie8: c.ie8,
+        if_return: c.if_return,
         inline: c.inline,
+        join_vars: c.join_vars,
+        keep_classnames: c.keep_classnames,
+        keep_fargs: c.keep_fargs,
+        keep_fnames: c.keep_fnames,
+        keep_infinity: c.keep_infinity,
         negate_iife: c.negate_iife,
         passes: c.passes,
         reduce_fns: c.reduce_funcs,
