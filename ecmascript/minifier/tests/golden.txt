@@ -313,6 +313,7 @@ new/new_with_many_parameters/input.js
 new/new_with_rewritten_true_value/input.js
 new/new_with_unary_prefix/input.js
 node_version/eval_let_6/input.js
+nullish/nullish_coalescing_boolean_context/input.js
 nullish/nullish_coalescing_mandatory_parens/input.js
 nullish/simplify_nullish_coalescing/input.js
 numbers/compress_numbers/input.js
