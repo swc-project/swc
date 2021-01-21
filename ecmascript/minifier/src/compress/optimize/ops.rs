@@ -114,7 +114,7 @@ impl Reducer {
             }
 
             Expr::Lit(Lit::Str(s)) => {
-                log::debug!("Converting string as boolean expressions");
+                log::trace!("Converting string as boolean expressions");
                 self.changed = true;
                 *n = Expr::Lit(Lit::Num(Number {
                     span: s.span,
@@ -127,7 +127,7 @@ impl Reducer {
                     return;
                 }
 
-                log::debug!("Converting number as boolean expressions");
+                log::trace!("Converting number as boolean expressions");
                 self.changed = true;
                 *n = Expr::Lit(Lit::Num(Number {
                     span: num.span,
@@ -143,7 +143,7 @@ impl Reducer {
             }) => {
                 // Optimize if (a ?? false); as if (a);
                 if let Value::Known(false) = right.as_pure_bool() {
-                    log::debug!("Dropping right operand of `??` as it's always false");
+                    log::trace!("Dropping right operand of `??` as it's always false");
                     self.changed = true;
                     *n = *left.take();
                 }
@@ -390,6 +390,7 @@ impl Reducer {
 
         match l {
             Expr::Lit(Lit::Null(..)) => {
+                log::trace!("Removing null from lhs of ??");
                 self.changed = true;
                 *e = r.take();
                 return;
@@ -399,6 +400,7 @@ impl Reducer {
             | Expr::Lit(Lit::BigInt(..))
             | Expr::Lit(Lit::Bool(..))
             | Expr::Lit(Lit::Regex(..)) => {
+                log::trace!("Removing rhs of ?? as lhs cannot be null nor undefined");
                 self.changed = true;
                 *e = l.take();
                 return;

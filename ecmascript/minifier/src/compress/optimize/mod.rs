@@ -586,6 +586,7 @@ impl Reducer {
             })
             .unwrap_or(js_word!(""));
 
+        log::trace!("Converting call to RegExp into a regexp literal");
         self.changed = true;
         *e = Expr::Lit(Lit::Regex(Regex {
             span,
