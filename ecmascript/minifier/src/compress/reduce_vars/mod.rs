@@ -737,6 +737,18 @@ impl Reducer {
         }
     }
 
+    fn try_removing_block(&mut self, s: &mut Stmt) {
+        match s {
+            Stmt::Block(block) if block.stmts.is_empty() => {
+                *s = Stmt::Empty(EmptyStmt { span: block.span });
+            }
+            Stmt::Block(block) if block.stmts.len() == 1 => {
+                *s = block.stmts.take().into_iter().next().unwrap();
+            }
+            _ => {}
+        }
+    }
+
     fn compress_simple_if(&mut self, s: &mut Stmt) {
         if !self.options.conditionals {
             return;
@@ -1009,6 +1021,8 @@ impl VisitMut for Reducer {
 
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
         n.visit_mut_children_with(self);
+
+        self.try_removing_block(n);
 
         self.compress_simple_if(n);
 
