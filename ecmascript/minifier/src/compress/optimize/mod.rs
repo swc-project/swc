@@ -28,7 +28,7 @@ use swc_ecma_visit::VisitWith;
 mod ops;
 mod util;
 
-/// Merge varaibles.
+/// This pass is simillar to `node.optimize` of terser.
 pub(super) fn optimizer(options: CompressOptions) -> impl VisitMut + Repeated {
     Reducer {
         changed: false,
