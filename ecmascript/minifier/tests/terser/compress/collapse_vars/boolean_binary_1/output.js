@@ -1,4 +1,5 @@
 var a = 1;
 a++;
-((function () {} || a || 3).toString());
+(function() {
+}).toString();
 console.log(a);
