@@ -16,6 +16,7 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::undefined;
 use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::Id;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_utils::Value;
@@ -736,6 +737,31 @@ impl Reducer {
         }
     }
 
+    fn compress_simple_if(&mut self, s: &mut Stmt) {
+        if !self.options.conditionals {
+            return;
+        }
+
+        let stmt = match s {
+            Stmt::If(v) => v,
+            _ => return,
+        };
+
+        if stmt.alt.is_none() {
+            match &mut *stmt.cons {
+                Stmt::Expr(cons) => {
+                    self.changed = true;
+                    *s = Stmt::Expr(ExprStmt {
+                        span: stmt.span,
+                        expr: Box::new(stmt.test.take().make_bin(op!("&&"), *cons.expr.take())),
+                    });
+                    return;
+                }
+                _ => {}
+            }
+        }
+    }
+
     ///
     fn drop_unused_vars_without_init(&mut self, name: &mut Pat) {
         if !self.options.unused || self.ctx.in_var_decl_of_for_in_or_of_loop {
@@ -983,6 +1009,8 @@ impl VisitMut for Reducer {
 
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
         n.visit_mut_children_with(self);
+
+        self.compress_simple_if(n);
 
         match n {
             Stmt::Expr(ExprStmt { expr, .. }) => {
