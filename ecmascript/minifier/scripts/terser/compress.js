@@ -1,24 +1,20 @@
-/* globals module, __dirname, console */
-import "source-map-support/register.js";
-import path from "path";
-import fs, { mkdirSync } from "fs";
+import * as AST from "../lib/ast.js";
+import { Compressor } from "../lib/compress/index.js";
+import { OutputStream } from "../lib/output.js";
+import { parse } from "../lib/parse.js";
+import { mangle_properties, reserve_quoted_keys } from "../lib/propmangle.js";
+import { base54 } from "../lib/scope.js";
+import { defaults, string_template } from "../lib/utils/index.js";
+import { minify } from "../main.js";
+import * as sandbox from "./sandbox.js"
 import assert from "assert";
+import fs, { mkdirSync } from "fs";
+import path from "path";
 import semver from "semver";
 import { fileURLToPath } from "url";
 
-import { minify } from "../main.js";
-import * as AST from "../lib/ast.js";
-import { parse } from "../lib/parse.js";
-import { OutputStream } from "../lib/output.js";
-import { Compressor } from "../lib/compress/index.js";
-import {
-    reserve_quoted_keys,
-    mangle_properties,
-} from "../lib/propmangle.js";
-import { base54 } from "../lib/scope.js";
-import { string_template, defaults } from "../lib/utils/index.js";
-
-import * as sandbox from "./sandbox.js"
+/* globals module, __dirname, console */
+import "source-map-support/register.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -109,7 +105,7 @@ async function run_compress_tests() {
             } else {
                 expect = test.expect_exact;
             }
-            fs.writeFileSync(path.join(dir, 'output.js'), expect);
+            fs.writeFileSync(path.join(dir, 'output.js'), expect || '');
             fs.writeFileSync(path.join(dir, 'config.json'), JSON.stringify(test.options, undefined, 4));
             if (test.expect_error && (test.expect || test.expect_exact || test.expect_stdout)) {
                 log("!!! Test cannot have an `expect_error` with other expect clauses\n", {});
@@ -239,6 +235,7 @@ async function run_compress_tests() {
             }
             output = make_code(output, output_options);
             if (test.expect_stdout && typeof expect == "undefined") {
+                fs.writeFileSync(path.join(dir, 'expected.stdout'), test.expect_stdout);
                 // Do not verify generated `output` against `expect` or `expect_exact`.
                 // Rely on the pending `expect_stdout` check below.
             } else if (expect != output && !process.env.TEST_NO_COMPARE) {
