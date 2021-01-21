@@ -73,11 +73,6 @@ pub struct CompressOptions {
     #[serde(alias = "directives")]
     pub directives: bool,
 
-    /// Should we simplify expressions?
-    #[serde(default)]
-    #[serde(alias = "expression")]
-    pub expr: bool,
-
     #[serde(default)]
     #[serde(alias = "drop_console")]
     pub drop_console: bool,
@@ -93,8 +88,15 @@ pub struct CompressOptions {
     #[serde(alias = "evaluate")]
     pub evaluate: bool,
 
-    // expression    : false,
-    // global_defs   : false,
+    /// Should we simplify expressions?
+    #[serde(default)]
+    #[serde(alias = "expression")]
+    pub expr: bool,
+
+    #[serde(default)]
+    #[serde(alias = "global_defs")]
+    pub global_defs: bool,
+
     #[serde(default)]
     #[serde(alias = "hoist_funs")]
     pub hoist_fns: bool,
@@ -107,8 +109,14 @@ pub struct CompressOptions {
     #[serde(alias = "hoist_vars")]
     pub hoist_vars: bool,
 
-    // ie8           : false,
-    // if_return     : !false_by_default,
+    #[serde(default)]
+    #[serde(alias = "ie8")]
+    pub ie8: bool,
+
+    #[serde(default = "true_by_default")]
+    #[serde(alias = "if_return")]
+    pub if_return: bool,
+
     #[serde(default = "true_by_default")]
     #[serde(alias = "inline")]
     pub inline: bool,
