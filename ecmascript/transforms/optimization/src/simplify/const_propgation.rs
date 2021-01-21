@@ -110,7 +110,6 @@ impl VisitMut for ConstPropagation<'_> {
         match e {
             Expr::Ident(i) => {
                 if let Some(expr) = self.scope.find_var(&i.to_id()) {
-                    dbg!(&i, &expr);
                     *e = *expr.clone();
                     return;
                 }
