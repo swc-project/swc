@@ -1,4 +1,5 @@
 use crate::id::Id;
+use crate::util::MapWithMut;
 use std::collections::HashMap;
 use swc_atoms::js_word;
 use swc_ecma_ast::*;
@@ -65,11 +66,35 @@ impl VisitMut for KeywordRenamer {
         }
     }
 
-    fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
-        if let Some(renamed) = self.renamed(&n.key) {
-            n.key = renamed;
+    fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            ObjectPatProp::Assign(pat) => {
+                if let Some(renamed) = self.renamed(&pat.key) {
+                    match &mut pat.value {
+                        Some(default) => {
+                            *n = ObjectPatProp::KeyValue(KeyValuePatProp {
+                                key: PropName::Ident(pat.key.take()),
+                                value: Box::new(Pat::Assign(AssignPat {
+                                    span: pat.span,
+                                    left: Box::new(Pat::Ident(renamed)),
+                                    right: default.take(),
+                                    type_ann: None,
+                                })),
+                            });
+                        }
+                        None => {
+                            *n = ObjectPatProp::KeyValue(KeyValuePatProp {
+                                key: PropName::Ident(pat.key.take()),
+                                value: Box::new(Pat::Ident(renamed)),
+                            })
+                        }
+                    }
+                }
+            }
+            _ => {}
         }
-        n.value.visit_mut_with(self);
     }
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
