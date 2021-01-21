@@ -1044,6 +1044,12 @@ where
 
             new
         });
+
+        print_hygiene(
+            &format!("prepared: {}", info.fm.name),
+            &self.cm,
+            &module.clone().into(),
+        );
     }
 
     pub(super) fn replace_import_specifiers(&self, info: &TransformedModule, module: &mut Modules) {
