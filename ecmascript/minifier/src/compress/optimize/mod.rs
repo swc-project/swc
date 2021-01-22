@@ -1082,15 +1082,17 @@ impl VisitMut for Reducer {
     fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {
         n.visit_mut_children_with(self);
 
-        if let Some(arg) = &n.arg {
-            match &**arg {
-                Expr::Ident(Ident {
-                    sym: js_word!("undefined"),
-                    ..
-                }) => {
-                    n.arg = None;
+        if !n.delegate {
+            if let Some(arg) = &n.arg {
+                match &**arg {
+                    Expr::Ident(Ident {
+                        sym: js_word!("undefined"),
+                        ..
+                    }) => {
+                        n.arg = None;
+                    }
+                    _ => {}
                 }
-                _ => {}
             }
         }
     }
