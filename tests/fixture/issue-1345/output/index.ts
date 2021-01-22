@@ -1,7 +1,7 @@
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
     var desc = {
     };
-    Object.keys(descriptor).forEach(function (key) {
+    Object.keys(descriptor).forEach(function(key) {
         desc[key] = descriptor[key];
     });
     desc.enumerable = !!desc.enumerable;
@@ -9,7 +9,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
     if ("value" in desc || desc.initializer) {
         desc.writable = true;
     }
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    desc = decorators.slice().reverse().reduce(function(desc, decorator) {
         return decorator(target, property, desc) || desc;
     }, desc);
     if (context && desc.initializer !== void 0) {
@@ -53,7 +53,7 @@ var _dec = ViewColumn({
     name: "AccountMemberView",
     expression: "\n    SELECT\n        m.tmcode, m.mid, m.accea, m.qaccea, m.endday, m.quick_endday,\n        (SELECT COUNT(*) FROM TBLACCOUNT a WHERE m.mid = a.mid AND a.use_quick=\"F\") as accountCnt,\n        (SELECT COUNT(*) FROM TBLACCOUNT a WHERE m.mid = a.mid AND a.use_quick=\"T\") as accountQuickCnt\n    FROM TBLMEMBER m\n    "
 });
-export var AccountMemberView = _class = _dec8((_class = function () {
+export var AccountMemberView = _class = _dec8((_class = function() {
     var AccountMemberView1 = function AccountMemberView1() {
         "use strict";
         _classCallCheck(this, AccountMemberView1);
