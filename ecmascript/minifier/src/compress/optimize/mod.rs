@@ -838,6 +838,10 @@ impl Reducer {
             _ => {}
         }
     }
+
+    /// This compresses a template literal by inlining string literals in
+    /// expresions into quasis.
+    fn compress_tpl(&mut self, tpl: &mut Tpl) {}
 }
 
 impl VisitMut for Reducer {
@@ -849,6 +853,8 @@ impl VisitMut for Reducer {
         n.exprs
             .iter_mut()
             .for_each(|expr| self.optimize_expr_in_str_ctx(&mut **expr));
+
+        self.compress_tpl(n);
     }
 
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
