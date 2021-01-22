@@ -5669,7 +5669,7 @@ eval: function _eval() {
 );
 
 test!(
-    Default::default(),
+    ts(),
     |_| decorators(decorators::Config {
         legacy: true,
         ..Default::default()
