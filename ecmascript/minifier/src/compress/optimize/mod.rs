@@ -841,7 +841,19 @@ impl Reducer {
 
     /// This compresses a template literal by inlining string literals in
     /// expresions into quasis.
-    fn compress_tpl(&mut self, tpl: &mut Tpl) {}
+    ///
+    /// Note that this pass only cares about string literals and conversion to a
+    /// string literal should be done before calling this pass.
+    fn compress_tpl(&mut self, tpl: &mut Tpl) {
+        debug_assert_eq!(tpl.exprs.len() + 1, tpl.quasis.len());
+        let has_str_lit = tpl.exprs.iter().any(|expr| match &**expr {
+            Expr::Lit(Lit::Str(..)) => true,
+            _ => false,
+        });
+        if !has_str_lit {
+            return;
+        }
+    }
 }
 
 impl VisitMut for Reducer {
