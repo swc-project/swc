@@ -2,12 +2,14 @@ use super::Reducer;
 use crate::util::ValueExt;
 use std::mem::swap;
 use swc_atoms::js_word;
+use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::Value;
+use Value::Known;
 
 impl Reducer {
     pub(super) fn optimize_lit_cmp(&mut self, n: &mut BinExpr) -> Option<Expr> {
@@ -62,6 +64,24 @@ impl Reducer {
                 _ => {}
             },
             _ => {}
+        }
+    }
+
+    pub(super) fn optimize_expr_in_str_ctx(&mut self, n: &mut Expr) {
+        match n {
+            Expr::Lit(Lit::Str(..)) => return,
+            _ => {}
+        }
+
+        let span = n.span();
+        let value = n.as_string();
+        if let Known(value) = value {
+            *n = Expr::Lit(Lit::Str(Str {
+                span,
+                value: value.into(),
+                has_escape: false,
+                kind: Default::default(),
+            }))
         }
     }
 

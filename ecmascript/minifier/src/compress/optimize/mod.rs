@@ -843,6 +843,14 @@ impl Reducer {
 impl VisitMut for Reducer {
     noop_visit_mut_type!();
 
+    fn visit_mut_tpl(&mut self, n: &mut Tpl) {
+        n.visit_mut_children_with(self);
+
+        n.exprs
+            .iter_mut()
+            .for_each(|expr| self.optimize_expr_in_str_ctx(&mut **expr));
+    }
+
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
         n.visit_mut_children_with(self);
 
