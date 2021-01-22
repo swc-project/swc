@@ -663,7 +663,7 @@ impl Reducer {
     fn merge_var_decls(&mut self, stmts: &mut Vec<Stmt>) {
         // Merge var declarations fully, if possible.
         if stmts.windows(2).any(|stmts| match (&stmts[0], &stmts[1]) {
-            (Stmt::Decl(Decl::Var(..)), Stmt::Decl(Decl::Var(..))) => true,
+            (Stmt::Decl(Decl::Var(a)), Stmt::Decl(Decl::Var(b))) => a.kind == b.kind,
             _ => false,
         }) {
             self.changed = true;
