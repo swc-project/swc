@@ -1084,14 +1084,8 @@ impl VisitMut for Reducer {
 
         if !n.delegate {
             if let Some(arg) = &n.arg {
-                match &**arg {
-                    Expr::Ident(Ident {
-                        sym: js_word!("undefined"),
-                        ..
-                    }) => {
-                        n.arg = None;
-                    }
-                    _ => {}
+                if is_pure_undefind(&arg) {
+                    n.arg = None;
                 }
             }
         }
