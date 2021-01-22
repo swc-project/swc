@@ -510,4 +510,5 @@ yield/issue_t60/input.js
 yield/yield_before_punctuators/input.js
 yield/yield_dot/input.js
 yield/yield_optimize_expression/input.js
+yield/yield_statements/input.js
 yield/yield_sub/input.js
