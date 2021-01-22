@@ -5667,3 +5667,39 @@ eval: function _eval() {
 
 "#
 );
+
+test!(
+    Default::default(),
+    |_| decorators(decorators::Config {
+        legacy: true,
+        ..Default::default()
+    }),
+    swc_node_210,
+    "
+    class Foo{
+      @dec
+      [foo]() {
+      }
+    }
+    ",
+    "
+    let Foo = _decorate(null, function (_initialize) {
+      class Foo {
+        constructor() {
+          _initialize(this);
+        }
+    
+      }
+    
+      return {
+        F: Foo,
+        d: [{
+          kind: 'method',
+          decorators: [dec],
+          key: foo,
+          value: function () {}
+        }]
+      };
+    });
+    "
+);
