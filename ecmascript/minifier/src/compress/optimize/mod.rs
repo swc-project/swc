@@ -1,4 +1,5 @@
 use crate::option::CompressOptions;
+use crate::util::contains_leaping_yield;
 use crate::util::usage::ScopeData;
 use crate::util::usage::UsageAnalyzer;
 use fxhash::FxHashMap;
@@ -663,7 +664,9 @@ impl Reducer {
     fn merge_var_decls(&mut self, stmts: &mut Vec<Stmt>) {
         // Merge var declarations fully, if possible.
         if stmts.windows(2).any(|stmts| match (&stmts[0], &stmts[1]) {
-            (Stmt::Decl(Decl::Var(a)), Stmt::Decl(Decl::Var(b))) => a.kind == b.kind,
+            (Stmt::Decl(Decl::Var(a)), Stmt::Decl(Decl::Var(b))) => {
+                a.kind == b.kind && !contains_leaping_yield(a) && !contains_leaping_yield(b)
+            }
             _ => false,
         }) {
             self.changed = true;

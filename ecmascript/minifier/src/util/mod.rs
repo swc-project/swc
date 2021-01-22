@@ -1,14 +1,42 @@
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeated;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_utils::Value;
+use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::Fold;
 use swc_ecma_visit::FoldWith;
+use swc_ecma_visit::Node;
+use swc_ecma_visit::Visit;
+use swc_ecma_visit::VisitWith;
 
 pub(crate) mod base54;
 pub(crate) mod sort;
 pub(crate) mod usage;
+
+pub(crate) fn contains_leaping_yield<N>(n: &N) -> bool
+where
+    N: VisitWith<YieldFinder>,
+{
+    let mut v = YieldFinder { found: false };
+    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    v.found
+}
+
+pub(crate) struct YieldFinder {
+    found: bool,
+}
+
+impl Visit for YieldFinder {
+    noop_visit_type!();
+
+    fn visit_yield_expr(&mut self, n: &YieldExpr, _: &dyn Node) {
+        self.found = true;
+    }
+    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+}
 
 /// This method returns true only if `T` is `var`. (Not `const` or `let`)
 pub(crate) fn is_hoisted_var_decl_without_init<T>(t: &T) -> bool
