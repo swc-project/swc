@@ -848,6 +848,8 @@ impl VisitMut for Reducer {
     noop_visit_mut_type!();
 
     fn visit_mut_tpl(&mut self, n: &mut Tpl) {
+        debug_assert_eq!(n.exprs.len() + 1, n.quasis.len());
+
         n.visit_mut_children_with(self);
 
         n.exprs
@@ -855,6 +857,12 @@ impl VisitMut for Reducer {
             .for_each(|expr| self.optimize_expr_in_str_ctx(&mut **expr));
 
         self.compress_tpl(n);
+
+        debug_assert_eq!(
+            n.exprs.len() + 1,
+            n.quasis.len(),
+            "tagged template literal compressor created an invalid template literal"
+        );
     }
 
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
