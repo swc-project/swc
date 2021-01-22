@@ -478,6 +478,7 @@ typeof/issue_1668/input.js
 typeof/issue_2728_1/input.js
 typeof/issue_2728_2/input.js
 typeof/issue_2728_6/input.js
+typeof/typeof_evaluation/input.js
 typeof/typeof_in_boolean_context/input.js
 unicode/ID_continue_with_surrogate_pair/input.js
 unicode/check_escape_style/input.js
