@@ -382,9 +382,25 @@ impl Reducer {
         }))
     }
 
+    /// 
+    /// - `undefined` => `void 0`
+    fn compress_undefined(&mut self, e: &mut Expr) {
+        match e {
+            Expr::Ident(Ident {
+                span,
+                sym: js_word!("undefined"),
+                ..
+            }) => {
+                *e = *undefined(*span);
+                return;
+            }
+            _ => {}
+        }
+    }
+
     ///
-    /// - `true` => ``
-    /// - `` => ``
+    /// - `true` => `!1`
+    /// - `false` => `!0`
     fn compress_lits(&mut self, e: &mut Expr) {
         let lit = match e {
             Expr::Lit(lit) => lit,
@@ -975,7 +991,10 @@ impl VisitMut for Reducer {
         }
 
         self.compress_regexp(n);
+
         self.compress_lits(n);
+
+        self.compress_undefined(n);
 
         self.compress_typeofs(n);
 
