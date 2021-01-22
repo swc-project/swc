@@ -66,7 +66,11 @@ impl VisitMut for ConstPropagation<'_> {
                                 self.scope.vars.insert(name.to_id(), init.clone());
                             }
 
-                            Expr::Ident(init) => {
+                            Expr::Ident(init)
+                                if name.span.is_dummy()
+                                    || var.span.is_dummy()
+                                    || init.span.is_dummy() =>
+                            {
                                 // This check is required to prevent breaking some codes.
                                 if let Some(value) = self.scope.vars.get(&init.to_id()).cloned() {
                                     self.scope.vars.insert(name.to_id(), value);
@@ -110,7 +114,6 @@ impl VisitMut for ConstPropagation<'_> {
         match e {
             Expr::Ident(i) => {
                 if let Some(expr) = self.scope.find_var(&i.to_id()) {
-                    dbg!(&i, &expr);
                     *e = *expr.clone();
                     return;
                 }
