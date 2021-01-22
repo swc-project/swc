@@ -29,6 +29,7 @@ jobs:
 
   check-all:
     name: Compilability
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       # Ensure that all components all compilable.
