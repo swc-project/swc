@@ -3,8 +3,13 @@ arrays/length/input.js
 arrays/spread_with_array_at_end/input.js
 arrays/spread_with_logical_expression_at_end/input.js
 arrays/spread_with_logical_expression_at_middle/input.js
+arrays/spread_with_variable_as_last_element/input.js
+arrays/spread_with_variable_at_front/input.js
+arrays/spread_with_variable_at_front_after_elisions/input.js
+arrays/spread_with_variable_in_middle/input.js
 arrow/arrow_binding_pattern_strict/input.js
 arrow/arrow_function_with_single_parameter_with_default/input.js
+arrow/arrow_functions_with_body/input.js
 arrow/arrow_functions_without_body/input.js
 arrow/arrow_with_regexp/input.js
 arrow/concise_method_with_super/input.js
@@ -99,6 +104,7 @@ dead_code/dead_code_1/input.js
 dead_code/dead_code_block_decls_die/input.js
 dead_code/issue_2383_1/input.js
 dead_code/issue_2383_2/input.js
+dead_code/issue_2383_3/input.js
 dead_code/issue_2597/input.js
 dead_code/issue_2666/input.js
 dead_code/issue_2701/input.js
@@ -108,6 +114,7 @@ destructuring/destructuring_arrays/input.js
 destructuring/destructuring_arrays_holes/input.js
 destructuring/destructuring_assign_of_numeric_key/input.js
 destructuring/destructuring_constdef_in_loops/input.js
+destructuring/destructuring_decl_of_computed_key/input.js
 destructuring/destructuring_decl_of_numeric_key/input.js
 destructuring/destructuring_expressions/input.js
 destructuring/destructuring_letdef_in_loops/input.js
@@ -127,6 +134,7 @@ directives/simple_statement_is_not_a_directive/input.js
 drop_console/drop_console_1/input.js
 drop_unused/const_assign/input.js
 drop_unused/double_assign_3/input.js
+drop_unused/issue_1709/input.js
 drop_unused/issue_2063/input.js
 drop_unused/issue_3146_1/input.js
 drop_unused/issue_3146_2/input.js
@@ -201,6 +209,7 @@ harmony/export_default_class_decl/input.js
 harmony/export_default_object_expression/input.js
 harmony/export_module_statement/input.js
 harmony/export_statement/input.js
+harmony/export_statement_mangling/input.js
 harmony/fat_arrow_as_param/input.js
 harmony/format_methods/input.js
 harmony/import_all_statement/input.js
@@ -210,6 +219,8 @@ harmony/issue_3028/input.js
 harmony/new_target/input.js
 harmony/number_literals/input.js
 harmony/object_literal_method_using_arguments/input.js
+harmony/regression_cannot_destructure/input.js
+harmony/typeof_arrow_functions/input.js
 hoist/dont_hoist_var_destructurings/input.js
 hoist/hoist_funs/input.js
 hoist_props/contains_this_3/input.js
@@ -224,6 +235,9 @@ hoist_props/toplevel_let/input.js
 hoist_props/toplevel_var/input.js
 hoist_vars/issue_2295/input.js
 hoist_vars/regression_toplevel_args/input.js
+hoist_vars/sequences_funs/input.js
+hoist_vars/statements/input.js
+hoist_vars/statements_funs/input.js
 html_comments/html_comment_in_expression/input.js
 html_comments/html_comment_in_greater_than/input.js
 html_comments/html_comment_in_greater_than_or_equal/input.js
@@ -237,11 +251,14 @@ ie8/dont_screw/input.js
 ie8/dont_screw_constants/input.js
 ie8/issue_2120_2/input.js
 if_return/if_return_1/input.js
+if_return/issue_1317/input.js
+if_return/issue_1317_strict/input.js
 if_return/issue_1437/input.js
 inline/noinline_annotation/input.js
 inline/noinline_annotation_2/input.js
 inline/noinline_annotation_3/input.js
 issue_1001/parenthesis_strings_in_parenthesis/input.js
+issue_1041/const_declaration/input.js
 issue_1044/issue_1044/input.js
 issue_12/keep_name_of_getter/input.js
 issue_12/setter_with_operator_keys/input.js
@@ -249,6 +266,7 @@ issue_143/tranformation_sort_order_equal/input.js
 issue_143/tranformation_sort_order_greater_or_equal/input.js
 issue_143/tranformation_sort_order_lesser_or_equal/input.js
 issue_143/tranformation_sort_order_unequal/input.js
+issue_1588/runtime_error/input.js
 issue_1588/support_ie8/input.js
 issue_1704/mangle_catch_ie8/input.js
 issue_1943/atom/input.js
@@ -281,6 +299,7 @@ issue_782/dont_remove_this_binding_sequence/input.js
 issue_782/remove_redundant_sequence_items/input.js
 issue_926/template_strings/input.js
 issue_973/this_binding_conditionals/input.js
+issue_973/this_binding_side_effects/input.js
 keep_names/keep_classnames/input.js
 keep_names/keep_fnames/input.js
 keep_names/keep_var_fnames/input.js
@@ -330,11 +349,13 @@ object/concise_methods/input.js
 object/concise_methods_and_keyword_names/input.js
 object/concise_methods_with_computed_property/input.js
 object/concise_methods_with_various_property_names/input.js
+object/getter_setter/input.js
 object/getter_setter_with_computed_value/input.js
 object/issue_206/input.js
 object/issue_2554_5/input.js
 object/methods_and_getters_with_keep_quoted_props_enabled/input.js
 object/property_with_operator_value/input.js
+object/use_shorthand_opportunity/input.js
 object/variable_as_computed_property/input.js
 parameters/accept_duplicated_parameters_in_non_strict_without_spread_or_default_assignment/input.js
 parameters/arrow_functions/input.js
