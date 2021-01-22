@@ -382,7 +382,7 @@ impl Reducer {
         }))
     }
 
-    /// 
+    ///
     /// - `undefined` => `void 0`
     fn compress_undefined(&mut self, e: &mut Expr) {
         match e {
@@ -994,8 +994,6 @@ impl VisitMut for Reducer {
 
         self.compress_lits(n);
 
-        self.compress_undefined(n);
-
         self.compress_typeofs(n);
 
         self.optimize_nullish_coalescing(n);
@@ -1102,7 +1100,9 @@ impl VisitMut for Reducer {
         n.visit_mut_children_with(self);
 
         if !n.delegate {
-            if let Some(arg) = &n.arg {
+            if let Some(arg) = &mut n.arg {
+                self.compress_undefined(&mut **arg);
+
                 if is_pure_undefind(&arg) {
                     n.arg = None;
                 }
