@@ -222,7 +222,12 @@ impl Reducer {
                         }
 
                         // Single use => inlined
-                        if usage.ref_count == 1 {
+                        if (self.options.reduce_vars
+                            || self.options.collapse_vars
+                            || self.options.inline
+                            || self.options.defaults)
+                            && usage.ref_count == 1
+                        {
                             if init.may_have_side_effects() {
                                 // TODO: Inline partially
                                 return;
