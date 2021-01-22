@@ -1,0 +1,6 @@
+{
+  "parser": {
+    "syntax": "typescript",
+    "tsx": true
+  }
+}
