@@ -3,10 +3,11 @@ const [a, b, c] = [
     2,
     3
 ];
+const b1 = b;
 const mod = function() {
-    const b1 = b;
+    const b2 = b1;
     return {
-        b: b
+        b: b1
     };
 }();
 console.log(mod);

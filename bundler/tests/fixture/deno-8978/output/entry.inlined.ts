@@ -1,3 +1,4 @@
 const f = ()=>"hello world"
 ;
-export { f as any };
+const any1 = f;
+export { any1 as any };
