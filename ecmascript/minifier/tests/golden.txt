@@ -505,6 +505,7 @@ yield/empty_generator_as_parameter_without_side_effects/input.js
 yield/generator_yield_undefined/input.js
 yield/generators/input.js
 yield/generators_yield/input.js
+yield/issue_2832/input.js
 yield/issue_t60/input.js
 yield/yield_before_punctuators/input.js
 yield/yield_dot/input.js
