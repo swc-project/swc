@@ -1,6 +1,7 @@
 use super::Reducer;
 use crate::util::ValueExt;
 use std::mem::swap;
+use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -425,7 +426,9 @@ impl Reducer {
             }) => match &**arg {
                 Expr::Ident(arg) => {
                     if let Some(value) = self.typeofs.get(&arg.to_id()).cloned() {
-                        log::trace!("Converting typeof to literal as we know the value");
+                        log::trace!(
+                            "Converting typeof of variable to literal as we know the value"
+                        );
                         self.changed = true;
                         *e = Expr::Lit(Lit::Str(Str {
                             span: *span,
@@ -435,6 +438,30 @@ impl Reducer {
                         }));
                         return;
                     }
+                }
+
+                Expr::Arrow(..) | Expr::Fn(..) => {
+                    log::trace!("Converting typeof to 'function' as we know the value");
+                    self.changed = true;
+                    *e = Expr::Lit(Lit::Str(Str {
+                        span: *span,
+                        value: js_word!("function"),
+                        has_escape: false,
+                        kind: Default::default(),
+                    }));
+                    return;
+                }
+
+                Expr::Array(..) | Expr::Object(..) => {
+                    log::trace!("Converting typeof to 'object' as we know the value");
+                    self.changed = true;
+                    *e = Expr::Lit(Lit::Str(Str {
+                        span: *span,
+                        value: js_word!("object"),
+                        has_escape: false,
+                        kind: Default::default(),
+                    }));
+                    return;
                 }
                 _ => {}
             },

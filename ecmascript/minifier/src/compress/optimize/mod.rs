@@ -200,7 +200,7 @@ impl Reducer {
                     if let Some(usage) = data.vars.get(&i.to_id()) {
                         if self.options.typeofs && !usage.reassigned {
                             match &**init {
-                                Expr::Fn(..) => {
+                                Expr::Fn(..) | Expr::Arrow(..) => {
                                     self.typeofs.insert(i.to_id(), js_word!("function"));
                                 }
                                 Expr::Array(..) | Expr::Object(..) => {
