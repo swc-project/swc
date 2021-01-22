@@ -1099,10 +1099,10 @@ impl VisitMut for Reducer {
     fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {
         n.visit_mut_children_with(self);
 
-        if !n.delegate {
-            if let Some(arg) = &mut n.arg {
-                self.compress_undefined(&mut **arg);
+        if let Some(arg) = &mut n.arg {
+            self.compress_undefined(&mut **arg);
 
+            if !n.delegate {
                 if is_pure_undefind(&arg) {
                     n.arg = None;
                 }
