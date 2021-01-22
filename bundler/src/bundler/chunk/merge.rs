@@ -2,7 +2,6 @@ use super::plan::DepType;
 use super::plan::Plan;
 use crate::bundler::chunk::export::inject_export;
 use crate::bundler::keywords::KeywordRenamer;
-use crate::debug::print_hygiene;
 use crate::{
     bundler::{
         chunk::plan::NormalPlan,
@@ -96,11 +95,11 @@ where
                 // );
             }
 
-            print_hygiene(
-                &format!("processed: {}", info.fm.name),
-                &self.cm,
-                &module.clone().into(),
-            );
+            // print_hygiene(
+            //     &format!("processed: {}", info.fm.name),
+            //     &self.cm,
+            //     &module.clone().into(),
+            // );
 
             if is_entry {
                 self.replace_import_specifiers(&info, &mut module);
@@ -692,7 +691,7 @@ where
 
         entry.sort(&self.cm);
 
-        print_hygiene("done", &self.cm, &entry.clone().into());
+        // print_hygiene("done", &self.cm, &entry.clone().into());
 
         entry.retain_mut(|item| {
             match item {
