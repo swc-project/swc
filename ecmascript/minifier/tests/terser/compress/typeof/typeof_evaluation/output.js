@@ -1,7 +1,7 @@
 a = "number";
 b = "string";
-c = typeof [];
-d = typeof {};
+c = "object";
+d = "object";
 e = typeof /./;
 f = "boolean";
 g = "function";
