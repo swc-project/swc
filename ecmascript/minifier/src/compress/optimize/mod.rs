@@ -198,7 +198,7 @@ impl Reducer {
                 // Store variables if it's used only once
                 if let Some(data) = &mut self.data {
                     if let Some(usage) = data.vars.get(&i.to_id()) {
-                        if self.options.typeofs && !usage.reassigned {
+                        if self.options.reduce_vars && self.options.typeofs && !usage.reassigned {
                             match &**init {
                                 Expr::Fn(..) | Expr::Arrow(..) => {
                                     self.typeofs.insert(i.to_id(), js_word!("function"));
