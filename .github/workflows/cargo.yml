@@ -27,51 +27,8 @@ jobs:
       - name: Run cargo fmt
         run: cargo fmt --all -- --check
 
-  test_crate: &test_crate
-    name: Test ({{crate}})
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 14
-
-      - name: Checkout submodules
-        shell: bash
-        run: |
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-          git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
-
-      - name: Install node dependencies
-        run: |
-          npm config set prefix ~/npm
-          npm i browserslist regenerator-runtime sourcemap-validator progress
-          npm i -g jest
-
-      - name: Cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/
-            **/target/
-          key: ${{ runner.os }}-cargo-test
-
-      # Ensure that all components all compilable.
-      - name: Run cargo check for all targets
-        run: cargo check --color always --all --all-targets
-
-      - name: Run cargo test
-        run: |
-          export PATH="$PATH:$HOME/npm/bin"
-          cargo test --color always --package {{crate}}
-
-  test_swc:
-    <<: *test_crate
-    crate: swc
-
   test:
+    name: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
