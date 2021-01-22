@@ -37,6 +37,7 @@ pub(super) fn optimizer(options: CompressOptions) -> impl VisitMut + Repeated {
         vars: Default::default(),
         simple_props: Default::default(),
         simple_array_values: Default::default(),
+        typeofs: Default::default(),
         data: Default::default(),
         ctx: Default::default(),
     }
@@ -59,6 +60,7 @@ struct Reducer {
     vars: FxHashMap<Id, Box<Expr>>,
     simple_props: FxHashMap<(Id, JsWord), Box<Expr>>,
     simple_array_values: FxHashMap<(Id, usize), Box<Expr>>,
+    typeofs: FxHashMap<Id, JsWord>,
     data: Option<ScopeData>,
     ctx: Ctx,
 }
@@ -196,6 +198,17 @@ impl Reducer {
                 // Store variables if it's used only once
                 if let Some(data) = &mut self.data {
                     if let Some(usage) = data.vars.get(&i.to_id()) {
+                        if self.options.typeofs && !usage.reassigned {
+                            match &**init {
+                                Expr::Fn(..) => {
+                                    self.typeofs.insert(i.to_id(), js_word!("function"));
+                                }
+                                Expr::Array(..) | Expr::Object(..) => {
+                                    self.typeofs.insert(i.to_id(), js_word!("object"));
+                                }
+                                _ => {}
+                            }
+                        }
                         // No use => doppred
                         if usage.ref_count == 0 {
                             if init.may_have_side_effects() {

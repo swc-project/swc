@@ -4,6 +4,7 @@ use std::mem::swap;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::Value;
 
@@ -413,6 +414,31 @@ impl Reducer {
     pub(super) fn compress_typeofs(&mut self, e: &mut Expr) {
         if !self.options.typeofs {
             return;
+        }
+
+        match e {
+            Expr::Unary(UnaryExpr {
+                span,
+                op: op!("typeof"),
+                arg,
+                ..
+            }) => match &**arg {
+                Expr::Ident(arg) => {
+                    if let Some(value) = self.typeofs.get(&arg.to_id()).cloned() {
+                        log::trace!("Converting typeof to literal as we know the value");
+                        self.changed = true;
+                        *e = Expr::Lit(Lit::Str(Str {
+                            span: *span,
+                            value,
+                            has_escape: false,
+                            kind: Default::default(),
+                        }));
+                        return;
+                    }
+                }
+                _ => {}
+            },
+            _ => {}
         }
     }
 }
