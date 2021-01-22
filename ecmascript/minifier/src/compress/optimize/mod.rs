@@ -964,6 +964,8 @@ impl VisitMut for Reducer {
         self.compress_regexp(n);
         self.compress_lits(n);
 
+        self.compress_typeofs(n);
+
         self.optimize_nullish_coalescing(n);
 
         self.optimize_logical_exprs(n);

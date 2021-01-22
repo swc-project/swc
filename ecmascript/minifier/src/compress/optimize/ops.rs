@@ -408,4 +408,11 @@ impl Reducer {
             _ => {}
         }
     }
+
+    /// `typeof b !== 'undefined'` => `b != void 0`
+    pub(super) fn compress_typeofs(&mut self, e: &mut Expr) {
+        if !self.options.typeofs {
+            return;
+        }
+    }
 }
