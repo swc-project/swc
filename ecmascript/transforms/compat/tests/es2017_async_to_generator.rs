@@ -2236,32 +2236,97 @@ test!(
     |_| async_to_generator(),
     issue_1125_1,
     "
-  async function test() {
-      try {
-          await 1
-      } finally {
-          console.log(2)
-      }
-  }
-  test()
-  ",
+async function test() {
+    try {
+        await 1
+    } finally {
+        console.log(2)
+    }
+}
+test()
+",
     "
-    function _test() {
-      _test = _asyncToGenerator(function* () {
-        try {
-          yield 1;
-        } finally {
-          console.log(2);
-        }
-      });
-      return _test.apply(this, arguments);
-    }
+  function _test() {
+    _test = _asyncToGenerator(function* () {
+      try {
+        yield 1;
+      } finally {
+        console.log(2);
+      }
+    });
+    return _test.apply(this, arguments);
+  }
 
-    function test() {
-      return _test.apply(this, arguments);
+  function test() {
+    return _test.apply(this, arguments);
+  }
+  
+  
+  test();
+  "
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1341_1,
+    "
+    class A {
+      val = '1';
+      async foo() {
+          try {           
+              return await (async (x) => x + this.val)('a');
+          } catch (e) {
+              throw e;
+          }
+      }
     }
-    
-    
-    test();
+    ",
+    "
+    class A {
+      val = '1';
+      foo() {
+          return _asyncToGenerator((function*() {
+              try {
+                  return yield (function(x) {
+                      var _ref = _asyncToGenerator((function*(x) {
+                          return x + this.val;
+                      }).bind(this));
+                      return function() {
+                          return _ref.apply(this, arguments);
+                      };
+                  }).bind(this)()('a');
+              } catch (e) {
+                  throw e;
+              }
+          }).bind(this))();
+      }
+    }
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1341_2,
+    "
+    class A {
+      val = '1';
+      async foo() {
+        return await (async (x) => x + this.val)('a');
+      }
+    }
+    ",
+    "
+    class A {
+      val = '1';
+      foo() {
+          return _asyncToGenerator((function*() {
+              return yield (async function(x) {
+                  return x + this.val;
+              }).bind(this)('a');
+          }).bind(this))();
+      }
+    }
     "
 );
