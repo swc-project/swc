@@ -361,9 +361,19 @@ impl Legacy {
                     dec_exprs.push(Some(i.as_arg()))
                 }
 
-                let name = match m.key {
-                    PropName::Computed(..) => {
-                        unimplemented!("decorators on methods with computed key")
+                let name = match &m.key {
+                    PropName::Computed(e) => {
+                        let (name, aliased) = alias_if_required(&e.expr, "key");
+                        if aliased {
+                            self.initialized_vars.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(name.clone()),
+                                init: Some(e.expr.clone()),
+                                definite: Default::default(),
+                            })
+                        }
+
+                        Expr::Ident(name)
                     }
                     _ => prop_name_to_expr_value(m.key.clone()),
                 };
