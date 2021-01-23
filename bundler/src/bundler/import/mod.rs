@@ -104,6 +104,8 @@ pub(super) struct RawImports {
     pub forced_ns: HashSet<JsWord>,
 }
 
+/// This type implements two operation (analysis, deglobbing) to reduce binary
+/// size.
 struct ImportHandler<'a, 'b, L, R>
 where
     L: Load,
@@ -199,6 +201,113 @@ where
     R: Resolve,
 {
     noop_visit_mut_type!();
+
+    fn visit_mut_import_decl(&mut self, import: &mut ImportDecl) {
+        // Ignore if it's a core module.
+        if self
+            .bundler
+            .config
+            .external_modules
+            .contains(&import.src.value)
+        {
+            return;
+        }
+
+        if !self.deglob_phase {
+            if let Some((_, export_ctxt)) = self.ctxt_for(&import.src.value) {
+                // Firstly we attach proper syntax contexts.
+                import.span = import.span.with_ctxt(export_ctxt);
+
+                // Then we store list of imported identifiers.
+                for specifier in &mut import.specifiers {
+                    match specifier {
+                        ImportSpecifier::Named(n) => {
+                            self.imported_idents.insert(n.local.to_id(), export_ctxt);
+                            match &mut n.imported {
+                                Some(imported) => {
+                                    imported.span.ctxt = export_ctxt;
+                                }
+                                None => {
+                                    let mut imported: Ident = n.local.clone();
+                                    imported.span.ctxt = export_ctxt;
+                                    n.imported = Some(imported);
+                                }
+                            }
+                        }
+                        ImportSpecifier::Default(n) => {
+                            self.imported_idents
+                                .insert(n.local.to_id(), n.local.span.ctxt);
+                        }
+                        ImportSpecifier::Namespace(n) => {
+                            self.imported_idents.insert(n.local.to_id(), export_ctxt);
+                        }
+                    }
+                }
+            }
+
+            self.info.insert(&import);
+            return;
+        }
+
+        // Now we are in deglobbing phase.
+
+        // deglob namespace imports
+        if import.specifiers.len() == 1 {
+            match &import.specifiers[0] {
+                ImportSpecifier::Namespace(_ns) => {
+                    //
+                    let specifiers = self
+                        .ns_usage
+                        .remove(&import.src.value)
+                        .map(|ids| {
+                            //
+                            let specifiers: Vec<_> = ids
+                                .into_iter()
+                                .map(|id| {
+                                    self.idents_to_deglob.insert(id.clone());
+                                    ImportSpecifier::Named(ImportNamedSpecifier {
+                                        span: DUMMY_SP,
+                                        local: Ident::new(id.0, DUMMY_SP.with_ctxt(id.1)),
+                                        imported: None,
+                                    })
+                                })
+                                .collect();
+
+                            for import_info in &mut self.info.imports {
+                                if import_info.src != import.src {
+                                    continue;
+                                }
+
+                                import_info.specifiers.extend(specifiers.clone());
+                            }
+
+                            specifiers
+                        })
+                        .unwrap_or_else(Vec::new);
+
+                    if !specifiers.is_empty() {
+                        import.specifiers = specifiers;
+                        return;
+                    }
+
+                    self.info.forced_ns.insert(import.src.value.clone());
+                }
+
+                _ => {}
+            }
+        }
+
+        import
+    }
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        if !self.deglob_phase {
+            // Firstly, we
+        } else {
+        }
+    }
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         let old = self.in_obj_of_member;
@@ -328,104 +437,6 @@ where
     R: Resolve,
 {
     noop_fold_type!();
-
-    fn fold_import_decl(&mut self, mut import: ImportDecl) -> ImportDecl {
-        if !self.deglob_phase {
-            // Ignore if it's a core module.
-            if self
-                .bundler
-                .config
-                .external_modules
-                .contains(&import.src.value)
-            {
-                return import;
-            }
-
-            if let Some((_, export_ctxt)) = self.ctxt_for(&import.src.value) {
-                import.span = import.span.with_ctxt(export_ctxt);
-
-                for specifier in &mut import.specifiers {
-                    match specifier {
-                        ImportSpecifier::Named(n) => {
-                            self.imported_idents.insert(n.local.to_id(), export_ctxt);
-                            match &mut n.imported {
-                                Some(imported) => {
-                                    imported.span.ctxt = export_ctxt;
-                                }
-                                None => {
-                                    let mut imported: Ident = n.local.clone();
-                                    imported.span.ctxt = export_ctxt;
-                                    n.imported = Some(imported);
-                                }
-                            }
-                        }
-                        ImportSpecifier::Default(n) => {
-                            self.imported_idents
-                                .insert(n.local.to_id(), n.local.span.ctxt);
-                        }
-                        ImportSpecifier::Namespace(n) => {
-                            self.imported_idents.insert(n.local.to_id(), export_ctxt);
-                        }
-                    }
-                }
-            }
-
-            self.info.insert(&import);
-            return import;
-        }
-
-        // deglob namespace imports
-        if import.specifiers.len() == 1 {
-            match &import.specifiers[0] {
-                ImportSpecifier::Namespace(_ns) => {
-                    //
-                    let specifiers = self
-                        .ns_usage
-                        .remove(&import.src.value)
-                        .map(|ids| {
-                            //
-                            let specifiers: Vec<_> = ids
-                                .into_iter()
-                                .map(|id| {
-                                    self.idents_to_deglob.insert(id.clone());
-                                    ImportSpecifier::Named(ImportNamedSpecifier {
-                                        span: DUMMY_SP,
-                                        local: Ident::new(id.0, DUMMY_SP.with_ctxt(id.1)),
-                                        imported: None,
-                                    })
-                                })
-                                .collect();
-
-                            for import_info in &mut self.info.imports {
-                                if import_info.src != import.src {
-                                    continue;
-                                }
-
-                                import_info.specifiers.extend(specifiers.clone());
-                            }
-
-                            specifiers
-                        })
-                        .unwrap_or_else(Vec::new);
-
-                    if !specifiers.is_empty() {
-                        let new_import = ImportDecl {
-                            specifiers,
-                            ..import
-                        };
-
-                        return new_import;
-                    }
-
-                    self.info.forced_ns.insert(import.src.value.clone());
-                }
-
-                _ => {}
-            }
-        }
-
-        import
-    }
 
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.top_level = true;
