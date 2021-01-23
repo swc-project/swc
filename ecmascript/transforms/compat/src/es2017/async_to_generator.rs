@@ -1,4 +1,5 @@
 use std::iter;
+use std::mem::replace;
 use swc_common::{Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -140,6 +141,33 @@ impl Fold for Actual {
             },
             ..m
         }
+    }
+
+    /// Removes nested binds like `(function(){}).bind(this).bind(this)`
+    fn fold_call_expr(&mut self, n: CallExpr) -> CallExpr {
+        let mut n = n.fold_children_with(self);
+
+        if let Some(callee) = extract_callee_of_bind_this(&mut n) {
+            match callee {
+                Expr::Call(callee_of_callee) => {
+                    if let Some(..) = extract_callee_of_bind_this(callee_of_callee) {
+                        // We found bind(this).bind(this)
+                        return replace(
+                            callee_of_callee,
+                            CallExpr {
+                                span: DUMMY_SP,
+                                callee: ExprOrSuper::Super(Super { span: DUMMY_SP }),
+                                args: Default::default(),
+                                type_args: Default::default(),
+                            },
+                        );
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        n
     }
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
@@ -884,5 +912,39 @@ impl Visit for ShouldWork {
 impl Check for ShouldWork {
     fn should_handle(&self) -> bool {
         self.found
+    }
+}
+
+fn extract_callee_of_bind_this(n: &mut CallExpr) -> Option<&mut Expr> {
+    if n.args.len() != 1 {
+        return None;
+    }
+
+    match &*n.args[0].expr {
+        Expr::This(..) => {}
+        _ => return None,
+    }
+
+    match &mut n.callee {
+        ExprOrSuper::Super(_) => None,
+        ExprOrSuper::Expr(callee) => match &mut **callee {
+            Expr::Member(MemberExpr {
+                obj,
+                prop,
+                computed: false,
+                ..
+            }) => {
+                match &**prop {
+                    Expr::Ident(Ident { sym, .. }) if *sym == *"bind" => {}
+                    _ => return None,
+                }
+
+                match obj {
+                    ExprOrSuper::Expr(callee) => Some(&mut **callee),
+                    _ => None,
+                }
+            }
+            _ => None,
+        },
     }
 }
