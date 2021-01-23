@@ -2157,15 +2157,14 @@ test!(
                   3
               ]
           ].map(_asyncToGenerator(function*([a]) {
-              return Promise.resolve().then(function() {
-                  return a * 2;
-              });
+              return Promise.resolve().then(()=>a * 2
+              );
           })))));
       });
       return function() {
           return _ref.apply(this, arguments);
       };
-    }();
+    }();  
     "
 );
 
@@ -2289,14 +2288,9 @@ test!(
       foo() {
           return _asyncToGenerator((function*() {
               try {
-                  return yield (function(x) {
-                      var _ref = _asyncToGenerator((function*(x) {
-                          return x + this.val;
-                      }).bind(this));
-                      return function() {
-                          return _ref.apply(this, arguments);
-                      };
-                  }).bind(this)()('a');
+                  return yield _asyncToGenerator((function*(x) {
+                      return x + this.val;
+                  }).bind(this)).bind(this)('a');
               } catch (e) {
                   throw e;
               }
