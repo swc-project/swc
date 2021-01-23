@@ -773,6 +773,12 @@ where
             for item in items {
                 match item {
                     ModuleItem::ModuleDecl(ModuleDecl::Import(mut import)) => {
+                        // Preserve imports from node.js builtin modules.
+                        if self.config.external_modules.contains(&import.src.value) {
+                            new.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
+                            continue;
+                        }
+
                         if let Some((src, _)) = info
                             .imports
                             .specifiers
