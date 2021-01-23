@@ -1,0 +1,240 @@
+import fetch from "node-fetch";
+
+import { AbortSignal } from "./misc/AbortSignal";
+import { DiscordAPIError, DiscordHTTPError } from "../../errors";
+import { AsyncQueue, ClientEvent, sleep, Snowflake, Timers } from "../../utils";
+
+const headers = ["x-ratelimit-limit", "x-ratelimit-remaining", "x-ratelimit-reset-after", "x-ratelimit-reset", "via"];
+
+export class RequestHandler {
+    /**
+     * Used for sequential requests.
+     * @type {AsyncQueue}
+     */
+    #queue = new AsyncQueue();
+
+    /**
+     * @param {Rest} rest The REST Manager.
+     * @param {string} id The ID of this request handler.
+     */
+    constructor(rest, id) {
+        /**
+         * The REST Manager.
+         * @type {Rest}
+         */
+        this.rest = rest;
+
+        /**
+         * The ID of this request handler.
+         * @type {string}
+         */
+        this.id = id;
+
+        /**
+         * Timestamp in which the rate-limit will reset.
+         * @type {number}
+         */
+        this.reset = -1;
+
+        /**
+         * The remaining requests that can be made.
+         * @type {number}
+         */
+        this.remaining = 1;
+
+        /**
+         * The total number of requests that can be made.
+         * @type {number}
+         */
+        this.limit = Infinity;
+    }
+
+    /**
+     * Whether this handler is inactive or not.
+     * @return {boolean}
+     */
+    get inactive() {
+        return !this.#queue.remaining && !this._limited;
+    }
+
+    /**
+     * Whether the rate-limit bucket is currently limited.
+     * @return {boolean}
+     * @private
+     */
+    get _limited() {
+        return this.remaining <= 0 && Date.now() < this.reset;
+    }
+
+    /**
+     * The time until the rate-limit bucket resets.
+     * @private
+     */
+    get _untilReset() {
+        return this.reset - Date.now();
+    }
+
+    /**
+     * Makes a route that can be used as a key.
+     * Taken from https://github.com/abalabahaha/eris/blob/master/lib/rest/RequestHandler.js#L46-L54.
+     * @param {string} method The method.
+     * @param {string} url The URL.
+     *
+     * @returns {string} The created route.
+     */
+    static makeRoute(method, url) {
+        const route = url
+            .replace(/\/([a-z-]+)\/(?:\d{17,19})/g, (match, p) =>
+                ["channels", "guilds", "webhooks"].includes(p) ? match : `/${p}/:id`
+            )
+            .replace(/\/reactions\/[^/]+/g, "/reactions/:id")
+            .replace(/\/webhooks\/(\d+)\/[\w-]{64,}/, "webhooks/$1/:token")
+            .replace(/\?.*$/, "");
+
+        let ending = ";";
+        if (method === "delete" && route.endsWith("/message/:id")) {
+            const id = /\d{16,19}$/.exec(route)?.[0];
+            const snowflake = Snowflake.deconstruct(id);
+
+            if (Date.now() - snowflake.timestamp > 1000 * 60 * 60 * 24 * 14) {
+                ending += "deletes-old";
+            }
+        }
+
+        return route + ending;
+    }
+
+    /**
+     * Converts the response to usable data
+     * @param {Response} res
+     * @return {* | Promise<any>}
+     */
+    static async parseResponse(res) {
+        if (res.headers.get("Content-Type")?.startsWith("application/json")) {
+            return await res.json();
+        }
+
+        return res.buffer();
+    }
+
+    /**
+     * Pushes a new request into the queue.
+     * @param {string} url The request URL.
+     * @param {Request} request The request data.
+     *
+     * @return {Promise<*>}
+     */
+    async push(url, request) {
+        await this.#queue.wait();
+
+        try {
+            await this.rest.globalTimeout;
+
+            if (this._limited) {
+                /**
+                 * @typedef {Object} RateLimitedData
+                 * @property {number} limit
+                 * @property {string} method
+                 * @property {string} url
+                 *
+                 * Emitted whenever a routes rate-lim\it bucket was exceeded.
+                 * @event RequestHandler#rate-limited
+                 * @property {RateLimitedData} data The rate-limit data.
+                 */
+                this.rest.client.emit(ClientEvent.LIMITED, {
+                    limit: this.limit,
+                    method: request.method,
+                    url
+                });
+
+                await sleep(this._untilReset);
+            }
+
+            return this._make(url, request);
+        } finally {
+            this.#queue.next();
+        }
+    }
+
+    /**
+     * Makes a new request to the provided url.
+     * @param url The request URL.
+     * @param {Request} request The request data.
+     * @param {number} [tries] The current try.
+     *
+     * @return {Promise<*>}
+     * @private
+     */
+    async _make(url, request, tries = 0) {
+        const signal = new AbortSignal();
+        const timeout = Timers.setTimeout(() => signal.abort(), this.rest.options.timeout);
+
+        let res;
+        try {
+            res = await fetch(url, { ...request, signal });
+        } catch (e) {
+            if (e.name === "AbortError" && tries !== this.rest.options.retries) {
+                return this._make(url, options, tries++);
+            }
+
+            throw e;
+        } finally {
+            Timers.clearTimeout(timeout);
+        }
+
+        let _retry = 0;
+        if (res.headers) {
+            const [limit, remaining, reset, retry, cf] = getHeaders(res, headers),
+                _reset = ~~reset * 1000 + Date.now() + this.rest.options.offset;
+
+            this.remaining = remaining ? ~~remaining : 1;
+            this.limit = limit ? ~~limit : Infinity;
+            this.reset = reset ? _reset : Date.now();
+
+            if (retry) {
+                _retry = ~~reset * (cf ? 1000 : 1 + this.rest.options.offset);
+            }
+
+            if (res.headers.get("X-RateLimit-Global")) {
+                this.rest.globalTimeout = sleep(_retry).then(() => {
+                    this.api.globalTimeout = null;
+                });
+            }
+        }
+
+        if (res.ok) {
+            return RequestHandler.parseResponse(res);
+        }
+
+        if (res.status === 429) {
+            this.rest.client.emit(ClientEvent.LIMITED, `Hit a 429 on route: ${this.id}, Retrying After: ${_retry}ms`);
+            await sleep(_retry);
+            return this._make(url, request, tries++);
+        }
+
+        if (res.status >= 500 && res.status < 600) {
+            if (tries !== this.rest.options.retries) {
+                return this._make(url, request, tries++);
+            }
+
+            throw new DiscordHTTPError(res.statusText, res.constructor.name, res.status, request.method, url);
+        }
+
+        if (res.status >= 400 && res.status < 500) {
+            const data = await RequestHandler.parseResponse(res);
+            throw new DiscordAPIError(data.message, data.code, res.status, request.method, url);
+        }
+
+        return null;
+    }
+}
+
+/**
+ * Bulk fetch headers from a node-fetch response.
+ * @param {Response} res The request response.
+ * @param {string[]} headers The headers to fetch.
+ * @return {string[]} The header values.
+ */
+function getHeaders(res, headers) {
+    return headers.map(headerName => res.headers.get(headerName));
+}
