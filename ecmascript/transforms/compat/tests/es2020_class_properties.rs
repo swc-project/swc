@@ -5086,3 +5086,23 @@ test!(
     "
 "
 );
+
+test!(
+    syntax(),
+    |_| class_properties(),
+    issue_1333_6,
+    "
+    class Test {
+      _packet(raw) {
+        this.#serialization.decode(raw);
+      }
+    }
+    ",
+    "
+    class Test {
+      _packet(raw) {
+          _classPrivateFieldGet(this, _serialization).decode(raw);
+      }
+    }
+    "
+);
