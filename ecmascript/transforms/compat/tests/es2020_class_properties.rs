@@ -4914,9 +4914,32 @@ test!(
     |_| class_properties(),
     issue_1333_1,
     "
-    class Foo {
-      get connected() {
-          return this.#ws2 && this.#ws.readyState === _ws1.default.OPEN;
+  class Foo {
+    get connected() {
+        return this.#ws2 && this.#ws.readyState === _ws1.default.OPEN;
+    }
+  }
+  ",
+    "
+  "
+);
+
+test!(
+    syntax(),
+    |_| class_properties(),
+    issue_1333_2,
+    "
+    class Test {
+      _packet(raw) {
+        /** @type {DiscordPacket} */
+        let pak;
+        try {
+            pak = this.#serialization.decode(raw);
+            this.manager.emit(ClientEvent.RAW_PACKET, pak, this);
+        } catch (e) {
+            this.manager.client.emit(ClientEvent.SHARD_ERROR, e, this);
+            return;
+        }
       }
     }
     ",
