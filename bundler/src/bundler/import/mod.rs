@@ -233,6 +233,93 @@ where
             }
         }
     }
+
+    /// ```js
+    /// const { readFile } = required('fs');
+    /// ```
+    ///
+    /// is treated as
+    ///
+    ///  ```js
+    /// import { readFile } from 'fs';
+    /// ```
+    fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
+        node.visit_mut_children_with(self);
+
+        match &mut node.init {
+            Some(init) => match &mut **init {
+                Expr::Call(CallExpr {
+                    span,
+                    callee: ExprOrSuper::Expr(ref mut callee),
+                    ref args,
+                    ..
+                }) if self.bundler.config.require
+                    && match &**callee {
+                        Expr::Ident(Ident {
+                            sym: js_word!("require"),
+                            ..
+                        }) => true,
+                        _ => false,
+                    }
+                    && args.len() == 1 =>
+                {
+                    let span = *span;
+                    let src = match args.first().unwrap() {
+                        ExprOrSpread { spread: None, expr } => match &**expr {
+                            Expr::Lit(Lit::Str(s)) => s.clone(),
+                            _ => return,
+                        },
+                        _ => return,
+                    };
+                    // Ignore core modules.
+                    if self.bundler.config.external_modules.contains(&src.value) {
+                        return;
+                    }
+
+                    match &mut **callee {
+                        Expr::Ident(i) => {
+                            if let Some((_, export_ctxt)) = self.ctxt_for(&src.value) {
+                                i.span = i.span.with_ctxt(export_ctxt);
+                            }
+                        }
+                        _ => {}
+                    }
+
+                    let ids: Vec<Ident> = find_ids(&node.name);
+
+                    let decl = ImportDecl {
+                        span,
+                        specifiers: ids
+                            .into_iter()
+                            .map(|ident| {
+                                ImportSpecifier::Named(ImportNamedSpecifier {
+                                    span,
+                                    local: ident,
+                                    imported: None,
+                                })
+                            })
+                            .collect(),
+                        src,
+                        type_only: false,
+                        asserts: None,
+                    };
+
+                    // if self.top_level {
+                    //     self.info.imports.push(decl);
+                    //     node.init = None;
+                    //     node.name = Pat::Invalid(Invalid { span: DUMMY_SP });
+                    //     return node;
+                    // }
+
+                    self.info.lazy_imports.push(decl);
+                }
+
+                _ => {}
+            },
+
+            _ => {}
+        }
+    }
 }
 
 impl<L, R> Fold for ImportHandler<'_, '_, L, R>
@@ -595,97 +682,5 @@ where
         }
 
         e
-    }
-
-    /// ```js
-    /// const { readFile } = required('fs');
-    /// ```
-    ///
-    /// is treated as
-    ///
-    ///  ```js
-    /// import { readFile } from 'fs';
-    /// ```
-    fn fold_var_declarator(&mut self, mut node: VarDeclarator) -> VarDeclarator {
-        match &mut node.init {
-            Some(init) => match &mut **init {
-                Expr::Call(CallExpr {
-                    span,
-                    callee: ExprOrSuper::Expr(ref mut callee),
-                    ref args,
-                    ..
-                }) if self.bundler.config.require
-                    && match &**callee {
-                        Expr::Ident(Ident {
-                            sym: js_word!("require"),
-                            ..
-                        }) => true,
-                        _ => false,
-                    }
-                    && args.len() == 1 =>
-                {
-                    let span = *span;
-                    let src = match args.first().unwrap() {
-                        ExprOrSpread { spread: None, expr } => match &**expr {
-                            Expr::Lit(Lit::Str(s)) => s.clone(),
-                            _ => return node,
-                        },
-                        _ => return node,
-                    };
-                    // Ignore core modules.
-                    if self.bundler.config.external_modules.contains(&src.value) {
-                        return node;
-                    }
-
-                    match &mut **callee {
-                        Expr::Ident(i) => {
-                            if let Some((_, export_ctxt)) = self.ctxt_for(&src.value) {
-                                i.span = i.span.with_ctxt(export_ctxt);
-                            }
-                        }
-                        _ => {}
-                    }
-
-                    let ids: Vec<Ident> = find_ids(&node.name);
-
-                    let decl = ImportDecl {
-                        span,
-                        specifiers: ids
-                            .into_iter()
-                            .map(|ident| {
-                                ImportSpecifier::Named(ImportNamedSpecifier {
-                                    span,
-                                    local: ident,
-                                    imported: None,
-                                })
-                            })
-                            .collect(),
-                        src,
-                        type_only: false,
-                        asserts: None,
-                    };
-
-                    // if self.top_level {
-                    //     self.info.imports.push(decl);
-                    //     node.init = None;
-                    //     node.name = Pat::Invalid(Invalid { span: DUMMY_SP });
-                    //     return node;
-                    // }
-
-                    self.info.lazy_imports.push(decl);
-
-                    return VarDeclarator {
-                        name: node.name.fold_with(self),
-                        ..node
-                    };
-                }
-
-                _ => {}
-            },
-
-            _ => {}
-        }
-
-        node.fold_children_with(self)
     }
 }
