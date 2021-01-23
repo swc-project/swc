@@ -597,6 +597,14 @@ impl Fold for BlockScoping {
         WhileStmt { body, test, ..node }
     }
 
+    fn fold_block_stmt(&mut self, n: BlockStmt) -> BlockStmt {
+        let mut vars = take(&mut self.vars);
+        let n = n.fold_children_with(self);
+        debug_assert_eq!(self.vars, vec![]);
+        self.vars = vars;
+        n
+    }
+
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }
