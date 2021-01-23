@@ -4,11 +4,43 @@ on: [push, pull_request]
 
 env:
   CARGO_INCREMENTAL: 0
-  CI: "1"
 
 jobs:
+  publish-test:
+    name: node-api
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/
+            **/target/
+          key: ${{ runner.os }}-node-api-test
+
+      - name: Set platform name
+        run: |
+          export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
+          echo "PLATFORM_NAME=$NODE_PLATFORM_NAME" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Prepare
+        run: |
+          npm config set prefix ~/npm
+          npm i
+          export PATH="$PATH:$HOME/npm/bin"
+
+          npm run build:dev
+          npm test
+
   integration-test:
-    name: test
+    name: swc-cli
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
