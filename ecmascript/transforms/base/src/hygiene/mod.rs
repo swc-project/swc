@@ -123,15 +123,26 @@ impl<'a> Hygiene<'a> {
             // Update symbol list
             let mut declared_symbols = scope.declared_symbols.borrow_mut();
 
-            let is_not_renamed = !scope.ops.borrow().rename.contains_key(&(sym.clone(), ctxt));
+            {
+                // This assertion was correct in old time, but bundler creates
+                // same variable with same name and same span
+                // hygieen, so this assertion is not valid anymore.
+                //
+                // I decided not to remove this code because I may modify the
+                // bundler to be correct in aspect of original span hygiene.
 
-            debug_assert!(
-                is_not_renamed,
-                "failed to rename {}{:?}: should not rename an ident multiple time\n{:?}",
-                sym,
-                ctxt,
-                scope.ops.borrow(),
-            );
+                // let is_not_renamed =
+                // !scope.ops.borrow().rename.contains_key(&(sym.clone(),
+                // ctxt));
+
+                // debug_assert!(
+                //     is_not_renamed,
+                //     "failed to rename {}{:?}: should not rename an ident
+                // multiple time\n{:?}",     sym,
+                //     ctxt,
+                //     scope.ops.borrow(),
+                // );
+            }
 
             let old = declared_symbols.entry(sym.to_boxed_str()).or_default();
             old.retain(|c| *c != ctxt);
