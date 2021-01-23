@@ -2,20 +2,14 @@ use super::Bundler;
 use crate::{load::Load, resolve::Resolve};
 use anyhow::{Context, Error};
 use retain_mut::RetainMut;
-use std::{
-    collections::{HashMap, HashSet},
-    mem::replace,
-};
+use std::collections::{HashMap, HashSet};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{
-    sync::Lrc, util::move_map::MoveMap, FileName, Mark, Spanned, SyntaxContext, DUMMY_SP,
-};
+use swc_common::{sync::Lrc, FileName, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 #[cfg(test)]
 mod tests;
@@ -33,8 +27,6 @@ where
         module_local_mark: Mark,
     ) -> RawImports {
         self.run(|| {
-            let body = replace(&mut module.body, vec![]);
-
             let mut v = ImportHandler {
                 module_ctxt: SyntaxContext::empty().apply_mark(module_local_mark),
                 path,
@@ -47,10 +39,9 @@ where
                 idents_to_deglob: Default::default(),
                 in_obj_of_member: false,
             };
-            let body = body.fold_with(&mut v);
+            module.body.visit_mut_with(&mut v);
             v.deglob_phase = true;
-            let body = body.fold_with(&mut v);
-            module.body = body;
+            module.body.visit_mut_with(&mut v);
 
             v.info
         })
@@ -214,6 +205,76 @@ where
         {
             self.info.forced_ns.insert(src);
             return;
+        }
+    }
+
+    fn find_require(&mut self, e: &mut Expr) {
+        match e {
+            Expr::Call(e) if e.args.len() == 1 => {
+                let src = match e.args.first().unwrap() {
+                    ExprOrSpread { spread: None, expr } => match &**expr {
+                        Expr::Lit(Lit::Str(s)) => s,
+                        _ => return,
+                    },
+                    _ => return,
+                };
+
+                match &mut e.callee {
+                    ExprOrSuper::Expr(callee)
+                        if self.bundler.config.require
+                            && match &**callee {
+                                Expr::Ident(Ident {
+                                    sym: js_word!("require"),
+                                    ..
+                                }) => true,
+                                _ => false,
+                            } =>
+                    {
+                        match &mut **callee {
+                            Expr::Ident(i) => {
+                                if let Some((_, export_ctxt)) = self.ctxt_for(&src.value) {
+                                    i.span = i.span.with_ctxt(export_ctxt);
+                                }
+                            }
+                            _ => {}
+                        }
+
+                        let span = callee.span();
+
+                        let decl = ImportDecl {
+                            span,
+                            specifiers: vec![],
+                            src: src.clone(),
+                            type_only: false,
+                            asserts: None,
+                        };
+
+                        if self.top_level {
+                            self.info.insert(&decl);
+                            return;
+                        }
+
+                        self.info.lazy_imports.push(decl);
+                        return;
+                    }
+
+                    // TODO: Uncomment this after implementing an option to make swc_bundler
+                    // includes dynamic imports
+                    //
+                    //
+                    // ExprOrSuper::Expr(ref e) => match &**e {
+                    //     Expr::Ident(Ident {
+                    //         sym: js_word!("import"),
+                    //         ..
+                    //     }) => {
+                    //         self.info.dynamic_imports.push(src.clone());
+                    //     }
+                    //     _ => {}
+                    // },
+                    _ => {}
+                }
+            }
+            _ => {}
         }
     }
 
@@ -454,6 +515,7 @@ where
             }
 
             self.analyze_usage(e);
+            self.find_require(e);
         } else {
             self.try_deglob(e);
         }
@@ -586,7 +648,7 @@ where
 
         items.retain_mut(|item| match item {
             ModuleItem::Stmt(Stmt::Empty(..)) => false,
-            ModuleItem::Stmt(Stmt::Decl(Decl::Var(mut var))) => {
+            ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
                 var.decls.retain(|d| match d.name {
                     Pat::Invalid(..) => false,
                     _ => true,
@@ -622,91 +684,5 @@ where
                 self.mark_as_wrapping_required(&id);
             }
         }
-    }
-}
-
-impl<L, R> Fold for ImportHandler<'_, '_, L, R>
-where
-    L: Load,
-    R: Resolve,
-{
-    noop_fold_type!();
-
-    fn fold_expr(&mut self, e: Expr) -> Expr {
-        let e: Expr = e.fold_children_with(self);
-
-        match e {
-            Expr::Call(mut e) if e.args.len() == 1 => {
-                let src = match e.args.first().unwrap() {
-                    ExprOrSpread { spread: None, expr } => match &**expr {
-                        Expr::Lit(Lit::Str(s)) => s,
-                        _ => return Expr::Call(e),
-                    },
-                    _ => return Expr::Call(e),
-                };
-
-                match &mut e.callee {
-                    ExprOrSuper::Expr(callee)
-                        if !self.deglob_phase
-                            && self.bundler.config.require
-                            && match &**callee {
-                                Expr::Ident(Ident {
-                                    sym: js_word!("require"),
-                                    ..
-                                }) => true,
-                                _ => false,
-                            } =>
-                    {
-                        match &mut **callee {
-                            Expr::Ident(i) => {
-                                if let Some((_, export_ctxt)) = self.ctxt_for(&src.value) {
-                                    i.span = i.span.with_ctxt(export_ctxt);
-                                }
-                            }
-                            _ => {}
-                        }
-
-                        let span = callee.span();
-
-                        let decl = ImportDecl {
-                            span,
-                            specifiers: vec![],
-                            src: src.clone(),
-                            type_only: false,
-                            asserts: None,
-                        };
-
-                        if self.top_level {
-                            self.info.insert(&decl);
-                            return Expr::Call(e);
-                        }
-
-                        self.info.lazy_imports.push(decl);
-                        return Expr::Call(e);
-                    }
-
-                    // TODO: Uncomment this after implementing an option to make swc_bundler
-                    // includes dynamic imports
-                    //
-                    //
-                    // ExprOrSuper::Expr(ref e) => match &**e {
-                    //     Expr::Ident(Ident {
-                    //         sym: js_word!("import"),
-                    //         ..
-                    //     }) => {
-                    //         self.info.dynamic_imports.push(src.clone());
-                    //     }
-                    //     _ => {}
-                    // },
-                    _ => {}
-                }
-
-                return Expr::Call(e);
-            }
-
-            _ => {}
-        }
-
-        e
     }
 }
