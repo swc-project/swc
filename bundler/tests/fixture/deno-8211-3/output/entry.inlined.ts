@@ -857,14 +857,14 @@ const mod = function() {
     function fromStrings(weekdayStr, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr) {
         const result = {
             year: yearStr.length === 2 ? untruncateYear(parseInteger(yearStr)) : parseInteger(yearStr),
-            month: English.monthsShort.indexOf(monthStr) + 1,
+            month: monthsShort.indexOf(monthStr) + 1,
             day: parseInteger(dayStr),
             hour: parseInteger(hourStr),
             minute: parseInteger(minuteStr)
         };
         if (secondStr) result.second = parseInteger1(secondStr);
         if (weekdayStr) {
-            result.weekday = weekdayStr.length > 3 ? English.weekdaysLong.indexOf(weekdayStr) + 1 : English.weekdaysShort.indexOf(weekdayStr) + 1;
+            result.weekday = weekdayStr.length > 3 ? weekdaysLong.indexOf(weekdayStr) + 1 : weekdaysShort.indexOf(weekdayStr) + 1;
         }
         return result;
     }
@@ -989,26 +989,26 @@ const mod = function() {
         return s;
     }
     const macroTokenToFormatOpts = {
-        D: Formats.DATE_SHORT,
-        DD: Formats.DATE_MED,
-        DDD: Formats.DATE_FULL,
-        DDDD: Formats.DATE_HUGE,
-        t: Formats.TIME_SIMPLE,
-        tt: Formats.TIME_WITH_SECONDS,
-        ttt: Formats.TIME_WITH_SHORT_OFFSET,
-        tttt: Formats.TIME_WITH_LONG_OFFSET,
-        T: Formats.TIME_24_SIMPLE,
-        TT: Formats.TIME_24_WITH_SECONDS,
-        TTT: Formats.TIME_24_WITH_SHORT_OFFSET,
-        TTTT: Formats.TIME_24_WITH_LONG_OFFSET,
-        f: Formats.DATETIME_SHORT,
-        ff: Formats.DATETIME_MED,
-        fff: Formats.DATETIME_FULL,
-        ffff: Formats.DATETIME_HUGE,
-        F: Formats.DATETIME_SHORT_WITH_SECONDS,
-        FF: Formats.DATETIME_MED_WITH_SECONDS,
-        FFF: Formats.DATETIME_FULL_WITH_SECONDS,
-        FFFF: Formats.DATETIME_HUGE_WITH_SECONDS
+        D: DATE_SHORT,
+        DD: DATE_MED,
+        DDD: DATE_FULL,
+        DDDD: DATE_HUGE,
+        t: TIME_SIMPLE,
+        tt: TIME_WITH_SECONDS,
+        ttt: TIME_WITH_SHORT_OFFSET,
+        tttt: TIME_WITH_LONG_OFFSET,
+        T: TIME_24_SIMPLE,
+        TT: TIME_24_WITH_SECONDS,
+        TTT: TIME_24_WITH_SHORT_OFFSET,
+        TTTT: TIME_24_WITH_LONG_OFFSET,
+        f: DATETIME_SHORT,
+        ff: DATETIME_MED,
+        fff: DATETIME_FULL,
+        ffff: DATETIME_HUGE,
+        F: DATETIME_SHORT_WITH_SECONDS,
+        FF: DATETIME_MED_WITH_SECONDS,
+        FFF: DATETIME_FULL_WITH_SECONDS,
+        FFFF: DATETIME_HUGE_WITH_SECONDS
     };
     class Formatter {
         static create(locale, opts = {
@@ -1105,17 +1105,17 @@ const mod = function() {
                     return "Z";
                 }
                 return dt.isValid ? dt.zone.formatOffset(dt.ts, opts.format) : "";
-            }, meridiem = ()=>knownEnglish ? English.meridiemForDateTime(dt) : string({
+            }, meridiem = ()=>knownEnglish ? meridiemForDateTime(dt) : string({
                     hour: "numeric",
                     hour12: true
                 }, "dayperiod")
-            , month = (length, standalone)=>knownEnglish ? English.monthForDateTime(dt, length) : string(standalone ? {
+            , month = (length, standalone)=>knownEnglish ? monthForDateTime(dt, length) : string(standalone ? {
                     month: length
                 } : {
                     month: length,
                     day: "numeric"
                 }, "month")
-            , weekday = (length, standalone)=>knownEnglish ? English.weekdayForDateTime(dt, length) : string(standalone ? {
+            , weekday = (length, standalone)=>knownEnglish ? weekdayForDateTime(dt, length) : string(standalone ? {
                     weekday: length
                 } : {
                     weekday: length,
@@ -1129,7 +1129,7 @@ const mod = function() {
                 } else {
                     return token;
                 }
-            }, era = (length)=>knownEnglish ? English.eraForDateTime(dt, length) : string({
+            }, era = (length)=>knownEnglish ? eraForDateTime(dt, length) : string({
                     era: length
                 }, "era")
             , tokenToString = (token)=>{
@@ -2047,7 +2047,7 @@ const mod = function() {
         }) {
             return this.isValid ? Formatter.create(this.loc.redefaultToEN(opts)).formatDateTimeFromString(this, fmt) : INVALID;
         }
-        toLocaleString(opts = Formats.DATE_SHORT) {
+        toLocaleString(opts = DATE_SHORT) {
             return this.isValid ? Formatter.create(this.loc.clone(opts), opts).formatDateTime(this) : INVALID;
         }
         toLocaleParts(opts = {
@@ -2231,70 +2231,70 @@ const mod = function() {
             return DateTime.fromFormatExplain(text, fmt, options);
         }
         static get DATE_SHORT() {
-            return Formats.DATE_SHORT;
+            return DATE_SHORT;
         }
         static get DATE_MED() {
-            return Formats.DATE_MED;
+            return DATE_MED;
         }
         static get DATE_MED_WITH_WEEKDAY() {
-            return Formats.DATE_MED_WITH_WEEKDAY;
+            return DATE_MED_WITH_WEEKDAY;
         }
         static get DATE_FULL() {
-            return Formats.DATE_FULL;
+            return DATE_FULL;
         }
         static get DATE_HUGE() {
-            return Formats.DATE_HUGE;
+            return DATE_HUGE;
         }
         static get TIME_SIMPLE() {
-            return Formats.TIME_SIMPLE;
+            return TIME_SIMPLE;
         }
         static get TIME_WITH_SECONDS() {
-            return Formats.TIME_WITH_SECONDS;
+            return TIME_WITH_SECONDS;
         }
         static get TIME_WITH_SHORT_OFFSET() {
-            return Formats.TIME_WITH_SHORT_OFFSET;
+            return TIME_WITH_SHORT_OFFSET;
         }
         static get TIME_WITH_LONG_OFFSET() {
-            return Formats.TIME_WITH_LONG_OFFSET;
+            return TIME_WITH_LONG_OFFSET;
         }
         static get TIME_24_SIMPLE() {
-            return Formats.TIME_24_SIMPLE;
+            return TIME_24_SIMPLE;
         }
         static get TIME_24_WITH_SECONDS() {
-            return Formats.TIME_24_WITH_SECONDS;
+            return TIME_24_WITH_SECONDS;
         }
         static get TIME_24_WITH_SHORT_OFFSET() {
-            return Formats.TIME_24_WITH_SHORT_OFFSET;
+            return TIME_24_WITH_SHORT_OFFSET;
         }
         static get TIME_24_WITH_LONG_OFFSET() {
-            return Formats.TIME_24_WITH_LONG_OFFSET;
+            return TIME_24_WITH_LONG_OFFSET;
         }
         static get DATETIME_SHORT() {
-            return Formats.DATETIME_SHORT;
+            return DATETIME_SHORT;
         }
         static get DATETIME_SHORT_WITH_SECONDS() {
-            return Formats.DATETIME_SHORT_WITH_SECONDS;
+            return DATETIME_SHORT_WITH_SECONDS;
         }
         static get DATETIME_MED() {
-            return Formats.DATETIME_MED;
+            return DATETIME_MED;
         }
         static get DATETIME_MED_WITH_SECONDS() {
-            return Formats.DATETIME_MED_WITH_SECONDS;
+            return DATETIME_MED_WITH_SECONDS;
         }
         static get DATETIME_MED_WITH_WEEKDAY() {
-            return Formats.DATETIME_MED_WITH_WEEKDAY;
+            return DATETIME_MED_WITH_WEEKDAY;
         }
         static get DATETIME_FULL() {
-            return Formats.DATETIME_FULL;
+            return DATETIME_FULL;
         }
         static get DATETIME_FULL_WITH_SECONDS() {
-            return Formats.DATETIME_FULL_WITH_SECONDS;
+            return DATETIME_FULL_WITH_SECONDS;
         }
         static get DATETIME_HUGE() {
-            return Formats.DATETIME_HUGE;
+            return DATETIME_HUGE;
         }
         static get DATETIME_HUGE_WITH_SECONDS() {
-            return Formats.DATETIME_HUGE_WITH_SECONDS;
+            return DATETIME_HUGE_WITH_SECONDS;
         }
     }
     function friendlyDateTime1(dateTimeish) {
@@ -3340,87 +3340,87 @@ const mod = function() {
     const Settings6 = Settings;
     const Settings7 = Settings;
     const n = "numeric", s = "short", l = "long";
-    const DATE_SHORT = {
+    const DATE_SHORT1 = {
         year: n,
         month: n,
         day: n
     };
-    const DATE_MED = {
+    const DATE_MED1 = {
         year: n,
         month: s,
         day: n
     };
-    const DATE_MED_WITH_WEEKDAY = {
+    const DATE_MED_WITH_WEEKDAY1 = {
         year: n,
         month: s,
         day: n,
         weekday: s
     };
-    const DATE_FULL = {
+    const DATE_FULL1 = {
         year: n,
         month: l,
         day: n
     };
-    const DATE_HUGE = {
+    const DATE_HUGE1 = {
         year: n,
         month: l,
         day: n,
         weekday: l
     };
-    const TIME_SIMPLE = {
+    const TIME_SIMPLE1 = {
         hour: n,
         minute: n
     };
-    const TIME_WITH_SECONDS = {
+    const TIME_WITH_SECONDS1 = {
         hour: n,
         minute: n,
         second: n
     };
-    const TIME_WITH_SHORT_OFFSET = {
+    const TIME_WITH_SHORT_OFFSET1 = {
         hour: n,
         minute: n,
         second: n,
         timeZoneName: s
     };
-    const TIME_WITH_LONG_OFFSET = {
+    const TIME_WITH_LONG_OFFSET1 = {
         hour: n,
         minute: n,
         second: n,
         timeZoneName: l
     };
-    const TIME_24_SIMPLE = {
+    const TIME_24_SIMPLE1 = {
         hour: n,
         minute: n,
         hour12: false
     };
-    const TIME_24_WITH_SECONDS = {
+    const TIME_24_WITH_SECONDS1 = {
         hour: n,
         minute: n,
         second: n,
         hour12: false
     };
-    const TIME_24_WITH_SHORT_OFFSET = {
+    const TIME_24_WITH_SHORT_OFFSET1 = {
         hour: n,
         minute: n,
         second: n,
         hour12: false,
         timeZoneName: s
     };
-    const TIME_24_WITH_LONG_OFFSET = {
+    const TIME_24_WITH_LONG_OFFSET1 = {
         hour: n,
         minute: n,
         second: n,
         hour12: false,
         timeZoneName: l
     };
-    const DATETIME_SHORT = {
+    const DATETIME_SHORT1 = {
         year: n,
         month: n,
         day: n,
         hour: n,
         minute: n
     };
-    const DATETIME_SHORT_WITH_SECONDS = {
+    const DATETIME_SHORT_WITH_SECONDS1 = {
         year: n,
         month: n,
         day: n,
@@ -3428,14 +3428,14 @@ const mod = function() {
         minute: n,
         second: n
     };
-    const DATETIME_MED = {
+    const DATETIME_MED1 = {
         year: n,
         month: s,
         day: n,
         hour: n,
         minute: n
     };
-    const DATETIME_MED_WITH_SECONDS = {
+    const DATETIME_MED_WITH_SECONDS1 = {
         year: n,
         month: s,
         day: n,
@@ -3443,7 +3443,7 @@ const mod = function() {
         minute: n,
         second: n
     };
-    const DATETIME_MED_WITH_WEEKDAY = {
+    const DATETIME_MED_WITH_WEEKDAY1 = {
         year: n,
         month: s,
         day: n,
@@ -3451,7 +3451,7 @@ const mod = function() {
         hour: n,
         minute: n
     };
-    const DATETIME_FULL = {
+    const DATETIME_FULL1 = {
         year: n,
         month: l,
         day: n,
@@ -3459,7 +3459,7 @@ const mod = function() {
         minute: n,
         timeZoneName: s
     };
-    const DATETIME_FULL_WITH_SECONDS = {
+    const DATETIME_FULL_WITH_SECONDS1 = {
         year: n,
         month: l,
         day: n,
@@ -3468,7 +3468,7 @@ const mod = function() {
         second: n,
         timeZoneName: s
     };
-    const DATETIME_HUGE = {
+    const DATETIME_HUGE1 = {
         year: n,
         month: l,
         day: n,
@@ -3477,7 +3477,7 @@ const mod = function() {
         minute: n,
         timeZoneName: l
     };
-    const DATETIME_HUGE_WITH_SECONDS = {
+    const DATETIME_HUGE_WITH_SECONDS1 = {
         year: n,
         month: l,
         day: n,
@@ -3532,7 +3532,7 @@ const mod = function() {
         "N",
         "D"
     ];
-    function months(length) {
+    function months1(length) {
         switch(length){
             case "narrow":
                 return monthsNarrow;
@@ -3601,7 +3601,7 @@ const mod = function() {
         "S",
         "S"
     ];
-    function weekdays(length) {
+    function weekdays1(length) {
         switch(length){
             case "narrow":
                 return weekdaysNarrow;
@@ -3623,7 +3623,7 @@ const mod = function() {
                 return null;
         }
     }
-    const meridiems = [
+    const meridiems1 = [
         "AM",
         "PM"
     ];
@@ -3639,7 +3639,7 @@ const mod = function() {
         "B",
         "A"
     ];
-    function eras(length) {
+    function eras1(length) {
         switch(length){
             case "narrow":
                 return erasNarrow;
@@ -3652,18 +3652,18 @@ const mod = function() {
         }
     }
     function meridiemForDateTime(dt) {
-        return meridiems[dt.hour < 12 ? 0 : 1];
+        return meridiems1[dt.hour < 12 ? 0 : 1];
     }
     function weekdayForDateTime(dt, length) {
-        return weekdays(length)[dt.weekday - 1];
+        return weekdays1(length)[dt.weekday - 1];
     }
     function monthForDateTime(dt, length) {
-        return months(length)[dt.month - 1];
+        return months1(length)[dt.month - 1];
     }
     function eraForDateTime(dt, length) {
-        return eras(length)[dt.year < 0 ? 0 : 1];
+        return eras1(length)[dt.year < 0 ? 0 : 1];
     }
-    function formatRelativeTime(unit2, count, numeric = "always", narrow = false) {
+    function formatRelativeTime1(unit2, count, numeric = "always", narrow = false) {
         const units = {
             years: [
                 "year",
@@ -3720,7 +3720,7 @@ const mod = function() {
         return isInPast ? `${fmtValue} ${fmtUnit} ago` : `in ${fmtValue} ${fmtUnit}`;
     }
     const pick1 = pick;
-    function formatString(knownFormat) {
+    function formatString1(knownFormat) {
         const filtered = pick(knownFormat, [
             "weekday",
             "era",
@@ -3734,49 +3734,49 @@ const mod = function() {
             "hour12"
         ]), key = stringify(filtered), dateTimeHuge = "EEEE, LLLL d, yyyy, h:mm a";
         switch(key){
-            case stringify(Formats.DATE_SHORT):
+            case stringify(DATE_SHORT):
                 return "M/d/yyyy";
-            case stringify(Formats.DATE_MED):
+            case stringify(DATE_MED):
                 return "LLL d, yyyy";
-            case stringify(Formats.DATE_MED_WITH_WEEKDAY):
+            case stringify(DATE_MED_WITH_WEEKDAY):
                 return "EEE, LLL d, yyyy";
-            case stringify(Formats.DATE_FULL):
+            case stringify(DATE_FULL):
                 return "LLLL d, yyyy";
-            case stringify(Formats.DATE_HUGE):
+            case stringify(DATE_HUGE):
                 return "EEEE, LLLL d, yyyy";
-            case stringify(Formats.TIME_SIMPLE):
+            case stringify(TIME_SIMPLE):
                 return "h:mm a";
-            case stringify(Formats.TIME_WITH_SECONDS):
+            case stringify(TIME_WITH_SECONDS):
                 return "h:mm:ss a";
-            case stringify(Formats.TIME_WITH_SHORT_OFFSET):
+            case stringify(TIME_WITH_SHORT_OFFSET):
                 return "h:mm a";
-            case stringify(Formats.TIME_WITH_LONG_OFFSET):
+            case stringify(TIME_WITH_LONG_OFFSET):
                 return "h:mm a";
-            case stringify(Formats.TIME_24_SIMPLE):
+            case stringify(TIME_24_SIMPLE):
                 return "HH:mm";
-            case stringify(Formats.TIME_24_WITH_SECONDS):
+            case stringify(TIME_24_WITH_SECONDS):
                 return "HH:mm:ss";
-            case stringify(Formats.TIME_24_WITH_SHORT_OFFSET):
+            case stringify(TIME_24_WITH_SHORT_OFFSET):
                 return "HH:mm";
-            case stringify(Formats.TIME_24_WITH_LONG_OFFSET):
+            case stringify(TIME_24_WITH_LONG_OFFSET):
                 return "HH:mm";
-            case stringify(Formats.DATETIME_SHORT):
+            case stringify(DATETIME_SHORT):
                 return "M/d/yyyy, h:mm a";
-            case stringify(Formats.DATETIME_MED):
+            case stringify(DATETIME_MED):
                 return "LLL d, yyyy, h:mm a";
-            case stringify(Formats.DATETIME_FULL):
+            case stringify(DATETIME_FULL):
                 return "LLLL d, yyyy, h:mm a";
-            case stringify(Formats.DATETIME_HUGE):
+            case stringify(DATETIME_HUGE):
                 return dateTimeHuge;
-            case stringify(Formats.DATETIME_SHORT_WITH_SECONDS):
+            case stringify(DATETIME_SHORT_WITH_SECONDS):
                 return "M/d/yyyy, h:mm:ss a";
-            case stringify(Formats.DATETIME_MED_WITH_SECONDS):
+            case stringify(DATETIME_MED_WITH_SECONDS):
                 return "LLL d, yyyy, h:mm:ss a";
-            case stringify(Formats.DATETIME_MED_WITH_WEEKDAY):
+            case stringify(DATETIME_MED_WITH_WEEKDAY):
                 return "EEE, d LLL yyyy, h:mm a";
-            case stringify(Formats.DATETIME_FULL_WITH_SECONDS):
+            case stringify(DATETIME_FULL_WITH_SECONDS):
                 return "LLLL d, yyyy, h:mm:ss a";
-            case stringify(Formats.DATETIME_HUGE_WITH_SECONDS):
+            case stringify(DATETIME_HUGE_WITH_SECONDS):
                 return "EEEE, LLLL d, yyyy, h:mm:ss a";
             default:
                 return dateTimeHuge;
@@ -3971,7 +3971,7 @@ const mod = function() {
             if (this.hasIntl) {
                 return this.dtf.format(this.dt.toJSDate());
             } else {
-                const tokenFormat = English.formatString(this.opts), loc = Locale.create("en-US");
+                const tokenFormat = formatString(this.opts), loc = Locale.create("en-US");
                 return Formatter.create(loc).formatDateTimeFromString(this.dt, tokenFormat);
             }
         }
@@ -4008,7 +4008,7 @@ const mod = function() {
             if (this.rtf) {
                 return this.rtf.format(count, unit);
             } else {
-                return English.formatRelativeTime(unit, count, this.opts.numeric, this.opts.style !== "long");
+                return formatRelativeTime(unit, count, this.opts.numeric, this.opts.style !== "long");
             }
         }
         formatToParts(count, unit) {
@@ -4102,7 +4102,7 @@ const mod = function() {
             }));
         }
         months(length, format = false, defaultOK = true) {
-            return listStuff(this, length, defaultOK, English.months, ()=>{
+            return listStuff(this, length, defaultOK, months, ()=>{
                 const intl3 = format ? {
                     month: length,
                     day: "numeric"
@@ -4117,7 +4117,7 @@ const mod = function() {
             });
         }
         weekdays(length, format = false, defaultOK = true) {
-            return listStuff(this, length, defaultOK, English.weekdays, ()=>{
+            return listStuff(this, length, defaultOK, weekdays, ()=>{
                 const intl3 = format ? {
                     weekday: length,
                     year: "numeric",
@@ -4134,7 +4134,7 @@ const mod = function() {
             });
         }
         meridiems(defaultOK = true) {
-            return listStuff(this, undefined, defaultOK, ()=>English.meridiems
+            return listStuff(this, undefined, defaultOK, ()=>meridiems
             , ()=>{
                 if (!this.meridiemCache) {
                     const intl3 = {
@@ -4151,7 +4151,7 @@ const mod = function() {
             });
         }
         eras(length, defaultOK = true) {
-            return listStuff(this, length, defaultOK, English.eras, ()=>{
+            return listStuff(this, length, defaultOK, eras, ()=>{
                 const intl3 = {
                     era: length
                 };
@@ -4717,47 +4717,47 @@ const mod = function() {
     const friendlyDuration2 = friendlyDuration1;
     const friendlyDuration3 = friendlyDuration1;
     const friendlyDuration4 = friendlyDuration1;
-    const DATE_SHORT1 = DATE_SHORT;
-    const DATE_MED1 = DATE_MED;
-    const DATE_MED_WITH_WEEKDAY1 = DATE_MED_WITH_WEEKDAY;
-    const DATE_FULL1 = DATE_FULL;
-    const DATE_HUGE1 = DATE_HUGE;
-    const TIME_SIMPLE1 = TIME_SIMPLE;
-    const TIME_WITH_SECONDS1 = TIME_WITH_SECONDS;
-    const TIME_WITH_SHORT_OFFSET1 = TIME_WITH_SHORT_OFFSET;
-    const TIME_WITH_LONG_OFFSET1 = TIME_WITH_LONG_OFFSET;
-    const TIME_24_SIMPLE1 = TIME_24_SIMPLE;
-    const TIME_24_WITH_SECONDS1 = TIME_24_WITH_SECONDS;
-    const TIME_24_WITH_SHORT_OFFSET1 = TIME_24_WITH_SHORT_OFFSET;
-    const TIME_24_WITH_LONG_OFFSET1 = TIME_24_WITH_LONG_OFFSET;
-    const DATETIME_SHORT1 = DATETIME_SHORT;
-    const DATETIME_SHORT_WITH_SECONDS1 = DATETIME_SHORT_WITH_SECONDS;
-    const DATETIME_MED1 = DATETIME_MED;
-    const DATETIME_MED_WITH_SECONDS1 = DATETIME_MED_WITH_SECONDS;
-    const DATETIME_MED_WITH_WEEKDAY1 = DATETIME_MED_WITH_WEEKDAY;
-    const DATETIME_FULL1 = DATETIME_FULL;
-    const DATETIME_FULL_WITH_SECONDS1 = DATETIME_FULL_WITH_SECONDS;
-    const DATETIME_HUGE1 = DATETIME_HUGE;
-    const DATETIME_HUGE_WITH_SECONDS1 = DATETIME_HUGE_WITH_SECONDS;
+    const DATE_SHORT2 = DATE_SHORT1;
+    const DATE_MED2 = DATE_MED1;
+    const DATE_MED_WITH_WEEKDAY2 = DATE_MED_WITH_WEEKDAY1;
+    const DATE_FULL2 = DATE_FULL1;
+    const DATE_HUGE2 = DATE_HUGE1;
+    const TIME_SIMPLE2 = TIME_SIMPLE1;
+    const TIME_WITH_SECONDS2 = TIME_WITH_SECONDS1;
+    const TIME_WITH_SHORT_OFFSET2 = TIME_WITH_SHORT_OFFSET1;
+    const TIME_WITH_LONG_OFFSET2 = TIME_WITH_LONG_OFFSET1;
+    const TIME_24_SIMPLE2 = TIME_24_SIMPLE1;
+    const TIME_24_WITH_SECONDS2 = TIME_24_WITH_SECONDS1;
+    const TIME_24_WITH_SHORT_OFFSET2 = TIME_24_WITH_SHORT_OFFSET1;
+    const TIME_24_WITH_LONG_OFFSET2 = TIME_24_WITH_LONG_OFFSET1;
+    const DATETIME_SHORT2 = DATETIME_SHORT1;
+    const DATETIME_SHORT_WITH_SECONDS2 = DATETIME_SHORT_WITH_SECONDS1;
+    const DATETIME_MED2 = DATETIME_MED1;
+    const DATETIME_MED_WITH_SECONDS2 = DATETIME_MED_WITH_SECONDS1;
+    const DATETIME_MED_WITH_WEEKDAY2 = DATETIME_MED_WITH_WEEKDAY1;
+    const DATETIME_FULL2 = DATETIME_FULL1;
+    const DATETIME_FULL_WITH_SECONDS2 = DATETIME_FULL_WITH_SECONDS1;
+    const DATETIME_HUGE2 = DATETIME_HUGE1;
+    const DATETIME_HUGE_WITH_SECONDS2 = DATETIME_HUGE_WITH_SECONDS1;
     const monthsLong1 = monthsLong;
     const monthsShort1 = monthsShort;
     const monthsNarrow1 = monthsNarrow;
-    const months1 = months;
+    const months2 = months1;
     const weekdaysLong1 = weekdaysLong;
     const weekdaysShort1 = weekdaysShort;
     const weekdaysNarrow1 = weekdaysNarrow;
-    const weekdays1 = weekdays;
-    const meridiems1 = meridiems;
+    const weekdays2 = weekdays1;
+    const meridiems2 = meridiems1;
     const erasLong1 = erasLong;
     const erasShort1 = erasShort;
     const erasNarrow1 = erasNarrow;
-    const eras1 = eras;
+    const eras2 = eras1;
     const meridiemForDateTime1 = meridiemForDateTime;
     const weekdayForDateTime1 = weekdayForDateTime;
     const monthForDateTime1 = monthForDateTime;
     const eraForDateTime1 = eraForDateTime;
-    const formatRelativeTime1 = formatRelativeTime;
-    const formatString1 = formatString;
+    const formatRelativeTime2 = formatRelativeTime1;
+    const formatString2 = formatString1;
     const __default20 = Locale;
     const __default21 = Locale;
     const Locale1 = Locale;
