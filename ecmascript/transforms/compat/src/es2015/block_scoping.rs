@@ -1,4 +1,5 @@
 use smallvec::SmallVec;
+use std::mem::take;
 use std::{collections::HashMap, mem::replace};
 use swc_atoms::js_word;
 use swc_common::{util::map::Map, Mark, Spanned, SyntaxContext, DUMMY_SP};
@@ -595,6 +596,14 @@ impl Fold for BlockScoping {
         let test = node.test.fold_with(self);
 
         WhileStmt { body, test, ..node }
+    }
+
+    fn fold_block_stmt(&mut self, n: BlockStmt) -> BlockStmt {
+        let vars = take(&mut self.vars);
+        let n = n.fold_children_with(self);
+        debug_assert_eq!(self.vars, vec![]);
+        self.vars = vars;
+        n
     }
 
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
@@ -1523,6 +1532,56 @@ expect(foo()).toBe(false);
         return x().then(x => {
             expect(x).toEqual([2, 4, 6])
         })
+        "
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| block_scoping(),
+        issue_1231_1,
+        "
+        function combineOverlappingMatches(matches) {
+            let hasOverlaps = false
+            
+            for (let i = matches.length - 1; i >= 0; i--) {
+                let currentMatch = matches[i]
+                let overlap = matches.find(match => {
+                    return match !== currentMatch && match.itemsType === currentMatch.itemsType
+                })
+                
+                if (overlap) {
+                    hasOverlaps = true
+                    matches.splice(i, 1)
+                }
+            }
+            
+            if (hasOverlaps) {
+                combineOverlappingMatches(matches)
+            }
+        }
+        
+        combineOverlappingMatches([1])
+        ",
+        "
+        function combineOverlappingMatches(matches) {
+            var hasOverlaps = false;
+            for(var i = matches.length - 1; i >= 0; i--){
+                var currentMatch = matches[i];
+                var overlap = matches.find((match)=>{
+                    return match !== currentMatch && match.itemsType === currentMatch.itemsType;
+                });
+                if (overlap) {
+                    hasOverlaps = true;
+                    matches.splice(i, 1);
+                }
+            }
+            if (hasOverlaps) {
+                combineOverlappingMatches(matches);
+            }
+        }
+        combineOverlappingMatches([
+            1
+        ]);
         "
     );
 }

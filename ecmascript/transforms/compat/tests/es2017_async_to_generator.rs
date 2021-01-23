@@ -10,6 +10,7 @@ use swc_ecma_transforms_compat::es2015::destructuring;
 use swc_ecma_transforms_compat::es2015::function_name;
 use swc_ecma_transforms_compat::es2015::parameters;
 use swc_ecma_transforms_compat::es2017::async_to_generator;
+use swc_ecma_transforms_compat::es2020::class_properties;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::test_exec;
 use swc_ecma_visit::{Fold, FoldWith};
@@ -976,50 +977,39 @@ class Class {
 
 "#,
     r#"
-class Class{
-     method() {
-        return _asyncToGenerator((function*() {
-            this;
-            ()=>this
-            ;
-            ()=>{
-                this;
-                ()=>this
-                ;
-                function x() {
-                    this;
-                    ()=>{
-                        this;
-                    };
-                    (function() {
-                        var _ref = _asyncToGenerator((function*() {
-                            this;
-                        }).bind(this));
-                        return function() {
-                            return _ref.apply(this, arguments);
-                        };
-                    })().bind(this);
-                }
-            };
-            function x() {
-                this;
-                ()=>{
-                    this;
-                };
-                (function() {
-                    var _ref = _asyncToGenerator((function*() {
-                        this;
-                    }).bind(this));
-                    return function() {
-                        return _ref.apply(this, arguments);
-                    };
-                })().bind(this);
-            }
-        }).bind(this))();
+    class Class {
+      method() {
+          return _asyncToGenerator((function*() {
+              this;
+              ()=>this
+              ;
+              ()=>{
+                  this;
+                  ()=>this
+                  ;
+                  function x() {
+                      this;
+                      ()=>{
+                          this;
+                      };
+                      _asyncToGenerator((function*() {
+                          this;
+                      }).bind(this)).bind(this);
+                  }
+              };
+              function x() {
+                  this;
+                  ()=>{
+                      this;
+                  };
+                  _asyncToGenerator((function*() {
+                      this;
+                  }).bind(this)).bind(this);
+              }
+          }).bind(this))();
+      }
     }
-}
-
-"#
+    "#
 );
 
 // async_to_generator_object_method
@@ -1386,15 +1376,10 @@ let TestClass = {
 let TestClass = {
     name: 'John Doe',
     testMethodFailure () {
-        return new Promise((function(resolve) {
-            var _ref = _asyncToGenerator((function*(resolve) {
-                console.log(this);
-                setTimeout(resolve, 1000);
-            }).bind(this));
-            return function() {
-                return _ref.apply(this, arguments);
-            };
-        })().bind(this));
+      return new Promise(_asyncToGenerator((function*(resolve) {
+        console.log(this);
+        setTimeout(resolve, 1000);
+      }).bind(this)).bind(this));
     }
 };
 
@@ -1726,40 +1711,27 @@ async function s(x, ...args) {
 
 "#,
     r#"
-function _s() {
-    _s = _asyncToGenerator((function*(x, ...args) {
-        let t = (function(y, a) {
-            var _ref = _asyncToGenerator((function*(y, a) {
-                let r = (function(z, b) {
-                    var _ref1 = _asyncToGenerator((function*(z, b, ...innerArgs) {
-                        yield z;
-                        console.log(this, innerArgs, arguments);
-                        return this.x;
-                    }).bind(this));
-                    return function() {
-                        return _ref1.apply(this, arguments);
-                    };
-                })().bind(this);
-                yield r();
-                console.log(this, args, arguments);
-                return this.g(r);
-            }).bind(this));
-            return function() {
-                return _ref.apply(this, arguments);
-            };
-        })().bind(this);
-        yield t();
-        return this.h(t);
-    }).bind(this));
-    return _s.apply(this, arguments);
-}
-
-
-function s(x) {
-  return _s.apply(this, arguments);
-}
-
-"#
+    function _s() {
+      _s = _asyncToGenerator((function*(x, ...args) {
+          let t = _asyncToGenerator((function*(y, a) {
+              let r = _asyncToGenerator((function*(z, b, ...innerArgs) {
+                  yield z;
+                  console.log(this, innerArgs, arguments);
+                  return this.x;
+              }).bind(this)).bind(this);
+              yield r();
+              console.log(this, args, arguments);
+              return this.g(r);
+          }).bind(this)).bind(this);
+          yield t();
+          return this.h(t);
+      }).bind(this));
+      return _s.apply(this, arguments);
+    }
+    function s(x) {
+        return _s.apply(this, arguments);
+    }
+    "#
 );
 
 // export_async_import_and_export
@@ -2156,15 +2128,14 @@ test!(
                   3
               ]
           ].map(_asyncToGenerator(function*([a]) {
-              return Promise.resolve().then(function() {
-                  return a * 2;
-              });
+              return Promise.resolve().then(()=>a * 2
+              );
           })))));
       });
       return function() {
           return _ref.apply(this, arguments);
       };
-    }();
+    }();  
     "
 );
 
@@ -2236,32 +2207,130 @@ test!(
     |_| async_to_generator(),
     issue_1125_1,
     "
-  async function test() {
+async function test() {
+    try {
+        await 1
+    } finally {
+        console.log(2)
+    }
+}
+test()
+",
+    "
+  function _test() {
+    _test = _asyncToGenerator(function* () {
       try {
-          await 1
+        yield 1;
       } finally {
-          console.log(2)
+        console.log(2);
       }
+    });
+    return _test.apply(this, arguments);
   }
-  test()
+
+  function test() {
+    return _test.apply(this, arguments);
+  }
+  
+  
+  test();
+  "
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1341_1,
+    "
+    class A {
+      val = '1';
+      async foo() {
+          try {           
+              return await (async (x) => x + this.val)('a');
+          } catch (e) {
+              throw e;
+          }
+      }
+    }
+    ",
+    "
+    class A {
+      val = '1';
+      foo() {
+          return _asyncToGenerator((function*() {
+              try {
+                  return yield _asyncToGenerator((function*(x) {
+                      return x + this.val;
+                  }).bind(this)).bind(this)('a');
+              } catch (e) {
+                  throw e;
+              }
+          }).bind(this))();
+      }
+    }
+    "
+);
+
+test_exec!(
+    Syntax::default(),
+    |_| chain!(class_properties(), async_to_generator()),
+    issue_1341_1_exec,
+    "
+    class A {
+      val = '1';
+      async foo() {
+          try {           
+              return await (async (x) => x + this.val)('a');
+          } catch (e) {
+              throw e;
+          }
+      }
+    }
+    
+    const a = new A();
+    expect(a.foo()).resolves.toEqual('a1')
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1341_2,
+    "
+  class A {
+    val = '1';
+    async foo() {
+      return await (async (x) => x + this.val)('a');
+    }
+  }
   ",
     "
-    function _test() {
-      _test = _asyncToGenerator(function* () {
-        try {
-          yield 1;
-        } finally {
-          console.log(2);
-        }
-      });
-      return _test.apply(this, arguments);
+  class A {
+    val = '1';
+    foo() {
+        return _asyncToGenerator((function*() {
+          return yield _asyncToGenerator((function*(x) {
+              return x + this.val;
+          }).bind(this)).bind(this)('a');
+      }).bind(this))();
     }
+  }
+  "
+);
 
-    function test() {
-      return _test.apply(this, arguments);
-    }
-    
-    
-    test();
+test_exec!(
+    Syntax::default(),
+    |_| chain!(class_properties(), async_to_generator()),
+    issue_1341_2_exec,
     "
+  class A {
+    val = '1';
+    async foo() {
+      return await (async (x) => x + this.val)('a');
+    }
+  }
+
+  const a = new A();
+  expect(a.foo()).resolves.toEqual('a1')
+  "
 );

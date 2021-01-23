@@ -59,7 +59,7 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                 op,
                 arg,
             }) if arg.is_member() => {
-                let arg = arg.member().unwrap();
+                let arg = arg.member().unwrap().fold_with(self);
 
                 let n = match *arg.prop {
                     Expr::PrivateName(ref n) => n,
@@ -204,7 +204,8 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                 right,
             }) if left.as_expr().is_some() && left.as_expr().unwrap().is_member() => {
                 let left = left.normalize_expr();
-                let left: MemberExpr = left.expr().unwrap().member().unwrap();
+                let left: MemberExpr = left.expr().unwrap().member().unwrap().fold_with(self);
+                let right = right.fold_with(self);
 
                 let n = match *left.prop {
                     Expr::PrivateName(ref n) => n.clone(),
@@ -333,6 +334,8 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                 op,
                 right,
             }) => {
+                let right = right.fold_with(self);
+
                 self.in_assign_pat = true;
                 let left = left.fold_with(self);
                 self.in_assign_pat = false;
@@ -351,7 +354,8 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                 args,
                 type_args,
             }) if callee.is_member() => {
-                let callee = callee.member().unwrap();
+                let callee = callee.member().unwrap().fold_with(self);
+                let args = args.fold_with(self);
 
                 let (e, this) = self.fold_private_get(callee, None);
 

@@ -1,5 +1,5 @@
-use crate::es2015::arrow;
 use std::iter;
+use std::mem::replace;
 use swc_common::{Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -143,13 +143,40 @@ impl Fold for Actual {
         }
     }
 
+    /// Removes nested binds like `(function(){}).bind(this).bind(this)`
+    fn fold_call_expr(&mut self, n: CallExpr) -> CallExpr {
+        let mut n = n.fold_children_with(self);
+
+        if let Some(callee) = extract_callee_of_bind_this(&mut n) {
+            match callee {
+                Expr::Call(callee_of_callee) => {
+                    if let Some(..) = extract_callee_of_bind_this(callee_of_callee) {
+                        // We found bind(this).bind(this)
+                        return replace(
+                            callee_of_callee,
+                            CallExpr {
+                                span: DUMMY_SP,
+                                callee: ExprOrSuper::Super(Super { span: DUMMY_SP }),
+                                args: Default::default(),
+                                type_args: Default::default(),
+                            },
+                        );
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        n
+    }
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         match expr {
             Expr::Paren(ParenExpr { span, expr }) => {
                 return Expr::Paren(ParenExpr {
                     span,
                     expr: expr.fold_with(self),
-                })
+                });
             }
 
             // Optimization for iife.
@@ -189,16 +216,60 @@ impl Fold for Actual {
         let expr = expr.fold_children_with(self);
 
         match expr {
-            Expr::Arrow(ArrowExpr { is_async: true, .. }) => {
+            Expr::Arrow(ArrowExpr {
+                is_async: true,
+                span,
+                params,
+                body,
+                is_generator,
+                type_params,
+                return_type,
+            }) => {
                 // Apply arrow
-                let expr = expr.fold_with(&mut arrow());
+                let used_this = contains_this_expr(&body);
 
-                let f = match expr {
-                    Expr::Fn(f) => f,
-                    _ => return expr,
+                let fn_expr = FnExpr {
+                    ident: None,
+                    function: Function {
+                        decorators: vec![],
+                        span,
+                        params: params
+                            .into_iter()
+                            .map(|pat| Param {
+                                span: DUMMY_SP,
+                                decorators: Default::default(),
+                                pat,
+                            })
+                            .collect(),
+                        is_async: true,
+                        is_generator,
+                        body: Some(match body {
+                            BlockStmtOrExpr::BlockStmt(block) => block,
+                            BlockStmtOrExpr::Expr(expr) => BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![Stmt::Return(ReturnStmt {
+                                    span: expr.span(),
+                                    arg: Some(expr),
+                                })],
+                            },
+                        }),
+                        type_params,
+                        return_type,
+                    },
                 };
 
-                return make_fn_ref(f);
+                if !used_this {
+                    return make_fn_ref(fn_expr);
+                }
+
+                return Expr::Call(CallExpr {
+                    span,
+                    callee: make_fn_ref(fn_expr)
+                        .make_member(quote_ident!("bind"))
+                        .as_callee(),
+                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                    type_args: Default::default(),
+                });
             }
 
             Expr::Fn(
@@ -834,5 +905,39 @@ impl Visit for ShouldWork {
 impl Check for ShouldWork {
     fn should_handle(&self) -> bool {
         self.found
+    }
+}
+
+fn extract_callee_of_bind_this(n: &mut CallExpr) -> Option<&mut Expr> {
+    if n.args.len() != 1 {
+        return None;
+    }
+
+    match &*n.args[0].expr {
+        Expr::This(..) => {}
+        _ => return None,
+    }
+
+    match &mut n.callee {
+        ExprOrSuper::Super(_) => None,
+        ExprOrSuper::Expr(callee) => match &mut **callee {
+            Expr::Member(MemberExpr {
+                obj,
+                prop,
+                computed: false,
+                ..
+            }) => {
+                match &**prop {
+                    Expr::Ident(Ident { sym, .. }) if *sym == *"bind" => {}
+                    _ => return None,
+                }
+
+                match obj {
+                    ExprOrSuper::Expr(callee) => Some(&mut **callee),
+                    _ => None,
+                }
+            }
+            _ => None,
+        },
     }
 }

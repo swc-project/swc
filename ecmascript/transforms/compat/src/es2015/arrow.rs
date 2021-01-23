@@ -57,9 +57,10 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit};
 /// console.log(bob.printFriends());
 /// ```
 pub fn arrow() -> impl Fold {
-    Arrow
+    Arrow::default()
 }
 
+#[derive(Default)]
 struct Arrow;
 
 #[fast_path(ArrowVisitor)]

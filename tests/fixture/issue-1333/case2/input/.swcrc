@@ -1,0 +1,27 @@
+[
+  {
+    "test": [".*.js"],
+    "jsc": {
+      "target": "es2019",
+      "parser": {
+        "dynamicImport": true,
+        "syntax": "ecmascript"
+      }
+    },
+    "module": {
+      "type": "commonjs"
+    }
+  },
+  {
+    "test": [".*.ts"],
+    "jsc": {
+      "target": "es2019",
+      "parser": {
+        "syntax": "typescript"
+      }
+    },
+    "module": {
+      "type": "commonjs"
+    }
+  }
+]
