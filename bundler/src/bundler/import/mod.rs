@@ -41,6 +41,7 @@ where
                 imported_idents: Default::default(),
                 deglob_phase: false,
                 idents_to_deglob: Default::default(),
+                in_obj_of_member: false,
             };
             let body = body.fold_with(&mut v);
             v.deglob_phase = true;
@@ -120,6 +121,12 @@ where
 
     deglob_phase: bool,
     idents_to_deglob: HashSet<Id>,
+
+    /// `true` while folding objects of a member expression.
+    ///
+    /// This is used to distinguish usage of `a` in `console.log(a)` and
+    /// `a.join()`.
+    in_obj_of_member: bool,
 }
 
 impl RawImports {
@@ -201,6 +208,7 @@ where
             {
                 return import;
             }
+
             if let Some((_, export_ctxt)) = self.ctxt_for(&import.src.value) {
                 import.span = import.span.with_ctxt(export_ctxt);
 
@@ -360,6 +368,30 @@ where
     }
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
+        match &e {
+            Expr::Ident(i) => {
+                if !self.in_obj_of_member {
+                    if let Some(src) = self
+                        .info
+                        .imports
+                        .iter()
+                        .find(|import| {
+                            import.specifiers.iter().any(|specifier| match specifier {
+                                ImportSpecifier::Namespace(ns) => {
+                                    ns.local.sym == i.sym && ns.local.span.ctxt == i.span.ctxt
+                                }
+                                _ => false,
+                            })
+                        })
+                        .map(|import| import.src.value.clone())
+                    {
+                        self.info.forced_ns.insert(src);
+                    }
+                }
+            }
+            _ => {}
+        }
+
         match e {
             Expr::Ident(i) if self.deglob_phase => {
                 return Expr::Ident(i);
@@ -634,11 +666,16 @@ where
     }
 
     fn fold_member_expr(&mut self, mut e: MemberExpr) -> MemberExpr {
+        let old = self.in_obj_of_member;
+        self.in_obj_of_member = true;
         e.obj = e.obj.fold_with(self);
 
         if e.computed {
+            self.in_obj_of_member = false;
             e.prop = e.prop.fold_with(self);
         }
+
+        self.in_obj_of_member = old;
 
         e
     }
