@@ -200,7 +200,7 @@ impl Fold for Actual {
 
                 let f = match expr {
                     Expr::Fn(f) => f,
-                    _ => return expr.fold_with(self),
+                    _ => return expr,
                 };
 
                 return make_fn_ref(f);
