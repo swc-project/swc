@@ -11,6 +11,8 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
+use swc_ecma_visit::noop_visit_mut_type;
+use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 #[cfg(test)]
@@ -188,6 +190,14 @@ where
 
         self.bundler.scope.mark_as_wrapping_required(id);
     }
+}
+
+impl<L, R> VisitMut for ImportHandler<'_, '_, L, R>
+where
+    L: Load,
+    R: Resolve,
+{
+    noop_visit_mut_type!();
 }
 
 impl<L, R> Fold for ImportHandler<'_, '_, L, R>
@@ -439,6 +449,8 @@ where
                                         Some(ctxts) => ctxts.1,
                                     };
                                     if self.deglob_phase {
+                                        dbg!(i.to_id(), &import, &self.idents_to_deglob);
+
                                         if self.info.forced_ns.contains(&import.src.value) {
                                             //
                                             return e.into();
