@@ -220,6 +220,9 @@ impl<I: Tokens> Parser<I> {
 
     #[cold]
     fn emit_strict_mode_err(&self, span: Span, error: SyntaxError) {
+        if !self.emit_err {
+            return;
+        }
         let error = Error {
             error: Box::new((span, error)),
         };

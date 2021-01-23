@@ -5667,3 +5667,28 @@ eval: function _eval() {
 
 "#
 );
+
+test!(
+    ts(),
+    |_| decorators(decorators::Config {
+        legacy: true,
+        ..Default::default()
+    }),
+    swc_node_210,
+    "
+    class Foo{
+      @dec
+      [foo]() {
+      }
+    }
+    ",
+    "
+    var _class;
+    let Foo = ((_class = class Foo {
+        [foo]() {
+        }
+    }) || _class, _applyDecoratedDescriptor(_class.prototype, foo, [
+        dec
+    ], Object.getOwnPropertyDescriptor(_class.prototype, foo), _class.prototype), _class);
+    "
+);
