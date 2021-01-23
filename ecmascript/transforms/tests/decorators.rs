@@ -5683,23 +5683,12 @@ test!(
     }
     ",
     "
-    let Foo = _decorate(null, function (_initialize) {
-      class Foo {
-        constructor() {
-          _initialize(this);
+    var _class;
+    let Foo = ((_class = class Foo {
+        [foo]() {
         }
-    
-      }
-    
-      return {
-        F: Foo,
-        d: [{
-          kind: 'method',
-          decorators: [dec],
-          key: foo,
-          value: function () {}
-        }]
-      };
-    });
+    }) || _class, _applyDecoratedDescriptor(_class.prototype, foo, [
+        dec
+    ], Object.getOwnPropertyDescriptor(_class.prototype, foo), _class.prototype), _class);
     "
 );
