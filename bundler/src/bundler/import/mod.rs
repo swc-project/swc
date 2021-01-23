@@ -311,7 +311,38 @@ where
         e.visit_mut_children_with(self);
 
         if !self.deglob_phase {
-            // Firstly, we
+            // Firstly, we check for usages of imported namespaces.
+            // Code like below are handled by this check.
+            //
+            // import * as log from './log';
+            // console.log(log)
+            // console.log(log.getLogger())
+            if !self.in_obj_of_member {
+                match &e {
+                    Expr::Ident(i) => {
+                        if !self.in_obj_of_member {
+                            if let Some(src) = self
+                                .info
+                                .imports
+                                .iter()
+                                .find(|import| {
+                                    import.specifiers.iter().any(|specifier| match specifier {
+                                        ImportSpecifier::Namespace(ns) => {
+                                            ns.local.sym == i.sym
+                                                && ns.local.span.ctxt == i.span.ctxt
+                                        }
+                                        _ => false,
+                                    })
+                                })
+                                .map(|import| import.src.value.clone())
+                            {
+                                self.info.forced_ns.insert(src);
+                            }
+                        }
+                    }
+                    _ => {}
+                }
+            }
         } else {
         }
     }
@@ -490,30 +521,6 @@ where
     noop_fold_type!();
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
-        match &e {
-            Expr::Ident(i) => {
-                if !self.in_obj_of_member {
-                    if let Some(src) = self
-                        .info
-                        .imports
-                        .iter()
-                        .find(|import| {
-                            import.specifiers.iter().any(|specifier| match specifier {
-                                ImportSpecifier::Namespace(ns) => {
-                                    ns.local.sym == i.sym && ns.local.span.ctxt == i.span.ctxt
-                                }
-                                _ => false,
-                            })
-                        })
-                        .map(|import| import.src.value.clone())
-                    {
-                        self.info.forced_ns.insert(src);
-                    }
-                }
-            }
-            _ => {}
-        }
-
         match e {
             Expr::Ident(i) if self.deglob_phase => {
                 return Expr::Ident(i);
