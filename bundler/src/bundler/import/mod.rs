@@ -283,6 +283,43 @@ where
             _ => {}
         }
     }
+
+    fn try_deglob(&mut self, e: &mut Expr) {
+        let me = match e {
+            Expr::Member(e) => e,
+            _ => return,
+        };
+        if me.computed {
+            return;
+        }
+
+        let obj = match &me.obj {
+            ExprOrSuper::Super(_) => return,
+            ExprOrSuper::Expr(e) => e,
+        };
+
+        let obj = match &**obj {
+            Expr::Ident(obj) => obj,
+            _ => return,
+        };
+
+        let usages = self.usages.get(&obj.to_id());
+        let usages = match usages {
+            Some(v) => v,
+            _ => return,
+        };
+
+        let prop = match &*me.prop {
+            Expr::Ident(v) => v,
+            _ => return,
+        };
+
+        if !usages.contains(&prop.to_id()) {
+            return;
+        }
+
+        *e = Expr::Ident(prop.clone());
+    }
 }
 
 impl<L, R> VisitMut for ImportHandler<'_, '_, L, R>
@@ -418,6 +455,7 @@ where
 
             self.analyze_usage(e);
         } else {
+            self.try_deglob(e);
         }
     }
 
@@ -595,112 +633,6 @@ where
     noop_fold_type!();
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
-        match e {
-            Expr::Ident(i) if self.deglob_phase => {
-                return Expr::Ident(i);
-            }
-
-            Expr::Member(mut e) => {
-                e = e.fold_with(self);
-
-                match &e.obj {
-                    ExprOrSuper::Expr(obj) => {
-                        match &**obj {
-                            Expr::Ident(i) => {
-                                // Deglob identifier usages.
-                                if self.deglob_phase && self.idents_to_deglob.contains(&i.to_id()) {
-                                    match *e.prop {
-                                        Expr::Ident(prop) if prop.sym == i.sym => {
-                                            return Expr::Ident(Ident::new(
-                                                prop.sym,
-                                                prop.span.with_ctxt(i.span.ctxt),
-                                            ));
-                                        }
-                                        _ => {}
-                                    }
-                                }
-
-                                // Search for namespace imports.
-                                // If possible, we de-glob namespace imports.
-                                if let Some(import) = self.info.imports.iter().find(|import| {
-                                    for s in &import.specifiers {
-                                        match s {
-                                            ImportSpecifier::Namespace(n) => {
-                                                return i.sym == n.local.sym
-                                                    && (i.span.ctxt == self.module_ctxt
-                                                        || i.span.ctxt == n.local.span.ctxt)
-                                            }
-                                            _ => {}
-                                        }
-                                    }
-
-                                    false
-                                }) {
-                                    let mark = self.ctxt_for(&import.src.value);
-                                    let exported_ctxt = match mark {
-                                        None => return e.into(),
-                                        Some(ctxts) => ctxts.1,
-                                    };
-                                    if self.deglob_phase {
-                                        dbg!(i.to_id(), &import, &self.idents_to_deglob);
-
-                                        if self.info.forced_ns.contains(&import.src.value) {
-                                            //
-                                            return e.into();
-                                        }
-
-                                        let i = match &*e.prop {
-                                            Expr::Ident(i) => {
-                                                let mut i = i.clone();
-                                                i.span = i.span.with_ctxt(exported_ctxt);
-                                                i
-                                            }
-                                            _ => unreachable!(
-                                                "Non-computed member expression with property \
-                                                 other than ident is invalid"
-                                            ),
-                                        };
-
-                                        return Expr::Ident(i);
-                                    } else {
-                                        if e.computed {
-                                            self.info.forced_ns.insert(import.src.value.clone());
-                                        } else {
-                                            let i = match &*e.prop {
-                                                Expr::Ident(i) => {
-                                                    let mut i = i.clone();
-                                                    i.span = i.span.with_ctxt(exported_ctxt);
-                                                    i
-                                                }
-                                                _ => unreachable!(
-                                                    "Non-computed member expression with property \
-                                                     other than ident is invalid"
-                                                ),
-                                            };
-
-                                            self.ns_usage
-                                                .entry(import.src.value.clone())
-                                                .or_default()
-                                                .push(i.to_id());
-                                        }
-                                    }
-
-                                    return e.into();
-                                }
-                            }
-                            _ => {}
-                        }
-                    }
-
-                    _ => {}
-                }
-
-                return Expr::Member(e);
-            }
-
-            _ => {}
-        }
-
         let e: Expr = e.fold_children_with(self);
 
         match e {
