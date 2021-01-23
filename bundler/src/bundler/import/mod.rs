@@ -196,6 +196,93 @@ where
 
         self.bundler.scope.mark_as_wrapping_required(id);
     }
+
+    fn add_forced_ns_for(&mut self, id: Id) {
+        if let Some(src) = self
+            .info
+            .imports
+            .iter()
+            .find(|import| {
+                import.specifiers.iter().any(|specifier| match specifier {
+                    ImportSpecifier::Namespace(ns) => {
+                        ns.local.sym == id.0 && ns.local.span.ctxt == id.1
+                    }
+                    _ => false,
+                })
+            })
+            .map(|import| import.src.value.clone())
+        {
+            self.info.forced_ns.insert(src);
+            return;
+        }
+    }
+
+    fn analyze_usage(&mut self, e: &mut Expr) {
+        match e {
+            Expr::Member(e) => match &e.obj {
+                ExprOrSuper::Super(_) => return,
+                ExprOrSuper::Expr(obj) => match &**obj {
+                    Expr::Ident(obj) => {
+                        if !self.imported_idents.contains_key(&obj.to_id()) {
+                            // If it's not imported, just abort the usage analysis.
+                            return;
+                        }
+
+                        if e.computed {
+                            // If a module is accessed with unknown key, we should import
+                            // everyrthing from it.
+                            self.add_forced_ns_for(obj.to_id());
+                            return;
+                        }
+
+                        // Store usages of obj
+                        let import = self.info.imports.iter().find(|import| {
+                            for s in &import.specifiers {
+                                match s {
+                                    ImportSpecifier::Namespace(n) => {
+                                        return obj.sym == n.local.sym
+                                            && (obj.span.ctxt == self.module_ctxt
+                                                || obj.span.ctxt == n.local.span.ctxt)
+                                    }
+                                    _ => {}
+                                }
+                            }
+
+                            false
+                        });
+                        let import = match import {
+                            Some(v) => v,
+                            None => return,
+                        };
+
+                        let mark = self.ctxt_for(&import.src.value);
+                        let exported_ctxt = match mark {
+                            None => return,
+                            Some(ctxts) => ctxts.1,
+                        };
+                        let prop = match &*e.prop {
+                            Expr::Ident(i) => {
+                                let mut i = i.clone();
+                                i.span = i.span.with_ctxt(exported_ctxt);
+                                i
+                            }
+                            _ => unreachable!(
+                                "Non-computed member expression with property other than ident is \
+                                 invalid"
+                            ),
+                        };
+
+                        self.usages
+                            .entry(obj.to_id())
+                            .or_default()
+                            .push(prop.to_id());
+                    }
+                    _ => {}
+                },
+            },
+            _ => {}
+        }
+    }
 }
 
 impl<L, R> VisitMut for ImportHandler<'_, '_, L, R>
@@ -321,28 +408,15 @@ where
                 match &e {
                     Expr::Ident(i) => {
                         if !self.in_obj_of_member {
-                            if let Some(src) = self
-                                .info
-                                .imports
-                                .iter()
-                                .find(|import| {
-                                    import.specifiers.iter().any(|specifier| match specifier {
-                                        ImportSpecifier::Namespace(ns) => {
-                                            ns.local.sym == i.sym
-                                                && ns.local.span.ctxt == i.span.ctxt
-                                        }
-                                        _ => false,
-                                    })
-                                })
-                                .map(|import| import.src.value.clone())
-                            {
-                                self.info.forced_ns.insert(src);
-                            }
+                            self.add_forced_ns_for(i.to_id());
+                            return;
                         }
                     }
                     _ => {}
                 }
             }
+
+            self.analyze_usage(e);
         } else {
         }
     }
