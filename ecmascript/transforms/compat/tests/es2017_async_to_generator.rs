@@ -10,6 +10,7 @@ use swc_ecma_transforms_compat::es2015::destructuring;
 use swc_ecma_transforms_compat::es2015::function_name;
 use swc_ecma_transforms_compat::es2015::parameters;
 use swc_ecma_transforms_compat::es2017::async_to_generator;
+use swc_ecma_transforms_compat::es2020::class_properties;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::test_exec;
 use swc_ecma_visit::{Fold, FoldWith};
@@ -2333,7 +2334,7 @@ test!(
 
 test_exec!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| chain!(class_properties(), async_to_generator()),
     issue_1341_3_exec,
     "
   class A {
