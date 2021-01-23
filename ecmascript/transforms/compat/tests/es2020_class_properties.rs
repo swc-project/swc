@@ -5024,10 +5024,10 @@ test!(
     |_| class_properties(),
     issue_1333_3,
     "
-  class Test {
-    #ws;
+    class Test {
+      #ws;
     
-    _packet(raw) {
+      _packet(raw) {
         /** @type {DiscordPacket} */
         let pak;
         try {
@@ -5042,9 +5042,47 @@ test!(
             case 'READY':
             case 'RESUMED':
         }
+      }
+    }
+    ",
+    "
+    "
+);
+
+test!(
+    syntax(),
+    |_| class_properties(),
+    issue_1333_4,
+    "
+  class Test {
+    #ws;
+  
+    _packet(raw) {
+      /** @type {DiscordPacket} */
+      let pak;
+      try {
+          pak = this.#serialization.decode(raw);
+      } catch (e) {
+          return;
+      }
     }
   }
   ",
     "
   "
+);
+
+test!(
+    syntax(),
+    |_| class_properties(),
+    issue_1333_5,
+    "
+    class Test {
+      _packet(raw) {
+        pak = this.#serialization.decode(raw);
+      }
+    }
+    ",
+    "
+"
 );
