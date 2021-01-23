@@ -1,4 +1,5 @@
 use smallvec::SmallVec;
+use std::mem::take;
 use std::{collections::HashMap, mem::replace};
 use swc_atoms::js_word;
 use swc_common::{util::map::Map, Mark, Spanned, SyntaxContext, DUMMY_SP};
@@ -598,7 +599,7 @@ impl Fold for BlockScoping {
     }
 
     fn fold_block_stmt(&mut self, n: BlockStmt) -> BlockStmt {
-        let mut vars = take(&mut self.vars);
+        let vars = take(&mut self.vars);
         let n = n.fold_children_with(self);
         debug_assert_eq!(self.vars, vec![]);
         self.vars = vars;
