@@ -40,7 +40,7 @@ where
                 bundler: self,
                 top_level: false,
                 info: Default::default(),
-                ns_usage: Default::default(),
+                usages: Default::default(),
                 imported_idents: Default::default(),
                 deglob_phase: false,
                 idents_to_deglob: Default::default(),
@@ -119,7 +119,9 @@ where
     top_level: bool,
     info: RawImports,
 
-    ns_usage: HashMap<JsWord, Vec<Id>>,
+    /// HashMap from the local identifier of a namespace import to used
+    /// properties.
+    usages: HashMap<JsWord, Vec<Id>>,
 
     /// While deglobbing, we also marks imported identifiers.
     imported_idents: HashMap<Id, SyntaxContext>,
