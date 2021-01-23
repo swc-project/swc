@@ -365,8 +365,9 @@ where
         };
 
         let usages = self.usages.get(&obj.to_id());
-        let usages = match usages {
-            Some(v) => v,
+
+        match usages {
+            Some(..) => {}
             _ => return,
         };
 
@@ -374,10 +375,6 @@ where
             Expr::Ident(v) => v,
             _ => return,
         };
-
-        if !usages.contains(&prop.to_id()) {
-            return;
-        }
 
         *e = Expr::Ident(prop.clone());
     }
@@ -451,7 +448,8 @@ where
                     //
                     let specifiers = self
                         .usages
-                        .remove(&ns.local.to_id())
+                        .get(&ns.local.to_id())
+                        .cloned()
                         .map(|ids| {
                             //
                             let specifiers: Vec<_> = ids
