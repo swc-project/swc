@@ -977,50 +977,39 @@ class Class {
 
 "#,
     r#"
-class Class{
-     method() {
-        return _asyncToGenerator((function*() {
-            this;
-            ()=>this
-            ;
-            ()=>{
-                this;
-                ()=>this
-                ;
-                function x() {
-                    this;
-                    ()=>{
-                        this;
-                    };
-                    (function() {
-                        var _ref = _asyncToGenerator((function*() {
-                            this;
-                        }).bind(this));
-                        return function() {
-                            return _ref.apply(this, arguments);
-                        };
-                    })().bind(this);
-                }
-            };
-            function x() {
-                this;
-                ()=>{
-                    this;
-                };
-                (function() {
-                    var _ref = _asyncToGenerator((function*() {
-                        this;
-                    }).bind(this));
-                    return function() {
-                        return _ref.apply(this, arguments);
-                    };
-                })().bind(this);
-            }
-        }).bind(this))();
+    class Class {
+      method() {
+          return _asyncToGenerator((function*() {
+              this;
+              ()=>this
+              ;
+              ()=>{
+                  this;
+                  ()=>this
+                  ;
+                  function x() {
+                      this;
+                      ()=>{
+                          this;
+                      };
+                      _asyncToGenerator((function*() {
+                          this;
+                      }).bind(this)).bind(this);
+                  }
+              };
+              function x() {
+                  this;
+                  ()=>{
+                      this;
+                  };
+                  _asyncToGenerator((function*() {
+                      this;
+                  }).bind(this)).bind(this);
+              }
+          }).bind(this))();
+      }
     }
-}
-
-"#
+    "#
 );
 
 // async_to_generator_object_method
