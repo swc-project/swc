@@ -2310,23 +2310,40 @@ test!(
     |_| async_to_generator(),
     issue_1341_2,
     "
-    class A {
-      val = '1';
-      async foo() {
-        return await (async (x) => x + this.val)('a');
-      }
+  class A {
+    val = '1';
+    async foo() {
+      return await (async (x) => x + this.val)('a');
     }
-    ",
+  }
+  ",
     "
-    class A {
-      val = '1';
-      foo() {
-          return _asyncToGenerator((function*() {
-              return yield (async function(x) {
-                  return x + this.val;
-              }).bind(this)('a');
-          }).bind(this))();
-      }
+  class A {
+    val = '1';
+    foo() {
+        return _asyncToGenerator((function*() {
+            return yield (async function(x) {
+                return x + this.val;
+            }).bind(this)('a');
+        }).bind(this))();
     }
+  }
+  "
+);
+
+test_exec!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1341_3_exec,
     "
+  class A {
+    val = '1';
+    async foo() {
+      return await (async (x) => x + this.val)('a');
+    }
+  }
+
+  const a = new A();
+  expect(a.foo()).resolves.toEqual('a1')
+  "
 );
