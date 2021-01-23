@@ -1,4 +1,3 @@
-use crate::es2015::arrow;
 use std::iter;
 use swc_common::{Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -194,16 +193,60 @@ impl Fold for Actual {
         let expr = expr.fold_children_with(self);
 
         match expr {
-            Expr::Arrow(ArrowExpr { is_async: true, .. }) => {
+            Expr::Arrow(ArrowExpr {
+                is_async: true,
+                span,
+                params,
+                body,
+                is_generator,
+                type_params,
+                return_type,
+            }) => {
                 // Apply arrow
-                let expr = expr.fold_with(&mut arrow());
+                let used_this = contains_this_expr(&body);
 
-                let f = match expr {
-                    Expr::Fn(f) => f,
-                    _ => return expr,
+                let fn_expr = FnExpr {
+                    ident: None,
+                    function: Function {
+                        decorators: vec![],
+                        span,
+                        params: params
+                            .into_iter()
+                            .map(|pat| Param {
+                                span: DUMMY_SP,
+                                decorators: Default::default(),
+                                pat,
+                            })
+                            .collect(),
+                        is_async: true,
+                        is_generator,
+                        body: Some(match body {
+                            BlockStmtOrExpr::BlockStmt(block) => block,
+                            BlockStmtOrExpr::Expr(expr) => BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![Stmt::Return(ReturnStmt {
+                                    span: expr.span(),
+                                    arg: Some(expr),
+                                })],
+                            },
+                        }),
+                        type_params,
+                        return_type,
+                    },
                 };
 
-                return make_fn_ref(f);
+                if !used_this {
+                    return make_fn_ref(fn_expr);
+                }
+
+                return Expr::Call(CallExpr {
+                    span,
+                    callee: make_fn_ref(fn_expr)
+                        .make_member(quote_ident!("bind"))
+                        .as_callee(),
+                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                    type_args: Default::default(),
+                });
             }
 
             Expr::Fn(
