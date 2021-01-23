@@ -173,7 +173,6 @@ impl Fold for Actual {
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         match expr {
             Expr::Paren(ParenExpr { span, expr }) => {
-                dbg!();
                 return Expr::Paren(ParenExpr {
                     span,
                     expr: expr.fold_with(self),
@@ -187,8 +186,6 @@ impl Fold for Actual {
                 args,
                 type_args,
             }) if callee.is_fn_expr() => {
-                dbg!();
-
                 return self.handle_fn_expr(span, (*callee).fn_expr().unwrap(), args, type_args);
             }
 
@@ -205,8 +202,6 @@ impl Fold for Actual {
                 _ => false,
             } =>
             {
-                dbg!();
-
                 return self.handle_fn_expr(
                     span,
                     (*callee).paren().unwrap().expr.fn_expr().unwrap(),
@@ -290,8 +285,6 @@ impl Fold for Actual {
                     ..
                 },
             ) => {
-                dbg!();
-
                 let function = self.fold_fn(expr.ident.clone(), expr.function, false);
                 let body = Some(BlockStmt {
                     span: DUMMY_SP,
