@@ -212,6 +212,27 @@ where
 
         self.in_obj_of_member = old;
     }
+
+    fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
+        self.top_level = false;
+        items.visit_mut_children_with(self)
+    }
+
+    fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
+        match &s.exported {
+            Some(exported) => {
+                debug_assert_eq!(
+                    exported.span.ctxt, self.module_ctxt,
+                    "Exported names should have same (local) context as top-level module items"
+                );
+            }
+            None => {
+                let exported =
+                    Ident::new(s.orig.sym.clone(), s.orig.span.with_ctxt(self.module_ctxt));
+                s.exported = Some(exported);
+            }
+        }
+    }
 }
 
 impl<L, R> Fold for ImportHandler<'_, '_, L, R>
@@ -366,29 +387,6 @@ where
         }
 
         items
-    }
-
-    fn fold_stmts(&mut self, items: Vec<Stmt>) -> Vec<Stmt> {
-        self.top_level = false;
-        items.fold_children_with(self)
-    }
-
-    fn fold_export_named_specifier(&mut self, mut s: ExportNamedSpecifier) -> ExportNamedSpecifier {
-        match &s.exported {
-            Some(exported) => {
-                debug_assert_eq!(
-                    exported.span.ctxt, self.module_ctxt,
-                    "Exported names should have same (local) context as top-level module items"
-                );
-            }
-            None => {
-                let exported =
-                    Ident::new(s.orig.sym.clone(), s.orig.span.with_ctxt(self.module_ctxt));
-                s.exported = Some(exported);
-            }
-        }
-
-        s
     }
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
