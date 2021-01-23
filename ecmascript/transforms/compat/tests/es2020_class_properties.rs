@@ -2916,51 +2916,31 @@ export default class MyClass3 {
 
 "#,
     r#"
-class MyClass {
-  constructor() {
-    _defineProperty(this, 'myAsyncMethod', (function() {
-        var _ref = _asyncToGenerator((function*() {
-            console.log(this);
-        }).bind(this));
-        return function() {
-            return _ref.apply(this, arguments);
-        };
-    })().bind(this));
-
-  }
-
-}
-
-(function() {
-    class MyClass2{
-        constructor(){
-            _defineProperty(this, 'myAsyncMethod', (function() {
-                var _ref = _asyncToGenerator((function*() {
+    class MyClass {
+      constructor(){
+          _defineProperty(this, "myAsyncMethod", _asyncToGenerator((function*() {
+              console.log(this);
+          }).bind(this)).bind(this));
+      }
+    }
+    (function() {
+        class MyClass2 {
+            constructor(){
+                _defineProperty(this, "myAsyncMethod", _asyncToGenerator((function*() {
                     console.log(this);
-                }).bind(this));
-                return function() {
-                    return _ref.apply(this, arguments);
-                };
-            })().bind(this));
+                }).bind(this)).bind(this));
+            }
+        }
+        return MyClass2;
+    })();
+    class MyClass3 {
+        constructor(){
+            _defineProperty(this, "myAsyncMethod", _asyncToGenerator((function*() {
+                console.log(this);
+            }).bind(this)).bind(this));
         }
     }
-    return MyClass2;
-})();
-
-
-class MyClass3{
-    constructor(){
-        _defineProperty(this, 'myAsyncMethod', (function() {
-            var _ref = _asyncToGenerator((function*() {
-                console.log(this);
-            }).bind(this));
-            return function() {
-                return _ref.apply(this, arguments);
-            };
-        })().bind(this));
-    }
-}
-export { MyClass3 as default }
+    export { MyClass3 as default };
 "#
 );
 
@@ -3441,62 +3421,44 @@ export default class MyClass3 {
 
 "#,
     r#"
-class MyClass{
+class MyClass {
     constructor(){
         _myAsyncMethod1.set(this, {
             writable: true,
-            value: (function() {
-                var _ref = _asyncToGenerator((function*() {
-                    console.log(this);
-                }).bind(this));
-                return function() {
-                    return _ref.apply(this, arguments);
-                };
-            })().bind(this)
+            value: _asyncToGenerator((function*() {
+                console.log(this);
+            }).bind(this)).bind(this)
         });
     }
 }
 var _myAsyncMethod1 = new WeakMap();
-
-
 (function() {
-    class MyClass2{
+    class MyClass2 {
         constructor(){
             _myAsyncMethod2.set(this, {
                 writable: true,
-                value: (function() {
-                    var _ref = _asyncToGenerator((function*() {
-                        console.log(this);
-                    }).bind(this));
-                    return function() {
-                        return _ref.apply(this, arguments);
-                    };
-                })().bind(this)
+                value: _asyncToGenerator((function*() {
+                    console.log(this);
+                }).bind(this)).bind(this)
             });
         }
     }
     var _myAsyncMethod2 = new WeakMap();
     return MyClass2;
 })();
-
-
-class MyClass3{
+class MyClass3 {
     constructor(){
         _myAsyncMethod2.set(this, {
             writable: true,
-            value: (function() {
-                var _ref = _asyncToGenerator((function*() {
-                    console.log(this);
-                }).bind(this));
-                return function() {
-                    return _ref.apply(this, arguments);
-                };
-            })().bind(this)
+            value: _asyncToGenerator((function*() {
+                console.log(this);
+            }).bind(this)).bind(this)
         });
     }
 }
 var _myAsyncMethod2 = new WeakMap();
-export { MyClass3 as default }
+export { MyClass3 as default };
+  
 
 "#
 );
