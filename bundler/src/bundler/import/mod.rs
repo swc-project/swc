@@ -13,6 +13,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
+use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 #[cfg(test)]
@@ -198,6 +199,19 @@ where
     R: Resolve,
 {
     noop_visit_mut_type!();
+
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        let old = self.in_obj_of_member;
+        self.in_obj_of_member = true;
+        e.obj.visit_mut_with(self);
+
+        if e.computed {
+            self.in_obj_of_member = false;
+            e.prop.visit_mut_with(self);
+        }
+
+        self.in_obj_of_member = old;
+    }
 }
 
 impl<L, R> Fold for ImportHandler<'_, '_, L, R>
@@ -675,20 +689,5 @@ where
         }
 
         node.fold_children_with(self)
-    }
-
-    fn fold_member_expr(&mut self, mut e: MemberExpr) -> MemberExpr {
-        let old = self.in_obj_of_member;
-        self.in_obj_of_member = true;
-        e.obj = e.obj.fold_with(self);
-
-        if e.computed {
-            self.in_obj_of_member = false;
-            e.prop = e.prop.fold_with(self);
-        }
-
-        self.in_obj_of_member = old;
-
-        e
     }
 }
