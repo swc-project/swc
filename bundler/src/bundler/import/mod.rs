@@ -1,6 +1,7 @@
 use super::Bundler;
 use crate::{load::Load, resolve::Resolve};
 use anyhow::{Context, Error};
+use retain_mut::RetainMut;
 use std::{
     collections::{HashMap, HashSet},
     mem::replace,
@@ -435,38 +436,27 @@ where
             _ => {}
         }
     }
-}
 
-impl<L, R> Fold for ImportHandler<'_, '_, L, R>
-where
-    L: Load,
-    R: Resolve,
-{
-    noop_fold_type!();
-
-    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         self.top_level = true;
-        let items = items.move_flat_map(|item| {
-            //
+        items.visit_mut_children_with(self);
 
-            match item {
-                ModuleItem::Stmt(Stmt::Empty(..)) => None,
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(mut var))) => {
-                    var.decls.retain(|d| match d.name {
-                        Pat::Invalid(..) => false,
-                        _ => true,
-                    });
+        items.retain_mut(|item| match item {
+            ModuleItem::Stmt(Stmt::Empty(..)) => false,
+            ModuleItem::Stmt(Stmt::Decl(Decl::Var(mut var))) => {
+                var.decls.retain(|d| match d.name {
+                    Pat::Invalid(..) => false,
+                    _ => true,
+                });
 
-                    if var.decls.is_empty() {
-                        None
-                    } else {
-                        let var = var.fold_with(self);
-                        Some(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))))
-                    }
+                if var.decls.is_empty() {
+                    false
+                } else {
+                    true
                 }
-
-                _ => Some(item.fold_with(self)),
             }
+
+            _ => true,
         });
 
         if self.deglob_phase {
@@ -489,9 +479,15 @@ where
                 self.mark_as_wrapping_required(&id);
             }
         }
-
-        items
     }
+}
+
+impl<L, R> Fold for ImportHandler<'_, '_, L, R>
+where
+    L: Load,
+    R: Resolve,
+{
+    noop_fold_type!();
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
         match &e {
