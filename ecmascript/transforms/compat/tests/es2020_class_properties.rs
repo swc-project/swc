@@ -4921,7 +4921,13 @@ test!(
   }
   ",
     "
-  "
+    class Foo {
+      get connected() {
+          return _classPrivateFieldGet(this, _ws2) && _classPrivateFieldGet(this, _ws).readyState \
+     === _ws1.default.OPEN;
+      }
+    }
+    "
 );
 
 test!(
@@ -5124,6 +5130,30 @@ test!(
     }
     ",
     "
+    class Test {
+      _packet(raw) {
+          let pak;
+          try {
+              pak = _classPrivateFieldGet(this, _serialization).decode(raw);
+              this.manager.emit(ClientEvent.RAW_PACKET, pak, this);
+          } catch (e) {
+              this.manager.client.emit(ClientEvent.SHARD_ERROR, e, this);
+              return;
+          }
+          switch(pak.t){
+              case 'READY':
+              case 'RESUMED':
+          }
+      }
+      constructor(){
+          _ws.set(this, {
+              writable: true,
+              value: void 0
+          });
+      }
+  }
+  var _ws = new WeakMap();
+  
     "
 );
 
@@ -5147,7 +5177,24 @@ test!(
   }
   ",
     "
-  "
+    class Test {
+      _packet(raw) {
+          let pak;
+          try {
+              pak = _classPrivateFieldGet(this, _serialization).decode(raw);
+          } catch (e) {
+              return;
+          }
+      }
+      constructor(){
+          _ws.set(this, {
+              writable: true,
+              value: void 0
+          });
+      }
+    }
+    var _ws = new WeakMap();
+    "
 );
 
 test!(
@@ -5162,7 +5209,12 @@ test!(
     }
     ",
     "
-"
+    class Test {
+      _packet(raw) {
+          pak = _classPrivateFieldGet(this, _serialization).decode(raw);
+      }
+    }
+    "
 );
 
 test!(
