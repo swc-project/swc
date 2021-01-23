@@ -121,7 +121,7 @@ where
 
     /// HashMap from the local identifier of a namespace import to used
     /// properties.
-    usages: HashMap<JsWord, Vec<Id>>,
+    usages: HashMap<Id, Vec<Id>>,
 
     /// While deglobbing, we also marks imported identifiers.
     imported_idents: HashMap<Id, SyntaxContext>,
@@ -253,14 +253,19 @@ where
 
         // Now we are in deglobbing phase.
 
+        // We cannot deglob this.
+        if self.info.forced_ns.contains(&import.src.value) {
+            return;
+        }
+
         // deglob namespace imports
         if import.specifiers.len() == 1 {
             match &import.specifiers[0] {
-                ImportSpecifier::Namespace(_ns) => {
+                ImportSpecifier::Namespace(ns) => {
                     //
                     let specifiers = self
-                        .ns_usage
-                        .remove(&import.src.value)
+                        .usages
+                        .remove(&ns.local.to_id())
                         .map(|ids| {
                             //
                             let specifiers: Vec<_> = ids
@@ -292,14 +297,13 @@ where
                         return;
                     }
 
+                    // We failed to found property usage.
                     self.info.forced_ns.insert(import.src.value.clone());
                 }
 
                 _ => {}
             }
         }
-
-        import
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
