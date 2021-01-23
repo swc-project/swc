@@ -1387,15 +1387,10 @@ let TestClass = {
 let TestClass = {
     name: 'John Doe',
     testMethodFailure () {
-        return new Promise((function(resolve) {
-            var _ref = _asyncToGenerator((function*(resolve) {
-                console.log(this);
-                setTimeout(resolve, 1000);
-            }).bind(this));
-            return function() {
-                return _ref.apply(this, arguments);
-            };
-        })().bind(this));
+      return new Promise(_asyncToGenerator((function*(resolve) {
+        console.log(this);
+        setTimeout(resolve, 1000);
+      }).bind(this)).bind(this));
     }
 };
 
@@ -1727,40 +1722,27 @@ async function s(x, ...args) {
 
 "#,
     r#"
-function _s() {
-    _s = _asyncToGenerator((function*(x, ...args) {
-        let t = (function(y, a) {
-            var _ref = _asyncToGenerator((function*(y, a) {
-                let r = (function(z, b) {
-                    var _ref1 = _asyncToGenerator((function*(z, b, ...innerArgs) {
-                        yield z;
-                        console.log(this, innerArgs, arguments);
-                        return this.x;
-                    }).bind(this));
-                    return function() {
-                        return _ref1.apply(this, arguments);
-                    };
-                })().bind(this);
-                yield r();
-                console.log(this, args, arguments);
-                return this.g(r);
-            }).bind(this));
-            return function() {
-                return _ref.apply(this, arguments);
-            };
-        })().bind(this);
-        yield t();
-        return this.h(t);
-    }).bind(this));
-    return _s.apply(this, arguments);
-}
-
-
-function s(x) {
-  return _s.apply(this, arguments);
-}
-
-"#
+    function _s() {
+      _s = _asyncToGenerator((function*(x, ...args) {
+          let t = _asyncToGenerator((function*(y, a) {
+              let r = _asyncToGenerator((function*(z, b, ...innerArgs) {
+                  yield z;
+                  console.log(this, innerArgs, arguments);
+                  return this.x;
+              }).bind(this)).bind(this);
+              yield r();
+              console.log(this, args, arguments);
+              return this.g(r);
+          }).bind(this)).bind(this);
+          yield t();
+          return this.h(t);
+      }).bind(this));
+      return _s.apply(this, arguments);
+    }
+    function s(x) {
+        return _s.apply(this, arguments);
+    }
+    "#
 );
 
 // export_async_import_and_export
