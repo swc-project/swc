@@ -853,7 +853,7 @@ noop!(
 noop!(
     deno_9212,
     "
-    var _= [];
+    var _ = [];
     _ = l.baseState;
     "
 );
