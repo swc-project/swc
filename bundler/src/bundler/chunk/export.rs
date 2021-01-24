@@ -121,10 +121,9 @@ pub(super) fn inject_export(
             ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export))
                 if export.src.value == source.src.value =>
             {
-                if !wrapped {
-                    let export_ctxt = export.span.ctxt;
-                    ctx.transitive_remap.insert(export_ctxt, entry_export_ctxt);
-                }
+                let export_ctxt = export.span.ctxt;
+                ctx.transitive_remap.insert(export_ctxt, entry_export_ctxt);
+
                 *item = Stmt::Empty(EmptyStmt { span: DUMMY_SP }).into()
             }
             ModuleItem::ModuleDecl(ModuleDecl::Import(ref import))
