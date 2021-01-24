@@ -851,9 +851,23 @@ noop!(
 );
 
 noop!(
-    deno_9212,
+    deno_9212_1,
     "
     var _ = [];
     _ = l.baseState;
+    "
+);
+
+noop!(
+    deno_9212_2,
+    "
+    if (u !== null) {
+        if (y !== null) {
+            var _ = y.lastBaseUpdate;
+        }
+    }
+    if (i !== null) {
+        _ = l.baseState;
+    }
     "
 );
