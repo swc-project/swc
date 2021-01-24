@@ -94,6 +94,18 @@ where
             take(&mut module.body)
                 .into_iter()
                 .filter_map(|v| match v {
+                    ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+                        // Handle `export *`-s from dependency modules.
+                        //
+                        // See: https://github.com/denoland/deno/issues/9200
+
+                        if var.span.ctxt == injected_ctxt {
+                            dbg!(&var);
+                        }
+
+                        Some(Stmt::Decl(Decl::Var(var)))
+                    }
+
                     ModuleItem::Stmt(s) => Some(s),
                     ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
                         // We handle this later.
