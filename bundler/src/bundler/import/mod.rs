@@ -371,12 +371,13 @@ where
             _ => return,
         };
 
-        let prop = match &*me.prop {
-            Expr::Ident(v) => v,
+        let mut prop = match &*me.prop {
+            Expr::Ident(v) => v.clone(),
             _ => return,
         };
+        prop.span.ctxt = obj.span.ctxt;
 
-        *e = Expr::Ident(prop.clone());
+        *e = Expr::Ident(prop);
     }
 }
 
