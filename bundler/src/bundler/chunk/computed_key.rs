@@ -38,7 +38,8 @@ where
         mut module: Modules,
     ) -> Result<Modules, Error> {
         let span = DUMMY_SP;
-        let var_name = match self.scope.wrapped_esm_id(id) {
+        let info = self.scope.get_module(id).unwrap();
+        let module_var_name = match self.scope.wrapped_esm_id(id) {
             Some(v) => v,
             None => bail!("{:?} should not be wrapped with a function", id),
         };
@@ -100,7 +101,68 @@ where
                         // See: https://github.com/denoland/deno/issues/9200
 
                         if var.span.ctxt == injected_ctxt {
-                            dbg!(&var);
+                            let decl = &var.decls[0];
+                            match &decl.name {
+                                Pat::Ident(i) => {
+                                    if let Some(remapped) = ctx.transitive_remap.get(&i.span.ctxt) {
+                                        // Create
+                                        //
+                                        // const local = mod.local;
+                                        // expodt { local as exported }
+                                        //
+
+                                        let local_var = Ident::new(
+                                            i.sym.clone(),
+                                            i.span.with_ctxt(info.local_ctxt()),
+                                        );
+
+                                        let var_decl = VarDeclarator {
+                                            span: DUMMY_SP,
+                                            name: Pat::Ident(local_var.clone()),
+                                            init: Some(Box::new(Expr::Member(MemberExpr {
+                                                span: DUMMY_SP,
+                                                obj: module_var_name.clone().as_obj(),
+                                                prop: {
+                                                    let mut prop = i.clone();
+                                                    prop.span.ctxt = SyntaxContext::empty();
+
+                                                    Box::new(Expr::Ident(prop))
+                                                },
+                                                computed: false,
+                                            }))),
+                                            definite: false,
+                                        };
+                                        module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(
+                                            VarDecl {
+                                                span: DUMMY_SP.with_ctxt(injected_ctxt),
+                                                kind: VarDeclKind::Const,
+                                                declare: false,
+                                                decls: vec![var_decl],
+                                            },
+                                        ))));
+
+                                        let specifier =
+                                            ExportSpecifier::Named(ExportNamedSpecifier {
+                                                span: DUMMY_SP,
+                                                orig: local_var.clone(),
+                                                exported: {
+                                                    let mut exported = local_var.clone();
+                                                    exported.span.ctxt = remapped;
+                                                    Some(exported)
+                                                },
+                                            });
+                                        module_items.push(ModuleItem::ModuleDecl(
+                                            ModuleDecl::ExportNamed(NamedExport {
+                                                span: DUMMY_SP.with_ctxt(injected_ctxt),
+                                                specifiers: vec![specifier],
+                                                src: None,
+                                                type_only: false,
+                                            }),
+                                        ));
+                                    }
+                                }
+                                _ => {}
+                            }
                         }
 
                         Some(Stmt::Decl(Decl::Var(var)))
@@ -160,7 +222,7 @@ where
             decls: vec![VarDeclarator {
                 span: DUMMY_SP,
                 definite: false,
-                name: Pat::Ident(var_name.into_ident()),
+                name: Pat::Ident(module_var_name.into_ident()),
                 init: Some(Box::new(module_expr)),
             }],
         };
