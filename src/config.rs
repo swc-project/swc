@@ -417,11 +417,10 @@ impl Rc {
                     }
                 }
             }
-            // TODO
-            None => return Ok(None),
+            None => return Ok(Some(Config::default())),
         }
 
-        bail!("not matched")
+        bail!(".swcrc exists but not matched")
     }
 }
 

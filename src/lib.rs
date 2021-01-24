@@ -336,12 +336,19 @@ impl Compiler {
                 _ => {}
             }
 
-            Ok(match config_file {
+            let config = match config_file {
                 Some(config_file) => config_file.into_config(None)?,
                 None => Rc::default().into_config(None)?,
-            })
+            };
+
+            match config {
+                Some(config) => Ok(Some(config)),
+                None => {
+                    bail!("no config matched for file ({})", name)
+                }
+            }
         })
-        .with_context(|| format!("failed to read swcrc file ('{:?}')", name))
+        .with_context(|| format!("failed to read swcrc file ({})", name))
     }
 
     /// This method returns [None] if a file should be skipped.
