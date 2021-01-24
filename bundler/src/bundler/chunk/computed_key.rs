@@ -132,14 +132,10 @@ where
                                             }))),
                                             definite: false,
                                         };
-                                        module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(
-                                            VarDecl {
-                                                span: DUMMY_SP.with_ctxt(injected_ctxt),
-                                                kind: VarDeclKind::Const,
-                                                declare: false,
-                                                decls: vec![var_decl],
-                                            },
-                                        ))));
+                                        module_items.push(var_decl.into_module_item(
+                                            injected_ctxt,
+                                            "reexport from wrapped module",
+                                        ));
 
                                         let specifier =
                                             ExportSpecifier::Named(ExportNamedSpecifier {
