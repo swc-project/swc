@@ -375,7 +375,7 @@ where
             Expr::Ident(v) => v.clone(),
             _ => return,
         };
-        prop.span.ctxt = obj.span.ctxt;
+        prop.span.ctxt = self.imported_idents.get(&obj.to_id()).copied().unwrap();
 
         *e = Expr::Ident(prop);
     }
