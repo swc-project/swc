@@ -849,3 +849,11 @@ noop!(
     const app = new App;
     "
 );
+
+noop!(
+    deno_9212,
+    "
+    var _= [];
+    _ = l.baseState;
+    "
+);
