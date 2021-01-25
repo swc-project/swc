@@ -17,6 +17,8 @@ class Image1 {
         this.data[index * 4 + 3] = pix.a;
     }
 }
+const Image2 = Image1;
+const Image3 = Image2;
 const JpegImage = function jpegImage() {
     "use strict";
     const dctZigZag = new Int32Array([
@@ -945,8 +947,6 @@ const JpegImage = function jpegImage() {
     };
     return constructor;
 }();
-const Image2 = Image1;
-const Image3 = Image2;
 const decode1 = function(jpegData, colorTransform = true) {
     const arr = new Uint8Array(jpegData);
     const decoder = new JpegImage();

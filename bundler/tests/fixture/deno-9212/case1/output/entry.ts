@@ -5896,7 +5896,7 @@ var sa = Bn((Fc, oa)=>{
     ua(), oa.exports = ia();
 });
 var aa = ga(sa()), { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: kc , createPortal: Sc , findDOMNode: Ec , flushSync: xc , hydrate: _c , render: Cc , unmountComponentAtNode: Nc , unstable_batchedUpdates: Pc , unstable_createPortal: Tc , unstable_renderSubtreeIntoContainer: Lc , version: Oc  } = aa;
-const { document  } = window;
 const render = Cc;
 const render1 = render;
+const { document  } = window;
 render1(createElement1('p', null, 'hello world!'), document.body);

@@ -553,6 +553,8 @@ const DEFAULTS = {
     }
 };
 const endpoint = withDefaults(null, DEFAULTS);
+const endpoint1 = endpoint;
+const endpoint2 = endpoint1;
 class Deprecation extends Error {
     constructor(message){
         super(message);
@@ -562,7 +564,12 @@ class Deprecation extends Error {
         this.name = "Deprecation";
     }
 }
+const Deprecation1 = Deprecation;
+const Deprecation2 = Deprecation1;
 var wrappy_1 = wrappy;
+const __default = wrappy_1;
+const __default1 = __default;
+const wrappy2 = __default1;
 function wrappy(fn, cb) {
     if (fn && cb) return wrappy(fn)(cb);
     if (typeof fn !== "function") throw new TypeError("need wrapper function");
@@ -585,9 +592,6 @@ function wrappy(fn, cb) {
         return ret;
     }
 }
-const __default = wrappy_1;
-const __default1 = __default;
-const wrappy2 = __default1;
 var once_1 = wrappy2(once2);
 var strict = wrappy2(onceStrict);
 once2.proto = once2(function() {
@@ -630,8 +634,6 @@ const __default3 = __default2;
 const once21 = __default3;
 const logOnce = once21((deprecation2)=>console.warn(deprecation2)
 );
-const Deprecation1 = Deprecation;
-const Deprecation2 = Deprecation1;
 class RequestError extends Error {
     constructor(message1, statusCode, options){
         super(message1);
@@ -660,6 +662,8 @@ class RequestError extends Error {
         this.request = requestCopy;
     }
 }
+const RequestError1 = RequestError;
+const RequestError2 = RequestError1;
 var getGlobal = function() {
     if (typeof self !== "undefined") {
         return self;
@@ -678,8 +682,6 @@ const VERSION1 = "5.4.12";
 function getBufferResponse(response) {
     return response.arrayBuffer();
 }
-const RequestError1 = RequestError;
-const RequestError2 = RequestError1;
 function fetchWrapper(requestOptions) {
     if (isPlainObject2(requestOptions.body) || Array.isArray(requestOptions.body)) {
         requestOptions.body = JSON.stringify(requestOptions.body);
@@ -780,8 +782,6 @@ function withDefaults1(oldEndpoint, newDefaults) {
         defaults: withDefaults1.bind(null, endpoint3)
     });
 }
-const endpoint1 = endpoint;
-const endpoint2 = endpoint1;
 const request = withDefaults1(endpoint2, {
     headers: {
         "user-agent": `octokit-request.js/${VERSION1} ${getUserAgent2()}`
