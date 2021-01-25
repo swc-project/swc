@@ -1026,6 +1026,28 @@ impl Reducer {
                     }
                 }
             }
+
+            (Expr::Assign(cons), Expr::Assign(alt))
+                if cons.op == alt.op && cons.left.eq_ignore_span(&alt.left) =>
+            {
+                self.changed = true;
+                log::trace!("Merging assignments in cons and alt of if statement");
+                *s = Stmt::Expr(ExprStmt {
+                    span: stmt.span,
+                    expr: Box::new(Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        op: cons.op,
+                        left: cons.left.take(),
+                        right: Box::new(Expr::Cond(CondExpr {
+                            span: DUMMY_SP,
+                            test: stmt.test.take(),
+                            cons: cons.right.take(),
+                            alt: alt.right.take(),
+                        })),
+                    })),
+                })
+            }
+
             _ => {}
         }
     }
