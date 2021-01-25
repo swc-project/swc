@@ -1,4 +1,3 @@
-const { document: document1  } = window;
 var ca = Object.create, Zr = Object.defineProperty, da = Object.getPrototypeOf, pa = Object.prototype.hasOwnProperty, ma = Object.getOwnPropertyNames, ha = Object.getOwnPropertyDescriptor;
 var va = (e)=>Zr(e, "__esModule", {
         value: !0
@@ -5893,4 +5892,5 @@ var sa = Bn((Fc, oa)=>{
     ua(), oa.exports = ia();
 });
 var aa = ga(sa()), { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: kc , createPortal: Sc , findDOMNode: Ec , flushSync: xc , hydrate: _c , render: Cc , unmountComponentAtNode: Nc , unstable_batchedUpdates: Pc , unstable_createPortal: Tc , unstable_renderSubtreeIntoContainer: Lc , version: Oc  } = aa;
-Cc(Oe('p', null, 'hello world!'), document1.body);
+const { document  } = window;
+Cc(Oe('p', null, 'hello world!'), document.body);
