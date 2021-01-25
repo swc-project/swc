@@ -1190,6 +1190,14 @@ where
                 ModuleItem::ModuleDecl(mut decl) => {
                     stmt = match decl {
                         ModuleDecl::ExportNamed(export) => {
+                            if let Some(src) = &export.src {
+                                if self.config.external_modules.contains(&src.value) {
+                                    *orig_stmt =
+                                        ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export));
+                                    continue;
+                                }
+                            }
+
                             for specifier in &export.specifiers {
                                 match specifier {
                                     ExportSpecifier::Namespace(ns) => {
