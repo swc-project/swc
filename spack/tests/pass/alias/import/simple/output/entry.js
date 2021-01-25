@@ -1,8 +1,8 @@
 function a() {
-}
-function a1() {
     console.log("a()");
 }
-const a2 = a1;
+function a1() {
+}
+const a2 = a;
 const foo = a2;
-console.log(a(), foo());
+console.log(a1(), foo());
