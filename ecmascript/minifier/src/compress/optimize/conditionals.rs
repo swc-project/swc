@@ -176,7 +176,7 @@ impl Optimizer {
                                 .unwrap()
                                 .iter()
                                 .all(|arg| arg.spread.is_none()))
-                        && (alt.args.is_none()
+                        && (alt.args.is_some()
                             && alt
                                 .args
                                 .as_ref()
