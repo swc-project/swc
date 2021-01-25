@@ -14,6 +14,17 @@ use std::{
 use swc_bundler::Resolve;
 use swc_common::FileName;
 
+pub(crate) fn is_core_module(s: &str) -> bool {
+    match s {
+        "assert" | "buffer" | "child_process" | "console" | "cluster" | "crypto" | "dgram"
+        | "dns" | "events" | "fs" | "http" | "http2" | "https" | "net" | "os" | "path"
+        | "perf_hooks" | "process" | "querystring" | "readline" | "repl" | "stream"
+        | "string_decoder" | "timers" | "tls" | "tty" | "url" | "util" | "v8" | "vm" | "wasi"
+        | "worker" | "zlib" => true,
+        _ => false,
+    }
+}
+
 #[derive(Deserialize)]
 struct PackageJson {
     #[serde(rename = "swc-main", default)]
@@ -146,13 +157,8 @@ impl NodeResolver {
 
 impl Resolve for NodeResolver {
     fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
-        match target {
-            "assert" | "buffer" | "child_process" | "console" | "cluster" | "crypto" | "dgram"
-            | "dns" | "events" | "fs" | "http" | "http2" | "https" | "net" | "os" | "path"
-            | "perf_hooks" | "process" | "querystring" | "readline" | "repl" | "stream"
-            | "string_decoder" | "timers" | "tls" | "tty" | "url" | "util" | "v8" | "vm"
-            | "wasi" | "worker" | "zlib" => return Ok(FileName::Custom(target.to_string())),
-            _ => {}
+        if is_core_module(target) {
+            return Ok(FileName::Custom(target.to_string()));
         }
 
         let base = match base {

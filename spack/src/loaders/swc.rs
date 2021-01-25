@@ -5,6 +5,7 @@ use swc::config::{InputSourceMap, JscConfig, TransformConfig};
 use swc_atoms::JsWord;
 use swc_bundler::{Load, ModuleData};
 use swc_common::{FileName, DUMMY_SP};
+use swc_ecma_ast::Module;
 use swc_ecma_ast::{Expr, Lit, Program, Str};
 use swc_ecma_parser::JscTarget;
 use swc_ecma_transforms::{
@@ -36,6 +37,26 @@ impl Load for SwcLoader {
     fn load(&self, name: &FileName) -> Result<ModuleData, Error> {
         log::debug!("JsLoader.load({})", name);
         let helpers = Helpers::new(false);
+
+        match name {
+            // Handle built-in modules
+            FileName::Custom(..) => {
+                let fm = self
+                    .compiler
+                    .cm
+                    .new_source_file(name.clone(), "".to_string());
+                return Ok(ModuleData {
+                    fm,
+                    module: Module {
+                        span: DUMMY_SP,
+                        body: Default::default(),
+                        shebang: Default::default(),
+                    },
+                    helpers: Default::default(),
+                });
+            }
+            _ => {}
+        }
 
         let fm = self
             .compiler
