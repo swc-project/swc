@@ -103,8 +103,7 @@ jobs:
         with:
           path: |
             ~/.cargo/
-            **/target/
-          key: ${{ runner.os }}-cargo-test
+          key: ${{ runner.os }}-cargo-test-${{ matrix.crate }}
 
       - name: Run cargo test
         run: |
