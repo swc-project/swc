@@ -3,9 +3,9 @@ const b1 = b;
 console.log(b1); // "b"
 const mod = function() {
     const c = "c";
+    const c1 = c;
     class C {
     }
-    const c1 = c;
     const __default = C;
     const __default1 = __default;
     return {
