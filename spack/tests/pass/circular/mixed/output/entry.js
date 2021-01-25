@@ -3,10 +3,10 @@ class A {
         return new B3();
     }
 }
-console.log('c');
 const A1 = A;
 const A2 = A1;
 const A3 = A1;
+console.log('c');
 class B extends A3 {
 }
 const B1 = B;

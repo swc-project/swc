@@ -8,11 +8,11 @@ function deferred() {
     });
     return Object.assign(promise, methods);
 }
-var tmp = Symbol.asyncIterator;
 const deferred1 = deferred;
 const deferred2 = deferred1;
 const deferred3 = deferred1;
 const deferred4 = deferred3;
+var tmp = Symbol.asyncIterator;
 class MuxAsyncIterator {
     add(iterator) {
         ++this.iteratorCount;
@@ -60,6 +60,9 @@ class MuxAsyncIterator {
         this.signal = deferred2();
     }
 }
+const MuxAsyncIterator1 = MuxAsyncIterator;
+const MuxAsyncIterator2 = MuxAsyncIterator1;
+const MuxAsyncIterator3 = MuxAsyncIterator2;
 function emptyReader() {
     return {
         read (_) {
@@ -67,6 +70,8 @@ function emptyReader() {
         }
     };
 }
+const emptyReader1 = emptyReader;
+const emptyReader2 = emptyReader1;
 function bodyReader(contentLength, r) {
     let totalRead = 0;
     let finished = false;
@@ -87,6 +92,8 @@ function bodyReader(contentLength, r) {
         read
     };
 }
+const bodyReader1 = bodyReader;
+const bodyReader2 = bodyReader1;
 function findIndex(source, pat) {
     const s = pat[0];
     for(let i = 0; i < source.length; i++){
@@ -109,6 +116,8 @@ function concat(origin, b) {
     output.set(b, origin.length);
     return output;
 }
+const concat1 = concat;
+const concat2 = concat1;
 function copyBytes(src, dst, off = 0) {
     off = Math.max(0, Math.min(off, dst.byteLength));
     const dstBytesAvailable = dst.byteLength - off;
@@ -116,14 +125,18 @@ function copyBytes(src, dst, off = 0) {
     dst.set(src, off);
     return src.byteLength;
 }
-const concat1 = concat;
-const concat2 = concat1;
+const copyBytes1 = copyBytes;
+const copyBytes2 = copyBytes1;
 // FROM https://github.com/denoland/deno/blob/b34628a26ab0187a827aa4ebe256e23178e25d39/cli/js/web/headers.ts#L9
 const invalidHeaderCharRegex = /[^\t\x20-\x7e\x80-\xff]/g;
 const encoder = new TextEncoder();
+const encoder1 = encoder;
+const encoder2 = encoder1;
 function encode(input) {
     return encoder.encode(input);
 }
+const encode1 = encode;
+const encode2 = encode1;
 const decoder = new TextDecoder();
 function decode(input) {
     return decoder.decode(input);
@@ -308,6 +321,8 @@ function chunkedBodyReader(h, r1) {
         read
     };
 }
+const chunkedBodyReader1 = chunkedBodyReader;
+const chunkedBodyReader2 = chunkedBodyReader1;
 function isProhibidedForTrailer(key) {
     const s = new Set([
         "transfer-encoding",
@@ -350,8 +365,6 @@ function parseTrailer(field) {
         ]
     ));
 }
-const copyBytes1 = copyBytes;
-const copyBytes2 = copyBytes1;
 const DEFAULT_BUF_SIZE = 4096;
 const MIN_BUF_SIZE = 16;
 const MAX_CONSECUTIVE_EMPTY_READS = 100;
@@ -657,6 +670,8 @@ class BufReader {
         this._reset(new Uint8Array(size1), rd);
     }
 }
+const BufReader1 = BufReader;
+const BufReader2 = BufReader1;
 class AbstractBufBase {
     /** Size returns the size of the underlying buffer in bytes. */ size() {
         return this.buf.byteLength;
@@ -737,6 +752,9 @@ class BufWriter extends AbstractBufBase {
         this.buf = new Uint8Array(size2);
     }
 }
+const BufWriter1 = BufWriter;
+const BufWriter2 = BufWriter1;
+const BufWriter3 = BufWriter1;
 class BufWriterSync extends AbstractBufBase {
     /** return new BufWriterSync unless writer is BufWriterSync */ static create(writer, size = DEFAULT_BUF_SIZE) {
         return writer instanceof BufWriterSync ? writer : new BufWriterSync(writer, size);
@@ -858,15 +876,10 @@ async function* readDelim(reader, delim) {
     }
 }
 async function* readStringDelim(reader, delim) {
-    const encoder1 = new TextEncoder();
+    const encoder3 = new TextEncoder();
     const decoder1 = new TextDecoder();
-    for await (const chunk of readDelim(reader, encoder1.encode(delim)))yield decoder1.decode(chunk);
+    for await (const chunk of readDelim(reader, encoder3.encode(delim)))yield decoder1.decode(chunk);
 }
-const BufWriter1 = BufWriter;
-const BufWriter2 = BufWriter1;
-const BufWriter3 = BufWriter1;
-const encoder1 = encoder;
-const encoder2 = encoder1;
 async function writeChunkedBody(w, r2) {
     const writer = BufWriter2.create(w);
     for await (const chunk of Deno.iter(r2)){
@@ -939,6 +952,8 @@ async function writeResponse(w, r2) {
     }
     await writer.flush();
 }
+const writeResponse1 = writeResponse;
+const writeResponse2 = writeResponse1;
 function parseHTTPVersion(vers) {
     switch(vers){
         case "HTTP/1.1":
@@ -971,14 +986,6 @@ function parseHTTPVersion(vers) {
     }
     throw new Error(`malformed HTTP version ${vers}`);
 }
-const bodyReader1 = bodyReader;
-const bodyReader2 = bodyReader1;
-const chunkedBodyReader1 = chunkedBodyReader;
-const chunkedBodyReader2 = chunkedBodyReader1;
-const emptyReader1 = emptyReader;
-const emptyReader2 = emptyReader1;
-const writeResponse1 = writeResponse;
-const writeResponse2 = writeResponse1;
 class ServerRequest {
     /**
      * Value of Content-Length header.
@@ -1050,11 +1057,9 @@ class ServerRequest {
         this.finalized = false;
     }
 }
-var tmp1 = Symbol.asyncIterator;
-const BufReader1 = BufReader;
-const BufReader2 = BufReader1;
 const ServerRequest1 = ServerRequest;
 const ServerRequest2 = ServerRequest1;
+var tmp1 = Symbol.asyncIterator;
 async function readRequest(conn, bufr) {
     const tp = new TextProtoReader2(bufr);
     const firstLine = await tp.readLine(); // e.g. GET /index.html HTTP/1.0
@@ -1070,6 +1075,8 @@ async function readRequest(conn, bufr) {
     fixLength(req);
     return req;
 }
+const readRequest1 = readRequest;
+const readRequest2 = readRequest1;
 function fixLength(req) {
     const contentLength = req.headers.get("Content-Length");
     if (contentLength) {
@@ -1090,13 +1097,6 @@ function fixLength(req) {
         throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
     }
 }
-const readRequest1 = readRequest;
-const readRequest2 = readRequest1;
-const encode1 = encode;
-const encode2 = encode1;
-const MuxAsyncIterator1 = MuxAsyncIterator;
-const MuxAsyncIterator2 = MuxAsyncIterator1;
-const MuxAsyncIterator3 = MuxAsyncIterator2;
 class Server {
     close() {
         this.closing = true;
@@ -1207,6 +1207,8 @@ async function listenAndServe(addr, handler) {
     const server = serve(addr);
     for await (const request of server)handler(request);
 }
+const listenAndServe1 = listenAndServe;
+const listenAndServe2 = listenAndServe1;
 function serveTLS(options) {
     const tlsOptions = {
         ...options,
@@ -1215,8 +1217,6 @@ function serveTLS(options) {
     const listener1 = Deno.listenTls(tlsOptions);
     return new Server(listener1);
 }
-const listenAndServe1 = listenAndServe;
-const listenAndServe2 = listenAndServe1;
 listenAndServe2({
     port: 8080
 }, async (req)=>{

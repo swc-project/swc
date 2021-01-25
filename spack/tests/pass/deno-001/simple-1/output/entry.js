@@ -8,11 +8,11 @@ function deferred() {
     });
     return Object.assign(promise, methods);
 }
-var tmp = Symbol.asyncIterator;
 const deferred1 = deferred;
 const deferred2 = deferred1;
 const deferred3 = deferred1;
 const deferred4 = deferred3;
+var tmp = Symbol.asyncIterator;
 class MuxAsyncIterator {
     add(iterator) {
         ++this.iteratorCount;
@@ -60,6 +60,9 @@ class MuxAsyncIterator {
         this.signal = deferred2();
     }
 }
+const MuxAsyncIterator1 = MuxAsyncIterator;
+const MuxAsyncIterator2 = MuxAsyncIterator1;
+const MuxAsyncIterator3 = MuxAsyncIterator2;
 function emptyReader() {
     return {
         read (_) {
@@ -67,6 +70,8 @@ function emptyReader() {
         }
     };
 }
+const emptyReader1 = emptyReader;
+const emptyReader2 = emptyReader1;
 function bodyReader(contentLength, r) {
     let totalRead = 0;
     let finished = false;
@@ -87,6 +92,8 @@ function bodyReader(contentLength, r) {
         read
     };
 }
+const bodyReader1 = bodyReader;
+const bodyReader2 = bodyReader1;
 function chunkedBodyReader(h, r) {
     // Based on https://tools.ietf.org/html/rfc2616#section-19.4.6
     const tp = new TextProtoReader(r);
@@ -146,6 +153,8 @@ function chunkedBodyReader(h, r) {
         read
     };
 }
+const chunkedBodyReader1 = chunkedBodyReader;
+const chunkedBodyReader2 = chunkedBodyReader1;
 function isProhibidedForTrailer(key) {
     const s = new Set([
         "transfer-encoding",
@@ -257,6 +266,8 @@ async function writeResponse(w, r) {
     }
     await writer.flush();
 }
+const writeResponse1 = writeResponse;
+const writeResponse2 = writeResponse1;
 function parseHTTPVersion(vers) {
     switch(vers){
         case "HTTP/1.1":
@@ -289,14 +300,6 @@ function parseHTTPVersion(vers) {
     }
     throw new Error(`malformed HTTP version ${vers}`);
 }
-const bodyReader1 = bodyReader;
-const bodyReader2 = bodyReader1;
-const chunkedBodyReader1 = chunkedBodyReader;
-const chunkedBodyReader2 = chunkedBodyReader1;
-const emptyReader1 = emptyReader;
-const emptyReader2 = emptyReader1;
-const writeResponse1 = writeResponse;
-const writeResponse2 = writeResponse1;
 class ServerRequest {
     /**
      * Value of Content-Length header.
@@ -368,9 +371,9 @@ class ServerRequest {
         this.finalized = false;
     }
 }
-var tmp1 = Symbol.asyncIterator;
 const ServerRequest1 = ServerRequest;
 const ServerRequest2 = ServerRequest1;
+var tmp1 = Symbol.asyncIterator;
 async function readRequest(conn, bufr) {
     const tp = new TextProtoReader(bufr);
     const firstLine = await tp.readLine(); // e.g. GET /index.html HTTP/1.0
@@ -386,6 +389,8 @@ async function readRequest(conn, bufr) {
     fixLength(req);
     return req;
 }
+const readRequest1 = readRequest;
+const readRequest2 = readRequest1;
 function fixLength(req) {
     const contentLength = req.headers.get("Content-Length");
     if (contentLength) {
@@ -406,11 +411,6 @@ function fixLength(req) {
         throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
     }
 }
-const readRequest1 = readRequest;
-const readRequest2 = readRequest1;
-const MuxAsyncIterator1 = MuxAsyncIterator;
-const MuxAsyncIterator2 = MuxAsyncIterator1;
-const MuxAsyncIterator3 = MuxAsyncIterator2;
 class Server {
     close() {
         this.closing = true;
@@ -521,6 +521,8 @@ async function listenAndServe(addr, handler) {
     const server = serve(addr);
     for await (const request of server)handler(request);
 }
+const listenAndServe1 = listenAndServe;
+const listenAndServe2 = listenAndServe1;
 function serveTLS(options) {
     const tlsOptions = {
         ...options,
@@ -529,8 +531,6 @@ function serveTLS(options) {
     const listener1 = Deno.listenTls(tlsOptions);
     return new Server(listener1);
 }
-const listenAndServe1 = listenAndServe;
-const listenAndServe2 = listenAndServe1;
 listenAndServe2({
     port: 8080
 }, async (req)=>{
