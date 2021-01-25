@@ -57,8 +57,8 @@ impl Modules {
     pub fn add_dep(&mut self, mut dep: Modules) {
         dep.prepended.append(&mut self.prepended);
 
-        let mut modules = self.modules.take().into_iter();
-        let entry = modules.next();
+        let entry = self.modules.pop();
+        let modules = self.modules.take().into_iter();
         let mut new = vec![];
         new.extend(modules);
         new.extend(dep.modules.into_iter());
