@@ -1899,3 +1899,65 @@ to_ts!(
     
     "
 );
+
+to!(
+    deno_9121_1,
+    "
+    var _ = 1;
+    function wt(e, n, t, r) {
+        var l = e.updateQueue;
+        if (u !== null) {
+            if (y !== null) {
+                var _ = y.lastBaseUpdate;
+            }
+        }
+        if (i !== null) {
+            _ = l.baseState, o = 0, y = d = s = null;
+        }
+    }
+    ",
+    "
+    var _ = 1;
+    function wt(e, n, t, r) {
+        var l = e.updateQueue;
+        if (u !== null) {
+            if (y !== null) {
+                var _1 = y.lastBaseUpdate;
+            }
+        }
+        if (i !== null) {
+            _1 = l.baseState, o = 0, y = d = s = null;
+        }
+    }
+    "
+);
+
+to!(
+    deno_9121_2,
+    "
+    var _ = 1;
+    function wt() {
+        if (u !== null) {
+            if (y !== null) {
+                var _ = 2;
+            }
+        }
+        if (i !== null) {
+            _ = 3;
+        }
+    }
+    ",
+    "
+    var _ = 1;
+    function wt() {
+        if (u !== null) {
+            if (y !== null) {
+                var _1 = 2;
+            }
+        }
+        if (i !== null) {
+            _1 = 3;
+        }
+    }
+    "
+);

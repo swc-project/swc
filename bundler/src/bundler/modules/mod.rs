@@ -10,6 +10,8 @@ use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
 
+use crate::util::MapWithMut;
+
 mod sort;
 #[cfg(test)]
 mod tests;
@@ -52,11 +54,20 @@ impl Modules {
             .collect()
     }
 
-    pub fn prepend_all(&mut self, mut other: Modules) {
-        other.prepended.append(&mut self.prepended);
-        other.modules.append(&mut self.modules);
-        other.injected.append(&mut self.injected);
-        *self = other;
+    /// Entry module is stored as a last element.
+    pub fn add_dep(&mut self, mut dep: Modules) {
+        dep.prepended.append(&mut self.prepended);
+
+        let entry = self.modules.pop();
+        let modules = self.modules.take().into_iter();
+        let mut new = vec![];
+        new.extend(modules);
+        new.extend(dep.modules.into_iter());
+        new.extend(entry);
+
+        dep.modules = new;
+        dep.injected.append(&mut self.injected);
+        *self = dep;
     }
 
     pub fn push_all(&mut self, item: Modules) {

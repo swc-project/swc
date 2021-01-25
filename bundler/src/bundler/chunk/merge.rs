@@ -257,15 +257,20 @@ where
                 for source in &deps {
                     match decl {
                         ModuleDecl::ExportNamed(export @ NamedExport { src: Some(..), .. }) => {
+                            if self
+                                .config
+                                .external_modules
+                                .contains(&export.src.as_ref().unwrap().value)
+                            {
+                                continue;
+                            }
+
                             if export.src.as_ref().unwrap().value == source.src.value {
                                 export.src = None;
                                 break;
                             }
                         }
-                        ModuleDecl::ExportAll(export) => {
-                            // TODO
-                            if export.src.value == source.src.value {}
-                        }
+                        ModuleDecl::ExportAll(..) => {}
                         _ => continue,
                     }
                 }
@@ -377,13 +382,17 @@ where
                 }
 
                 if is_export {
+                    if let Some(src) = &source {
+                        if self.config.external_modules.contains(&src.src.value) {
+                            continue;
+                        }
+                    }
                     assert!(dep_info.is_es6, "export statements are es6-only");
 
                     inject_export(
                         &mut module,
                         ctx,
                         info.export_ctxt(),
-                        self.scope.should_be_wrapped_with_a_fn(info.id),
                         dep_module,
                         source.unwrap().clone(),
                     );
@@ -402,7 +411,7 @@ where
 
                     match dep.ty {
                         DepType::Transitive => {
-                            module.prepend_all(dep_module);
+                            module.add_dep(dep_module);
 
                             log::debug!(
                                 "Merged {} into {} as a transitive es module",
@@ -423,7 +432,7 @@ where
                     // );
 
                     if info.is_es6 && dep_info.is_es6 {
-                        module.push_all(dep_module);
+                        module.add_dep(dep_module);
                         continue;
                     }
 
@@ -695,13 +704,29 @@ where
 
         entry.retain_mut(|item| {
             match item {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportAll(..)) => return false,
+                ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
+                    if self.config.external_modules.contains(&export.src.value) {
+                        return true;
+                    }
+
+                    return false;
+                }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
+                    if let Some(src) = &export.src {
+                        if self.config.external_modules.contains(&src.value) {
+                            return true;
+                        }
+                    }
+
                     export.src = None;
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                    if self.config.external_modules.contains(&import.src.value) {
+                        return true;
+                    }
+
                     for (id, p) in &ctx.plan.normal {
                         if import.span.ctxt == self.scope.get_module(*id).unwrap().export_ctxt() {
                             log::debug!("Dropping import");
@@ -772,6 +797,12 @@ where
             for item in items {
                 match item {
                     ModuleItem::ModuleDecl(ModuleDecl::Import(mut import)) => {
+                        // Preserve imports from node.js builtin modules.
+                        if self.config.external_modules.contains(&import.src.value) {
+                            new.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
+                            continue;
+                        }
+
                         if let Some((src, _)) = info
                             .imports
                             .specifiers
@@ -1067,6 +1098,11 @@ where
             for stmt in stmts {
                 match &stmt {
                     ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                        if self.config.external_modules.contains(&import.src.value) {
+                            new.push(stmt);
+                            continue;
+                        }
+
                         for specifier in &import.specifiers {
                             match specifier {
                                 ImportSpecifier::Named(named) => match &named.imported {
@@ -1168,6 +1204,14 @@ where
                 ModuleItem::ModuleDecl(mut decl) => {
                     stmt = match decl {
                         ModuleDecl::ExportNamed(export) => {
+                            if let Some(src) = &export.src {
+                                if self.config.external_modules.contains(&src.value) {
+                                    *orig_stmt =
+                                        ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export));
+                                    continue;
+                                }
+                            }
+
                             for specifier in &export.specifiers {
                                 match specifier {
                                     ExportSpecifier::Namespace(ns) => {

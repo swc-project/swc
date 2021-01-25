@@ -3,9 +3,9 @@ const [a, b, c] = [
     2,
     3
 ];
+const c1 = c;
 const a1 = a;
 const b1 = b;
-const c1 = c;
 const mod = function() {
     return {
         a: a1,

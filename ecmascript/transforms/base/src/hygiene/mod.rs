@@ -31,6 +31,7 @@ impl ToBoxedStr for JsWord {
 struct Hygiene<'a> {
     current: Scope<'a>,
     ident_type: IdentType,
+    var_kind: Option<VarDeclKind>,
 }
 
 type Contexts = SmallVec<[SyntaxContext; 32]>;
@@ -40,7 +41,12 @@ impl<'a> Hygiene<'a> {
         let ctxt = ident.span.ctxt();
 
         if cfg!(debug_assertions) && LOG {
-            eprintln!("Declaring {}{:?} ", ident.sym, ctxt);
+            eprintln!(
+                "({}) Declaring {}{:?} ",
+                self.current.depth(),
+                ident.sym,
+                ctxt
+            );
         }
 
         let can_declare_without_renaming =
@@ -71,7 +77,12 @@ impl<'a> Hygiene<'a> {
 
     fn add_used_ref(&mut self, ident: &Ident) {
         if cfg!(debug_assertions) && LOG {
-            eprintln!("Ident ref: {}{:?}", ident.sym, ident.span.ctxt);
+            eprintln!(
+                "({}) Ident ref: {}{:?}",
+                self.current.depth(),
+                ident.sym,
+                ident.span.ctxt
+            );
         }
 
         let ctxt = ident.span.ctxt();
@@ -89,7 +100,7 @@ impl<'a> Hygiene<'a> {
         let conflicts = self.current.conflicts(ident.sym.clone(), ctxt);
 
         if cfg!(debug_assertions) && LOG && !conflicts.is_empty() {
-            eprintln!("Renaming from usage");
+            eprintln!("({}) Renaming from usage", self.current.depth());
         }
 
         for cx in conflicts {
@@ -118,20 +129,31 @@ impl<'a> Hygiene<'a> {
         let sym = self.current.change_symbol(sym, ctxt);
         let boxed_sym = sym.to_boxed_str();
         {
-            let scope = self.current.scope_of(&boxed_sym, ctxt);
+            let scope = self.current.scope_of(&boxed_sym, ctxt, self.var_kind);
 
             // Update symbol list
             let mut declared_symbols = scope.declared_symbols.borrow_mut();
 
-            let is_not_renamed = !scope.ops.borrow().rename.contains_key(&(sym.clone(), ctxt));
+            {
+                // This assertion was correct in old time, but bundler creates
+                // same variable with same name and same span
+                // hygieen, so this assertion is not valid anymore.
+                //
+                // I decided not to remove this code because I may modify the
+                // bundler to be correct in aspect of original span hygiene.
 
-            debug_assert!(
-                is_not_renamed,
-                "failed to rename {}{:?}: should not rename an ident multiple time\n{:?}",
-                sym,
-                ctxt,
-                scope.ops.borrow(),
-            );
+                // let is_not_renamed =
+                // !scope.ops.borrow().rename.contains_key(&(sym.clone(),
+                // ctxt));
+
+                // debug_assert!(
+                //     is_not_renamed,
+                //     "failed to rename {}{:?}: should not rename an ident
+                // multiple time\n{:?}",     sym,
+                //     ctxt,
+                //     scope.ops.borrow(),
+                // );
+            }
 
             let old = declared_symbols.entry(sym.to_boxed_str()).or_default();
             old.retain(|c| *c != ctxt);
@@ -158,6 +180,7 @@ pub fn hygiene() -> impl Fold + 'static {
         as_folder(Hygiene {
             current: Default::default(),
             ident_type: IdentType::Ref,
+            var_kind: None,
         }),
         as_folder(MarkClearer)
     )
@@ -199,6 +222,7 @@ impl<'a> Hygiene<'a> {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,
+            var_kind: None,
         };
 
         folder.ident_type = IdentType::Ref;
@@ -238,6 +262,13 @@ impl<'a> Default for Scope<'a> {
 }
 
 impl<'a> Scope<'a> {
+    fn depth(&self) -> usize {
+        match self.parent {
+            Some(parent) => parent.depth() + 1,
+            None => 0,
+        }
+    }
+
     pub fn new(kind: ScopeKind, parent: Option<&'a Scope<'a>>) -> Self {
         Scope {
             parent,
@@ -249,15 +280,46 @@ impl<'a> Scope<'a> {
         }
     }
 
-    fn scope_of(&self, sym: &Box<str>, ctxt: SyntaxContext) -> &'a Scope<'_> {
-        if let Some(prev) = self.declared_symbols.borrow().get(sym) {
-            if prev.contains(&ctxt) {
-                return self;
+    fn scope_of(
+        &self,
+        sym: &Box<str>,
+        ctxt: SyntaxContext,
+        var_kind: Option<VarDeclKind>,
+    ) -> &'a Scope<'_> {
+        // In case of `var` declarations, we should use function scope instead of
+        // current scope. This is to handle code like
+        //
+        // function foo() {
+        //      if (a) {
+        //          var b;
+        //      }
+        //      if (c) {
+        //          b = foo()
+        //      }
+        // }
+        //
+        match var_kind {
+            Some(VarDeclKind::Var) => {
+                // `var`s are function-scoped.
+                if self.kind == ScopeKind::Fn {
+                    if let Some(prev) = self.declared_symbols.borrow().get(sym) {
+                        if prev.contains(&ctxt) {
+                            return self;
+                        }
+                    }
+                }
+            }
+            _ => {
+                if let Some(prev) = self.declared_symbols.borrow().get(sym) {
+                    if prev.contains(&ctxt) {
+                        return self;
+                    }
+                }
             }
         }
 
         match self.parent {
-            Some(ref parent) => parent.scope_of(sym, ctxt),
+            Some(ref parent) => parent.scope_of(sym, ctxt, var_kind),
             _ => self,
         }
     }
@@ -487,6 +549,7 @@ impl<'a> VisitMut for Hygiene<'a> {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,
+            var_kind: None,
         };
 
         folder.ident_type = IdentType::Binding;
@@ -502,6 +565,7 @@ impl<'a> VisitMut for Hygiene<'a> {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Block, Some(&self.current)),
             ident_type: IdentType::Ref,
+            var_kind: None,
         };
         node.visit_mut_children_with(&mut folder);
 
@@ -512,6 +576,7 @@ impl<'a> VisitMut for Hygiene<'a> {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,
+            var_kind: None,
         };
         folder.ident_type = IdentType::Binding;
         c.param.visit_mut_with(&mut folder);
@@ -597,6 +662,7 @@ impl<'a> VisitMut for Hygiene<'a> {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Block, Some(&self.current)),
             ident_type: IdentType::Ref,
+            var_kind: None,
         };
         node.visit_mut_children_with(&mut folder);
 
@@ -610,12 +676,22 @@ impl<'a> VisitMut for Hygiene<'a> {
         node.finalizer.visit_mut_children_with(self);
     }
 
+    fn visit_mut_var_decl(&mut self, var: &mut VarDecl) {
+        let old = self.var_kind;
+        self.var_kind = Some(var.kind);
+        var.visit_mut_children_with(self);
+        self.var_kind = old;
+    }
+
     fn visit_mut_var_declarator(&mut self, decl: &mut VarDeclarator) {
         let old = self.ident_type;
         self.ident_type = IdentType::Binding;
         decl.name.visit_mut_with(self);
         self.ident_type = old;
 
+        let old = self.var_kind;
+        self.var_kind = None;
         decl.init.visit_mut_with(self);
+        self.var_kind = old;
     }
 }

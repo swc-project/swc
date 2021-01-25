@@ -547,24 +547,6 @@ const DEFAULTS = {
     }
 };
 const endpoint = withDefaults(null, DEFAULTS);
-var getGlobal = function() {
-    if (typeof self !== "undefined") {
-        return self;
-    }
-    if (typeof window !== "undefined") {
-        return window;
-    }
-    if (typeof global !== "undefined") {
-        return global;
-    }
-    throw new Error("unable to locate global object");
-};
-var global = getGlobal();
-var nodeFetch = global.fetch.bind(global);
-const VERSION1 = "5.4.12";
-function getBufferResponse(response) {
-    return response.arrayBuffer();
-}
 class Deprecation extends Error {
     constructor(message){
         super(message);
@@ -663,6 +645,24 @@ class RequestError extends Error {
         requestCopy.url = requestCopy.url.replace(/\bclient_secret=\w+/g, "client_secret=[REDACTED]").replace(/\baccess_token=\w+/g, "access_token=[REDACTED]");
         this.request = requestCopy;
     }
+}
+var getGlobal = function() {
+    if (typeof self !== "undefined") {
+        return self;
+    }
+    if (typeof window !== "undefined") {
+        return window;
+    }
+    if (typeof global !== "undefined") {
+        return global;
+    }
+    throw new Error("unable to locate global object");
+};
+var global = getGlobal();
+var nodeFetch = global.fetch.bind(global);
+const VERSION1 = "5.4.12";
+function getBufferResponse(response) {
+    return response.arrayBuffer();
 }
 function fetchWrapper(requestOptions) {
     if (isPlainObject(requestOptions.body) || Array.isArray(requestOptions.body)) {

@@ -31,7 +31,7 @@ function mergeDeep(defaults, options) {
     const result = Object.assign({
     }, defaults);
     Object.keys(options).forEach((key)=>{
-        if (isPlainObject2(options[key])) {
+        if (isPlainObject3(options[key])) {
             if (!(key in defaults)) Object.assign(result, {
                 [key]: options[key]
             });
@@ -539,7 +539,7 @@ function getUserAgent() {
 const getUserAgent1 = getUserAgent;
 const getUserAgent2 = getUserAgent1;
 const getUserAgent3 = getUserAgent1;
-const userAgent = `octokit-endpoint.js/${VERSION} ${getUserAgent2()}`;
+const userAgent = `octokit-endpoint.js/${VERSION} ${getUserAgent3()}`;
 const DEFAULTS = {
     method: "GET",
     baseUrl: "https://api.github.com",
@@ -555,24 +555,6 @@ const DEFAULTS = {
 const endpoint = withDefaults(null, DEFAULTS);
 const endpoint1 = endpoint;
 const endpoint2 = endpoint1;
-var getGlobal = function() {
-    if (typeof self !== "undefined") {
-        return self;
-    }
-    if (typeof window !== "undefined") {
-        return window;
-    }
-    if (typeof global !== "undefined") {
-        return global;
-    }
-    throw new Error("unable to locate global object");
-};
-var global = getGlobal();
-var nodeFetch = global.fetch.bind(global);
-const VERSION1 = "5.4.12";
-function getBufferResponse(response) {
-    return response.arrayBuffer();
-}
 class Deprecation extends Error {
     constructor(message){
         super(message);
@@ -585,6 +567,9 @@ class Deprecation extends Error {
 const Deprecation1 = Deprecation;
 const Deprecation2 = Deprecation1;
 var wrappy_1 = wrappy;
+const __default = wrappy_1;
+const __default1 = __default;
+const wrappy2 = __default1;
 function wrappy(fn, cb) {
     if (fn && cb) return wrappy(fn)(cb);
     if (typeof fn !== "function") throw new TypeError("need wrapper function");
@@ -607,9 +592,6 @@ function wrappy(fn, cb) {
         return ret;
     }
 }
-const __default = wrappy_1;
-const __default1 = __default;
-const wrappy2 = __default1;
 var once_1 = wrappy2(once2);
 var strict = wrappy2(onceStrict);
 once2.proto = once2(function() {
@@ -682,8 +664,26 @@ class RequestError extends Error {
 }
 const RequestError1 = RequestError;
 const RequestError2 = RequestError1;
+var getGlobal = function() {
+    if (typeof self !== "undefined") {
+        return self;
+    }
+    if (typeof window !== "undefined") {
+        return window;
+    }
+    if (typeof global !== "undefined") {
+        return global;
+    }
+    throw new Error("unable to locate global object");
+};
+var global = getGlobal();
+var nodeFetch = global.fetch.bind(global);
+const VERSION1 = "5.4.12";
+function getBufferResponse(response) {
+    return response.arrayBuffer();
+}
 function fetchWrapper(requestOptions) {
-    if (isPlainObject3(requestOptions.body) || Array.isArray(requestOptions.body)) {
+    if (isPlainObject2(requestOptions.body) || Array.isArray(requestOptions.body)) {
         requestOptions.body = JSON.stringify(requestOptions.body);
     }
     let headers = {
@@ -784,7 +784,7 @@ function withDefaults1(oldEndpoint, newDefaults) {
 }
 const request = withDefaults1(endpoint2, {
     headers: {
-        "user-agent": `octokit-request.js/${VERSION1} ${getUserAgent3()}`
+        "user-agent": `octokit-request.js/${VERSION1} ${getUserAgent2()}`
     }
 });
 const request1 = request;

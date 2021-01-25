@@ -13,5 +13,5 @@ function __spack_require__(mod) {
         mod(module, module.exports);
         cache = module.exports;
         return cache;
-    }
+    }()
 }

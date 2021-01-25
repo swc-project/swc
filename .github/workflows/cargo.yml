@@ -14,7 +14,6 @@ on: [push, pull_request]
 
 env:
   CARGO_INCREMENTAL: 0
-  CI: "1"
 
 jobs:
   fmt:
@@ -40,7 +39,6 @@ jobs:
     name: test
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
       matrix:
         crate:
           - ast_node
@@ -105,8 +103,7 @@ jobs:
         with:
           path: |
             ~/.cargo/
-            **/target/
-          key: ${{ runner.os }}-cargo-test
+          key: ${{ runner.os }}-cargo-test-${{ matrix.crate }}
 
       - name: Run cargo test
         run: |
