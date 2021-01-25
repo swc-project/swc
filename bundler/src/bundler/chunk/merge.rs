@@ -258,15 +258,20 @@ where
                 for source in &deps {
                     match decl {
                         ModuleDecl::ExportNamed(export @ NamedExport { src: Some(..), .. }) => {
+                            if self
+                                .config
+                                .external_modules
+                                .contains(&export.src.as_ref().unwrap().value)
+                            {
+                                continue;
+                            }
+
                             if export.src.as_ref().unwrap().value == source.src.value {
                                 export.src = None;
                                 break;
                             }
                         }
-                        ModuleDecl::ExportAll(export) => {
-                            // TODO
-                            if export.src.value == source.src.value {}
-                        }
+                        ModuleDecl::ExportAll(..) => {}
                         _ => continue,
                     }
                 }
