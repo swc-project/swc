@@ -101,7 +101,6 @@ impl Optimizer {
         }
 
         stmts.visit_mut_children_with(self);
-        self.make_sequences(stmts);
         stmts.retain(|stmt| match stmt.as_stmt() {
             Some(Stmt::Empty(..)) => false,
             _ => true,
@@ -918,11 +917,32 @@ impl Optimizer {
     /// }
     /// with (x = 5, obj);
     /// ```
-    fn make_sequences<T>(&mut self, _stmts: &mut Vec<T>)
+    fn make_sequences<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
     {
         if !self.options.sequences {
+            return;
+        }
+
+        let can_work =
+            stmts
+                .windows(2)
+                .any(|stmts| match (stmts[0].as_stmt(), stmts[1].as_stmt()) {
+                    (Some(Stmt::Expr(l)), Some(r)) => match r {
+                        Stmt::Expr(..)
+                        | Stmt::If(..)
+                        | Stmt::For(ForStmt { init: None, .. })
+                        | Stmt::For(ForStmt {
+                            init: Some(VarDeclOrExpr::Expr(..)),
+                            ..
+                        }) => true,
+                        _ => false,
+                    },
+                    _ => false,
+                });
+
+        if !can_work {
             return;
         }
     }
@@ -1159,10 +1179,14 @@ impl VisitMut for Optimizer {
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         self.handle_stmt_likes(stmts);
+
+        self.make_sequences(stmts);
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         self.handle_stmt_likes(stmts);
+
+        self.make_sequences(stmts);
 
         self.merge_var_decls(stmts);
     }
