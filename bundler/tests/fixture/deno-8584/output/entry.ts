@@ -1,8 +1,8 @@
 const mod = await async function() {
     async function setup() {
     }
-    await setup();
     const setup1 = setup;
+    await setup();
     return {
         setup: setup1
     };
