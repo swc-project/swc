@@ -10,7 +10,9 @@ use swc_atoms::js_word;
 use swc_atoms::JsWord;
 use swc_common::iter::IdentifyLast;
 use swc_common::pass::Repeated;
+use swc_common::Mark;
 use swc_common::Spanned;
+use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -32,7 +34,9 @@ mod util;
 
 /// This pass is simillar to `node.optimize` of terser.
 pub(super) fn optimizer(options: CompressOptions) -> impl VisitMut + Repeated {
-    Reducer {
+    let done = Mark::fresh(Mark::root());
+    let done_ctxt = SyntaxContext::empty().apply_mark(done);
+    Optimizer {
         changed: false,
         options,
         lits: Default::default(),
@@ -42,6 +46,8 @@ pub(super) fn optimizer(options: CompressOptions) -> impl VisitMut + Repeated {
         typeofs: Default::default(),
         data: Default::default(),
         ctx: Default::default(),
+        done,
+        done_ctxt,
     }
 }
 
@@ -54,7 +60,7 @@ struct Ctx {
 }
 
 #[derive(Debug)]
-struct Reducer {
+struct Optimizer {
     changed: bool,
     options: CompressOptions,
     /// Cheap to clone.
@@ -65,9 +71,11 @@ struct Reducer {
     typeofs: FxHashMap<Id, JsWord>,
     data: Option<ScopeData>,
     ctx: Ctx,
+    done: Mark,
+    done_ctxt: SyntaxContext,
 }
 
-impl Repeated for Reducer {
+impl Repeated for Optimizer {
     fn changed(&self) -> bool {
         self.changed
     }
@@ -77,7 +85,7 @@ impl Repeated for Reducer {
     }
 }
 
-impl Reducer {
+impl Optimizer {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
@@ -903,7 +911,7 @@ impl Reducer {
     }
 }
 
-impl VisitMut for Reducer {
+impl VisitMut for Optimizer {
     noop_visit_mut_type!();
 
     fn visit_mut_tpl(&mut self, n: &mut Tpl) {

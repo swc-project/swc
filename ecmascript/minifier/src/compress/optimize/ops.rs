@@ -1,4 +1,4 @@
-use super::Reducer;
+use super::Optimizer;
 use crate::util::ValueExt;
 use std::mem::swap;
 use swc_atoms::js_word;
@@ -11,7 +11,7 @@ use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::Value;
 use Value::Known;
 
-impl Reducer {
+impl Optimizer {
     pub(super) fn optimize_lit_cmp(&mut self, n: &mut BinExpr) -> Option<Expr> {
         match n.op {
             op!("==") | op!("!=") => {

@@ -1,9 +1,28 @@
+use swc_common::Mark;
+use swc_common::Spanned;
+
 use super::Ctx;
-use super::Reducer;
+use super::Optimizer;
 use std::ops::Deref;
 use std::ops::DerefMut;
 
-impl Reducer {
+impl Optimizer {
+    pub(super) fn is_done<N>(&mut self, n: &N) -> bool
+    where
+        N: Spanned,
+    {
+        let mut ctxt = n.span().ctxt;
+        loop {
+            let mark = ctxt.remove_mark();
+            if mark == Mark::root() {
+                return false;
+            }
+            if mark == self.done {
+                return true;
+            }
+        }
+    }
+
     #[inline]
     pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx {
         let orig_ctx = self.ctx;
@@ -16,12 +35,12 @@ impl Reducer {
 }
 
 pub(super) struct WithCtx<'a> {
-    reducer: &'a mut Reducer,
+    reducer: &'a mut Optimizer,
     orig_ctx: Ctx,
 }
 
 impl Deref for WithCtx<'_> {
-    type Target = Reducer;
+    type Target = Optimizer;
 
     fn deref(&self) -> &Self::Target {
         &self.reducer

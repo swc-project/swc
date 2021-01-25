@@ -1,4 +1,4 @@
-use super::Reducer;
+use super::Optimizer;
 use swc_common::EqIgnoreSpan;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -7,7 +7,7 @@ use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 
-impl Reducer {
+impl Optimizer {
     ///
     /// # Examples
     ///
@@ -32,6 +32,9 @@ impl Reducer {
     /// ```
     pub(super) fn compress_if_stmt_as_cond(&mut self, s: &mut Stmt) {
         if !self.options.conditionals {
+            return;
+        }
+        if self.is_done(s) {
             return;
         }
 
@@ -71,6 +74,13 @@ impl Reducer {
 
     /// Compress a conditional expression if cons and alt is simillar
     pub(super) fn compress_cond_expr_if_simillar(&mut self, e: &mut Expr) {
+        if !self.options.conditionals {
+            return;
+        }
+        if self.is_done(e) {
+            return;
+        }
+
         let cond = match e {
             Expr::Cond(expr) => expr,
             _ => return,
@@ -136,7 +146,7 @@ impl Reducer {
                              of arguments is 1"
                         );
                         return Some(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
+                            span: DUMMY_SP.with_ctxt(self.done_ctxt),
                             callee: cons.callee.take(),
                             args,
                             type_args: Default::default(),
@@ -146,7 +156,7 @@ impl Reducer {
                     if !side_effect_free {
                         log::trace!("Compreessing if into cond while preserving side effects");
                         return Some(Expr::Cond(CondExpr {
-                            span: DUMMY_SP,
+                            span: DUMMY_SP.with_ctxt(self.done_ctxt),
                             test: test.take(),
                             cons: Box::new(Expr::Call(cons.take())),
                             alt: Box::new(Expr::Call(alt.take())),
@@ -195,7 +205,7 @@ impl Reducer {
                              there's no side effect and the number of arguments is 1"
                         );
                         return Some(Expr::New(NewExpr {
-                            span: DUMMY_SP,
+                            span: DUMMY_SP.with_ctxt(self.done_ctxt),
                             callee: cons.callee.take(),
                             args: Some(args),
                             type_args: Default::default(),
