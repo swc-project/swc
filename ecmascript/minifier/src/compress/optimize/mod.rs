@@ -515,6 +515,23 @@ impl Optimizer {
             Expr::Array(_arr) => {}
             Expr::Object(_) => {}
 
+            // Preserves negated iife
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) if match &**arg {
+                Expr::Call(arg) => match &arg.callee {
+                    ExprOrSuper::Expr(callee) => match &**callee {
+                        Expr::Fn(..) => true,
+                        _ => false,
+                    },
+                    _ => false,
+                },
+                _ => false,
+            } =>
+            {
+                return Some(e.take())
+            }
+
             // `delete` is handled above
             Expr::Unary(expr) => return self.ignore_return_value(&mut expr.arg),
 
