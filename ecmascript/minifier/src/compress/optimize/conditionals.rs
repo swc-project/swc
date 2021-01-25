@@ -34,9 +34,6 @@ impl Optimizer {
         if !self.options.conditionals {
             return;
         }
-        if self.is_done(s) {
-            return;
-        }
 
         let stmt = match s {
             Stmt::If(v) => v,
@@ -75,9 +72,6 @@ impl Optimizer {
     /// Compress a conditional expression if cons and alt is simillar
     pub(super) fn compress_cond_expr_if_simillar(&mut self, e: &mut Expr) {
         if !self.options.conditionals {
-            return;
-        }
-        if self.is_done(e) {
             return;
         }
 
