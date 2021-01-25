@@ -294,6 +294,12 @@ impl MapWithMut for Module {
     }
 }
 
+impl MapWithMut for ExprOrSuper {
+    fn dummy() -> Self {
+        ExprOrSuper::Super(Super { span: DUMMY_SP })
+    }
+}
+
 /// Do not use: This is not a public api and it can be changed without a version
 /// bump.
 pub trait PatOrExprExt: AsOptExpr {
