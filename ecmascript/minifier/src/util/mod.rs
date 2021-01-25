@@ -4,6 +4,7 @@ use swc_common::Mark;
 use swc_common::Span;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_utils::Value;
 use swc_ecma_visit::noop_visit_type;
@@ -16,6 +17,48 @@ use swc_ecma_visit::VisitWith;
 pub(crate) mod base54;
 pub(crate) mod sort;
 pub(crate) mod usage;
+
+/// Addditional methods for optimizing expressions.
+pub(crate) trait ExprOptExt: Sized {
+    fn as_mut(&mut self) -> &mut Expr;
+
+    #[inline]
+    fn prepend_exprs(&mut self, mut exprs: Vec<Box<Expr>>) {
+        if exprs.is_empty() {
+            return;
+        }
+
+        let to = self.as_mut();
+        match to {
+            Expr::Seq(to) => {
+                exprs.append(&mut to.exprs);
+                to.exprs = exprs;
+            }
+            _ => {
+                let v = to.take();
+                exprs.push(Box::new(v));
+                *to = Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs,
+                });
+            }
+        }
+    }
+}
+
+impl ExprOptExt for Box<Expr> {
+    #[inline]
+    fn as_mut(&mut self) -> &mut Expr {
+        self
+    }
+}
+
+impl ExprOptExt for Expr {
+    #[inline]
+    fn as_mut(&mut self) -> &mut Expr {
+        self
+    }
+}
 
 pub(crate) trait SpanExt: Into<Span> {
     fn with_mark(self, mark: Mark) -> Span {

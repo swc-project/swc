@@ -2,6 +2,7 @@ use crate::option::CompressOptions;
 use crate::util::contains_leaping_yield;
 use crate::util::usage::ScopeData;
 use crate::util::usage::UsageAnalyzer;
+use crate::util::ExprOptExt;
 use fxhash::FxHashMap;
 use retain_mut::RetainMut;
 use std::fmt::Write;
@@ -945,6 +946,80 @@ impl Optimizer {
         if !can_work {
             return;
         }
+
+        self.changed = true;
+        let mut exprs = vec![];
+        // This is bigger than required.
+        let mut new_stmts = Vec::with_capacity(stmts.len());
+
+        for stmt in stmts.take() {
+            match stmt.try_into_stmt() {
+                Ok(stmt) => {
+                    // If
+                    match stmt {
+                        Stmt::Expr(stmt) => {
+                            exprs.push(stmt.expr);
+                        }
+
+                        Stmt::If(mut stmt) => {
+                            stmt.test.prepend_exprs(take(&mut exprs));
+                        }
+
+                        Stmt::For(mut stmt @ ForStmt { init: None, .. })
+                        | Stmt::For(
+                            mut
+                            stmt
+                            @
+                            ForStmt {
+                                init: Some(VarDeclOrExpr::Expr(..)),
+                                ..
+                            },
+                        ) => match &mut stmt.init {
+                            Some(VarDeclOrExpr::Expr(e)) => {
+                                e.prepend_exprs(take(&mut exprs));
+                            }
+                            None => {
+                                stmt.init =
+                                    Some(VarDeclOrExpr::Expr(Box::new(Expr::Seq(SeqExpr {
+                                        span: DUMMY_SP,
+                                        exprs: take(&mut exprs),
+                                    }))))
+                            }
+                            _ => {
+                                unreachable!()
+                            }
+                        },
+
+                        _ => {}
+                    }
+                }
+                Err(item) => {
+                    if !exprs.is_empty() {
+                        new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
+                            span: DUMMY_SP,
+                            expr: Box::new(Expr::Seq(SeqExpr {
+                                span: DUMMY_SP,
+                                exprs: take(&mut exprs),
+                            })),
+                        })))
+                    }
+
+                    new_stmts.push(item);
+                }
+            }
+        }
+
+        if !exprs.is_empty() {
+            new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr: Box::new(Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: take(&mut exprs),
+                })),
+            })))
+        }
+
+        *stmts = new_stmts;
     }
 }
 
