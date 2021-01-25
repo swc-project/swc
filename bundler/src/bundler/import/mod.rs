@@ -189,6 +189,8 @@ where
     }
 
     fn add_forced_ns_for(&mut self, id: Id) {
+        self.idents_to_deglob.remove(&id);
+
         if let Some(src) = self
             .info
             .imports
