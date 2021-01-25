@@ -993,6 +993,10 @@ impl Reducer {
                             })),
                         });
 
+                        log::trace!(
+                            "Compreessing if into cond as there's no side effect and the number \
+                             of arguments is 1"
+                        );
                         self.changed = true;
                         *s = Stmt::Expr(ExprStmt {
                             span: stmt.span,
@@ -1007,6 +1011,7 @@ impl Reducer {
                     }
 
                     if !side_effect_free {
+                        log::trace!("Compreessing if into cond while preserving side effects");
                         self.changed = true;
                         *s = Stmt::Expr(ExprStmt {
                             span: stmt.span,
