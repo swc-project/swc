@@ -424,7 +424,7 @@ where
                     // );
 
                     if info.is_es6 && dep_info.is_es6 {
-                        module.push_all(dep_module);
+                        module.prepend_all(dep_module);
                         continue;
                     }
 
