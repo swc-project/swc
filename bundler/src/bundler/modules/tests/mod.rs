@@ -258,9 +258,9 @@ fn sort_007() {
         "
         var e, o = e = {};
         var T = e;
-        e.env = {};
         const h325 = T;
         const h$1 = h325;
+        e.env = {};
         if (h$1.env.NODE_DEBUG) {
         }
         ",
