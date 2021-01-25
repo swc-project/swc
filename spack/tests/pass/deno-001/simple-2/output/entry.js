@@ -4,6 +4,11 @@ const deferred1 = deferred;
 const deferred2 = deferred1;
 const deferred3 = deferred1;
 const deferred4 = deferred3;
+class MuxAsyncIterator {
+    constructor(){
+        this.signal = deferred2();
+    }
+}
 class ServerRequest {
     constructor(){
         this.done = deferred4();
@@ -20,11 +25,6 @@ const writeResponse1 = writeResponse;
 const writeResponse2 = writeResponse1;
 const readRequest1 = readRequest;
 const readRequest2 = readRequest1;
-class MuxAsyncIterator {
-    constructor(){
-        this.signal = deferred2();
-    }
-}
 const MuxAsyncIterator1 = MuxAsyncIterator;
 const MuxAsyncIterator2 = MuxAsyncIterator1;
 const MuxAsyncIterator3 = MuxAsyncIterator2;

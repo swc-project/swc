@@ -1,6 +1,6 @@
-function MuxAsyncIterator() {
-}
 function deferred() {
+}
+function MuxAsyncIterator() {
 }
 const deferred1 = deferred;
 const deferred2 = deferred1;
