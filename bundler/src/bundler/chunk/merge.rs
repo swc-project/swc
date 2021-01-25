@@ -710,6 +710,12 @@ where
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
+                    if let Some(src) = &export.src {
+                        if self.config.external_modules.contains(&src.value) {
+                            return true;
+                        }
+                    }
+
                     export.src = None;
                 }
 
