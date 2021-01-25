@@ -1,5 +1,7 @@
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeated;
+use swc_common::Mark;
+use swc_common::Span;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::StmtLike;
@@ -14,6 +16,15 @@ use swc_ecma_visit::VisitWith;
 pub(crate) mod base54;
 pub(crate) mod sort;
 pub(crate) mod usage;
+
+pub(crate) trait SpanExt: Into<Span> {
+    fn with_mark(self, mark: Mark) -> Span {
+        let span = self.into();
+        span.apply_mark(mark)
+    }
+}
+
+impl SpanExt for Span {}
 
 pub(crate) fn contains_leaping_yield<N>(n: &N) -> bool
 where

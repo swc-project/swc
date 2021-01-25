@@ -1,3 +1,5 @@
+use crate::util::SpanExt;
+
 use super::Optimizer;
 use swc_common::EqIgnoreSpan;
 use swc_common::DUMMY_SP;
@@ -64,9 +66,26 @@ impl Optimizer {
                     span: stmt.span,
                     expr: Box::new(v),
                 });
+                return;
             }
             None => {}
         }
+
+        // if (a) b(); else c(); => a ? b() : c()
+        log::trace!(
+            "Compressing if statement as conditional expression (even though cons and alt is not \
+             compressable)"
+        );
+        self.changed = true;
+        *s = Stmt::Expr(ExprStmt {
+            span: stmt.span.with_mark(self.done),
+            expr: Box::new(Expr::Cond(CondExpr {
+                span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                test: stmt.test.take(),
+                cons: Box::new(cons.take()),
+                alt: Box::new(alt.take()),
+            })),
+        })
     }
 
     /// Compress a conditional expression if cons and alt is simillar
