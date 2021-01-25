@@ -1,11 +1,11 @@
 const c2 = 3;
-const d1 = 4;
 const c1 = c2;
+const d2 = 4;
+const d1 = d2;
 export { c1 as d };
-const d2 = d1;
-export { d2 as c };
+export { d1 as c };
 const e = 5;
-const b1 = 1;
 const e1 = e;
-export { e1 as a };
+const b1 = 1;
 export { b1 as b };
+export { e1 as a };
