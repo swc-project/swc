@@ -56,6 +56,19 @@ impl<'a> Hygiene<'a> {
             eprintln!("Changed symbol to {}{:?} ", sym, ctxt);
         }
 
+        // In case of `var` declarations, we should use function scope instead of
+        // current scope. This is to handle code like
+        //
+        // function foo() {
+        //      if (a) {
+        //          var b;
+        //      }
+        //      if (c) {
+        //          b = foo()
+        //      }
+        // }
+        //
+
         self.current
             .declared_symbols
             .borrow_mut()
