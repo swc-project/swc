@@ -9,13 +9,13 @@ function assert(expr, msg = "") {
         throw new DenoStdInternalError(msg);
     }
 }
+const assert1 = assert;
+const assert2 = assert1;
 function get(obj, key) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) {
         return obj[key];
     }
 }
-const assert1 = assert;
-const assert2 = assert1;
 function getForce(obj, key) {
     const v = get(obj, key);
     assert2(v != null);
