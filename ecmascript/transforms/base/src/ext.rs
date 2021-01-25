@@ -311,6 +311,17 @@ impl MapWithMut for CallExpr {
     }
 }
 
+impl MapWithMut for NewExpr {
+    fn dummy() -> Self {
+        NewExpr {
+            span: DUMMY_SP,
+            callee: MapWithMut::dummy(),
+            args: MapWithMut::dummy(),
+            type_args: Default::default(),
+        }
+    }
+}
+
 /// Do not use: This is not a public api and it can be changed without a version
 /// bump.
 pub trait PatOrExprExt: AsOptExpr {
