@@ -670,7 +670,12 @@ where
         if self.deglob_phase {
             let mut wrapping_required = vec![];
             for import in self.info.imports.iter_mut() {
-                let use_ns = self.info.forced_ns.contains(&import.src.value);
+                let use_ns = self.info.forced_ns.contains(&import.src.value)
+                    || self
+                        .bundler
+                        .config
+                        .external_modules
+                        .contains(&import.src.value);
 
                 if use_ns {
                     wrapping_required.push(import.src.value.clone());
