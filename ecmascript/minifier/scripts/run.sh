@@ -13,6 +13,8 @@ set -eu
 
 ./scripts/sort.sh
 
+export RUST_LOG=swc_ecma_minifier=trace
+
 GOLDEN_ONLY=1 cargo test --test compress
 
 cargo test --test compress $@
