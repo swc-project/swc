@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecma_transforms_module"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.3.3"
+version = "0.3.4"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -16,13 +16,13 @@ indexmap = "1.6.1"
 serde = {version = "1.0.118", features = ["derive"]}
 swc_atoms = {version = "0.2", path = "../../../atoms"}
 swc_common = {version = "0.10", path = "../../../common"}
-swc_ecma_ast = {version = "0.37.1", path = "../../ast"}
-swc_ecma_parser = {version = "0.45.2", path = "../../parser"}
-swc_ecma_transforms_base = {version = "0.2.3", path = "../base"}
-swc_ecma_utils = {version = "0.27.1", path = "../../utils"}
-swc_ecma_visit = {version = "0.23.1", path = "../../visit"}
+swc_ecma_ast = {version = "0.37.2", path = "../../ast"}
+swc_ecma_parser = {version = "0.45.3", path = "../../parser"}
+swc_ecma_transforms_base = {version = "0.2.4", path = "../base"}
+swc_ecma_utils = {version = "0.27.2", path = "../../utils"}
+swc_ecma_visit = {version = "0.23.2", path = "../../visit"}
 
 [dev-dependencies]
-swc_ecma_transforms_compat = {version = "0.3.3", path = "../compat"}
-swc_ecma_transforms_testing = {version = "0.2.2", path = "../testing/"}
+swc_ecma_transforms_compat = {version = "0.3.4", path = "../compat"}
+swc_ecma_transforms_testing = {version = "0.2.3", path = "../testing/"}
 testing = {version = "0.10", path = "../../../testing/"}

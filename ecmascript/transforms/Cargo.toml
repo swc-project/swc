@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecma_transforms"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.33.4"
+version = "0.33.5"
 
 [features]
 compat = ["swc_ecma_transforms_compat"]
@@ -19,24 +19,24 @@ typescript = ["swc_ecma_transforms_typescript"]
 [dependencies]
 swc_atoms = {version = "0.2.0", path = "../../atoms"}
 swc_common = {version = "0.10.0", path = "../../common"}
-swc_ecma_ast = {version = "0.37.1", path = "../ast"}
-swc_ecma_parser = {version = "0.45.2", path = "../parser"}
-swc_ecma_transforms_base = {version = "0.2.3", path = "./base"}
-swc_ecma_transforms_compat = {version = "0.3.3", path = "./compat", optional = true}
-swc_ecma_transforms_module = {version = "0.3.3", path = "./module", optional = true}
-swc_ecma_transforms_optimization = {version = "0.3.4", path = "./optimization", optional = true}
-swc_ecma_transforms_proposal = {version = "0.3.3", path = "./proposal", optional = true}
-swc_ecma_transforms_react = {version = "0.3.3", path = "./react", optional = true}
-swc_ecma_transforms_typescript = {version = "0.3.4", path = "./typescript", optional = true}
-swc_ecma_utils = {version = "0.27.1", path = "../utils"}
-swc_ecma_visit = {version = "0.23.1", path = "../visit"}
+swc_ecma_ast = {version = "0.37.2", path = "../ast"}
+swc_ecma_parser = {version = "0.45.3", path = "../parser"}
+swc_ecma_transforms_base = {version = "0.2.4", path = "./base"}
+swc_ecma_transforms_compat = {version = "0.3.4", path = "./compat", optional = true}
+swc_ecma_transforms_module = {version = "0.3.4", path = "./module", optional = true}
+swc_ecma_transforms_optimization = {version = "0.3.5", path = "./optimization", optional = true}
+swc_ecma_transforms_proposal = {version = "0.3.4", path = "./proposal", optional = true}
+swc_ecma_transforms_react = {version = "0.3.4", path = "./react", optional = true}
+swc_ecma_transforms_typescript = {version = "0.3.5", path = "./typescript", optional = true}
+swc_ecma_utils = {version = "0.27.2", path = "../utils"}
+swc_ecma_visit = {version = "0.23.2", path = "../visit"}
 unicode-xid = "0.2"
 
 [dev-dependencies]
 pretty_assertions = "0.6"
 sourcemap = "6"
-swc_ecma_codegen = {version = "0.43.3", path = "../codegen"}
-swc_ecma_transforms_testing = {version = "0.2.2", path = "./testing"}
+swc_ecma_codegen = {version = "0.43.4", path = "../codegen"}
+swc_ecma_transforms_testing = {version = "0.2.3", path = "./testing"}
 tempfile = "3"
 testing = {version = "0.10.0", path = "../../testing"}
 walkdir = "2"
