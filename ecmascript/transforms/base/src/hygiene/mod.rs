@@ -57,19 +57,6 @@ impl<'a> Hygiene<'a> {
             eprintln!("Changed symbol to {}{:?} ", sym, ctxt);
         }
 
-        // In case of `var` declarations, we should use function scope instead of
-        // current scope. This is to handle code like
-        //
-        // function foo() {
-        //      if (a) {
-        //          var b;
-        //      }
-        //      if (c) {
-        //          b = foo()
-        //      }
-        // }
-        //
-
         self.current
             .declared_symbols
             .borrow_mut()
@@ -142,7 +129,7 @@ impl<'a> Hygiene<'a> {
         let sym = self.current.change_symbol(sym, ctxt);
         let boxed_sym = sym.to_boxed_str();
         {
-            let scope = self.current.scope_of(&boxed_sym, ctxt);
+            let scope = self.current.scope_of(&boxed_sym, ctxt, self.var_kind);
 
             // Update symbol list
             let mut declared_symbols = scope.declared_symbols.borrow_mut();
@@ -293,15 +280,46 @@ impl<'a> Scope<'a> {
         }
     }
 
-    fn scope_of(&self, sym: &Box<str>, ctxt: SyntaxContext) -> &'a Scope<'_> {
-        if let Some(prev) = self.declared_symbols.borrow().get(sym) {
-            if prev.contains(&ctxt) {
-                return self;
+    fn scope_of(
+        &self,
+        sym: &Box<str>,
+        ctxt: SyntaxContext,
+        var_kind: Option<VarDeclKind>,
+    ) -> &'a Scope<'_> {
+        // In case of `var` declarations, we should use function scope instead of
+        // current scope. This is to handle code like
+        //
+        // function foo() {
+        //      if (a) {
+        //          var b;
+        //      }
+        //      if (c) {
+        //          b = foo()
+        //      }
+        // }
+        //
+        match var_kind {
+            Some(VarDeclKind::Var) => {
+                // `var`s are function-scoped.
+                if self.kind == ScopeKind::Fn {
+                    if let Some(prev) = self.declared_symbols.borrow().get(sym) {
+                        if prev.contains(&ctxt) {
+                            return self;
+                        }
+                    }
+                }
+            }
+            _ => {
+                if let Some(prev) = self.declared_symbols.borrow().get(sym) {
+                    if prev.contains(&ctxt) {
+                        return self;
+                    }
+                }
             }
         }
 
         match self.parent {
-            Some(ref parent) => parent.scope_of(sym, ctxt),
+            Some(ref parent) => parent.scope_of(sym, ctxt, var_kind),
             _ => self,
         }
     }
