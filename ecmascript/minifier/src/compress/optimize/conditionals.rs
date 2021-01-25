@@ -139,6 +139,55 @@ impl Reducer {
                 None
             }
 
+            (Expr::New(cons), Expr::New(alt)) => {
+                // TODO: Handle new expression with no args.
+
+                if cons.callee.eq_ignore_span(&alt.callee) {
+                    if cons.args.as_ref().map(|v| v.len() <= 1).unwrap_or(true)
+                        && alt.args.as_ref().map(|v| v.len() <= 1).unwrap_or(true)
+                        && (cons.args.is_some()
+                            && cons
+                                .args
+                                .as_ref()
+                                .unwrap()
+                                .iter()
+                                .all(|arg| arg.spread.is_none()))
+                        && (alt.args.is_none()
+                            && alt
+                                .args
+                                .as_ref()
+                                .unwrap()
+                                .iter()
+                                .all(|arg| arg.spread.is_none()))
+                    {
+                        let mut args = vec![];
+
+                        args.push(ExprOrSpread {
+                            spread: None,
+                            expr: Box::new(Expr::Cond(CondExpr {
+                                span: DUMMY_SP,
+                                test: test.take(),
+                                cons: cons.args.as_mut().unwrap()[0].expr.take(),
+                                alt: alt.args.as_mut().unwrap()[0].expr.take(),
+                            })),
+                        });
+
+                        log::trace!(
+                            "Compreessing if statement into a condiotnal expression of `new` as \
+                             there's no side effect and the number of arguments is 1"
+                        );
+                        return Some(Expr::New(NewExpr {
+                            span: DUMMY_SP,
+                            callee: cons.callee.take(),
+                            args: Some(args),
+                            type_args: Default::default(),
+                        }));
+                    }
+                }
+
+                None
+            }
+
             (Expr::Assign(cons), Expr::Assign(alt))
                 if cons.op == alt.op && cons.left.eq_ignore_span(&alt.left) =>
             {
