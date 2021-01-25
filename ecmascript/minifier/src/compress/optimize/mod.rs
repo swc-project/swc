@@ -1116,6 +1116,8 @@ impl VisitMut for Reducer {
             _ => {}
         }
 
+        self.compress_cond_expr_if_simillar(n);
+
         self.compress_negated_bin_eq(n);
         self.handle_negated_seq(n);
         self.compress_array_join(n);

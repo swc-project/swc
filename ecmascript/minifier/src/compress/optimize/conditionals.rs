@@ -56,7 +56,7 @@ impl Reducer {
             None => return,
         };
 
-        let new_expr = self.compress_cons_alt_of_if(&mut stmt.test, cons, alt);
+        let new_expr = self.compress_cons_alt(&mut stmt.test, cons, alt);
         match new_expr {
             Some(v) => {
                 self.changed = true;
@@ -69,7 +69,25 @@ impl Reducer {
         }
     }
 
-    fn compress_cons_alt_of_if(
+    /// Compress a conditional expression if cons and alt is simillar
+    pub(super) fn compress_cond_expr_if_simillar(&mut self, e: &mut Expr) {
+        let cond = match e {
+            Expr::Cond(expr) => expr,
+            _ => return,
+        };
+
+        let compressed = self.compress_cons_alt(&mut cond.test, &mut cond.cons, &mut cond.alt);
+
+        match compressed {
+            Some(v) => {
+                *e = v;
+                self.changed = true;
+            }
+            None => {}
+        }
+    }
+
+    fn compress_cons_alt(
         &mut self,
         test: &mut Box<Expr>,
         cons: &mut Expr,
@@ -189,7 +207,9 @@ impl Reducer {
             }
 
             (Expr::Assign(cons), Expr::Assign(alt))
-                if cons.op == alt.op && cons.left.eq_ignore_span(&alt.left) =>
+                if cons.op == op!("=")
+                    && cons.op == alt.op
+                    && cons.left.eq_ignore_span(&alt.left) =>
             {
                 log::trace!("Merging assignments in cons and alt of if statement");
                 Some(Expr::Assign(AssignExpr {
