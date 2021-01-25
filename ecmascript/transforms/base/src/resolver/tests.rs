@@ -1916,7 +1916,20 @@ to!(
         }
     }
     ",
-    ""
+    "
+    var _ = 1;
+    function wt(e, n, t, r) {
+        var l = e.updateQueue;
+        if (u !== null) {
+            if (y !== null) {
+                var _1 = y.lastBaseUpdate;
+            }
+        }
+        if (i !== null) {
+            _1 = l.baseState, o = 0, y = d = s = null;
+        }
+    }
+    "
 );
 
 to!(
@@ -1934,5 +1947,17 @@ to!(
         }
     }
     ",
-    ""
+    "
+    var _ = 1;
+    function wt() {
+        if (u !== null) {
+            if (y !== null) {
+                var _1 = 2;
+            }
+        }
+        if (i !== null) {
+            _1 = 3;
+        }
+    }
+    "
 );
