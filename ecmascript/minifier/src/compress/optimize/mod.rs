@@ -990,7 +990,19 @@ impl Optimizer {
                             }
                         },
 
-                        _ => {}
+                        _ => {
+                            if !exprs.is_empty() {
+                                new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
+                                    span: DUMMY_SP,
+                                    expr: Box::new(Expr::Seq(SeqExpr {
+                                        span: DUMMY_SP,
+                                        exprs: take(&mut exprs),
+                                    })),
+                                })))
+                            }
+
+                            new_stmts.push(T::from_stmt(stmt));
+                        }
                     }
                 }
                 Err(item) => {
