@@ -95,7 +95,6 @@ pub enum StrKind {
 /// Always returns true as this is not a data of a string literal.
 impl EqIgnoreSpan for StrKind {
     fn eq_ignore_span(&self, _: &Self) -> bool {
-    fn eq_ignore_span(&self, other: &Self) -> bool {
         true
     }
 }
