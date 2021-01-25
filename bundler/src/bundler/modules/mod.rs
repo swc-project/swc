@@ -56,7 +56,6 @@ impl Modules {
 
     pub fn add_dep(&mut self, mut dep: Modules) {
         dep.prepended.append(&mut self.prepended);
-        self.modules.append(&mut dep.modules);
 
         let mut modules = self.modules.take().into_iter();
         let entry = modules.next();
@@ -65,7 +64,7 @@ impl Modules {
         new.extend(dep.modules.into_iter());
         new.extend(entry);
 
-        dep.modules = take(&mut self.modules);
+        dep.modules = new;
         dep.injected.append(&mut self.injected);
         *self = dep;
     }
