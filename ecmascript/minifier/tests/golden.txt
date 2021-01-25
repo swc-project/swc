@@ -75,6 +75,7 @@ collapse_vars/issue_2425_2/input.js
 collapse_vars/issue_2425_3/input.js
 collapse_vars/issue_2873_1/input.js
 collapse_vars/issue_2873_2/input.js
+collapse_vars/issue_2878/input.js
 collapse_vars/issue_2891_1/input.js
 collapse_vars/issue_2891_2/input.js
 collapse_vars/issue_2908/input.js
@@ -102,6 +103,8 @@ conditionals/cond_2/input.js
 conditionals/cond_3/input.js
 conditionals/cond_4/input.js
 conditionals/cond_7_1/input.js
+conditionals/equality_conditionals_false/input.js
+conditionals/equality_conditionals_true/input.js
 conditionals/ifs_2/input.js
 conditionals/issue_1645_2/input.js
 conditionals/trivial_boolean_ternary_expressions/input.js
@@ -462,6 +465,8 @@ reduce_vars/unsafe_evaluate_array_5/input.js
 reduce_vars/unsafe_evaluate_object_3/input.js
 reduce_vars/unsafe_evaluate_unknown/input.js
 reduce_vars/var_assign_3/input.js
+reduce_vars/var_assign_4/input.js
+reduce_vars/var_assign_5/input.js
 reduce_vars/var_assign_6/input.js
 reduce_vars/var_if/input.js
 regexp/inline_script/input.js
@@ -475,6 +480,9 @@ sandbox/console_log/input.js
 sequences/func_def_2/input.js
 sequences/func_def_5/input.js
 sequences/lift_sequences_4/input.js
+sequences/lift_sequences_5/input.js
+sequences/lift_sequences_6/input.js
+sequences/make_sequences_1/input.js
 sequences/side_effects/input.js
 sequences/side_effects_cascade_2/input.js
 string_literal/issue_1929/input.js
