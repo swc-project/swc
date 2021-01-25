@@ -56,7 +56,7 @@ impl Optimizer {
             None => return,
         };
 
-        let new_expr = self.compress_cons_alt(&mut stmt.test, cons, alt, true);
+        let new_expr = self.compress_similar_cons_alt(&mut stmt.test, cons, alt, true);
         match new_expr {
             Some(v) => {
                 self.changed = true;
@@ -81,7 +81,7 @@ impl Optimizer {
         };
 
         let compressed =
-            self.compress_cons_alt(&mut cond.test, &mut cond.cons, &mut cond.alt, false);
+            self.compress_similar_cons_alt(&mut cond.test, &mut cond.cons, &mut cond.alt, false);
 
         match compressed {
             Some(v) => {
@@ -92,7 +92,7 @@ impl Optimizer {
         }
     }
 
-    fn compress_cons_alt(
+    fn compress_similar_cons_alt(
         &mut self,
         test: &mut Box<Expr>,
         cons: &mut Expr,
