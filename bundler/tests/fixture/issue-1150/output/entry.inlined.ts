@@ -5,12 +5,12 @@ var O3;
     O1[O1["C"] = 2] = "C";
 })(O3 || (O3 = {
 }));
+const O1 = O3;
 function a() {
     console.log("a");
 }
 const a1 = a;
 const a2 = a1;
-const O1 = O3;
 const O2 = O1;
 export { O2 as O };
 class A {

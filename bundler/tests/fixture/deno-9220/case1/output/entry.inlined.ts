@@ -1,22 +1,3 @@
-class Image1 {
-    getPixel(x, y) {
-        const index = x + y * this.width;
-        const rntVal = {
-            r: this.data[index * 4],
-            g: this.data[index * 4 + 1],
-            b: this.data[index * 4 + 2],
-            a: this.data[index * 4 + 3]
-        };
-        return rntVal;
-    }
-    setPixel(x, y, pix) {
-        const index = x + y * this.width;
-        this.data[index * 4] = pix.r;
-        this.data[index * 4 + 1] = pix.g;
-        this.data[index * 4 + 2] = pix.b;
-        this.data[index * 4 + 3] = pix.a;
-    }
-}
 const JpegImage = function jpegImage() {
     "use strict";
     const dctZigZag = new Int32Array([
@@ -945,6 +926,25 @@ const JpegImage = function jpegImage() {
     };
     return constructor;
 }();
+class Image1 {
+    getPixel(x, y) {
+        const index = x + y * this.width;
+        const rntVal = {
+            r: this.data[index * 4],
+            g: this.data[index * 4 + 1],
+            b: this.data[index * 4 + 2],
+            a: this.data[index * 4 + 3]
+        };
+        return rntVal;
+    }
+    setPixel(x, y, pix) {
+        const index = x + y * this.width;
+        this.data[index * 4] = pix.r;
+        this.data[index * 4 + 1] = pix.g;
+        this.data[index * 4 + 2] = pix.b;
+        this.data[index * 4 + 3] = pix.a;
+    }
+}
 const decode1 = function(jpegData, colorTransform = true) {
     const arr = new Uint8Array(jpegData);
     const decoder = new JpegImage();
