@@ -118,6 +118,13 @@ impl Optimizer {
         alt: &mut Expr,
         is_for_if_stmt: bool,
     ) -> Option<Expr> {
+        if cons.eq_ignore_span(alt) {
+            return Some(Expr::Seq(SeqExpr {
+                span: DUMMY_SP,
+                exprs: vec![test.take(), Box::new(cons.take())],
+            }));
+        }
+
         match (cons, alt) {
             (Expr::Call(cons), Expr::Call(alt)) => {
                 let cons_callee = cons.callee.as_expr().and_then(|e| e.as_ident())?;
