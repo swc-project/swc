@@ -383,6 +383,11 @@ where
                 }
 
                 if is_export {
+                    if let Some(src) = &source {
+                        if self.config.external_modules.contains(&src.src.value) {
+                            continue;
+                        }
+                    }
                     assert!(dep_info.is_es6, "export statements are es6-only");
 
                     inject_export(
