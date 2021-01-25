@@ -54,6 +54,7 @@ impl Modules {
             .collect()
     }
 
+    /// Entry module is stored as a last element.
     pub fn add_dep(&mut self, mut dep: Modules) {
         dep.prepended.append(&mut self.prepended);
 
