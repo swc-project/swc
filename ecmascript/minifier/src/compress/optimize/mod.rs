@@ -10,9 +10,12 @@ use swc_atoms::js_word;
 use swc_atoms::JsWord;
 use swc_common::iter::IdentifyLast;
 use swc_common::pass::Repeated;
+use swc_common::EqIgnoreSpan;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::ext::AsOptExpr;
+use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::undefined;
@@ -891,7 +894,7 @@ impl Reducer {
     /// }
     /// with (x = 5, obj);
     /// ```
-    fn make_sequences<T>(&mut self, stmts: &mut Vec<T>)
+    fn make_sequences<T>(&mut self, _stmts: &mut Vec<T>)
     where
         T: StmtLike,
     {
@@ -925,6 +928,100 @@ impl Reducer {
     fn compress_if_stmt_as_cond(&mut self, s: &mut Stmt) {
         if !self.options.conditionals {
             return;
+        }
+
+        let stmt = match s {
+            Stmt::If(v) => v,
+            _ => return,
+        };
+
+        let cons = match extract_expr_stmt(&mut *stmt.cons) {
+            Some(v) => v,
+            None => return,
+        };
+
+        // If alt does not exist, an if statement is better than a conditional
+        // expression.
+        let alt = match &mut stmt.alt {
+            Some(v) => &mut **v,
+            None => return,
+        };
+        let alt = match extract_expr_stmt(alt) {
+            Some(v) => v,
+            None => return,
+        };
+
+        match (cons, alt) {
+            (Expr::Call(cons), Expr::Call(alt)) => {
+                let cons_callee = cons.callee.as_expr().and_then(|e| e.as_ident());
+                let cons_callee = match cons_callee {
+                    Some(v) => v,
+                    None => return,
+                };
+                //
+                if cons.callee.eq_ignore_span(&alt.callee) {
+                    let side_effect_free = self
+                        .data
+                        .as_ref()
+                        .and_then(|data| data.vars.get(&cons_callee.to_id()))
+                        .map(|v| v.declared_in_fn)
+                        .unwrap_or(false);
+
+                    if side_effect_free
+                        && cons.args.len() == 1
+                        && alt.args.len() == 1
+                        && cons.args.iter().all(|arg| arg.spread.is_none())
+                        && alt.args.iter().all(|arg| arg.spread.is_none())
+                    {
+                        // if (some_condition) do_something(x);
+                        // else do_something(y);
+                        //
+                        // =>
+                        //
+                        // do_something(some_condition ? x : y);
+                        //
+
+                        let mut args = vec![];
+
+                        args.push(ExprOrSpread {
+                            spread: None,
+                            expr: Box::new(Expr::Cond(CondExpr {
+                                span: DUMMY_SP,
+                                test: stmt.test.take(),
+                                cons: cons.args[0].expr.take(),
+                                alt: alt.args[0].expr.take(),
+                            })),
+                        });
+
+                        self.changed = true;
+                        *s = Stmt::Expr(ExprStmt {
+                            span: stmt.span,
+                            expr: Box::new(Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: cons.callee.take(),
+                                args,
+                                type_args: Default::default(),
+                            })),
+                        });
+                        return;
+                    }
+
+                    if !side_effect_free {
+                        self.changed = true;
+                        *s = Stmt::Expr(ExprStmt {
+                            span: stmt.span,
+                            expr: Box::new(Expr::Cond(CondExpr {
+                                span: DUMMY_SP,
+                                test: stmt.test.take(),
+                                cons: Box::new(Expr::Call(cons.take())),
+                                alt: Box::new(Expr::Call(alt.take())),
+                            })),
+                        });
+                        return;
+                    }
+                }
+            }
+            _ => {}
         }
     }
 }
@@ -1318,5 +1415,12 @@ fn is_clone_cheap(arg: &Expr) -> bool {
             op: op!("!"), arg, ..
         }) => is_clone_cheap(&arg),
         _ => false,
+    }
+}
+
+fn extract_expr_stmt(s: &mut Stmt) -> Option<&mut Expr> {
+    match s {
+        Stmt::Expr(e) => Some(&mut *e.expr),
+        _ => None,
     }
 }
