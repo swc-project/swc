@@ -142,6 +142,7 @@ drop_unused/const_assign/input.js
 drop_unused/double_assign_3/input.js
 drop_unused/issue_1709/input.js
 drop_unused/issue_2063/input.js
+drop_unused/issue_2136_1/input.js
 drop_unused/issue_3146_1/input.js
 drop_unused/issue_3146_2/input.js
 drop_unused/unused_circular_references_3/input.js
@@ -399,6 +400,7 @@ reduce_vars/array_forof_1/input.js
 reduce_vars/array_forof_2/input.js
 reduce_vars/boolean_binary_assign/input.js
 reduce_vars/booleans/input.js
+reduce_vars/cond_assign/input.js
 reduce_vars/conditional_chain_call/input.js
 reduce_vars/conditional_chain_call_direct/input.js
 reduce_vars/conditional_chain_certain_and_uncertain_part/input.js
@@ -417,6 +419,7 @@ reduce_vars/delay_def_lhs/input.js
 reduce_vars/do_while/input.js
 reduce_vars/for_in_prop/input.js
 reduce_vars/iife_eval_1/input.js
+reduce_vars/immutable/input.js
 reduce_vars/inner_var_catch/input.js
 reduce_vars/inner_var_for_in_2/input.js
 reduce_vars/inner_var_if/input.js
@@ -451,12 +454,15 @@ reduce_vars/issue_3140_2/input.js
 reduce_vars/issue_379/input.js
 reduce_vars/issue_581_2/input.js
 reduce_vars/method_1/input.js
+reduce_vars/recursive_inlining_5/input.js
 reduce_vars/toplevel_on/input.js
 reduce_vars/unary_delete/input.js
 reduce_vars/unsafe_evaluate_array_3/input.js
 reduce_vars/unsafe_evaluate_array_5/input.js
 reduce_vars/unsafe_evaluate_object_3/input.js
 reduce_vars/unsafe_evaluate_unknown/input.js
+reduce_vars/var_assign_3/input.js
+reduce_vars/var_assign_6/input.js
 reduce_vars/var_if/input.js
 regexp/inline_script/input.js
 regexp/regexp_1/input.js
