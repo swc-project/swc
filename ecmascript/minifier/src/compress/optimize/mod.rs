@@ -792,7 +792,7 @@ impl Reducer {
         }
     }
 
-    fn compress_simple_if(&mut self, s: &mut Stmt) {
+    fn compress_if_without_alt(&mut self, s: &mut Stmt) {
         if !self.options.conditionals {
             return;
         }
@@ -896,6 +896,34 @@ impl Reducer {
         T: StmtLike,
     {
         if !self.options.sequences {
+            return;
+        }
+    }
+
+    ///
+    /// # Examples
+    ///
+    /// ## Input
+    ///
+    /// ```ts
+    /// function foo(do_something, some_condition) {
+    ///     if (some_condition) do_something(x);
+    ///     else do_something(y);
+    ///     if (some_condition) side_effects(x);
+    ///     else side_effects(y);
+    /// }
+    /// ```
+    ///
+    /// ## Output
+    ///
+    /// ```ts
+    /// function foo(do_something, some_condition) {
+    ///     do_something(some_condition ? x : y);
+    ///     some_condition ? side_effects(x) : side_effects(y);
+    /// }
+    /// ```
+    fn compress_if_stmt_as_cond(&mut self, s: &mut Stmt) {
+        if !self.options.conditionals {
             return;
         }
     }
@@ -1143,7 +1171,9 @@ impl VisitMut for Reducer {
 
         self.try_removing_block(n);
 
-        self.compress_simple_if(n);
+        self.compress_if_without_alt(n);
+
+        self.compress_if_stmt_as_cond(n);
 
         match n {
             Stmt::Expr(ExprStmt { expr, .. }) => {
