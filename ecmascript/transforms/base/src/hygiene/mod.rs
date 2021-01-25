@@ -40,7 +40,12 @@ impl<'a> Hygiene<'a> {
         let ctxt = ident.span.ctxt();
 
         if cfg!(debug_assertions) && LOG {
-            eprintln!("Declaring {}{:?} ", ident.sym, ctxt);
+            eprintln!(
+                "({}) Declaring {}{:?} ",
+                self.current.depth(),
+                ident.sym,
+                ctxt
+            );
         }
 
         let can_declare_without_renaming =
@@ -71,7 +76,12 @@ impl<'a> Hygiene<'a> {
 
     fn add_used_ref(&mut self, ident: &Ident) {
         if cfg!(debug_assertions) && LOG {
-            eprintln!("Ident ref: {}{:?}", ident.sym, ident.span.ctxt);
+            eprintln!(
+                "({}) Ident ref: {}{:?}",
+                self.current.depth(),
+                ident.sym,
+                ident.span.ctxt
+            );
         }
 
         let ctxt = ident.span.ctxt();
@@ -89,7 +99,7 @@ impl<'a> Hygiene<'a> {
         let conflicts = self.current.conflicts(ident.sym.clone(), ctxt);
 
         if cfg!(debug_assertions) && LOG && !conflicts.is_empty() {
-            eprintln!("Renaming from usage");
+            eprintln!("({}) Renaming from usage", self.current.depth());
         }
 
         for cx in conflicts {
@@ -249,6 +259,13 @@ impl<'a> Default for Scope<'a> {
 }
 
 impl<'a> Scope<'a> {
+    fn depth(&self) -> usize {
+        match self.parent {
+            Some(parent) => parent.depth() + 1,
+            None => 0,
+        }
+    }
+
     pub fn new(kind: ScopeKind, parent: Option<&'a Scope<'a>>) -> Self {
         Scope {
             parent,
