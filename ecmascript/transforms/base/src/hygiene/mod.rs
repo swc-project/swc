@@ -31,6 +31,7 @@ impl ToBoxedStr for JsWord {
 struct Hygiene<'a> {
     current: Scope<'a>,
     ident_type: IdentType,
+    var_kind: Option<VarDeclKind>,
 }
 
 type Contexts = SmallVec<[SyntaxContext; 32]>;
@@ -192,6 +193,7 @@ pub fn hygiene() -> impl Fold + 'static {
         as_folder(Hygiene {
             current: Default::default(),
             ident_type: IdentType::Ref,
+            var_kind: None,
         }),
         as_folder(MarkClearer)
     )
@@ -233,6 +235,7 @@ impl<'a> Hygiene<'a> {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,
+            var_kind: None,
         };
 
         folder.ident_type = IdentType::Ref;
@@ -528,6 +531,7 @@ impl<'a> VisitMut for Hygiene<'a> {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,
+            var_kind: None,
         };
 
         folder.ident_type = IdentType::Binding;
@@ -543,6 +547,7 @@ impl<'a> VisitMut for Hygiene<'a> {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Block, Some(&self.current)),
             ident_type: IdentType::Ref,
+            var_kind: None,
         };
         node.visit_mut_children_with(&mut folder);
 
@@ -553,6 +558,7 @@ impl<'a> VisitMut for Hygiene<'a> {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,
+            var_kind: None,
         };
         folder.ident_type = IdentType::Binding;
         c.param.visit_mut_with(&mut folder);
@@ -638,6 +644,7 @@ impl<'a> VisitMut for Hygiene<'a> {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Block, Some(&self.current)),
             ident_type: IdentType::Ref,
+            var_kind: None,
         };
         node.visit_mut_children_with(&mut folder);
 
@@ -651,12 +658,22 @@ impl<'a> VisitMut for Hygiene<'a> {
         node.finalizer.visit_mut_children_with(self);
     }
 
+    fn visit_mut_var_decl(&mut self, var: &mut VarDecl) {
+        let old = self.var_kind;
+        self.var_kind = Some(var.kind);
+        var.visit_mut_children_with(self);
+        self.var_kind = old;
+    }
+
     fn visit_mut_var_declarator(&mut self, decl: &mut VarDeclarator) {
         let old = self.ident_type;
         self.ident_type = IdentType::Binding;
         decl.name.visit_mut_with(self);
         self.ident_type = old;
 
+        let old = self.var_kind;
+        self.var_kind = None;
         decl.init.visit_mut_with(self);
+        self.var_kind = old;
     }
 }
