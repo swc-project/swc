@@ -1,9 +1,9 @@
 function a() {
 }
+const a1 = a;
 function foo() {
 }
-function foo1() {
+const foo1 = foo;
+function foo2() {
 }
-const a1 = a;
-const foo2 = foo;
-console.log(foo1(), a1(), foo2());
+console.log(foo2(), a1(), foo1());
