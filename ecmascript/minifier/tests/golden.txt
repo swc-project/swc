@@ -97,6 +97,7 @@ concat_strings/concat_5/input.js
 concat_strings/concat_6/input.js
 concat_strings/concat_7/input.js
 concat_strings/concat_8/input.js
+conditionals/cond_1/input.js
 conditionals/issue_1645_2/input.js
 conditionals/trivial_boolean_ternary_expressions/input.js
 dead_code/collapse_vars_assignment/input.js
