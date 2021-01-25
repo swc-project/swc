@@ -104,6 +104,10 @@ where
                             let decl = &var.decls[0];
                             match &decl.name {
                                 Pat::Ident(i) => {
+                                    if i.sym == js_word!("default") {
+                                        return Some(Stmt::Decl(Decl::Var(var)));
+                                    }
+
                                     if let Some(remapped) = ctx.transitive_remap.get(&i.span.ctxt) {
                                         // Create
                                         //
