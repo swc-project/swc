@@ -92,6 +92,7 @@ impl Reducer {
         }
 
         stmts.visit_mut_children_with(self);
+        self.make_sequences(stmts);
         stmts.retain(|stmt| match stmt.as_stmt() {
             Some(Stmt::Empty(..)) => false,
             _ => true,
@@ -890,7 +891,14 @@ impl Reducer {
     /// }
     /// with (x = 5, obj);
     /// ```
-    fn make_sequences<T>(&mut self, stmts: &mut Vec<T>) {}
+    fn make_sequences<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike,
+    {
+        if !self.options.sequences {
+            return;
+        }
+    }
 }
 
 impl VisitMut for Reducer {
