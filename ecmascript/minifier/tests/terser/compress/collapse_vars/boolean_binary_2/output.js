@@ -1,6 +1,6 @@
 var c = 0;
 c += 1;
-(function() {
+(function () {
     c = 1 + c;
-}).toString();
+}.toString());
 console.log(c);

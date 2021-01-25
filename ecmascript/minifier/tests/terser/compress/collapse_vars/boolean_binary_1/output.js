@@ -1,5 +1,4 @@
 var a = 1;
 a++;
-(function() {
-}).toString();
+(function () {}.toString());
 console.log(a);
