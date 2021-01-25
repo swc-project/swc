@@ -696,13 +696,23 @@ where
 
         entry.retain_mut(|item| {
             match item {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportAll(..)) => return false,
+                ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
+                    if self.config.external_modules.contains(&export.src.value) {
+                        return true;
+                    }
+
+                    return false;
+                }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
                     export.src = None;
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                    if self.config.external_modules.contains(&import.src.value) {
+                        return true;
+                    }
+
                     for (id, p) in &ctx.plan.normal {
                         if import.span.ctxt == self.scope.get_module(*id).unwrap().export_ctxt() {
                             log::debug!("Dropping import");
