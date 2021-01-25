@@ -807,6 +807,7 @@ impl Reducer {
             match &mut *stmt.cons {
                 Stmt::Expr(cons) => {
                     self.changed = true;
+                    log::trace!("Converting if statement to `test && cons");
                     *s = Stmt::Expr(ExprStmt {
                         span: stmt.span,
                         expr: Box::new(stmt.test.take().make_bin(op!("&&"), *cons.expr.take())),
