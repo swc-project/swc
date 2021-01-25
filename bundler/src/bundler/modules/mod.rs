@@ -52,9 +52,10 @@ impl Modules {
             .collect()
     }
 
-    pub fn prepend_all(&mut self, mut other: Modules) {
+    pub fn add_dep(&mut self, mut other: Modules) {
         other.prepended.append(&mut self.prepended);
-        other.modules.append(&mut self.modules);
+        self.modules.append(&mut other.modules);
+        other.modules = take(&mut self.modules);
         other.injected.append(&mut self.injected);
         *self = other;
     }

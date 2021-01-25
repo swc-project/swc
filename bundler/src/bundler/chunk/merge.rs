@@ -403,7 +403,7 @@ where
 
                     match dep.ty {
                         DepType::Transitive => {
-                            module.prepend_all(dep_module);
+                            module.add_dep(dep_module);
 
                             log::debug!(
                                 "Merged {} into {} as a transitive es module",
@@ -424,7 +424,7 @@ where
                     // );
 
                     if info.is_es6 && dep_info.is_es6 {
-                        module.prepend_all(dep_module);
+                        module.add_dep(dep_module);
                         continue;
                     }
 

@@ -170,7 +170,7 @@ pub(super) fn inject_export(
         }
     });
 
-    entry.prepend_all(dep);
+    entry.add_dep(dep);
 }
 
 /// Converts
