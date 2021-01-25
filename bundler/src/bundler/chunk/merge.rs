@@ -1095,6 +1095,11 @@ where
             for stmt in stmts {
                 match &stmt {
                     ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                        if self.config.external_modules.contains(&import.src.value) {
+                            new.push(stmt);
+                            continue;
+                        }
+
                         for specifier in &import.specifiers {
                             match specifier {
                                 ImportSpecifier::Named(named) => match &named.imported {
