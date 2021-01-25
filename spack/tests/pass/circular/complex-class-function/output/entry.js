@@ -1,10 +1,10 @@
+function a() {
+    return new A();
+}
 function getC() {
     return C;
 }
 class C {
-}
-function a() {
-    return new A();
 }
 const getC1 = getC;
 const getC2 = getC1;

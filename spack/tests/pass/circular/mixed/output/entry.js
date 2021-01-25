@@ -1,9 +1,9 @@
-console.log('c');
 class A {
     method() {
         return new B3();
     }
 }
+console.log('c');
 const A1 = A;
 const A2 = A1;
 const A3 = A1;

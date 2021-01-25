@@ -1,5 +1,5 @@
-const b = 2;
 const a = 1;
+const b = 2;
 const a1 = a;
 const a2 = a1;
 const b1 = b;
