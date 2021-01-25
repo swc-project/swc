@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecma_transforms_base"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.2.4"
+version = "0.2.5"
 
 [dependencies]
 fxhash = "0.2.1"
@@ -16,11 +16,11 @@ scoped-tls = "1.0.0"
 smallvec = "1.6.0"
 swc_atoms = {version = "0.2", path = "../../../atoms"}
 swc_common = {version = "0.10", path = "../../../common"}
-swc_ecma_ast = {version = "0.37.2", path = "../../ast"}
-swc_ecma_parser = {version = "0.45.3", path = "../../parser"}
-swc_ecma_utils = {version = "0.27.2", path = "../../utils"}
-swc_ecma_visit = {version = "0.23.2", path = "../../visit"}
+swc_ecma_ast = {version = "0.37.3", path = "../../ast"}
+swc_ecma_parser = {version = "0.45.4", path = "../../parser"}
+swc_ecma_utils = {version = "0.27.3", path = "../../utils"}
+swc_ecma_visit = {version = "0.23.3", path = "../../visit"}
 
 [dev-dependencies]
-swc_ecma_codegen = {version = "0.43.4", path = "../../codegen"}
+swc_ecma_codegen = {version = "0.43.5", path = "../../codegen"}
 testing = {version = "0.10", path = "../../../testing"}

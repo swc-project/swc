@@ -69,7 +69,7 @@ pub struct Str {
 }
 
 /// THis enum determines how string literal should be printed.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(tag = "type")]
 pub enum StrKind {
     /// Span of string points to original source code, and codegen should use
@@ -90,6 +90,13 @@ pub enum StrKind {
     /// this string is synthesized, this variant should be used.
     #[serde(rename = "synthesized")]
     Synthesized,
+}
+
+/// Always returns true as this is not a data of a string literal.
+impl EqIgnoreSpan for StrKind {
+    fn eq_ignore_span(&self, _: &Self) -> bool {
+        true
+    }
 }
 
 impl Default for StrKind {
