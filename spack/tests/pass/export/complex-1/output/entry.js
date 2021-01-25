@@ -1,5 +1,5 @@
-const b3 = '1';
 const a2 = '1';
+const b3 = '1';
 const b1 = b3;
 const b2 = b1;
 console.log(b2);

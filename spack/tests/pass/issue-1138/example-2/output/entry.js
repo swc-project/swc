@@ -1,6 +1,6 @@
+var defaultA = "a";
 var o = {
 };
-var defaultA = "a";
 const defaultA1 = defaultA;
 const defaultA2 = defaultA1;
 const defaultA3 = defaultA2;

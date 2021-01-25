@@ -1,6 +1,6 @@
-function b() {
-}
 function a() {
+}
+function b() {
 }
 const a1 = a;
 const a2 = a1;

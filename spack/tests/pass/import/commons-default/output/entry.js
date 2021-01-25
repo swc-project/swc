@@ -4,9 +4,9 @@ const __default = Common;
 const __default1 = __default;
 const Common1 = __default1;
 const Common2 = __default1;
-class B extends Common2 {
+class A extends Common2 {
 }
-class A extends Common1 {
+class B extends Common1 {
 }
 const __default2 = A;
 const __default3 = __default2;
