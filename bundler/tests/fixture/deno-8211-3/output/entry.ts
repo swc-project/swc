@@ -1,3 +1,4 @@
+const date1 = new Date();
 class Invalid {
     constructor(reason4, explanation1){
         this.reason = reason4;
@@ -11,37 +12,8 @@ class Invalid {
         }
     }
 }
-class LuxonError extends Error {
-}
-class InvalidDateTimeError extends LuxonError {
-    constructor(reason1){
-        super(`Invalid DateTime: ${reason1.toMessage()}`);
-    }
-}
-class InvalidIntervalError extends LuxonError {
-    constructor(reason2){
-        super(`Invalid Interval: ${reason2.toMessage()}`);
-    }
-}
-class InvalidDurationError extends LuxonError {
-    constructor(reason3){
-        super(`Invalid Duration: ${reason3.toMessage()}`);
-    }
-}
-class ConflictingSpecificationError extends LuxonError {
-}
-class InvalidUnitError extends LuxonError {
-    constructor(unit1){
-        super(`Invalid unit ${unit1}`);
-    }
-}
-class InvalidArgumentError extends LuxonError {
-}
-class ZoneIsAbstractError extends LuxonError {
-    constructor(){
-        super("Zone is an abstract class");
-    }
-}
+const __default = Invalid;
+const __default1 = __default;
 function isUndefined(o) {
     return typeof o === "undefined";
 }
@@ -184,7 +156,7 @@ function untruncateYear(year) {
     } else return year > 60 ? 1900 + year : 2000 + year;
 }
 function parseZoneInfo(ts, offsetFormat, locale, timeZone = null) {
-    const date = new Date(ts), intlOpts = {
+    const date1 = new Date(ts), intlOpts = {
         hour12: false,
         year: "numeric",
         month: "2-digit",
@@ -199,11 +171,11 @@ function parseZoneInfo(ts, offsetFormat, locale, timeZone = null) {
         timeZoneName: offsetFormat
     }, intlOpts), intl = hasIntl();
     if (intl && hasFormatToParts()) {
-        const parsed = new Intl.DateTimeFormat(locale, modified).formatToParts(date).find((m)=>m.type.toLowerCase() === "timezonename"
+        const parsed = new Intl.DateTimeFormat(locale, modified).formatToParts(date1).find((m)=>m.type.toLowerCase() === "timezonename"
         );
         return parsed ? parsed.value : null;
     } else if (intl) {
-        const without = new Intl.DateTimeFormat(locale, intlOpts).format(date), included = new Intl.DateTimeFormat(locale, modified).format(date), diffed = included.substring(without.length), trimmed = diffed.replace(/^[, \u200e]+/, "");
+        const without = new Intl.DateTimeFormat(locale, intlOpts).format(date1), included = new Intl.DateTimeFormat(locale, modified).format(date1), diffed = included.substring(without.length), trimmed = diffed.replace(/^[, \u200e]+/, "");
         return trimmed;
     } else {
         return null;
@@ -217,12 +189,41 @@ function signedOffset(offHourStr, offMinuteStr) {
     const offMin = parseInt(offMinuteStr, 10) || 0, offMinSigned = offHour < 0 || Object.is(offHour, -0) ? -offMin : offMin;
     return offHour * 60 + offMinSigned;
 }
+class LuxonError extends Error {
+}
+class InvalidDateTimeError extends LuxonError {
+    constructor(reason1){
+        super(`Invalid DateTime: ${reason1.toMessage()}`);
+    }
+}
+class InvalidIntervalError extends LuxonError {
+    constructor(reason2){
+        super(`Invalid Interval: ${reason2.toMessage()}`);
+    }
+}
+class InvalidDurationError extends LuxonError {
+    constructor(reason3){
+        super(`Invalid Duration: ${reason3.toMessage()}`);
+    }
+}
+class ConflictingSpecificationError extends LuxonError {
+}
+class InvalidUnitError extends LuxonError {
+    constructor(unit1){
+        super(`Invalid unit ${unit1}`);
+    }
+}
+class InvalidArgumentError extends LuxonError {
+}
+class ZoneIsAbstractError extends LuxonError {
+    constructor(){
+        super("Zone is an abstract class");
+    }
+}
 const InvalidArgumentError1 = InvalidArgumentError;
-const __default = Invalid;
-const __default1 = __default;
+const InvalidArgumentError2 = InvalidArgumentError1;
 const isUndefined1 = isUndefined;
 const signedOffset1 = signedOffset;
-const InvalidArgumentError2 = InvalidArgumentError1;
 function asNumber(value) {
     const numericValue = Number(value);
     if (typeof value === "boolean" || value === "" || Number.isNaN(numericValue)) throw new InvalidArgumentError2(`Invalid unit value ${value}`);
@@ -294,12 +295,12 @@ class Zone {
 }
 const __default2 = Zone;
 const __default3 = __default2;
+const Zone1 = __default3;
 const isDate1 = isDate;
 const isString1 = isString;
 const parseZoneInfo1 = parseZoneInfo;
 const objToLocalTS1 = objToLocalTS;
 const ianaRegex1 = ianaRegex;
-const Zone1 = __default3;
 class InvalidZone extends Zone1 {
     constructor(zoneName){
         super();
@@ -457,8 +458,8 @@ const mod = function() {
         minute: 4,
         second: 5
     };
-    function hackyOffset(dtf, date) {
-        const formatted = dtf.format(date).replace(/\u200E/g, ""), parsed = /(\d+)\/(\d+)\/(\d+),? (\d+):(\d+):(\d+)/.exec(formatted), [, fMonth, fDay, fYear, fHour, fMinute, fSecond] = parsed;
+    function hackyOffset(dtf, date1) {
+        const formatted = dtf.format(date1).replace(/\u200E/g, ""), parsed = /(\d+)\/(\d+)\/(\d+),? (\d+):(\d+):(\d+)/.exec(formatted), [, fMonth, fDay, fYear, fHour, fMinute, fSecond] = parsed;
         return [
             fYear,
             fMonth,
@@ -469,8 +470,8 @@ const mod = function() {
         ];
     }
     const isUndefined4 = isUndefined1;
-    function partsOffset(dtf, date) {
-        const formatted = dtf.formatToParts(date), filled = [];
+    function partsOffset(dtf, date1) {
+        const formatted = dtf.formatToParts(date1), filled = [];
         for(let i = 0; i < formatted.length; i++){
             const { type , value  } = formatted[i], pos = typeToPos[type];
             if (!isUndefined4(pos)) {
@@ -537,7 +538,7 @@ const mod = function() {
             return formatOffset3(this.offset(ts), format);
         }
         offset(ts) {
-            const date = new Date(ts), dtf = makeDTF(this.name), [year, month, day, hour, minute, second] = dtf.formatToParts ? partsOffset(dtf, date) : hackyOffset(dtf, date), adjustedHour = hour === 24 ? 0 : hour;
+            const date1 = new Date(ts), dtf = makeDTF(this.name), [year, month, day, hour, minute, second] = dtf.formatToParts ? partsOffset(dtf, date1) : hackyOffset(dtf, date1), adjustedHour = hour === 24 ? 0 : hour;
             const asUTC = objToLocalTS2({
                 year,
                 month,
@@ -547,7 +548,7 @@ const mod = function() {
                 second,
                 millisecond: 0
             });
-            let asTS = +date;
+            let asTS = +date1;
             const over = asTS % 1000;
             asTS -= over >= 0 ? over : 1000 + over;
             return (asUTC - asTS) / (60 * 1000);
@@ -580,9 +581,9 @@ const mod = function() {
             const lowered = input.toLowerCase();
             if (lowered === "local") return defaultZone;
             else if (lowered === "utc" || lowered === "gmt") return FixedOffsetZone2.utcInstance;
-            else if ((offset1 = IANAZone3.parseGMTOffset(input)) != null) {
+            else if ((offset1 = IANAZone2.parseGMTOffset(input)) != null) {
                 return FixedOffsetZone2.instance(offset1);
-            } else if (IANAZone3.isValidSpecifier(lowered)) return IANAZone3.create(input);
+            } else if (IANAZone2.isValidSpecifier(lowered)) return IANAZone2.create(input);
             else return FixedOffsetZone2.parseSpecifier(lowered) || new InvalidZone1(input);
         } else if (isNumber2(input)) {
             return FixedOffsetZone2.instance(input);
@@ -3845,7 +3846,7 @@ const mod = function() {
         }
         static resetCaches() {
             Locale1.resetCache();
-            IANAZone2.resetCache();
+            IANAZone3.resetCache();
         }
     }
     const __default24 = Settings;
@@ -4793,11 +4794,10 @@ const mod = function() {
             invalidReason
         ];
     }
-    const friendlyDateTime2 = friendlyDateTime1;
-    const friendlyDateTime3 = friendlyDateTime2;
-    const friendlyDuration2 = friendlyDuration1;
-    const friendlyDuration3 = friendlyDuration2;
-    const friendlyDuration4 = friendlyDuration2;
+    const explainFromTokens1 = explainFromTokens;
+    const explainFromTokens2 = explainFromTokens1;
+    const parseFromTokens1 = parseFromTokens;
+    const parseFromTokens2 = parseFromTokens1;
     const monthsLong1 = monthsLong;
     const monthsNarrow1 = monthsNarrow;
     const weekdaysNarrow1 = weekdaysNarrow;
@@ -4810,10 +4810,11 @@ const mod = function() {
     const Locale2 = __default27;
     const Locale3 = __default27;
     const Locale4 = __default27;
-    const explainFromTokens1 = explainFromTokens;
-    const explainFromTokens2 = explainFromTokens1;
-    const parseFromTokens1 = parseFromTokens;
-    const parseFromTokens2 = parseFromTokens1;
+    const friendlyDuration2 = friendlyDuration1;
+    const friendlyDuration3 = friendlyDuration2;
+    const friendlyDuration4 = friendlyDuration2;
+    const friendlyDateTime2 = friendlyDateTime1;
+    const friendlyDateTime3 = friendlyDateTime2;
     return {
         DateTime: DateTime6,
         Duration: Duration5,
@@ -4830,6 +4831,5 @@ const mod = function() {
 const luxon = mod;
 const luxon1 = luxon;
 const luxon2 = luxon1;
-const date = new Date();
-const dt = luxon2.DateTime.fromJSDate(date);
+const dt = luxon2.DateTime.fromJSDate(date1);
 console.log(dt.toISO());
