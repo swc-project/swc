@@ -1,4 +1,3 @@
-console.log('b');
 const c = 'c';
 console.log('c');
 const c1 = c;
@@ -9,3 +8,4 @@ const b1 = __default1;
 console.log('a.js');
 export { b1 as b };
 console.log('entry');
+console.log('b');

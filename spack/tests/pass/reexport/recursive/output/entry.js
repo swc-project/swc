@@ -1,11 +1,9 @@
-console.log('b');
 const e = 'e';
 console.log('e');
 const e1 = e;
 const d = e1;
 const d1 = d;
 console.log('d');
-console.log('c');
 const c = d1;
 const b2 = c;
 const __default = b2;
@@ -14,3 +12,5 @@ const b1 = __default1;
 console.log('a.js');
 export { b1 as b };
 console.log('entry');
+console.log('b');
+console.log('c');
