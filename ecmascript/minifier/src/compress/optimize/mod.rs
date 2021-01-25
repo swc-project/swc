@@ -929,7 +929,7 @@ impl Optimizer {
             stmts
                 .windows(2)
                 .any(|stmts| match (stmts[0].as_stmt(), stmts[1].as_stmt()) {
-                    (Some(Stmt::Expr(l)), Some(r)) => match r {
+                    (Some(Stmt::Expr(..)), Some(r)) => match r {
                         Stmt::Expr(..)
                         | Stmt::If(..)
                         | Stmt::For(ForStmt { init: None, .. })
