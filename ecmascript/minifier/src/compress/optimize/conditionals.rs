@@ -59,7 +59,7 @@ impl Optimizer {
             None => return,
         };
 
-        let new_expr = self.compress_cons_alt(&mut stmt.test, cons, alt);
+        let new_expr = self.compress_cons_alt(&mut stmt.test, cons, alt, true);
         match new_expr {
             Some(v) => {
                 self.changed = true;
@@ -86,7 +86,8 @@ impl Optimizer {
             _ => return,
         };
 
-        let compressed = self.compress_cons_alt(&mut cond.test, &mut cond.cons, &mut cond.alt);
+        let compressed =
+            self.compress_cons_alt(&mut cond.test, &mut cond.cons, &mut cond.alt, false);
 
         match compressed {
             Some(v) => {
@@ -102,6 +103,7 @@ impl Optimizer {
         test: &mut Box<Expr>,
         cons: &mut Expr,
         alt: &mut Expr,
+        is_for_if_stmt: bool,
     ) -> Option<Expr> {
         match (cons, alt) {
             (Expr::Call(cons), Expr::Call(alt)) => {
@@ -153,7 +155,7 @@ impl Optimizer {
                         }));
                     }
 
-                    if !side_effect_free {
+                    if !side_effect_free && is_for_if_stmt {
                         log::trace!("Compreessing if into cond while preserving side effects");
                         return Some(Expr::Cond(CondExpr {
                             span: DUMMY_SP.with_ctxt(self.done_ctxt),
