@@ -56,13 +56,28 @@ impl Reducer {
             None => return,
         };
 
+        let new_expr = self.compress_cons_alt_of_if(&mut stmt.test, cons, alt);
+        match new_expr {
+            Some(v) => {
+                self.changed = true;
+                *s = Stmt::Expr(ExprStmt {
+                    span: stmt.span,
+                    expr: Box::new(v),
+                });
+            }
+            None => {}
+        }
+    }
+
+    fn compress_cons_alt_of_if(
+        &mut self,
+        test: &mut Box<Expr>,
+        cons: &mut Expr,
+        alt: &mut Expr,
+    ) -> Option<Expr> {
         match (cons, alt) {
             (Expr::Call(cons), Expr::Call(alt)) => {
-                let cons_callee = cons.callee.as_expr().and_then(|e| e.as_ident());
-                let cons_callee = match cons_callee {
-                    Some(v) => v,
-                    None => return,
-                };
+                let cons_callee = cons.callee.as_expr().and_then(|e| e.as_ident())?;
                 //
                 if cons.callee.eq_ignore_span(&alt.callee) {
                     let side_effect_free = self
@@ -92,7 +107,7 @@ impl Reducer {
                             spread: None,
                             expr: Box::new(Expr::Cond(CondExpr {
                                 span: DUMMY_SP,
-                                test: stmt.test.take(),
+                                test: test.take(),
                                 cons: cons.args[0].expr.take(),
                                 alt: alt.args[0].expr.take(),
                             })),
@@ -102,58 +117,46 @@ impl Reducer {
                             "Compreessing if into cond as there's no side effect and the number \
                              of arguments is 1"
                         );
-                        self.changed = true;
-                        *s = Stmt::Expr(ExprStmt {
-                            span: stmt.span,
-                            expr: Box::new(Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: cons.callee.take(),
-                                args,
-                                type_args: Default::default(),
-                            })),
-                        });
-                        return;
+                        return Some(Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: cons.callee.take(),
+                            args,
+                            type_args: Default::default(),
+                        }));
                     }
 
                     if !side_effect_free {
                         log::trace!("Compreessing if into cond while preserving side effects");
-                        self.changed = true;
-                        *s = Stmt::Expr(ExprStmt {
-                            span: stmt.span,
-                            expr: Box::new(Expr::Cond(CondExpr {
-                                span: DUMMY_SP,
-                                test: stmt.test.take(),
-                                cons: Box::new(Expr::Call(cons.take())),
-                                alt: Box::new(Expr::Call(alt.take())),
-                            })),
-                        });
-                        return;
+                        return Some(Expr::Cond(CondExpr {
+                            span: DUMMY_SP,
+                            test: test.take(),
+                            cons: Box::new(Expr::Call(cons.take())),
+                            alt: Box::new(Expr::Call(alt.take())),
+                        }));
                     }
                 }
+
+                None
             }
 
             (Expr::Assign(cons), Expr::Assign(alt))
                 if cons.op == alt.op && cons.left.eq_ignore_span(&alt.left) =>
             {
-                self.changed = true;
                 log::trace!("Merging assignments in cons and alt of if statement");
-                *s = Stmt::Expr(ExprStmt {
-                    span: stmt.span,
-                    expr: Box::new(Expr::Assign(AssignExpr {
+                Some(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: cons.op,
+                    left: cons.left.take(),
+                    right: Box::new(Expr::Cond(CondExpr {
                         span: DUMMY_SP,
-                        op: cons.op,
-                        left: cons.left.take(),
-                        right: Box::new(Expr::Cond(CondExpr {
-                            span: DUMMY_SP,
-                            test: stmt.test.take(),
-                            cons: cons.right.take(),
-                            alt: alt.right.take(),
-                        })),
+                        test: test.take(),
+                        cons: cons.right.take(),
+                        alt: alt.right.take(),
                     })),
-                })
+                }))
             }
 
-            _ => {}
+            _ => None,
         }
     }
 }
