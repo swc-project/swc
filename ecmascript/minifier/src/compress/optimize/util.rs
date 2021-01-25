@@ -12,6 +12,9 @@ impl Optimizer {
         N: Spanned,
     {
         let mut ctxt = n.span().ctxt;
+        if ctxt == self.done_ctxt {
+            return true;
+        }
         loop {
             let mark = ctxt.remove_mark();
             if mark == Mark::root() {
