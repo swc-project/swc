@@ -111,7 +111,6 @@ pub(super) fn inject_export(
     entry: &mut Modules,
     ctx: &Ctx,
     entry_export_ctxt: SyntaxContext,
-    wrapped: bool,
     dep: Modules,
     source: Source,
 ) {

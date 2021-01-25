@@ -2,7 +2,6 @@ use super::plan::DepType;
 use super::plan::Plan;
 use crate::bundler::chunk::export::inject_export;
 use crate::bundler::keywords::KeywordRenamer;
-use crate::debug::print_hygiene;
 use crate::{
     bundler::{
         chunk::plan::NormalPlan,
@@ -394,7 +393,6 @@ where
                         &mut module,
                         ctx,
                         info.export_ctxt(),
-                        self.scope.should_be_wrapped_with_a_fn(info.id),
                         dep_module,
                         source.unwrap().clone(),
                     );
@@ -702,7 +700,7 @@ where
 
         entry.sort(&self.cm);
 
-        print_hygiene("done", &self.cm, &entry.clone().into());
+        // print_hygiene("done", &self.cm, &entry.clone().into());
 
         entry.retain_mut(|item| {
             match item {
