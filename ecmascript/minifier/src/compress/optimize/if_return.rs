@@ -1,5 +1,6 @@
 use std::unreachable;
 
+use crate::compress::optimize::is_pure_undefined;
 use crate::util::ExprOptExt;
 
 use super::Optimizer;
@@ -24,13 +25,13 @@ impl Optimizer {
             let start = stmts
                 .iter()
                 .position(|stmt| match stmt.as_stmt() {
-                    Some(v) => can_merge_stmt(v),
+                    Some(v) => self.can_merge_stmt_as_if_return(v),
                     None => false,
                 })
                 .unwrap_or(0);
             //
             let can_merge = stmts.iter().skip(start).all(|stmt| match stmt.as_stmt() {
-                Some(s) => can_merge_stmt(s),
+                Some(s) => self.can_merge_stmt_as_if_return(s),
                 _ => false,
             });
             if !can_merge {
@@ -46,7 +47,7 @@ impl Optimizer {
         for stmt in stmts.take() {
             let stmt = match stmt.try_into_stmt() {
                 Ok(stmt) => {
-                    if !can_merge_stmt(&stmt) {
+                    if !self.can_merge_stmt_as_if_return(&stmt) {
                         debug_assert_eq!(cur, None);
                         new.push(T::from_stmt(stmt));
                         continue;
@@ -107,14 +108,28 @@ impl Optimizer {
             }
         }
 
-        new.extend(
-            cur.map(|arg| ReturnStmt {
-                span: DUMMY_SP,
-                arg: Some(arg),
-            })
-            .map(Stmt::Return)
-            .map(T::from_stmt),
-        );
+        if let Some(cur) = cur {
+            match &*cur {
+                Expr::Seq(seq)
+                    if seq
+                        .exprs
+                        .last()
+                        .map(|v| is_pure_undefined(&v))
+                        .unwrap_or(true) =>
+                {
+                    new.push(T::from_stmt(Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: cur,
+                    })))
+                }
+                _ => {
+                    new.push(T::from_stmt(Stmt::Return(ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(cur),
+                    })));
+                }
+            }
+        }
 
         *stmts = new;
     }
@@ -169,14 +184,19 @@ impl Optimizer {
             _ => unreachable!(),
         }
     }
-}
 
-fn can_merge_stmt(s: &Stmt) -> bool {
-    match s {
-        Stmt::Expr(..) | Stmt::Return(..) => true,
-        Stmt::If(stmt) => {
-            can_merge_stmt(&stmt.cons) && stmt.alt.as_deref().map(can_merge_stmt).unwrap_or(true)
+    fn can_merge_stmt_as_if_return(&self, s: &Stmt) -> bool {
+        match s {
+            Stmt::Expr(..) | Stmt::Return(..) => true,
+            Stmt::If(stmt) if self.options.conditionals => {
+                self.can_merge_stmt_as_if_return(&stmt.cons)
+                    && stmt
+                        .alt
+                        .as_deref()
+                        .map(|s| self.can_merge_stmt_as_if_return(s))
+                        .unwrap_or(true)
+            }
+            _ => false,
         }
-        _ => false,
     }
 }

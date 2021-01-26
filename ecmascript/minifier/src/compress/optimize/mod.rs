@@ -313,7 +313,7 @@ impl Optimizer {
                 return;
             }
 
-            if is_pure_undefind(&e.args[0].expr) {
+            if is_pure_undefined(&e.args[0].expr) {
                 ",".into()
             } else {
                 match &*e.args[0].expr {
@@ -339,7 +339,7 @@ impl Optimizer {
                         if arr.elems.iter().filter_map(|v| v.as_ref()).any(|v| {
                             v.spread.is_some()
                                 || match &*v.expr {
-                                    e if is_pure_undefind(e) => false,
+                                    e if is_pure_undefined(e) => false,
                                     Expr::Lit(lit) => match lit {
                                         Lit::Str(..) | Lit::Num(..) | Lit::Null(..) => false,
                                         _ => true,
@@ -375,7 +375,7 @@ impl Optimizer {
                     Expr::Lit(Lit::Num(n)) => {
                         write!(res, "{}", n.value).unwrap();
                     }
-                    e if is_pure_undefind(e) => {}
+                    e if is_pure_undefined(e) => {}
                     Expr::Lit(Lit::Null(..)) => {}
                     _ => {
                         unreachable!(
@@ -1343,7 +1343,7 @@ impl VisitMut for Optimizer {
             self.compress_undefined(&mut **arg);
 
             if !n.delegate {
-                if is_pure_undefind(&arg) {
+                if is_pure_undefined(&arg) {
                     n.arg = None;
                 }
             }
@@ -1355,7 +1355,7 @@ impl VisitMut for Optimizer {
 
         match &n.value {
             Some(value) => {
-                if is_pure_undefind(&value) {
+                if is_pure_undefined(&value) {
                     n.value = None;
                 }
             }
@@ -1422,7 +1422,7 @@ impl VisitMut for Optimizer {
     }
 }
 
-fn is_pure_undefind(e: &Expr) -> bool {
+fn is_pure_undefined(e: &Expr) -> bool {
     match e {
         Expr::Ident(Ident {
             sym: js_word!("undefined"),
