@@ -10,6 +10,13 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 
 impl Optimizer {
+    /// `!foo || bar();` => `foo && bar();`
+    pub(super) fn compress_logical_exprs(&mut self, e: &mut Expr) {
+        if !self.options.conditionals {
+            return;
+        }
+    }
+
     ///
     /// # Examples
     ///

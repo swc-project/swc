@@ -1255,6 +1255,8 @@ impl VisitMut for Optimizer {
         self.handle_negated_seq(n);
         self.compress_array_join(n);
 
+        self.compress_logical_exprs(n);
+
         self.optimize_bools(n);
 
         self.optimize_bangbang(n);
