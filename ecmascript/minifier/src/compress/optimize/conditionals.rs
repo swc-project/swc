@@ -10,7 +10,7 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 
 impl Optimizer {
-    /// 
+    ///
     /// - `!foo || bar();` => `foo && bar();`
     /// - `!foo && bar();` => `foo || bar();`
     pub(super) fn compress_logical_exprs(&mut self, e: &mut Expr) {
@@ -329,7 +329,8 @@ impl Optimizer {
             (Expr::Assign(cons), Expr::Assign(alt))
                 if cons.op == op!("=")
                     && cons.op == alt.op
-                    && cons.left.eq_ignore_span(&alt.left) =>
+                    && cons.left.eq_ignore_span(&alt.left)
+                    && is_simple_lhs(&cons.left) =>
             {
                 log::trace!("Merging assignments in cons and alt of if statement");
                 Some(Expr::Assign(AssignExpr {
@@ -388,5 +389,18 @@ fn extract_expr_stmt(s: &mut Stmt) -> Option<&mut Expr> {
     match s {
         Stmt::Expr(e) => Some(&mut *e.expr),
         _ => None,
+    }
+}
+
+fn is_simple_lhs(l: &PatOrExpr) -> bool {
+    match l {
+        PatOrExpr::Expr(l) => match &**l {
+            Expr::Ident(..) => return true,
+            _ => false,
+        },
+        PatOrExpr::Pat(l) => match &**l {
+            Pat::Ident(_) => return true,
+            _ => false,
+        },
     }
 }
