@@ -1282,7 +1282,7 @@ impl VisitMut for Optimizer {
         n.visit_mut_children_with(self);
 
         if let Some(body) = &mut n.body {
-            self.optimize_if_returns(&mut body.stmts);
+            self.merge_if_returns(&mut body.stmts);
         }
     }
 
