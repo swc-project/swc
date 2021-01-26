@@ -106,8 +106,22 @@ impl Optimizer {
             Some(v) => {
                 *e = v;
                 self.changed = true;
+                return;
             }
             None => {}
+        }
+
+        // x ? x : y => x || y
+        if cond.test.is_ident() && cond.test.eq_ignore_span(&cond.cons) {
+            log::trace!("Compressing `x ? x : y` as `x || y`");
+            self.changed = true;
+            *e = Expr::Bin(BinExpr {
+                span: cond.span,
+                op: op!("||"),
+                left: cond.test.take(),
+                right: cond.alt.take(),
+            });
+            return;
         }
     }
 
