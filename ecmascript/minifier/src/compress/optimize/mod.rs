@@ -552,7 +552,22 @@ impl Optimizer {
                 return self.ignore_return_value(&mut seq);
             }
 
-            Expr::Cond(_) => {}
+            Expr::Cond(cond) => {
+                let cons_span = cond.cons.span();
+                let alt_span = cond.alt.span();
+                let cons = self.ignore_return_value(&mut cond.cons).map(Box::new);
+                let alt = self.ignore_return_value(&mut cond.alt).map(Box::new);
+
+                // TODO: Remove if test is side effect free.
+
+                return Some(Expr::Cond(CondExpr {
+                    span: cond.span,
+                    test: cond.test.take(),
+                    cons: cons.unwrap_or_else(|| undefined(cons_span)),
+                    alt: alt.unwrap_or_else(|| undefined(alt_span)),
+                }));
+            }
+
             Expr::Seq(seq) => {
                 if seq.exprs.is_empty() {
                     return None;
