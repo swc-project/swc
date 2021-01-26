@@ -42,11 +42,6 @@ impl Optimizer {
             _ => return,
         };
 
-        let cons = match extract_expr_stmt(&mut *stmt.cons) {
-            Some(v) => v,
-            None => return,
-        };
-
         // If alt does not exist, an if statement is better than a conditional
         // expression.
         let alt = match &mut stmt.alt {
@@ -54,6 +49,34 @@ impl Optimizer {
             None => return,
         };
         let alt = match extract_expr_stmt(alt) {
+            Some(v) => v,
+            None => return,
+        };
+
+        // if (!foo); else bar();
+        // =>
+        // !foo || bar();
+        // => (by other pass)
+        // foo && bar()
+        match &*stmt.cons {
+            Stmt::Empty(..) => {
+                log::trace!("Optimizing `if (!foo); else bar();` as `!foo || bar();`");
+                self.changed = true;
+                *s = Stmt::Expr(ExprStmt {
+                    span: stmt.span,
+                    expr: Box::new(Expr::Bin(BinExpr {
+                        span: DUMMY_SP,
+                        left: stmt.test.take(),
+                        op: op!("||"),
+                        right: Box::new(alt.take()),
+                    })),
+                });
+                return;
+            }
+            _ => {}
+        }
+
+        let cons = match extract_expr_stmt(&mut *stmt.cons) {
             Some(v) => v,
             None => return,
         };
