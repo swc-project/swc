@@ -321,7 +321,7 @@ function withDefaults(oldDefaults, newDefaults) {
         parse
     });
 }
-const VERSION = "6.0.10";
+const VERSION = "6.0.11";
 function defaultSetTimout() {
     throw new Error("setTimeout has not been defined");
 }
@@ -678,7 +678,7 @@ var getGlobal = function() {
 };
 var global = getGlobal();
 var nodeFetch = global.fetch.bind(global);
-const VERSION1 = "5.4.12";
+const VERSION1 = "5.4.13";
 function getBufferResponse(response) {
     return response.arrayBuffer();
 }
