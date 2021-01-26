@@ -271,6 +271,21 @@ impl Optimizer {
                 }))
             }
 
+            // a ? b ? c() : d() : d() => a && b ? c() : d()
+            (Expr::Cond(cons), alt) if (*cons.alt).eq_ignore_span(&*alt) => {
+                return Some(Expr::Cond(CondExpr {
+                    span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                    test: Box::new(Expr::Bin(BinExpr {
+                        span: DUMMY_SP,
+                        left: test.take(),
+                        op: op!("&&"),
+                        right: cons.test.take(),
+                    })),
+                    cons: cons.cons.take(),
+                    alt: cons.alt.take(),
+                }))
+            }
+
             _ => None,
         }
     }
