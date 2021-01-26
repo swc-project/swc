@@ -109,7 +109,7 @@ impl Optimizer {
         }
 
         if let Some(mut cur) = cur {
-            match &mut *cur {
+            match &*cur {
                 Expr::Seq(seq)
                     if seq
                         .exprs
@@ -117,19 +117,14 @@ impl Optimizer {
                         .map(|v| is_pure_undefined(&v))
                         .unwrap_or(true) =>
                 {
-                    if seq
-                        .exprs
-                        .last()
-                        .map(|v| is_pure_undefined(&v))
-                        .unwrap_or(false)
-                    {
-                        seq.exprs.pop();
-                    }
+                    let expr = self.ignore_return_value(&mut cur);
 
-                    new.push(T::from_stmt(Stmt::Expr(ExprStmt {
-                        span: DUMMY_SP,
-                        expr: cur,
-                    })))
+                    if let Some(cur) = expr {
+                        new.push(T::from_stmt(Stmt::Expr(ExprStmt {
+                            span: DUMMY_SP,
+                            expr: Box::new(cur),
+                        })))
+                    }
                 }
                 _ => {
                     new.push(T::from_stmt(Stmt::Return(ReturnStmt {
