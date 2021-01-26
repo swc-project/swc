@@ -29,11 +29,19 @@ impl Optimizer {
                     None => false,
                 })
                 .unwrap_or(0);
-            //
-            let can_merge = stmts.iter().skip(start).all(|stmt| match stmt.as_stmt() {
-                Some(s) => self.can_merge_stmt_as_if_return(s),
-                _ => false,
-            });
+            let ends_with_if = stmts
+                .last()
+                .map(|stmt| match stmt.as_stmt() {
+                    Some(Stmt::If(..)) => true,
+                    _ => false,
+                })
+                .unwrap();
+
+            let can_merge = !ends_with_if
+                && stmts.iter().skip(start).all(|stmt| match stmt.as_stmt() {
+                    Some(s) => self.can_merge_stmt_as_if_return(s),
+                    _ => false,
+                });
             if !can_merge {
                 return;
             }
