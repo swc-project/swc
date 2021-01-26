@@ -269,6 +269,7 @@ if_return/if_return_1/input.js
 if_return/issue_1317/input.js
 if_return/issue_1317_strict/input.js
 if_return/issue_1437/input.js
+if_return/issue_1437_conditionals/input.js
 inline/noinline_annotation/input.js
 inline/noinline_annotation_2/input.js
 inline/noinline_annotation_3/input.js
