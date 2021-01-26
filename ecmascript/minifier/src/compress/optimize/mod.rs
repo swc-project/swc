@@ -31,6 +31,7 @@ use swc_ecma_visit::VisitWith;
 
 mod bools;
 mod conditionals;
+mod if_return;
 mod ops;
 mod util;
 
