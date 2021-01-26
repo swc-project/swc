@@ -10,10 +10,52 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 
 impl Optimizer {
-    /// `!foo || bar();` => `foo && bar();`
+    /// 
+    /// - `!foo || bar();` => `foo && bar();`
+    /// - `!foo && bar();` => `foo || bar();`
     pub(super) fn compress_logical_exprs(&mut self, e: &mut Expr) {
         if !self.options.conditionals {
             return;
+        }
+
+        match e {
+            Expr::Bin(BinExpr {
+                span,
+                op: op @ op!("||"),
+                left,
+                right,
+                ..
+            })
+            | Expr::Bin(BinExpr {
+                span,
+                op: op @ op!("&&"),
+                left,
+                right,
+                ..
+            }) => match &mut **left {
+                Expr::Unary(UnaryExpr {
+                    span: left_span,
+                    op: op!("!"),
+                    arg,
+                }) => {
+                    log::trace!("Compressing `!foo || bar();` as `foo && bar();`");
+                    self.changed = true;
+                    *e = Expr::Bin(BinExpr {
+                        span: *span,
+                        left: arg.take(),
+                        op: if *op == op!("&&") {
+                            op!("||")
+                        } else {
+                            op!("&&")
+                        },
+                        right: right.take(),
+                    });
+                    return;
+                }
+                _ => {}
+            },
+
+            _ => {}
         }
     }
 
@@ -69,14 +111,16 @@ impl Optimizer {
             Stmt::Empty(..) => {
                 log::trace!("Optimizing `if (!foo); else bar();` as `!foo || bar();`");
                 self.changed = true;
+                let mut expr = Box::new(Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    left: stmt.test.take(),
+                    op: op!("||"),
+                    right: Box::new(alt.take()),
+                }));
+                self.optimize_logical_exprs(&mut expr);
                 *s = Stmt::Expr(ExprStmt {
                     span: stmt.span,
-                    expr: Box::new(Expr::Bin(BinExpr {
-                        span: DUMMY_SP,
-                        left: stmt.test.take(),
-                        op: op!("||"),
-                        right: Box::new(alt.take()),
-                    })),
+                    expr,
                 });
                 return;
             }
