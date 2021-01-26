@@ -87,7 +87,7 @@ impl Optimizer {
                 Expr::Seq(v) => match &mut cur {
                     Some(cur) => match &mut **cur {
                         Expr::Cond(cur) => {
-                            let seq = get_rightmost_alt_of_cond(cur);
+                            let seq = get_rightmost_alt_of_cond(cur).force_seq();
                             seq.exprs.extend(v.exprs);
                         }
                         Expr::Seq(cur) => {
@@ -105,8 +105,22 @@ impl Optimizer {
                 Expr::Cond(v) => match &mut cur {
                     Some(cur) => match &mut **cur {
                         Expr::Cond(cur) => {
-                            let seq = get_rightmost_alt_of_cond(cur);
-                            seq.exprs.push(Box::new(Expr::Cond(v)));
+                            let alt = get_rightmost_alt_of_cond(cur);
+
+                            let (span, exprs) = {
+                                let prev_seq = alt.force_seq();
+                                prev_seq.exprs.push(v.test);
+                                let exprs = prev_seq.exprs.take();
+
+                                (prev_seq.span, exprs)
+                            };
+
+                            *alt = Expr::Cond(CondExpr {
+                                span: DUMMY_SP,
+                                test: Box::new(Expr::Seq(SeqExpr { span, exprs })),
+                                cons: v.cons,
+                                alt: v.alt,
+                            });
                         }
                         Expr::Seq(prev_seq) => {
                             prev_seq.exprs.push(v.test);
@@ -237,9 +251,9 @@ impl Optimizer {
     }
 }
 
-fn get_rightmost_alt_of_cond(e: &mut CondExpr) -> &mut SeqExpr {
+fn get_rightmost_alt_of_cond(e: &mut CondExpr) -> &mut Expr {
     match &mut *e.alt {
         Expr::Cond(alt) => get_rightmost_alt_of_cond(alt),
-        alt => alt.force_seq(),
+        alt => alt,
     }
 }
