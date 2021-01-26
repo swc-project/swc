@@ -930,6 +930,12 @@ impl<'a> Emitter<'a> {
             }
         }
 
+        if let Some(type_params) = &n.function.type_params {
+            punct!("<");
+            emit!(type_params);
+            punct!(">");
+        }
+
         punct!("(");
         self.emit_list(
             n.function.span,
