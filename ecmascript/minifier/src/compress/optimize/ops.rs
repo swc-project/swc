@@ -42,7 +42,8 @@ impl Optimizer {
                 Expr::Unary(UnaryExpr {
                     op: op!("!"), arg, ..
                 }) => match &**arg {
-                    Expr::Bin(BinExpr { op: op!("in"), .. })
+                    Expr::Unary(UnaryExpr { op: op!("!"), .. })
+                    | Expr::Bin(BinExpr { op: op!("in"), .. })
                     | Expr::Bin(BinExpr {
                         op: op!("instanceof"),
                         ..
@@ -55,7 +56,7 @@ impl Optimizer {
                     | Expr::Bin(BinExpr { op: op!("<"), .. })
                     | Expr::Bin(BinExpr { op: op!(">="), .. })
                     | Expr::Bin(BinExpr { op: op!(">"), .. }) => {
-                        log::trace!("Optimizing: `!!bool` => `bool`");
+                        log::trace!("Optimizing: `!!expr` => `expr`");
                         *e = *arg.take();
                         return;
                     }
