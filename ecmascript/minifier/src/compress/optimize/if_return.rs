@@ -42,12 +42,8 @@ impl Optimizer {
 
         let mut cur: Option<Box<Expr>> = None;
         let mut new = Vec::with_capacity(stmts.len());
-        let mut iter = stmts.take().into_iter();
-        let mut is_undefined_required = false;
 
-        while iter.len() != 0 {
-            let stmt = iter.next().unwrap();
-
+        for stmt in stmts.take() {
             let stmt = match stmt.try_into_stmt() {
                 Ok(stmt) => {
                     if !can_merge_stmt(&stmt) {
@@ -64,50 +60,44 @@ impl Optimizer {
                     continue;
                 }
             };
-            let new_expr = self.merge_if_returns_to(stmt, vec![], &mut new, &mut iter);
+            let new_expr = self.merge_if_returns_to(stmt, vec![]);
             match new_expr {
                 Expr::Seq(v) => match &mut cur {
-                    Some(cur) => {
-                        is_undefined_required = true;
-                        match &mut **cur {
-                            Expr::Cond(cur) => {
-                                let seq = cur.alt.force_seq();
-                                seq.exprs.extend(v.exprs);
-                            }
-                            Expr::Seq(cur) => {
-                                cur.exprs.extend(v.exprs);
-                            }
-                            _ => {
-                                unreachable!(
-                                    "if_return: cur must be one of None, Expr::Seq or \
-                                     Expr::Cond(with alt Expr::Seq)"
-                                )
-                            }
+                    Some(cur) => match &mut **cur {
+                        Expr::Cond(cur) => {
+                            let seq = cur.alt.force_seq();
+                            seq.exprs.extend(v.exprs);
                         }
-                    }
+                        Expr::Seq(cur) => {
+                            cur.exprs.extend(v.exprs);
+                        }
+                        _ => {
+                            unreachable!(
+                                "if_return: cur must be one of None, Expr::Seq or Expr::Cond(with \
+                                 alt Expr::Seq)"
+                            )
+                        }
+                    },
                     None => cur = Some(Box::new(Expr::Seq(v))),
                 },
-                Expr::Cond(v) => {
-                    is_undefined_required = false;
-                    match &mut cur {
-                        Some(cur) => match &mut **cur {
-                            Expr::Cond(cur) => {
-                                let seq = cur.alt.force_seq();
-                                seq.exprs.push(Box::new(Expr::Cond(v)));
-                            }
-                            Expr::Seq(cur) => {
-                                cur.exprs.push(Box::new(Expr::Cond(v)));
-                            }
-                            _ => {
-                                unreachable!(
-                                    "if_return: cur must be one of None, Expr::Seq or \
-                                     Expr::Cond(with alt Expr::Seq)"
-                                )
-                            }
-                        },
-                        None => cur = Some(Box::new(Expr::Cond(v))),
-                    }
-                }
+                Expr::Cond(v) => match &mut cur {
+                    Some(cur) => match &mut **cur {
+                        Expr::Cond(cur) => {
+                            let seq = cur.alt.force_seq();
+                            seq.exprs.push(Box::new(Expr::Cond(v)));
+                        }
+                        Expr::Seq(cur) => {
+                            cur.exprs.push(Box::new(Expr::Cond(v)));
+                        }
+                        _ => {
+                            unreachable!(
+                                "if_return: cur must be one of None, Expr::Seq or Expr::Cond(with \
+                                 alt Expr::Seq)"
+                            )
+                        }
+                    },
+                    None => cur = Some(Box::new(Expr::Cond(v))),
+                },
                 _ => {
                     unreachable!(
                         "if_return: merge_if_returns_to should return one of None, Expr::Seq or \
@@ -117,20 +107,22 @@ impl Optimizer {
             }
         }
 
+        new.extend(
+            cur.map(|arg| ReturnStmt {
+                span: DUMMY_SP,
+                arg: Some(arg),
+            })
+            .map(Stmt::Return)
+            .map(T::from_stmt),
+        );
+
         *stmts = new;
     }
 
-    /// This method returns one of [None], [Expr::Seq] or [Expr::Cond].
-    fn merge_if_returns_to<T>(
-        &mut self,
-        stmt: Stmt,
-        exprs: Vec<Box<Expr>>,
-        new: &mut Vec<T>,
-        next: &mut std::vec::IntoIter<T>,
-    ) -> Expr
-    where
-        T: StmtLike,
-    {
+    /// This method returns [Expr::Seq] or [Expr::Cond].
+    ///
+    /// `exprs` is a simple optimization.
+    fn merge_if_returns_to(&mut self, stmt: Stmt, mut exprs: Vec<Box<Expr>>) -> Expr {
         //
         match stmt {
             Stmt::If(IfStmt {
@@ -140,9 +132,9 @@ impl Optimizer {
                 alt,
                 ..
             }) => {
-                let cons = Box::new(self.merge_if_returns_to(*cons, vec![], new, next));
+                let cons = Box::new(self.merge_if_returns_to(*cons, vec![]));
                 let alt = match alt {
-                    Some(alt) => Box::new(self.merge_if_returns_to(*alt, vec![], new, next)),
+                    Some(alt) => Box::new(self.merge_if_returns_to(*alt, vec![])),
                     None => undefined(DUMMY_SP),
                 };
 
@@ -160,21 +152,20 @@ impl Optimizer {
             }
             Stmt::Expr(stmt) => {
                 exprs.push(stmt.expr);
-                let mut expr = stmt.expr.take();
-                if next.len() == 0 {
-                    return Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
-                        exprs,
-                    });
-                }
-
-                let stmt = next.next().unwrap();
-                let stmt = stmt.try_into_stmt().ok().unwrap();
-                debug_assert!(can_merge_stmt(&stmt));
-
-                self.merge_if_returns_to(stmt, exprs, new, next)
+                exprs.push(undefined(DUMMY_SP));
+                Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs,
+                })
             }
-            Stmt::Return(expr) => {}
+            Stmt::Return(stmt) => {
+                let span = stmt.span;
+                exprs.push(stmt.arg.unwrap_or_else(|| undefined(span)));
+                Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs,
+                })
+            }
             _ => unreachable!(),
         }
     }
