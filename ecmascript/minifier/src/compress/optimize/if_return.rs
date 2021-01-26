@@ -37,15 +37,15 @@ impl Optimizer {
                 })
                 .unwrap();
 
-            let ends_with_return = stmts
+            let ends_with_mergable = stmts
                 .last()
                 .map(|stmt| match stmt.as_stmt() {
-                    Some(Stmt::Return(..)) => true,
+                    Some(Stmt::Return(..)) | Some(Stmt::Expr(..)) => true,
                     _ => false,
                 })
                 .unwrap();
 
-            if stmts.len() == 1 && ends_with_return {
+            if stmts.len() - start == 1 && ends_with_mergable {
                 return;
             }
 
