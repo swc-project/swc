@@ -440,6 +440,15 @@ impl<'a> VisitMut for Resolver<'a> {
         e.ty.visit_mut_with(self);
     }
 
+    fn visit_mut_ts_type_params(&mut self, params: &mut Vec<TsTypeParam>) {
+        for param in params.iter_mut() {
+            self.in_type = true;
+            param.name.visit_mut_with(self);
+        }
+
+        params.visit_mut_children_with(self);
+    }
+
     fn visit_mut_ts_type_param(&mut self, param: &mut TsTypeParam) {
         if !self.handle_types {
             return;

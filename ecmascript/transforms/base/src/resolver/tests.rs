@@ -1961,3 +1961,142 @@ to!(
     }
     "
 );
+
+to_ts!(
+    type_parameter_used_as_type_parameter_contrain,
+    "
+    function foo<T, U extends T>(x: T, y: U): T {
+        x = y;
+        return y;
+    }
+    
+    function foo2<U extends T, T>(x: T, y: U): T {
+        x = y;
+        return y;
+    }
+    
+    var f = function <T, U extends T>(x: T, y: U): T {
+        x = y;
+        return y;
+    }
+    
+    var f2 = function <U extends T, T>(x: T, y: U): T {
+        x = y;
+        return y;
+    }
+    
+    var f3 = <T, U extends T>(x: T, y: U): T => {
+        x = y;
+        return y;
+    }
+    
+    var f4 = <U extends T, T>(x: T, y: U): T => {
+        x = y;
+        return y;
+    }
+    ",
+    "
+    function foo<T__2, U__2 extends T__2>(x__2: T__2, y__2: U__2): T__2 {
+        x__2 = y__2;
+        return y__2;
+    }
+    function foo2<U__3 extends T__3, T__3>(x__3: T__3, y__3: U__3): T__3 {
+        x__3 = y__3;
+        return y__3;
+    }
+    var f = function<T__4, U__4 extends T__4>(x__4: T__4, y__4: U__4): T__4 {
+        x__4 = y__4;
+        return y__4;
+    };
+    var f2 = function<U__5 extends T__5, T__5>(x__5: T__5, y__5: U__5): T__5 {
+        x__5 = y__5;
+        return y__5;
+    };
+    var f3 = <T__6, U__6 extends T__6>(x__6: T__6, y__6: U__6)=>{
+        x__6 = y__6;
+        return y__6;
+    };
+    var f4 = <U__7 extends T__7, T__7>(x__7: T__7, y__7: U__7)=>{
+        x__7 = y__7;
+        return y__7;
+    };    
+    "
+);
+
+to_ts!(
+    generic_call_type_argument_inference,
+    "
+    class C<T, U> {
+        constructor(public t: T, public u: U) {
+        }
+    
+        foo(t: T, u: U) {
+            return t;
+        }
+    
+        foo2(t: T, u: U) {
+            return u;
+        }
+    
+        foo3<T>(t: T, u: U) {
+            return t;
+        }
+    
+        foo4<U>(t: T, u: U) {
+            return t;
+        }
+    
+        foo5<T,U>(t: T, u: U) {
+            return t;
+        }
+    
+        foo6<T, U>() {
+            var x: T;
+            return x;
+        }
+    
+        foo7<T, U>(u: U) {
+            var x: T;
+            return x;
+        }
+    
+        foo8<T, U>() {
+            var x: T;
+            return x;
+        }
+    }    
+    ",
+    "
+    class C<T, U> {
+        constructor(public t__2: T, public u__2: U){
+        }
+        foo(t__3: T, u__3: U) {
+            return t__3;
+        }
+        foo2(t__4: T, u__4: U) {
+            return u__4;
+        }
+        foo3<T__5>(t__5: T__5, u__5: U) {
+            return t__5;
+        }
+        foo4<U__6>(t__6: T, u__6: U__6) {
+            return t__6;
+        }
+        foo5<T__7, U__7>(t__7: T__7, u__7: U__7) {
+            return t__7;
+        }
+        foo6<T__8, U__8>() {
+            var x__8: T__8;
+            return x__8;
+        }
+        foo7<T__9, U__9>(u__9: U__9) {
+            var x__9: T__9;
+            return x__9;
+        }
+        foo8<T__10, U__10>() {
+            var x__10: T__10;
+            return x__10;
+        }
+    }
+    "
+);
