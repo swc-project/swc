@@ -10,6 +10,8 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::StmtLike;
 
+/// Methods related to the option `conditionals`. All methods are noop if
+/// `conditionals` is false.
 impl Optimizer {
     ///
     /// # Example
