@@ -567,6 +567,20 @@ impl Optimizer {
                 if exprs.len() <= 1 {
                     return exprs.pop().map(|v| *v);
                 } else {
+                    let is_last_undefined = is_pure_undefined(&exprs.last().unwrap());
+
+                    // (foo(), void 0) => void foo()
+                    if is_last_undefined {
+                        exprs.pop();
+                        if let Some(last) = exprs.last_mut() {
+                            *last = Box::new(Expr::Unary(UnaryExpr {
+                                span: DUMMY_SP,
+                                op: op!("void"),
+                                arg: last.take(),
+                            }));
+                        }
+                    }
+
                     return Some(Expr::Seq(SeqExpr {
                         span: seq.span,
                         exprs,
