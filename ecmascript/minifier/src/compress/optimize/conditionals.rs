@@ -11,10 +11,91 @@ use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::StmtLike;
 
 impl Optimizer {
+    ///
+    /// # Example
+    ///
+    /// ## Input
+    ///
+    /// ```ts
+    /// if (foo) return;
+    /// if (bar) return;
+    /// if (baz) return;
+    /// if (baa) return;
+    /// ```
+    ///
+    /// ## Output
+    ///
+    /// ```ts
+    /// if (foo || bar || baz || baa) return;
+    /// ```
     pub(super) fn merge_simillar_ifs<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
     {
+        if !self.options.conditionals {
+            return;
+        }
+
+        let has_work =
+            stmts
+                .windows(2)
+                .any(|stmts| match (&stmts[0].as_stmt(), &stmts[1].as_stmt()) {
+                    (Some(Stmt::If(l)), Some(Stmt::If(r))) => l.cons.eq_ignore_span(&r.cons),
+                    _ => false,
+                });
+        if !has_work {
+            return;
+        }
+
+        self.changed = true;
+        log::trace!("Merging if statements with same `cons`");
+
+        let mut cur: Option<IfStmt> = None;
+        let mut new = Vec::with_capacity(stmts.len());
+        for stmt in stmts.take() {
+            match stmt.try_into_stmt() {
+                Ok(stmt) => {
+                    match stmt {
+                        Stmt::If(mut stmt) => {
+                            //
+
+                            match &mut cur {
+                                Some(cur_if) => {
+                                    // If cons is same, we merge conditions.
+                                    if cur_if.cons.eq_ignore_span(&stmt.cons) {
+                                        cur_if.test = Box::new(Expr::Bin(BinExpr {
+                                            span: DUMMY_SP,
+                                            left: cur_if.test.take(),
+                                            op: op!("||"),
+                                            right: stmt.test.take(),
+                                        }));
+                                    } else {
+                                        new.extend(cur.take().map(Stmt::If).map(T::from_stmt));
+                                    }
+                                }
+                                None => {
+                                    cur = Some(stmt);
+                                }
+                            }
+                        }
+                        _ => {
+                            new.extend(cur.take().map(Stmt::If).map(T::from_stmt));
+
+                            new.push(T::from_stmt(stmt));
+                        }
+                    }
+                }
+                Err(item) => {
+                    new.extend(cur.take().map(Stmt::If).map(T::from_stmt));
+
+                    new.push(item);
+                }
+            }
+        }
+
+        new.extend(cur.map(Stmt::If).map(T::from_stmt));
+
+        *stmts = new;
     }
 
     ///
@@ -41,9 +122,7 @@ impl Optimizer {
                 ..
             }) => match &mut **left {
                 Expr::Unary(UnaryExpr {
-                    span: left_span,
-                    op: op!("!"),
-                    arg,
+                    op: op!("!"), arg, ..
                 }) => {
                     log::trace!("Compressing `!foo || bar();` as `foo && bar();`");
                     self.changed = true;
