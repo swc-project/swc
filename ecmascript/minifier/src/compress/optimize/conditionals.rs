@@ -124,7 +124,11 @@ impl Optimizer {
                 Expr::Unary(UnaryExpr {
                     op: op!("!"), arg, ..
                 }) => {
-                    log::trace!("Compressing `!foo || bar();` as `foo && bar();`");
+                    if *op == op!("&&") {
+                        log::trace!("Compressing `!foo && bar();` as `foo || bar();`");
+                    } else {
+                        log::trace!("Compressing `!foo || bar();` as `foo && bar();`");
+                    }
                     self.changed = true;
                     *e = Expr::Bin(BinExpr {
                         span: *span,
