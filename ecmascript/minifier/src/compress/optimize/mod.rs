@@ -571,7 +571,10 @@ impl Optimizer {
 
                     // (foo(), void 0) => void foo()
                     if is_last_undefined {
+                        // Remove `void 0`
                         exprs.pop();
+
+                        // Make return type undefined.
                         if let Some(last) = exprs.last_mut() {
                             *last = Box::new(Expr::Unary(UnaryExpr {
                                 span: DUMMY_SP,
