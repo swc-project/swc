@@ -48,6 +48,7 @@ impl Optimizer {
         }
 
         log::trace!("if_return: Merging returns");
+        self.changed = true;
 
         let mut cur: Option<Box<Expr>> = None;
         let mut new = Vec::with_capacity(stmts.len());
