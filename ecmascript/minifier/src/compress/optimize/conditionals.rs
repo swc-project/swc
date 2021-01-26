@@ -8,8 +8,15 @@ use swc_ecma_transforms_base::ext::AsOptExpr;
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::StmtLike;
 
 impl Optimizer {
+    pub(super) fn merge_simillar_ifs<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike,
+    {
+    }
+
     ///
     /// - `!foo || bar();` => `foo && bar();`
     /// - `!foo && bar();` => `foo || bar();`

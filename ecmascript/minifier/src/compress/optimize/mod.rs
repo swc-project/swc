@@ -103,6 +103,7 @@ impl Optimizer {
         }
 
         stmts.visit_mut_children_with(self);
+        self.merge_simillar_ifs(stmts);
         stmts.retain(|stmt| match stmt.as_stmt() {
             Some(Stmt::Empty(..)) => false,
             _ => true,
