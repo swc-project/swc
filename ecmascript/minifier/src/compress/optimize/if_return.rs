@@ -105,7 +105,7 @@ impl Optimizer {
                 Expr::Cond(v) => match &mut cur {
                     Some(cur) => match &mut **cur {
                         Expr::Cond(cur) => {
-                            let seq = cur.alt.force_seq();
+                            let seq = get_rightmost_alt_of_cond(cur);
                             seq.exprs.push(Box::new(Expr::Cond(v)));
                         }
                         Expr::Seq(prev_seq) => {
