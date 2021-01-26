@@ -286,6 +286,25 @@ impl Optimizer {
                 }))
             }
 
+            // z ? "fuji" : (condition(), "fuji");
+            // =>
+            // (z || condition(), "fuji");
+            (cons, Expr::Seq(alt))
+                if alt.exprs.len() == 2 && (**alt.exprs.last().unwrap()).eq_ignore_span(&*cons) =>
+            {
+                //
+                let first = Box::new(Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    left: test.take(),
+                    op: op!("||"),
+                    right: alt.exprs[0].take(),
+                }));
+                return Some(Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: vec![first, Box::new(cons.take())],
+                }));
+            }
+
             _ => None,
         }
     }
