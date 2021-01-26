@@ -37,6 +37,18 @@ impl Optimizer {
                 })
                 .unwrap();
 
+            let ends_with_return = stmts
+                .last()
+                .map(|stmt| match stmt.as_stmt() {
+                    Some(Stmt::Return(..)) => true,
+                    _ => false,
+                })
+                .unwrap();
+
+            if stmts.len() == 1 && ends_with_return {
+                return;
+            }
+
             let can_merge = !ends_with_if
                 && stmts.iter().skip(start).all(|stmt| match stmt.as_stmt() {
                     Some(s) => self.can_merge_stmt_as_if_return(s),
