@@ -22,6 +22,21 @@ pub(crate) mod usage;
 pub(crate) trait ExprOptExt: Sized {
     fn as_mut(&mut self) -> &mut Expr;
 
+    fn force_seq(&mut self) -> &mut SeqExpr {
+        let expr = self.as_mut();
+        match expr {
+            Expr::Seq(seq) => seq,
+            _ => {
+                let inner = expr.take();
+                *expr = Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: vec![Box::new(inner)],
+                });
+                expr.force_seq()
+            }
+        }
+    }
+
     #[inline]
     fn prepend_exprs(&mut self, mut exprs: Vec<Box<Expr>>) {
         if exprs.is_empty() {
