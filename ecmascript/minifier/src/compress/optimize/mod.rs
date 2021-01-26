@@ -106,8 +106,6 @@ impl Optimizer {
         stmts.visit_mut_children_with(self);
         self.merge_simillar_ifs(stmts);
 
-        self.optimize_if_returns(stmts);
-
         stmts.retain(|stmt| match stmt.as_stmt() {
             Some(Stmt::Empty(..)) => false,
             _ => true,
@@ -1278,6 +1276,14 @@ impl VisitMut for Optimizer {
         self.handle_stmt_likes(stmts);
 
         self.make_sequences(stmts);
+    }
+
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        n.visit_mut_children_with(self);
+
+        if let Some(body) = &mut n.body {
+            self.optimize_if_returns(&mut body.stmts);
+        }
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
