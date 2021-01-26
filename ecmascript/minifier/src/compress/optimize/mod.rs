@@ -29,6 +29,7 @@ use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
 
+mod bools;
 mod conditionals;
 mod ops;
 mod util;
