@@ -32,7 +32,7 @@ impl Optimizer {
             let can_merge = stmts.iter().skip(start).all(|stmt| match stmt.as_stmt() {
                 Some(s) => can_merge_stmt(s),
                 _ => false,
-            }) && false;
+            });
             if !can_merge {
                 return;
             }
