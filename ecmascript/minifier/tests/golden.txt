@@ -50,6 +50,7 @@ blocks/issue_1664/input.js
 blocks/issue_1672_for/input.js
 blocks/issue_1672_for_strict/input.js
 blocks/issue_1672_if_strict/input.js
+blocks/issue_2946_else_const/input.js
 class_properties/mangle_class_properties_keep_quoted/input.js
 classes/class_duplication/input.js
 classes/class_duplication_2/input.js
@@ -105,6 +106,9 @@ conditionals/cond_4/input.js
 conditionals/cond_5/input.js
 conditionals/cond_7/input.js
 conditionals/cond_7_1/input.js
+conditionals/cond_8/input.js
+conditionals/cond_8b/input.js
+conditionals/cond_8c/input.js
 conditionals/condition_symbol_matches_consequent/input.js
 conditionals/equality_conditionals_false/input.js
 conditionals/equality_conditionals_true/input.js
