@@ -326,7 +326,7 @@ impl Optimizer {
         match expr {
             Expr::Bin(test) => {
                 match test.op {
-                    op!("==") | op!("!=") => {}
+                    op!("==") | op!("!=") | op!("&") => {}
                     _ => return,
                 }
 

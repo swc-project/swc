@@ -1178,8 +1178,6 @@ impl VisitMut for Optimizer {
     fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
         n.visit_mut_children_with(self);
 
-        self.swap_bin_operands(&mut n.test);
-
         self.optimize_expr_in_bool_ctx(&mut n.test);
     }
 
@@ -1242,6 +1240,9 @@ impl VisitMut for Optimizer {
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         n.visit_mut_children_with(self);
+
+        self.swap_bin_operands(n);
+
         // Normalize
         match n {
             Expr::Paren(paren) => {
