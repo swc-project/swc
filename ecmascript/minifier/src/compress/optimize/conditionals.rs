@@ -104,7 +104,7 @@ impl Optimizer {
     }
 
     ///
-    /// - `!!condition() || !-3.5` => `!!condition()`
+    /// - `!condition() || !-3.5` => `!condition()`
     ///
     /// In this case, if lhs is false, rhs is also false so it's removable.
     pub(super) fn remove_useless_pipes(&mut self, e: &mut Expr) {
