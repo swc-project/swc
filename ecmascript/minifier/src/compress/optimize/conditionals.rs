@@ -7,11 +7,7 @@ use swc_ecma_transforms_base::ext::AsOptExpr;
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::StmtLike;
-use swc_ecma_utils::Type;
-use swc_ecma_utils::Value::Known;
-use swc_ecma_utils::Value::Unknown;
 
 /// Methods related to the option `conditionals`. All methods are noop if
 /// `conditionals` is false.
@@ -101,60 +97,6 @@ impl Optimizer {
         new.extend(cur.map(Stmt::If).map(T::from_stmt));
 
         *stmts = new;
-    }
-
-    ///
-    /// - `!condition() || !-3.5` => `!condition()`
-    ///
-    /// In this case, if lhs is false, rhs is also false so it's removable.
-    pub(super) fn remove_useless_pipes(&mut self, e: &mut Expr) {
-        if !self.options.conditionals {
-            return;
-        }
-
-        match e {
-            Expr::Bin(BinExpr {
-                left,
-                op: op @ op!("&&"),
-                right,
-                ..
-            })
-            | Expr::Bin(BinExpr {
-                left,
-                op: op @ op!("||"),
-                right,
-                ..
-            }) => {
-                let lt = left.get_type();
-                let rt = right.get_type();
-
-                match (lt, rt) {
-                    (Known(Type::Bool), Known(Type::Bool)) => {
-                        let rb = right.as_pure_bool();
-                        let rb = match rb {
-                            Known(v) => v,
-                            Unknown => return,
-                        };
-
-                        //
-                        let can_remove = if *op == op!("&&") { rb } else { !rb };
-
-                        if can_remove {
-                            if *op == op!("&&") {
-                                log::trace!("conditionals: Compressing `!foo && true` as `!foo`");
-                            } else {
-                                log::trace!("conditionals: Compressing `!foo || false` as `!foo`");
-                            }
-                            self.changed = true;
-                            *e = *left.take();
-                            return;
-                        }
-                    }
-                    _ => {}
-                }
-            }
-            _ => {}
-        }
     }
 
     ///
