@@ -23,11 +23,13 @@ use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::Id;
 use swc_ecma_utils::StmtLike;
+use swc_ecma_utils::Type;
 use swc_ecma_utils::Value;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
+use Value::Known;
 
 mod bools;
 mod conditionals;
@@ -700,6 +702,13 @@ impl Optimizer {
             Expr::Cond(c) => c,
             _ => return,
         };
+
+        let lt = cond.cons.get_type();
+        let rt = cond.alt.get_type();
+        match (lt, rt) {
+            (Known(Type::Bool), Known(Type::Bool)) => {}
+            _ => return,
+        }
 
         let lb = cond.cons.as_pure_bool();
         let rb = cond.alt.as_pure_bool();
