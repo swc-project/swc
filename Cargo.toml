@@ -9,7 +9,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.2.6"
+version = "0.2.7"
 
 [lib]
 name = "swc"
@@ -31,8 +31,8 @@ swc_ecma_ast = {version = "0.37.3", path = "./ecmascript/ast"}
 swc_ecma_codegen = {version = "0.43.5", path = "./ecmascript/codegen"}
 swc_ecma_ext_transforms = {version = "0.2.4", path = "./ecmascript/ext-transforms"}
 swc_ecma_parser = {version = "0.45.4", path = "./ecmascript/parser"}
-swc_ecma_preset_env = {version = "0.3.6", path = "./ecmascript/preset_env"}
-swc_ecma_transforms = {version = "0.33.7", path = "./ecmascript/transforms", features = [
+swc_ecma_preset_env = {version = "0.3.7", path = "./ecmascript/preset_env"}
+swc_ecma_transforms = {version = "0.33.8", path = "./ecmascript/transforms", features = [
   "compat",
   "module",
   "optimization",
