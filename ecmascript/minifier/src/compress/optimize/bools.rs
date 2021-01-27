@@ -8,11 +8,12 @@ use swc_ecma_utils::Value::Known;
 use swc_ecma_utils::Value::Unknown;
 
 impl Optimizer {
+    /// Disabled because it can change semantics.
     ///
     /// - `!foo || bar();` => `foo && bar();`
     /// - `!foo && bar();` => `foo || bar();`
     pub(super) fn compress_logical_exprs_with_negated_lhs(&mut self, e: &mut Expr) {
-        if !self.options.bools {
+        if !self.options.bools || true {
             return;
         }
 
