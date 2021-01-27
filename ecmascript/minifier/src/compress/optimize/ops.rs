@@ -150,13 +150,14 @@ impl Optimizer {
                 if num.value == 1.0 || num.value == 0.0 {
                     return;
                 }
-
-                log::trace!("Converting number as boolean expressions");
-                self.changed = true;
-                *n = Expr::Lit(Lit::Num(Number {
-                    span: num.span,
-                    value: if num.value == 0.0 { 0.0 } else { 1.0 },
-                }));
+                if self.options.bools {
+                    log::trace!("booleans: Converting number as boolean expressions");
+                    self.changed = true;
+                    *n = Expr::Lit(Lit::Num(Number {
+                        span: num.span,
+                        value: if num.value == 0.0 { 0.0 } else { 1.0 },
+                    }));
+                }
             }
 
             Expr::Bin(BinExpr {
