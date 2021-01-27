@@ -3439,7 +3439,7 @@ to!(
 );
 
 to!(
-    deno_8289_1,
+    deno_9289_1,
     "
     export class TestClass {
         public testMethod (args: TestClass.TestArgs)
@@ -3455,11 +3455,16 @@ to!(
     }
     ",
     "
+    export class TestClass {
+        testMethod(args) {
+            return args.param1;
+        }
+    }
     "
 );
 
 to!(
-    deno_8289_2,
+    deno_9289_2,
     "
     declare namespace TestClass {
         export interface TestArgs {
