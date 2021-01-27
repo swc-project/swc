@@ -202,24 +202,43 @@ impl Optimizer {
 
         // if (!foo); else bar();
         // =>
-        // !foo || bar();
-        // => (by other pass)
         // foo && bar()
         match &*stmt.cons {
             Stmt::Empty(..) => {
-                log::trace!("Optimizing `if (!foo); else bar();` as `!foo || bar();`");
-                self.changed = true;
-                let mut expr = Box::new(Expr::Bin(BinExpr {
-                    span: DUMMY_SP,
-                    left: stmt.test.take(),
-                    op: op!("||"),
-                    right: Box::new(alt.take()),
-                }));
-                self.compress_logical_exprs_as_bang_bang(&mut expr);
-                *s = Stmt::Expr(ExprStmt {
-                    span: stmt.span,
-                    expr,
-                });
+                match &mut *stmt.test {
+                    Expr::Unary(UnaryExpr {
+                        op: op!("!"), arg, ..
+                    }) => {
+                        log::trace!("Optimizing `if (!foo); else bar();` as `foo && bar();`");
+
+                        let mut expr = Box::new(Expr::Bin(BinExpr {
+                            span: DUMMY_SP,
+                            left: arg.take(),
+                            op: op!("&&"),
+                            right: Box::new(alt.take()),
+                        }));
+                        self.compress_logical_exprs_as_bang_bang(&mut expr);
+                        *s = Stmt::Expr(ExprStmt {
+                            span: stmt.span,
+                            expr,
+                        });
+                    }
+                    _ => {
+                        log::trace!("Optimizing `if (foo); else bar();` as `foo || bar();`");
+
+                        let mut expr = Box::new(Expr::Bin(BinExpr {
+                            span: DUMMY_SP,
+                            left: stmt.test.take(),
+                            op: op!("||"),
+                            right: Box::new(alt.take()),
+                        }));
+                        self.compress_logical_exprs_as_bang_bang(&mut expr);
+                        *s = Stmt::Expr(ExprStmt {
+                            span: stmt.span,
+                            expr,
+                        });
+                    }
+                }
                 return;
             }
             _ => {}
