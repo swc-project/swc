@@ -36,6 +36,8 @@ where
 
                 bundle.module = bundle.module.fold_with(&mut hygiene());
 
+                bundle.module = self.may_wrap_with_iife(bundle.module);
+
                 bundle.module = bundle.module.fold_with(&mut fixer(None));
 
                 {
@@ -51,8 +53,6 @@ where
                     bundle.module =
                         HELPERS.set(&swc_helpers, || module.fold_with(&mut inject_helpers()));
                 }
-
-                bundle.module = self.may_wrap_with_iife(bundle.module);
 
                 match bundle.kind {
                     BundleKind::Named { .. } => {
