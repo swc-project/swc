@@ -158,57 +158,6 @@ impl Optimizer {
     }
 
     ///
-    /// - `!foo || bar();` => `foo && bar();`
-    /// - `!foo && bar();` => `foo || bar();`
-    pub(super) fn compress_logical_exprs_with_negated_lhs(&mut self, e: &mut Expr) {
-        if !self.options.conditionals {
-            return;
-        }
-
-        match e {
-            Expr::Bin(BinExpr {
-                span,
-                op: op @ op!("||"),
-                left,
-                right,
-                ..
-            })
-            | Expr::Bin(BinExpr {
-                span,
-                op: op @ op!("&&"),
-                left,
-                right,
-                ..
-            }) => match &mut **left {
-                Expr::Unary(UnaryExpr {
-                    op: op!("!"), arg, ..
-                }) => {
-                    if *op == op!("&&") {
-                        log::trace!("conditionals: Compressing `!foo && bar` as `foo || bar`");
-                    } else {
-                        log::trace!("conditionals: Compressing `!foo || bar` as `foo && bar`");
-                    }
-                    self.changed = true;
-                    *e = Expr::Bin(BinExpr {
-                        span: *span,
-                        left: arg.take(),
-                        op: if *op == op!("&&") {
-                            op!("||")
-                        } else {
-                            op!("&&")
-                        },
-                        right: right.take(),
-                    });
-                    return;
-                }
-                _ => {}
-            },
-
-            _ => {}
-        }
-    }
-
-    ///
     /// # Examples
     ///
     /// ## Input
