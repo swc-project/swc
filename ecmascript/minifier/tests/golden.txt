@@ -498,6 +498,7 @@ sequences/lift_sequences_4/input.js
 sequences/lift_sequences_5/input.js
 sequences/lift_sequences_6/input.js
 sequences/make_sequences_1/input.js
+sequences/make_sequences_2/input.js
 sequences/side_effects/input.js
 sequences/side_effects_cascade_2/input.js
 string_literal/issue_1929/input.js
