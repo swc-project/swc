@@ -8,6 +8,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::Type;
 use swc_ecma_utils::Value;
 use Value::Known;
 
@@ -349,6 +350,12 @@ impl Optimizer {
 
         match bin.op {
             op!("&&") => {
+                let rt = bin.right.get_type();
+                match rt {
+                    Known(Type::Bool) => {}
+                    _ => return,
+                }
+
                 let rb = bin.right.as_pure_bool();
                 let rb = match rb {
                     Value::Known(v) => v,
