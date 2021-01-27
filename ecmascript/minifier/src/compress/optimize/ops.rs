@@ -221,7 +221,12 @@ impl Optimizer {
 
     pub(super) fn handle_negated_seq(&mut self, n: &mut Expr) {
         match &mut *n {
-            Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => {
+            Expr::Unary(e @ UnaryExpr { op: op!("!"), .. })
+            | Expr::Unary(
+                e @ UnaryExpr {
+                    op: op!("delete"), ..
+                },
+            ) => {
                 match &mut *e.arg {
                     Expr::Seq(SeqExpr { exprs, .. }) => {
                         if exprs.is_empty() {
