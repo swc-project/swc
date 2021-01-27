@@ -32,11 +32,10 @@ impl Optimizer {
         if let Known(Type::Bool) = lt {
             let lb = cond.cons.as_pure_bool();
             if let Known(true) = lb {
-                log::trace!("conditionals: `!foo ? true : bar` => `!foo || bar`");
+                log::trace!("conditionals: `foo ? true : bar` => `!!foo || bar`");
 
                 // Negate twice to convert `test` to boolean.
-                self.negate(&mut cond.test);
-                self.negate(&mut cond.test);
+                self.negate_twice(&mut cond.test);
 
                 self.changed = true;
                 *e = Expr::Bin(BinExpr {
@@ -57,8 +56,8 @@ impl Optimizer {
                 self.changed = true;
 
                 // Negate twice to convert `test` to boolean.
-                self.negate(&mut cond.test);
-                self.negate(&mut cond.test);
+                self.negate_twice(&mut cond.test);
+
                 *e = Expr::Bin(BinExpr {
                     span: cond.span,
                     op: op!("&&"),
