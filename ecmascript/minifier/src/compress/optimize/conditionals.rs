@@ -50,7 +50,7 @@ impl Optimizer {
         }
 
         self.changed = true;
-        log::trace!("Merging if statements with same `cons`");
+        log::trace!("conditionals: Merging if statements with same `cons`");
 
         let mut cur: Option<IfStmt> = None;
         let mut new = Vec::with_capacity(stmts.len());
@@ -128,9 +128,9 @@ impl Optimizer {
                         op: op!("!"), arg, ..
                     }) => {
                         if *op == op!("&&") {
-                            log::trace!("Compressing `!foo && bar` as `foo || bar`");
+                            log::trace!("conditionals: Compressing `!foo && bar` as `foo || bar`");
                         } else {
-                            log::trace!("Compressing `!foo || bar` as `foo && bar`");
+                            log::trace!("conditionals: Compressing `!foo || bar` as `foo && bar`");
                         }
                         self.changed = true;
                         *e = Expr::Bin(BinExpr {
