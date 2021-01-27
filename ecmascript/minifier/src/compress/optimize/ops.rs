@@ -178,6 +178,12 @@ impl Optimizer {
         }
     }
 
+    /// TODO: Optimize based on the type.
+    pub(super) fn negate_twice(&mut self, e: &mut Expr) {
+        self.negate(e);
+        self.negate(e);
+    }
+
     /// Creates `!e` where e is the expression passed as an argument.
     ///
     /// # Note
