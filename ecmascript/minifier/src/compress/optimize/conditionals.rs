@@ -13,6 +13,15 @@ use swc_ecma_utils::StmtLike;
 /// `conditionals` is false.
 impl Optimizer {
     ///
+    /// - `foo ? 1 : false` => `!!foo && 1`
+    /// - `!foo ? true : 0` => `!foo || 0`
+    pub(super) fn compress_conds_as_logical(&mut self, e: &mut Expr) {
+        if !self.options.conditionals {
+            return;
+        }
+    }
+
+    ///
     /// # Example
     ///
     /// ## Input

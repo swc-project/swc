@@ -1263,6 +1263,8 @@ impl VisitMut for Optimizer {
 
         self.compress_useless_cond_expr(n);
 
+        self.compress_conds_as_logical(n);
+
         if !self.ctx.inline_prevented {
             match n {
                 Expr::Ident(i) => {
