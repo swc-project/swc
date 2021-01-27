@@ -85,6 +85,7 @@ impl Optimizer {
 
                         Stmt::If(mut stmt) => {
                             stmt.test.prepend_exprs(take(&mut exprs));
+                            new_stmts.push(T::from_stmt(Stmt::If(stmt)));
                         }
 
                         Stmt::For(mut stmt @ ForStmt { init: None, .. })
@@ -96,21 +97,24 @@ impl Optimizer {
                                 init: Some(VarDeclOrExpr::Expr(..)),
                                 ..
                             },
-                        ) => match &mut stmt.init {
-                            Some(VarDeclOrExpr::Expr(e)) => {
-                                e.prepend_exprs(take(&mut exprs));
+                        ) => {
+                            match &mut stmt.init {
+                                Some(VarDeclOrExpr::Expr(e)) => {
+                                    e.prepend_exprs(take(&mut exprs));
+                                }
+                                None => {
+                                    stmt.init =
+                                        Some(VarDeclOrExpr::Expr(Box::new(Expr::Seq(SeqExpr {
+                                            span: DUMMY_SP,
+                                            exprs: take(&mut exprs),
+                                        }))))
+                                }
+                                _ => {
+                                    unreachable!()
+                                }
                             }
-                            None => {
-                                stmt.init =
-                                    Some(VarDeclOrExpr::Expr(Box::new(Expr::Seq(SeqExpr {
-                                        span: DUMMY_SP,
-                                        exprs: take(&mut exprs),
-                                    }))))
-                            }
-                            _ => {
-                                unreachable!()
-                            }
-                        },
+                            new_stmts.push(T::from_stmt(Stmt::For(stmt)));
+                        }
 
                         _ => {
                             if !exprs.is_empty() {
