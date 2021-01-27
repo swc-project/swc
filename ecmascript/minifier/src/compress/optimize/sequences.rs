@@ -67,6 +67,7 @@ impl Optimizer {
         if !can_work {
             return;
         }
+        log::trace!("sequences: Compressing statements as a sequences");
 
         self.changed = true;
         let mut exprs = vec![];
