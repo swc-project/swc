@@ -141,9 +141,9 @@ impl Optimizer {
 
                         if can_remove {
                             if *op == op!("&&") {
-                                log::trace!("conditionals: Compressing `!foo && true` => `!foo`");
+                                log::trace!("conditionals: Compressing `!foo && true` as `!foo`");
                             } else {
-                                log::trace!("conditionals: Compressing `!foo || false` => `!foo`");
+                                log::trace!("conditionals: Compressing `!foo || false` as `!foo`");
                             }
                             self.changed = true;
                             *e = *left.take();
