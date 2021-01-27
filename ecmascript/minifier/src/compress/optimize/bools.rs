@@ -35,9 +35,9 @@ impl Optimizer {
                     op: op!("!"), arg, ..
                 }) => {
                     if *op == op!("&&") {
-                        log::trace!("conditionals: Compressing `!foo && bar` as `foo || bar`");
+                        log::trace!("booleans: Compressing `!foo && bar` as `foo || bar`");
                     } else {
-                        log::trace!("conditionals: Compressing `!foo || bar` as `foo && bar`");
+                        log::trace!("booleans: Compressing `!foo || bar` as `foo && bar`");
                     }
                     self.changed = true;
                     *e = Expr::Bin(BinExpr {
