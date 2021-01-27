@@ -7,7 +7,10 @@ use swc_ecma_transforms_base::ext::AsOptExpr;
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::StmtLike;
+use swc_ecma_utils::Type;
+use swc_ecma_utils::Value::Known;
 
 /// Methods related to the option `conditionals`. All methods are noop if
 /// `conditionals` is false.
@@ -18,6 +21,32 @@ impl Optimizer {
     pub(super) fn compress_conds_as_logical(&mut self, e: &mut Expr) {
         if !self.options.conditionals {
             return;
+        }
+
+        let cond = match e {
+            Expr::Cond(cond) => cond,
+            _ => return,
+        };
+
+        let lt = cond.cons.get_type();
+        if let Known(Type::Bool) = lt {
+            let lb = cond.cons.as_pure_bool();
+            if let Known(true) = lb {
+                log::trace!("conditionals: `!foo ? true : 0` => `!foo || 0`");
+
+                // Negate twice to convert `test` to boolean.
+                self.negate(&mut cond.test);
+                self.negate(&mut cond.test);
+
+                self.changed = true;
+                *e = Expr::Bin(BinExpr {
+                    span: cond.span,
+                    op: op!("||"),
+                    left: cond.test.take(),
+                    right: cond.alt.take(),
+                });
+                return;
+            }
         }
     }
 
