@@ -483,6 +483,21 @@ pub trait ExprExt {
             }
 
             Expr::Unary(UnaryExpr {
+                op: op!(unary, "-"),
+                arg,
+                ..
+            }) => {
+                let v = arg.as_number();
+                match v {
+                    Known(n) => Known(match n.classify() {
+                        FpCategory::Nan | FpCategory::Zero => false,
+                        _ => true,
+                    }),
+                    Unknown => return (MayBeImpure, Unknown),
+                }
+            }
+
+            Expr::Unary(UnaryExpr {
                 op: op!("!"),
                 ref arg,
                 ..
