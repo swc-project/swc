@@ -514,6 +514,7 @@ impl Strip {
             TsNamespaceBody::TsModuleBlock(body) => body,
             TsNamespaceBody::TsNamespaceDecl(_) => return None,
         };
+
         let mut init_stmts = vec![];
 
         let var = VarDeclarator {
@@ -525,6 +526,9 @@ impl Strip {
 
         // This makes body valid javascript.
         body.body.visit_mut_with(self);
+        if body.body.is_empty() {
+            return None;
+        }
 
         let private_name = private_ident!(module_name.sym.clone());
         let mut delayed_vars = vec![];
