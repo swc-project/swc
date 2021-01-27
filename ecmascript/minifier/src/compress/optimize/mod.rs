@@ -35,6 +35,7 @@ mod bools;
 mod conditionals;
 mod if_return;
 mod ops;
+mod sequences;
 mod util;
 
 /// This pass is simillar to `node.optimize` of terser.
