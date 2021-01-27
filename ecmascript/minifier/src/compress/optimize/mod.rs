@@ -848,7 +848,7 @@ impl Optimizer {
     }
 
     fn try_removing_block(&mut self, s: &mut Stmt) {
-        if !self.options.conditionals {
+        if !self.options.conditionals && !self.options.sequences {
             return;
         }
 
