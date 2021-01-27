@@ -122,34 +122,30 @@ impl Optimizer {
                 left,
                 right,
                 ..
-            }) => {
-                match &mut **left {
-                    Expr::Unary(UnaryExpr {
-                        op: op!("!"), arg, ..
-                    }) => {
-                        if *op == op!("&&") {
-                            log::trace!("conditionals: Compressing `!foo && bar` as `foo || bar`");
-                        } else {
-                            log::trace!("conditionals: Compressing `!foo || bar` as `foo && bar`");
-                        }
-                        self.changed = true;
-                        *e = Expr::Bin(BinExpr {
-                            span: *span,
-                            left: arg.take(),
-                            op: if *op == op!("&&") {
-                                op!("||")
-                            } else {
-                                op!("&&")
-                            },
-                            right: right.take(),
-                        });
-                        return;
+            }) => match &mut **left {
+                Expr::Unary(UnaryExpr {
+                    op: op!("!"), arg, ..
+                }) => {
+                    if *op == op!("&&") {
+                        log::trace!("conditionals: Compressing `!foo && bar` as `foo || bar`");
+                    } else {
+                        log::trace!("conditionals: Compressing `!foo || bar` as `foo && bar`");
                     }
-                    _ => {}
+                    self.changed = true;
+                    *e = Expr::Bin(BinExpr {
+                        span: *span,
+                        left: arg.take(),
+                        op: if *op == op!("&&") {
+                            op!("||")
+                        } else {
+                            op!("&&")
+                        },
+                        right: right.take(),
+                    });
+                    return;
                 }
-
-                //
-            }
+                _ => {}
+            },
 
             _ => {}
         }
