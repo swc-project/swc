@@ -315,7 +315,7 @@ fn fixture(input: PathBuf) {
             });
         }
 
-        assert_eq!(DebugUsingDisplay(&expected), DebugUsingDisplay(&output));
+        assert_eq!(DebugUsingDisplay(&output), DebugUsingDisplay(&expected));
 
         Ok(())
     })
