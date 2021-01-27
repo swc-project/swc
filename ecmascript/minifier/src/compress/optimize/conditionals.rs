@@ -32,7 +32,7 @@ impl Optimizer {
         if let Known(Type::Bool) = lt {
             let lb = cond.cons.as_pure_bool();
             if let Known(true) = lb {
-                log::trace!("conditionals: `!foo ? true : 0` => `!foo || 0`");
+                log::trace!("conditionals: `!foo ? true : bar` => `!foo || bar`");
 
                 // Negate twice to convert `test` to boolean.
                 self.negate(&mut cond.test);
