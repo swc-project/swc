@@ -3437,3 +3437,36 @@ to!(
     console(Test.DummyValues.A);
     "
 );
+
+to!(
+    deno_8289_1,
+    "
+    export class TestClass {
+        public testMethod (args: TestClass.TestArgs)
+        {
+            return args.param1;
+        }
+    }
+    
+    declare namespace TestClass {
+        export interface TestArgs {
+            param1: boolean;
+        }
+    }
+    ",
+    "
+    "
+);
+
+to!(
+    deno_8289_2,
+    "
+    declare namespace TestClass {
+        export interface TestArgs {
+            param1: boolean;
+        }
+    }
+    ",
+    "
+    "
+);
