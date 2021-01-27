@@ -341,7 +341,7 @@ impl Optimizer {
     /// # Examples
     ///
     /// - `x() && true` => `!!x()`
-    pub(super) fn optimize_logical_exprs(&mut self, e: &mut Expr) {
+    pub(super) fn compress_logical_exprs_as_bang_bang(&mut self, e: &mut Expr) {
         let bin = match e {
             Expr::Bin(bin) => bin,
             _ => return,

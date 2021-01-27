@@ -1259,7 +1259,7 @@ impl VisitMut for Optimizer {
 
         self.optimize_nullish_coalescing(n);
 
-        self.optimize_logical_exprs(n);
+        self.compress_logical_exprs_as_bang_bang(n);
 
         self.compress_useless_cond_expr(n);
 
@@ -1301,7 +1301,7 @@ impl VisitMut for Optimizer {
         self.handle_negated_seq(n);
         self.compress_array_join(n);
 
-        self.compress_logical_exprs(n);
+        self.compress_logical_exprs_with_negated_lhs(n);
 
         self.remove_useless_pipes(n);
 

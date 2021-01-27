@@ -160,7 +160,7 @@ impl Optimizer {
     ///
     /// - `!foo || bar();` => `foo && bar();`
     /// - `!foo && bar();` => `foo || bar();`
-    pub(super) fn compress_logical_exprs(&mut self, e: &mut Expr) {
+    pub(super) fn compress_logical_exprs_with_negated_lhs(&mut self, e: &mut Expr) {
         if !self.options.conditionals {
             return;
         }
@@ -266,7 +266,7 @@ impl Optimizer {
                     op: op!("||"),
                     right: Box::new(alt.take()),
                 }));
-                self.optimize_logical_exprs(&mut expr);
+                self.compress_logical_exprs_as_bang_bang(&mut expr);
                 *s = Stmt::Expr(ExprStmt {
                     span: stmt.span,
                     expr,
