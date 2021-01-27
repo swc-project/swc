@@ -48,6 +48,26 @@ impl Optimizer {
                 return;
             }
         }
+
+        let rt = cond.alt.get_type();
+        if let Known(Type::Bool) = rt {
+            let rb = cond.alt.as_pure_bool();
+            if let Known(false) = rb {
+                log::trace!("conditionals: `foo ? 1 : false` => `!!foo && 1`");
+                self.changed = true;
+
+                // Negate twice to convert `test` to boolean.
+                self.negate(&mut cond.test);
+                self.negate(&mut cond.test);
+                *e = Expr::Bin(BinExpr {
+                    span: cond.span,
+                    op: op!("&&"),
+                    left: cond.test.take(),
+                    right: cond.cons.take(),
+                });
+                return;
+            }
+        }
     }
 
     ///
