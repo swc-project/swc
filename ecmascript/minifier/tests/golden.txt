@@ -320,6 +320,7 @@ issue_640/issue_1254_negate_iife_true/input.js
 issue_640/negate_iife_1/input.js
 issue_640/negate_iife_3/input.js
 issue_640/negate_iife_3_off/input.js
+issue_640/negate_iife_5_off/input.js
 issue_751/negate_booleans_2/input.js
 issue_782/dont_remove_this_binding_sequence/input.js
 issue_782/remove_redundant_sequence_items/input.js
@@ -352,6 +353,8 @@ negate_iife/negate_iife_1/input.js
 negate_iife/negate_iife_1_off/input.js
 negate_iife/negate_iife_3/input.js
 negate_iife/negate_iife_3_side_effects/input.js
+negate_iife/negate_iife_5_off/input.js
+negate_iife/sequence_off/input.js
 new/dot_parenthesis_1/input.js
 new/dot_parenthesis_2/input.js
 new/new_statement/input.js
