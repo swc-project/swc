@@ -1122,7 +1122,10 @@ impl Fold for SimplifyExpr {
             Expr::Lit(_) | Expr::This(..) => expr,
 
             // Remove parenthesis. This may break ast, but it will be fixed up later.
-            Expr::Paren(ParenExpr { expr, .. }) => *expr,
+            Expr::Paren(ParenExpr { expr, .. }) => {
+                self.changed = true;
+                *expr
+            }
 
             Expr::Unary(expr) => self.fold_unary(expr),
             Expr::Bin(expr) => self.fold_bin(expr),
