@@ -426,6 +426,10 @@ impl Optimizer {
                 op: op!("delete"), ..
             }) => return Some(e.take()),
 
+            Expr::Unary(UnaryExpr {
+                op: op!("void"), ..
+            }) if !self.options.unused => return Some(e.take()),
+
             // We optimize binary expressions if operation is side-effect-free and lhs and rhs is
             // evaluated regardless of value of lhs.
             //
