@@ -18,7 +18,6 @@ use timing::Timings;
 
 mod compress;
 mod debug;
-mod id;
 pub mod option;
 mod pass;
 pub mod timing;
