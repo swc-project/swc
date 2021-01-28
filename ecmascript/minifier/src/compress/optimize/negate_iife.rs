@@ -5,8 +5,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 
-/// Methods related to the option `negate_iife`. All methods are noop if
-/// `negate_iife` is false.
+/// Methods related to the option `negate_iife`.
 impl Optimizer {
     /// Negates iife, while ignore return value.
     pub(super) fn negate_iife_ignoring_ret(&mut self, e: &mut Expr) {
@@ -38,11 +37,9 @@ impl Optimizer {
         }
     }
 
+    /// 
+    /// - `iife ? foo : bar` => `!iife ? bar : foo`
     pub(super) fn negate_iife_in_cond(&mut self, e: &mut Expr) {
-        if !self.options.negate_iife {
-            return;
-        }
-
         let cond = match e {
             Expr::Cond(v) => v,
             _ => return,
