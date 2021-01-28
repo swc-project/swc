@@ -556,6 +556,7 @@ switch/constant_switch_2/input.js
 switch/constant_switch_3/input.js
 switch/constant_switch_4/input.js
 switch/constant_switch_6/input.js
+switch/constant_switch_7/input.js
 switch/constant_switch_8/input.js
 switch/constant_switch_9/input.js
 switch/issue_1674/input.js
