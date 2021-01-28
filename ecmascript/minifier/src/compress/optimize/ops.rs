@@ -99,7 +99,7 @@ impl Optimizer {
                 arg,
             }) => match &**arg {
                 Expr::Lit(Lit::Num(Number { value, .. })) => {
-                    log::trace!("Optimizing: number => number (in book context)");
+                    log::trace!("Optimizing: number => number (in bool context)");
 
                     self.changed = true;
                     *n = Expr::Lit(Lit::Num(Number {
@@ -115,11 +115,11 @@ impl Optimizer {
                 op: op!("typeof"),
                 arg,
             }) => {
-                log::trace!("Optimizing: typeof => true (in book context)");
+                log::trace!("Optimizing: typeof => true (in bool context)");
+                self.changed = true;
 
                 match &**arg {
                     Expr::Ident(..) => {
-                        self.changed = true;
                         *n = Expr::Lit(Lit::Num(Number {
                             span: *span,
                             value: 1.0,
@@ -131,7 +131,6 @@ impl Optimizer {
                             span: *span,
                             value: 1.0,
                         })));
-                        self.changed = true;
                         *n = Expr::Seq(SeqExpr {
                             span: *span,
                             exprs: vec![arg.take(), true_expr],
