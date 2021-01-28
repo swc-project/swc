@@ -1301,6 +1301,8 @@ impl Fold for SimplifyExpr {
     fn fold_seq_expr(&mut self, e: SeqExpr) -> SeqExpr {
         let mut e = e.fold_children_with(self);
 
+        let len = e.exprs.len();
+
         let last_expr = e.exprs.pop().expect("SeqExpr.exprs must not be empty");
 
         // Expressions except last one
@@ -1332,6 +1334,8 @@ impl Fold for SimplifyExpr {
 
         exprs.push(last_expr);
         exprs.shrink_to_fit();
+
+        self.changed = len != exprs.len();
 
         SeqExpr {
             exprs,
