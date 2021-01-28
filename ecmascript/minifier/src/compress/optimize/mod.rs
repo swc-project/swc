@@ -1298,7 +1298,7 @@ impl VisitMut for Optimizer {
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
         n.visit_mut_children_with(self);
 
-        self.handle_negated_iife(&mut n.expr);
+        self.negate_iife_ignoring_return(&mut n.expr);
 
         if self.options.unused
             || self.options.side_effects

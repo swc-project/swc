@@ -6,7 +6,8 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 /// Methods related to the option `negate_iife`. All methods are noop if
 /// `negate_iife` is false.
 impl Optimizer {
-    pub(super) fn handle_negated_iife(&mut self, e: &mut Expr) {
+    /// Negates iife, while ignore return value.
+    pub(super) fn negate_iife_ignoring_return(&mut self, e: &mut Expr) {
         if !self.options.negate_iife || self.ctx.in_bang_arg {
             return;
         }
