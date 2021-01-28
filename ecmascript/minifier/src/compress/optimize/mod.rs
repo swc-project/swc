@@ -62,6 +62,8 @@ struct Ctx {
     inline_prevented: bool,
     in_strict: bool,
     in_try_block: bool,
+    /// `true` while handling `expr` of `!expr`
+    in_bang_arg: bool,
     in_var_decl_of_for_in_or_of_loop: bool,
 }
 
@@ -1275,10 +1277,15 @@ impl VisitMut for Optimizer {
     }
 
     fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
-        n.visit_mut_children_with(self);
+        let ctx = Ctx {
+            in_bang_arg: n.op == op!("!"),
+            ..self.ctx
+        };
+
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         if n.op == op!("!") {
-            self.optimize_expr_in_bool_ctx(&mut n.arg);
+            self.with_ctx(ctx).optimize_expr_in_bool_ctx(&mut n.arg);
         }
     }
 

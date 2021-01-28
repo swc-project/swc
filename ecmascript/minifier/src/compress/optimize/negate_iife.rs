@@ -7,7 +7,7 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 /// `negate_iife` is false.
 impl Optimizer {
     pub(super) fn handle_negated_iife(&mut self, e: &mut Expr) {
-        if !self.options.negate_iife {
+        if !self.options.negate_iife || self.ctx.in_bang_arg {
             return;
         }
 
