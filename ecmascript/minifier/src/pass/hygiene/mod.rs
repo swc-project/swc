@@ -20,6 +20,14 @@ struct Optimizer<'a> {
 }
 
 impl Optimizer<'_> {
+    /// `eats_var`: `true` if a scope eats variable declared with `var`.
+    fn with_scope<F, Ret>(&mut self, eats_var: bool, op: F)
+    where
+        F: FnOnce(&mut Optimizer) -> Ret,
+    {
+        //
+    }
+
     /// Registers a binding ident.
     ///
     /// If it conflicts
@@ -36,5 +44,10 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
         self.handle_binding_ident(&mut n.ident);
         n.function.visit_mut_with(self);
+    }
+
+    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+        self.handle_binding_ident(&mut n.ident);
+        n.class.visit_mut_with(self);
     }
 }
