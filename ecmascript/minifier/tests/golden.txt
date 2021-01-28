@@ -244,6 +244,7 @@ harmony/format_methods/input.js
 harmony/import_all_statement/input.js
 harmony/import_statement/input.js
 harmony/issue_2028/input.js
+harmony/issue_2345/input.js
 harmony/issue_3028/input.js
 harmony/new_target/input.js
 harmony/number_literals/input.js
@@ -553,6 +554,7 @@ switch/beautify/input.js
 switch/constant_switch_1/input.js
 switch/constant_switch_2/input.js
 switch/constant_switch_3/input.js
+switch/constant_switch_4/input.js
 switch/constant_switch_6/input.js
 switch/constant_switch_8/input.js
 switch/constant_switch_9/input.js
