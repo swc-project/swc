@@ -155,6 +155,17 @@ impl Optimizer {
                 cases.drain(last_non_empty + 1..);
             }
         }
+
+        if let Some(last) = cases.last_mut() {
+            match last.cons.last() {
+                Some(Stmt::Break(BreakStmt { label: None, .. })) => {
+                    log::trace!("switches: Removing `break` at the end");
+                    self.changed = true;
+                    last.cons.pop();
+                }
+                _ => {}
+            }
+        }
     }
 
     pub(super) fn optimize_switches(&mut self, s: &mut Stmt) {
