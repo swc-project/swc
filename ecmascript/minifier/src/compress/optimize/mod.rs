@@ -419,9 +419,15 @@ impl Optimizer {
 
     fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Expr> {
         match e {
-            Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => return None,
+            Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
+                self.changed = true;
+                return None;
+            }
             // Function expression cannot have a side effect.
-            Expr::Fn(_) => return None,
+            Expr::Fn(_) => {
+                self.changed = true;
+                return None;
+            }
 
             Expr::Paren(e) => return self.ignore_return_value(&mut e.expr),
 
@@ -514,6 +520,7 @@ impl Optimizer {
 
             // `delete` is handled above
             Expr::Unary(expr) => {
+                self.changed = true;
                 log::trace!("ignore_return_Value: Reducing unary ({})", expr.op);
                 return self.ignore_return_value(&mut expr.arg);
             }
@@ -542,8 +549,14 @@ impl Optimizer {
                 return Some(Expr::Cond(CondExpr {
                     span: cond.span,
                     test: cond.test.take(),
-                    cons: cons.unwrap_or_else(|| undefined(cons_span)),
-                    alt: alt.unwrap_or_else(|| undefined(alt_span)),
+                    cons: cons.unwrap_or_else(|| {
+                        self.changed = true;
+                        undefined(cons_span)
+                    }),
+                    alt: alt.unwrap_or_else(|| {
+                        self.changed = true;
+                        undefined(alt_span)
+                    }),
                 }));
             }
 
@@ -565,6 +578,7 @@ impl Optimizer {
 
                     // (foo(), void 0) => void foo()
                     if is_last_undefined {
+                        self.changed = true;
                         // Remove `void 0`
                         exprs.pop();
 
