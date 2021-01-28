@@ -33,7 +33,7 @@ use Value::Known;
 mod bools;
 mod conditionals;
 mod if_return;
-mod negate_iife;
+mod iife;
 mod ops;
 mod sequences;
 mod util;
