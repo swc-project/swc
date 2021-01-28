@@ -1,3 +1,5 @@
+use std::mem::swap;
+
 use super::Optimizer;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -36,5 +38,38 @@ impl Optimizer {
         }
     }
 
-    pub(super) fn negate_iife_in_cond(&mut self, e: &mut Expr) {}
+    pub(super) fn negate_iife_in_cond(&mut self, e: &mut Expr) {
+        if !self.options.negate_iife {
+            return;
+        }
+
+        let cond = match e {
+            Expr::Cond(v) => v,
+            _ => return,
+        };
+
+        let test_call = match &mut *cond.test {
+            Expr::Call(e) => e,
+            _ => return,
+        };
+
+        let callee = match &mut test_call.callee {
+            ExprOrSuper::Super(_) => return,
+            ExprOrSuper::Expr(e) => &mut **e,
+        };
+
+        match callee {
+            Expr::Fn(..) => {
+                log::trace!("negate_iife: Swapping cons and alt");
+                cond.test = Box::new(Expr::Unary(UnaryExpr {
+                    span: DUMMY_SP,
+                    op: op!("!"),
+                    arg: cond.test.take(),
+                }));
+                swap(&mut cond.cons, &mut cond.alt);
+                return;
+            }
+            _ => {}
+        }
+    }
 }
