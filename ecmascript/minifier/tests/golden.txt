@@ -55,6 +55,7 @@ blocks/issue_2946_else_const/input.js
 class_properties/mangle_class_properties_keep_quoted/input.js
 classes/class_duplication/input.js
 classes/class_duplication_2/input.js
+collapse_vars/anonymous_function/input.js
 collapse_vars/boolean_binary_1/input.js
 collapse_vars/boolean_binary_2/input.js
 collapse_vars/cascade_if_2/input.js
@@ -69,6 +70,7 @@ collapse_vars/collapse_rhs_regexp/input.js
 collapse_vars/cond_branch_switch/input.js
 collapse_vars/conditional_1/input.js
 collapse_vars/conditional_2/input.js
+collapse_vars/duplicate_argname/input.js
 collapse_vars/issue_1537_destructuring_2/input.js
 collapse_vars/issue_2203_1/input.js
 collapse_vars/issue_2203_3/input.js
@@ -169,6 +171,7 @@ evaluate/issue_2207_2/input.js
 evaluate/issue_2231_1/input.js
 evaluate/issue_2231_2/input.js
 evaluate/issue_2822/input.js
+evaluate/issue_2916_1/input.js
 evaluate/pow/input.js
 evaluate/pow_mixed/input.js
 evaluate/pow_sequence/input.js
@@ -203,6 +206,7 @@ export/keyword_valid_2/input.js
 export/keyword_valid_3/input.js
 export/trailing_comma/input.js
 functions/deduplicate_parenthesis/input.js
+functions/inline_false/input.js
 functions/issue_2663_1/input.js
 functions/issue_2737_1/input.js
 functions/issue_2737_2/input.js
@@ -354,6 +358,9 @@ negate_iife/negate_iife_1_off/input.js
 negate_iife/negate_iife_3/input.js
 negate_iife/negate_iife_3_side_effects/input.js
 negate_iife/negate_iife_5_off/input.js
+negate_iife/negate_iife_issue_1073/input.js
+negate_iife/negate_iife_nested/input.js
+negate_iife/negate_iife_nested_off/input.js
 negate_iife/sequence_off/input.js
 new/dot_parenthesis_1/input.js
 new/dot_parenthesis_2/input.js
@@ -451,8 +458,12 @@ reduce_vars/inner_var_for_in_2/input.js
 reduce_vars/inner_var_if/input.js
 reduce_vars/issue_1533_1/input.js
 reduce_vars/issue_1533_2/input.js
+reduce_vars/issue_1595_1/input.js
+reduce_vars/issue_1595_2/input.js
+reduce_vars/issue_1595_4/input.js
 reduce_vars/issue_1850_1/input.js
 reduce_vars/issue_1865/input.js
+reduce_vars/issue_1922_1/input.js
 reduce_vars/issue_1922_2/input.js
 reduce_vars/issue_2090_1/input.js
 reduce_vars/issue_2090_2/input.js
@@ -467,6 +478,7 @@ reduce_vars/issue_2450_3/input.js
 reduce_vars/issue_2455/input.js
 reduce_vars/issue_2598/input.js
 reduce_vars/issue_2670/input.js
+reduce_vars/issue_2869/input.js
 reduce_vars/issue_2919/input.js
 reduce_vars/issue_2992/input.js
 reduce_vars/issue_3042_1/input.js
