@@ -348,6 +348,7 @@ loops/issue_186_ie8/input.js
 max_line_len/just_enough/input.js
 max_line_len/too_short/input.js
 negate_iife/issue_1254_negate_iife_false/input.js
+negate_iife/negate_iife_1/input.js
 negate_iife/negate_iife_1_off/input.js
 new/dot_parenthesis_1/input.js
 new/dot_parenthesis_2/input.js
@@ -509,6 +510,7 @@ sequences/make_sequences_1/input.js
 sequences/make_sequences_2/input.js
 sequences/make_sequences_3/input.js
 sequences/make_sequences_4/input.js
+sequences/negate_iife_for/input.js
 sequences/reassign_const/input.js
 sequences/side_effects/input.js
 sequences/side_effects_cascade_2/input.js
