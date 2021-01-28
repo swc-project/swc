@@ -66,6 +66,8 @@ struct Ctx {
     /// `true` while handling `expr` of `!expr`
     in_bang_arg: bool,
     in_var_decl_of_for_in_or_of_loop: bool,
+    /// `true` while handling inner statements of a labelled statement.
+    stmt_lablled: bool,
 }
 
 #[derive(Debug)]
@@ -1168,7 +1170,11 @@ impl VisitMut for Optimizer {
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
-        n.visit_mut_children_with(self);
+        let ctx = Ctx {
+            stmt_lablled: false,
+            ..self.ctx
+        };
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         if let Some(body) = &mut n.body {
             self.merge_if_returns(&mut body.stmts);
@@ -1229,6 +1235,14 @@ impl VisitMut for Optimizer {
             }
             _ => {}
         }
+    }
+
+    fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
+        let ctx = Ctx {
+            stmt_lablled: true,
+            ..self.ctx
+        };
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {
