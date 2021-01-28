@@ -27,6 +27,7 @@ async/async_arrow_iife/input.js
 async/async_arrow_iife_negate_iife/input.js
 async/async_arrow_wait/input.js
 async/async_class/input.js
+async/async_export/input.js
 async/async_function_expression/input.js
 async/async_generator_class_method/input.js
 async/async_generator_function/input.js
@@ -206,12 +207,14 @@ functions/issue_2663_1/input.js
 functions/issue_2737_1/input.js
 functions/issue_2737_2/input.js
 functions/no_webkit/input.js
+functions/non_ascii_function_identifier_name/input.js
 functions/webkit/input.js
 harmony/arrow_function_parens/input.js
 harmony/arrow_function_parens_2/input.js
 harmony/class_expression_statement/input.js
 harmony/class_extends/input.js
 harmony/class_extends_class/input.js
+harmony/class_extends_function/input.js
 harmony/class_extends_regex/input.js
 harmony/class_method_using_arguments/input.js
 harmony/class_methods_and_getters_with_keep_quoted_props_enabled/input.js
@@ -350,6 +353,7 @@ new/dot_parenthesis_1/input.js
 new/dot_parenthesis_2/input.js
 new/new_statement/input.js
 new/new_statements_2/input.js
+new/new_statements_3/input.js
 new/new_with_assignement_expression/input.js
 new/new_with_many_parameters/input.js
 new/new_with_rewritten_true_value/input.js
@@ -458,6 +462,7 @@ reduce_vars/issue_2455/input.js
 reduce_vars/issue_2598/input.js
 reduce_vars/issue_2670/input.js
 reduce_vars/issue_2919/input.js
+reduce_vars/issue_2992/input.js
 reduce_vars/issue_3042_1/input.js
 reduce_vars/issue_3068_1/input.js
 reduce_vars/issue_3068_2/input.js
@@ -540,6 +545,7 @@ try_catch/parameterless_catch/input.js
 typeof/issue_1668/input.js
 typeof/issue_2728_1/input.js
 typeof/issue_2728_2/input.js
+typeof/issue_2728_5/input.js
 typeof/issue_2728_6/input.js
 typeof/typeof_defun_2/input.js
 typeof/typeof_evaluation/input.js
