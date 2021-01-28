@@ -6,6 +6,7 @@ use crate::compress::hoist_decls::decl_hoister;
 use crate::debug::dump;
 use crate::option::CompressOptions;
 use crate::util::Optional;
+use pretty_assertions::assert_eq;
 use std::borrow::Cow;
 use swc_common::chain;
 use swc_common::pass::CompilerPass;
@@ -136,10 +137,10 @@ impl VisitMut for Compressor<'_> {
             if cfg!(debug_assertions) && !visitor.changed() {
                 let simplified = dump(&*n);
                 if start != simplified {
-                    panic!(
-                        "Invalid state:\n{}\n is simplified as \n{}\n but changed is not setted \
-                         to true",
-                        start, simplified
+                    assert_eq!(
+                        start, simplified,
+                        "Invalid state: expr_simplifier: The code is changed but changed is not \
+                         setted to true",
                     )
                 }
             }
