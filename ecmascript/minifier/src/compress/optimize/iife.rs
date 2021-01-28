@@ -196,25 +196,47 @@ impl Optimizer {
         }
 
         if !body.stmts.iter().all(|stmt| match stmt {
-            Stmt::Return(..) => true,
+            Stmt::Expr(..) | Stmt::Return(..) => true,
             _ => false,
         }) {
             return;
         }
 
+        self.changed = true;
+
+        log::trace!("inline: Inlining a function call");
+
         //
+        let mut exprs = vec![];
         for stmt in body.stmts.take() {
             match stmt {
+                Stmt::Expr(stmt) => {
+                    exprs.push(stmt.expr);
+                }
+
                 Stmt::Return(stmt) => {
                     let span = stmt.span;
-                    self.changed = true;
-
-                    log::trace!("inline: Inlining a function call");
                     *e = *stmt.arg.unwrap_or_else(|| undefined(span));
                     return;
                 }
                 _ => {}
             }
         }
+
+        if let Some(last) = exprs.last_mut() {
+            *last = Box::new(Expr::Unary(UnaryExpr {
+                span: DUMMY_SP,
+                op: op!("void"),
+                arg: last.take(),
+            }));
+        } else {
+            *e = *undefined(f.function.span);
+            return;
+        }
+
+        *e = Expr::Seq(SeqExpr {
+            span: DUMMY_SP,
+            exprs,
+        })
     }
 }
