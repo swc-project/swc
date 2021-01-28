@@ -48,7 +48,6 @@ big_int/big_int_octal/input.js
 big_int/big_int_positive/input.js
 big_int/regression_big_int_hex_lower_with_e/input.js
 block_scope/let_statement/input.js
-blocks/issue_1664/input.js
 blocks/issue_1672_for/input.js
 blocks/issue_1672_for_strict/input.js
 blocks/issue_1672_if_strict/input.js
@@ -109,7 +108,6 @@ conditionals/cond_2/input.js
 conditionals/cond_3/input.js
 conditionals/cond_4/input.js
 conditionals/cond_5/input.js
-conditionals/cond_7/input.js
 conditionals/cond_7_1/input.js
 conditionals/cond_8/input.js
 conditionals/cond_8b/input.js
@@ -533,9 +531,6 @@ regexp/regexp_slashes/input.js
 rename/issue_2120_2/input.js
 rename/mangle_catch_ie8/input.js
 sandbox/console_log/input.js
-sequences/delete_seq_1/input.js
-sequences/delete_seq_2/input.js
-sequences/delete_seq_3/input.js
 sequences/delete_seq_4/input.js
 sequences/delete_seq_5/input.js
 sequences/func_def_2/input.js
