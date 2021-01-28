@@ -135,11 +135,13 @@ impl VisitMut for Compressor<'_> {
 
             if cfg!(debug_assertions) && !visitor.changed() {
                 let simplified = dump(&*n);
-                assert_eq!(
-                    start, simplified,
-                    "\n{}\n is simplified as \n{}\n but changed is not setted to true",
-                    start, simplified
-                )
+                if start != simplified {
+                    panic!(
+                        "Invalid state:\n{}\n is simplified as \n{}\n but changed is not setted \
+                         to true",
+                        start, simplified
+                    )
+                }
             }
         }
 
