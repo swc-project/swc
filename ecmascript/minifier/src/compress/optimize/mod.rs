@@ -420,11 +420,13 @@ impl Optimizer {
     fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Expr> {
         match e {
             Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
+                log::trace!("Dropping unused expr");
                 self.changed = true;
                 return None;
             }
             // Function expression cannot have a side effect.
             Expr::Fn(_) => {
+                log::trace!("Dropping unused fn expr as it does not have any side effect");
                 self.changed = true;
                 return None;
             }
