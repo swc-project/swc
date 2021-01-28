@@ -1220,6 +1220,8 @@ impl VisitMut for Optimizer {
 
         self.optimize_const_switches(n);
 
+        self.optimize_switches(n);
+
         match n {
             Stmt::Expr(ExprStmt { expr, .. }) => {
                 let is_directive = match &**expr {
