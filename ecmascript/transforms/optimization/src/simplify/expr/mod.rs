@@ -1337,7 +1337,7 @@ impl Fold for SimplifyExpr {
         exprs.push(last_expr);
         exprs.shrink_to_fit();
 
-        self.changed = len != exprs.len();
+        self.changed |= len != exprs.len();
 
         SeqExpr {
             exprs,
