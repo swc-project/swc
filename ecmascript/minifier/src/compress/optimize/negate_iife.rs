@@ -23,7 +23,7 @@ impl Optimizer {
 
         match callee {
             Expr::Fn(..) => {
-                log::trace!("negate_iife: Compressing iife");
+                log::trace!("negate_iife: Negating iife");
                 *e = Expr::Unary(UnaryExpr {
                     span: DUMMY_SP,
                     op: op!("!"),
