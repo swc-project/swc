@@ -8,6 +8,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::undefined;
 use swc_ecma_visit::VisitMutWith;
 
 /// Methods related to the option `negate_iife`.
@@ -158,9 +159,62 @@ impl Optimizer {
     /// ({
     /// }).x = 10;
     /// ```
-    pub(super) fn invoke_iife(&mut self, e: &mut CallExpr) {
+    pub(super) fn invoke_iife(&mut self, e: &mut Expr) {
         if !self.options.inline {
             return;
+        }
+
+        let expr = match e {
+            Expr::Call(v) => v,
+            _ => return,
+        };
+
+        let callee = match &mut expr.callee {
+            ExprOrSuper::Super(_) => return,
+            ExprOrSuper::Expr(e) => &mut **e,
+        };
+
+        // TODO: Improve this.
+        if !expr.args.is_empty() {
+            return;
+        }
+
+        let f = match callee {
+            Expr::Fn(f) => f,
+            _ => return,
+        };
+
+        // TODO: Improve this.
+        if !f.function.params.is_empty() {
+            return;
+        }
+
+        let body = f.function.body.as_mut().unwrap();
+        if body.stmts.is_empty() {
+            *e = *undefined(f.function.span);
+            return;
+        }
+
+        if !body.stmts.iter().all(|stmt| match stmt {
+            Stmt::Return(..) => true,
+            _ => false,
+        }) {
+            return;
+        }
+
+        //
+        for stmt in body.stmts.take() {
+            match stmt {
+                Stmt::Return(stmt) => {
+                    let span = stmt.span;
+                    self.changed = true;
+
+                    log::trace!("inline: Inlining a function call");
+                    *e = *stmt.arg.unwrap_or_else(|| undefined(span));
+                    return;
+                }
+                _ => {}
+            }
         }
     }
 }
