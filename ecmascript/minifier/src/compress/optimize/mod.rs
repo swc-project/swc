@@ -449,7 +449,9 @@ impl Optimizer {
         }
     }
 
-    fn ignore_return_value(&self, e: &mut Expr) -> Option<Expr> {
+    fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Expr> {
+        self.handle_negated_iife(e);
+
         match e {
             Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => return None,
             // Function expression cannot have a side effect.
@@ -1164,8 +1166,6 @@ impl VisitMut for Optimizer {
         self.remove_useless_pipes(n);
 
         self.optimize_bools(n);
-
-        self.handle_negated_iife(n);
 
         self.optimize_bangbang(n);
     }
