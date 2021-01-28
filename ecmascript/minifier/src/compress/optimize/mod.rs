@@ -1261,6 +1261,14 @@ impl VisitMut for Optimizer {
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        let ctx = Ctx {
+            stmt_lablled: false,
+            ..self.ctx
+        };
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+    }
+
     fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {
         n.visit_mut_children_with(self);
 
