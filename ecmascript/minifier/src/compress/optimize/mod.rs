@@ -1092,6 +1092,8 @@ impl VisitMut for Optimizer {
             .identify_last()
             .filter_map(|(last, expr)| {
                 if !last {
+                    self.negate_iife_in_cond(&mut **expr);
+
                     self.ignore_return_value(&mut **expr).map(Box::new)
                 } else {
                     Some(expr.take())
