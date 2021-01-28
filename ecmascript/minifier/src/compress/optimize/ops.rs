@@ -72,6 +72,7 @@ impl Optimizer {
                                 //
                                 match &**callee {
                                     Expr::Fn(..) => {
+                                        log::trace!("negate_iife: `!!iife` => `!iife`");
                                         *e = *arg.take();
                                         return;
                                     }
