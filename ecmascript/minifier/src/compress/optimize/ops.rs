@@ -1,4 +1,5 @@
 use super::Optimizer;
+use crate::util::make_bool;
 use crate::util::ValueExt;
 use std::mem::swap;
 use swc_atoms::js_word;
@@ -170,13 +171,22 @@ impl Optimizer {
             }) => {
                 // Optimize if (a ?? false); as if (a);
                 if let Value::Known(false) = right.as_pure_bool() {
-                    log::trace!("Dropping right operand of `??` as it's always false");
+                    log::trace!(
+                        "Dropping right operand of `??` as it's always false (in bool context)"
+                    );
                     self.changed = true;
                     *n = *left.take();
                 }
             }
 
-            _ => {}
+            _ => {
+                let span = n.span();
+                let v = n.as_pure_bool();
+                if let Known(v) = v {
+                    log::trace!("Optimizing expr as {} (in bool context)", v);
+                    *n = make_bool(span, v);
+                }
+            }
         }
     }
 

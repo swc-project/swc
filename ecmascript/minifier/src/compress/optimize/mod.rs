@@ -1302,7 +1302,7 @@ impl VisitMut for Optimizer {
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        if n.op == op!("!") || n.op == op!("delete") {
+        if n.op == op!("!") {
             self.with_ctx(ctx).optimize_expr_in_bool_ctx(&mut n.arg);
         }
     }

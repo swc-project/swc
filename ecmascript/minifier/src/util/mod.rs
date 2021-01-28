@@ -18,6 +18,20 @@ pub(crate) mod base54;
 pub(crate) mod sort;
 pub(crate) mod usage;
 
+///
+/// - `!0` for true
+/// - `!1` for false
+pub(crate) fn make_bool(span: Span, value: bool) -> Expr {
+    Expr::Unary(UnaryExpr {
+        span,
+        op: op!("!"),
+        arg: Box::new(Expr::Lit(Lit::Num(Number {
+            span: DUMMY_SP,
+            value: if value { 0.0 } else { 1.0 },
+        }))),
+    })
+}
+
 /// Addditional methods for optimizing expressions.
 pub(crate) trait ExprOptExt: Sized {
     fn as_mut(&mut self) -> &mut Expr;
