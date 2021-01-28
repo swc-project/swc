@@ -1210,7 +1210,10 @@ impl Fold for SimplifyExpr {
                         Some(ExprOrSpread {
                             spread: Some(..),
                             expr,
-                        }) if expr.is_array() => e.extend(expr.array().unwrap().elems),
+                        }) if expr.is_array() => {
+                            self.changed = true;
+                            e.extend(expr.array().unwrap().elems)
+                        }
 
                         _ => e.push(elem),
                     }
