@@ -1,1 +1,1 @@
-t ? foo(true) : bar(false), void console.log("something");
+t ? foo(true) : bar(false), console.log("something");
