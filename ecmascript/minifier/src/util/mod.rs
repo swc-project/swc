@@ -100,23 +100,25 @@ impl SpanExt for Span {}
 
 pub(crate) fn contains_leaping_yield<N>(n: &N) -> bool
 where
-    N: VisitWith<YieldFinder>,
+    N: VisitWith<LeapFinder>,
 {
-    let mut v = YieldFinder { found: false };
+    let mut v = LeapFinder::default();
     n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
-    v.found
+    v.found_yield
 }
 
-pub(crate) struct YieldFinder {
-    found: bool,
+#[derive(Default)]
+pub(crate) struct LeapFinder {
+    found_yield: bool,
 }
 
-impl Visit for YieldFinder {
+impl Visit for LeapFinder {
     noop_visit_type!();
 
-    fn visit_yield_expr(&mut self, n: &YieldExpr, _: &dyn Node) {
-        self.found = true;
+    fn visit_yield_expr(&mut self, _: &YieldExpr, _: &dyn Node) {
+        self.found_yield = true;
     }
+
     fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
     fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
 }

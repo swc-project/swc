@@ -2,8 +2,13 @@ use super::Optimizer;
 use swc_common::EqIgnoreSpan;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::ExprExt;
+use swc_ecma_visit::noop_visit_type;
+use swc_ecma_visit::Node;
+use swc_ecma_visit::Visit;
+use swc_ecma_visit::VisitWith;
 
 /// Methods related to option `switches`.
 impl Optimizer {
@@ -36,8 +41,26 @@ impl Optimizer {
 
         if let Some(case_idx) = matching_case {
             let mut stmts = vec![];
+
+            let should_preserve_switch = stmt.cases.iter().skip(case_idx).any(|case| {
+                let mut v = BreakFinder {
+                    found_unlabelled_break_for_stmt: false,
+                };
+                case.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                v.found_unlabelled_break_for_stmt
+            });
+            if should_preserve_switch {
+                // Prevent infinite loop.
+                if stmt.cases.len() == 1 {
+                    return;
+                }
+
+                log::trace!("switches: Removing unreachable cases from a constant switch");
+            } else {
+                log::trace!("switches: Removing a constant switch");
+            }
+
             self.changed = true;
-            log::trace!("switches: Optimizing constant switches");
 
             for case in stmt.cases.iter_mut().skip(case_idx) {
                 let mut found_break = false;
@@ -68,21 +91,68 @@ impl Optimizer {
                 }
             }
 
+            let inner = if should_preserve_switch {
+                let mut cases = stmt.cases.take();
+                let case = SwitchCase {
+                    span: cases[case_idx].span,
+                    test: cases[case_idx].test.take(),
+                    cons: stmts,
+                };
+
+                Stmt::Switch(SwitchStmt {
+                    span: stmt.span,
+                    discriminant: stmt.discriminant.take(),
+                    cases: vec![case],
+                })
+            } else {
+                Stmt::Block(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts,
+                })
+            };
+
             *s = match label {
                 Some(label) => Stmt::Labeled(LabeledStmt {
                     span: DUMMY_SP,
                     label,
-                    body: Box::new(Stmt::Block(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts,
-                    })),
+                    body: Box::new(inner),
                 }),
-                None => Stmt::Block(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts,
-                }),
+                None => inner,
             };
             return;
         }
     }
+}
+
+#[derive(Default)]
+struct BreakFinder {
+    found_unlabelled_break_for_stmt: bool,
+}
+
+impl Visit for BreakFinder {
+    noop_visit_type!();
+
+    fn visit_break_stmt(&mut self, s: &BreakStmt, _: &dyn Node) {
+        if s.label.is_none() {
+            self.found_unlabelled_break_for_stmt = true;
+        }
+    }
+
+    /// We don't care about breaks in a lop[
+    fn visit_for_stmt(&mut self, _: &ForStmt, _: &dyn Node) {}
+
+    /// We don't care about breaks in a lop[
+    fn visit_for_in_stmt(&mut self, _: &ForInStmt, _: &dyn Node) {}
+
+    /// We don't care about breaks in a lop[
+    fn visit_for_of_stmt(&mut self, _: &ForOfStmt, _: &dyn Node) {}
+
+    /// We don't care about breaks in a lop[
+    fn visit_do_while_stmt(&mut self, _: &DoWhileStmt, _: &dyn Node) {}
+
+    /// We don't care about breaks in a lop[
+    fn visit_while_stmt(&mut self, _: &WhileStmt, _: &dyn Node) {}
+
+    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
 }
