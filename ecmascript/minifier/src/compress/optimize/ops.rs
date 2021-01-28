@@ -44,46 +44,28 @@ impl Optimizer {
             }) => match &mut **arg {
                 Expr::Unary(UnaryExpr {
                     op: op!("!"), arg, ..
-                }) => {
-                    match &**arg {
-                        Expr::Unary(UnaryExpr { op: op!("!"), .. })
-                        | Expr::Bin(BinExpr { op: op!("in"), .. })
-                        | Expr::Bin(BinExpr {
-                            op: op!("instanceof"),
-                            ..
-                        })
-                        | Expr::Bin(BinExpr { op: op!("=="), .. })
-                        | Expr::Bin(BinExpr { op: op!("!="), .. })
-                        | Expr::Bin(BinExpr { op: op!("==="), .. })
-                        | Expr::Bin(BinExpr { op: op!("!=="), .. })
-                        | Expr::Bin(BinExpr { op: op!("<="), .. })
-                        | Expr::Bin(BinExpr { op: op!("<"), .. })
-                        | Expr::Bin(BinExpr { op: op!(">="), .. })
-                        | Expr::Bin(BinExpr { op: op!(">"), .. }) => {
-                            log::trace!("Optimizing: `!!expr` => `expr`");
-                            *e = *arg.take();
-                            return;
-                        }
-
-                        // Handle !!iife
-                        Expr::Call(call) => match &call.callee {
-                            ExprOrSuper::Super(_) => {}
-                            ExprOrSuper::Expr(callee) => {
-                                //
-                                match &**callee {
-                                    Expr::Fn(..) => {
-                                        log::trace!("negate_iife: `!!iife` => `!iife`");
-                                        *e = *arg.take();
-                                        return;
-                                    }
-                                    _ => {}
-                                }
-                            }
-                        },
-
-                        _ => {}
+                }) => match &**arg {
+                    Expr::Unary(UnaryExpr { op: op!("!"), .. })
+                    | Expr::Bin(BinExpr { op: op!("in"), .. })
+                    | Expr::Bin(BinExpr {
+                        op: op!("instanceof"),
+                        ..
+                    })
+                    | Expr::Bin(BinExpr { op: op!("=="), .. })
+                    | Expr::Bin(BinExpr { op: op!("!="), .. })
+                    | Expr::Bin(BinExpr { op: op!("==="), .. })
+                    | Expr::Bin(BinExpr { op: op!("!=="), .. })
+                    | Expr::Bin(BinExpr { op: op!("<="), .. })
+                    | Expr::Bin(BinExpr { op: op!("<"), .. })
+                    | Expr::Bin(BinExpr { op: op!(">="), .. })
+                    | Expr::Bin(BinExpr { op: op!(">"), .. }) => {
+                        log::trace!("Optimizing: `!!expr` => `expr`");
+                        *e = *arg.take();
+                        return;
                     }
-                }
+
+                    _ => {}
+                },
                 _ => {}
             },
             _ => {}
