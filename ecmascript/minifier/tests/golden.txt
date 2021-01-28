@@ -13,6 +13,7 @@ arrow/arrow_functions_with_body/input.js
 arrow/arrow_functions_without_body/input.js
 arrow/arrow_with_regexp/input.js
 arrow/concise_method_with_super/input.js
+arrow/issue_2271/input.js
 arrow/issue_3092a/input.js
 arrow/no_leading_parentheses/input.js
 asm/asm_function_expression/input.js
@@ -95,6 +96,7 @@ collapse_vars/return_4/input.js
 collapse_vars/side_effects_property/input.js
 collapse_vars/switch_case_3/input.js
 comments/preserve_comments_by_default/input.js
+comparing/keep_comparisons/input.js
 concat_strings/concat_2/input.js
 concat_strings/concat_3/input.js
 concat_strings/concat_4/input.js
@@ -167,6 +169,7 @@ drop_unused/used_var_in_catch/input.js
 evaluate/global_hasOwnProperty/input.js
 evaluate/in_boolean_context/input.js
 evaluate/issue_1649/input.js
+evaluate/issue_1964_1/input.js
 evaluate/issue_2207_2/input.js
 evaluate/issue_2231_1/input.js
 evaluate/issue_2231_2/input.js
@@ -429,6 +432,7 @@ properties/accessor_this/input.js
 properties/first_256_chars_as_properties/input.js
 properties/first_256_hex_chars_as_properties/input.js
 properties/first_256_unicode_chars_as_properties/input.js
+properties/issue_2321/input.js
 properties/issue_2893_1/input.js
 properties/issue_2893_2/input.js
 properties/issue_2893_3/input.js
@@ -440,6 +444,7 @@ properties/issue_2893_8/input.js
 properties/join_object_assignments_3/input.js
 properties/join_object_assignments_NaN_1/input.js
 properties/join_object_assignments_null_0/input.js
+properties/native_prototype_lhs/input.js
 reduce_vars/accessor_1/input.js
 reduce_vars/accessor_2/input.js
 reduce_vars/array_forin_1/input.js
@@ -550,6 +555,16 @@ string_literal/issue_1929/input.js
 string_literal/octal_escape_sequence/input.js
 super/super_can_be_parsed/input.js
 switch/beautify/input.js
+switch/constant_switch_2/input.js
+switch/constant_switch_3/input.js
+switch/constant_switch_6/input.js
+switch/constant_switch_8/input.js
+switch/constant_switch_9/input.js
+switch/issue_1674/input.js
+switch/issue_1690_1/input.js
+switch/issue_1690_2/input.js
+switch/issue_1698/input.js
+switch/issue_1758/input.js
 template_string/allow_chained_templates/input.js
 template_string/allow_null_character/input.js
 template_string/check_escaped_chars/input.js
