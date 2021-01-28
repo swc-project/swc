@@ -172,15 +172,35 @@ pub struct TestOptions {
     #[serde(default)]
     #[serde(rename = "unsafe")]
     pub unsafe_passes: bool,
-    // unsafe_arrows : false,
-    // unsafe_comps  : false,
-    // unsafe_Function: false,
-    // unsafe_math   : false,
-    // unsafe_symbols: false,
-    // unsafe_methods: false,
-    // unsafe_proto  : false,
-    // unsafe_regexp : false,
-    // unsafe_undefined: false,
+
+    #[serde(default)]
+    pub unsafe_arrows: bool,
+
+    #[serde(default)]
+    pub unsafe_comps: bool,
+
+    #[serde(default)]
+    #[serde(rename = "unsafe_Function")]
+    pub unsafe_function: bool,
+
+    #[serde(default)]
+    pub unsafe_math: bool,
+
+    #[serde(default)]
+    pub unsafe_symbols: bool,
+
+    #[serde(default)]
+    pub unsafe_methods: bool,
+
+    #[serde(default)]
+    pub unsafe_proto: bool,
+
+    #[serde(default)]
+    pub unsafe_regexp: bool,
+
+    #[serde(default)]
+    pub unsafe_undefined: bool,
+
     #[serde(default)]
     pub unused: bool,
 }
@@ -232,6 +252,15 @@ fn parse_config(s: &str) -> CompressOptions {
         top_level: c.toplevel,
         typeofs: c.typeofs,
         unsafe_passes: c.unsafe_passes,
+        unsafe_arrows: c.unsafe_arrows,
+        unsafe_comps: c.unsafe_comps,
+        unsafe_function: c.unsafe_function,
+        unsafe_math: c.unsafe_math,
+        unsafe_symbols: c.unsafe_symbols,
+        unsafe_methods: c.unsafe_methods,
+        unsafe_proto: c.unsafe_proto,
+        unsafe_regexp: c.unsafe_regexp,
+        unsafe_undefined: c.unsafe_undefined,
         unused: c.unused,
     }
 }

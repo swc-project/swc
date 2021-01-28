@@ -185,15 +185,35 @@ pub struct CompressOptions {
     #[serde(default)]
     #[serde(rename = "unsafe")]
     pub unsafe_passes: bool,
-    // unsafe_arrows : false,
-    // unsafe_comps  : false,
-    // unsafe_Function: false,
-    // unsafe_math   : false,
-    // unsafe_symbols: false,
-    // unsafe_methods: false,
-    // unsafe_proto  : false,
-    // unsafe_regexp : false,
-    // unsafe_undefined: false,
+
+    #[serde(default)]
+    pub unsafe_arrows: bool,
+
+    #[serde(default)]
+    pub unsafe_comps: bool,
+
+    #[serde(default)]
+    #[serde(alias = "unsafe_Function")]
+    pub unsafe_function: bool,
+
+    #[serde(default)]
+    pub unsafe_math: bool,
+
+    #[serde(default)]
+    pub unsafe_symbols: bool,
+
+    #[serde(default)]
+    pub unsafe_methods: bool,
+
+    #[serde(default)]
+    pub unsafe_proto: bool,
+
+    #[serde(default)]
+    pub unsafe_regexp: bool,
+
+    #[serde(default)]
+    pub unsafe_undefined: bool,
+
     #[serde(default = "true_by_default")]
     pub unused: bool,
 }
