@@ -1092,7 +1092,11 @@ impl VisitMut for Optimizer {
             .identify_last()
             .filter_map(|(last, expr)| {
                 if !last {
-                    self.negate_iife_in_cond(&mut **expr);
+                    // If negate_iife is true, it's already handled by visit_mut_children_with(self)
+                    // above.
+                    if !self.options.negate_iife {
+                        self.negate_iife_in_cond(&mut **expr);
+                    }
 
                     self.ignore_return_value(&mut **expr).map(Box::new)
                 } else {
