@@ -722,7 +722,19 @@ impl SimplifyExpr {
             }
             op!("!") => {
                 match &*arg {
+                    // Don't expand booleans.
                     Expr::Lit(Lit::Num(..)) => return Expr::Unary(UnaryExpr { op, arg, span }),
+
+                    // Don't remove ! from negated iifes.
+                    Expr::Call(call) => match &call.callee {
+                        ExprOrSuper::Expr(callee) => match &**callee {
+                            Expr::Fn(..) => {
+                                return Expr::Unary(UnaryExpr { op, arg, span });
+                            }
+                            _ => {}
+                        },
+                        _ => {}
+                    },
                     _ => {}
                 }
 
