@@ -121,7 +121,8 @@ impl VisitMut for Compressor<'_> {
             panic!("Infinite loop detected")
         }
 
-        eprintln!("===== Start =====\n{}", dump(&*n));
+        let start = dump(&*n);
+        eprintln!("===== Start =====\n{}", start);
 
         {
             let mut visitor = expr_simplifier();
@@ -130,6 +131,15 @@ impl VisitMut for Compressor<'_> {
             if visitor.changed() {
                 log::trace!("compressor: Simplified expressions");
                 eprintln!("===== Simplified =====\n{}", dump(&*n));
+            }
+
+            if cfg!(debug_assertions) && !visitor.changed() {
+                let simplified = dump(&*n);
+                assert_eq!(
+                    start, simplified,
+                    "\n{}\n is simplified as \n{}\n but changed is not setted to true",
+                    start, simplified
+                )
             }
         }
 
