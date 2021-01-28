@@ -101,6 +101,10 @@ impl Optimizer {
     /// })(7);
     /// ```
     pub(super) fn inline_args_of_iife(&mut self, e: &mut CallExpr) {
+        if !self.options.inline {
+            return;
+        }
+
         let has_spread_arg = e.args.iter().any(|v| v.spread.is_some());
 
         if !has_spread_arg {
