@@ -7,7 +7,7 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 /// `negate_iife` is false.
 impl Optimizer {
     /// Negates iife, while ignore return value.
-    pub(super) fn negate_iife_ignoring_return(&mut self, e: &mut Expr) {
+    pub(super) fn negate_iife_ignoring_ret(&mut self, e: &mut Expr) {
         if !self.options.negate_iife || self.ctx.in_bang_arg {
             return;
         }
