@@ -464,6 +464,7 @@ impl Optimizer {
 
             // a ? b ? c() : d() : d() => a && b ? c() : d()
             (Expr::Cond(cons), alt) if (*cons.alt).eq_ignore_span(&*alt) => {
+                log::trace!("conditionals: a ? b ? c() : d() : d() => a && b ? c() : d()");
                 return Some(Expr::Cond(CondExpr {
                     span: DUMMY_SP.with_ctxt(self.done_ctxt),
                     test: Box::new(Expr::Bin(BinExpr {
@@ -474,7 +475,7 @@ impl Optimizer {
                     })),
                     cons: cons.cons.take(),
                     alt: cons.alt.take(),
-                }))
+                }));
             }
 
             // z ? "fuji" : (condition(), "fuji");
@@ -483,6 +484,7 @@ impl Optimizer {
             (cons, Expr::Seq(alt))
                 if alt.exprs.len() == 2 && (**alt.exprs.last().unwrap()).eq_ignore_span(&*cons) =>
             {
+                log::trace!("conditionals: Reducing seq expr in alt");
                 //
                 let first = Box::new(Expr::Bin(BinExpr {
                     span: DUMMY_SP,
