@@ -9,4 +9,10 @@ impl Scope<'static> {
     }
 }
 
-impl<'a> Scope<'a> {}
+impl<'a> Scope<'a> {
+    pub fn new(parent: &'a Scope<'a>) -> Self {
+        Self {
+            parent: Some(parent),
+        }
+    }
+}
