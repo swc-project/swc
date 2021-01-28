@@ -157,6 +157,7 @@ drop_unused/issue_2063/input.js
 drop_unused/issue_2136_1/input.js
 drop_unused/issue_3146_1/input.js
 drop_unused/issue_3146_2/input.js
+drop_unused/reassign_const/input.js
 drop_unused/unused_circular_references_3/input.js
 drop_unused/unused_keep_setter_arg/input.js
 drop_unused/used_var_in_catch/input.js
@@ -270,6 +271,8 @@ ie8/dont_screw/input.js
 ie8/dont_screw_constants/input.js
 ie8/issue_2120_2/input.js
 if_return/if_return_1/input.js
+if_return/if_return_3/input.js
+if_return/issue_1089/input.js
 if_return/issue_1317/input.js
 if_return/issue_1317_strict/input.js
 if_return/issue_1437/input.js
@@ -499,6 +502,9 @@ sequences/lift_sequences_5/input.js
 sequences/lift_sequences_6/input.js
 sequences/make_sequences_1/input.js
 sequences/make_sequences_2/input.js
+sequences/make_sequences_3/input.js
+sequences/make_sequences_4/input.js
+sequences/reassign_const/input.js
 sequences/side_effects/input.js
 sequences/side_effects_cascade_2/input.js
 string_literal/issue_1929/input.js
