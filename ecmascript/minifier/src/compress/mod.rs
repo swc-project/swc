@@ -8,6 +8,10 @@ use crate::option::CompressOptions;
 use crate::util::Optional;
 use pretty_assertions::assert_eq;
 use std::borrow::Cow;
+use std::fmt;
+use std::fmt::Debug;
+use std::fmt::Display;
+use std::fmt::Formatter;
 use swc_common::chain;
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeat;
@@ -138,7 +142,8 @@ impl VisitMut for Compressor<'_> {
                 let simplified = dump(&*n);
                 if start != simplified {
                     assert_eq!(
-                        start, simplified,
+                        DebugUsingDisplay(&start),
+                        DebugUsingDisplay(&simplified),
                         "Invalid state: expr_simplifier: The code is changed but changed is not \
                          setted to true",
                     )
@@ -195,5 +200,14 @@ impl VisitMut for Compressor<'_> {
             Stmt::Decl(Decl::Var(VarDecl { decls, .. })) if decls.is_empty() => false,
             _ => true,
         });
+    }
+}
+
+#[derive(PartialEq, Eq)]
+struct DebugUsingDisplay<'a>(&'a str);
+
+impl<'a> Debug for DebugUsingDisplay<'a> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        Display::fmt(self.0, f)
     }
 }
