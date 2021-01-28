@@ -538,11 +538,15 @@ impl Optimizer {
                 _ => false,
             } =>
             {
-                return Some(e.take())
+                log::trace!("ignore_return_Value: Preserving negated iife");
+                return Some(e.take());
             }
 
             // `delete` is handled above
-            Expr::Unary(expr) => return self.ignore_return_value(&mut expr.arg),
+            Expr::Unary(expr) => {
+                log::trace!("ignore_return_Value: Reducing unary ({})", expr.op);
+                return self.ignore_return_value(&mut expr.arg);
+            }
 
             Expr::Bin(BinExpr {
                 span, left, right, ..
