@@ -560,11 +560,15 @@ switch/constant_switch_6/input.js
 switch/constant_switch_7/input.js
 switch/constant_switch_8/input.js
 switch/constant_switch_9/input.js
+switch/drop_case/input.js
+switch/drop_default_1/input.js
+switch/drop_default_2/input.js
 switch/issue_1674/input.js
 switch/issue_1690_1/input.js
 switch/issue_1690_2/input.js
 switch/issue_1698/input.js
 switch/issue_1758/input.js
+switch/keep_default/input.js
 template_string/allow_chained_templates/input.js
 template_string/allow_null_character/input.js
 template_string/check_escaped_chars/input.js
