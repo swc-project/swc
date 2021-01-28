@@ -1170,12 +1170,12 @@ impl Fold for SimplifyExpr {
                 alt,
             }) => match test.as_bool() {
                 (p, Known(val)) => {
+                    self.changed = true;
+
                     let expr_value = if val { cons } else { alt };
                     if p.is_pure() {
-                        self.changed = true;
                         *expr_value
                     } else {
-                        self.changed = true;
                         Expr::Seq(SeqExpr {
                             span,
                             exprs: vec![test, expr_value],
