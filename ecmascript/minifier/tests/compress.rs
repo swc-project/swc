@@ -159,7 +159,9 @@ pub struct TestOptions {
     #[serde(default)]
     pub side_effects: bool,
 
-    // switches      : !false_by_default,
+    #[serde(default)]
+    pub switches: bool,
+
     // top_retain    : null,
     #[serde(default)]
     pub toplevel: bool,
@@ -226,6 +228,7 @@ fn parse_config(s: &str) -> CompressOptions {
         reduce_vars: c.reduce_vars,
         sequences: c.sequences,
         side_effects: c.side_effects,
+        switches: c.switches,
         top_level: c.toplevel,
         typeofs: c.typeofs,
         unsafe_passes: c.unsafe_passes,

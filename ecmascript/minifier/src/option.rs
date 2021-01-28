@@ -169,7 +169,10 @@ pub struct CompressOptions {
     #[serde(alias = "side_effects")]
     pub side_effects: bool,
 
-    // switches      : !false_by_default,
+    #[serde(default)]
+    #[serde(alias = "switches")]
+    pub switches: bool,
+
     // top_retain    : null,
     #[serde(default)]
     #[serde(alias = "toplevel")]
