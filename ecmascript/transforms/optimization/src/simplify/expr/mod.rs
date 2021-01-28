@@ -1153,8 +1153,10 @@ impl Fold for SimplifyExpr {
                 (p, Known(val)) => {
                     let expr_value = if val { cons } else { alt };
                     if p.is_pure() {
+                        self.changed = true;
                         *expr_value
                     } else {
+                        self.changed = true;
                         Expr::Seq(SeqExpr {
                             span,
                             exprs: vec![test, expr_value],
