@@ -10,6 +10,7 @@ use crate::pass::compute_char_freq::compute_char_freq;
 use crate::pass::expand_names::name_expander;
 use crate::pass::mangle_names::name_mangler;
 use crate::pass::mangle_props::property_mangler;
+use pass::hygiene::hygiene_optimizer;
 use swc_ecma_ast::Module;
 use swc_ecma_visit::FoldWith;
 use swc_ecma_visit::VisitMutWith;
@@ -91,6 +92,11 @@ pub fn optimize(
     if options.mangle.as_ref().map(|o| o.props).unwrap_or(false) {
         m.visit_mut_with(&mut property_mangler());
     }
+
+    if let Some(ref mut _t) = timings {
+        // TODO: store `hygiene`
+    }
+    m.visit_mut_with(&mut hygiene_optimizer());
 
     m
 }
