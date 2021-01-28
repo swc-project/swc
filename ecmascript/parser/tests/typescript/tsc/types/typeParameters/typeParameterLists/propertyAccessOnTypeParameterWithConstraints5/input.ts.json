@@ -1703,7 +1703,7 @@
                 "value": {
                   "type": "ArrowFunctionExpression",
                   "span": {
-                    "start": 602,
+                    "start": 576,
                     "end": 702,
                     "ctxt": 0
                   },

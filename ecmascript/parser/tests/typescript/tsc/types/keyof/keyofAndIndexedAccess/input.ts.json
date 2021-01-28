@@ -26329,7 +26329,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 11244,
+              "start": 11197,
               "end": 11331,
               "ctxt": 0
             },
@@ -40531,7 +40531,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 17220,
+              "start": 17148,
               "end": 17279,
               "ctxt": 0
             },
@@ -40981,7 +40981,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 17355,
+              "start": 17294,
               "end": 17414,
               "ctxt": 0
             },

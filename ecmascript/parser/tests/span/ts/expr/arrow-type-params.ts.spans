@@ -1,0 +1,150 @@
+warning: Module
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:1
+  |
+1 | const a = <T>(value: T): any => {};
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:1
+  |
+1 | const a = <T>(value: T): any => {};
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:1
+  |
+1 | const a = <T>(value: T): any => {};
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Decl
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:1
+  |
+1 | const a = <T>(value: T): any => {};
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: VarDecl
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:1
+  |
+1 | const a = <T>(value: T): any => {};
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: VarDeclarator
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:7
+  |
+1 | const a = <T>(value: T): any => {};
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Pat
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:7
+  |
+1 | const a = <T>(value: T): any => {};
+  |       ^
+
+warning: Ident
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:7
+  |
+1 | const a = <T>(value: T): any => {};
+  |       ^
+
+warning: Expr
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:11
+  |
+1 | const a = <T>(value: T): any => {};
+  |           ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ArrowExpr
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:11
+  |
+1 | const a = <T>(value: T): any => {};
+  |           ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Pat
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:15
+  |
+1 | const a = <T>(value: T): any => {};
+  |               ^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:15
+  |
+1 | const a = <T>(value: T): any => {};
+  |               ^^^^^^^^
+
+warning: TsTypeAnn
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:20
+  |
+1 | const a = <T>(value: T): any => {};
+  |                    ^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:22
+  |
+1 | const a = <T>(value: T): any => {};
+  |                      ^
+
+warning: TsTypeRef
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:22
+  |
+1 | const a = <T>(value: T): any => {};
+  |                      ^
+
+warning: TsEntityName
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:22
+  |
+1 | const a = <T>(value: T): any => {};
+  |                      ^
+
+warning: Ident
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:22
+  |
+1 | const a = <T>(value: T): any => {};
+  |                      ^
+
+warning: BlockStmtOrExpr
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:33
+  |
+1 | const a = <T>(value: T): any => {};
+  |                                 ^^
+
+warning: BlockStmt
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:33
+  |
+1 | const a = <T>(value: T): any => {};
+  |                                 ^^
+
+warning: TsTypeParamDecl
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:11
+  |
+1 | const a = <T>(value: T): any => {};
+  |           ^^^
+
+warning: TsTypeParam
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:12
+  |
+1 | const a = <T>(value: T): any => {};
+  |            ^
+
+warning: Ident
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:12
+  |
+1 | const a = <T>(value: T): any => {};
+  |            ^
+
+warning: TsTypeAnn
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:24
+  |
+1 | const a = <T>(value: T): any => {};
+  |                        ^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:26
+  |
+1 | const a = <T>(value: T): any => {};
+  |                          ^^^
+
+warning: TsKeywordType
+ --> $DIR/tests/span/ts/expr/arrow-type-params.ts:1:26
+  |
+1 | const a = <T>(value: T): any => {};
+  |                          ^^^
+
