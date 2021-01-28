@@ -263,43 +263,6 @@ impl Optimizer {
         }
     }
 
-    /// Inlines function call.
-    fn inline_fn_call(&mut self, n: &mut CallExpr) {
-        let has_spread_arg = n.args.iter().any(|v| v.spread.is_some());
-
-        if !has_spread_arg {
-            match &mut n.callee {
-                ExprOrSuper::Super(_) => {}
-                ExprOrSuper::Expr(callee) => match &mut **callee {
-                    Expr::Fn(callee) => {
-                        // We check for parameter and argument
-                        for (idx, param) in callee.function.params.iter().enumerate() {
-                            let arg = n.args.get(idx).map(|v| &v.expr);
-                            if let Pat::Ident(param) = &param.pat {
-                                if let Some(arg) = arg {
-                                    let should_be_inlined = is_clone_cheap(arg);
-                                    if should_be_inlined {
-                                        self.lits.insert(param.to_id(), arg.clone());
-                                    }
-                                }
-                            }
-                        }
-
-                        let ctx = Ctx {
-                            inline_prevented: false,
-                            ..self.ctx
-                        };
-                        callee.function.visit_mut_with(&mut *self.with_ctx(ctx));
-
-                        // TODO: Drop arguments if all usage is inlined. (We
-                        // should preserve parameters)
-                    }
-                    _ => {}
-                },
-            }
-        }
-    }
-
     fn compress_array_join(&mut self, n: &mut Expr) {
         let e = match n {
             Expr::Call(e) => e,
@@ -1025,7 +988,7 @@ impl VisitMut for Optimizer {
         // TODO: Prevent inline if callee is unknown.
         n.args.visit_mut_with(self);
 
-        self.inline_fn_call(n);
+        self.inline_args_of_iife(n);
     }
 
     fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {

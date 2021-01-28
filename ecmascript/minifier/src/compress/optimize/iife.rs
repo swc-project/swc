@@ -1,9 +1,14 @@
 use std::mem::swap;
 
+use crate::compress::optimize::is_clone_cheap;
+use crate::compress::optimize::Ctx;
+
 use super::Optimizer;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_visit::VisitMutWith;
 
 /// Methods related to the option `negate_iife`.
 impl Optimizer {
@@ -37,7 +42,7 @@ impl Optimizer {
         }
     }
 
-    /// 
+    ///
     /// - `iife ? foo : bar` => `!iife ? bar : foo`
     pub(super) fn negate_iife_in_cond(&mut self, e: &mut Expr) {
         let cond = match e {
@@ -67,6 +72,67 @@ impl Optimizer {
                 return;
             }
             _ => {}
+        }
+    }
+}
+
+/// Methods related to iife.
+impl Optimizer {
+    /// # Exmaple
+    ///
+    /// ## Input
+    ///
+    /// ```ts
+    /// (function(x) {
+    ///     (function(y) {
+    ///         console.log(7);
+    ///     })(7);
+    /// })(7);
+    /// ```
+    ///
+    ///
+    /// ## Output
+    ///
+    /// ```ts
+    /// (function(x) {
+    ///     (function(y) {
+    ///         console.log(y);
+    ///     })(x);
+    /// })(7);
+    /// ```
+    pub(super) fn inline_args_of_iife(&mut self, e: &mut CallExpr) {
+        let has_spread_arg = e.args.iter().any(|v| v.spread.is_some());
+
+        if !has_spread_arg {
+            match &mut e.callee {
+                ExprOrSuper::Super(_) => {}
+                ExprOrSuper::Expr(callee) => match &mut **callee {
+                    Expr::Fn(callee) => {
+                        // We check for parameter and argument
+                        for (idx, param) in callee.function.params.iter().enumerate() {
+                            let arg = e.args.get(idx).map(|v| &v.expr);
+                            if let Pat::Ident(param) = &param.pat {
+                                if let Some(arg) = arg {
+                                    let should_be_inlined = is_clone_cheap(arg);
+                                    if should_be_inlined {
+                                        self.lits.insert(param.to_id(), arg.clone());
+                                    }
+                                }
+                            }
+                        }
+
+                        let ctx = Ctx {
+                            inline_prevented: false,
+                            ..self.ctx
+                        };
+                        callee.function.visit_mut_with(&mut *self.with_ctx(ctx));
+
+                        // TODO: Drop arguments if all usage is inlined. (We
+                        // should preserve parameters)
+                    }
+                    _ => {}
+                },
+            }
         }
     }
 }
