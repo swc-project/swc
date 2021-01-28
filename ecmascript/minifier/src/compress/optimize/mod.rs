@@ -991,18 +991,20 @@ impl VisitMut for Optimizer {
     }
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
-        if let Some(i) = &e.ident {
-            if let Some(data) = &self.data {
-                let can_remove_ident = data
-                    .vars
-                    .get(&i.to_id())
-                    .map(|v| v.ref_count == 0)
-                    .unwrap_or(true);
+        if self.options.unused {
+            if let Some(i) = &e.ident {
+                if let Some(data) = &self.data {
+                    let can_remove_ident = data
+                        .vars
+                        .get(&i.to_id())
+                        .map(|v| v.ref_count == 0)
+                        .unwrap_or(true);
 
-                if can_remove_ident {
-                    self.changed = true;
-                    log::trace!("Removing ident of a function expression");
-                    e.ident = None;
+                    if can_remove_ident {
+                        self.changed = true;
+                        log::trace!("Removing ident of a function expression");
+                        e.ident = None;
+                    }
                 }
             }
         }
