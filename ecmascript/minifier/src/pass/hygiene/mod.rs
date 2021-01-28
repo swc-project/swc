@@ -56,7 +56,7 @@ impl Optimizer<'_> {
         ret
     }
 
-    /// Registers a binding ident. This is treated as []
+    /// Registers a binding ident. This is treated as [PatMode::OtherDecl].
     ///
     /// If it conflicts
     fn register_binding_ident(&mut self, i: &mut Ident) {}
