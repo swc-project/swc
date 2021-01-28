@@ -123,6 +123,40 @@ impl Optimizer {
         }
     }
 
+    /// Drops useless switch cases and statements in it.
+    ///
+    /// This method will
+    ///
+    /// - drop the empty cases at the end.
+    pub(super) fn optimize_switch_cases(&mut self, cases: &mut Vec<SwitchCase>) {
+        if !self.options.switches {
+            return;
+        }
+
+        let last_non_empty = cases.iter().rposition(|case| {
+            if case.cons.is_empty() {
+                return false;
+            }
+
+            if case.cons.len() == 1 {
+                match case.cons[0] {
+                    Stmt::Break(BreakStmt { label: None, .. }) => return false,
+                    _ => {}
+                }
+            }
+
+            true
+        });
+
+        if let Some(last_non_empty) = last_non_empty {
+            if last_non_empty + 1 != cases.len() {
+                log::trace!("switches: Removing empty cases at the end");
+                self.changed = true;
+                cases.drain(last_non_empty + 1..);
+            }
+        }
+    }
+
     pub(super) fn optimize_switches(&mut self, s: &mut Stmt) {
         if !self.options.switches || self.ctx.stmt_lablled {
             return;

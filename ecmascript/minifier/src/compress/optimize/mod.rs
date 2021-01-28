@@ -1255,6 +1255,12 @@ impl VisitMut for Optimizer {
         }
     }
 
+    fn visit_mut_switch_cases(&mut self, n: &mut Vec<SwitchCase>) {
+        n.visit_mut_children_with(self);
+
+        self.optimize_switch_cases(n);
+    }
+
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
         let ctx = Ctx {
             stmt_lablled: true,
