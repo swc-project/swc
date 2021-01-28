@@ -106,13 +106,17 @@ impl SimplifyExpr {
                 ref value, span, ..
             })) => match op {
                 // 'foo'.length
-                KnownOp::Len => Expr::Lit(Lit::Num(Number {
-                    value: value.chars().count() as f64,
-                    span,
-                })),
+                KnownOp::Len => {
+                    self.changed = true;
+                    Expr::Lit(Lit::Num(Number {
+                        value: value.chars().count() as f64,
+                        span,
+                    }))
+                }
 
                 // 'foo'[1]
                 KnownOp::Index(idx) if (idx as usize) < value.len() => {
+                    self.changed = true;
                     return if idx < 0 {
                         *undefined(span)
                     } else {
@@ -127,7 +131,7 @@ impl SimplifyExpr {
                             has_escape: false,
                             kind: Default::default(),
                         }))
-                    }
+                    };
                 }
                 _ => Expr::Member(MemberExpr {
                     obj: ExprOrSuper::Expr(Box::new(obj)),
@@ -153,6 +157,7 @@ impl SimplifyExpr {
                     });
                 }
 
+                self.changed = true;
                 Expr::Lit(Lit::Num(Number {
                     value: elems.len() as _,
                     span,
@@ -256,6 +261,13 @@ impl SimplifyExpr {
                 exprs.push(val);
 
                 Expr::Seq(SeqExpr { span, exprs })
+                self.changed = true;
+
+                preserve_effects(
+                    span,
+                    v,
+                    once(Box::new(Expr::Array(ArrayLit { span, elems }))),
+                )
             }
 
             // { foo: true }['foo']
