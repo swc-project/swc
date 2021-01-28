@@ -452,8 +452,6 @@ impl Optimizer {
     }
 
     fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Expr> {
-        self.handle_negated_iife(e);
-
         match e {
             Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => return None,
             // Function expression cannot have a side effect.
@@ -1202,7 +1200,11 @@ impl VisitMut for Optimizer {
     }
 
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
-        n.visit_mut_children_with(self);
+        let ctx = Ctx {
+            in_bang_arg: false,
+            ..self.ctx
+        };
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         self.try_removing_block(n);
 
@@ -1291,6 +1293,8 @@ impl VisitMut for Optimizer {
 
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
         n.visit_mut_children_with(self);
+
+        self.handle_negated_iife(&mut n.expr);
 
         if self.options.unused
             || self.options.side_effects
