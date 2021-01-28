@@ -9,7 +9,6 @@ use crate::util::Optional;
 use std::borrow::Cow;
 use swc_common::chain;
 use swc_common::pass::CompilerPass;
-use swc_common::pass::Repeat;
 use swc_common::pass::Repeated;
 use swc_ecma_ast::*;
 use swc_ecma_transforms::optimization::simplify::dead_branch_remover;
@@ -39,9 +38,7 @@ pub fn compressor(options: &CompressOptions) -> impl '_ + JsPass {
         changed: false,
     };
 
-    let repeated_passes = Repeat::new(chain!(expr_simplifier(), as_folder(compressor)));
-
-    chain!(console_remover, repeated_passes)
+    chain!(console_remover, as_folder(compressor))
 }
 
 #[derive(Debug)]
@@ -122,9 +119,21 @@ impl VisitMut for Compressor<'_> {
         if self.pass > 10 {
             panic!("Infinite loop detected")
         }
-        eprintln!("{}", dump(&*n));
+
+        eprintln!("===== Start =====\n{}", dump(&*n));
+
         {
-            // reset_opt_flags
+            let mut visitor = expr_simplifier();
+            n.map_with_mut(|m| m.fold_with(&mut visitor));
+            self.changed |= visitor.changed();
+            if visitor.changed() {
+                log::trace!("compressor: Simplified expressions");
+                eprintln!("===== Simplified =====\n{}", dump(&*n));
+            }
+        }
+
+        {
+            // TODO: reset_opt_flags
             let mut visitor = optimizer(self.options.clone());
             n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
