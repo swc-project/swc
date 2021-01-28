@@ -9,6 +9,7 @@ use crate::util::Optional;
 use std::borrow::Cow;
 use swc_common::chain;
 use swc_common::pass::CompilerPass;
+use swc_common::pass::Repeat;
 use swc_common::pass::Repeated;
 use swc_ecma_ast::*;
 use swc_ecma_transforms::optimization::simplify::dead_branch_remover;
@@ -38,7 +39,7 @@ pub fn compressor(options: &CompressOptions) -> impl '_ + JsPass {
         changed: false,
     };
 
-    chain!(console_remover, as_folder(compressor))
+    chain!(console_remover, Repeat::new(as_folder(compressor)))
 }
 
 #[derive(Debug)]
