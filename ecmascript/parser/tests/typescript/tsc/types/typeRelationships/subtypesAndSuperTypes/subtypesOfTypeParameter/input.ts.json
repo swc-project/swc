@@ -2779,7 +2779,7 @@
                   "consequent": {
                     "type": "ArrowFunctionExpression",
                     "span": {
-                      "start": 1136,
+                      "start": 1133,
                       "end": 1158,
                       "ctxt": 0
                     },
@@ -2961,7 +2961,7 @@
                   "alternate": {
                     "type": "ArrowFunctionExpression",
                     "span": {
-                      "start": 1192,
+                      "start": 1189,
                       "end": 1214,
                       "ctxt": 0
                     },

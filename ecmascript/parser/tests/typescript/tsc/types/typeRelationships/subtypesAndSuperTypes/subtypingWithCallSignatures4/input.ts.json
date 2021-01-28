@@ -4445,7 +4445,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 1604,
+              "start": 1601,
               "end": 1623,
               "ctxt": 0
             },
@@ -4603,7 +4603,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 1641,
+              "start": 1638,
               "end": 1660,
               "ctxt": 0
             },
@@ -4969,7 +4969,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 1754,
+              "start": 1751,
               "end": 1768,
               "ctxt": 0
             },
@@ -5110,7 +5110,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 1786,
+              "start": 1783,
               "end": 1800,
               "ctxt": 0
             },
@@ -5459,7 +5459,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 1894,
+              "start": 1891,
               "end": 1911,
               "ctxt": 0
             },
@@ -5609,7 +5609,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 1929,
+              "start": 1926,
               "end": 1942,
               "ctxt": 0
             },
@@ -5940,7 +5940,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 2039,
+              "start": 2033,
               "end": 2057,
               "ctxt": 0
             },
@@ -6127,7 +6127,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 2078,
+              "start": 2072,
               "end": 2096,
               "ctxt": 0
             },
@@ -6522,7 +6522,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 2193,
+              "start": 2187,
               "end": 2222,
               "ctxt": 0
             },
@@ -6750,7 +6750,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 2243,
+              "start": 2237,
               "end": 2272,
               "ctxt": 0
             },
@@ -7186,7 +7186,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 2398,
+              "start": 2363,
               "end": 2427,
               "ctxt": 0
             },
@@ -7452,7 +7452,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 2458,
+              "start": 2442,
               "end": 2493,
               "ctxt": 0
             },
@@ -7886,7 +7886,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 2591,
+              "start": 2585,
               "end": 2643,
               "ctxt": 0
             },
@@ -8234,7 +8234,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 2662,
+              "start": 2659,
               "end": 2714,
               "ctxt": 0
             },
@@ -8769,7 +8769,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 2821,
+              "start": 2815,
               "end": 2854,
               "ctxt": 0
             },
@@ -9044,7 +9044,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 2873,
+              "start": 2870,
               "end": 2905,
               "ctxt": 0
             },
@@ -9506,7 +9506,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 3022,
+              "start": 3006,
               "end": 3054,
               "ctxt": 0
             },
@@ -9779,7 +9779,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 3086,
+              "start": 3070,
               "end": 3118,
               "ctxt": 0
             },
@@ -10260,7 +10260,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 3222,
+              "start": 3219,
               "end": 3251,
               "ctxt": 0
             },

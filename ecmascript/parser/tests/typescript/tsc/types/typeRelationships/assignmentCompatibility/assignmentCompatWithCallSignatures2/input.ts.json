@@ -924,7 +924,7 @@
               "value": {
                 "type": "ArrowFunctionExpression",
                 "span": {
-                  "start": 356,
+                  "start": 353,
                   "end": 366,
                   "ctxt": 0
                 },
@@ -1377,7 +1377,7 @@
               "value": {
                 "type": "ArrowFunctionExpression",
                 "span": {
-                  "start": 475,
+                  "start": 472,
                   "end": 486,
                   "ctxt": 0
                 },

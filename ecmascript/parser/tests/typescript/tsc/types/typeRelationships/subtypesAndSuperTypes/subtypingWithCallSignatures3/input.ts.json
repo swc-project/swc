@@ -4063,7 +4063,7 @@
                       "expression": {
                         "type": "ArrowFunctionExpression",
                         "span": {
-                          "start": 2056,
+                          "start": 2050,
                           "end": 2075,
                           "ctxt": 0
                         },
@@ -4327,7 +4327,7 @@
                       "expression": {
                         "type": "ArrowFunctionExpression",
                         "span": {
-                          "start": 2127,
+                          "start": 2121,
                           "end": 2146,
                           "ctxt": 0
                         },
@@ -4519,7 +4519,7 @@
                       "expression": {
                         "type": "ArrowFunctionExpression",
                         "span": {
-                          "start": 2170,
+                          "start": 2164,
                           "end": 2189,
                           "ctxt": 0
                         },
@@ -4772,7 +4772,7 @@
                 "init": {
                   "type": "ArrowFunctionExpression",
                   "span": {
-                    "start": 2285,
+                    "start": 2230,
                     "end": 2324,
                     "ctxt": 0
                   },
@@ -5567,7 +5567,7 @@
                 "init": {
                   "type": "ArrowFunctionExpression",
                   "span": {
-                    "start": 2550,
+                    "start": 2515,
                     "end": 2623,
                     "ctxt": 0
                   },
@@ -6544,7 +6544,7 @@
                 "init": {
                   "type": "ArrowFunctionExpression",
                   "span": {
-                    "start": 2860,
+                    "start": 2841,
                     "end": 2882,
                     "ctxt": 0
                   },
@@ -7085,7 +7085,7 @@
                 "init": {
                   "type": "ArrowFunctionExpression",
                   "span": {
-                    "start": 3063,
+                    "start": 3044,
                     "end": 3086,
                     "ctxt": 0
                   },
@@ -8009,7 +8009,7 @@
                 "init": {
                   "type": "ArrowFunctionExpression",
                   "span": {
-                    "start": 3393,
+                    "start": 3366,
                     "end": 3436,
                     "ctxt": 0
                   },
@@ -8511,7 +8511,7 @@
                 "init": {
                   "type": "ArrowFunctionExpression",
                   "span": {
-                    "start": 3605,
+                    "start": 3602,
                     "end": 3635,
                     "ctxt": 0
                   },
@@ -9132,7 +9132,7 @@
                 "init": {
                   "type": "ArrowFunctionExpression",
                   "span": {
-                    "start": 3820,
+                    "start": 3804,
                     "end": 3844,
                     "ctxt": 0
                   },
@@ -9578,7 +9578,7 @@
                 "init": {
                   "type": "ArrowFunctionExpression",
                   "span": {
-                    "start": 4012,
+                    "start": 4009,
                     "end": 4041,
                     "ctxt": 0
                   },
@@ -9861,7 +9861,7 @@
                 "init": {
                   "type": "ArrowFunctionExpression",
                   "span": {
-                    "start": 4097,
+                    "start": 4094,
                     "end": 4128,
                     "ctxt": 0
                   },
@@ -10440,7 +10440,7 @@
                 "init": {
                   "type": "ArrowFunctionExpression",
                   "span": {
-                    "start": 4476,
+                    "start": 4473,
                     "end": 4490,
                     "ctxt": 0
                   },
@@ -10914,7 +10914,7 @@
                 "init": {
                   "type": "ArrowFunctionExpression",
                   "span": {
-                    "start": 4712,
+                    "start": 4709,
                     "end": 4731,
                     "ctxt": 0
                   },
