@@ -243,6 +243,7 @@ impl Optimizer {
                         if exprs.is_empty() {
                             return;
                         }
+                        log::trace!("optimizing negated sequences");
 
                         {
                             let last = exprs.last_mut().unwrap();
