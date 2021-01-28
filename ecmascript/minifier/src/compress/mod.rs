@@ -39,7 +39,7 @@ pub fn compressor(options: &CompressOptions) -> impl '_ + JsPass {
         changed: false,
     };
 
-    let repeated_passes = Repeat::new(chain!(as_folder(compressor), expr_simplifier()));
+    let repeated_passes = Repeat::new(chain!(expr_simplifier(), as_folder(compressor)));
 
     chain!(console_remover, repeated_passes)
 }
