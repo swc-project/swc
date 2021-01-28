@@ -36,6 +36,7 @@ mod if_return;
 mod iife;
 mod ops;
 mod sequences;
+mod switches;
 mod util;
 
 /// This pass is simillar to `node.optimize` of terser.
@@ -1194,6 +1195,8 @@ impl VisitMut for Optimizer {
         self.compress_if_without_alt(n);
 
         self.compress_if_stmt_as_cond(n);
+
+        self.optimize_const_switches(n);
 
         match n {
             Stmt::Expr(ExprStmt { expr, .. }) => {
