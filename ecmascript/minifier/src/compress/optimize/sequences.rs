@@ -54,6 +54,10 @@ impl Optimizer {
                     (Some(Stmt::Expr(..)), Some(r)) => match r {
                         Stmt::Expr(..)
                         | Stmt::If(..)
+                        | Stmt::Switch(..)
+                        | Stmt::With(..)
+                        | Stmt::Return(ReturnStmt { arg: Some(..), .. })
+                        | Stmt::Throw(ThrowStmt { .. })
                         | Stmt::For(ForStmt { init: None, .. })
                         | Stmt::For(ForStmt {
                             init: Some(VarDeclOrExpr::Expr(..)),
@@ -86,6 +90,30 @@ impl Optimizer {
                         Stmt::If(mut stmt) => {
                             stmt.test.prepend_exprs(take(&mut exprs));
                             new_stmts.push(T::from_stmt(Stmt::If(stmt)));
+                        }
+
+                        Stmt::Switch(mut stmt) => {
+                            stmt.discriminant.prepend_exprs(take(&mut exprs));
+
+                            new_stmts.push(T::from_stmt(Stmt::Switch(stmt)));
+                        }
+
+                        Stmt::With(mut stmt) => {
+                            stmt.obj.prepend_exprs(take(&mut exprs));
+
+                            new_stmts.push(T::from_stmt(Stmt::With(stmt)));
+                        }
+
+                        Stmt::Return(mut stmt) => {
+                            stmt.arg.as_mut().unwrap().prepend_exprs(take(&mut exprs));
+
+                            new_stmts.push(T::from_stmt(Stmt::Return(stmt)));
+                        }
+
+                        Stmt::Throw(mut stmt) => {
+                            stmt.arg.prepend_exprs(take(&mut exprs));
+
+                            new_stmts.push(T::from_stmt(Stmt::Throw(stmt)));
                         }
 
                         Stmt::For(mut stmt @ ForStmt { init: None, .. })
