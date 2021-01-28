@@ -12,11 +12,31 @@ mod scope;
 pub fn hygiene_optimizer() -> impl 'static + VisitMut {
     Optimizer {
         scope: Scope::root(),
+        pat_mode: PatMode::Asssignment,
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum PatMode {
+    VarDecl,
+    Param,
+    Asssignment,
+    OtherDecl,
+}
+
+impl PatMode {
+    /// Returns true if a pattern handle should create a new variable.
+    pub fn is_decl(self) -> bool {
+        match self {
+            PatMode::VarDecl | PatMode::Param | PatMode::OtherDecl => true,
+            PatMode::Asssignment => false,
+        }
     }
 }
 
 struct Optimizer<'a> {
     scope: Scope<'a>,
+    pat_mode: PatMode,
 }
 
 impl Optimizer<'_> {
@@ -28,6 +48,7 @@ impl Optimizer<'_> {
         //
         let mut child = Optimizer {
             scope: Scope::new(&self.scope),
+            pat_mode: self.pat_mode,
         };
 
         let ret = op(&mut child);
@@ -35,10 +56,10 @@ impl Optimizer<'_> {
         ret
     }
 
-    /// Registers a binding ident.
+    /// Registers a binding ident. This is treated as []
     ///
     /// If it conflicts
-    fn handle_binding_ident(&mut self, i: &mut Ident) {}
+    fn register_binding_ident(&mut self, i: &mut Ident) {}
 }
 
 impl VisitMut for Optimizer<'_> {
@@ -61,13 +82,19 @@ impl VisitMut for Optimizer<'_> {
         })
     }
 
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        self.with_scope(false, |child| {
+            n.visit_mut_children_with(child);
+        })
+    }
+
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
-        self.handle_binding_ident(&mut n.ident);
+        self.register_binding_ident(&mut n.ident);
         n.function.visit_mut_with(self);
     }
 
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
-        self.handle_binding_ident(&mut n.ident);
+        self.register_binding_ident(&mut n.ident);
         n.class.visit_mut_with(self);
     }
 }
