@@ -989,6 +989,7 @@ impl VisitMut for Optimizer {
         n.args.visit_mut_with(self);
 
         self.inline_args_of_iife(n);
+        self.invoke_iife(n);
     }
 
     fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {

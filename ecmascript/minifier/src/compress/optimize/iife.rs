@@ -139,4 +139,28 @@ impl Optimizer {
             }
         }
     }
+
+    /// Fully inlines iife.
+    ///
+    /// # Example
+    ///
+    /// ## Input
+    ///
+    /// ```ts
+    /// (function () {
+    ///     return {};
+    /// })().x = 10;
+    /// ```
+    ///
+    /// ## Oupuy
+    ///
+    /// ```ts
+    /// ({
+    /// }).x = 10;
+    /// ```
+    pub(super) fn invoke_iife(&mut self, e: &mut CallExpr) {
+        if !self.options.inline {
+            return;
+        }
+    }
 }
