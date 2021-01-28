@@ -20,6 +20,9 @@ struct Optimizer<'a> {
 }
 
 impl Optimizer<'_> {
+    /// Registers a binding ident.
+    ///
+    /// If it conflicts
     fn handle_binding_ident(&mut self, i: &mut Ident) {}
 }
 
@@ -32,5 +35,6 @@ impl VisitMut for Optimizer<'_> {
 
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
         self.handle_binding_ident(&mut n.ident);
+        n.function.visit_mut_with(self);
     }
 }
