@@ -35,4 +35,6 @@ impl Optimizer {
             _ => {}
         }
     }
+
+    pub(super) fn negate_iife_in_cond(&mut self, e: &mut Expr) {}
 }

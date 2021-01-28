@@ -1171,6 +1171,8 @@ impl VisitMut for Optimizer {
 
         self.optimize_bools(n);
 
+        self.negate_iife_in_cond(n);
+
         self.optimize_bangbang(n);
     }
 
