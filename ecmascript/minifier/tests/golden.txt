@@ -207,6 +207,7 @@ export/keyword_valid_3/input.js
 export/trailing_comma/input.js
 functions/deduplicate_parenthesis/input.js
 functions/inline_false/input.js
+functions/inline_loop_3/input.js
 functions/issue_2663_1/input.js
 functions/issue_2737_1/input.js
 functions/issue_2737_2/input.js
@@ -313,6 +314,9 @@ issue_2001/export_func_3/input.js
 issue_2652/unary_postfix/input.js
 issue_267/issue_267/input.js
 issue_269/issue_269_dangers/input.js
+issue_281/negate_iife_3/input.js
+issue_281/negate_iife_3_off/input.js
+issue_281/wrap_iife_in_expression/input.js
 issue_2989/inline_script_off/input.js
 issue_2989/inline_script_on/input.js
 issue_427/no_wrap_func_args/input.js
@@ -355,7 +359,11 @@ max_line_len/too_short/input.js
 negate_iife/issue_1254_negate_iife_false/input.js
 negate_iife/negate_iife_1/input.js
 negate_iife/negate_iife_1_off/input.js
+negate_iife/negate_iife_2/input.js
+negate_iife/negate_iife_2_side_effects/input.js
 negate_iife/negate_iife_3/input.js
+negate_iife/negate_iife_3_evaluate/input.js
+negate_iife/negate_iife_3_off_evaluate/input.js
 negate_iife/negate_iife_3_side_effects/input.js
 negate_iife/negate_iife_5_off/input.js
 negate_iife/negate_iife_issue_1073/input.js
