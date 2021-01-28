@@ -350,6 +350,8 @@ max_line_len/too_short/input.js
 negate_iife/issue_1254_negate_iife_false/input.js
 negate_iife/negate_iife_1/input.js
 negate_iife/negate_iife_1_off/input.js
+negate_iife/negate_iife_3/input.js
+negate_iife/negate_iife_3_side_effects/input.js
 new/dot_parenthesis_1/input.js
 new/dot_parenthesis_2/input.js
 new/new_statement/input.js
