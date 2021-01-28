@@ -555,6 +555,7 @@ string_literal/issue_1929/input.js
 string_literal/octal_escape_sequence/input.js
 super/super_can_be_parsed/input.js
 switch/beautify/input.js
+switch/constant_switch_1/input.js
 switch/constant_switch_2/input.js
 switch/constant_switch_3/input.js
 switch/constant_switch_6/input.js
