@@ -191,9 +191,52 @@ impl Optimizer {
     ///
     /// - `x = (foo(), bar(), baz()) ? 10 : 20` => `foo(), bar(), x = baz() ? 10
     ///   : 20;`
-    pub(super) fn lift_seqs_of_cond(&mut self, e: &mut Expr) {
+    pub(super) fn lift_seqs_of_cond_assign(&mut self, e: &mut Expr) {
         if !self.options.sequences {
             return;
+        }
+
+        let assign = match e {
+            Expr::Assign(v) => v,
+            _ => return,
+        };
+
+        let cond = match &mut *assign.right {
+            Expr::Cond(v) => v,
+            _ => return,
+        };
+
+        match &mut *cond.test {
+            Expr::Seq(test) => {
+                //
+                if test.exprs.len() >= 2 {
+                    let mut new_seq = vec![];
+                    new_seq.extend(test.exprs.drain(..test.exprs.len() - 1));
+
+                    self.changed = true;
+                    log::trace!("sequences: Lifting sequences in a assignment with cond expr");
+                    let new_cond = CondExpr {
+                        span: cond.span,
+                        test: test.exprs.pop().unwrap(),
+                        cons: cond.cons.take(),
+                        alt: cond.alt.take(),
+                    };
+
+                    new_seq.push(Box::new(Expr::Assign(AssignExpr {
+                        span: assign.span,
+                        op: assign.op,
+                        left: assign.left.take(),
+                        right: Box::new(Expr::Cond(new_cond)),
+                    })));
+
+                    *e = Expr::Seq(SeqExpr {
+                        span: assign.span,
+                        exprs: new_seq,
+                    });
+                    return;
+                }
+            }
+            _ => {}
         }
     }
 
