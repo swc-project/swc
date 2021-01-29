@@ -2,6 +2,7 @@ use std::num::FpCategory;
 
 use super::Optimizer;
 use swc_atoms::js_word;
+use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::undefined;
 use swc_ecma_utils::ExprExt;
@@ -42,15 +43,40 @@ impl Optimizer {
 
                 let rn = bin.right.as_number();
                 match (ln, rn) {
-                    (Known(_ln), Known(rn)) => {
+                    (Known(ln), Known(rn)) => {
                         // It's NaN
-                        match rn.classify() {
-                            FpCategory::Zero => {
+                        match (ln.classify(), rn.classify()) {
+                            (FpCategory::Zero, FpCategory::Zero) => {
                                 self.changed = true;
-                                log::trace!("evaluate: `foo / 0` => `NaN`");
+                                log::trace!("evaluate: `0 / 0` => `NaN`");
 
                                 // Sign does not matter for NaN
-                                *e = Expr::Ident(Ident::new(js_word!("NaN"), bin.span));
+                                *e = Expr::Ident(Ident::new(
+                                    js_word!("NaN"),
+                                    bin.span.with_ctxt(SyntaxContext::empty()),
+                                ));
+                                return;
+                            }
+                            (FpCategory::Normal, FpCategory::Zero) => {
+                                self.changed = true;
+                                log::trace!("evaluate: `constant / 0` => `Infinity`");
+
+                                // Sign does not matter for NaN
+                                *e = if ln.is_sign_positive() == rn.is_sign_positive() {
+                                    Expr::Ident(Ident::new(
+                                        js_word!("Infinity"),
+                                        bin.span.with_ctxt(SyntaxContext::empty()),
+                                    ))
+                                } else {
+                                    Expr::Unary(UnaryExpr {
+                                        span: bin.span,
+                                        op: op!(unary, "-"),
+                                        arg: Box::new(Expr::Ident(Ident::new(
+                                            js_word!("NaN"),
+                                            bin.span.with_ctxt(SyntaxContext::empty()),
+                                        ))),
+                                    })
+                                };
                                 return;
                             }
                             _ => {}
