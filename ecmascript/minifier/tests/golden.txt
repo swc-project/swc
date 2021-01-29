@@ -349,6 +349,7 @@ issue_926/template_strings/input.js
 issue_973/this_binding_conditionals/input.js
 issue_973/this_binding_side_effects/input.js
 join_vars/issue_1079_with_mixed/input.js
+join_vars/issue_1079_with_vars/input.js
 join_vars/only_vars/input.js
 keep_names/keep_classnames/input.js
 keep_names/keep_fnames/input.js
