@@ -34,6 +34,7 @@ mod bools;
 mod conditionals;
 mod if_return;
 mod iife;
+mod join_vars;
 mod ops;
 mod sequences;
 mod switches;
