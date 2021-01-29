@@ -109,7 +109,6 @@ impl Compressor<'_> {
         }
         // TODO: Hoist decls
 
-        // This is swc version of `node.optimize(this);`.
         stmts.visit_mut_children_with(self);
 
         // TODO: drop unused
@@ -153,6 +152,8 @@ impl VisitMut for Compressor<'_> {
 
         {
             // TODO: reset_opt_flags
+            //
+            // This is swc version of `node.optimize(this);`.
             let mut visitor = optimizer(self.options.clone());
             n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
