@@ -265,7 +265,7 @@ fn iter<'a>(
                                 && graph.edge_weight(idx, dep) == Some(Required::Maybe));
 
                         if can_ignore_dep {
-                            if graph.has_a_path(dep, idx) && moves.insert(&(dep, idx)) {
+                            if graph.has_a_path(dep, idx) && moves.insert((dep, idx)) {
                                 // Just emit idx.
                                 continue;
                             }
