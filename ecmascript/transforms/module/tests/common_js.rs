@@ -4506,3 +4506,45 @@ function myGenerator() {
   }, _marked);
 }"
 );
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_1213,
+    "
+    import foo from 'foo';
+
+    class OK {
+      constructor() {
+        console.log(foo);
+      }
+    }
+    
+    export default class NotOK {
+      constructor() {
+        console.log(foo);
+      }
+    }
+    ",
+    "
+    var _foo = _interopRequireDefault(require('foo'));
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
+    }
+    class OK {
+        constructor() {
+            console.log(_foo.default);
+        }
+    }
+    class NotOK {
+        constructor() {
+            console.log(_foo.default);
+        }
+    }
+    exports.default = NotOK;
+    "
+);
