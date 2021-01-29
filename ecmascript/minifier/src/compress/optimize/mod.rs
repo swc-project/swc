@@ -795,69 +795,6 @@ impl Optimizer {
         }
     }
 
-    /// Optimize return value or argument of throw.
-    ///
-    /// This methods removes some useless assignments.
-    ///
-    /// # Example
-    ///
-    /// Note: `a` being declared in the function is important in the example
-    /// below.
-    ///
-    /// ```ts
-    /// function foo(){
-    ///     var a;
-    ///     throw a = x();
-    /// }
-    /// ```
-    ///
-    /// can be optimized as
-    ///
-    /// ```ts
-    /// function foo(){
-    ///     var a; // Will be dropped in next pass.
-    ///     throw x();
-    /// }
-    /// ```
-    fn optimize_in_fn_termiation(&mut self, e: &mut Expr) {
-        if !self.options.dead_code {
-            return;
-        }
-
-        match e {
-            Expr::Assign(assign) => {
-                self.optimize_in_fn_termiation(&mut assign.right);
-
-                // We only handle identifiers on lhs for now.
-                match &assign.left {
-                    PatOrExpr::Pat(lhs) => match &**lhs {
-                        Pat::Ident(lhs) => {
-                            //
-                            if self
-                                .data
-                                .as_ref()
-                                .and_then(|data| data.vars.get(&lhs.to_id()))
-                                .map(|var| var.is_fn_local)
-                                .unwrap_or(false)
-                            {
-                                log::trace!(
-                                    "Dropping an assigment to a varaible declared in function \
-                                     because function is being terminated"
-                                );
-                                self.changed = true;
-                                *e = *assign.right.take();
-                                return;
-                            }
-                        }
-                        _ => {}
-                    },
-                    _ => {}
-                }
-            }
-            _ => {}
-        }
-    }
-
     fn try_removing_block(&mut self, s: &mut Stmt) {
         if !self.options.conditionals
             && !self.options.sequences
