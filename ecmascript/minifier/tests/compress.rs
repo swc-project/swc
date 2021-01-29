@@ -136,7 +136,9 @@ pub struct TestOptions {
 
     #[serde(default)]
     pub keep_infinity: bool,
-    // loops         : !false_by_default,
+
+    #[serde(default)]
+    pub loops: bool,
     // module        : false,
     #[serde(default)]
     pub negate_iife: bool,
@@ -242,6 +244,7 @@ fn parse_config(s: &str) -> CompressOptions {
         keep_fargs: c.keep_fargs,
         keep_fnames: c.keep_fnames,
         keep_infinity: c.keep_infinity,
+        loops: c.loops,
         negate_iife: c.negate_iife,
         passes: c.passes,
         reduce_fns: c.reduce_funcs,

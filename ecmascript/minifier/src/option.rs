@@ -141,7 +141,9 @@ pub struct CompressOptions {
     #[serde(alias = "keep_infinity")]
     pub keep_infinity: bool,
 
-    // loops         : !false_by_default,
+    #[serde(default = "true_by_default")]
+    #[serde(alias = "loops")]
+    pub loops: bool,
     // module        : false,
     #[serde(default = "true_by_default")]
     #[serde(alias = "negate_iife")]
