@@ -47,30 +47,40 @@ impl Optimizer {
             return;
         }
 
-        let can_work =
-            stmts
-                .windows(2)
-                .any(|stmts| match (stmts[0].as_stmt(), stmts[1].as_stmt()) {
-                    (Some(Stmt::Expr(..)), Some(r)) => match r {
-                        Stmt::Expr(..)
-                        | Stmt::If(..)
-                        | Stmt::Switch(..)
-                        | Stmt::With(..)
-                        | Stmt::Return(ReturnStmt { arg: Some(..), .. })
-                        | Stmt::Throw(ThrowStmt { .. })
-                        | Stmt::For(ForStmt { init: None, .. })
-                        | Stmt::For(ForStmt {
-                            init: Some(VarDeclOrExpr::Expr(..)),
-                            ..
-                        }) => true,
-                        _ => false,
-                    },
-                    _ => false,
-                });
+        {
+            let can_work =
+                stmts
+                    .windows(2)
+                    .any(|stmts| match (stmts[0].as_stmt(), stmts[1].as_stmt()) {
+                        (Some(Stmt::Expr(..)), Some(r)) => {
+                            // If an expression contains `in` and following statement is for loop,
+                            // we should not merge it.
 
-        if !can_work {
-            return;
+                            // TODO: Check for `in`
+
+                            match r {
+                                Stmt::Expr(..)
+                                | Stmt::If(..)
+                                | Stmt::Switch(..)
+                                | Stmt::With(..)
+                                | Stmt::Return(ReturnStmt { arg: Some(..), .. })
+                                | Stmt::Throw(ThrowStmt { .. })
+                                | Stmt::For(ForStmt { init: None, .. })
+                                | Stmt::For(ForStmt {
+                                    init: Some(VarDeclOrExpr::Expr(..)),
+                                    ..
+                                }) => true,
+                                _ => false,
+                            }
+                        }
+                        _ => false,
+                    });
+
+            if !can_work {
+                return;
+            }
         }
+
         log::trace!("sequences: Compressing statements as a sequences");
 
         self.changed = true;
