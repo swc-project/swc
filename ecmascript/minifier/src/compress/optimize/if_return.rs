@@ -33,6 +33,9 @@ impl Optimizer {
                     _ => false,
                 })
                 .unwrap();
+            if ends_with_if {
+                return;
+            }
 
             let ends_with_mergable = stmts
                 .last()
@@ -46,11 +49,10 @@ impl Optimizer {
                 return;
             }
 
-            let can_merge = !ends_with_if
-                && stmts.iter().skip(start).all(|stmt| match stmt.as_stmt() {
-                    Some(s) => self.can_merge_stmt_as_if_return(s),
-                    _ => false,
-                });
+            let can_merge = stmts.iter().skip(start).all(|stmt| match stmt.as_stmt() {
+                Some(s) => self.can_merge_stmt_as_if_return(s),
+                _ => false,
+            });
             if !can_merge {
                 return;
             }
