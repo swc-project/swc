@@ -11,10 +11,14 @@ use crate::pass::expand_names::name_expander;
 use crate::pass::mangle_names::name_mangler;
 use crate::pass::mangle_props::property_mangler;
 use pass::hygiene::hygiene_optimizer;
+use swc_common::DUMMY_SP;
+use swc_ecma_ast::Invalid;
 use swc_ecma_ast::Module;
 use swc_ecma_visit::FoldWith;
 use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::VisitWith;
 use timing::Timings;
+use util::usage::UsageAnalyzer;
 
 mod compress;
 mod debug;
@@ -95,7 +99,11 @@ pub fn optimize(
     if let Some(ref mut _t) = timings {
         // TODO: store `hygiene`
     }
-    m.visit_mut_with(&mut hygiene_optimizer());
+    {
+        let mut analyzer = UsageAnalyzer::default();
+        m.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
+        m.visit_mut_with(&mut hygiene_optimizer(analyzer.data));
+    }
 
     m
 }
