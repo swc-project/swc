@@ -43,7 +43,7 @@ impl Optimizer {
             return;
         }
 
-        if !self.options.top_level && self.ctx.top_level {
+        if !self.options.top_level && (self.ctx.top_level || !self.ctx.in_fn_like) {
             return;
         }
 
