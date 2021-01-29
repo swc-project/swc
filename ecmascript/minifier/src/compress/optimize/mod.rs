@@ -890,9 +890,7 @@ impl VisitMut for Optimizer {
     fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
         n.visit_mut_children_with(self);
 
-        if !self.ctx.in_try_block {
-            self.optimize_in_fn_termiation(&mut n.arg);
-        }
+        self.optimize_in_fn_termiation(&mut n.arg);
     }
 
     fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
