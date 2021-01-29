@@ -180,11 +180,19 @@ impl Optimizer {
         }
 
         let convert_to_true = match &*delete.arg {
+            // V8 and terser test ref have different opinion.
+            Expr::Ident(Ident {
+                sym: js_word!("Infinity"),
+                ..
+            }) => false,
+
             e if is_pure_undefined(&e) => true,
             Expr::Ident(Ident {
                 sym: js_word!("NaN"),
                 ..
             }) => true,
+
+            Expr::Ident(..) => true,
 
             // NaN
             Expr::Bin(bin) => bin.right.as_number() == Known(0.0),
