@@ -5,7 +5,7 @@ use swc_ecma_utils::ident::IdentLike;
 
 impl Optimizer {
     ///
-    pub(super) fn drop_unused_vars_without_init(&mut self, name: &mut Pat) {
+    pub(super) fn drop_unused_vars(&mut self, name: &mut Pat) {
         if !self.options.unused || self.ctx.in_var_decl_of_for_in_or_of_loop {
             return;
         }
@@ -20,7 +20,7 @@ impl Optimizer {
                     .unwrap_or(false)
                 {
                     log::trace!(
-                        "Dropping a variable '{}{:?}' because it is never used",
+                        "unused: Dropping a variable '{}{:?}' because it is never used",
                         i.sym,
                         i.span.ctxt
                     );

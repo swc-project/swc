@@ -1043,10 +1043,14 @@ impl VisitMut for Optimizer {
                 Expr::Invalid(..) => {
                     var.init = None;
                 }
-                _ => {}
+                _ => {
+                    if !init.may_have_side_effects() {
+                        self.drop_unused_vars(&mut var.name);
+                    }
+                }
             },
             None => {
-                self.drop_unused_vars_without_init(&mut var.name);
+                self.drop_unused_vars(&mut var.name);
             }
         }
     }
