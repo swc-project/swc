@@ -537,6 +537,7 @@ sequences/delete_seq_4/input.js
 sequences/delete_seq_5/input.js
 sequences/func_def_2/input.js
 sequences/func_def_5/input.js
+sequences/lift_sequences_3/input.js
 sequences/lift_sequences_4/input.js
 sequences/lift_sequences_5/input.js
 sequences/lift_sequences_6/input.js
