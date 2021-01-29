@@ -126,6 +126,7 @@ const/unused_regexp_literal/input.js
 dead_code/collapse_vars_assignment/input.js
 dead_code/dead_code_1/input.js
 dead_code/dead_code_block_decls_die/input.js
+dead_code/dead_code_const_annotation_regex/input.js
 dead_code/issue_2383_1/input.js
 dead_code/issue_2383_2/input.js
 dead_code/issue_2383_3/input.js
@@ -321,6 +322,7 @@ issue_143/tranformation_sort_order_unequal/input.js
 issue_1588/runtime_error/input.js
 issue_1588/support_ie8/input.js
 issue_1704/mangle_catch_ie8/input.js
+issue_1833/label_do/input.js
 issue_1943/atom/input.js
 issue_1943/keyword/input.js
 issue_1943/name/input.js
@@ -376,8 +378,10 @@ labels/labels_8/input.js
 logical_assignment/assign_in_conditional_part_reused/input.js
 logical_assignment/prematurely_evaluate_assignment/input.js
 logical_assignment/prematurely_evaluate_assignment_inv/input.js
+loops/do_switch/input.js
 loops/in_parenthesis_1/input.js
 loops/in_parenthesis_2/input.js
+loops/issue_1532/input.js
 loops/issue_186/input.js
 loops/issue_186_beautify/input.js
 loops/issue_186_beautify_braces/input.js
@@ -386,6 +390,8 @@ loops/issue_186_beautify_ie8/input.js
 loops/issue_186_braces/input.js
 loops/issue_186_braces_ie8/input.js
 loops/issue_186_ie8/input.js
+loops/parse_do_while_with_semicolon/input.js
+loops/parse_do_while_without_semicolon/input.js
 max_line_len/just_enough/input.js
 max_line_len/too_short/input.js
 negate_iife/issue_1254_negate_iife_false/input.js
