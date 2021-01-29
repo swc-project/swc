@@ -1,0 +1,17 @@
+{
+  "env": {
+    "targets": {
+      "node": "14.15.0"
+    }
+  },
+  "jsc": {
+    "transform": {
+      "hidden": {
+        "jest": true
+      }
+    }
+  },
+  "module": {
+    "type": "commonjs"
+  }
+}
