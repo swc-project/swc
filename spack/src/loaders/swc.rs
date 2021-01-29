@@ -1,3 +1,4 @@
+use crate::loaders::json::load_json_as_module;
 use anyhow::{bail, Context, Error};
 use helpers::Helpers;
 use std::{collections::HashMap, env, sync::Arc};
@@ -66,6 +67,23 @@ impl Load for SwcLoader {
                 _ => bail!("swc-loader only accepts path. Got `{}`", name),
             })
             .with_context(|| format!("failed to load file `{}`", name))?;
+
+        match name {
+            FileName::Real(path) => {
+                if let Some(ext) = path.extension() {
+                    if ext == "json" {
+                        let module = load_json_as_module(&fm)
+                            .with_context(|| format!("failed to load json file at {}", fm.name))?;
+                        return Ok(ModuleData {
+                            fm: fm.clone(),
+                            module,
+                            helpers: Default::default(),
+                        });
+                    }
+                }
+            }
+            _ => {}
+        }
 
         log::trace!("JsLoader.load: loaded");
 

@@ -85,11 +85,42 @@ impl Compiler {
             match input_src_map {
                 InputSourceMap::Bool(false) => Ok(None),
                 InputSourceMap::Bool(true) => {
+                    let s = "sourceMappingURL=";
+                    let idx = fm.src.rfind(s);
+                    let src_mapping_url = match idx {
+                        None => None,
+                        Some(idx) => Some(&fm.src[idx + s.len()..]),
+                    };
+
                     // Load original source map if possible
                     match &name {
                         FileName::Real(filename) => {
-                            let path = format!("{}.map", filename.display());
+                            let dir = match filename.parent() {
+                                Some(v) => v,
+                                None => {
+                                    bail!("unexpected: root directory is given as a input file")
+                                }
+                            };
+
+                            let path = match src_mapping_url {
+                                Some(src_mapping_url) => {
+                                    dir.join(src_mapping_url).display().to_string()
+                                }
+                                None => {
+                                    format!("{}.map", dir.join(filename).display())
+                                }
+                            };
+
                             let file = File::open(&path)
+                                .or_else(|err| {
+                                    // Old behavior. This check would prevent regressions.
+                                    let f = format!("{}.map", filename.display());
+
+                                    match File::open(&f) {
+                                        Ok(v) => Ok(v),
+                                        Err(_) => Err(err),
+                                    }
+                                })
                                 .context("failed to open input source map file")?;
                             Ok(Some(sourcemap::SourceMap::from_reader(file).with_context(
                                 || format!("failed to read input source map from file at {}", path),
@@ -155,11 +186,13 @@ impl Compiler {
                 },
             );
             let mut parser = Parser::new_from(lexer);
+            let mut error = false;
             let program = if is_module {
                 let m = parser.parse_module();
 
                 for e in parser.take_errors() {
                     e.into_diagnostic(&self.handler).emit();
+                    error = true;
                 }
 
                 m.map_err(|e| {
@@ -172,6 +205,7 @@ impl Compiler {
 
                 for e in parser.take_errors() {
                     e.into_diagnostic(&self.handler).emit();
+                    error = true;
                 }
 
                 s.map_err(|e| {
@@ -180,6 +214,13 @@ impl Compiler {
                 })
                 .map(Program::Script)?
             };
+
+            if error {
+                bail!(
+                    "failed to parse module: error was recoverable, but proceeding would result \
+                     in wrong codegen"
+                )
+            }
 
             Ok(program)
         })

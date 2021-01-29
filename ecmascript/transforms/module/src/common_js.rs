@@ -209,6 +209,8 @@ impl Fold for CommonJs {
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(decl)) => {
                             match decl.decl {
                                 DefaultDecl::Class(ClassExpr { ident, class }) => {
+                                    let class = class.fold_with(self);
+
                                     init_export!("default");
 
                                     let ident = ident.unwrap_or_else(|| private_ident!("_default"));

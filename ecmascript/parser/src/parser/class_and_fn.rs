@@ -920,7 +920,7 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         self.with_ctx(ctx).parse_with(|p| {
-            let type_params = if p.syntax().typescript() && is!(p, '<') {
+            let type_params = if p.syntax().typescript() && is_one_of!(p, '<', JSXTagStart) {
                 //
                 Some(p.parse_ts_type_params()?)
             } else {
