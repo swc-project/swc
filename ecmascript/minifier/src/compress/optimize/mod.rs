@@ -1152,6 +1152,7 @@ impl VisitMut for Optimizer {
         }
 
         self.compress_cond_expr_if_simillar(n);
+        self.compress_cond_with_logical_as_logical(n);
 
         self.compress_negated_bin_eq(n);
         self.handle_negated_seq(n);

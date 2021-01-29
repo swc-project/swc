@@ -1,6 +1,7 @@
 use super::Optimizer;
 use crate::util::SpanExt;
 use swc_common::EqIgnoreSpan;
+use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::AsOptExpr;
@@ -15,6 +16,42 @@ use swc_ecma_utils::Value::Known;
 /// Methods related to the option `conditionals`. All methods are noop if
 /// `conditionals` is false.
 impl Optimizer {
+    pub(super) fn compress_cond_with_logical_as_logical(&mut self, e: &mut Expr) {
+        if !self.options.conditionals {
+            return;
+        }
+
+        let cond = match e {
+            Expr::Cond(v) => v,
+            _ => return,
+        };
+
+        let cons_span = cond.cons.span();
+
+        match (&mut *cond.cons, &mut *cond.alt) {
+            (Expr::Bin(cons @ BinExpr { op: op!("||"), .. }), alt)
+                if (*cons.right).eq_ignore_span(&*alt) =>
+            {
+                log::trace!("conditionals: `x ? y || z : z` => `x && y || z`");
+                self.changed = true;
+
+                *e = Expr::Bin(BinExpr {
+                    span: cond.span,
+                    op: op!("||"),
+                    left: Box::new(Expr::Bin(BinExpr {
+                        span: cons_span,
+                        op: op!("&&"),
+                        left: cond.test.take(),
+                        right: cons.left.take(),
+                    })),
+                    right: cons.right.take(),
+                });
+                return;
+            }
+            _ => {}
+        }
+    }
+
     ///
     /// - `foo ? 1 : false` => `!!foo && 1`
     /// - `!foo ? true : 0` => `!foo || 0`
