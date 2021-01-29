@@ -9,6 +9,10 @@ impl Optimizer {
     ///
     /// This method call apppropriate methods for each ast types.
     pub(super) fn evaluate(&mut self, e: &mut Expr) {
+        if !self.options.evaluate {
+            return;
+        }
+
         match e {
             Expr::Ident(Ident {
                 span,
