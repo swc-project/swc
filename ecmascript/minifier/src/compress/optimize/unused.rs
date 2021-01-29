@@ -6,7 +6,10 @@ use swc_ecma_utils::ident::IdentLike;
 impl Optimizer {
     ///
     pub(super) fn drop_unused_vars(&mut self, name: &mut Pat) {
-        if !self.options.unused || self.ctx.in_var_decl_of_for_in_or_of_loop {
+        if !self.options.unused
+            || self.ctx.in_var_decl_of_for_in_or_of_loop
+            || self.ctx.is_exported_decl
+        {
             return;
         }
 

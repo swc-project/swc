@@ -70,6 +70,9 @@ struct Ctx {
     in_var_decl_of_for_in_or_of_loop: bool,
     /// `true` while handling inner statements of a labelled statement.
     stmt_lablled: bool,
+
+    /// `true` while handling top-level export decls.
+    is_exported_decl: bool,
 }
 
 #[derive(Debug)]
@@ -1084,7 +1087,11 @@ impl VisitMut for Optimizer {
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
-        n.visit_mut_children_with(self);
+        let ctx = Ctx {
+            is_exported_decl: false,
+            ..self.ctx
+        };
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         self.swap_bin_operands(n);
 
@@ -1203,6 +1210,7 @@ impl VisitMut for Optimizer {
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
         let ctx = Ctx {
             in_bang_arg: false,
+            is_exported_decl: false,
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -1359,6 +1367,14 @@ impl VisitMut for Optimizer {
     fn visit_mut_class(&mut self, n: &mut Class) {
         let ctx = Ctx {
             in_strict: true,
+            ..self.ctx
+        };
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+    }
+
+    fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
+        let ctx = Ctx {
+            is_exported_decl: true,
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
