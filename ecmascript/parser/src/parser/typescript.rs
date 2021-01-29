@@ -373,24 +373,28 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseTypeParameter`
     pub(super) fn parse_ts_type_params(&mut self) -> PResult<TsTypeParamDecl> {
-        let start = cur_pos!(self);
+        self.in_type().parse_with(|p| {
+            p.ts_in_no_context(|p| {
+                let start = cur_pos!(p);
 
-        if !is!(self, '<') && !is!(self, JSXTagStart) {
-            unexpected!(self, "< (jsx tag start)")
-        }
-        bump!(self); // '<'
+                if !is!(p, '<') && !is!(p, JSXTagStart) {
+                    unexpected!(p, "< (jsx tag start)")
+                }
+                bump!(p); // '<'
 
-        let params = self.parse_ts_bracketed_list(
-            ParsingContext::TypeParametersOrArguments,
-            |p| p.parse_ts_type_param(), // bracket
-            false,
-            // skip_first_token
-            true,
-        )?;
+                let params = p.parse_ts_bracketed_list(
+                    ParsingContext::TypeParametersOrArguments,
+                    |p| p.parse_ts_type_param(), // bracket
+                    false,
+                    // skip_first_token
+                    true,
+                )?;
 
-        Ok(TsTypeParamDecl {
-            span: span!(self, start),
-            params,
+                Ok(TsTypeParamDecl {
+                    span: span!(p, start),
+                    params,
+                })
+            })
         })
     }
 
