@@ -1,3 +1,3 @@
-import * as axios from 'axios';
+import * as mod from './mod.json';
 
-console.log(axios)
+console.log(mod)
