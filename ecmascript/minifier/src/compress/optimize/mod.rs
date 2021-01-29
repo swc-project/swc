@@ -73,6 +73,12 @@ struct Ctx {
 
     /// `true` while handling top-level export decls.
     is_exported_decl: bool,
+
+    /// `true` while handling top level items.
+    top_level: bool,
+
+    /// `true` while we are in a function or something simillar.
+    in_fn_like: bool,
 }
 
 #[derive(Debug)]
@@ -119,6 +125,8 @@ impl Optimizer {
         stmts.visit_mut_children_with(self);
         self.merge_simillar_ifs(stmts);
         self.join_vars(stmts);
+
+        self.make_sequences(stmts);
 
         stmts.retain(|stmt| match stmt.as_stmt() {
             Some(Stmt::Empty(..)) => false,
@@ -1187,14 +1195,17 @@ impl VisitMut for Optimizer {
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
-        self.handle_stmt_likes(stmts);
-
-        self.make_sequences(stmts);
+        let ctx = Ctx {
+            top_level: true,
+            ..self.ctx
+        };
+        self.with_ctx(ctx).handle_stmt_likes(stmts);
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
         let ctx = Ctx {
             stmt_lablled: false,
+            in_fn_like: true,
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -1205,11 +1216,13 @@ impl VisitMut for Optimizer {
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        self.handle_stmt_likes(stmts);
+        let ctx = Ctx {
+            top_level: false,
+            ..self.ctx
+        };
+        self.with_ctx(ctx).handle_stmt_likes(stmts);
 
-        self.make_sequences(stmts);
-
-        self.merge_var_decls(stmts);
+        self.with_ctx(ctx).merge_var_decls(stmts);
     }
 
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
