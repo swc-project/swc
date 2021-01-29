@@ -26,7 +26,7 @@ string_enum = {version = "0.3", path = "../macros/string_enum"}
 swc = {path = "../"}
 swc_atoms = {path = "../atoms"}
 swc_bundler = {path = "../bundler"}
-swc_common = {path = "../common"}
+swc_common = {path = "../common", features = ["concurrent"]}
 swc_ecma_ast = {path = "../ecmascript/ast"}
 swc_ecma_codegen = {path = "../ecmascript/codegen"}
 swc_ecma_parser = {path = "../ecmascript/parser"}
