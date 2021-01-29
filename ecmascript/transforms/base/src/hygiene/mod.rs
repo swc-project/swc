@@ -48,6 +48,10 @@ type Contexts = SmallVec<[SyntaxContext; 32]>;
 
 impl<'a> Hygiene<'a> {
     fn add_declared_ref(&mut self, ident: Ident) {
+        if ident.span.ctxt == SyntaxContext::empty() {
+            return;
+        }
+
         let ctxt = ident.span.ctxt();
 
         if cfg!(debug_assertions) && LOG {
