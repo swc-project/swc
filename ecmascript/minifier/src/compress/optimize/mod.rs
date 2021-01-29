@@ -505,25 +505,28 @@ impl Optimizer {
             // Preserves negated iife
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
-            }) if match &**arg {
-                Expr::Call(arg) => match &arg.callee {
-                    ExprOrSuper::Expr(callee) => match &**callee {
-                        Expr::Fn(..) => true,
+            }) if (self.options.negate_iife
+                || self.options.reduce_vars
+                || self.options.side_effects)
+                && match &**arg {
+                    Expr::Call(arg) => match &arg.callee {
+                        ExprOrSuper::Expr(callee) => match &**callee {
+                            Expr::Fn(..) => true,
+                            _ => false,
+                        },
                         _ => false,
                     },
                     _ => false,
-                },
-                _ => false,
-            } =>
+                } =>
             {
-                log::trace!("ignore_return_Value: Preserving negated iife");
+                log::trace!("ignore_return_value: Preserving negated iife");
                 return Some(e.take());
             }
 
             // `delete` is handled above
             Expr::Unary(expr) => {
                 self.changed = true;
-                log::trace!("ignore_return_Value: Reducing unary ({})", expr.op);
+                log::trace!("ignore_return_value: Reducing unary ({})", expr.op);
                 return self.ignore_return_value(&mut expr.arg);
             }
 
