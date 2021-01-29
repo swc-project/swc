@@ -1220,6 +1220,15 @@ impl VisitMut for Optimizer {
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
+        match n {
+            // We use var devl with no declarator to indicate we dropped an decl.
+            Stmt::Decl(Decl::Var(VarDecl { decls, .. })) if decls.is_empty() => {
+                *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                return;
+            }
+            _ => {}
+        }
+
         self.try_removing_block(n);
 
         self.compress_if_without_alt(n);
