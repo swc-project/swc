@@ -171,6 +171,7 @@ drop_unused/unused_block_decls_in_catch/input.js
 drop_unused/unused_circular_references_3/input.js
 drop_unused/unused_keep_harmony_destructuring/input.js
 drop_unused/unused_keep_setter_arg/input.js
+drop_unused/unused_nested_function/input.js
 drop_unused/unused_var_in_catch/input.js
 drop_unused/used_block_decls_in_catch/input.js
 drop_unused/used_var_in_catch/input.js
