@@ -32,7 +32,7 @@ impl Optimizer {
             (Expr::Bin(cons @ BinExpr { op: op!("||"), .. }), alt)
                 if (*cons.right).eq_ignore_span(&*alt) =>
             {
-                log::trace!("conditionals: `x ? y || z : z` => `x && y || z`");
+                log::trace!("conditionals: `x ? y || z : z` => `x || y && z`");
                 self.changed = true;
 
                 *e = Expr::Bin(BinExpr {
