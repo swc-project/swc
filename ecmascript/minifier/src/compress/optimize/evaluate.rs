@@ -38,37 +38,37 @@ impl Optimizer {
     fn eval_numbers(&mut self, e: &mut Expr) {
         match e {
             Expr::Bin(bin @ BinExpr { op: op!("/"), .. }) => {
-                //
-                if bin.left.may_have_side_effects() {
-                    return;
-                }
+                let ln = bin.left.as_number();
 
                 let rn = bin.right.as_number();
-                if let Known(rn) = rn {
-                    // It's NaN
-                    match rn.classify() {
-                        FpCategory::Zero => {
-                            self.changed = true;
-                            log::trace!("evaluate: `foo / 0` => `NaN`");
+                match (ln, rn) {
+                    (Known(ln), Known(rn)) => {
+                        // It's NaN
+                        match rn.classify() {
+                            FpCategory::Zero => {
+                                self.changed = true;
+                                log::trace!("evaluate: `foo / 0` => `NaN`");
 
-                            *e = if rn.is_sign_positive() {
-                                Expr::Ident(Ident::new(js_word!("NaN"), bin.span))
-                            } else {
-                                Expr::Unary(UnaryExpr {
-                                    span: bin.span,
-                                    op: op!(unary, "-"),
-                                    arg: Box::new(Expr::Ident(Ident::new(
-                                        js_word!("NaN"),
-                                        bin.span,
-                                    ))),
-                                })
-                            };
+                                *e = if ln.is_sign_positive() == rn.is_sign_positive() {
+                                    Expr::Ident(Ident::new(js_word!("NaN"), bin.span))
+                                } else {
+                                    Expr::Unary(UnaryExpr {
+                                        span: bin.span,
+                                        op: op!(unary, "-"),
+                                        arg: Box::new(Expr::Ident(Ident::new(
+                                            js_word!("NaN"),
+                                            bin.span,
+                                        ))),
+                                    })
+                                };
 
-                            return;
+                                return;
+                            }
+                            _ => {}
                         }
-                        _ => {}
+                        return;
                     }
-                    return;
+                    _ => {}
                 }
             }
 
