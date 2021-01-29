@@ -1046,6 +1046,11 @@ impl VisitMut for Optimizer {
                 Expr::Invalid(..) => {
                     var.init = None;
                 }
+                // I don't know why, but terser preserves this
+                Expr::Fn(FnExpr {
+                    function: Function { is_async: true, .. },
+                    ..
+                }) => {}
                 _ => {
                     if !init.may_have_side_effects() {
                         self.drop_unused_vars(&mut var.name);
