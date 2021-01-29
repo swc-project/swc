@@ -32,6 +32,7 @@ use Value::Known;
 
 mod bools;
 mod conditionals;
+mod dead_code;
 mod if_return;
 mod iife;
 mod join_vars;
