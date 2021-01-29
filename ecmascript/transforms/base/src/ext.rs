@@ -322,6 +322,23 @@ impl MapWithMut for NewExpr {
     }
 }
 
+impl MapWithMut for Decl {
+    fn dummy() -> Self {
+        Decl::Var(MapWithMut::dummy())
+    }
+}
+
+impl MapWithMut for VarDecl {
+    fn dummy() -> Self {
+        VarDecl {
+            span: DUMMY_SP,
+            kind: VarDeclKind::Var,
+            declare: false,
+            decls: vec![],
+        }
+    }
+}
+
 /// Do not use: This is not a public api and it can be changed without a version
 /// bump.
 pub trait PatOrExprExt: AsOptExpr {
