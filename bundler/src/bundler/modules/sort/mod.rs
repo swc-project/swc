@@ -246,6 +246,10 @@ fn iter<'a>(
                             return false;
                         }
 
+                        if !moves.insert((idx, *dep)) {
+                            return false;
+                        }
+
                         // Exlcude emitted items
                         !done.contains(dep)
                     })
@@ -265,7 +269,7 @@ fn iter<'a>(
                                 && graph.edge_weight(idx, dep) == Some(Required::Maybe));
 
                         if can_ignore_dep {
-                            if graph.has_a_path(dep, idx) || !moves.insert((idx, dep)) {
+                            if graph.has_a_path(dep, idx) {
                                 // Just emit idx.
                                 continue;
                             }
