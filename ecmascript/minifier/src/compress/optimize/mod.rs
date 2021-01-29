@@ -38,6 +38,7 @@ mod join_vars;
 mod ops;
 mod sequences;
 mod switches;
+mod unused;
 mod util;
 
 /// This pass is simillar to `node.optimize` of terser.
