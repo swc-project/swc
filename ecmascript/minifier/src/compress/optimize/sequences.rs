@@ -1,7 +1,6 @@
 use super::Optimizer;
 use crate::util::ExprOptExt;
 use std::mem::take;
-use swc_common::iter::IdentifyLast;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
