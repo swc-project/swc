@@ -790,7 +790,10 @@ impl SimplifyExpr {
                 Expr::Ident(Ident {
                     sym: js_word!("NaN"),
                     ..
-                }) => return *arg,
+                }) => {
+                    self.changed = true;
+                    return *arg;
+                }
                 Expr::Lit(Lit::Num(Number { value: f, .. })) => {
                     self.changed = true;
                     return Expr::Lit(Lit::Num(Number { value: -f, span }));

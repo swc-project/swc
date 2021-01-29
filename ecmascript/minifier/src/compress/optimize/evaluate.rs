@@ -42,26 +42,15 @@ impl Optimizer {
 
                 let rn = bin.right.as_number();
                 match (ln, rn) {
-                    (Known(ln), Known(rn)) => {
+                    (Known(_ln), Known(rn)) => {
                         // It's NaN
                         match rn.classify() {
                             FpCategory::Zero => {
                                 self.changed = true;
                                 log::trace!("evaluate: `foo / 0` => `NaN`");
 
-                                *e = if ln.is_sign_positive() == rn.is_sign_positive() {
-                                    Expr::Ident(Ident::new(js_word!("NaN"), bin.span))
-                                } else {
-                                    Expr::Unary(UnaryExpr {
-                                        span: bin.span,
-                                        op: op!(unary, "-"),
-                                        arg: Box::new(Expr::Ident(Ident::new(
-                                            js_word!("NaN"),
-                                            bin.span,
-                                        ))),
-                                    })
-                                };
-
+                                // Sign does not matter for NaN
+                                *e = Expr::Ident(Ident::new(js_word!("NaN"), bin.span));
                                 return;
                             }
                             _ => {}
