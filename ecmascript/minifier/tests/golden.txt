@@ -167,10 +167,12 @@ drop_unused/issue_3146_1/input.js
 drop_unused/issue_3146_2/input.js
 drop_unused/reassign_const/input.js
 drop_unused/unused_block_decls/input.js
+drop_unused/unused_block_decls_in_catch/input.js
 drop_unused/unused_circular_references_3/input.js
 drop_unused/unused_keep_harmony_destructuring/input.js
 drop_unused/unused_keep_setter_arg/input.js
 drop_unused/unused_var_in_catch/input.js
+drop_unused/used_block_decls_in_catch/input.js
 drop_unused/used_var_in_catch/input.js
 evaluate/global_hasOwnProperty/input.js
 evaluate/in_boolean_context/input.js
@@ -206,6 +208,7 @@ export/export_default_async_arrow_function/input.js
 export/export_default_seq/input.js
 export/issue_2038_1/input.js
 export/issue_2129/input.js
+export/issue_2131/input.js
 export/issue_2977/input.js
 export/keyword_invalid_1/input.js
 export/keyword_invalid_2/input.js
@@ -222,6 +225,7 @@ functions/issue_2737_1/input.js
 functions/issue_2737_2/input.js
 functions/no_webkit/input.js
 functions/non_ascii_function_identifier_name/input.js
+functions/recursive_inline_1/input.js
 functions/webkit/input.js
 harmony/arrow_function_parens/input.js
 harmony/arrow_function_parens_2/input.js
@@ -326,6 +330,7 @@ issue_2001/export_default_class_3/input.js
 issue_2001/export_default_func_ref/input.js
 issue_2001/export_func_1/input.js
 issue_2001/export_func_3/input.js
+issue_2001/export_toplevel_2/input.js
 issue_2652/unary_postfix/input.js
 issue_267/issue_267/input.js
 issue_269/issue_269_dangers/input.js
