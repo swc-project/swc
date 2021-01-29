@@ -54,6 +54,10 @@ impl UsageAnalyzer {
             }
         }
     }
+
+    fn declare_decl(&mut self, i: &Ident) -> &mut VarUsageInfo {
+        self.data.vars.entry(i.to_id()).or_default()
+    }
 }
 
 impl Visit for UsageAnalyzer {
@@ -67,6 +71,18 @@ impl Visit for UsageAnalyzer {
 
         e.init.visit_with(e, self);
         self.in_pat_of_var_decl = old_in_pat_of_var_decl;
+    }
+
+    fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
+        self.declare_decl(&n.ident);
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_fn_decl(&mut self, n: &FnDecl, _: &dyn Node) {
+        self.declare_decl(&n.ident);
+
+        n.visit_children_with(self);
     }
 
     fn visit_param(&mut self, n: &Param, _: &dyn Node) {
@@ -85,8 +101,9 @@ impl Visit for UsageAnalyzer {
         match n {
             Pat::Ident(i) => {
                 if self.in_pat_of_var_decl || self.in_pat_of_param {
-                    let var = self.data.vars.entry(i.to_id()).or_default();
-                    var.declared_in_fn |= self.in_pat_of_param;
+                    let declared_in_fn = self.in_pat_of_param;
+                    let var = self.declare_decl(i);
+                    var.declared_in_fn |= declared_in_fn;
                 } else {
                     self.report_usage(i, true);
                 }
