@@ -156,6 +156,7 @@ destructuring/issue_2044_ecma_6_beautify/input.js
 destructuring/issue_t111_4/input.js
 destructuring/nested_destructuring_objects/input.js
 destructuring/object_destructuring_may_need_parentheses/input.js
+destructuring/reduce_vars/input.js
 destructuring/unused/input.js
 directives/class_directives_compression/input.js
 directives/simple_statement_is_not_a_directive/input.js
@@ -168,6 +169,8 @@ drop_unused/issue_2063/input.js
 drop_unused/issue_2136_1/input.js
 drop_unused/issue_3146_1/input.js
 drop_unused/issue_3146_2/input.js
+drop_unused/issue_3146_3/input.js
+drop_unused/issue_3146_4/input.js
 drop_unused/reassign_const/input.js
 drop_unused/unused_block_decls/input.js
 drop_unused/unused_block_decls_in_catch/input.js
@@ -324,6 +327,7 @@ issue_143/tranformation_sort_order_unequal/input.js
 issue_1588/runtime_error/input.js
 issue_1588/support_ie8/input.js
 issue_1704/mangle_catch_ie8/input.js
+issue_1704/mangle_catch_var_ie8/input.js
 issue_1833/label_do/input.js
 issue_1943/atom/input.js
 issue_1943/keyword/input.js
@@ -558,6 +562,7 @@ regexp/regexp_simple/input.js
 regexp/regexp_slashes/input.js
 rename/issue_2120_2/input.js
 rename/mangle_catch_ie8/input.js
+rename/mangle_catch_var_ie8/input.js
 sandbox/console_log/input.js
 sequences/delete_seq_1/input.js
 sequences/delete_seq_2/input.js
