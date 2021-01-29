@@ -1,10 +1,9 @@
 use anyhow::anyhow;
-use anyhow::bail;
 use anyhow::Error;
 use std::sync::Arc;
 use swc_common::input::SourceFileInput;
 use swc_common::SourceFile;
-use swc_common::Spanned;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_ast::*;
 use swc_ecma_parser::lexer::Lexer;
@@ -23,61 +22,27 @@ pub(super) fn load_json_as_module(fm: &Arc<SourceFile>) -> Result<Module, Error>
         .parse_expr()
         .map_err(|err| anyhow!("failed parse json as javascript object: {:#?}", err))?;
 
-    match *expr {
-        Expr::Object(obj) => {
-            let mut body = vec![];
-            // Convert to exports.
-            for prop in obj.props {
-                match prop {
-                    PropOrSpread::Spread(_) => {
-                        bail!("json does not support object spread syntax")
-                    }
-                    PropOrSpread::Prop(prop) => match *prop {
-                        Prop::KeyValue(kv) => {
-                            //
-                            let kv_span = kv.span();
+    let export = ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+        span: DUMMY_SP,
+        expr: Box::new(Expr::Assign(AssignExpr {
+            span: DUMMY_SP,
+            op: op!("="),
+            left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                span: DUMMY_SP,
+                obj: ExprOrSuper::Expr(Box::new(Expr::Ident(Ident::new(
+                    "module".into(),
+                    DUMMY_SP,
+                )))),
+                prop: Box::new(Expr::Ident(Ident::new("exports".into(), DUMMY_SP))),
+                computed: false,
+            }))),
+            right: expr,
+        })),
+    }));
 
-                            match kv.key {
-                                PropName::Str(key) => {
-                                    let decl = VarDeclarator {
-                                        span: kv.value.span(),
-                                        name: Pat::Ident(Ident::new(key.value.clone(), key.span)),
-                                        init: Some(kv.value),
-                                        definite: false,
-                                    };
-
-                                    body.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
-                                        ExportDecl {
-                                            span: kv_span,
-                                            decl: Decl::Var(VarDecl {
-                                                span: key.span,
-                                                kind: VarDeclKind::Const,
-                                                declare: false,
-                                                decls: vec![decl],
-                                            }),
-                                        },
-                                    )))
-                                }
-                                _ => {
-                                    bail!("keys in json file must be strings")
-                                }
-                            }
-                        }
-                        _ => {
-                            bail!("json should only contains properties in form of `key: value`")
-                        }
-                    },
-                }
-            }
-
-            Ok(Module {
-                span: obj.span,
-                body,
-                shebang: None,
-            })
-        }
-        _ => {
-            bail!("json loader currently only supports object")
-        }
-    }
+    Ok(Module {
+        span: DUMMY_SP,
+        body: vec![export],
+        shebang: None,
+    })
 }
