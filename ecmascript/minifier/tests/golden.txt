@@ -119,6 +119,7 @@ conditionals/ifs_1/input.js
 conditionals/ifs_2/input.js
 conditionals/ifs_4/input.js
 conditionals/issue_1645_2/input.js
+conditionals/to_and_or/input.js
 conditionals/trivial_boolean_ternary_expressions/input.js
 dead_code/collapse_vars_assignment/input.js
 dead_code/dead_code_1/input.js
