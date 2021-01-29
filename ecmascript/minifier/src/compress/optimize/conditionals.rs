@@ -375,7 +375,7 @@ impl Optimizer {
                         .data
                         .as_ref()
                         .and_then(|data| data.vars.get(&cons_callee.to_id()))
-                        .map(|v| v.declared_in_fn)
+                        .map(|v| v.is_fn_var)
                         .unwrap_or(false);
 
                     if side_effect_free

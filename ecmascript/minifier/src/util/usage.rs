@@ -19,9 +19,9 @@ pub(crate) struct VarUsageInfo {
     pub exported: bool,
     /// True if used **above** the declaration. (Not eval order).
     pub used_above_decl: bool,
-    /// True means it's declared by function parameters or variables declared in
-    /// a function.
-    pub declared_in_fn: bool,
+    /// `true` if it's declared by function parameters or variables declared in
+    /// a closest function and used only within it.
+    pub is_fn_var: bool,
 }
 
 #[derive(Debug, Default)]
@@ -103,7 +103,7 @@ impl Visit for UsageAnalyzer {
                 if self.in_pat_of_var_decl || self.in_pat_of_param {
                     let declared_in_fn = self.in_pat_of_param;
                     let var = self.declare_decl(i);
-                    var.declared_in_fn |= declared_in_fn;
+                    var.is_fn_var |= declared_in_fn;
                 } else {
                     self.report_usage(i, true);
                 }

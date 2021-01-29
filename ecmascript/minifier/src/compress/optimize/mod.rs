@@ -836,7 +836,7 @@ impl Optimizer {
                                 .data
                                 .as_ref()
                                 .and_then(|data| data.vars.get(&lhs.to_id()))
-                                .map(|var| var.declared_in_fn)
+                                .map(|var| var.is_fn_var)
                                 .unwrap_or(false)
                             {
                                 log::trace!(
