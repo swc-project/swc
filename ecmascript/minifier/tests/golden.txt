@@ -533,8 +533,12 @@ regexp/regexp_slashes/input.js
 rename/issue_2120_2/input.js
 rename/mangle_catch_ie8/input.js
 sandbox/console_log/input.js
+sequences/delete_seq_1/input.js
+sequences/delete_seq_2/input.js
+sequences/delete_seq_3/input.js
 sequences/delete_seq_4/input.js
 sequences/delete_seq_5/input.js
+sequences/delete_seq_6/input.js
 sequences/func_def_2/input.js
 sequences/func_def_5/input.js
 sequences/lift_sequences_3/input.js
