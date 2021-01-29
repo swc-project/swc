@@ -1378,6 +1378,12 @@ impl VisitMut for Optimizer {
         n.body.visit_mut_with(self);
     }
 
+    fn visit_mut_decl(&mut self, decl: &mut Decl) {
+        decl.visit_mut_children_with(self);
+
+        self.drop_unused_decl(decl);
+    }
+
     fn visit_mut_class(&mut self, n: &mut Class) {
         let ctx = Ctx {
             in_strict: true,

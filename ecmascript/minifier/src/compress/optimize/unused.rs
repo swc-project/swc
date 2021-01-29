@@ -22,6 +22,7 @@ impl Optimizer {
                     .map(|v| v.ref_count == 0)
                     .unwrap_or(false)
                 {
+                    self.changed = true;
                     log::trace!(
                         "unused: Dropping a variable '{}{:?}' because it is never used",
                         i.sym,
@@ -32,6 +33,13 @@ impl Optimizer {
                 }
             }
             _ => {}
+        }
+    }
+
+    /// Creates an empty [VarDecl] if `decl` should be removed.
+    pub(super) fn drop_unused_decl(&mut self, decl: &mut Decl) {
+        if !self.options.unused {
+            return;
         }
     }
 }
