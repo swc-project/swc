@@ -133,6 +133,7 @@ dead_code/issue_2597/input.js
 dead_code/issue_2666/input.js
 dead_code/issue_2701/input.js
 dead_code/issue_2929/input.js
+dead_code/throw_assignment/input.js
 debugger/keep_debugger/input.js
 destructuring/destructuring_arrays/input.js
 destructuring/destructuring_arrays_holes/input.js
