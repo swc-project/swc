@@ -1,4 +1,8 @@
 use super::Optimizer;
+use crate::compress::optimize::is_pure_undefined;
+use crate::util::make_bool;
+use swc_atoms::js_word;
+use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -154,6 +158,44 @@ impl Optimizer {
                 _ => {}
             },
             _ => {}
+        }
+    }
+
+    pub(super) fn compress_useless_deletes(&mut self, e: &mut Expr) {
+        if !self.options.bools {
+            return;
+        }
+
+        let delete = match e {
+            Expr::Unary(
+                u @ UnaryExpr {
+                    op: op!("delete"), ..
+                },
+            ) => u,
+            _ => return,
+        };
+
+        if delete.arg.may_have_side_effects() {
+            return;
+        }
+
+        let convert_to_true = match &*delete.arg {
+            e if is_pure_undefined(&e) => true,
+            Expr::Ident(Ident {
+                sym: js_word!("NaN"),
+                ..
+            }) => true,
+
+            // NaN
+            Expr::Bin(bin) => bin.right.as_number() == Known(0.0),
+            _ => false,
+        };
+
+        if convert_to_true {
+            self.changed = true;
+            let span = delete.arg.span();
+            *e = make_bool(span, true);
+            return;
         }
     }
 }

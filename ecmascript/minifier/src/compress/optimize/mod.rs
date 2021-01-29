@@ -1120,6 +1120,8 @@ impl VisitMut for Optimizer {
 
         self.compress_typeofs(n);
 
+        self.compress_useless_deletes(n);
+
         self.optimize_nullish_coalescing(n);
 
         self.compress_logical_exprs_as_bang_bang(n);
