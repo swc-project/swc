@@ -10,12 +10,12 @@ function _interopRequireDefault(obj) {
     };
 }
 class OK {
-    constructor() {
+    constructor(){
         console.log(_foo.default);
     }
 }
 class NotOK {
-    constructor() {
+    constructor(){
         console.log(_foo.default);
     }
 }
