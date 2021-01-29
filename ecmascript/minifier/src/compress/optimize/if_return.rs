@@ -79,6 +79,10 @@ impl Optimizer {
                     continue;
                 }
             };
+            let is_nonconditional_return = match stmt {
+                Stmt::Return(..) => true,
+                _ => false,
+            };
             let new_expr = self.merge_if_returns_to(stmt, vec![]);
             match new_expr {
                 Expr::Seq(v) => match &mut cur {
@@ -148,6 +152,10 @@ impl Optimizer {
                          Expr::Cond"
                     )
                 }
+            }
+
+            if is_nonconditional_return {
+                break;
             }
         }
 
