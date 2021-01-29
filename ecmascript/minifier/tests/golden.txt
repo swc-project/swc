@@ -285,6 +285,7 @@ if_return/if_return_1/input.js
 if_return/if_return_2/input.js
 if_return/if_return_3/input.js
 if_return/if_return_6/input.js
+if_return/if_return_8/input.js
 if_return/issue_1089/input.js
 if_return/issue_1317/input.js
 if_return/issue_1317_strict/input.js
