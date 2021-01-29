@@ -6,6 +6,10 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::undefined;
 use swc_ecma_utils::StmtLike;
+use swc_ecma_visit::noop_visit_type;
+use swc_ecma_visit::Node;
+use swc_ecma_visit::Visit;
+use swc_ecma_visit::VisitWith;
 
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.
@@ -13,12 +17,15 @@ impl Optimizer {
     pub(super) fn merge_if_returns<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
+        Vec<T>: VisitWith<ReturnFinder>,
     {
         if !self.options.if_return || stmts.is_empty() {
             return;
         }
 
         {
+            let return_count = count_leaping_returns(&*stmts);
+
             let ends_with_if = stmts
                 .last()
                 .map(|stmt| match stmt.as_stmt() {
@@ -26,7 +33,7 @@ impl Optimizer {
                     _ => false,
                 })
                 .unwrap();
-            if ends_with_if {
+            if return_count <= 1 && ends_with_if {
                 return;
             }
         }
@@ -266,4 +273,30 @@ fn get_rightmost_alt_of_cond(e: &mut CondExpr) -> &mut Expr {
         Expr::Cond(alt) => get_rightmost_alt_of_cond(alt),
         alt => alt,
     }
+}
+
+fn count_leaping_returns<N>(n: &N) -> usize
+where
+    N: VisitWith<ReturnFinder>,
+{
+    let mut v = ReturnFinder::default();
+    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    v.count
+}
+
+#[derive(Default)]
+pub(super) struct ReturnFinder {
+    count: usize,
+}
+
+impl Visit for ReturnFinder {
+    noop_visit_type!();
+
+    fn visit_return_stmt(&mut self, n: &ReturnStmt, _: &dyn Node) {
+        n.visit_children_with(self);
+        self.count += 1;
+    }
+
+    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
 }
