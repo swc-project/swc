@@ -1,6 +1,7 @@
 use super::Optimizer;
 use crate::util::ExprOptExt;
 use std::mem::take;
+use swc_common::iter::IdentifyLast;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -193,6 +194,54 @@ impl Optimizer {
             return;
         }
 
-        //
+        {
+            let can_work = e.exprs.iter().any(|e| {
+                match &**e {
+                    Expr::Assign(assign) => match &*assign.right {
+                        Expr::Seq(right) => {
+                            if right.exprs.len() >= 2 {
+                                return true;
+                            }
+                        }
+                        _ => {}
+                    },
+                    _ => {}
+                }
+
+                false
+            });
+
+            if !can_work {
+                return;
+            }
+            log::trace!("sequences: Lifting");
+            self.changed = true;
+        }
+
+        let mut new_exprs = Vec::with_capacity(e.exprs.len() * 12 / 10);
+
+        for expr in e.exprs.take() {
+            match *expr {
+                Expr::Assign(assign) => match *assign.right {
+                    Expr::Seq(mut right) => {
+                        new_exprs.extend(right.exprs.drain(..right.exprs.len() - 1));
+                        new_exprs.push(Box::new(Expr::Assign(AssignExpr {
+                            right: right.exprs.pop().unwrap(),
+                            ..assign
+                        })));
+                        continue;
+                    }
+                    _ => {
+                        new_exprs.push(Box::new(Expr::Assign(assign)));
+                        continue;
+                    }
+                },
+                _ => {}
+            }
+
+            new_exprs.push(expr);
+        }
+
+        e.exprs = new_exprs;
     }
 }
