@@ -85,10 +85,32 @@ impl Compiler {
             match input_src_map {
                 InputSourceMap::Bool(false) => Ok(None),
                 InputSourceMap::Bool(true) => {
+                    let s = "sourceMappingURL=";
+                    let idx = fm.src.rfind(s);
+                    let src_mapping_url = match idx {
+                        None => None,
+                        Some(idx) => Some(&fm.src[idx + s.len()..]),
+                    };
+
                     // Load original source map if possible
                     match &name {
                         FileName::Real(filename) => {
-                            let path = format!("{}.map", filename.display());
+                            let dir = match filename.parent() {
+                                Some(v) => v,
+                                None => {
+                                    bail!("unexpected: root directory is given as a input file")
+                                }
+                            };
+
+                            let path = match src_mapping_url {
+                                Some(src_mapping_url) => {
+                                    dir.join(src_mapping_url).display().to_string()
+                                }
+                                None => {
+                                    format!("{}.map", dir.join(filename).display())
+                                }
+                            };
+
                             let file = File::open(&path)
                                 .context("failed to open input source map file")?;
                             Ok(Some(sourcemap::SourceMap::from_reader(file).with_context(
