@@ -155,11 +155,13 @@ impl Compiler {
                 },
             );
             let mut parser = Parser::new_from(lexer);
+            let mut error = false;
             let program = if is_module {
                 let m = parser.parse_module();
 
                 for e in parser.take_errors() {
                     e.into_diagnostic(&self.handler).emit();
+                    error = true;
                 }
 
                 m.map_err(|e| {
@@ -172,6 +174,7 @@ impl Compiler {
 
                 for e in parser.take_errors() {
                     e.into_diagnostic(&self.handler).emit();
+                    error = true;
                 }
 
                 s.map_err(|e| {
@@ -180,6 +183,13 @@ impl Compiler {
                 })
                 .map(Program::Script)?
             };
+
+            if error {
+                bail!(
+                    "failed to parse module: error was recoverable, but proceeding would result \
+                     in wrong codegen"
+                )
+            }
 
             Ok(program)
         })
