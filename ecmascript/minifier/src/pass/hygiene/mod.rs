@@ -39,7 +39,9 @@ impl VisitMut for Optimizer {
             None => return,
         };
 
-        if info.is_fn_local {}
+        if info.is_fn_local {
+            i.span.ctxt = SyntaxContext::empty();
+        }
     }
 
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
