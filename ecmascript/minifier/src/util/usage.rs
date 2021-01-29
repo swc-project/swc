@@ -173,8 +173,13 @@ impl Visit for UsageAnalyzer {
         match n {
             Pat::Ident(i) => {
                 if self.in_pat_of_var_decl || self.in_pat_of_param {
-                    let var = self.declare_decl(i);
-                    var.is_fn_local = true;
+                    self.data
+                        .vars
+                        .entry(i.to_id())
+                        .or_insert_with(|| VarUsageInfo {
+                            is_fn_local: true,
+                            ..Default::default()
+                        });
                 } else {
                     self.report_usage(i, true);
                 }
