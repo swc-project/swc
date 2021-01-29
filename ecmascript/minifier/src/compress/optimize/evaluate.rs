@@ -1,3 +1,5 @@
+use std::num::FpCategory;
+
 use super::Optimizer;
 use swc_atoms::js_word;
 use swc_ecma_ast::*;
@@ -42,11 +44,30 @@ impl Optimizer {
                 }
 
                 let rn = bin.right.as_number();
-                if Known(0.0) == rn {
+                if let Known(rn) = rn {
                     // It's NaN
-                    self.changed = true;
-                    log::trace!("evaluate: `foo / 0` => `NaN`");
-                    *e = Expr::Ident(Ident::new(js_word!("NaN"), bin.span));
+                    match rn.classify() {
+                        FpCategory::Zero => {
+                            self.changed = true;
+                            log::trace!("evaluate: `foo / 0` => `NaN`");
+
+                            *e = if rn.is_sign_positive() {
+                                Expr::Ident(Ident::new(js_word!("NaN"), bin.span))
+                            } else {
+                                Expr::Unary(UnaryExpr {
+                                    span: bin.span,
+                                    op: op!(unary, "-"),
+                                    arg: Box::new(Expr::Ident(Ident::new(
+                                        js_word!("NaN"),
+                                        bin.span,
+                                    ))),
+                                })
+                            };
+
+                            return;
+                        }
+                        _ => {}
+                    }
                     return;
                 }
             }
