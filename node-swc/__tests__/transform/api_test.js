@@ -138,7 +138,7 @@ it("should respect isModule = false", async () => {
 });
 
 it("should respect isModule = true", async () => {
-    const f = swc.transformSync(
+    const f = () => swc.transformSync(
         `const five = 005`,
         {
             isModule: true,
