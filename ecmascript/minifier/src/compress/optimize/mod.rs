@@ -1094,7 +1094,7 @@ impl VisitMut for Optimizer {
             n.exprs = exprs;
         }
 
-        self.lift_sequences(n);
+        self.lift_seqs_of_assign(n);
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
