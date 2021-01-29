@@ -233,8 +233,11 @@ impl Optimizer {
                 })
             }
             Stmt::Expr(stmt) => {
-                exprs.push(stmt.expr);
-                exprs.push(undefined(DUMMY_SP));
+                exprs.push(Box::new(Expr::Unary(UnaryExpr {
+                    span: DUMMY_SP,
+                    op: op!("void"),
+                    arg: stmt.expr,
+                })));
                 Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs,
