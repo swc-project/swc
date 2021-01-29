@@ -282,6 +282,7 @@ ie8/dont_screw/input.js
 ie8/dont_screw_constants/input.js
 ie8/issue_2120_2/input.js
 if_return/if_return_1/input.js
+if_return/if_return_2/input.js
 if_return/if_return_3/input.js
 if_return/if_return_6/input.js
 if_return/issue_1089/input.js
