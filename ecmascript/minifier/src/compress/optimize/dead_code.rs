@@ -3,6 +3,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 
+/// Methods related to option `dead_code`.
 impl Optimizer {
     /// Optimize return value or argument of throw.
     ///
@@ -50,8 +51,8 @@ impl Optimizer {
                                 .unwrap_or(false)
                             {
                                 log::trace!(
-                                    "Dropping an assigment to a varaible declared in function \
-                                     because function is being terminated"
+                                    "dead_code: Dropping an assigment to a varaible declared in \
+                                     function because function is being terminated"
                                 );
                                 self.changed = true;
                                 *e = *assign.right.take();
