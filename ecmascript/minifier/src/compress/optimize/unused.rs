@@ -39,7 +39,11 @@ impl Optimizer {
 
     /// Creates an empty [VarDecl] if `decl` should be removed.
     pub(super) fn drop_unused_decl(&mut self, decl: &mut Decl) {
-        if !self.options.unused || self.ctx.is_exported_decl {
+        if self.ctx.is_exported_decl {
+            return;
+        }
+
+        if !self.options.unused {
             return;
         }
 
