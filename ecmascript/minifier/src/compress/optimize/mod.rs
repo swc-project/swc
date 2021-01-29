@@ -33,6 +33,7 @@ use Value::Known;
 mod bools;
 mod conditionals;
 mod dead_code;
+mod evaluate;
 mod if_return;
 mod iife;
 mod join_vars;
@@ -1117,6 +1118,8 @@ impl VisitMut for Optimizer {
         if self.options.negate_iife {
             self.negate_iife_in_cond(n);
         }
+
+        self.evaluate(n);
 
         self.invoke_iife(n);
 
