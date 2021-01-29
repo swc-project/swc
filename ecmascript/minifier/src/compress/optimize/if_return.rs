@@ -19,13 +19,6 @@ impl Optimizer {
         }
 
         {
-            let start = stmts
-                .iter()
-                .position(|stmt| match stmt.as_stmt() {
-                    Some(v) => self.can_merge_stmt_as_if_return(v),
-                    None => false,
-                })
-                .unwrap_or(0);
             let ends_with_if = stmts
                 .last()
                 .map(|stmt| match stmt.as_stmt() {
@@ -36,6 +29,16 @@ impl Optimizer {
             if ends_with_if {
                 return;
             }
+        }
+
+        {
+            let start = stmts
+                .iter()
+                .position(|stmt| match stmt.as_stmt() {
+                    Some(v) => self.can_merge_stmt_as_if_return(v),
+                    None => false,
+                })
+                .unwrap_or(0);
 
             let ends_with_mergable = stmts
                 .last()
