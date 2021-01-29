@@ -7,6 +7,7 @@ arrays/spread_with_variable_as_last_element/input.js
 arrays/spread_with_variable_at_front/input.js
 arrays/spread_with_variable_at_front_after_elisions/input.js
 arrays/spread_with_variable_in_middle/input.js
+arrow/arrow_binding_pattern/input.js
 arrow/arrow_binding_pattern_strict/input.js
 arrow/arrow_function_with_single_parameter_with_default/input.js
 arrow/arrow_functions_with_body/input.js
@@ -42,6 +43,7 @@ async/await_precedence_call/input.js
 async/await_precedence_prop/input.js
 async/issue_2344_1/input.js
 async/issue_2344_2/input.js
+async/issue_3079/input.js
 async/issue_3079_2/input.js
 big_int/big_int_binary/input.js
 big_int/big_int_hex/input.js
@@ -190,6 +192,7 @@ evaluate/issue_2231_1/input.js
 evaluate/issue_2231_2/input.js
 evaluate/issue_2822/input.js
 evaluate/issue_2916_1/input.js
+evaluate/or/input.js
 evaluate/pow/input.js
 evaluate/pow_mixed/input.js
 evaluate/pow_sequence/input.js
@@ -198,6 +201,7 @@ evaluate/pow_sequence_with_parens/input.js
 evaluate/pow_with_right_side_evaluating_to_unary/input.js
 evaluate/unary_prefix/input.js
 evaluate/unsafe_array_bad_index/input.js
+evaluate/unsafe_constant/input.js
 evaluate/unsafe_string/input.js
 evaluate/unsafe_string_bad_index/input.js
 expansions/expand_arguments/input.js
@@ -227,6 +231,7 @@ export/trailing_comma/input.js
 functions/deduplicate_parenthesis/input.js
 functions/inline_false/input.js
 functions/inline_loop_3/input.js
+functions/issue_2604_1/input.js
 functions/issue_2663_1/input.js
 functions/issue_2737_1/input.js
 functions/issue_2737_2/input.js
@@ -327,6 +332,10 @@ issue_143/tranformation_sort_order_unequal/input.js
 issue_1588/runtime_error/input.js
 issue_1588/support_ie8/input.js
 issue_1704/mangle_catch_ie8/input.js
+issue_1704/mangle_catch_redef_1/input.js
+issue_1704/mangle_catch_redef_1_ie8/input.js
+issue_1704/mangle_catch_redef_2/input.js
+issue_1704/mangle_catch_redef_2_ie8/input.js
 issue_1704/mangle_catch_var_ie8/input.js
 issue_1833/label_do/input.js
 issue_1943/atom/input.js
@@ -344,6 +353,7 @@ issue_2001/export_toplevel_2/input.js
 issue_2652/unary_postfix/input.js
 issue_267/issue_267/input.js
 issue_269/issue_269_dangers/input.js
+issue_269/issue_269_in_scope/input.js
 issue_281/issue_1254_negate_iife_nested/input.js
 issue_281/issue_1254_negate_iife_true/input.js
 issue_281/negate_iife_3/input.js
@@ -359,6 +369,9 @@ issue_2989/inline_script_on/input.js
 issue_427/no_wrap_func_args/input.js
 issue_427/wrap_func_args/input.js
 issue_59/keep_continue/input.js
+issue_597/NaN_and_Infinity_should_not_be_replaced_when_they_are_redefined/input.js
+issue_597/beautify_off_2/input.js
+issue_597/beautify_on_2/input.js
 issue_640/drop_value/input.js
 issue_640/issue_1254_negate_iife_nested/input.js
 issue_640/issue_1254_negate_iife_true/input.js
@@ -447,6 +460,8 @@ object/issue_206/input.js
 object/issue_2554_5/input.js
 object/methods_and_getters_with_keep_quoted_props_enabled/input.js
 object/property_with_operator_value/input.js
+object/property_with_unprintable/input.js
+object/property_with_unprintable_ascii_only/input.js
 object/use_shorthand_opportunity/input.js
 object/variable_as_computed_property/input.js
 parameters/accept_duplicated_parameters_in_non_strict_without_spread_or_default_assignment/input.js
@@ -454,6 +469,7 @@ parameters/arrow_functions/input.js
 parameters/arrow_return/input.js
 parameters/default_values_in_destructurings/input.js
 parameters/destructuring_arguments_1/input.js
+parameters/destructuring_arguments_2/input.js
 parameters/destructuring_arguments_3/input.js
 parameters/regression_arrow_functions_and_hoist/input.js
 parameters/regression_assign_arrow_functions/input.js
@@ -487,6 +503,7 @@ reduce_vars/array_forof_1/input.js
 reduce_vars/array_forof_2/input.js
 reduce_vars/boolean_binary_assign/input.js
 reduce_vars/booleans/input.js
+reduce_vars/catch_var/input.js
 reduce_vars/cond_assign/input.js
 reduce_vars/conditional_chain_call/input.js
 reduce_vars/conditional_chain_call_direct/input.js
@@ -562,6 +579,10 @@ regexp/regexp_simple/input.js
 regexp/regexp_slashes/input.js
 rename/issue_2120_2/input.js
 rename/mangle_catch_ie8/input.js
+rename/mangle_catch_redef_1/input.js
+rename/mangle_catch_redef_1_ie8/input.js
+rename/mangle_catch_redef_2/input.js
+rename/mangle_catch_redef_2_ie8/input.js
 rename/mangle_catch_var_ie8/input.js
 sandbox/console_log/input.js
 sequences/delete_seq_1/input.js
