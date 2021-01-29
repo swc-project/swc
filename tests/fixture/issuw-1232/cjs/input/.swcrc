@@ -5,9 +5,9 @@
       "tsx": true,
       "dynamicImport": true,
       "decorators": false
-    },
-    "module": {
-      "type": "commonjs"
     }
+  },
+  "module": {
+    "type": "commonjs"
   }
 }
