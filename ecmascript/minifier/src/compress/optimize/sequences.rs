@@ -196,14 +196,16 @@ impl Optimizer {
         {
             let can_work = e.exprs.iter().any(|e| {
                 match &**e {
-                    Expr::Assign(assign) => match &*assign.right {
-                        Expr::Seq(right) => {
-                            if right.exprs.len() >= 2 {
-                                return true;
+                    Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) => {
+                        match &*assign.right {
+                            Expr::Seq(right) => {
+                                if right.exprs.len() >= 2 {
+                                    return true;
+                                }
                             }
+                            _ => {}
                         }
-                        _ => {}
-                    },
+                    }
                     _ => {}
                 }
 
@@ -221,7 +223,7 @@ impl Optimizer {
 
         for expr in e.exprs.take() {
             match *expr {
-                Expr::Assign(assign) => match *assign.right {
+                Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) => match *assign.right {
                     Expr::Seq(mut right) => {
                         new_exprs.extend(right.exprs.drain(..right.exprs.len() - 1));
                         new_exprs.push(Box::new(Expr::Assign(AssignExpr {
