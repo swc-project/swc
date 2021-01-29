@@ -44,7 +44,7 @@
             "init": {
               "type": "ArrowFunctionExpression",
               "span": {
-                "start": 23,
+                "start": 20,
                 "end": 117,
                 "ctxt": 0
               },

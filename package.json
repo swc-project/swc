@@ -31,6 +31,7 @@
       "defaults": true,
       "additional": [
         "x86_64-unknown-linux-musl",
+        "i686-pc-windows-msvc",
         "aarch64-unknown-linux-gnu",
         "armv7-unknown-linux-gnueabihf",
         "aarch64-apple-darwin",
@@ -62,7 +63,7 @@
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.1.0",
-    "@napi-rs/cli": "^1.0.0-alpha.11",
+    "@napi-rs/cli": "^1.0.2",
     "@swc/helpers": "^0.2.2",
     "@types/browserslist": "^4.4.0",
     "@types/jest": "^25.2.3",

@@ -75,9 +75,11 @@ impl<'a, I: Tokens> Parser<I> {
                 let mut arrow = p.parse_assignment_expr_base()?;
                 match *arrow {
                     Expr::Arrow(ArrowExpr {
+                        ref mut span,
                         ref mut type_params,
                         ..
                     }) => {
+                        *span = Span::new(type_parameters.span.lo, span.hi, Default::default());
                         *type_params = Some(type_parameters);
                     }
                     _ => unexpected!(p, "("),

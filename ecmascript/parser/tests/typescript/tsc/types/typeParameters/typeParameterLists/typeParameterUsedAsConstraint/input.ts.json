@@ -2209,7 +2209,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 756,
+              "start": 740,
               "end": 765,
               "ctxt": 0
             },
@@ -2333,7 +2333,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 791,
+              "start": 775,
               "end": 800,
               "ctxt": 0
             },
@@ -2457,7 +2457,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 839,
+              "start": 810,
               "end": 848,
               "ctxt": 0
             },
@@ -2600,7 +2600,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 887,
+              "start": 858,
               "end": 896,
               "ctxt": 0
             },
@@ -2743,7 +2743,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 935,
+              "start": 906,
               "end": 944,
               "ctxt": 0
             },
@@ -2907,7 +2907,7 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 983,
+              "start": 954,
               "end": 992,
               "ctxt": 0
             },

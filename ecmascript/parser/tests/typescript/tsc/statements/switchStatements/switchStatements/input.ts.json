@@ -641,7 +641,7 @@
           "test": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 369,
+              "start": 366,
               "end": 386,
               "ctxt": 0
             },
@@ -749,7 +749,7 @@
               "expression": {
                 "type": "ArrowFunctionExpression",
                 "span": {
-                  "start": 401,
+                  "start": 398,
                   "end": 418,
                   "ctxt": 0
                 },
@@ -1493,7 +1493,7 @@
       "discriminant": {
         "type": "ArrowFunctionExpression",
         "span": {
-          "start": 919,
+          "start": 916,
           "end": 936,
           "ctxt": 0
         },
@@ -1601,7 +1601,7 @@
           "expression": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 954,
+              "start": 951,
               "end": 966,
               "ctxt": 0
             },

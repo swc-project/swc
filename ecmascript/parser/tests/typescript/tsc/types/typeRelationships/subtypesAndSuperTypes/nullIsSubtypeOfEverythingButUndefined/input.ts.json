@@ -1412,7 +1412,7 @@
             "consequent": {
               "type": "ArrowFunctionExpression",
               "span": {
-                "start": 651,
+                "start": 648,
                 "end": 673,
                 "ctxt": 0
               },
@@ -1588,7 +1588,7 @@
             "alternate": {
               "type": "ArrowFunctionExpression",
               "span": {
-                "start": 709,
+                "start": 706,
                 "end": 731,
                 "ctxt": 0
               },
