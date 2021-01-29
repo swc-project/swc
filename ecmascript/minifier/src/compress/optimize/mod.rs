@@ -1072,25 +1072,29 @@ impl VisitMut for Optimizer {
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
         n.visit_mut_children_with(self);
 
-        let exprs = n
-            .exprs
-            .iter_mut()
-            .identify_last()
-            .filter_map(|(last, expr)| {
-                if !last {
-                    // If negate_iife is true, it's already handled by visit_mut_children_with(self)
-                    // above.
-                    if !self.options.negate_iife {
-                        self.negate_iife_in_cond(&mut **expr);
-                    }
+        {
+            let exprs = n
+                .exprs
+                .iter_mut()
+                .identify_last()
+                .filter_map(|(last, expr)| {
+                    if !last {
+                        // If negate_iife is true, it's already handled by
+                        // visit_mut_children_with(self) above.
+                        if !self.options.negate_iife {
+                            self.negate_iife_in_cond(&mut **expr);
+                        }
 
-                    self.ignore_return_value(&mut **expr).map(Box::new)
-                } else {
-                    Some(expr.take())
-                }
-            })
-            .collect::<Vec<_>>();
-        n.exprs = exprs;
+                        self.ignore_return_value(&mut **expr).map(Box::new)
+                    } else {
+                        Some(expr.take())
+                    }
+                })
+                .collect::<Vec<_>>();
+            n.exprs = exprs;
+        }
+
+        self.lift_sequences(n);
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {

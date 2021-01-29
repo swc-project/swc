@@ -187,4 +187,12 @@ impl Optimizer {
 
         *stmts = new_stmts;
     }
+
+    pub(super) fn lift_sequences(&mut self, e: &mut SeqExpr) {
+        if !self.options.sequences {
+            return;
+        }
+
+        //
+    }
 }
