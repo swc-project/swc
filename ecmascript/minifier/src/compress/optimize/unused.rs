@@ -43,6 +43,10 @@ impl Optimizer {
             return;
         }
 
+        if !self.options.top_level && self.ctx.top_level {
+            return;
+        }
+
         if !self.options.unused {
             return;
         }
