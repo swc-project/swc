@@ -34,6 +34,11 @@ impl Optimizer {
             return;
         }
 
+        // A return statement in a try block may not terminate function.
+        if self.ctx.in_try_block {
+            return;
+        }
+
         match e {
             Expr::Assign(assign) => {
                 self.optimize_in_fn_termiation(&mut assign.right);
