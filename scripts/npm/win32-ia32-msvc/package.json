@@ -1,15 +1,15 @@
 {
-  "name": "@swc/core-darwin-x64",
+  "name": "@swc/core-win32-ia32-msvc",
   "version": "1.2.46",
   "os": [
-    "darwin"
+    "win32"
   ],
   "cpu": [
-    "x64"
+    "ia32"
   ],
-  "main": "swc.darwin-x64.node",
+  "main": "swc.win32-ia32-msvc.node",
   "files": [
-    "swc.darwin-x64.node"
+    "swc.win32-ia32-msvc.node"
   ],
   "description": "Super-fast alternative for babel",
   "keywords": [
