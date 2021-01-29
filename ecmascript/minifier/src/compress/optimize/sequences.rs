@@ -188,6 +188,15 @@ impl Optimizer {
         *stmts = new_stmts;
     }
 
+    ///
+    /// - `x = (foo(), bar(), baz()) ? 10 : 20` => `foo(), bar(), x = baz() ? 10
+    ///   : 20;`
+    pub(super) fn lift_seqs_of_cond(&mut self, e: &mut Expr) {
+        if !self.options.sequences {
+            return;
+        }
+    }
+
     pub(super) fn lift_seqs_of_assign(&mut self, e: &mut SeqExpr) {
         if !self.options.sequences {
             return;

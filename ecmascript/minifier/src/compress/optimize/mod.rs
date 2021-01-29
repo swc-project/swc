@@ -1168,6 +1168,8 @@ impl VisitMut for Optimizer {
 
         self.optimize_bools(n);
 
+        self.lift_seqs_of_cond(n);
+
         if self.options.negate_iife {
             self.negate_iife_in_cond(n);
         }
