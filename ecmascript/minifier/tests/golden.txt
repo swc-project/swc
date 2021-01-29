@@ -485,10 +485,6 @@ reduce_vars/conditional_nested_3/input.js
 reduce_vars/const_expr_1/input.js
 reduce_vars/const_expr_2/input.js
 reduce_vars/defun_assign/input.js
-reduce_vars/defun_catch_1/input.js
-reduce_vars/defun_catch_2/input.js
-reduce_vars/defun_catch_3/input.js
-reduce_vars/defun_catch_6/input.js
 reduce_vars/delay_def_lhs/input.js
 reduce_vars/do_while/input.js
 reduce_vars/for_in_prop/input.js
