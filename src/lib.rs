@@ -112,6 +112,15 @@ impl Compiler {
                             };
 
                             let file = File::open(&path)
+                                .or_else(|err| {
+                                    // Old behavior. This check would prevent regressions.
+                                    let f = format!("{}.map", filename.display());
+
+                                    match File::open(&f) {
+                                        Ok(v) => Ok(v),
+                                        Err(_) => Err(err),
+                                    }
+                                })
                                 .context("failed to open input source map file")?;
                             Ok(Some(sourcemap::SourceMap::from_reader(file).with_context(
                                 || format!("failed to read input source map from file at {}", path),
