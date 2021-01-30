@@ -74,6 +74,7 @@ impl Optimizer {
                                 | Lit::Null(_)
                                 | Lit::Num(_)
                                 | Lit::BigInt(_) => true,
+                                Lit::Regex(_) => self.options.unsafe_regexp,
                                 _ => false,
                             },
                             _ => false,
