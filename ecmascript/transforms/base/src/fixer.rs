@@ -83,6 +83,9 @@ impl VisitMut for Fixer<'_> {
             | Expr::Seq(..)
             | Expr::Unary(..)
             | Expr::Lit(..) => self.wrap(&mut node.callee),
+            Expr::Call(..) | Expr::Bin(..) | Expr::Assign(..) | Expr::Seq(..) | Expr::Unary(..) => {
+                self.wrap(&mut node.callee)
+            }
             _ => {}
         }
         self.ctx = old;
