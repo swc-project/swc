@@ -246,6 +246,12 @@ fn iter<'a>(
                             return false;
                         }
 
+                        if !free.contains(&idx) && graph.has_a_path(*dep, idx) {
+                            if !moves.insert((idx, *dep)) {
+                                return false;
+                            }
+                        }
+
                         // Exlcude emitted items
                         !done.contains(dep)
                     })
