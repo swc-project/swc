@@ -57,19 +57,19 @@ pub struct TestOptions {
     pub arguments: bool,
 
     #[serde(default)]
-    pub arrows: bool,
+    pub arrows: Option<bool>,
 
     #[serde(default)]
-    pub booleans: bool,
+    pub booleans: Option<bool>,
 
     #[serde(default)]
     pub booleans_as_integers: bool,
 
     #[serde(default)]
-    pub collapse_vars: bool,
+    pub collapse_vars: Option<bool>,
 
     #[serde(default)]
-    pub comparisons: bool,
+    pub comparisons: Option<bool>,
 
     #[serde(default)]
     pub computed_props: bool,
@@ -90,13 +90,13 @@ pub struct TestOptions {
     pub drop_console: bool,
 
     #[serde(default)]
-    pub drop_debugger: bool,
+    pub drop_debugger: Option<bool>,
 
     #[serde(default = "ecma_default")]
     pub ecma: usize,
 
     #[serde(default)]
-    pub evaluate: bool,
+    pub evaluate: Option<bool>,
 
     #[serde(default)]
     pub expression: bool,
@@ -108,7 +108,7 @@ pub struct TestOptions {
     pub hoist_funs: bool,
 
     #[serde(default)]
-    pub hoist_props: bool,
+    pub hoist_props: Option<bool>,
 
     #[serde(default)]
     pub hoist_vars: bool,
@@ -117,19 +117,19 @@ pub struct TestOptions {
     pub ie8: bool,
 
     #[serde(default)]
-    pub if_return: bool,
+    pub if_return: Option<bool>,
 
     #[serde(default)]
-    pub inline: bool,
+    pub inline: Option<bool>,
 
     #[serde(default)]
-    pub join_vars: bool,
+    pub join_vars: Option<bool>,
 
     #[serde(default)]
     pub keep_classnames: bool,
 
     #[serde(default)]
-    pub keep_fargs: bool,
+    pub keep_fargs: Option<bool>,
 
     #[serde(default)]
     pub keep_fnames: bool,
@@ -138,16 +138,16 @@ pub struct TestOptions {
     pub keep_infinity: bool,
 
     #[serde(default)]
-    pub loops: bool,
+    pub loops: Option<bool>,
     // module        : false,
     #[serde(default)]
-    pub negate_iife: bool,
+    pub negate_iife: Option<bool>,
 
     #[serde(default)]
     pub passes: usize,
 
     #[serde(default)]
-    pub properties: bool,
+    pub properties: Option<bool>,
 
     // pure_getters  : !false_by_default && "strict",
     // pure_funcs    : null,
@@ -158,10 +158,10 @@ pub struct TestOptions {
     pub reduce_vars: bool,
 
     #[serde(default)]
-    pub sequences: bool,
+    pub sequences: Option<bool>,
 
     #[serde(default)]
-    pub side_effects: bool,
+    pub side_effects: Option<bool>,
 
     #[serde(default)]
     pub switches: bool,
@@ -173,7 +173,7 @@ pub struct TestOptions {
     pub toplevel: bool,
 
     #[serde(default)]
-    pub typeofs: bool,
+    pub typeofs: Option<bool>,
 
     #[serde(default)]
     #[serde(rename = "unsafe")]
@@ -208,7 +208,7 @@ pub struct TestOptions {
     pub unsafe_undefined: bool,
 
     #[serde(default)]
-    pub unused: bool,
+    pub unused: Option<bool>,
 }
 
 fn ecma_default() -> usize {
@@ -221,40 +221,40 @@ fn parse_config(s: &str) -> CompressOptions {
 
     CompressOptions {
         args: c.arguments,
-        arrows: c.arrows || c.defaults,
-        bools: c.booleans || c.defaults,
+        arrows: c.arrows.unwrap_or(c.defaults),
+        bools: c.booleans.unwrap_or(c.defaults),
         bools_as_ints: c.booleans_as_integers,
-        collapse_vars: c.collapse_vars || c.defaults,
-        comparisons: c.comparisons || c.defaults,
+        collapse_vars: c.collapse_vars.unwrap_or(c.defaults),
+        comparisons: c.comparisons.unwrap_or(c.defaults),
         computed_props: c.computed_props,
         conditionals: c.conditionals,
         dead_code: c.dead_code,
         directives: c.directives,
         drop_console: c.drop_console,
-        drop_debugger: c.drop_debugger || c.defaults,
+        drop_debugger: c.drop_debugger.unwrap_or(c.defaults),
         ecma: c.ecma,
-        evaluate: c.evaluate || c.defaults,
+        evaluate: c.evaluate.unwrap_or(c.defaults),
         expr: c.expression,
         global_defs: c.global_defs,
         hoist_fns: c.hoist_funs,
-        hoist_props: c.hoist_props || c.defaults,
+        hoist_props: c.hoist_props.unwrap_or(c.defaults),
         hoist_vars: c.hoist_vars,
         ie8: c.ie8,
-        if_return: c.if_return || c.defaults,
-        inline: c.inline || c.defaults,
-        join_vars: c.join_vars || c.defaults,
+        if_return: c.if_return.unwrap_or(c.defaults),
+        inline: c.inline.unwrap_or(c.defaults),
+        join_vars: c.join_vars.unwrap_or(c.defaults),
         keep_classnames: c.keep_classnames,
-        keep_fargs: c.keep_fargs || c.defaults,
+        keep_fargs: c.keep_fargs.unwrap_or(c.defaults),
         keep_fnames: c.keep_fnames,
         keep_infinity: c.keep_infinity,
-        loops: c.loops || c.defaults,
-        negate_iife: c.negate_iife || c.defaults,
+        loops: c.loops.unwrap_or(c.defaults),
+        negate_iife: c.negate_iife.unwrap_or(c.defaults),
         passes: c.passes,
-        props: c.properties || c.defaults,
+        props: c.properties.unwrap_or(c.defaults),
         reduce_fns: c.reduce_funcs,
         reduce_vars: c.reduce_vars,
-        sequences: c.sequences || c.defaults,
-        side_effects: c.side_effects || c.defaults,
+        sequences: c.sequences.unwrap_or(c.defaults),
+        side_effects: c.side_effects.unwrap_or(c.defaults),
         switches: c.switches,
         top_retain: c
             .top_retain
@@ -263,7 +263,7 @@ fn parse_config(s: &str) -> CompressOptions {
             .map(|v| v.into())
             .collect(),
         top_level: c.toplevel,
-        typeofs: c.typeofs || c.defaults,
+        typeofs: c.typeofs.unwrap_or(c.defaults),
         unsafe_passes: c.unsafe_passes,
         unsafe_arrows: c.unsafe_arrows,
         unsafe_comps: c.unsafe_comps,
@@ -274,7 +274,7 @@ fn parse_config(s: &str) -> CompressOptions {
         unsafe_proto: c.unsafe_proto,
         unsafe_regexp: c.unsafe_regexp,
         unsafe_undefined: c.unsafe_undefined,
-        unused: c.unused || c.defaults,
+        unused: c.unused.unwrap_or(c.defaults),
     }
 }
 
