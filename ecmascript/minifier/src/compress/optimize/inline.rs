@@ -94,7 +94,7 @@ impl Optimizer {
                     }
 
                     // Single use => inlined
-                    if is_inline_enabled && usage.ref_count == 1 {
+                    if is_inline_enabled && !usage.reassigned && usage.ref_count == 1 {
                         if init.may_have_side_effects() {
                             // TODO: Inline partially
                             return;
