@@ -1,3 +1,4 @@
+use self::ctx::Ctx;
 use fxhash::FxHashMap;
 use std::collections::hash_map::Entry;
 use swc_common::DUMMY_SP;
@@ -142,13 +143,13 @@ impl Visit for UsageAnalyzer {
     }
 
     fn visit_var_declarator(&mut self, e: &VarDeclarator, _: &dyn Node) {
-        let old_in_pat_of_var_decl = self.in_pat_of_var_decl;
-        self.in_pat_of_var_decl = true;
-        e.name.visit_with(e, self);
-        self.in_pat_of_var_decl = false;
+        let ctx = Ctx {
+            in_pat_of_var_decl: true,
+            ..self.ctx
+        };
+        e.name.visit_with(e, &mut *self.with_ctx(ctx));
 
         e.init.visit_with(e, self);
-        self.in_pat_of_var_decl = old_in_pat_of_var_decl;
     }
 
     fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
@@ -164,13 +165,17 @@ impl Visit for UsageAnalyzer {
     }
 
     fn visit_param(&mut self, n: &Param, _: &dyn Node) {
-        let old = self.in_pat_of_param;
+        let ctx = Ctx {
+            in_pat_of_param: false,
+            ..self.ctx
+        };
+        n.decorators.visit_with(n, &mut *self.with_ctx(ctx));
 
-        self.in_pat_of_param = false;
-        n.decorators.visit_with(n, self);
-        self.in_pat_of_param = true;
-        n.pat.visit_with(n, self);
-        self.in_pat_of_param = old;
+        let ctx = Ctx {
+            in_pat_of_param: true,
+            ..self.ctx
+        };
+        n.pat.visit_with(n, &mut *self.with_ctx(ctx));
     }
 
     fn visit_pat(&mut self, n: &Pat, _: &dyn Node) {
@@ -178,7 +183,7 @@ impl Visit for UsageAnalyzer {
 
         match n {
             Pat::Ident(i) => {
-                if self.in_pat_of_var_decl || self.in_pat_of_param {
+                if self.ctx.in_pat_of_var_decl || self.ctx.in_pat_of_param {
                     self.declare_decl(i);
                 } else {
                     self.report_usage(i, true);
