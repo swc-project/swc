@@ -1,7 +1,7 @@
+use crate::analyzer::ScopeData;
+use crate::analyzer::UsageAnalyzer;
 use crate::util::is_hoisted_var_decl_without_init;
 use crate::util::sort::is_sorted_by_key;
-use crate::util::usage::ScopeData;
-use crate::util::usage::UsageAnalyzer;
 use crate::util::IsModuleItem;
 use fxhash::FxHashSet;
 use swc_common::pass::Repeated;

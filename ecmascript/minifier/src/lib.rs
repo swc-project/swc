@@ -10,6 +10,7 @@ use crate::pass::compute_char_freq::compute_char_freq;
 use crate::pass::expand_names::name_expander;
 use crate::pass::mangle_names::name_mangler;
 use crate::pass::mangle_props::property_mangler;
+use analyzer::UsageAnalyzer;
 use pass::hygiene::hygiene_optimizer;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::Invalid;
@@ -18,8 +19,8 @@ use swc_ecma_visit::FoldWith;
 use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
 use timing::Timings;
-use util::usage::UsageAnalyzer;
 
+mod analyzer;
 mod compress;
 mod debug;
 pub mod option;

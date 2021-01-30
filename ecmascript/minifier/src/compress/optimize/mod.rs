@@ -1,7 +1,7 @@
+use crate::analyzer::ScopeData;
+use crate::analyzer::UsageAnalyzer;
 use crate::option::CompressOptions;
 use crate::util::contains_leaping_yield;
-use crate::util::usage::ScopeData;
-use crate::util::usage::UsageAnalyzer;
 use fxhash::FxHashMap;
 use retain_mut::RetainMut;
 use std::fmt::Write;

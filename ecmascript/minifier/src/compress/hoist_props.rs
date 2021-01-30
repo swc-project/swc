@@ -1,5 +1,5 @@
-use crate::util::usage::ScopeData;
-use crate::util::usage::UsageAnalyzer;
+use crate::analyzer::ScopeData;
+use crate::analyzer::UsageAnalyzer;
 use fxhash::FxHashMap;
 use retain_mut::RetainMut;
 use swc_common::DUMMY_SP;

@@ -1,4 +1,4 @@
-use crate::util::usage::ScopeData;
+use crate::analyzer::ScopeData;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;

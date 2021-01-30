@@ -16,7 +16,6 @@ use swc_ecma_visit::VisitWith;
 
 pub(crate) mod base54;
 pub(crate) mod sort;
-pub(crate) mod usage;
 
 ///
 /// - `!0` for true
