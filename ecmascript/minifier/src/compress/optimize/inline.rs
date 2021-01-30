@@ -63,8 +63,7 @@ impl Optimizer {
 
                     let is_inline_enabled = self.options.reduce_vars
                         || self.options.collapse_vars
-                        || self.options.inline
-                        || self.options.defaults;
+                        || self.options.inline;
 
                     if is_inline_enabled
                         && !usage.reassigned
@@ -158,10 +157,7 @@ impl Optimizer {
             }
 
             // Single use => inlined
-            if (self.options.reduce_vars
-                || self.options.collapse_vars
-                || self.options.inline
-                || self.options.defaults)
+            if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline)
                 && usage.ref_count == 1
                 && usage.is_fn_local
                 && !usage.used_in_loop
