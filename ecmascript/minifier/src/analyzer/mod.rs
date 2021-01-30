@@ -63,7 +63,11 @@ impl ScopeData {
                     e.get_mut().reassigned |= var_info.reassigned;
                     e.get_mut().has_property_access |= var_info.has_property_access;
                     e.get_mut().exported |= var_info.exported;
-                    e.get_mut().used_above_decl |= var_info.used_above_decl;
+
+                    // If a var is registered at a parent scope, it means that it's delcared before
+                    // usages.
+                    //
+                    // e.get_mut().used_above_decl |= var_info.used_above_decl;
                     e.get_mut().used_in_loop |= var_info.used_in_loop;
                     e.get_mut().assign_count += var_info.assign_count;
                     e.get_mut().usage_count += var_info.usage_count;
