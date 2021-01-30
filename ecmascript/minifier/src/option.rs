@@ -153,7 +153,10 @@ pub struct CompressOptions {
     #[serde(alias = "passes")]
     pub passes: usize,
 
-    // properties    : !false_by_default,
+    #[serde(default = "true_by_default")]
+    #[serde(alias = "properties")]
+    pub props: bool,
+
     // pure_getters  : !false_by_default && "strict",
     // pure_funcs    : null,
     #[serde(default)]
