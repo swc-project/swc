@@ -14,12 +14,18 @@ impl Optimizer {
             return;
         }
 
-        if !self.options.top_level && (self.ctx.top_level || !self.ctx.in_fn_like) {
+        if (!self.options.top_level && self.options.top_retain.is_empty())
+            && self.ctx.in_top_level()
+        {
             return;
         }
 
         match name {
             Pat::Ident(i) => {
+                if self.options.top_retain.contains(&i.sym) {
+                    return;
+                }
+
                 if self
                     .data
                     .as_ref()
