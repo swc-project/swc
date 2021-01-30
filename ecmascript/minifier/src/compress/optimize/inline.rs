@@ -76,6 +76,10 @@ impl Optimizer {
             return;
         }
 
+        if !self.options.top_level && (self.ctx.top_level || !self.ctx.in_fn_like) {
+            return;
+        }
+
         let i = match &*decl {
             Decl::Class(v) => v.ident.clone(),
             Decl::Fn(f) => f.ident.clone(),
