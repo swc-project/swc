@@ -30,6 +30,7 @@ use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
 use Value::Known;
 
+mod arrows;
 mod bools;
 mod conditionals;
 mod dead_code;
