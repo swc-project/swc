@@ -19,6 +19,10 @@ impl Optimizer {
         // We will inline if possible.
         match &var.name {
             Pat::Ident(i) => {
+                if i.sym == *"arguments" {
+                    return;
+                }
+
                 // Store variables if it's used only once
                 if let Some(usage) = self
                     .data
