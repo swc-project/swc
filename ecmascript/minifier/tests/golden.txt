@@ -56,6 +56,7 @@ blocks/issue_1672_for/input.js
 blocks/issue_1672_for_strict/input.js
 blocks/issue_1672_if_strict/input.js
 blocks/issue_2946_else_const/input.js
+class_properties/class_expression_not_constant/input.js
 class_properties/mangle_class_properties_keep_quoted/input.js
 classes/class_duplication/input.js
 classes/class_duplication_2/input.js
@@ -71,6 +72,7 @@ collapse_vars/collapse_rhs_function/input.js
 collapse_vars/collapse_rhs_lhs_1/input.js
 collapse_vars/collapse_rhs_object/input.js
 collapse_vars/collapse_rhs_regexp/input.js
+collapse_vars/collapse_vars_try/input.js
 collapse_vars/cond_branch_switch/input.js
 collapse_vars/conditional_1/input.js
 collapse_vars/conditional_2/input.js
@@ -243,6 +245,7 @@ functions/no_webkit/input.js
 functions/non_ascii_function_identifier_name/input.js
 functions/recursive_inline_1/input.js
 functions/webkit/input.js
+harmony/array_literal_with_spread_1/input.js
 harmony/arrow_function_parens/input.js
 harmony/arrow_function_parens_2/input.js
 harmony/class_expression_statement/input.js
@@ -486,15 +489,19 @@ parameters/destructuring_arguments_2/input.js
 parameters/destructuring_arguments_3/input.js
 parameters/regression_arrow_functions_and_hoist/input.js
 parameters/regression_assign_arrow_functions/input.js
+properties/accessor_1/input.js
+properties/accessor_2/input.js
 properties/accessor_boolean/input.js
 properties/accessor_get_set/input.js
 properties/accessor_null_undefined/input.js
 properties/accessor_number/input.js
 properties/accessor_string/input.js
 properties/accessor_this/input.js
+properties/array_hole/input.js
 properties/first_256_chars_as_properties/input.js
 properties/first_256_hex_chars_as_properties/input.js
 properties/first_256_unicode_chars_as_properties/input.js
+properties/issue_2208_2/input.js
 properties/issue_2321/input.js
 properties/issue_2893_1/input.js
 properties/issue_2893_2/input.js
@@ -507,6 +514,7 @@ properties/issue_2893_8/input.js
 properties/join_object_assignments_3/input.js
 properties/join_object_assignments_NaN_1/input.js
 properties/join_object_assignments_null_0/input.js
+properties/keep_properties/input.js
 properties/native_prototype_lhs/input.js
 reduce_vars/accessor_1/input.js
 reduce_vars/accessor_2/input.js
