@@ -1,4 +1,3 @@
-var a = 1;
-(function () {
-    console.log(a, a, a);
+(function() {
+    console.log(1, 1, 1);
 })();
