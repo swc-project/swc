@@ -57,7 +57,12 @@ impl Optimizer {
                         return;
                     }
 
-                    if self.options.inline
+                    let is_inline_enabled = self.options.reduce_vars
+                        || self.options.collapse_vars
+                        || self.options.inline
+                        || self.options.defaults;
+
+                    if is_inline_enabled
                         && !usage.reassigned
                         && match &**init {
                             Expr::Lit(..) => true,
@@ -69,12 +74,7 @@ impl Optimizer {
                     }
 
                     // Single use => inlined
-                    if (self.options.reduce_vars
-                        || self.options.collapse_vars
-                        || self.options.inline
-                        || self.options.defaults)
-                        && usage.ref_count == 1
-                    {
+                    if is_inline_enabled && usage.ref_count == 1 {
                         if init.may_have_side_effects() {
                             // TODO: Inline partially
                             return;
