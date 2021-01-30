@@ -233,6 +233,10 @@ impl Visit for UsageAnalyzer {
             Pat::Ident(i) => {
                 if self.ctx.in_pat_of_var_decl || self.ctx.in_pat_of_param {
                     self.declare_decl(i, self.ctx.in_pat_of_var_decl_with_init);
+
+                    if self.ctx.in_left_of_for_loop {
+                        self.data.vars.entry(i.to_id()).or_default().reassigned = true;
+                    }
                 } else {
                     self.report_usage(i, true);
                 }
@@ -279,7 +283,29 @@ impl Visit for UsageAnalyzer {
         n.right.visit_with(n, self);
 
         self.with_child(ScopeKind::Block, |child| {
-            n.left.visit_with(n, child);
+            let ctx = Ctx {
+                in_left_of_for_loop: true,
+                ..child.ctx
+            };
+            n.left.visit_with(n, &mut *child.with_ctx(ctx));
+
+            let ctx = Ctx {
+                in_loop: true,
+                ..child.ctx
+            };
+            n.body.visit_with(n, &mut *child.with_ctx(ctx))
+        });
+    }
+
+    fn visit_for_of_stmt(&mut self, n: &ForOfStmt, _: &dyn Node) {
+        n.right.visit_with(n, self);
+
+        self.with_child(ScopeKind::Block, |child| {
+            let ctx = Ctx {
+                in_left_of_for_loop: true,
+                ..child.ctx
+            };
+            n.left.visit_with(n, &mut *child.with_ctx(ctx));
 
             let ctx = Ctx {
                 in_loop: true,
