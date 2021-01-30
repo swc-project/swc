@@ -42,10 +42,16 @@ enum ScopeKind {
 #[derive(Debug, Default)]
 pub(crate) struct ScopeData {
     pub vars: FxHashMap<Id, VarUsageInfo>,
+
+    pub has_with_stmt: bool,
+    pub has_eval_call: bool,
 }
 
 impl ScopeData {
     fn merge(&mut self, kind: ScopeKind, child: ScopeData) {
+        self.has_with_stmt |= child.has_with_stmt;
+        self.has_eval_call |= child.has_eval_call;
+
         for (id, var_info) in child.vars {
             match self.vars.entry(id) {
                 Entry::Occupied(mut e) => {
@@ -279,5 +285,24 @@ impl Visit for UsageAnalyzer {
                 _ => {}
             },
         }
+    }
+
+    fn visit_call_expr(&mut self, n: &CallExpr, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        match &n.callee {
+            ExprOrSuper::Expr(callee) => match &**callee {
+                Expr::Ident(Ident { sym, .. }) if *sym == *"eval" => {
+                    self.data.has_eval_call = true;
+                }
+                _ => {}
+            },
+            _ => {}
+        }
+    }
+
+    fn visit_with_stmt(&mut self, n: &WithStmt, _: &dyn Node) {
+        self.data.has_with_stmt = true;
+        n.visit_children_with(self);
     }
 }
