@@ -25,6 +25,8 @@ pub(crate) struct VarUsageInfo {
     /// a closest function and used only within it and not used by child
     /// functions.
     pub is_fn_local: bool,
+
+    pub used_in_loop: bool,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -93,12 +95,16 @@ impl UsageAnalyzer {
             Entry::Occupied(mut e) => {
                 e.get_mut().ref_count += 1;
                 e.get_mut().reassigned |= is_assign;
+                if self.ctx.in_loop {
+                    e.get_mut().used_in_loop = true;
+                }
             }
             Entry::Vacant(e) => {
                 e.insert(VarUsageInfo {
                     used_above_decl: true,
                     ref_count: 1,
                     reassigned: is_assign,
+                    used_in_loop: self.ctx.in_loop,
                     ..Default::default()
                 });
             }
@@ -213,6 +219,20 @@ impl Visit for UsageAnalyzer {
             }
             _ => {}
         }
+    }
+
+    fn visit_for_in_stmt(&mut self, n: &ForInStmt, _: &dyn Node) {
+        n.right.visit_with(n, self);
+
+        self.with_child(ScopeKind::Block, |child| {
+            n.left.visit_with(n, child);
+
+            let ctx = Ctx {
+                in_loop: true,
+                ..child.ctx
+            };
+            n.body.visit_with(n, &mut *child.with_ctx(ctx))
+        });
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {

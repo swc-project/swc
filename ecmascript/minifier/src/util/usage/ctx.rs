@@ -17,6 +17,7 @@ impl UsageAnalyzer {
 pub(super) struct Ctx {
     pub in_pat_of_var_decl: bool,
     pub in_pat_of_param: bool,
+    pub in_loop: bool,
 }
 
 pub(super) struct WithCtx<'a> {
