@@ -103,7 +103,9 @@ impl Optimizer {
             return;
         }
 
-        if !self.options.top_level && (self.ctx.top_level || !self.ctx.in_fn_like) {
+        let in_top_level = self.ctx.top_level || !self.ctx.in_fn_like;
+
+        if (!self.options.top_level && !self.options.top_retain.is_empty()) && in_top_level {
             return;
         }
 
@@ -116,6 +118,10 @@ impl Optimizer {
             PatOrExpr::Expr(_) => return,
             PatOrExpr::Pat(left) => match &**left {
                 Pat::Ident(i) => {
+                    if self.options.top_retain.contains(&i.sym) {
+                        return;
+                    }
+
                     if let Some(var) = self
                         .data
                         .as_ref()
