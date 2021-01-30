@@ -50,6 +50,7 @@ impl ScopeData {
                     e.get_mut().has_property_access |= var_info.has_property_access;
                     e.get_mut().exported |= var_info.exported;
                     e.get_mut().used_above_decl |= var_info.used_above_decl;
+                    e.get_mut().used_in_loop |= var_info.used_in_loop;
 
                     match kind {
                         ScopeKind::Fn => {
@@ -95,9 +96,7 @@ impl UsageAnalyzer {
             Entry::Occupied(mut e) => {
                 e.get_mut().ref_count += 1;
                 e.get_mut().reassigned |= is_assign;
-                if self.ctx.in_loop {
-                    e.get_mut().used_in_loop = true;
-                }
+                e.get_mut().used_in_loop |= self.ctx.in_loop;
             }
             Entry::Vacant(e) => {
                 e.insert(VarUsageInfo {
