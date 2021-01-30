@@ -69,7 +69,14 @@ impl Optimizer {
                     if is_inline_enabled
                         && !usage.reassigned
                         && match &**init {
-                            Expr::Lit(..) => true,
+                            Expr::Lit(lit) => match lit {
+                                Lit::Str(_)
+                                | Lit::Bool(_)
+                                | Lit::Null(_)
+                                | Lit::Num(_)
+                                | Lit::BigInt(_) => true,
+                                _ => false,
+                            },
                             _ => false,
                         }
                     {
@@ -78,7 +85,11 @@ impl Optimizer {
                             i.sym,
                             i.span.ctxt
                         );
-                        self.vars.insert(i.to_id(), init.clone());
+                        if self.options.inline {
+                            self.vars.insert(i.to_id(), init.take());
+                        } else {
+                            self.vars.insert(i.to_id(), init.clone());
+                        }
                         return;
                     }
 
