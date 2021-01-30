@@ -80,6 +80,7 @@ collapse_vars/conditional_1/input.js
 collapse_vars/conditional_2/input.js
 collapse_vars/duplicate_argname/input.js
 collapse_vars/issue_1537_destructuring_2/input.js
+collapse_vars/issue_1537_destructuring_3/input.js
 collapse_vars/issue_1537_destructuring_for_in/input.js
 collapse_vars/issue_1537_destructuring_for_of/input.js
 collapse_vars/issue_2203_1/input.js
@@ -306,6 +307,7 @@ hoist_props/issue_2473_3/input.js
 hoist_props/issue_2508_3/input.js
 hoist_props/issue_2508_4/input.js
 hoist_props/issue_3021/input.js
+hoist_props/issue_3071_3/input.js
 hoist_props/single_use/input.js
 hoist_props/toplevel_const/input.js
 hoist_props/toplevel_let/input.js
@@ -568,6 +570,7 @@ reduce_vars/escape_local_throw/input.js
 reduce_vars/escape_throw/input.js
 reduce_vars/escape_yield/input.js
 reduce_vars/for_in_prop/input.js
+reduce_vars/iife_assign/input.js
 reduce_vars/iife_eval_1/input.js
 reduce_vars/iife_func_side_effects/input.js
 reduce_vars/immutable/input.js
@@ -616,6 +619,7 @@ reduce_vars/method_1/input.js
 reduce_vars/multi_def_1/input.js
 reduce_vars/multi_def_2/input.js
 reduce_vars/multi_def_3/input.js
+reduce_vars/obj_for_1/input.js
 reduce_vars/obj_var_1/input.js
 reduce_vars/recursive_inlining_5/input.js
 reduce_vars/redefine_arguments_1/input.js
