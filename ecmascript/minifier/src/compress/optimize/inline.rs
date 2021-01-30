@@ -35,7 +35,7 @@ impl Optimizer {
                     .as_ref()
                     .and_then(|data| data.vars.get(&i.to_id()))
                 {
-                    if usage.cond_init {
+                    if usage.cond_init || usage.used_above_decl {
                         return;
                     }
 
