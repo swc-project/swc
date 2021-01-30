@@ -69,9 +69,96 @@ impl Optimizer {
         }
     }
 
+    /// This method handles only class decl and fn decl. Var decl should be
+    /// handled specially.
     pub(super) fn store_decl_for_inlining(&mut self, decl: &mut Decl) {
         if !self.options.inline {
             return;
+        }
+
+        let i = match &*decl {
+            Decl::Class(v) => v.ident.clone(),
+            Decl::Fn(f) => f.ident.clone(),
+            _ => return,
+        };
+
+        if let Some(usage) = self
+            .data
+            .as_ref()
+            .and_then(|data| data.vars.get(&i.to_id()))
+        {
+            if self.options.reduce_vars && self.options.typeofs && !usage.reassigned {
+                match &*decl {
+                    Decl::Fn(..) => {
+                        self.typeofs.insert(i.to_id(), js_word!("function"));
+                    }
+                    Decl::Class(..) => {
+                        self.typeofs.insert(i.to_id(), js_word!("object"));
+                    }
+                    _ => {}
+                }
+            }
+
+            // Single use => inlined
+            if (self.options.reduce_vars
+                || self.options.collapse_vars
+                || self.options.inline
+                || self.options.defaults)
+                && usage.ref_count == 1
+                && usage.is_fn_local
+            {
+                match decl {
+                    Decl::Class(ClassDecl {
+                        class:
+                            Class {
+                                super_class: Some(super_class),
+                                ..
+                            },
+                        ..
+                    }) => {
+                        if super_class.may_have_side_effects() {
+                            return;
+                        }
+                    }
+                    _ => {}
+                }
+
+                self.changed = true;
+                match &decl {
+                    Decl::Class(c) => {
+                        log::trace!(
+                            "inline: Decided to inline class '{}{:?}' as it's used only once",
+                            c.ident.sym,
+                            c.ident.span.ctxt
+                        );
+                    }
+                    Decl::Fn(f) => {
+                        log::trace!(
+                            "inline: Decided to inline function '{}{:?}' as it's used only once",
+                            f.ident.sym,
+                            f.ident.span.ctxt
+                        );
+                    }
+                    _ => {}
+                }
+                self.vars.insert(
+                    i.to_id(),
+                    match decl.take() {
+                        Decl::Class(c) => Box::new(Expr::Class(ClassExpr {
+                            ident: Some(c.ident),
+                            class: c.class,
+                        })),
+                        Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
+                            ident: Some(f.ident),
+                            function: f.function,
+                        })),
+                        _ => {
+                            unreachable!()
+                        }
+                    },
+                );
+                return;
+            }
         }
     }
 }
