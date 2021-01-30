@@ -70,8 +70,10 @@ collapse_vars/collapse_rhs_conditional_1/input.js
 collapse_vars/collapse_rhs_conditional_2/input.js
 collapse_vars/collapse_rhs_function/input.js
 collapse_vars/collapse_rhs_lhs_1/input.js
+collapse_vars/collapse_rhs_loop/input.js
 collapse_vars/collapse_rhs_object/input.js
 collapse_vars/collapse_rhs_regexp/input.js
+collapse_vars/collapse_rhs_side_effects/input.js
 collapse_vars/collapse_vars_try/input.js
 collapse_vars/cond_branch_switch/input.js
 collapse_vars/conditional_1/input.js
@@ -230,6 +232,7 @@ export/issue_2038_1/input.js
 export/issue_2129/input.js
 export/issue_2131/input.js
 export/issue_2977/input.js
+export/issue_333/input.js
 export/keyword_invalid_1/input.js
 export/keyword_invalid_2/input.js
 export/keyword_invalid_3/input.js
@@ -297,6 +300,7 @@ hoist_props/issue_2462/input.js
 hoist_props/issue_2473_3/input.js
 hoist_props/issue_2508_3/input.js
 hoist_props/issue_2508_4/input.js
+hoist_props/issue_3021/input.js
 hoist_props/single_use/input.js
 hoist_props/toplevel_const/input.js
 hoist_props/toplevel_let/input.js
@@ -333,6 +337,8 @@ inline/noinline_annotation_2/input.js
 inline/noinline_annotation_3/input.js
 issue_1001/parenthesis_strings_in_parenthesis/input.js
 issue_1041/const_declaration/input.js
+issue_1041/const_pragma/input.js
+issue_1041/not_const/input.js
 issue_1044/issue_1044/input.js
 issue_1105/Infinity_in_with_scope/input.js
 issue_1105/with_in_global_scope/input.js
@@ -344,6 +350,7 @@ issue_143/tranformation_sort_order_lesser_or_equal/input.js
 issue_143/tranformation_sort_order_unequal/input.js
 issue_1588/runtime_error/input.js
 issue_1588/support_ie8/input.js
+issue_1639/issue_1639_3/input.js
 issue_1673/side_effects_catch/input.js
 issue_1673/side_effects_else/input.js
 issue_1673/side_effects_finally/input.js
@@ -538,6 +545,7 @@ reduce_vars/conditional_chain_call_direct/input.js
 reduce_vars/conditional_chain_certain_and_uncertain_part/input.js
 reduce_vars/conditional_chain_prop/input.js
 reduce_vars/conditional_chain_prop_direct/input.js
+reduce_vars/conditional_nested_1/input.js
 reduce_vars/conditional_nested_2/input.js
 reduce_vars/conditional_nested_3/input.js
 reduce_vars/const_expr_1/input.js
@@ -596,6 +604,7 @@ reduce_vars/issue_3113_4/input.js
 reduce_vars/issue_3125/input.js
 reduce_vars/issue_3140_1/input.js
 reduce_vars/issue_3140_2/input.js
+reduce_vars/issue_3140_5/input.js
 reduce_vars/issue_379/input.js
 reduce_vars/issue_581_2/input.js
 reduce_vars/method_1/input.js
@@ -603,6 +612,7 @@ reduce_vars/recursive_inlining_5/input.js
 reduce_vars/redefine_arguments_1/input.js
 reduce_vars/redefine_arguments_2/input.js
 reduce_vars/redefine_arguments_3/input.js
+reduce_vars/toplevel_off/input.js
 reduce_vars/toplevel_on/input.js
 reduce_vars/unary_delete/input.js
 reduce_vars/unsafe_evaluate_array_3/input.js
@@ -635,6 +645,7 @@ sequences/delete_seq_5/input.js
 sequences/delete_seq_6/input.js
 sequences/func_def_2/input.js
 sequences/func_def_5/input.js
+sequences/issue_1685/input.js
 sequences/lift_sequences_3/input.js
 sequences/lift_sequences_4/input.js
 sequences/lift_sequences_5/input.js
