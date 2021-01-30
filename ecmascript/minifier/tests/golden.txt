@@ -444,6 +444,7 @@ negate_iife/negate_iife_nested_off/input.js
 negate_iife/sequence_off/input.js
 new/dot_parenthesis_1/input.js
 new/dot_parenthesis_2/input.js
+new/new_constructor_with_unary_arguments/input.js
 new/new_statement/input.js
 new/new_statements_2/input.js
 new/new_statements_3/input.js
