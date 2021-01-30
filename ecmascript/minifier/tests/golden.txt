@@ -252,6 +252,7 @@ functions/deduplicate_parenthesis/input.js
 functions/inline_false/input.js
 functions/inline_loop_1/input.js
 functions/inline_loop_3/input.js
+functions/inline_loop_4/input.js
 functions/issue_2097/input.js
 functions/issue_2604_1/input.js
 functions/issue_2663_1/input.js
@@ -572,6 +573,7 @@ reduce_vars/escape_local_throw/input.js
 reduce_vars/escape_throw/input.js
 reduce_vars/escape_yield/input.js
 reduce_vars/for_in_prop/input.js
+reduce_vars/func_inline/input.js
 reduce_vars/iife_assign/input.js
 reduce_vars/iife_eval_1/input.js
 reduce_vars/iife_func_side_effects/input.js
