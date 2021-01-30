@@ -260,8 +260,8 @@ fn parse_config(s: &str) -> CompressOptions {
         top_retain: c
             .top_retain
             .split(",")
-            .map(|v| v.into())
             .filter(|s| s.trim() != "")
+            .map(|v| v.into())
             .collect(),
         top_level: c.toplevel,
         typeofs: c.typeofs,
