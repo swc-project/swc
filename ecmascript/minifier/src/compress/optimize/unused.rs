@@ -97,5 +97,35 @@ impl Optimizer {
         if !self.options.top_level && (self.ctx.top_level || !self.ctx.in_fn_like) {
             return;
         }
+
+        let assign = match e {
+            Expr::Assign(e) => e,
+            _ => return,
+        };
+
+        match &mut assign.left {
+            PatOrExpr::Expr(_) => return,
+            PatOrExpr::Pat(left) => match &**left {
+                Pat::Ident(i) => {
+                    if let Some(var) = self
+                        .data
+                        .as_ref()
+                        .and_then(|data| data.vars.get(&i.to_id()))
+                    {
+                        if var.usage_count == 0 && var.is_fn_local {
+                            log::trace!(
+                                "unused: Dropping assignment to var '{}{:?}', which is never used",
+                                i.sym,
+                                i.span.ctxt
+                            );
+                            self.changed = true;
+                            *e = *assign.right.take();
+                            return;
+                        }
+                    }
+                }
+                _ => return,
+            },
+        }
     }
 }
