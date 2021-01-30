@@ -94,6 +94,15 @@ impl Optimizer {
             return;
         }
 
+        if self
+            .data
+            .as_ref()
+            .map(|v| v.has_eval_call || v.has_with_stmt)
+            .unwrap_or(false)
+        {
+            return;
+        }
+
         if !self.options.top_level && (self.ctx.top_level || !self.ctx.in_fn_like) {
             return;
         }
