@@ -222,7 +222,7 @@ impl Visit for UsageAnalyzer {
                 if self.ctx.in_pat_of_var_decl || self.ctx.in_pat_of_param {
                     self.declare_decl(i);
                 } else {
-                    self.report_usage(i, self.ctx.in_update_arg);
+                    self.report_usage(i, true);
                 }
             }
             _ => {}
@@ -234,7 +234,7 @@ impl Visit for UsageAnalyzer {
 
         match e {
             Expr::Ident(i) => {
-                self.report_usage(i, false);
+                self.report_usage(i, self.ctx.in_update_arg);
             }
             _ => {}
         }
