@@ -105,7 +105,13 @@ impl UsageAnalyzer {
     }
 
     fn declare_decl(&mut self, i: &Ident) -> &mut VarUsageInfo {
-        self.data.vars.entry(i.to_id()).or_default()
+        self.data
+            .vars
+            .entry(i.to_id())
+            .or_insert_with(|| VarUsageInfo {
+                is_fn_local: true,
+                ..Default::default()
+            })
     }
 }
 
@@ -173,13 +179,7 @@ impl Visit for UsageAnalyzer {
         match n {
             Pat::Ident(i) => {
                 if self.in_pat_of_var_decl || self.in_pat_of_param {
-                    self.data
-                        .vars
-                        .entry(i.to_id())
-                        .or_insert_with(|| VarUsageInfo {
-                            is_fn_local: true,
-                            ..Default::default()
-                        });
+                    self.declare_decl(i);
                 } else {
                     self.report_usage(i, true);
                 }
