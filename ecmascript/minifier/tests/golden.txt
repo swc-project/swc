@@ -178,6 +178,7 @@ drop_unused/issue_3146_1/input.js
 drop_unused/issue_3146_2/input.js
 drop_unused/issue_3146_3/input.js
 drop_unused/issue_3146_4/input.js
+drop_unused/issue_t161_top_retain_1/input.js
 drop_unused/issue_t161_top_retain_2/input.js
 drop_unused/reassign_const/input.js
 drop_unused/unused_block_decls/input.js
