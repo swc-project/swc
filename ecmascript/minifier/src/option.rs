@@ -1,5 +1,6 @@
 use serde::Deserialize;
 use serde::Serialize;
+use swc_atoms::JsWord;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -178,7 +179,11 @@ pub struct CompressOptions {
     #[serde(alias = "switches")]
     pub switches: bool,
 
-    // top_retain    : null,
+    /// Top level symbols to retain.
+    #[serde(default)]
+    #[serde(alias = "top_retain")]
+    pub top_retain: Vec<JsWord>,
+
     #[serde(default)]
     #[serde(alias = "toplevel")]
     pub top_level: bool,
