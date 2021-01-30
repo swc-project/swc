@@ -103,7 +103,7 @@ impl Optimizer {
             return;
         }
 
-        if (!self.options.top_level && !self.options.top_retain.is_empty())
+        if (!self.options.top_level && self.options.top_retain.is_empty())
             && self.ctx.in_top_level()
         {
             return;

@@ -80,7 +80,9 @@ impl Optimizer {
             return;
         }
 
-        if !self.options.top_level && (self.ctx.top_level || !self.ctx.in_fn_like) {
+        if (!self.options.top_level && self.options.top_retain.is_empty())
+            && self.ctx.in_top_level()
+        {
             return;
         }
 
@@ -89,6 +91,11 @@ impl Optimizer {
             Decl::Fn(f) => f.ident.clone(),
             _ => return,
         };
+
+        // Respect `top_retain`
+        if self.ctx.in_top_level() && self.options.top_retain.contains(&i.sym) {
+            return;
+        }
 
         if let Some(usage) = self
             .data
