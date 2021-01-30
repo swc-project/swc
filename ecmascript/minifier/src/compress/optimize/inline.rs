@@ -57,6 +57,17 @@ impl Optimizer {
                         return;
                     }
 
+                    if self.options.inline
+                        && !usage.reassigned
+                        && match &**init {
+                            Expr::Lit(..) => true,
+                            _ => false,
+                        }
+                    {
+                        self.vars.insert(i.to_id(), init.clone());
+                        return;
+                    }
+
                     // Single use => inlined
                     if (self.options.reduce_vars
                         || self.options.collapse_vars
