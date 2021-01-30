@@ -60,6 +60,7 @@ class_properties/class_expression_not_constant/input.js
 class_properties/mangle_class_properties_keep_quoted/input.js
 classes/class_duplication/input.js
 classes/class_duplication_2/input.js
+classes/class_recursive_refs/input.js
 collapse_vars/anonymous_function/input.js
 collapse_vars/boolean_binary_1/input.js
 collapse_vars/boolean_binary_2/input.js
@@ -147,6 +148,7 @@ dead_code/issue_2701/input.js
 dead_code/issue_2929/input.js
 dead_code/throw_assignment/input.js
 debugger/keep_debugger/input.js
+defaults/defaults_true_conditionals_false/input.js
 destructuring/destructuring_arrays/input.js
 destructuring/destructuring_arrays_holes/input.js
 destructuring/destructuring_assign_of_numeric_key/input.js
@@ -707,6 +709,7 @@ template_string/semicolons/input.js
 template_string/sequence_1/input.js
 template_string/tagged_template_function_inline_1/input.js
 template_string/tagged_template_function_inline_2/input.js
+template_string/tagged_template_function_inline_3/input.js
 template_string/tagged_template_function_inline_5/input.js
 template_string/tagged_template_parens/input.js
 template_string/template_ending_with_newline/input.js
