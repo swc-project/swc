@@ -16,6 +16,10 @@ mod ctx;
 pub(crate) struct VarUsageInfo {
     /// # of reference to this identifier.
     pub ref_count: usize,
+
+    pub assign_count: usize,
+    pub usage_count: usize,
+
     pub reassigned: bool,
     pub has_property_access: bool,
     pub exported: bool,
@@ -92,21 +96,23 @@ impl UsageAnalyzer {
     }
 
     fn report_usage(&mut self, i: &Ident, is_assign: bool) {
-        match self.data.vars.entry(i.to_id()) {
-            Entry::Occupied(mut e) => {
-                e.get_mut().ref_count += 1;
-                e.get_mut().reassigned |= is_assign;
-                e.get_mut().used_in_loop |= self.ctx.in_loop;
-            }
-            Entry::Vacant(e) => {
-                e.insert(VarUsageInfo {
-                    used_above_decl: true,
-                    ref_count: 1,
-                    reassigned: is_assign,
-                    used_in_loop: self.ctx.in_loop,
-                    ..Default::default()
-                });
-            }
+        let e = self
+            .data
+            .vars
+            .entry(i.to_id())
+            .or_insert_with(|| VarUsageInfo {
+                used_above_decl: true,
+                ..Default::default()
+            });
+
+        e.ref_count += 1;
+        e.reassigned |= is_assign;
+        e.used_in_loop |= self.ctx.in_loop;
+
+        if is_assign {
+            e.assign_count += 1;
+        } else {
+            e.usage_count += 1;
         }
     }
 
