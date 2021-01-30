@@ -85,6 +85,12 @@ struct Ctx {
     in_fn_like: bool,
 }
 
+impl Ctx {
+    pub fn in_top_level(self) -> bool {
+        self.top_level || !self.in_fn_like
+    }
+}
+
 #[derive(Debug)]
 struct Optimizer {
     changed: bool,
