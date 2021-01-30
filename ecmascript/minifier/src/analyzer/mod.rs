@@ -222,7 +222,7 @@ impl Visit for UsageAnalyzer {
                 if self.ctx.in_pat_of_var_decl || self.ctx.in_pat_of_param {
                     self.declare_decl(i);
                 } else {
-                    self.report_usage(i, true);
+                    self.report_usage(i, self.ctx.in_update_arg);
                 }
             }
             _ => {}
@@ -240,8 +240,20 @@ impl Visit for UsageAnalyzer {
         }
     }
 
+    fn visit_stmt(&mut self, n: &Stmt, _: &dyn Node) {
+        let ctx = Ctx {
+            in_update_arg: false,
+            ..self.ctx
+        };
+        n.visit_children_with(&mut *self.with_ctx(ctx));
+    }
+
     fn visit_prop(&mut self, n: &Prop, _: &dyn Node) {
-        n.visit_children_with(self);
+        let ctx = Ctx {
+            in_update_arg: false,
+            ..self.ctx
+        };
+        n.visit_children_with(&mut *self.with_ctx(ctx));
 
         match n {
             Prop::Shorthand(i) => {
@@ -285,6 +297,14 @@ impl Visit for UsageAnalyzer {
                 _ => {}
             },
         }
+    }
+
+    fn visit_update_expr(&mut self, n: &UpdateExpr, _: &dyn Node) {
+        let ctx = Ctx {
+            in_update_arg: true,
+            ..self.ctx
+        };
+        n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_call_expr(&mut self, n: &CallExpr, _: &dyn Node) {
