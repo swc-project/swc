@@ -9,6 +9,8 @@ use swc_ecma_visit::Node;
 use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitWith;
 
+mod ctx;
+
 #[derive(Debug, Default)]
 pub(crate) struct VarUsageInfo {
     /// # of reference to this identifier.
@@ -65,8 +67,7 @@ impl ScopeData {
 #[derive(Debug, Default)]
 pub(crate) struct UsageAnalyzer {
     pub data: ScopeData,
-    in_pat_of_var_decl: bool,
-    in_pat_of_param: bool,
+    ctx: Ctx,
 }
 
 impl UsageAnalyzer {
@@ -76,8 +77,7 @@ impl UsageAnalyzer {
     {
         let mut child = UsageAnalyzer {
             data: Default::default(),
-            in_pat_of_var_decl: self.in_pat_of_var_decl,
-            in_pat_of_param: self.in_pat_of_param,
+            ctx: self.ctx,
         };
 
         let ret = op(&mut child);
