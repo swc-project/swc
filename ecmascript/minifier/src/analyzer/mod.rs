@@ -128,7 +128,7 @@ impl UsageAnalyzer {
         }
     }
 
-    fn declare_decl(&mut self, i: &Ident) -> &mut VarUsageInfo {
+    fn declare_decl(&mut self, i: &Ident, has_init: bool) -> &mut VarUsageInfo {
         let v = self
             .data
             .vars
@@ -192,6 +192,7 @@ impl Visit for UsageAnalyzer {
     fn visit_var_declarator(&mut self, e: &VarDeclarator, _: &dyn Node) {
         let ctx = Ctx {
             in_pat_of_var_decl: true,
+            in_pat_of_var_decl_with_init: e.init.is_some(),
             ..self.ctx
         };
         e.name.visit_with(e, &mut *self.with_ctx(ctx));
@@ -200,13 +201,13 @@ impl Visit for UsageAnalyzer {
     }
 
     fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
-        self.declare_decl(&n.ident);
+        self.declare_decl(&n.ident, true);
 
         n.visit_children_with(self);
     }
 
     fn visit_fn_decl(&mut self, n: &FnDecl, _: &dyn Node) {
-        self.declare_decl(&n.ident);
+        self.declare_decl(&n.ident, true);
 
         n.visit_children_with(self);
     }
@@ -231,7 +232,7 @@ impl Visit for UsageAnalyzer {
         match n {
             Pat::Ident(i) => {
                 if self.ctx.in_pat_of_var_decl || self.ctx.in_pat_of_param {
-                    self.declare_decl(i);
+                    self.declare_decl(i, self.ctx.in_pat_of_var_decl_with_init);
                 } else {
                     self.report_usage(i, true);
                 }
