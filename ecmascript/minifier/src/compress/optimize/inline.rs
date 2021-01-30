@@ -106,6 +106,7 @@ impl Optimizer {
                 || self.options.defaults)
                 && usage.ref_count == 1
                 && usage.is_fn_local
+                && !usage.used_in_loop
             {
                 match decl {
                     Decl::Class(ClassDecl {
