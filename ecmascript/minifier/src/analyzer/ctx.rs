@@ -20,6 +20,7 @@ pub(super) struct Ctx {
     pub in_loop: bool,
     /// Are we handling argument of an update exprssion.
     pub in_update_arg: bool,
+    pub in_assign_lhs: bool,
 }
 
 pub(super) struct WithCtx<'a> {

@@ -234,7 +234,7 @@ impl Visit for UsageAnalyzer {
 
         match e {
             Expr::Ident(i) => {
-                self.report_usage(i, self.ctx.in_update_arg);
+                self.report_usage(i, self.ctx.in_update_arg || self.ctx.in_assign_lhs);
             }
             _ => {}
         }
@@ -297,6 +297,16 @@ impl Visit for UsageAnalyzer {
                 _ => {}
             },
         }
+    }
+
+    fn visit_assign_expr(&mut self, n: &AssignExpr, _: &dyn Node) {
+        let ctx = Ctx {
+            in_assign_lhs: true,
+            ..self.ctx
+        };
+        n.left.visit_with(n, &mut *self.with_ctx(ctx));
+
+        n.right.visit_with(n, self);
     }
 
     fn visit_update_expr(&mut self, n: &UpdateExpr, _: &dyn Node) {
