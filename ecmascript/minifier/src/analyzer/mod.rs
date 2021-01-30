@@ -138,7 +138,7 @@ impl UsageAnalyzer {
                 ..Default::default()
             });
 
-        if self.ctx.in_cond {
+        if self.ctx.in_cond && has_init {
             v.cond_init = true;
         }
 
