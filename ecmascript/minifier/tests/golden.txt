@@ -204,6 +204,7 @@ evaluate/unsafe_array_bad_index/input.js
 evaluate/unsafe_constant/input.js
 evaluate/unsafe_string/input.js
 evaluate/unsafe_string_bad_index/input.js
+expansions/avoid_spread_in_ternary/input.js
 expansions/expand_arguments/input.js
 expansions/expand_expression_arguments/input.js
 expansions/expand_parameters/input.js
@@ -230,6 +231,7 @@ export/keyword_valid_3/input.js
 export/trailing_comma/input.js
 functions/deduplicate_parenthesis/input.js
 functions/inline_false/input.js
+functions/inline_loop_1/input.js
 functions/inline_loop_3/input.js
 functions/issue_2604_1/input.js
 functions/issue_2663_1/input.js
@@ -462,6 +464,7 @@ object/methods_and_getters_with_keep_quoted_props_enabled/input.js
 object/property_with_operator_value/input.js
 object/property_with_unprintable/input.js
 object/property_with_unprintable_ascii_only/input.js
+object/property_with_unprintable_ascii_only_static/input.js
 object/use_shorthand_opportunity/input.js
 object/variable_as_computed_property/input.js
 parameters/accept_duplicated_parameters_in_non_strict_without_spread_or_default_assignment/input.js
@@ -515,6 +518,7 @@ reduce_vars/conditional_nested_3/input.js
 reduce_vars/const_expr_1/input.js
 reduce_vars/const_expr_2/input.js
 reduce_vars/defun_assign/input.js
+reduce_vars/defun_catch_4/input.js
 reduce_vars/delay_def_lhs/input.js
 reduce_vars/do_while/input.js
 reduce_vars/for_in_prop/input.js
@@ -535,6 +539,7 @@ reduce_vars/issue_1922_2/input.js
 reduce_vars/issue_2090_1/input.js
 reduce_vars/issue_2090_2/input.js
 reduce_vars/issue_2406_2/input.js
+reduce_vars/issue_2423_4/input.js
 reduce_vars/issue_2436/input.js
 reduce_vars/issue_2440_eval_1/input.js
 reduce_vars/issue_2440_eval_2/input.js
@@ -653,6 +658,7 @@ template_string/template_with_newline/input.js
 transform/booleans_evaluate/input.js
 try_catch/catch_destructuring_with_sequence/input.js
 try_catch/parameterless_catch/input.js
+typeof/duplicate_defun_arg_name/input.js
 typeof/issue_1668/input.js
 typeof/issue_2728_1/input.js
 typeof/issue_2728_2/input.js
