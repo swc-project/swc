@@ -257,7 +257,12 @@ fn parse_config(s: &str) -> CompressOptions {
         sequences: c.sequences,
         side_effects: c.side_effects,
         switches: c.switches,
-        top_retain: c.top_retain.split(",").map(|v| v.into()).collect(),
+        top_retain: c
+            .top_retain
+            .split(",")
+            .map(|v| v.into())
+            .filter(|s| s.trim() != "")
+            .collect(),
         top_level: c.toplevel,
         typeofs: c.typeofs,
         unsafe_passes: c.unsafe_passes,

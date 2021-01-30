@@ -47,6 +47,11 @@ mod util;
 
 /// This pass is simillar to `node.optimize` of terser.
 pub(super) fn optimizer(options: CompressOptions) -> impl VisitMut + Repeated {
+    assert!(
+        options.top_retain.iter().all(|s| s.trim() != ""),
+        "top_retain should not contain empty string"
+    );
+
     let done = Mark::fresh(Mark::root());
     let done_ctxt = SyntaxContext::empty().apply_mark(done);
     Optimizer {
