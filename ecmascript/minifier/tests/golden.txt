@@ -106,6 +106,7 @@ collapse_vars/return_3/input.js
 collapse_vars/return_4/input.js
 collapse_vars/side_effects_property/input.js
 collapse_vars/switch_case_3/input.js
+collapse_vars/var_side_effects_1/input.js
 comments/preserve_comments_by_default/input.js
 comparing/keep_comparisons/input.js
 concat_strings/concat_2/input.js
@@ -188,6 +189,7 @@ drop_unused/issue_3146_3/input.js
 drop_unused/issue_3146_4/input.js
 drop_unused/issue_t161_top_retain_1/input.js
 drop_unused/issue_t161_top_retain_2/input.js
+drop_unused/issue_t161_top_retain_7/input.js
 drop_unused/reassign_const/input.js
 drop_unused/unused_block_decls/input.js
 drop_unused/unused_block_decls_in_catch/input.js
