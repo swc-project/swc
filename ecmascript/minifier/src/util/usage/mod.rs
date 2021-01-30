@@ -130,6 +130,23 @@ impl UsageAnalyzer {
 impl Visit for UsageAnalyzer {
     noop_visit_type!();
 
+    fn visit_arrow_expr(&mut self, n: &ArrowExpr, _: &dyn Node) {
+        self.with_child(ScopeKind::Fn, |child| {
+            n.params.visit_with(n, child);
+
+            match &n.body {
+                BlockStmtOrExpr::BlockStmt(body) => {
+                    // We use visit_children_with instead of visit_with to bypass block scope
+                    // handler.
+                    body.visit_children_with(child);
+                }
+                BlockStmtOrExpr::Expr(body) => {
+                    body.visit_with(n, child);
+                }
+            }
+        })
+    }
+
     fn visit_function(&mut self, n: &Function, _: &dyn Node) {
         n.decorators.visit_with(n, self);
 
