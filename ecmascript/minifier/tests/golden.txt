@@ -170,6 +170,7 @@ drop_unused/const_assign/input.js
 drop_unused/delete_assign_1/input.js
 drop_unused/double_assign_3/input.js
 drop_unused/drop_fnames/input.js
+drop_unused/drop_toplevel_all/input.js
 drop_unused/issue_1709/input.js
 drop_unused/issue_2063/input.js
 drop_unused/issue_2136_1/input.js
@@ -177,6 +178,7 @@ drop_unused/issue_3146_1/input.js
 drop_unused/issue_3146_2/input.js
 drop_unused/issue_3146_3/input.js
 drop_unused/issue_3146_4/input.js
+drop_unused/issue_t161_top_retain_2/input.js
 drop_unused/reassign_const/input.js
 drop_unused/unused_block_decls/input.js
 drop_unused/unused_block_decls_in_catch/input.js
@@ -291,6 +293,7 @@ hoist_props/contains_this_3/input.js
 hoist_props/direct_access_1/input.js
 hoist_props/direct_access_3/input.js
 hoist_props/issue_2462/input.js
+hoist_props/issue_2473_3/input.js
 hoist_props/issue_2508_3/input.js
 hoist_props/issue_2508_4/input.js
 hoist_props/single_use/input.js
