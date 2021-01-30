@@ -13,6 +13,12 @@ impl Optimizer {
             None => return,
         };
 
+        if (!self.options.top_level && self.options.top_retain.is_empty())
+            && self.ctx.in_top_level()
+        {
+            return;
+        }
+
         // TODO: Check for side effect between original decl position and inlined
         // position
 
