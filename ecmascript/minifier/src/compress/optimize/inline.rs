@@ -69,6 +69,11 @@ impl Optimizer {
                             _ => false,
                         }
                     {
+                        log::trace!(
+                            "inline: Decided to inline '{}{:?}' because it's simple",
+                            i.sym,
+                            i.span.ctxt
+                        );
                         self.vars.insert(i.to_id(), init.clone());
                         return;
                     }
@@ -80,6 +85,12 @@ impl Optimizer {
                             return;
                         }
 
+                        log::trace!(
+                            "inline: Decided to inline '{}{:?}' because it's used only once",
+                            i.sym,
+                            i.span.ctxt
+                        );
+                        self.changed = true;
                         self.vars.insert(i.to_id(), init.take());
                         return;
                     }
