@@ -21,6 +21,7 @@ pub(super) struct Ctx {
     /// Are we handling argument of an update exprssion.
     pub in_update_arg: bool,
     pub in_assign_lhs: bool,
+    pub in_cond: bool,
 }
 
 pub(super) struct WithCtx<'a> {

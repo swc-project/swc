@@ -17,6 +17,9 @@ pub(crate) struct VarUsageInfo {
     /// # of reference to this identifier.
     pub ref_count: usize,
 
+    /// `true` if a varaible is conditionally initialized.
+    pub cond_init: bool,
+
     pub assign_count: usize,
     pub usage_count: usize,
 
@@ -56,6 +59,7 @@ impl ScopeData {
             match self.vars.entry(id) {
                 Entry::Occupied(mut e) => {
                     e.get_mut().ref_count += var_info.ref_count;
+                    e.get_mut().cond_init |= var_info.cond_init;
                     e.get_mut().reassigned |= var_info.reassigned;
                     e.get_mut().has_property_access |= var_info.has_property_access;
                     e.get_mut().exported |= var_info.exported;
@@ -125,13 +129,20 @@ impl UsageAnalyzer {
     }
 
     fn declare_decl(&mut self, i: &Ident) -> &mut VarUsageInfo {
-        self.data
+        let v = self
+            .data
             .vars
             .entry(i.to_id())
             .or_insert_with(|| VarUsageInfo {
                 is_fn_local: true,
                 ..Default::default()
-            })
+            });
+
+        if self.ctx.in_cond {
+            v.cond_init = true;
+        }
+
+        v
     }
 }
 
@@ -297,6 +308,16 @@ impl Visit for UsageAnalyzer {
                 _ => {}
             },
         }
+    }
+
+    fn visit_if_stmt(&mut self, n: &IfStmt, _: &dyn Node) {
+        let ctx = Ctx {
+            in_cond: true,
+            ..self.ctx
+        };
+        n.test.visit_with(n, self);
+        n.cons.visit_with(n, &mut *self.with_ctx(ctx));
+        n.alt.visit_with(n, &mut *self.with_ctx(ctx));
     }
 
     fn visit_assign_expr(&mut self, n: &AssignExpr, _: &dyn Node) {
