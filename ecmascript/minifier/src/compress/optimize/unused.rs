@@ -3,6 +3,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 
+/// Methods related to the option `unused`.
 impl Optimizer {
     ///
     pub(super) fn drop_unused_vars(&mut self, name: &mut Pat) {
@@ -85,6 +86,16 @@ impl Optimizer {
                 // Nothing to do. We might change this to unreachable!()
                 return;
             }
+        }
+    }
+
+    pub(super) fn drop_unused_assignments(&mut self, e: &mut Expr) {
+        if !self.options.unused {
+            return;
+        }
+
+        if !self.options.top_level && (self.ctx.top_level || !self.ctx.in_fn_like) {
+            return;
         }
     }
 }

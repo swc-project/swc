@@ -996,6 +996,8 @@ impl VisitMut for Optimizer {
             _ => {}
         }
 
+        self.drop_unused_assignments(n);
+
         self.compress_regexp(n);
 
         self.compress_lits(n);
