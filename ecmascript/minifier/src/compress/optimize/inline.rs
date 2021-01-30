@@ -28,6 +28,9 @@ impl Optimizer {
                 if i.sym == *"arguments" {
                     return;
                 }
+                if self.options.top_retain.contains(&i.sym) {
+                    return;
+                }
 
                 // Store variables if it's used only once
                 if let Some(usage) = self
