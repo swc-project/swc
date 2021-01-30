@@ -38,6 +38,7 @@ mod if_return;
 mod iife;
 mod inline;
 mod join_vars;
+mod loops;
 mod ops;
 mod sequences;
 mod switches;
