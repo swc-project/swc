@@ -36,6 +36,7 @@ mod dead_code;
 mod evaluate;
 mod if_return;
 mod iife;
+mod inline;
 mod join_vars;
 mod ops;
 mod sequences;
@@ -1336,6 +1337,7 @@ impl VisitMut for Optimizer {
         decl.visit_mut_children_with(self);
 
         self.drop_unused_decl(decl);
+        self.store_decl_for_inlining(decl);
     }
 
     fn visit_mut_class(&mut self, n: &mut Class) {
