@@ -35,6 +35,10 @@ impl Optimizer {
                     .as_ref()
                     .and_then(|data| data.vars.get(&i.to_id()))
                 {
+                    if usage.cond_init {
+                        return;
+                    }
+
                     if self.options.reduce_vars && self.options.typeofs && !usage.reassigned {
                         match &**init {
                             Expr::Fn(..) | Expr::Arrow(..) => {
