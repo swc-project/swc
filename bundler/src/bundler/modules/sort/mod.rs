@@ -246,7 +246,7 @@ fn iter<'a>(
                             return false;
                         }
 
-                        if graph.has_a_path(*dep, idx) {
+                        if !free.contains(&idx) && graph.has_a_path(*dep, idx) {
                             if !moves.insert((idx, *dep)) {
                                 return false;
                             }
