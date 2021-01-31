@@ -823,13 +823,7 @@ impl Fold for Remover {
             Stmt::While(s) => {
                 if let (purity, Known(v)) = s.test.as_bool() {
                     if v {
-                        Stmt::While(WhileStmt {
-                            test: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                span: s.test.span(),
-                                value: true,
-                            }))),
-                            ..s
-                        })
+                        return Stmt::While(s);
                     } else {
                         if purity.is_pure() {
                             Stmt::Empty(EmptyStmt { span: s.span })
