@@ -1108,6 +1108,8 @@ impl VisitMut for Optimizer {
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
+        self.optimize_usage_of_arguments(n);
+
         if let Some(body) = &mut n.body {
             self.merge_if_returns(&mut body.stmts);
         }

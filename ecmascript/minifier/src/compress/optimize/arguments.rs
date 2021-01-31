@@ -34,4 +34,10 @@ impl Optimizer {
             _ => {}
         }
     }
+
+    pub(super) fn optimize_usage_of_arguments(&mut self, f: &mut Function) {
+        if !self.options.arguments {
+            return;
+        }
+    }
 }
