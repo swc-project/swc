@@ -1,4 +1,5 @@
 arguments/arguments_in_arrow_func_1/input.js
+arguments/arguments_in_arrow_func_2/input.js
 arguments/replace_index_keep_fargs_strict/input.js
 array_constructor/array_constructor/input.js
 arrays/length/input.js
