@@ -53,6 +53,10 @@ impl Optimizer {
         }
 
         if f.params.iter().any(|param| match param.pat {
+            Pat::Ident(Ident {
+                sym: js_word!("arguments"),
+                ..
+            }) => true,
             Pat::Ident(..) => false,
             _ => true,
         }) {
