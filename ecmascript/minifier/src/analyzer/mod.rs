@@ -29,6 +29,9 @@ pub(crate) struct VarUsageInfo {
     /// `true` if a varaible is conditionally initialized.
     pub cond_init: bool,
 
+    /// `false` if it's only used.
+    pub declared: bool,
+
     pub assign_count: usize,
     pub usage_count: usize,
 
@@ -151,6 +154,7 @@ impl UsageAnalyzer {
                 ..Default::default()
             });
 
+        v.declared = true;
         if self.ctx.in_cond && has_init {
             v.cond_init = true;
         }

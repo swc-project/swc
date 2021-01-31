@@ -68,8 +68,8 @@ impl Optimizer {
         {
             // If a function has a variable named `arguments`, we abort.
             let data = analyze(&f.body);
-            for (var, _) in &data.vars {
-                if var.0 == js_word!("arguments") {
+            for (id, var) in &data.vars {
+                if id.0 == js_word!("arguments") && var.declared {
                     return;
                 }
             }
