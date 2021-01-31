@@ -76,7 +76,7 @@ struct ArgReplacer<'a> {
 }
 
 impl ArgReplacer<'_> {
-    fn ensure_param_idx(&mut self, mut idx: usize) {
+    fn ensure_param_idx(&mut self, idx: usize) {
         if idx < self.params.len() {
             return;
         }
