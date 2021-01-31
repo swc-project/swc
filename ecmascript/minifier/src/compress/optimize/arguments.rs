@@ -1,6 +1,10 @@
+use std::iter::repeat_with;
+
 use super::Optimizer;
 use swc_atoms::js_word;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_utils::private_ident;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
@@ -56,17 +60,43 @@ impl Optimizer {
         }
 
         let mut v = ArgReplacer {
-            params: &f.params,
-            injected_params: vec![],
+            params: &mut f.params,
+            changed: false,
         };
 
         f.body.visit_mut_children_with(&mut v);
+
+        self.changed |= v.changed;
     }
 }
 
 struct ArgReplacer<'a> {
-    params: &'a [Param],
-    injected_params: Vec<Param>,
+    params: &'a mut Vec<Param>,
+    changed: bool,
+}
+
+impl ArgReplacer<'_> {
+    fn ensure_param_idx(&mut self, mut idx: usize) {
+        if idx < self.params.len() {
+            return;
+        }
+        let new_args = idx - self.params.len();
+
+        self.changed = true;
+        log::trace!("arguments: Injecting {} parameters", new_args);
+        self.params.extend(
+            repeat_with(|| {
+                let p = Param {
+                    span: DUMMY_SP,
+                    decorators: Default::default(),
+                    pat: Pat::Ident(private_ident!(format!("argument_{}", idx))),
+                };
+                idx += 1;
+                p
+            })
+            .take(new_args),
+        )
+    }
 }
 
 impl VisitMut for ArgReplacer<'_> {
@@ -84,23 +114,54 @@ impl VisitMut for ArgReplacer<'_> {
                                 sym: js_word!("arguments"),
                                 ..
                             }) => match &*member.prop {
+                                Expr::Lit(Lit::Str(Str { value, .. })) => {
+                                    let idx = value.parse::<usize>();
+                                    let idx = match idx {
+                                        Ok(v) => v,
+                                        _ => return,
+                                    };
+
+                                    self.ensure_param_idx(idx);
+
+                                    if let Some(param) = self.params.get(idx) {
+                                        match &param.pat {
+                                            Pat::Ident(i) => {
+                                                log::trace!(
+                                                    "arguments: Replacing access to arguments to \
+                                                     normal reference",
+                                                );
+                                                self.changed = true;
+                                                *n = Expr::Ident(i.clone());
+                                                return;
+                                            }
+                                            _ => {}
+                                        }
+                                    }
+                                }
                                 Expr::Lit(Lit::Num(Number { value, .. })) => {
                                     if value.fract() != 0.0 {
                                         // We ignores non-integer values.
                                         return;
                                     }
 
-                                    //
                                     let idx = value.round() as i64 as usize;
+
+                                    self.ensure_param_idx(idx);
+
+                                    //
                                     if let Some(param) = self.params.get(idx) {
                                         match &param.pat {
                                             Pat::Ident(i) => {
+                                                log::trace!(
+                                                    "arguments: Replacing access to arguments to \
+                                                     normal reference",
+                                                );
+                                                self.changed = true;
                                                 *n = Expr::Ident(i.clone());
                                                 return;
                                             }
                                             _ => {}
                                         }
-                                    } else {
                                     }
                                 }
                                 _ => {}
@@ -124,8 +185,8 @@ impl VisitMut for ArgReplacer<'_> {
     }
 
     /// Noop.
-    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {}
+    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
 
     /// Noop.
-    fn visit_mut_function(&mut self, n: &mut Function) {}
+    fn visit_mut_function(&mut self, _: &mut Function) {}
 }
