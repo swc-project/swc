@@ -13,18 +13,28 @@ impl Optimizer {
 
         match stmt {
             Stmt::While(w) => {
-                let (_, val) = w.test.as_bool();
+                let (purity, val) = w.test.as_bool();
                 if let Known(false) = val {
-                    let changed = UnreachableHandler::preserve_vars(&mut w.body);
-                    self.changed |= changed;
-                    if changed {
-                        log::trace!("loops: Removing unreachable body of a while statement");
+                    if purity.is_pure() {
+                        let changed = UnreachableHandler::preserve_vars(stmt);
+                        self.changed |= changed;
+                        if changed {
+                            log::trace!(
+                                "loops: Removing unreachable while statement without side effects"
+                            );
+                        }
+                    } else {
+                        let changed = UnreachableHandler::preserve_vars(&mut w.body);
+                        self.changed |= changed;
+                        if changed {
+                            log::trace!("loops: Removing unreachable body of a while statement");
+                        }
                     }
                 }
             }
             Stmt::For(f) => {
                 if let Some(test) = &f.test {
-                    let (_, val) = test.as_bool();
+                    let (purity, val) = test.as_bool();
                     if let Known(false) = val {
                         let changed = UnreachableHandler::preserve_vars(&mut f.body);
                         self.changed |= changed;
