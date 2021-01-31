@@ -579,6 +579,29 @@ pub trait ExprExt {
                 Unknown
             }
 
+            Expr::Bin(BinExpr {
+                left,
+                op: op!(bin, "+"),
+                right,
+                ..
+            }) => {
+                match &**left {
+                    Expr::Lit(Lit::Str(s)) if !s.value.is_empty() => {
+                        return (MayBeImpure, Known(true))
+                    }
+                    _ => {}
+                }
+
+                match &**right {
+                    Expr::Lit(Lit::Str(s)) if !s.value.is_empty() => {
+                        return (MayBeImpure, Known(true))
+                    }
+                    _ => {}
+                }
+
+                Unknown
+            }
+
             Expr::Fn(..) | Expr::Class(..) | Expr::New(..) | Expr::Array(..) | Expr::Object(..) => {
                 Known(true)
             }
