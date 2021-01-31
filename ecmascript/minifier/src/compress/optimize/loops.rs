@@ -15,9 +15,11 @@ impl Optimizer {
             Stmt::While(w) => {
                 let (_, val) = w.test.as_bool();
                 if let Known(false) = val {
-                    w.body = Box::new(Stmt::Empty(EmptyStmt {
-                        span: w.body.span(),
-                    }));
+                    if w.body.is_empty() {
+                        w.body = Box::new(Stmt::Empty(EmptyStmt {
+                            span: w.body.span(),
+                        }));
+                    }
                     self.changed = true;
                     log::trace!("loops: Removing unreachable body of a while statement");
                 }
@@ -26,11 +28,13 @@ impl Optimizer {
                 if let Some(test) = &f.test {
                     let (_, val) = test.as_bool();
                     if let Known(false) = val {
-                        f.body = Box::new(Stmt::Empty(EmptyStmt {
-                            span: f.body.span(),
-                        }));
-                        self.changed = true;
-                        log::trace!("loops: Removing unreachable body of a for statement");
+                        if !f.body.is_empty() {
+                            f.body = Box::new(Stmt::Empty(EmptyStmt {
+                                span: f.body.span(),
+                            }));
+                            self.changed = true;
+                            log::trace!("loops: Removing unreachable body of a for statement");
+                        }
                     }
                 }
             }
