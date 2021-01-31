@@ -50,7 +50,7 @@ impl Optimizer {
     }
 
     pub(super) fn optimize_usage_of_arguments(&mut self, f: &mut Function) {
-        if !self.options.arguments {
+        if !self.options.arguments || self.options.keep_fargs {
             return;
         }
 
@@ -80,6 +80,8 @@ impl Optimizer {
             changed: false,
         };
 
+        // We visit body two time, to use simpler logic in `inject_params_if_required`
+        f.body.visit_mut_children_with(&mut v);
         f.body.visit_mut_children_with(&mut v);
 
         self.changed |= v.changed;
@@ -92,7 +94,7 @@ struct ArgReplacer<'a> {
 }
 
 impl ArgReplacer<'_> {
-    fn ensure_param_idx(&mut self, idx: usize) {
+    fn inject_params_if_required(&mut self, idx: usize) {
         if idx < self.params.len() {
             return;
         }
@@ -138,7 +140,7 @@ impl VisitMut for ArgReplacer<'_> {
                                         _ => return,
                                     };
 
-                                    self.ensure_param_idx(idx);
+                                    self.inject_params_if_required(idx);
 
                                     if let Some(param) = self.params.get(idx) {
                                         match &param.pat {
@@ -159,7 +161,7 @@ impl VisitMut for ArgReplacer<'_> {
 
                                     let idx = value.round() as i64 as usize;
 
-                                    self.ensure_param_idx(idx);
+                                    self.inject_params_if_required(idx);
 
                                     //
                                     if let Some(param) = self.params.get(idx) {
