@@ -1,5 +1,7 @@
 use std::iter::repeat_with;
 
+use crate::analyzer::analyze;
+
 use super::Optimizer;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
@@ -61,6 +63,16 @@ impl Optimizer {
             _ => true,
         }) {
             return;
+        }
+
+        {
+            // If a function has a variable named `arguments`, we abort.
+            let data = analyze(&f.body);
+            for (var, _) in &data.vars {
+                if var.0 == js_word!("arguments") {
+                    return;
+                }
+            }
         }
 
         let mut v = ArgReplacer {

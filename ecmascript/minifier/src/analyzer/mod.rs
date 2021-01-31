@@ -12,6 +12,15 @@ use swc_ecma_visit::VisitWith;
 
 mod ctx;
 
+pub(crate) fn analyze<N>(n: &N) -> ScopeData
+where
+    N: VisitWith<UsageAnalyzer>,
+{
+    let mut v = UsageAnalyzer::default();
+    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    v.data
+}
+
 #[derive(Debug, Default)]
 pub(crate) struct VarUsageInfo {
     /// # of reference to this identifier.
