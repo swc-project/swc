@@ -5,7 +5,7 @@ use swc_ecma_ast::*;
 impl Optimizer {
     ///
     /// - `arguments['foo']` => `arguments.foo`
-    pub(super) fn optimize_computed_access_to_arguments(&mut self, e: &mut Expr) {
+    pub(super) fn optimize_str_access_to_arguments(&mut self, e: &mut Expr) {
         if !self.options.arguments {
             return;
         }

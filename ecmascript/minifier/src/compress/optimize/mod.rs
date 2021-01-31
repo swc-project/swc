@@ -998,7 +998,7 @@ impl VisitMut for Optimizer {
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        self.optimize_computed_access_to_arguments(n);
+        self.optimize_str_access_to_arguments(n);
 
         self.swap_bin_operands(n);
 
