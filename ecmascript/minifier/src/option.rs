@@ -33,7 +33,7 @@ pub struct MangleOptions {
 pub struct CompressOptions {
     #[serde(default)]
     #[serde(alias = "arguments")]
-    pub args: bool,
+    pub arguments: bool,
 
     #[serde(default = "true_by_default")]
     pub arrows: bool,

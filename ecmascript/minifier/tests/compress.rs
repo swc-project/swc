@@ -220,7 +220,7 @@ fn parse_config(s: &str) -> CompressOptions {
         serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
 
     CompressOptions {
-        args: c.arguments,
+        arguments: c.arguments,
         arrows: c.arrows.unwrap_or(c.defaults),
         bools: c.booleans.unwrap_or(c.defaults),
         bools_as_ints: c.booleans_as_integers,
