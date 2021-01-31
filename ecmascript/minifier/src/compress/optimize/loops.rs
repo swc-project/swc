@@ -1,5 +1,5 @@
+use crate::compress::optimize::unused::UnreachableHandler;
 use crate::compress::optimize::Optimizer;
-use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::Value::Known;
@@ -15,24 +15,20 @@ impl Optimizer {
             Stmt::While(w) => {
                 let (_, val) = w.test.as_bool();
                 if let Known(false) = val {
-                    if w.body.is_empty() {
-                        w.body = Box::new(Stmt::Empty(EmptyStmt {
-                            span: w.body.span(),
-                        }));
+                    let changed = UnreachableHandler::preserve_vars(&mut w.body);
+                    self.changed |= changed;
+                    if changed {
+                        log::trace!("loops: Removing unreachable body of a while statement");
                     }
-                    self.changed = true;
-                    log::trace!("loops: Removing unreachable body of a while statement");
                 }
             }
             Stmt::For(f) => {
                 if let Some(test) = &f.test {
                     let (_, val) = test.as_bool();
                     if let Known(false) = val {
-                        if !f.body.is_empty() {
-                            f.body = Box::new(Stmt::Empty(EmptyStmt {
-                                span: f.body.span(),
-                            }));
-                            self.changed = true;
+                        let changed = UnreachableHandler::preserve_vars(&mut f.body);
+                        self.changed |= changed;
+                        if changed {
                             log::trace!("loops: Removing unreachable body of a for statement");
                         }
                     }
