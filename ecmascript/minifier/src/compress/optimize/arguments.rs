@@ -50,7 +50,7 @@ impl Optimizer {
     }
 
     pub(super) fn optimize_usage_of_arguments(&mut self, f: &mut Function) {
-        if !self.options.arguments || self.options.keep_fargs {
+        if !self.options.arguments {
             return;
         }
 
@@ -78,6 +78,7 @@ impl Optimizer {
         let mut v = ArgReplacer {
             params: &mut f.params,
             changed: false,
+            keep_fargs: self.options.keep_fargs,
         };
 
         // We visit body two time, to use simpler logic in `inject_params_if_required`
@@ -91,11 +92,12 @@ impl Optimizer {
 struct ArgReplacer<'a> {
     params: &'a mut Vec<Param>,
     changed: bool,
+    keep_fargs: bool,
 }
 
 impl ArgReplacer<'_> {
     fn inject_params_if_required(&mut self, idx: usize) {
-        if idx < self.params.len() {
+        if idx < self.params.len() || self.keep_fargs {
             return;
         }
         let new_args = idx + 1 - self.params.len();
