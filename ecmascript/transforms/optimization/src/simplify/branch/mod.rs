@@ -825,11 +825,15 @@ impl Fold for Remover {
                     if v {
                         return Stmt::While(s);
                     } else {
+                        let body = s.body.extract_var_ids_as_var();
+                        let body = body.map(Decl::Var).map(Stmt::Decl);
+                        let body = body.unwrap_or_else(|| Stmt::Empty(EmptyStmt { span: s.span }));
+
                         if purity.is_pure() {
-                            Stmt::Empty(EmptyStmt { span: s.span })
+                            body
                         } else {
                             Stmt::While(WhileStmt {
-                                body: Box::new(Stmt::Empty(EmptyStmt { span: s.span })),
+                                body: Box::new(body),
                                 ..s
                             })
                         }
