@@ -167,13 +167,8 @@ impl Fold for Remover {
             }),
             update: s.update.and_then(|e| ignore_result(*e).map(Box::new)),
             test: s.test.and_then(|e| {
-                let span = e.span();
                 if let Known(value) = e.as_pure_bool() {
-                    return if value {
-                        None
-                    } else {
-                        Some(Box::new(Expr::Lit(Lit::Bool(Bool { span, value: false }))))
-                    };
+                    return if value { None } else { Some(e) };
                 }
 
                 Some(e)
