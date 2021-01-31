@@ -80,10 +80,11 @@ impl ArgReplacer<'_> {
         if idx < self.params.len() {
             return;
         }
-        let new_args = idx - self.params.len();
+        let new_args = idx + 1 - self.params.len();
 
         self.changed = true;
         log::trace!("arguments: Injecting {} parameters", new_args);
+        let mut start = self.params.len();
         self.params.extend(
             repeat_with(|| {
                 let p = Param {
@@ -91,7 +92,7 @@ impl ArgReplacer<'_> {
                     decorators: Default::default(),
                     pat: Pat::Ident(private_ident!(format!("argument_{}", idx))),
                 };
-                idx += 1;
+                start += 1;
                 p
             })
             .take(new_args),
@@ -126,10 +127,6 @@ impl VisitMut for ArgReplacer<'_> {
                                     if let Some(param) = self.params.get(idx) {
                                         match &param.pat {
                                             Pat::Ident(i) => {
-                                                log::trace!(
-                                                    "arguments: Replacing access to arguments to \
-                                                     normal reference",
-                                                );
                                                 self.changed = true;
                                                 *n = Expr::Ident(i.clone());
                                                 return;
