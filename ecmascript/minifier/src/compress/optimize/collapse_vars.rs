@@ -139,7 +139,7 @@ struct InlinabiltyChecker {
 impl Visit for InlinabiltyChecker {
     noop_visit_type!();
 
-    fn visit_update_expr(&mut self, n: &UpdateExpr, _: &dyn Node) {
+    fn visit_update_expr(&mut self, _: &UpdateExpr, _: &dyn Node) {
         self.can_inline = false;
     }
 }
