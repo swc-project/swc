@@ -17,6 +17,7 @@ where
         options,
         preserved: Default::default(),
         should_preserve: false,
+        in_top_level: false,
     };
     n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
     v.preserved
@@ -25,10 +26,25 @@ pub(super) struct Preserver {
     options: MangleOptions,
     preserved: FxHashSet<Id>,
     should_preserve: bool,
+    in_top_level: bool,
 }
 
 impl Visit for Preserver {
     noop_visit_type!();
+
+    fn visit_stmts(&mut self, n: &[Stmt], _: &dyn Node) {
+        for n in n {
+            self.in_top_level = false;
+            n.visit_with(&Invalid { span: DUMMY_SP }, self);
+        }
+    }
+
+    fn visit_module_items(&mut self, n: &[ModuleItem], _: &dyn Node) {
+        for n in n {
+            self.in_top_level = true;
+            n.visit_with(&Invalid { span: DUMMY_SP }, self);
+        }
+    }
 
     fn visit_fn_decl(&mut self, n: &FnDecl, _: &dyn Node) {
         n.visit_children_with(self);
@@ -67,7 +83,7 @@ impl Visit for Preserver {
     fn visit_var_declarator(&mut self, n: &VarDeclarator, _: &dyn Node) {
         n.visit_children_with(self);
 
-        if self.options.keep_fn_names {
+        if self.options.keep_fn_names || (self.in_top_level && !self.options.top_level) {
             match n.init.as_deref() {
                 Some(Expr::Fn(..)) | Some(Expr::Arrow(..)) => {
                     let old = self.should_preserve;
