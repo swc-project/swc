@@ -778,7 +778,7 @@ impl Optimizer {
 
                 if unwrap_more && bs.stmts.len() == 1 {
                     match &bs.stmts[0] {
-                        Stmt::Expr(..) | Stmt::If(..) => {
+                        Stmt::Expr(..) | Stmt::If(..) | Stmt::Decl(Decl::Fn(..)) => {
                             *s = bs.stmts[0].take();
                             log::trace!("optimizer: Unwrapping block stmt as expr stmt");
                             self.changed = true;
@@ -790,8 +790,14 @@ impl Optimizer {
 
             Stmt::If(s) => {
                 self.try_removing_block(&mut s.cons, true);
-                if let Some(alt) = &mut s.alt {
-                    self.try_removing_block(alt, true);
+                let can_remove_block_of_alt = match &*s.cons {
+                    Stmt::Expr(..) => true,
+                    _ => false,
+                };
+                if can_remove_block_of_alt {
+                    if let Some(alt) = &mut s.alt {
+                        self.try_removing_block(alt, true);
+                    }
                 }
             }
 
