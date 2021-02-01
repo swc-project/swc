@@ -158,6 +158,8 @@ pub struct CompressOptions {
     #[serde(alias = "negate_iife")]
     pub negate_iife: bool,
 
+    /// If this value is zero, the minifier will repeat work until the ast node
+    /// is settled.
     #[serde(default = "one_by_default")]
     #[serde(alias = "passes")]
     pub passes: usize,
