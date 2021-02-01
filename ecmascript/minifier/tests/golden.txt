@@ -241,6 +241,8 @@ evaluate/pow_with_right_side_evaluating_to_unary/input.js
 evaluate/unary_prefix/input.js
 evaluate/unsafe_array_bad_index/input.js
 evaluate/unsafe_constant/input.js
+evaluate/unsafe_object/input.js
+evaluate/unsafe_object_repeated/input.js
 evaluate/unsafe_string/input.js
 evaluate/unsafe_string_bad_index/input.js
 expansions/avoid_spread_in_ternary/input.js
@@ -329,6 +331,7 @@ hoist/dont_hoist_var_destructurings/input.js
 hoist/hoist_funs/input.js
 hoist/hoist_no_destructurings/input.js
 hoist/hoist_vars/input.js
+hoist_props/contains_this_1/input.js
 hoist_props/contains_this_3/input.js
 hoist_props/direct_access_1/input.js
 hoist_props/direct_access_3/input.js
@@ -655,6 +658,7 @@ reduce_vars/multi_def_1/input.js
 reduce_vars/multi_def_2/input.js
 reduce_vars/multi_def_3/input.js
 reduce_vars/obj_for_1/input.js
+reduce_vars/obj_for_2/input.js
 reduce_vars/obj_var_1/input.js
 reduce_vars/recursive_inlining_5/input.js
 reduce_vars/redefine_arguments_1/input.js
@@ -666,6 +670,7 @@ reduce_vars/try_abort/input.js
 reduce_vars/unary_delete/input.js
 reduce_vars/unsafe_evaluate_array_3/input.js
 reduce_vars/unsafe_evaluate_array_5/input.js
+reduce_vars/unsafe_evaluate_object_2/input.js
 reduce_vars/unsafe_evaluate_object_3/input.js
 reduce_vars/unsafe_evaluate_unknown/input.js
 reduce_vars/use_before_var/input.js
