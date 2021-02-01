@@ -755,6 +755,20 @@ impl Optimizer {
     }
 
     fn try_removing_block(&mut self, s: &mut Stmt) {
+        match s {
+            Stmt::Block(s) => {
+                // Remove nested blocks
+                if s.stmts.len() == 1 {
+                    if let Stmt::Block(block) = &mut s.stmts[0] {
+                        log::trace!("optimizer: Removing nested blocks");
+                        self.changed = true;
+                        s.stmts = block.stmts.take();
+                    }
+                }
+            }
+            _ => {}
+        }
+
         if !self.options.conditionals
             && !self.options.sequences
             && !self.options.join_vars
