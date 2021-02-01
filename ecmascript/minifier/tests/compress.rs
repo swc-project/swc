@@ -308,7 +308,15 @@ fn fixture(input: PathBuf) {
             .map_err(|err| {
                 err.into_diagnostic(&handler).emit();
             })
-            .map(|module| module.fold_with(&mut resolver()))?;
+            .map(|module| module.fold_with(&mut resolver()));
+
+        // Ignore parser errors.
+        //
+        // This is typically related to strict mode caused by module context.
+        let module = match module {
+            Ok(v) => v,
+            _ => return Ok(()),
+        };
 
         let output = optimize(
             module,
