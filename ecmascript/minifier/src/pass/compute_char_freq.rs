@@ -4,5 +4,5 @@ use swc_ecma_ast::Module;
 pub struct CharFreqInfo {}
 
 pub fn compute_char_freq(_: &Module) -> CharFreqInfo {
-    todo!()
+    CharFreqInfo {}
 }
