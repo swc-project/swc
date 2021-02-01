@@ -729,6 +729,10 @@ impl Optimizer {
     }
 
     fn merge_var_decls(&mut self, stmts: &mut Vec<Stmt>) {
+        if !self.options.join_vars && !self.options.hoist_vars {
+            return;
+        }
+
         // Merge var declarations fully, if possible.
         if stmts.windows(2).any(|stmts| match (&stmts[0], &stmts[1]) {
             (Stmt::Decl(Decl::Var(a)), Stmt::Decl(Decl::Var(b))) => {
