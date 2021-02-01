@@ -1,1 +1,6 @@
-{"cache":{"props":{"$foo":"_$FOO$_","$bar":"_$BAR$_","$qux":"_$QUX$_"}},"module":true}
+{
+    "cache": {
+        "props": { "$foo": "_$FOO$_", "$bar": "_$BAR$_", "$qux": "_$QUX$_" }
+    },
+    "module": true
+}

@@ -1,1 +1,5 @@
-{"cache":{"props":{"$Bar":"a"}},"properties":{"undeclared":true},"toplevel":true}
+{
+    "cache": { "props": { "$Bar": "a" } },
+    "properties": { "undeclared": true },
+    "toplevel": true
+}
