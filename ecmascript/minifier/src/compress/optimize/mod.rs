@@ -797,7 +797,7 @@ impl Optimizer {
                 if bs.stmts.len() == 1
                     && bs.stmts.iter().all(|stmt| match stmt {
                         Stmt::Decl(Decl::Var(VarDecl {
-                            kind: VarDeclKind::Const,
+                            kind: VarDeclKind::Var,
                             ..
                         })) => true,
                         _ => false,
