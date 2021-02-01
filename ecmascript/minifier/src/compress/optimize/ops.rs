@@ -1,5 +1,4 @@
 use super::Optimizer;
-use crate::util::make_bool;
 use crate::util::ValueExt;
 use std::mem::swap;
 use swc_atoms::js_word;
@@ -88,105 +87,6 @@ impl Optimizer {
                 has_escape: false,
                 kind: Default::default(),
             }))
-        }
-    }
-
-    /// This method converts `!1` to `0`.
-    pub(super) fn optimize_expr_in_bool_ctx(&mut self, n: &mut Expr) {
-        match n {
-            Expr::Unary(UnaryExpr {
-                span,
-                op: op!("!"),
-                arg,
-            }) => match &**arg {
-                Expr::Lit(Lit::Num(Number { value, .. })) => {
-                    log::trace!("Optimizing: number => number (in bool context)");
-
-                    self.changed = true;
-                    *n = Expr::Lit(Lit::Num(Number {
-                        span: *span,
-                        value: if *value == 0.0 { 1.0 } else { 0.0 },
-                    }))
-                }
-                _ => {}
-            },
-
-            Expr::Unary(UnaryExpr {
-                span,
-                op: op!("typeof"),
-                arg,
-            }) => {
-                log::trace!("Optimizing: typeof => true (in bool context)");
-                self.changed = true;
-
-                match &**arg {
-                    Expr::Ident(..) => {
-                        *n = Expr::Lit(Lit::Num(Number {
-                            span: *span,
-                            value: 1.0,
-                        }))
-                    }
-                    _ => {
-                        // Return value of typeof is always truthy
-                        let true_expr = Box::new(Expr::Lit(Lit::Num(Number {
-                            span: *span,
-                            value: 1.0,
-                        })));
-                        *n = Expr::Seq(SeqExpr {
-                            span: *span,
-                            exprs: vec![arg.take(), true_expr],
-                        })
-                    }
-                }
-            }
-
-            Expr::Lit(Lit::Str(s)) => {
-                log::trace!("Converting string as boolean expressions");
-                self.changed = true;
-                *n = Expr::Lit(Lit::Num(Number {
-                    span: s.span,
-                    value: if s.value.is_empty() { 0.0 } else { 1.0 },
-                }));
-            }
-
-            Expr::Lit(Lit::Num(num)) => {
-                if num.value == 1.0 || num.value == 0.0 {
-                    return;
-                }
-                if self.options.bools {
-                    log::trace!("booleans: Converting number as boolean expressions");
-                    self.changed = true;
-                    *n = Expr::Lit(Lit::Num(Number {
-                        span: num.span,
-                        value: if num.value == 0.0 { 0.0 } else { 1.0 },
-                    }));
-                }
-            }
-
-            Expr::Bin(BinExpr {
-                op: op!("??"),
-                left,
-                right,
-                ..
-            }) => {
-                // Optimize if (a ?? false); as if (a);
-                if let Value::Known(false) = right.as_pure_bool() {
-                    log::trace!(
-                        "Dropping right operand of `??` as it's always false (in bool context)"
-                    );
-                    self.changed = true;
-                    *n = *left.take();
-                }
-            }
-
-            _ => {
-                let span = n.span();
-                let v = n.as_pure_bool();
-                if let Known(v) = v {
-                    log::trace!("Optimizing expr as {} (in bool context)", v);
-                    *n = make_bool(span, v);
-                }
-            }
         }
     }
 
