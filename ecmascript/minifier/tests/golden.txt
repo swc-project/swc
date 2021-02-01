@@ -738,6 +738,7 @@ template_string/template_strings_ascii_only/input.js
 template_string/template_strings_without_ascii_only/input.js
 template_string/template_with_newline/input.js
 transform/booleans_evaluate/input.js
+transform/if_else_empty/input.js
 try_catch/catch_destructuring_with_sequence/input.js
 try_catch/parameterless_catch/input.js
 typeof/duplicate_defun_arg_name/input.js
