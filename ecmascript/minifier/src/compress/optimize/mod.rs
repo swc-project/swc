@@ -37,6 +37,7 @@ mod collapse_vars;
 mod conditionals;
 mod dead_code;
 mod evaluate;
+mod hoist_props;
 mod if_return;
 mod iife;
 mod inline;
@@ -1049,6 +1050,8 @@ impl VisitMut for Optimizer {
         var.visit_mut_children_with(self);
 
         self.store_var_for_inining(var);
+        self.store_var_for_prop_hoisting(var);
+
         match &var.init {
             Some(init) => match &**init {
                 Expr::Invalid(..) => {
@@ -1107,6 +1110,8 @@ impl VisitMut for Optimizer {
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         self.optimize_str_access_to_arguments(n);
+
+        self.replace_props(n);
 
         self.swap_bin_operands(n);
 

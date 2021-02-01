@@ -1,6 +1,5 @@
 use self::drop_console::drop_console;
 use self::hoist_decls::DeclHoisterConfig;
-use self::hoist_props::property_hoister;
 use self::optimize::optimizer;
 use crate::compress::hoist_decls::decl_hoister;
 use crate::debug::dump;
@@ -30,7 +29,6 @@ use swc_ecma_visit::VisitMutWith;
 
 mod drop_console;
 mod hoist_decls;
-mod hoist_props;
 mod optimize;
 
 pub fn compressor(options: &CompressOptions) -> impl '_ + JsPass {
@@ -75,9 +73,7 @@ impl Compressor<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
-        Vec<T>: VisitMutWith<Self>
-            + VisitMutWith<hoist_props::Hoister>
-            + VisitMutWith<hoist_decls::Hoister>,
+        Vec<T>: VisitMutWith<Self> + VisitMutWith<hoist_decls::Hoister>,
     {
         // Skip if `use asm` exists.
         if stmts.iter().any(|stmt| match stmt.as_stmt() {
@@ -95,10 +91,6 @@ impl Compressor<'_> {
             None => false,
         }) {
             return;
-        }
-
-        if self.options.hoist_props || self.options.reduce_vars {
-            stmts.visit_mut_with(&mut property_hoister());
         }
 
         {
