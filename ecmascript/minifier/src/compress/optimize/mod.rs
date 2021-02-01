@@ -777,17 +777,13 @@ impl Optimizer {
                 }
 
                 if unwrap_more && bs.stmts.len() == 1 {
-                    if let Stmt::Block(block) = &mut bs.stmts[0] {
-                        if block.stmts.len() == 1 {
-                            match &block.stmts[0] {
-                                Stmt::Expr(..) | Stmt::If(..) => {
-                                    *s = block.stmts[0].take();
-                                    log::trace!("optimizer: Unwrapping block stmt as expr stmt");
-                                    self.changed = true;
-                                }
-                                _ => {}
-                            }
+                    match &bs.stmts[0] {
+                        Stmt::Expr(..) | Stmt::If(..) => {
+                            *s = bs.stmts[0].take();
+                            log::trace!("optimizer: Unwrapping block stmt as expr stmt");
+                            self.changed = true;
                         }
+                        _ => {}
                     }
                 }
             }
