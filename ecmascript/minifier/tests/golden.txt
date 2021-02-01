@@ -90,6 +90,7 @@ collapse_vars/cond_branch_switch/input.js
 collapse_vars/conditional_1/input.js
 collapse_vars/conditional_2/input.js
 collapse_vars/duplicate_argname/input.js
+collapse_vars/iife_1/input.js
 collapse_vars/issue_1537_destructuring_2/input.js
 collapse_vars/issue_1537_destructuring_3/input.js
 collapse_vars/issue_1537_destructuring_for_in/input.js
@@ -107,6 +108,7 @@ collapse_vars/issue_2878/input.js
 collapse_vars/issue_2891_1/input.js
 collapse_vars/issue_2891_2/input.js
 collapse_vars/issue_2908/input.js
+collapse_vars/issue_2931/input.js
 collapse_vars/issue_2954_1/input.js
 collapse_vars/may_throw_1/input.js
 collapse_vars/reassign_const_1/input.js
@@ -439,6 +441,7 @@ issue_751/negate_booleans_2/input.js
 issue_782/dont_remove_this_binding_sequence/input.js
 issue_782/remove_redundant_sequence_items/input.js
 issue_926/template_strings/input.js
+issue_973/this_binding_collapse_vars/input.js
 issue_973/this_binding_conditionals/input.js
 issue_973/this_binding_side_effects/input.js
 join_vars/issue_1079_with_mixed/input.js
@@ -639,6 +642,7 @@ reduce_vars/issue_3140_5/input.js
 reduce_vars/issue_379/input.js
 reduce_vars/issue_581_2/input.js
 reduce_vars/method_1/input.js
+reduce_vars/method_2/input.js
 reduce_vars/multi_def_1/input.js
 reduce_vars/multi_def_2/input.js
 reduce_vars/multi_def_3/input.js
@@ -788,6 +792,7 @@ yield/generator_yield_undefined/input.js
 yield/generators/input.js
 yield/generators_yield/input.js
 yield/generators_yield_assign/input.js
+yield/issue_2689/input.js
 yield/issue_2832/input.js
 yield/issue_t60/input.js
 yield/yield_as_ES5_property/input.js
