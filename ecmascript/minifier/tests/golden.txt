@@ -51,6 +51,8 @@ async/async_shorthand_property/input.js
 async/await_precedence/input.js
 async/await_precedence_call/input.js
 async/await_precedence_prop/input.js
+async/for_await_of/input.js
+async/for_await_of_2/input.js
 async/issue_2344_1/input.js
 async/issue_2344_2/input.js
 async/issue_3079/input.js
@@ -67,6 +69,8 @@ blocks/issue_1672_for_strict/input.js
 blocks/issue_1672_if/input.js
 blocks/issue_1672_if_strict/input.js
 blocks/issue_2946_else_const/input.js
+blocks/keep_some_blocks/input.js
+blocks/remove_blocks/input.js
 class_properties/class_expression_not_constant/input.js
 class_properties/mangle_class_properties_keep_quoted/input.js
 classes/class_duplication/input.js
@@ -92,10 +96,12 @@ collapse_vars/conditional_1/input.js
 collapse_vars/conditional_2/input.js
 collapse_vars/duplicate_argname/input.js
 collapse_vars/iife_1/input.js
+collapse_vars/issue_1537/input.js
 collapse_vars/issue_1537_destructuring_2/input.js
 collapse_vars/issue_1537_destructuring_3/input.js
 collapse_vars/issue_1537_destructuring_for_in/input.js
 collapse_vars/issue_1537_destructuring_for_of/input.js
+collapse_vars/issue_1537_for_of/input.js
 collapse_vars/issue_1605_1/input.js
 collapse_vars/issue_2203_1/input.js
 collapse_vars/issue_2203_3/input.js
@@ -309,6 +315,7 @@ harmony/new_target/input.js
 harmony/number_literals/input.js
 harmony/object_literal_method_using_arguments/input.js
 harmony/regression_cannot_destructure/input.js
+harmony/regression_for_of_const/input.js
 harmony/shorthand_keywords/input.js
 harmony/typeof_arrow_functions/input.js
 hoist/dont_hoist_var_destructurings/input.js
