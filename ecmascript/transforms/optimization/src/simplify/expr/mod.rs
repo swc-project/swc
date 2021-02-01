@@ -272,7 +272,7 @@ impl SimplifyExpr {
 
             // { foo: true }['foo']
             Expr::Object(ObjectLit { mut props, span }) => match op {
-                KnownOp::IndexStr(key) if is_literal(&props) => {
+                KnownOp::IndexStr(key) if is_literal(&props) && key != *"yield" => {
                     // do nothing if spread exists
                     let has_spread = props.iter().any(|prop| match prop {
                         PropOrSpread::Spread(..) => true,
