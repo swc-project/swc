@@ -97,7 +97,10 @@ impl Compressor<'_> {
             return;
         }
 
-        stmts.visit_mut_with(&mut property_hoister());
+        if self.options.hoist_props {
+            stmts.visit_mut_with(&mut property_hoister());
+        }
+
         {
             let mut v = decl_hoister(DeclHoisterConfig {
                 hoist_fns: self.options.hoist_fns,
