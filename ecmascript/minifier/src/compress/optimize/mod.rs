@@ -140,7 +140,27 @@ impl Optimizer {
             }
         }
 
-        stmts.visit_mut_children_with(self);
+        {
+            let mut child_ctx = Ctx { ..self.ctx };
+
+            if stmts.len() >= 1 {
+                // TODO: Handle multiple directives.
+                match stmts[0].as_stmt() {
+                    Some(Stmt::Expr(ExprStmt { expr, .. })) => match &**expr {
+                        Expr::Lit(Lit::Str(v)) => {
+                            if v.value == *"use strict" && !v.has_escape {
+                                child_ctx.in_strict = true;
+                            }
+                        }
+                        _ => {}
+                    },
+                    _ => {}
+                }
+            }
+
+            stmts.visit_mut_children_with(&mut *self.with_ctx(child_ctx));
+        }
+
         self.merge_simillar_ifs(stmts);
         self.join_vars(stmts);
 
@@ -796,7 +816,7 @@ impl Optimizer {
             Stmt::If(s) => {
                 self.try_removing_block(&mut s.cons, true);
                 let can_remove_block_of_alt = match &*s.cons {
-                    Stmt::Expr(..) => true,
+                    Stmt::Expr(..) | Stmt::If(..) | Stmt::Block(..) => true,
                     _ => false,
                 };
                 if can_remove_block_of_alt {
