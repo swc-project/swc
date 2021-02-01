@@ -168,19 +168,10 @@ impl Optimizer {
         }
     }
 
-    pub(super) fn optimize_switches(&mut self, s: &mut Stmt) {
+    pub(super) fn optimize_switches(&mut self, _s: &mut Stmt) {
         if !self.options.switches || self.ctx.stmt_lablled {
             return;
         }
-
-        let (label, stmt) = match s {
-            Stmt::Switch(s) => (None, s),
-            Stmt::Labeled(l) => match &mut *l.body {
-                Stmt::Switch(s) => (Some(l.label.clone()), s),
-                _ => return,
-            },
-            _ => return,
-        };
 
         //
     }

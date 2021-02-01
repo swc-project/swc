@@ -21,6 +21,7 @@ impl Optimizer {
     /// Registers a binding ident. This is treated as [PatMode::OtherDecl].
     ///
     /// If it conflicts
+    #[allow(unused)]
     fn register_binding_ident(&mut self, i: &mut Ident) {}
 }
 

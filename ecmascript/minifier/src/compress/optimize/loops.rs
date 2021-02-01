@@ -34,7 +34,7 @@ impl Optimizer {
             }
             Stmt::For(f) => {
                 if let Some(test) = &f.test {
-                    let (purity, val) = test.as_bool();
+                    let (_purity, val) = test.as_bool();
                     if let Known(false) = val {
                         let changed = UnreachableHandler::preserve_vars(&mut f.body);
                         self.changed |= changed;

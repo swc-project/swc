@@ -1,12 +1,12 @@
-use swc_common::Mark;
-use swc_common::Spanned;
-
 use super::Ctx;
 use super::Optimizer;
 use std::ops::Deref;
 use std::ops::DerefMut;
+use swc_common::Mark;
+use swc_common::Spanned;
 
 impl Optimizer {
+    #[allow(unused)]
     pub(super) fn is_done<N>(&mut self, n: &N) -> bool
     where
         N: Spanned,

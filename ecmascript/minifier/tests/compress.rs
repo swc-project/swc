@@ -39,7 +39,7 @@ fn is_ignored(path: &Path) -> bool {
             .collect()
     });
 
-    if let Ok(one) = env::var("GOLDEN_ONLY") {
+    if let Ok(one) = env::var("GOLDEN_ONLY").or_else(|_| env::var("CI")) {
         if one == "1" {
             if GOLDEN.iter().all(|golden| !s.contains(&**golden)) {
                 return true;
