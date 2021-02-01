@@ -128,6 +128,19 @@ impl Hoister {
 
                                 for id in ids {
                                     if done.insert(id.to_id()) {
+                                        // If the enclosing function declares parameter with same
+                                        // name, we can drop a varaible.
+                                        if decl.init.is_none()
+                                            && self
+                                                .data
+                                                .as_ref()
+                                                .and_then(|v| v.vars.get(&id.to_id()))
+                                                .map(|v| v.declared_as_fn_param)
+                                                .unwrap_or(false)
+                                        {
+                                            continue;
+                                        }
+
                                         var_decls.push(VarDeclarator {
                                             span: DUMMY_SP,
                                             name: Pat::Ident(id),
@@ -188,7 +201,22 @@ impl Hoister {
                                 // is valid javascript code.
 
                                 let preserve = match &decl.name {
-                                    Pat::Ident(name) => done.insert(name.to_id()),
+                                    Pat::Ident(name) => {
+                                        // If the enclosing function declares parameter with same
+                                        // name, we can drop a varaible. (If it's side-effect free).
+                                        if decl.init.is_none()
+                                            && self
+                                                .data
+                                                .as_ref()
+                                                .and_then(|v| v.vars.get(&name.to_id()))
+                                                .map(|v| v.declared_as_fn_param)
+                                                .unwrap_or(false)
+                                        {
+                                            return false;
+                                        }
+
+                                        done.insert(name.to_id())
+                                    }
                                     _ => true,
                                 };
 
