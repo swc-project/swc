@@ -791,6 +791,24 @@ impl Optimizer {
                     }
                 }
 
+                // Unwrap a block with only `var`s.
+                //
+                // TODO: Support multiple statements.
+                if bs.stmts.len() == 1
+                    && bs.stmts.iter().all(|stmt| match stmt {
+                        Stmt::Decl(Decl::Var(VarDecl {
+                            kind: VarDeclKind::Const,
+                            ..
+                        })) => true,
+                        _ => false,
+                    })
+                {
+                    log::trace!("optimizer: Unwrapping a block with variable statements");
+                    self.changed = true;
+                    *s = bs.stmts[0].take();
+                    return;
+                }
+
                 for stmt in &mut bs.stmts {
                     if let Stmt::Block(block) = &stmt {
                         if block.stmts.is_empty() {
