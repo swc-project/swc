@@ -1,4 +1,4 @@
-import { parse } from "https://deno.land/std@0.85.0/std/flags/mod.ts";
+import { parse } from "https://deno.land/std@0.85.0/flags/mod.ts";
 
 import { getNumericInput, printQuestion } from "./helpers/mod";
 import printStats from "./print_stats.ts";
