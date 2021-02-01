@@ -64,6 +64,7 @@ big_int/big_int_octal/input.js
 big_int/big_int_positive/input.js
 big_int/regression_big_int_hex_lower_with_e/input.js
 block_scope/let_statement/input.js
+blocks/issue_1664/input.js
 blocks/issue_1672_for/input.js
 blocks/issue_1672_for_strict/input.js
 blocks/issue_1672_if/input.js
@@ -169,6 +170,7 @@ dead_code/issue_2701/input.js
 dead_code/issue_2929/input.js
 dead_code/throw_assignment/input.js
 debugger/keep_debugger/input.js
+defaults/defaults_false_evaluate_true/input.js
 defaults/defaults_true_conditionals_false/input.js
 destructuring/destructuring_arrays/input.js
 destructuring/destructuring_arrays_holes/input.js
