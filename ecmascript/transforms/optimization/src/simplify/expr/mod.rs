@@ -306,7 +306,7 @@ impl SimplifyExpr {
                     match idx {
                         Some(i) => {
                             let v = props.remove(i);
-
+                            self.changed = true;
                             preserve_effects(
                                 span,
                                 match v {
@@ -331,6 +331,14 @@ impl SimplifyExpr {
                             }))),
                             ..e
                         }),
+                        None => {
+                            self.changed = true;
+                            preserve_effects(
+                                span,
+                                *undefined(span),
+                                once(Box::new(Expr::Object(ObjectLit { props, span }))),
+                            )
+                        }
                     }
                 }
                 _ => Expr::Member(MemberExpr {
