@@ -1,5 +1,6 @@
 arguments/arguments_in_arrow_func_1/input.js
 arguments/arguments_in_arrow_func_2/input.js
+arguments/modified/input.js
 arguments/replace_index_keep_fargs_strict/input.js
 array_constructor/array_constructor/input.js
 arrays/length/input.js
@@ -108,12 +109,15 @@ collapse_vars/issue_2313_1/input.js
 collapse_vars/issue_2425_1/input.js
 collapse_vars/issue_2425_2/input.js
 collapse_vars/issue_2425_3/input.js
+collapse_vars/issue_2571_1/input.js
+collapse_vars/issue_2858/input.js
 collapse_vars/issue_2873_1/input.js
 collapse_vars/issue_2873_2/input.js
 collapse_vars/issue_2878/input.js
 collapse_vars/issue_2891_1/input.js
 collapse_vars/issue_2891_2/input.js
 collapse_vars/issue_2908/input.js
+collapse_vars/issue_2914_1/input.js
 collapse_vars/issue_2931/input.js
 collapse_vars/issue_2954_1/input.js
 collapse_vars/may_throw_1/input.js
@@ -125,6 +129,7 @@ collapse_vars/return_2/input.js
 collapse_vars/return_3/input.js
 collapse_vars/return_4/input.js
 collapse_vars/side_effects_property/input.js
+collapse_vars/switch_case_2/input.js
 collapse_vars/switch_case_3/input.js
 collapse_vars/var_side_effects_1/input.js
 comments/preserve_comments_by_default/input.js
@@ -566,6 +571,7 @@ reduce_vars/conditional_nested_3/input.js
 reduce_vars/const_expr_1/input.js
 reduce_vars/const_expr_2/input.js
 reduce_vars/defun_assign/input.js
+reduce_vars/defun_reference/input.js
 reduce_vars/defun_var_2/input.js
 reduce_vars/delay_def_lhs/input.js
 reduce_vars/do_while/input.js
