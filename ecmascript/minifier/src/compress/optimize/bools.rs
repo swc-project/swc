@@ -211,6 +211,10 @@ impl Optimizer {
 
     /// This method converts `!1` to `0`.
     pub(super) fn optimize_expr_in_bool_ctx(&mut self, n: &mut Expr) {
+        if !self.options.bools {
+            return;
+        }
+
         match n {
             Expr::Unary(UnaryExpr {
                 span,
