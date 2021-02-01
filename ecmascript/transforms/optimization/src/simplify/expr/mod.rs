@@ -54,6 +54,7 @@ struct SimplifyExpr {
     changed: bool,
     /// Uninitializd variables.
     vars: Vec<VarDeclarator>,
+    is_arg_of_update: bool,
 }
 
 impl CompilerPass for SimplifyExpr {
@@ -74,6 +75,10 @@ impl Repeated for SimplifyExpr {
 
 impl SimplifyExpr {
     fn fold_member_expr(&mut self, e: MemberExpr) -> Expr {
+        if self.is_arg_of_update {
+            return Expr::Member(e);
+        }
+
         #[derive(Clone, PartialEq, Eq)]
         enum KnownOp {
             /// [a, b].length
@@ -1153,6 +1158,20 @@ impl Fold for SimplifyExpr {
     #[inline]
     fn fold_opt_chain_expr(&mut self, n: OptChainExpr) -> OptChainExpr {
         n
+    fn fold_stmt(&mut self, s: Stmt) -> Stmt {
+        let old = self.is_arg_of_update;
+        self.is_arg_of_update = false;
+        let s = s.fold_children_with(self);
+        self.is_arg_of_update = old;
+        s
+    }
+
+    fn fold_update_expr(&mut self, n: UpdateExpr) -> UpdateExpr {
+        let old = self.is_arg_of_update;
+        self.is_arg_of_update = true;
+        let arg = n.arg.fold_with(self);
+        self.is_arg_of_update = old;
+        UpdateExpr { arg, ..n }
     }
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
