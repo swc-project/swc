@@ -754,19 +754,19 @@ impl Optimizer {
         }
     }
 
-    fn try_removing_block(&mut self, s: &mut Stmt) {
+    fn try_removing_block(&mut self, s: &mut Stmt, unwrap_more: bool) {
         match s {
-            Stmt::Block(s) => {
+            Stmt::Block(bs) => {
                 // Remove nested blocks
-                if s.stmts.len() == 1 {
-                    if let Stmt::Block(block) = &mut s.stmts[0] {
+                if bs.stmts.len() == 1 {
+                    if let Stmt::Block(block) = &mut bs.stmts[0] {
                         log::trace!("optimizer: Removing nested block");
                         self.changed = true;
-                        s.stmts = block.stmts.take();
+                        bs.stmts = block.stmts.take();
                     }
                 }
 
-                for stmt in &mut s.stmts {
+                for stmt in &mut bs.stmts {
                     if let Stmt::Block(block) = &stmt {
                         if block.stmts.is_empty() {
                             self.changed = true;
@@ -775,12 +775,27 @@ impl Optimizer {
                         }
                     }
                 }
+
+                if unwrap_more && bs.stmts.len() == 1 {
+                    if let Stmt::Block(block) = &mut bs.stmts[0] {
+                        if block.stmts.len() == 1 {
+                            match &block.stmts[0] {
+                                Stmt::Expr(..) | Stmt::If(..) => {
+                                    *s = block.stmts[0].take();
+                                    log::trace!("optimizer: Unwrapping block stmt as expr stmt");
+                                    self.changed = true;
+                                }
+                                _ => {}
+                            }
+                        }
+                    }
+                }
             }
 
             Stmt::If(s) => {
-                self.try_removing_block(&mut s.cons);
+                self.try_removing_block(&mut s.cons, true);
                 if let Some(alt) = &mut s.alt {
-                    self.try_removing_block(alt);
+                    self.try_removing_block(alt, true);
                 }
             }
 
@@ -1181,7 +1196,7 @@ impl VisitMut for Optimizer {
             _ => {}
         }
 
-        self.try_removing_block(n);
+        self.try_removing_block(n, false);
 
         self.compress_if_without_alt(n);
 
