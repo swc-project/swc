@@ -32,6 +32,9 @@ pub(crate) struct VarUsageInfo {
     /// `false` if it's only used.
     pub declared: bool,
 
+    /// `true` if the enclosing function defines this variable as a parameter.
+    pub declared_as_fn_param: bool,
+
     pub assign_count: usize,
     pub usage_count: usize,
 
@@ -75,6 +78,9 @@ impl ScopeData {
                     e.get_mut().reassigned |= var_info.reassigned;
                     e.get_mut().has_property_access |= var_info.has_property_access;
                     e.get_mut().exported |= var_info.exported;
+
+                    e.get_mut().declared |= var_info.declared;
+                    e.get_mut().declared_as_fn_param |= var_info.declared_as_fn_param;
 
                     // If a var is registered at a parent scope, it means that it's delcared before
                     // usages.
@@ -246,13 +252,23 @@ impl Visit for UsageAnalyzer {
     fn visit_pat(&mut self, n: &Pat, _: &dyn Node) {
         n.visit_children_with(self);
 
+        let Ctx {
+            in_left_of_for_loop,
+            in_pat_of_param,
+            ..
+        } = self.ctx;
+
         match n {
             Pat::Ident(i) => {
                 if self.ctx.in_pat_of_var_decl || self.ctx.in_pat_of_param {
-                    self.declare_decl(i, self.ctx.in_pat_of_var_decl_with_init);
+                    let v = self.declare_decl(i, self.ctx.in_pat_of_var_decl_with_init);
 
-                    if self.ctx.in_left_of_for_loop {
-                        self.data.vars.entry(i.to_id()).or_default().reassigned = true;
+                    if in_pat_of_param {
+                        v.declared_as_fn_param = true;
+                    }
+
+                    if in_left_of_for_loop {
+                        v.reassigned = true;
                     }
                 } else {
                     self.report_usage(i, true);
