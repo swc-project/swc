@@ -760,9 +760,19 @@ impl Optimizer {
                 // Remove nested blocks
                 if s.stmts.len() == 1 {
                     if let Stmt::Block(block) = &mut s.stmts[0] {
-                        log::trace!("optimizer: Removing nested blocks");
+                        log::trace!("optimizer: Removing nested block");
                         self.changed = true;
                         s.stmts = block.stmts.take();
+                    }
+                }
+
+                for stmt in &mut s.stmts {
+                    if let Stmt::Block(block) = &stmt {
+                        if block.stmts.is_empty() {
+                            self.changed = true;
+                            log::trace!("optimizer: Removing empty block");
+                            *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                        }
                     }
                 }
             }
