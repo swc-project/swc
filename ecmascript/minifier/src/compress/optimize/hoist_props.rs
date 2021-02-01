@@ -22,6 +22,8 @@ impl Optimizer {
                     return;
                 }
 
+                // TODO: Abort if unknown property is used.
+
                 match n.init.as_deref() {
                     Some(Expr::Object(init)) => {
                         for prop in &init.props {
