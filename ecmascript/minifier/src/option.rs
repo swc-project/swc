@@ -28,6 +28,12 @@ pub struct MangleOptions {
     #[serde(default, alias = "toplevel")]
     pub top_level: bool,
 
+    #[serde(default, alias = "keep_classnames")]
+    pub keep_class_names: bool,
+
+    #[serde(default, alias = "keep_fnames")]
+    pub keep_fn_names: bool,
+
     #[serde(default, alias = "ie8")]
     pub ie8: bool,
 }
