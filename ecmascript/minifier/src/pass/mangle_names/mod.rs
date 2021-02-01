@@ -1,3 +1,4 @@
+use self::preserver::idents_to_preserve;
 use super::compute_char_freq::CharFreqInfo;
 use crate::analyzer::analyze;
 use crate::analyzer::ScopeData;
@@ -11,10 +12,10 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::Id;
 use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
+
+mod preserver;
 
 pub fn name_mangler(options: MangleOptions, _char_freq_info: CharFreqInfo) -> impl VisitMut {
     Mangler {
@@ -57,29 +58,20 @@ impl Mangler {
     }
 }
 
-struct Perserver {
-    options: MangleOptions,
-    preserved: FxHashSet<Id>,
-}
-
-impl Visit for Perserver {
-    noop_visit_type!();
-
-    fn visit_fn_decl(&mut self, n: &FnDecl, _: &dyn Node) {}
-}
-
 impl VisitMut for Mangler {
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, n: &mut Module) {
         let data = analyze(&*n);
         self.data = Some(data);
+        self.preserved = idents_to_preserve(self.options.clone(), n);
         n.visit_mut_children_with(self);
     }
 
     fn visit_mut_script(&mut self, n: &mut Script) {
         let data = analyze(&*n);
         self.data = Some(data);
+        self.preserved = idents_to_preserve(self.options.clone(), n);
         n.visit_mut_children_with(self);
     }
 
