@@ -816,7 +816,11 @@ impl Optimizer {
             Stmt::If(s) => {
                 self.try_removing_block(&mut s.cons, true);
                 let can_remove_block_of_alt = match &*s.cons {
-                    Stmt::Expr(..) | Stmt::If(..) | Stmt::Block(..) => true,
+                    Stmt::Expr(..) | Stmt::If(..) => true,
+                    Stmt::Block(bs) if bs.stmts.len() == 1 => match &bs.stmts[0] {
+                        Stmt::For(..) => true,
+                        _ => false,
+                    },
                     _ => false,
                 };
                 if can_remove_block_of_alt {
