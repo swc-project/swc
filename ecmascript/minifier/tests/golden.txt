@@ -22,6 +22,10 @@ arrow/concise_method_with_super/input.js
 arrow/issue_2271/input.js
 arrow/issue_3092a/input.js
 arrow/no_leading_parentheses/input.js
+ascii/ascii_only_false_identifier_es2015/input.js
+ascii/ascii_only_false_identifier_es5/input.js
+ascii/ascii_only_true_identifier_es2015/input.js
+ascii/ascii_only_true_identifier_es5/input.js
 asm/asm_function_expression/input.js
 asm/asm_nested_functions/input.js
 asm/asm_toplevel/input.js
@@ -87,8 +91,10 @@ collapse_vars/issue_1537_destructuring_2/input.js
 collapse_vars/issue_1537_destructuring_3/input.js
 collapse_vars/issue_1537_destructuring_for_in/input.js
 collapse_vars/issue_1537_destructuring_for_of/input.js
+collapse_vars/issue_1605_1/input.js
 collapse_vars/issue_2203_1/input.js
 collapse_vars/issue_2203_3/input.js
+collapse_vars/issue_2313_1/input.js
 collapse_vars/issue_2425_1/input.js
 collapse_vars/issue_2425_2/input.js
 collapse_vars/issue_2425_3/input.js
@@ -111,6 +117,7 @@ collapse_vars/side_effects_property/input.js
 collapse_vars/switch_case_3/input.js
 collapse_vars/var_side_effects_1/input.js
 comments/preserve_comments_by_default/input.js
+comments/print_every_comment_only_once/input.js
 comparing/keep_comparisons/input.js
 concat_strings/concat_2/input.js
 concat_strings/concat_3/input.js
@@ -497,6 +504,7 @@ object/concise_generators/input.js
 object/concise_methods/input.js
 object/concise_methods_and_keyword_names/input.js
 object/concise_methods_with_computed_property/input.js
+object/concise_methods_with_computed_property2/input.js
 object/concise_methods_with_various_property_names/input.js
 object/getter_setter/input.js
 object/getter_setter_with_computed_value/input.js
@@ -669,6 +677,7 @@ sequences/delete_seq_6/input.js
 sequences/func_def_2/input.js
 sequences/func_def_5/input.js
 sequences/issue_1685/input.js
+sequences/issue_2313/input.js
 sequences/lift_sequences_3/input.js
 sequences/lift_sequences_4/input.js
 sequences/lift_sequences_5/input.js
@@ -752,6 +761,7 @@ unicode/unicode_escaped_identifier_2015/input.js
 unicode/unicode_escaped_identifier_es5_as_is/input.js
 unicode/unicode_escaped_identifier_safari/input.js
 unicode/unicode_identifier_ascii_only/input.js
+unicode/unicode_parse_variables/input.js
 unicode/unicode_props_safari/input.js
 unicode/unicode_string_literals/input.js
 unsafe_symbols/unsafe_symbols_1/input.js
@@ -763,6 +773,7 @@ yield/empty_generator_as_parameter_without_side_effects/input.js
 yield/generator_yield_undefined/input.js
 yield/generators/input.js
 yield/generators_yield/input.js
+yield/generators_yield_assign/input.js
 yield/issue_2832/input.js
 yield/issue_t60/input.js
 yield/yield_as_ES5_property/input.js
