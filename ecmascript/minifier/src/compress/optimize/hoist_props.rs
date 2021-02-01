@@ -11,6 +11,59 @@ impl Optimizer {
 
         match &mut n.name {
             Pat::Ident(name) => {
+                // If a variable is initialized multiple time, we currently don't do anything
+                // smart.
+                if !self
+                    .data
+                    .as_ref()
+                    .and_then(|data| data.vars.get(&name.to_id()).map(|v| !v.reassigned))
+                    .unwrap_or(false)
+                {
+                    return;
+                }
+
+                match n.init.as_deref() {
+                    Some(Expr::Object(init)) => {
+                        for prop in &init.props {
+                            let prop = match prop {
+                                PropOrSpread::Spread(_) => continue,
+                                PropOrSpread::Prop(prop) => prop,
+                            };
+
+                            match &**prop {
+                                Prop::KeyValue(p) => {
+                                    let value = match &*p.value {
+                                        Expr::Lit(..) => p.value.clone(),
+                                        _ => continue,
+                                    };
+
+                                    match &p.key {
+                                        PropName::Str(s) => {
+                                            log::trace!(
+                                                "hoist_props: Storing a varaible to inline \
+                                                 properties"
+                                            );
+                                            self.simple_props
+                                                .insert((name.to_id(), s.value.clone()), value);
+                                        }
+                                        PropName::Ident(i) => {
+                                            log::trace!(
+                                                "hoist_props: Storing a varaible to inline \
+                                                 properties"
+                                            );
+                                            self.simple_props
+                                                .insert((name.to_id(), i.sym.clone()), value);
+                                        }
+                                        _ => {}
+                                    }
+                                }
+                                _ => {}
+                            }
+                        }
+                    }
+                    _ => {}
+                }
+
                 // If the variable is used multiple time, just ignore it.
                 if !self
                     .data
@@ -60,6 +113,23 @@ impl Optimizer {
                         self.changed = true;
                         log::trace!("hoist_props: Inlined a property");
                         return;
+                    }
+
+                    if member.computed {
+                        return;
+                    }
+
+                    match &*member.prop {
+                        Expr::Ident(prop) => {
+                            if let Some(value) =
+                                self.simple_props.get(&(obj.to_id(), prop.sym.clone()))
+                            {
+                                log::trace!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
+                                self.changed = true;
+                                *e = *value.clone()
+                            }
+                        }
+                        _ => {}
                     }
                 }
                 _ => {}
