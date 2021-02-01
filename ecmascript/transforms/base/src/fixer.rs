@@ -39,6 +39,9 @@ enum Context {
     ForcedExpr {
         is_var_decl: bool,
     },
+
+    /// Always treated as expr and comma does not matter.
+    FreeExpr,
 }
 
 impl Default for Context {
@@ -241,7 +244,7 @@ impl VisitMut for Fixer<'_> {
             MemberExpr { obj, .. }
                 if obj.as_expr().map(|e| e.is_object()).unwrap_or(false)
                     && match self.ctx {
-                        Context::ForcedExpr { is_var_decl: true } => true,
+                        Context::ForcedExpr { .. } => true,
                         _ => false,
                     } => {}
 
@@ -274,7 +277,10 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
+        let old = self.ctx;
+        self.ctx = Context::FreeExpr;
         n.visit_mut_children_with(self);
+        self.ctx = old;
 
         match *n.arg {
             Expr::Assign(..)
@@ -612,7 +618,7 @@ impl Fixer<'_> {
                 callee: ExprOrSuper::Expr(ref mut callee),
                 ..
             }) if callee.is_fn_expr() => match self.ctx {
-                Context::ForcedExpr { .. } => {}
+                Context::ForcedExpr { .. } | Context::FreeExpr => {}
 
                 Context::Callee { is_new: true } => self.wrap(e),
 
