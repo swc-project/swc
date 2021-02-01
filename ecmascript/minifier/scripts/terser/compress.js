@@ -193,6 +193,9 @@ async function run_compress_tests() {
                 return false;
             }
             var options = defaults(test.options, {});
+            if (test.mangle) {
+                fs.writeFileSync(path.join(dir, 'mangle.json'), JSON.stringify(test.mangle));
+            }
             if (test.mangle && test.mangle.properties && test.mangle.properties.keep_quoted) {
                 var quoted_props = test.mangle.properties.reserved;
                 if (!Array.isArray(quoted_props)) quoted_props = [];
