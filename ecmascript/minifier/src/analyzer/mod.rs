@@ -1,6 +1,8 @@
 use self::ctx::Ctx;
 use fxhash::FxHashMap;
+use fxhash::FxHashSet;
 use std::collections::hash_map::Entry;
+use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
@@ -39,7 +41,10 @@ pub(crate) struct VarUsageInfo {
     pub usage_count: usize,
 
     pub reassigned: bool,
+
     pub has_property_access: bool,
+    pub accessed_props: FxHashSet<JsWord>,
+
     pub exported: bool,
     /// True if used **above** the declaration. (Not eval order).
     pub used_above_decl: bool,
@@ -359,11 +364,16 @@ impl Visit for UsageAnalyzer {
             ExprOrSuper::Super(_) => {}
             ExprOrSuper::Expr(obj) => match &**obj {
                 Expr::Ident(obj) => {
-                    self.data
-                        .vars
-                        .entry(obj.to_id())
-                        .or_default()
-                        .has_property_access = true;
+                    let v = self.data.vars.entry(obj.to_id()).or_default();
+                    v.has_property_access = true;
+                    if !e.computed {
+                        match &*e.prop {
+                            Expr::Ident(prop) => {
+                                v.accessed_props.insert(prop.sym.clone());
+                            }
+                            _ => {}
+                        }
+                    }
                 }
                 _ => {}
             },
