@@ -30,7 +30,7 @@ impl Optimizer {
                     None => return,
                 };
 
-                match self.vars.insert(name.to_id(), init) {
+                match self.vars_for_prop_hoisting.insert(name.to_id(), init) {
                     Some(prev) => {
                         panic!(
                             "two variable with same name and same span hygiene is \
@@ -55,7 +55,7 @@ impl Optimizer {
             ExprOrSuper::Super(_) => {}
             ExprOrSuper::Expr(obj) => match &**obj {
                 Expr::Ident(obj) => {
-                    if let Some(value) = self.vars.remove(&obj.to_id()) {
+                    if let Some(value) = self.vars_for_prop_hoisting.remove(&obj.to_id()) {
                         member.obj = ExprOrSuper::Expr(value);
                         self.changed = true;
                         log::trace!("hoist_props: Inlined a property");

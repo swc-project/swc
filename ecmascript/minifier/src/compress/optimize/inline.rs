@@ -89,9 +89,9 @@ impl Optimizer {
                             i.span.ctxt
                         );
                         if self.options.inline {
-                            self.vars.insert(i.to_id(), init.take());
+                            self.vars_for_inlining.insert(i.to_id(), init.take());
                         } else {
-                            self.vars.insert(i.to_id(), init.clone());
+                            self.vars_for_inlining.insert(i.to_id(), init.clone());
                         }
                         return;
                     }
@@ -109,7 +109,7 @@ impl Optimizer {
                             i.span.ctxt
                         );
                         self.changed = true;
-                        self.vars.insert(i.to_id(), init.take());
+                        self.vars_for_inlining.insert(i.to_id(), init.take());
                         return;
                     }
                 }
@@ -200,7 +200,7 @@ impl Optimizer {
                     }
                     _ => {}
                 }
-                self.vars.insert(
+                self.vars_for_inlining.insert(
                     i.to_id(),
                     match decl.take() {
                         Decl::Class(c) => Box::new(Expr::Class(ClassExpr {

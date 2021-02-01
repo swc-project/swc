@@ -62,7 +62,8 @@ pub(super) fn optimizer(options: CompressOptions) -> impl VisitMut + Repeated {
         changed: false,
         options,
         lits: Default::default(),
-        vars: Default::default(),
+        vars_for_inlining: Default::default(),
+        vars_for_prop_hoisting: Default::default(),
         simple_props: Default::default(),
         simple_array_values: Default::default(),
         typeofs: Default::default(),
@@ -106,7 +107,8 @@ struct Optimizer {
     options: CompressOptions,
     /// Cheap to clone.
     lits: FxHashMap<Id, Box<Expr>>,
-    vars: FxHashMap<Id, Box<Expr>>,
+    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+    vars_for_prop_hoisting: FxHashMap<Id, Box<Expr>>,
     simple_props: FxHashMap<(Id, JsWord), Box<Expr>>,
     simple_array_values: FxHashMap<(Id, usize), Box<Expr>>,
     typeofs: FxHashMap<Id, JsWord>,
@@ -1151,7 +1153,7 @@ impl VisitMut for Optimizer {
                         log::trace!("inline: Replacing a variable with cheap expression");
 
                         *n = *value;
-                    } else if let Some(value) = self.vars.remove(&i.to_id()) {
+                    } else if let Some(value) = self.vars_for_inlining.remove(&i.to_id()) {
                         self.changed = true;
                         log::trace!("inline: Replacing a variable with an expression");
 
