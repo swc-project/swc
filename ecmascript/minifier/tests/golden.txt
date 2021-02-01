@@ -129,8 +129,6 @@ concat_strings/concat_3/input.js
 concat_strings/concat_4/input.js
 concat_strings/concat_5/input.js
 concat_strings/concat_6/input.js
-concat_strings/concat_7/input.js
-concat_strings/concat_8/input.js
 conditionals/cond_1/input.js
 conditionals/cond_2/input.js
 conditionals/cond_3/input.js
@@ -189,7 +187,6 @@ destructuring/unused/input.js
 directives/class_directives_compression/input.js
 directives/simple_statement_is_not_a_directive/input.js
 drop_console/drop_console_1/input.js
-drop_unused/assign_chain/input.js
 drop_unused/const_assign/input.js
 drop_unused/delete_assign_1/input.js
 drop_unused/double_assign_3/input.js
@@ -197,24 +194,17 @@ drop_unused/drop_fnames/input.js
 drop_unused/drop_toplevel_all/input.js
 drop_unused/issue_1709/input.js
 drop_unused/issue_2063/input.js
-drop_unused/issue_2136_1/input.js
-drop_unused/issue_3146_1/input.js
-drop_unused/issue_3146_2/input.js
-drop_unused/issue_3146_3/input.js
-drop_unused/issue_3146_4/input.js
 drop_unused/issue_t161_top_retain_1/input.js
 drop_unused/issue_t161_top_retain_2/input.js
 drop_unused/issue_t161_top_retain_7/input.js
 drop_unused/reassign_const/input.js
 drop_unused/unused_block_decls/input.js
 drop_unused/unused_block_decls_in_catch/input.js
-drop_unused/unused_circular_references_3/input.js
 drop_unused/unused_keep_harmony_destructuring/input.js
 drop_unused/unused_keep_setter_arg/input.js
 drop_unused/unused_nested_function/input.js
 drop_unused/unused_var_in_catch/input.js
 drop_unused/used_block_decls_in_catch/input.js
-drop_unused/used_var_in_catch/input.js
 drop_unused/vardef_value/input.js
 evaluate/global_hasOwnProperty/input.js
 evaluate/in_boolean_context/input.js
@@ -380,7 +370,6 @@ issue_143/tranformation_sort_order_lesser_or_equal/input.js
 issue_143/tranformation_sort_order_unequal/input.js
 issue_1588/runtime_error/input.js
 issue_1588/support_ie8/input.js
-issue_1639/issue_1639_3/input.js
 issue_1673/side_effects_catch/input.js
 issue_1673/side_effects_else/input.js
 issue_1673/side_effects_finally/input.js
@@ -433,8 +422,6 @@ issue_597/beautify_on_2/input.js
 issue_640/drop_value/input.js
 issue_640/issue_1254_negate_iife_nested/input.js
 issue_640/issue_1254_negate_iife_true/input.js
-issue_640/negate_iife_1/input.js
-issue_640/negate_iife_3/input.js
 issue_640/negate_iife_3_off/input.js
 issue_640/negate_iife_5_off/input.js
 issue_751/negate_booleans_2/input.js
@@ -734,7 +721,6 @@ template_string/keep_raw_content_in_tagged_template/input.js
 template_string/respect_inline_script/input.js
 template_string/return_template_string_with_trailing_backslash/input.js
 template_string/semicolons/input.js
-template_string/sequence_1/input.js
 template_string/tagged_call_with_invalid_escape/input.js
 template_string/tagged_call_with_invalid_escape_2/input.js
 template_string/tagged_template_function_inline_1/input.js
@@ -749,7 +735,6 @@ template_string/tagged_template_with_invalid_escape/input.js
 template_string/template_ending_with_newline/input.js
 template_string/template_starting_with_newline/input.js
 template_string/template_string_prefixes/input.js
-template_string/template_string_with_many_segments/input.js
 template_string/template_strings/input.js
 template_string/template_strings_ascii_only/input.js
 template_string/template_strings_without_ascii_only/input.js
