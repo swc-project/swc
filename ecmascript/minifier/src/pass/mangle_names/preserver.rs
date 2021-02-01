@@ -2,6 +2,7 @@ use crate::option::MangleOptions;
 use fxhash::FxHashSet;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_utils::find_ids;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::Id;
 use swc_ecma_visit::noop_visit_type;
@@ -108,6 +109,24 @@ impl Visit for Preserver {
         n.obj.visit_with(n, self);
         if n.computed {
             n.prop.visit_with(n, self);
+        }
+    }
+
+    fn visit_export_decl(&mut self, n: &ExportDecl, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        match &n.decl {
+            Decl::Class(c) => {
+                self.preserved.insert(c.ident.to_id());
+            }
+            Decl::Fn(f) => {
+                self.preserved.insert(f.ident.to_id());
+            }
+            Decl::Var(v) => {
+                let ids: Vec<Id> = find_ids(&v.decls);
+                self.preserved.extend(ids);
+            }
+            _ => {}
         }
     }
 }
