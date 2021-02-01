@@ -776,6 +776,14 @@ impl Optimizer {
                     }
                 }
             }
+
+            Stmt::If(s) => {
+                self.try_removing_block(&mut s.cons);
+                if let Some(alt) = &mut s.alt {
+                    self.try_removing_block(alt);
+                }
+            }
+
             _ => {}
         }
 
