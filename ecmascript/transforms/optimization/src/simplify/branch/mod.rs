@@ -804,8 +804,8 @@ impl Fold for Remover {
 
             Stmt::For(s)
                 if match &s.test {
-                    Some(test) => match &**test {
-                        Expr::Lit(Lit::Bool(Bool { value: false, .. })) => true,
+                    Some(test) => match test.as_pure_bool() {
+                        Known(false) => true,
                         _ => false,
                     },
                     _ => false,
