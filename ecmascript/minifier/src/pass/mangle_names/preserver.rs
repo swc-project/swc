@@ -83,7 +83,15 @@ impl Visit for Preserver {
     fn visit_var_declarator(&mut self, n: &VarDeclarator, _: &dyn Node) {
         n.visit_children_with(self);
 
-        if self.options.keep_fn_names || (self.in_top_level && !self.options.top_level) {
+        if self.in_top_level && !self.options.top_level {
+            let old = self.should_preserve;
+            self.should_preserve = true;
+            n.name.visit_with(n, self);
+            self.should_preserve = old;
+            return;
+        }
+
+        if self.options.keep_fn_names {
             match n.init.as_deref() {
                 Some(Expr::Fn(..)) | Some(Expr::Arrow(..)) => {
                     let old = self.should_preserve;
