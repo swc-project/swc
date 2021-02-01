@@ -82,11 +82,11 @@ pub fn optimize(
         // TODO: store `mangle`
     }
 
-    if options.mangle.is_some() {
+    if let Some(mangle) = &options.mangle {
         // TODO: base54.reset();
 
         let char_freq_info = compute_char_freq(&m);
-        m.visit_mut_with(&mut name_mangler(char_freq_info));
+        m.visit_mut_with(&mut name_mangler(mangle.clone(), char_freq_info));
     }
 
     if let Some(ref mut _t) = timings {

@@ -1,6 +1,7 @@
 use super::compute_char_freq::CharFreqInfo;
 use crate::analyzer::analyze;
 use crate::analyzer::ScopeData;
+use crate::option::MangleOptions;
 use crate::util::base54::base54;
 use fxhash::FxHashMap;
 use swc_atoms::JsWord;
@@ -12,12 +13,16 @@ use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
-pub fn name_mangler(_char_freq_info: CharFreqInfo) -> impl VisitMut {
-    Mangler::default()
+pub fn name_mangler(options: MangleOptions, _char_freq_info: CharFreqInfo) -> impl VisitMut {
+    Mangler {
+        options,
+        ..Default::default()
+    }
 }
 
 #[derive(Debug, Default)]
 struct Mangler {
+    options: MangleOptions,
     n: usize,
     renamed: FxHashMap<Id, JsWord>,
     data: Option<ScopeData>,

@@ -18,7 +18,7 @@ pub struct MinifyOptions {
     pub enclose: bool,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct MangleOptions {
