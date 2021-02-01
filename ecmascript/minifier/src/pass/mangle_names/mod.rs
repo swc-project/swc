@@ -4,12 +4,15 @@ use crate::analyzer::ScopeData;
 use crate::option::MangleOptions;
 use crate::util::base54::base54;
 use fxhash::FxHashMap;
+use fxhash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::Id;
 use swc_ecma_visit::noop_visit_mut_type;
+use swc_ecma_visit::noop_visit_type;
+use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
@@ -24,12 +27,17 @@ pub fn name_mangler(options: MangleOptions, _char_freq_info: CharFreqInfo) -> im
 struct Mangler {
     options: MangleOptions,
     n: usize,
+    preserved: FxHashSet<Id>,
     renamed: FxHashMap<Id, JsWord>,
     data: Option<ScopeData>,
 }
 
 impl Mangler {
     fn rename(&mut self, i: &mut Ident) {
+        if self.preserved.contains(&i.to_id()) {
+            return;
+        }
+
         if let Some(var) = self.data.as_ref().unwrap().vars.get(&i.to_id()) {
             if !var.declared {
                 return;
@@ -47,6 +55,17 @@ impl Mangler {
         i.sym = sym.clone();
         self.n += 1;
     }
+}
+
+struct Perserver {
+    options: MangleOptions,
+    preserved: FxHashSet<Id>,
+}
+
+impl Visit for Perserver {
+    noop_visit_type!();
+
+    fn visit_fn_decl(&mut self, n: &FnDecl, _: &dyn Node) {}
 }
 
 impl VisitMut for Mangler {
