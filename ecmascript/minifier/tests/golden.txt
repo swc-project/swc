@@ -64,6 +64,7 @@ big_int/regression_big_int_hex_lower_with_e/input.js
 block_scope/let_statement/input.js
 blocks/issue_1672_for/input.js
 blocks/issue_1672_for_strict/input.js
+blocks/issue_1672_if/input.js
 blocks/issue_1672_if_strict/input.js
 blocks/issue_2946_else_const/input.js
 class_properties/class_expression_not_constant/input.js
