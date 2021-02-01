@@ -33,6 +33,7 @@ use Value::Known;
 mod arguments;
 mod arrows;
 mod bools;
+mod collapse_vars;
 mod conditionals;
 mod dead_code;
 mod evaluate;
