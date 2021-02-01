@@ -373,7 +373,7 @@ fn fixture(input: PathBuf) {
             expected
         );
 
-        {
+        if env::var("UPDATE").map(|s| s == "1").unwrap_or(false) {
             let output = output.clone();
             let _ = catch_unwind(|| {
                 NormalizedOutput::from(output)
