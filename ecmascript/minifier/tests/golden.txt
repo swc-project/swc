@@ -110,6 +110,7 @@ collapse_vars/issue_2425_1/input.js
 collapse_vars/issue_2425_2/input.js
 collapse_vars/issue_2425_3/input.js
 collapse_vars/issue_2571_1/input.js
+collapse_vars/issue_2571_2/input.js
 collapse_vars/issue_2858/input.js
 collapse_vars/issue_2873_1/input.js
 collapse_vars/issue_2873_2/input.js
@@ -655,6 +656,7 @@ reduce_vars/redefine_arguments_2/input.js
 reduce_vars/redefine_arguments_3/input.js
 reduce_vars/toplevel_off/input.js
 reduce_vars/toplevel_on/input.js
+reduce_vars/try_abort/input.js
 reduce_vars/unary_delete/input.js
 reduce_vars/unsafe_evaluate_array_3/input.js
 reduce_vars/unsafe_evaluate_array_5/input.js
