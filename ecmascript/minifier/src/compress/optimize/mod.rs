@@ -778,9 +778,14 @@ impl Optimizer {
 
                 if unwrap_more && bs.stmts.len() == 1 {
                     match &bs.stmts[0] {
-                        Stmt::Expr(..) | Stmt::If(..) | Stmt::Decl(Decl::Fn(..)) => {
+                        Stmt::Expr(..) | Stmt::If(..) => {
                             *s = bs.stmts[0].take();
-                            log::trace!("optimizer: Unwrapping block stmt as expr stmt");
+                            log::trace!("optimizer: Unwrapping block stmt");
+                            self.changed = true;
+                        }
+                        Stmt::Decl(Decl::Fn(..)) if !self.ctx.in_strict => {
+                            *s = bs.stmts[0].take();
+                            log::trace!("optimizer: Unwrapping block stmt in non strcit mode");
                             self.changed = true;
                         }
                         _ => {}
