@@ -5,10 +5,9 @@ import printStats from "./print_stats.ts";
 
 const args = parse(Deno.args);
 
-if (args.stats) {
-  printStats();
-} else {
-  printQuestion("How many times have you played");
+console.log(args.stats);
 
-  console.log(await getNumericInput());
-}
+printStats();
+printQuestion("How many times have you played");
+
+console.log(await getNumericInput());
