@@ -3549,92 +3549,6 @@ const mod = function() {
     const Duration1 = Duration;
     const Duration2 = Duration;
     const Duration3 = Duration;
-    function dayDiff(earlier, later) {
-        const utcDayStart = (dt)=>dt.toUTC(0, {
-                keepLocalTime: true
-            }).startOf("day").valueOf()
-        , ms = utcDayStart(later) - utcDayStart(earlier);
-        return Math.floor(Duration.fromMillis(ms).as("days"));
-    }
-    function highOrderDiffs(cursor, later, units) {
-        const differs = [
-            [
-                "years",
-                (a, b)=>b.year - a.year
-            ],
-            [
-                "months",
-                (a, b)=>b.month - a.month + (b.year - a.year) * 12
-            ],
-            [
-                "weeks",
-                (a, b)=>{
-                    const days = dayDiff(a, b);
-                    return (days - days % 7) / 7;
-                }
-            ],
-            [
-                "days",
-                dayDiff
-            ]
-        ];
-        const results = {
-        };
-        let lowestOrder, highWater;
-        for (const [unit2, differ] of differs){
-            if (units.indexOf(unit2) >= 0) {
-                lowestOrder = unit2;
-                let delta = differ(cursor, later);
-                highWater = cursor.plus({
-                    [unit2]: delta
-                });
-                if (highWater > later) {
-                    cursor = cursor.plus({
-                        [unit2]: delta - 1
-                    });
-                    delta -= 1;
-                } else {
-                    cursor = highWater;
-                }
-                results[unit2] = delta;
-            }
-        }
-        return [
-            cursor,
-            results,
-            highWater,
-            lowestOrder
-        ];
-    }
-    const __default12 = function(earlier, later, units, opts) {
-        let [cursor, results, highWater, lowestOrder] = highOrderDiffs(earlier, later, units);
-        const remainingMillis = later - cursor;
-        const lowerOrderUnits = units.filter((u)=>[
-                "hours",
-                "minutes",
-                "seconds",
-                "milliseconds"
-            ].indexOf(u) >= 0
-        );
-        if (lowerOrderUnits.length === 0) {
-            if (highWater < later) {
-                highWater = cursor.plus({
-                    [lowestOrder]: 1
-                });
-            }
-            if (highWater !== cursor) {
-                results[lowestOrder] = (results[lowestOrder] || 0) + remainingMillis / (highWater - cursor);
-            }
-        }
-        const duration = Duration.fromObject(Object.assign(results, opts));
-        if (lowerOrderUnits.length > 0) {
-            return Duration.fromMillis(remainingMillis, opts).shiftTo(...lowerOrderUnits).plus(duration);
-        } else {
-            return duration;
-        }
-    };
-    const __default13 = __default12;
-    const diff = __default12;
     const Duration4 = Duration;
     const Duration5 = Duration;
     function friendlyDuration(durationish) {
@@ -3715,8 +3629,8 @@ const mod = function() {
             };
         }
     }
-    const __default14 = Info;
-    const __default15 = Info;
+    const __default12 = Info;
+    const __default13 = Info;
     const Info1 = Info;
     const Info2 = Info;
     const Info3 = Info;
@@ -3761,8 +3675,8 @@ const mod = function() {
             return true;
         }
     }
-    const __default16 = LocalZone;
-    const __default17 = LocalZone;
+    const __default14 = LocalZone;
+    const __default15 = LocalZone;
     const LocalZone1 = LocalZone;
     const LocalZone2 = LocalZone;
     const LocalZone3 = LocalZone;
@@ -3815,8 +3729,8 @@ const mod = function() {
             IANAZone.resetCache();
         }
     }
-    const __default18 = Settings;
-    const __default19 = Settings;
+    const __default16 = Settings;
+    const __default17 = Settings;
     const Settings1 = Settings;
     const Settings2 = Settings;
     const Settings3 = Settings;
@@ -4231,12 +4145,99 @@ const mod = function() {
             return this.locale === other.locale && this.numberingSystem === other.numberingSystem && this.outputCalendar === other.outputCalendar;
         }
     }
-    const __default20 = Locale;
-    const __default21 = Locale;
+    const __default18 = Locale;
+    const __default19 = Locale;
     const Locale1 = Locale;
     const Locale2 = Locale;
     const Locale3 = Locale;
     const Locale4 = Locale;
+    function dayDiff(earlier, later) {
+        const utcDayStart = (dt2)=>dt2.toUTC(0, {
+                keepLocalTime: true
+            }).startOf("day").valueOf()
+        , ms = utcDayStart(later) - utcDayStart(earlier);
+        return Math.floor(Duration.fromMillis(ms).as("days"));
+    }
+    function highOrderDiffs(cursor, later, units) {
+        const differs = [
+            [
+                "years",
+                (a, b)=>b.year - a.year
+            ],
+            [
+                "months",
+                (a, b)=>b.month - a.month + (b.year - a.year) * 12
+            ],
+            [
+                "weeks",
+                (a, b)=>{
+                    const days = dayDiff(a, b);
+                    return (days - days % 7) / 7;
+                }
+            ],
+            [
+                "days",
+                dayDiff
+            ]
+        ];
+        const results = {
+        };
+        let lowestOrder, highWater;
+        for (const [unit2, differ] of differs){
+            if (units.indexOf(unit2) >= 0) {
+                lowestOrder = unit2;
+                let delta = differ(cursor, later);
+                highWater = cursor.plus({
+                    [unit2]: delta
+                });
+                if (highWater > later) {
+                    cursor = cursor.plus({
+                        [unit2]: delta - 1
+                    });
+                    delta -= 1;
+                } else {
+                    cursor = highWater;
+                }
+                results[unit2] = delta;
+            }
+        }
+        return [
+            cursor,
+            results,
+            highWater,
+            lowestOrder
+        ];
+    }
+    function __default20(earlier, later, units, opts4) {
+        let [cursor, results, highWater, lowestOrder] = highOrderDiffs(earlier, later, units);
+        const remainingMillis = later - cursor;
+        const lowerOrderUnits = units.filter((u)=>[
+                "hours",
+                "minutes",
+                "seconds",
+                "milliseconds"
+            ].indexOf(u) >= 0
+        );
+        if (lowerOrderUnits.length === 0) {
+            if (highWater < later) {
+                highWater = cursor.plus({
+                    [lowestOrder]: 1
+                });
+            }
+            if (highWater !== cursor) {
+                results[lowestOrder] = (results[lowestOrder] || 0) + remainingMillis / (highWater - cursor);
+            }
+        }
+        const duration = Duration.fromObject(Object.assign(results, opts4));
+        if (lowerOrderUnits.length > 0) {
+            return Duration.fromMillis(remainingMillis, opts4).shiftTo(...lowerOrderUnits).plus(duration);
+        } else {
+            return duration;
+        }
+    }
+    const __default21 = __default20;
+    const __default22 = __default20;
+    const diff = __default20;
     const numberingSystems = {
         arab: "[\u0660-\u0669]",
         arabext: "[\u06F0-\u06F9]",

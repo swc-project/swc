@@ -3595,92 +3595,6 @@ const mod = function() {
     const Duration1 = __default17;
     const Duration2 = Duration1;
     const Duration3 = __default17;
-    function dayDiff(earlier, later) {
-        const utcDayStart = (dt)=>dt.toUTC(0, {
-                keepLocalTime: true
-            }).startOf("day").valueOf()
-        , ms = utcDayStart(later) - utcDayStart(earlier);
-        return Math.floor(Duration3.fromMillis(ms).as("days"));
-    }
-    function highOrderDiffs(cursor, later, units) {
-        const differs = [
-            [
-                "years",
-                (a, b)=>b.year - a.year
-            ],
-            [
-                "months",
-                (a, b)=>b.month - a.month + (b.year - a.year) * 12
-            ],
-            [
-                "weeks",
-                (a, b)=>{
-                    const days = dayDiff(a, b);
-                    return (days - days % 7) / 7;
-                }
-            ],
-            [
-                "days",
-                dayDiff
-            ]
-        ];
-        const results = {
-        };
-        let lowestOrder, highWater;
-        for (const [unit2, differ] of differs){
-            if (units.indexOf(unit2) >= 0) {
-                lowestOrder = unit2;
-                let delta = differ(cursor, later);
-                highWater = cursor.plus({
-                    [unit2]: delta
-                });
-                if (highWater > later) {
-                    cursor = cursor.plus({
-                        [unit2]: delta - 1
-                    });
-                    delta -= 1;
-                } else {
-                    cursor = highWater;
-                }
-                results[unit2] = delta;
-            }
-        }
-        return [
-            cursor,
-            results,
-            highWater,
-            lowestOrder
-        ];
-    }
-    const __default18 = function(earlier, later, units, opts) {
-        let [cursor, results, highWater, lowestOrder] = highOrderDiffs(earlier, later, units);
-        const remainingMillis = later - cursor;
-        const lowerOrderUnits = units.filter((u)=>[
-                "hours",
-                "minutes",
-                "seconds",
-                "milliseconds"
-            ].indexOf(u) >= 0
-        );
-        if (lowerOrderUnits.length === 0) {
-            if (highWater < later) {
-                highWater = cursor.plus({
-                    [lowestOrder]: 1
-                });
-            }
-            if (highWater !== cursor) {
-                results[lowestOrder] = (results[lowestOrder] || 0) + remainingMillis / (highWater - cursor);
-            }
-        }
-        const duration = Duration3.fromObject(Object.assign(results, opts));
-        if (lowerOrderUnits.length > 0) {
-            return Duration3.fromMillis(remainingMillis, opts).shiftTo(...lowerOrderUnits).plus(duration);
-        } else {
-            return duration;
-        }
-    };
-    const __default19 = __default18;
-    const diff = __default19;
     const Duration4 = __default17;
     const Duration5 = __default17;
     function friendlyDuration(durationish) {
@@ -3761,11 +3675,11 @@ const mod = function() {
             };
         }
     }
-    const __default20 = Info;
-    const __default21 = __default20;
-    const Info1 = __default21;
+    const __default18 = Info;
+    const __default19 = __default18;
+    const Info1 = __default19;
     const Info2 = Info1;
-    const Info3 = __default21;
+    const Info3 = __default19;
     let now = ()=>Date.now()
     , defaultZone = null, defaultLocale = null, defaultNumberingSystem = null, defaultOutputCalendar = null, throwOnInvalid = false;
     const hasIntl3 = hasIntl1;
@@ -3807,11 +3721,11 @@ const mod = function() {
             return true;
         }
     }
-    const __default22 = LocalZone;
-    const __default23 = __default22;
-    const LocalZone1 = __default23;
+    const __default20 = LocalZone;
+    const __default21 = __default20;
+    const LocalZone1 = __default21;
     const LocalZone2 = LocalZone1;
-    const LocalZone3 = __default23;
+    const LocalZone3 = __default21;
     class Settings {
         static get now() {
             return now;
@@ -3861,15 +3775,15 @@ const mod = function() {
             IANAZone4.resetCache();
         }
     }
-    const __default24 = Settings;
-    const __default25 = __default24;
-    const Settings1 = __default25;
+    const __default22 = Settings;
+    const __default23 = __default22;
+    const Settings1 = __default23;
     const Settings2 = Settings1;
-    const Settings3 = __default25;
-    const Settings4 = __default25;
-    const Settings5 = __default25;
-    const Settings6 = __default25;
-    const Settings7 = __default25;
+    const Settings3 = __default23;
+    const Settings4 = __default23;
+    const Settings5 = __default23;
+    const Settings6 = __default23;
+    const Settings7 = __default23;
     let intlDTCache = {
     };
     function getCachedDTF(locString, opts = {
@@ -4277,12 +4191,99 @@ const mod = function() {
             return this.locale === other.locale && this.numberingSystem === other.numberingSystem && this.outputCalendar === other.outputCalendar;
         }
     }
-    const __default26 = Locale;
+    const __default24 = Locale;
+    const __default25 = __default24;
+    const Locale1 = __default25;
+    const Locale2 = __default25;
+    const Locale3 = __default25;
+    const Locale4 = __default25;
+    function dayDiff(earlier, later) {
+        const utcDayStart = (dt2)=>dt2.toUTC(0, {
+                keepLocalTime: true
+            }).startOf("day").valueOf()
+        , ms = utcDayStart(later) - utcDayStart(earlier);
+        return Math.floor(Duration3.fromMillis(ms).as("days"));
+    }
+    function highOrderDiffs(cursor, later, units) {
+        const differs = [
+            [
+                "years",
+                (a, b)=>b.year - a.year
+            ],
+            [
+                "months",
+                (a, b)=>b.month - a.month + (b.year - a.year) * 12
+            ],
+            [
+                "weeks",
+                (a, b)=>{
+                    const days = dayDiff(a, b);
+                    return (days - days % 7) / 7;
+                }
+            ],
+            [
+                "days",
+                dayDiff
+            ]
+        ];
+        const results = {
+        };
+        let lowestOrder, highWater;
+        for (const [unit2, differ] of differs){
+            if (units.indexOf(unit2) >= 0) {
+                lowestOrder = unit2;
+                let delta = differ(cursor, later);
+                highWater = cursor.plus({
+                    [unit2]: delta
+                });
+                if (highWater > later) {
+                    cursor = cursor.plus({
+                        [unit2]: delta - 1
+                    });
+                    delta -= 1;
+                } else {
+                    cursor = highWater;
+                }
+                results[unit2] = delta;
+            }
+        }
+        return [
+            cursor,
+            results,
+            highWater,
+            lowestOrder
+        ];
+    }
+    function __default26(earlier, later, units, opts4) {
+        let [cursor, results, highWater, lowestOrder] = highOrderDiffs(earlier, later, units);
+        const remainingMillis = later - cursor;
+        const lowerOrderUnits = units.filter((u)=>[
+                "hours",
+                "minutes",
+                "seconds",
+                "milliseconds"
+            ].indexOf(u) >= 0
+        );
+        if (lowerOrderUnits.length === 0) {
+            if (highWater < later) {
+                highWater = cursor.plus({
+                    [lowestOrder]: 1
+                });
+            }
+            if (highWater !== cursor) {
+                results[lowestOrder] = (results[lowestOrder] || 0) + remainingMillis / (highWater - cursor);
+            }
+        }
+        const duration = Duration3.fromObject(Object.assign(results, opts4));
+        if (lowerOrderUnits.length > 0) {
+            return Duration3.fromMillis(remainingMillis, opts4).shiftTo(...lowerOrderUnits).plus(duration);
+        } else {
+            return duration;
+        }
+    }
     const __default27 = __default26;
-    const Locale1 = __default27;
-    const Locale2 = __default27;
-    const Locale3 = __default27;
-    const Locale4 = __default27;
+    const __default28 = __default27;
+    const diff = __default28;
     const numberingSystems = {
         arab: "[\u0660-\u0669]",
         arabext: "[\u06F0-\u06F9]",
