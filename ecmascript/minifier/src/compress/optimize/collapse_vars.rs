@@ -47,7 +47,14 @@ impl Optimizer {
                                     // Objects are handled by other passes.
                                     return None;
                                 }
-                                _ => {}
+                                _ => {
+                                    let mut chekcer = InlinabiltyChecker { can_inline: true };
+                                    last.init
+                                        .visit_with(&Invalid { span: DUMMY_SP }, &mut chekcer);
+                                    if !chekcer.can_inline {
+                                        return None;
+                                    }
+                                }
                             }
 
                             match &last.name {
@@ -122,6 +129,18 @@ impl Optimizer {
         *stmts = new;
 
         //
+    }
+}
+
+struct InlinabiltyChecker {
+    can_inline: bool,
+}
+
+impl Visit for InlinabiltyChecker {
+    noop_visit_type!();
+
+    fn visit_update_expr(&mut self, n: &UpdateExpr, _: &dyn Node) {
+        self.can_inline = false;
     }
 }
 
