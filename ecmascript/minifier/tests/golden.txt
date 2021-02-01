@@ -18,6 +18,7 @@ arrow/arrow_functions_without_body/input.js
 arrow/arrow_unused/input.js
 arrow/arrow_unused_toplevel/input.js
 arrow/arrow_with_regexp/input.js
+arrow/async_identifiers/input.js
 arrow/concise_method_with_super/input.js
 arrow/issue_2271/input.js
 arrow/issue_3092a/input.js
@@ -44,7 +45,9 @@ async/async_generator_class_method/input.js
 async/async_generator_function/input.js
 async/async_generator_object_literal_method/input.js
 async/async_generator_static_class_method/input.js
+async/async_identifiers/input.js
 async/async_object_literal/input.js
+async/async_shorthand_property/input.js
 async/await_precedence/input.js
 async/await_precedence_call/input.js
 async/await_precedence_prop/input.js
@@ -240,6 +243,7 @@ expansions/expand_expression_arguments/input.js
 expansions/expand_parameters/input.js
 expansions/object_spread_regression/input.js
 export/beautify/input.js
+export/dynamic_import/input.js
 export/export_default_anonymous_async_function/input.js
 export/export_default_anonymous_class/input.js
 export/export_default_anonymous_function/input.js
@@ -302,6 +306,7 @@ harmony/export_statement_mangling/input.js
 harmony/fat_arrow_as_param/input.js
 harmony/format_methods/input.js
 harmony/import_all_statement/input.js
+harmony/import_meta/input.js
 harmony/import_statement/input.js
 harmony/issue_2028/input.js
 harmony/issue_2345/input.js
@@ -311,6 +316,7 @@ harmony/new_target/input.js
 harmony/number_literals/input.js
 harmony/object_literal_method_using_arguments/input.js
 harmony/regression_cannot_destructure/input.js
+harmony/shorthand_keywords/input.js
 harmony/typeof_arrow_functions/input.js
 hoist/dont_hoist_var_destructurings/input.js
 hoist/hoist_funs/input.js
@@ -717,17 +723,25 @@ template_string/allow_null_character/input.js
 template_string/check_escaped_chars/input.js
 template_string/do_not_optimize_tagged_template_1/input.js
 template_string/do_not_optimize_tagged_template_2/input.js
+template_string/es2018_revision_of_template_escapes_1/input.js
 template_string/issue_1856/input.js
 template_string/issue_1856_ascii_only/input.js
+template_string/keep_raw_content_in_tagged_template/input.js
 template_string/respect_inline_script/input.js
 template_string/return_template_string_with_trailing_backslash/input.js
 template_string/semicolons/input.js
 template_string/sequence_1/input.js
+template_string/tagged_call_with_invalid_escape/input.js
+template_string/tagged_call_with_invalid_escape_2/input.js
 template_string/tagged_template_function_inline_1/input.js
 template_string/tagged_template_function_inline_2/input.js
 template_string/tagged_template_function_inline_3/input.js
 template_string/tagged_template_function_inline_5/input.js
 template_string/tagged_template_parens/input.js
+template_string/tagged_template_valid_strict_legacy_octal/input.js
+template_string/tagged_template_with_comment/input.js
+template_string/tagged_template_with_ill_formed_unicode_escape/input.js
+template_string/tagged_template_with_invalid_escape/input.js
 template_string/template_ending_with_newline/input.js
 template_string/template_starting_with_newline/input.js
 template_string/template_string_prefixes/input.js
@@ -777,6 +791,8 @@ yield/generators_yield_assign/input.js
 yield/issue_2832/input.js
 yield/issue_t60/input.js
 yield/yield_as_ES5_property/input.js
+yield/yield_as_identifier_in_function_in_generator/input.js
+yield/yield_as_identifier_outside_strict_mode/input.js
 yield/yield_before_punctuators/input.js
 yield/yield_dot/input.js
 yield/yield_optimize_expression/input.js
