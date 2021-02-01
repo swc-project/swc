@@ -271,6 +271,7 @@ export/keyword_valid_2/input.js
 export/keyword_valid_3/input.js
 export/trailing_comma/input.js
 functions/deduplicate_parenthesis/input.js
+functions/function_returning_constant_literal/input.js
 functions/inline_false/input.js
 functions/inline_loop_1/input.js
 functions/inline_loop_3/input.js
@@ -560,6 +561,7 @@ properties/join_object_assignments_3/input.js
 properties/join_object_assignments_NaN_1/input.js
 properties/join_object_assignments_null_0/input.js
 properties/keep_properties/input.js
+properties/lhs_prop_1/input.js
 properties/native_prototype_lhs/input.js
 reduce_vars/accessor_1/input.js
 reduce_vars/accessor_2/input.js
