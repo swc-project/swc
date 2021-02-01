@@ -382,6 +382,24 @@ impl Visit for UsageAnalyzer {
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
+    fn visit_try_stmt(&mut self, n: &TryStmt, _: &dyn Node) {
+        let ctx = Ctx {
+            in_cond: true,
+            ..self.ctx
+        };
+
+        n.visit_children_with(&mut *self.with_ctx(ctx));
+    }
+
+    fn visit_catch_clause(&mut self, n: &CatchClause, _: &dyn Node) {
+        let ctx = Ctx {
+            in_cond: true,
+            ..self.ctx
+        };
+
+        n.visit_children_with(&mut *self.with_ctx(ctx));
+    }
+
     fn visit_call_expr(&mut self, n: &CallExpr, _: &dyn Node) {
         n.visit_children_with(self);
 
