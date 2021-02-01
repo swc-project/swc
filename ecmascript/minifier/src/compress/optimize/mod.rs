@@ -1035,10 +1035,12 @@ impl VisitMut for Optimizer {
                     //
                     if let Some(value) = self.lits.get(&i.to_id()).cloned() {
                         self.changed = true;
+                        log::trace!("inline: Replacing a variable with cheap expression");
 
                         *n = *value;
                     } else if let Some(value) = self.vars.remove(&i.to_id()) {
                         self.changed = true;
+                        log::trace!("inline: Replacing a variable with an expression");
 
                         *n = *value;
                     }
