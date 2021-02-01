@@ -97,7 +97,7 @@ impl Compressor<'_> {
             return;
         }
 
-        if self.options.hoist_props {
+        if self.options.hoist_props || self.options.reduce_vars {
             stmts.visit_mut_with(&mut property_hoister());
         }
 
