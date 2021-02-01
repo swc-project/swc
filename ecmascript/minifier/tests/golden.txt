@@ -63,6 +63,7 @@ big_int/big_int_negative/input.js
 big_int/big_int_octal/input.js
 big_int/big_int_positive/input.js
 big_int/regression_big_int_hex_lower_with_e/input.js
+block_scope/do_not_remove_anon_blocks_if_they_have_decls/input.js
 block_scope/let_statement/input.js
 blocks/issue_1664/input.js
 blocks/issue_1672_for/input.js
