@@ -929,9 +929,18 @@ where
                                         ))
                                     }
                                     None => {
-                                        let init = Expr::Fn(f);
+                                        // We should inject a function declaration because of
+                                        // dependencies.
+                                        //
+                                        // See: https://github.com/denoland/deno/issues/9346
+                                        let ident = private_ident!("default");
+                                        new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                                            ident: ident.clone(),
+                                            function: f.function,
+                                            declare: false,
+                                        }))));
 
-                                        new.push(init.assign_to(local.clone()).into_module_item(
+                                        new.push(ident.assign_to(local.clone()).into_module_item(
                                             injected_ctxt,
                                             "prepare -> export default decl -> function -> \
                                              without ident",
