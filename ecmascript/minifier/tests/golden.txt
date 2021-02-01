@@ -765,6 +765,7 @@ yield/generators/input.js
 yield/generators_yield/input.js
 yield/issue_2832/input.js
 yield/issue_t60/input.js
+yield/yield_as_ES5_property/input.js
 yield/yield_before_punctuators/input.js
 yield/yield_dot/input.js
 yield/yield_optimize_expression/input.js
