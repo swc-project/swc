@@ -36,11 +36,13 @@ impl Optimizer {
                             return None;
                         }
 
+                        // We only inline for some subset of statements.
                         match r {
-                            Stmt::Expr(..) => {}
+                            Stmt::Expr(..) | Stmt::Return(..) => {}
                             _ => return None,
                         }
-                        //
+
+                        // We only touch last variable delcarator.
                         if let Some(last) = v.decls.last() {
                             match last.init.as_deref()? {
                                 Expr::Object(..) => {
@@ -132,6 +134,7 @@ impl Optimizer {
     }
 }
 
+/// Checks inlinabilty of variable initializer.
 struct InlinabiltyChecker {
     can_inline: bool,
 }
@@ -183,7 +186,14 @@ impl<'a> Visit for SimpleUsageFinder<'a> {
         }
     }
 
-    fn visit_update_expr(&mut self, n: &UpdateExpr, _: &dyn Node) {}
+    fn visit_update_expr(&mut self, _: &UpdateExpr, _: &dyn Node) {}
+
+    fn visit_expr_or_spread(&mut self, n: &ExprOrSpread, _: &dyn Node) {
+        if n.spread.is_some() {
+            return;
+        }
+        n.visit_children_with(self);
+    }
 
     fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
         e.right.visit_with(e, self);
