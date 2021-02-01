@@ -216,6 +216,7 @@ drop_unused/unused_keep_setter_arg/input.js
 drop_unused/unused_nested_function/input.js
 drop_unused/unused_var_in_catch/input.js
 drop_unused/used_block_decls_in_catch/input.js
+drop_unused/used_var_in_catch/input.js
 drop_unused/vardef_value/input.js
 evaluate/global_hasOwnProperty/input.js
 evaluate/in_boolean_context/input.js
@@ -386,6 +387,10 @@ issue_1673/side_effects_finally/input.js
 issue_1673/side_effects_label/input.js
 issue_1673/side_effects_switch/input.js
 issue_1704/mangle_catch_ie8/input.js
+issue_1704/mangle_catch_redef_1/input.js
+issue_1704/mangle_catch_redef_1_ie8/input.js
+issue_1704/mangle_catch_redef_2/input.js
+issue_1704/mangle_catch_redef_2_ie8/input.js
 issue_1704/mangle_catch_var_ie8/input.js
 issue_1833/iife_for/input.js
 issue_1833/iife_for_in/input.js
@@ -559,6 +564,7 @@ reduce_vars/array_forof_1/input.js
 reduce_vars/array_forof_2/input.js
 reduce_vars/boolean_binary_assign/input.js
 reduce_vars/booleans/input.js
+reduce_vars/catch_var/input.js
 reduce_vars/cond_assign/input.js
 reduce_vars/conditional_chain_call/input.js
 reduce_vars/conditional_chain_call_direct/input.js
@@ -571,6 +577,12 @@ reduce_vars/conditional_nested_3/input.js
 reduce_vars/const_expr_1/input.js
 reduce_vars/const_expr_2/input.js
 reduce_vars/defun_assign/input.js
+reduce_vars/defun_catch_1/input.js
+reduce_vars/defun_catch_2/input.js
+reduce_vars/defun_catch_3/input.js
+reduce_vars/defun_catch_4/input.js
+reduce_vars/defun_catch_5/input.js
+reduce_vars/defun_catch_6/input.js
 reduce_vars/defun_reference/input.js
 reduce_vars/defun_var_2/input.js
 reduce_vars/delay_def_lhs/input.js
@@ -661,6 +673,10 @@ regexp/regexp_simple/input.js
 regexp/regexp_slashes/input.js
 rename/issue_2120_2/input.js
 rename/mangle_catch_ie8/input.js
+rename/mangle_catch_redef_1/input.js
+rename/mangle_catch_redef_1_ie8/input.js
+rename/mangle_catch_redef_2/input.js
+rename/mangle_catch_redef_2_ie8/input.js
 rename/mangle_catch_var_ie8/input.js
 sandbox/console_log/input.js
 sequences/delete_seq_1/input.js
