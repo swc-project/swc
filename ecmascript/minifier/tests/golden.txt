@@ -342,6 +342,7 @@ hoist_props/toplevel_let/input.js
 hoist_props/toplevel_var/input.js
 hoist_vars/issue_2295/input.js
 hoist_vars/regression_toplevel_args/input.js
+hoist_vars/sequences/input.js
 hoist_vars/sequences_funs/input.js
 hoist_vars/statements/input.js
 hoist_vars/statements_funs/input.js
