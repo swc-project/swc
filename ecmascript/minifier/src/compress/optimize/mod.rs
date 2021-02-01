@@ -777,6 +777,11 @@ impl Optimizer {
     fn try_removing_block(&mut self, s: &mut Stmt, unwrap_more: bool) {
         match s {
             Stmt::Block(bs) => {
+                if bs.stmts.len() == 0 {
+                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    return;
+                }
+
                 // Remove nested blocks
                 if bs.stmts.len() == 1 {
                     if let Stmt::Block(block) = &mut bs.stmts[0] {
