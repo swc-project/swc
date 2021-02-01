@@ -24,6 +24,12 @@ pub struct MinifyOptions {
 pub struct MangleOptions {
     #[serde(default, alias = "properties")]
     pub props: bool,
+
+    #[serde(default, alias = "toplevel")]
+    pub top_level: bool,
+
+    #[serde(default, alias = "ie8")]
+    pub ie8: bool,
 }
 
 /// https://terser.org/docs/api-reference.html#compress-options

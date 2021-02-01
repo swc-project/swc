@@ -215,7 +215,7 @@ fn ecma_default() -> usize {
     5
 }
 
-fn parse_config(s: &str) -> CompressOptions {
+fn parse_compressor_config(s: &str) -> CompressOptions {
     let c: TestOptions =
         serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
 
@@ -289,7 +289,20 @@ fn fixture(input: PathBuf) {
     let config = dir.join("config.json");
     let config = read_to_string(&config).expect("failed to read config.json");
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
-    let config: CompressOptions = parse_config(&config);
+    let config: CompressOptions = parse_compressor_config(&config);
+
+    let mangle = dir.join("mangle.json");
+    let mangle = read_to_string(&mangle).ok();
+    if let Some(mangle) = &mangle {
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Mangle config"),
+            mangle
+        );
+    }
+
+    let mangle =
+        mangle.map(|s| serde_json::from_str(&s).expect("failed to deserialize mangle.json"));
 
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).expect("failed to load input.js");
@@ -323,6 +336,7 @@ fn fixture(input: PathBuf) {
             None,
             &MinifyOptions {
                 compress: Some(config),
+                mangle,
                 ..Default::default()
             },
         )
