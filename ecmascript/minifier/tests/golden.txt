@@ -172,6 +172,7 @@ dead_code/issue_2666/input.js
 dead_code/issue_2701/input.js
 dead_code/issue_2929/input.js
 dead_code/throw_assignment/input.js
+dead_code/try_catch_finally/input.js
 debugger/keep_debugger/input.js
 defaults/defaults_false_evaluate_true/input.js
 defaults/defaults_true_conditionals_false/input.js
@@ -325,6 +326,8 @@ harmony/shorthand_keywords/input.js
 harmony/typeof_arrow_functions/input.js
 hoist/dont_hoist_var_destructurings/input.js
 hoist/hoist_funs/input.js
+hoist/hoist_no_destructurings/input.js
+hoist/hoist_vars/input.js
 hoist_props/contains_this_3/input.js
 hoist_props/direct_access_1/input.js
 hoist_props/direct_access_3/input.js
