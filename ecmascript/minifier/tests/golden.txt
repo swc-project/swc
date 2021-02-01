@@ -10,7 +10,6 @@ arrays/spread_with_variable_as_last_element/input.js
 arrays/spread_with_variable_at_front/input.js
 arrays/spread_with_variable_at_front_after_elisions/input.js
 arrays/spread_with_variable_in_middle/input.js
-arrow/arrow_binding_pattern/input.js
 arrow/arrow_binding_pattern_strict/input.js
 arrow/arrow_function_with_single_parameter_with_default/input.js
 arrow/arrow_functions_with_body/input.js
@@ -55,7 +54,6 @@ async/for_await_of/input.js
 async/for_await_of_2/input.js
 async/issue_2344_1/input.js
 async/issue_2344_2/input.js
-async/issue_3079/input.js
 async/issue_3079_2/input.js
 big_int/big_int_binary/input.js
 big_int/big_int_hex/input.js
@@ -63,7 +61,6 @@ big_int/big_int_negative/input.js
 big_int/big_int_octal/input.js
 big_int/big_int_positive/input.js
 big_int/regression_big_int_hex_lower_with_e/input.js
-block_scope/do_not_remove_anon_blocks_if_they_have_decls/input.js
 block_scope/let_statement/input.js
 blocks/issue_1664/input.js
 blocks/issue_1672_for/input.js
@@ -142,7 +139,6 @@ conditionals/cond_1/input.js
 conditionals/cond_2/input.js
 conditionals/cond_3/input.js
 conditionals/cond_4/input.js
-conditionals/cond_5/input.js
 conditionals/cond_7_1/input.js
 conditionals/cond_8/input.js
 conditionals/cond_8b/input.js
@@ -272,7 +268,6 @@ functions/inline_loop_1/input.js
 functions/inline_loop_3/input.js
 functions/inline_loop_4/input.js
 functions/issue_2097/input.js
-functions/issue_2604_1/input.js
 functions/issue_2663_1/input.js
 functions/issue_2737_1/input.js
 functions/issue_2737_2/input.js
@@ -330,7 +325,6 @@ hoist_props/issue_2462/input.js
 hoist_props/issue_2473_3/input.js
 hoist_props/issue_2508_3/input.js
 hoist_props/issue_2508_4/input.js
-hoist_props/issue_3021/input.js
 hoist_props/issue_3071_3/input.js
 hoist_props/single_use/input.js
 hoist_props/toplevel_const/input.js
@@ -387,10 +381,6 @@ issue_1673/side_effects_finally/input.js
 issue_1673/side_effects_label/input.js
 issue_1673/side_effects_switch/input.js
 issue_1704/mangle_catch_ie8/input.js
-issue_1704/mangle_catch_redef_1/input.js
-issue_1704/mangle_catch_redef_1_ie8/input.js
-issue_1704/mangle_catch_redef_2/input.js
-issue_1704/mangle_catch_redef_2_ie8/input.js
 issue_1704/mangle_catch_var_ie8/input.js
 issue_1833/iife_for/input.js
 issue_1833/iife_for_in/input.js
@@ -411,7 +401,6 @@ issue_2001/export_toplevel_2/input.js
 issue_2652/unary_postfix/input.js
 issue_267/issue_267/input.js
 issue_269/issue_269_dangers/input.js
-issue_269/issue_269_in_scope/input.js
 issue_281/issue_1254_negate_iife_nested/input.js
 issue_281/issue_1254_negate_iife_true/input.js
 issue_281/negate_iife_3/input.js
@@ -427,7 +416,6 @@ issue_2989/inline_script_on/input.js
 issue_427/no_wrap_func_args/input.js
 issue_427/wrap_func_args/input.js
 issue_59/keep_continue/input.js
-issue_597/NaN_and_Infinity_should_not_be_replaced_when_they_are_redefined/input.js
 issue_597/beautify_off_2/input.js
 issue_597/beautify_on_2/input.js
 issue_640/drop_value/input.js
@@ -519,8 +507,6 @@ object/issue_206/input.js
 object/issue_2554_5/input.js
 object/methods_and_getters_with_keep_quoted_props_enabled/input.js
 object/property_with_operator_value/input.js
-object/property_with_unprintable/input.js
-object/property_with_unprintable_ascii_only/input.js
 object/property_with_unprintable_ascii_only_static/input.js
 object/use_shorthand_opportunity/input.js
 object/variable_as_computed_property/input.js
@@ -568,7 +554,6 @@ reduce_vars/array_forof_1/input.js
 reduce_vars/array_forof_2/input.js
 reduce_vars/boolean_binary_assign/input.js
 reduce_vars/booleans/input.js
-reduce_vars/catch_var/input.js
 reduce_vars/cond_assign/input.js
 reduce_vars/conditional_chain_call/input.js
 reduce_vars/conditional_chain_call_direct/input.js
@@ -670,10 +655,6 @@ regexp/regexp_simple/input.js
 regexp/regexp_slashes/input.js
 rename/issue_2120_2/input.js
 rename/mangle_catch_ie8/input.js
-rename/mangle_catch_redef_1/input.js
-rename/mangle_catch_redef_1_ie8/input.js
-rename/mangle_catch_redef_2/input.js
-rename/mangle_catch_redef_2_ie8/input.js
 rename/mangle_catch_var_ie8/input.js
 sandbox/console_log/input.js
 sequences/delete_seq_1/input.js
