@@ -21,6 +21,7 @@ impl Optimizer {
                     .windows(2)
                     .any(|stmts| match (stmts[0].as_stmt(), stmts[1].as_stmt()) {
                         (Some(Stmt::Decl(Decl::Var(l))), Some(r)) => match r {
+                            Stmt::Decl(Decl::Var(r)) => l.kind == r.kind,
                             Stmt::For(ForStmt { init: None, .. }) => l.kind == VarDeclKind::Var,
                             Stmt::For(ForStmt {
                                 init:
@@ -87,7 +88,11 @@ impl Optimizer {
                             new.push(T::from_stmt(Stmt::For(stmt)))
                         }
                     },
-                    _ => {}
+                    _ => {
+                        new.extend(cur.take().map(Decl::Var).map(Stmt::Decl).map(T::from_stmt));
+
+                        new.push(T::from_stmt(stmt))
+                    }
                 },
                 Err(item) => {
                     new.extend(cur.take().map(Decl::Var).map(Stmt::Decl).map(T::from_stmt));
@@ -96,6 +101,8 @@ impl Optimizer {
                 }
             }
         }
+
+        new.extend(cur.take().map(Decl::Var).map(Stmt::Decl).map(T::from_stmt));
 
         *stmts = new;
     }
