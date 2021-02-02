@@ -4,14 +4,15 @@
 //! them something other. Don't call methods like `visit_mut_script` nor
 //! `visit_mut_module_items`.
 
+use crate::analyzer::UsageAnalyzer;
 use crate::compress::compressor;
+use crate::hygiene::unique_marker;
 use crate::option::MinifyOptions;
 use crate::pass::compute_char_freq::compute_char_freq;
 use crate::pass::expand_names::name_expander;
+use crate::pass::hygiene::hygiene_optimizer;
 use crate::pass::mangle_names::name_mangler;
 use crate::pass::mangle_props::property_mangler;
-use analyzer::UsageAnalyzer;
-use pass::hygiene::hygiene_optimizer;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::Invalid;
 use swc_ecma_ast::Module;
@@ -23,6 +24,7 @@ use timing::Timings;
 mod analyzer;
 mod compress;
 mod debug;
+mod hygiene;
 pub mod option;
 mod pass;
 pub mod timing;
@@ -34,6 +36,7 @@ pub fn optimize(
     mut timings: Option<&mut Timings>,
     options: &MinifyOptions,
 ) -> Module {
+    m.visit_mut_with(&mut unique_marker());
     // TODO: reserve_quoted_keys
     // if (quoted_props && options.mangle.properties.keep_quoted !== "strict") {
     //     reserve_quoted_keys(toplevel, quoted_props);
