@@ -1,4 +1,4 @@
-use crate::analyzer::ScopeData;
+use crate::analyzer::ProgramData;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
@@ -9,12 +9,12 @@ use swc_ecma_visit::VisitMutWith;
 /// Create a hygiene optimizer.
 ///
 /// Hygiene optimizer removes span hygiene without renaming if it's ok to do so.
-pub(crate) fn hygiene_optimizer(data: ScopeData) -> impl 'static + VisitMut {
+pub(crate) fn hygiene_optimizer(data: ProgramData) -> impl 'static + VisitMut {
     Optimizer { data }
 }
 
 struct Optimizer {
-    data: ScopeData,
+    data: ProgramData,
 }
 
 impl Optimizer {

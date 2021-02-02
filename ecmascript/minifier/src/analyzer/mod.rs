@@ -14,7 +14,7 @@ use swc_ecma_visit::VisitWith;
 
 mod ctx;
 
-pub(crate) fn analyze<N>(n: &N) -> ScopeData
+pub(crate) fn analyze<N>(n: &N) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer>,
 {
@@ -62,16 +62,17 @@ enum ScopeKind {
     Block,
 }
 
+/// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
-pub(crate) struct ScopeData {
+pub(crate) struct ProgramData {
     pub vars: FxHashMap<Id, VarUsageInfo>,
 
     pub has_with_stmt: bool,
     pub has_eval_call: bool,
 }
 
-impl ScopeData {
-    fn merge(&mut self, kind: ScopeKind, child: ScopeData) {
+impl ProgramData {
+    fn merge(&mut self, kind: ScopeKind, child: ProgramData) {
         self.has_with_stmt |= child.has_with_stmt;
         self.has_eval_call |= child.has_eval_call;
 
@@ -113,7 +114,7 @@ impl ScopeData {
 /// This assumes there are no two variable with same name and same span hygiene.
 #[derive(Debug, Default)]
 pub(crate) struct UsageAnalyzer {
-    pub data: ScopeData,
+    pub data: ProgramData,
     ctx: Ctx,
 }
 

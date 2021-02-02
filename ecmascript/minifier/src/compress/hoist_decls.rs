@@ -1,4 +1,4 @@
-use crate::analyzer::ScopeData;
+use crate::analyzer::ProgramData;
 use crate::analyzer::UsageAnalyzer;
 use crate::util::is_hoisted_var_decl_without_init;
 use crate::util::sort::is_sorted_by_key;
@@ -34,7 +34,7 @@ pub(super) fn decl_hoister(config: DeclHoisterConfig) -> Hoister {
 pub(super) struct Hoister {
     config: DeclHoisterConfig,
     changed: bool,
-    data: Option<ScopeData>,
+    data: Option<ProgramData>,
 }
 
 impl Repeated for Hoister {

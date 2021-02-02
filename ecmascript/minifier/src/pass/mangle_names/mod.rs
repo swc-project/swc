@@ -1,7 +1,7 @@
 use self::preserver::idents_to_preserve;
 use super::compute_char_freq::CharFreqInfo;
 use crate::analyzer::analyze;
-use crate::analyzer::ScopeData;
+use crate::analyzer::ProgramData;
 use crate::option::MangleOptions;
 use crate::util::base54::base54;
 use fxhash::FxHashMap;
@@ -30,7 +30,7 @@ struct Mangler {
     n: usize,
     preserved: FxHashSet<Id>,
     renamed: FxHashMap<Id, JsWord>,
-    data: Option<ScopeData>,
+    data: Option<ProgramData>,
 }
 
 impl Mangler {

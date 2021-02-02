@@ -1,4 +1,4 @@
-use crate::analyzer::ScopeData;
+use crate::analyzer::ProgramData;
 use crate::analyzer::UsageAnalyzer;
 use crate::option::CompressOptions;
 use crate::util::contains_leaping_yield;
@@ -113,7 +113,7 @@ struct Optimizer {
     simple_props: FxHashMap<(Id, JsWord), Box<Expr>>,
     simple_array_values: FxHashMap<(Id, usize), Box<Expr>>,
     typeofs: FxHashMap<Id, JsWord>,
-    data: Option<ScopeData>,
+    data: Option<ProgramData>,
     ctx: Ctx,
     done: Mark,
     done_ctxt: SyntaxContext,
