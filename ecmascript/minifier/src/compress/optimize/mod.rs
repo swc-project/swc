@@ -110,7 +110,7 @@ struct Optimizer {
     vars_for_inlining: FxHashMap<Id, Box<Expr>>,
     vars_for_prop_hoisting: FxHashMap<Id, Box<Expr>>,
     /// Used for `hoist_props`.
-    simple_props: FxHashMap<Id, FxHashMap<JsWord, Box<Expr>>>,
+    simple_props: FxHashMap<(Id, JsWord), Box<Expr>>,
     simple_array_values: FxHashMap<(Id, usize), Box<Expr>>,
     typeofs: FxHashMap<Id, JsWord>,
     data: Option<ScopeData>,
