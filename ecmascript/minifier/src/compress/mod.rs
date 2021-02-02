@@ -42,7 +42,11 @@ pub fn compressor(options: &CompressOptions) -> impl '_ + JsPass {
         changed: false,
     };
 
-    chain!(console_remover, Repeat::new(as_folder(compressor)))
+    chain!(
+        console_remover,
+        Repeat::new(as_folder(compressor)),
+        expr_simplifier()
+    )
 }
 
 #[derive(Debug)]
