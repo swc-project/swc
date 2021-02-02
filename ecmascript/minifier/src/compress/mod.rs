@@ -114,11 +114,11 @@ impl VisitMut for Compressor<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, n: &mut Module) {
-        dbg!(self.pass);
-
-        if self.options.passes != 0 && self.options.passes <= self.pass {
+        if self.options.passes != 0 && self.options.passes + 1 <= self.pass {
             return;
         }
+
+        dbg!(self.pass);
 
         // Temporary
         if self.pass > 10 {
