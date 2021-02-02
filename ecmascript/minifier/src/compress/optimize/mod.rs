@@ -1344,6 +1344,7 @@ impl VisitMut for Optimizer {
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         let ctx = Ctx {
             stmt_lablled: false,
+            scope: n.span.ctxt,
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
