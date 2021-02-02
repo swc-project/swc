@@ -205,6 +205,8 @@ drop_unused/drop_fnames/input.js
 drop_unused/drop_toplevel_all/input.js
 drop_unused/issue_1709/input.js
 drop_unused/issue_2063/input.js
+drop_unused/issue_3146_1/input.js
+drop_unused/issue_3146_2/input.js
 drop_unused/issue_t161_top_retain_1/input.js
 drop_unused/issue_t161_top_retain_2/input.js
 drop_unused/issue_t161_top_retain_7/input.js
@@ -369,6 +371,7 @@ issue_1041/const_pragma/input.js
 issue_1041/not_const/input.js
 issue_1044/issue_1044/input.js
 issue_1105/Infinity_in_with_scope/input.js
+issue_1105/check_drop_unused_in_peer_function/input.js
 issue_1105/with_in_global_scope/input.js
 issue_12/keep_name_of_getter/input.js
 issue_12/setter_with_operator_keys/input.js
