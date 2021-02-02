@@ -985,23 +985,13 @@ impl VisitMut for Optimizer {
     }
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
-        if self.options.unused {
-            if let Some(i) = &e.ident {
-                if let Some(data) = &self.data {
-                    let can_remove_ident = data
-                        .vars
-                        .get(&i.to_id())
-                        .map(|v| v.ref_count == 0)
-                        .unwrap_or(true);
+        self.remove_name_if_not_used(&mut e.ident);
 
-                    if can_remove_ident {
-                        self.changed = true;
-                        log::trace!("Removing ident of a function expression");
-                        e.ident = None;
-                    }
-                }
-            }
-        }
+        e.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_class_expr(&mut self, e: &mut ClassExpr) {
+        self.remove_name_if_not_used(&mut e.ident);
 
         e.visit_mut_children_with(self);
     }

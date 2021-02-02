@@ -173,6 +173,28 @@ impl Optimizer {
             },
         }
     }
+
+    pub(super) fn remove_name_if_not_used(&mut self, name: &mut Option<Ident>) {
+        if !self.options.unused {
+            return;
+        }
+
+        if let Some(i) = &name {
+            if let Some(data) = &self.data {
+                let can_remove_ident = data
+                    .vars
+                    .get(&i.to_id())
+                    .map(|v| v.ref_count == 0)
+                    .unwrap_or(true);
+
+                if can_remove_ident {
+                    self.changed = true;
+                    log::trace!("Removing ident of an class / function expression");
+                    *name = None;
+                }
+            }
+        }
+    }
 }
 
 #[derive(Debug, Default)]
