@@ -22,7 +22,52 @@ impl Optimizer {
                     return;
                 }
 
-                // TODO: Abort if unknown property is used.
+                // We should abort if unknown property is used.
+                let mut unknown_used_props = self
+                    .data
+                    .as_ref()
+                    .and_then(|data| {
+                        data.vars
+                            .get(&name.to_id())
+                            .map(|v| v.accessed_props.clone())
+                    })
+                    .unwrap_or_default();
+
+                match n.init.as_deref() {
+                    Some(Expr::Object(init)) => {
+                        for prop in &init.props {
+                            let prop = match prop {
+                                PropOrSpread::Spread(_) => continue,
+                                PropOrSpread::Prop(prop) => prop,
+                            };
+
+                            match &**prop {
+                                Prop::KeyValue(p) => {
+                                    match &*p.value {
+                                        Expr::Lit(..) => {}
+                                        _ => continue,
+                                    };
+
+                                    match &p.key {
+                                        PropName::Str(s) => {
+                                            unknown_used_props.remove(&s.value);
+                                        }
+                                        PropName::Ident(i) => {
+                                            unknown_used_props.remove(&i.sym);
+                                        }
+                                        _ => {}
+                                    }
+                                }
+                                _ => {}
+                            }
+                        }
+                    }
+                    _ => {}
+                }
+
+                if !unknown_used_props.is_empty() {
+                    return;
+                }
 
                 match n.init.as_deref() {
                     Some(Expr::Object(init)) => {
