@@ -58,6 +58,7 @@ async/issue_2344_2/input.js
 async/issue_3079_2/input.js
 big_int/big_int_binary/input.js
 big_int/big_int_hex/input.js
+big_int/big_int_math/input.js
 big_int/big_int_negative/input.js
 big_int/big_int_octal/input.js
 big_int/big_int_positive/input.js
@@ -213,6 +214,7 @@ drop_unused/issue_t161_top_retain_1/input.js
 drop_unused/issue_t161_top_retain_10/input.js
 drop_unused/issue_t161_top_retain_11/input.js
 drop_unused/issue_t161_top_retain_12/input.js
+drop_unused/issue_t161_top_retain_13/input.js
 drop_unused/issue_t161_top_retain_2/input.js
 drop_unused/issue_t161_top_retain_3/input.js
 drop_unused/issue_t161_top_retain_5/input.js
