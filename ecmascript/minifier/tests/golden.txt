@@ -215,12 +215,14 @@ drop_unused/issue_t161_top_retain_10/input.js
 drop_unused/issue_t161_top_retain_11/input.js
 drop_unused/issue_t161_top_retain_12/input.js
 drop_unused/issue_t161_top_retain_13/input.js
+drop_unused/issue_t161_top_retain_14/input.js
 drop_unused/issue_t161_top_retain_2/input.js
 drop_unused/issue_t161_top_retain_3/input.js
 drop_unused/issue_t161_top_retain_5/input.js
 drop_unused/issue_t161_top_retain_7/input.js
 drop_unused/issue_t161_top_retain_8/input.js
 drop_unused/issue_t161_top_retain_9/input.js
+drop_unused/keep_fnames/input.js
 drop_unused/reassign_const/input.js
 drop_unused/unused_block_decls/input.js
 drop_unused/unused_block_decls_in_catch/input.js
@@ -317,6 +319,7 @@ harmony/export_default_anon_class/input.js
 harmony/export_default_anon_function/input.js
 harmony/export_default_array/input.js
 harmony/export_default_class_decl/input.js
+harmony/export_default_function_decl/input.js
 harmony/export_default_object_expression/input.js
 harmony/export_module_statement/input.js
 harmony/export_statement/input.js
@@ -328,6 +331,7 @@ harmony/import_meta/input.js
 harmony/import_statement/input.js
 harmony/issue_2028/input.js
 harmony/issue_2345/input.js
+harmony/issue_2676/input.js
 harmony/issue_2794_5/input.js
 harmony/issue_3028/input.js
 harmony/issue_3061/input.js
@@ -420,9 +424,12 @@ issue_2001/export_class_1/input.js
 issue_2001/export_class_3/input.js
 issue_2001/export_default_class_1/input.js
 issue_2001/export_default_class_3/input.js
+issue_2001/export_default_func_1/input.js
+issue_2001/export_default_func_3/input.js
 issue_2001/export_default_func_ref/input.js
 issue_2001/export_func_1/input.js
 issue_2001/export_func_3/input.js
+issue_2001/export_toplevel_1/input.js
 issue_2001/export_toplevel_2/input.js
 issue_2652/unary_postfix/input.js
 issue_267/issue_267/input.js
