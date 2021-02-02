@@ -87,7 +87,7 @@ struct Ctx {
     stmt_lablled: bool,
 
     /// `true` while handling top-level export decls.
-    is_exported_decl: bool,
+    is_exported: bool,
 
     /// `true` while handling top level items.
     top_level: bool,
@@ -985,13 +985,17 @@ impl VisitMut for Optimizer {
     }
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
-        self.remove_name_if_not_used(&mut e.ident);
+        if !self.options.keep_fnames {
+            self.remove_name_if_not_used(&mut e.ident);
+        }
 
         e.visit_mut_children_with(self);
     }
 
     fn visit_mut_class_expr(&mut self, e: &mut ClassExpr) {
-        self.remove_name_if_not_used(&mut e.ident);
+        if !self.options.keep_classnames {
+            self.remove_name_if_not_used(&mut e.ident);
+        }
 
         e.visit_mut_children_with(self);
     }
@@ -1101,7 +1105,7 @@ impl VisitMut for Optimizer {
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         let ctx = Ctx {
-            is_exported_decl: false,
+            is_exported: false,
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -1260,7 +1264,7 @@ impl VisitMut for Optimizer {
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
         let ctx = Ctx {
             in_bang_arg: false,
-            is_exported_decl: false,
+            is_exported: false,
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -1443,7 +1447,15 @@ impl VisitMut for Optimizer {
 
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
         let ctx = Ctx {
-            is_exported_decl: true,
+            is_exported: true,
+            ..self.ctx
+        };
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+    }
+
+    fn visit_mut_export_default_decl(&mut self, n: &mut ExportDefaultDecl) {
+        let ctx = Ctx {
+            is_exported: true,
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
