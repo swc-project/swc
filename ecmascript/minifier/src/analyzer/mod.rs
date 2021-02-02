@@ -19,8 +19,15 @@ pub(crate) fn analyze<N>(n: &N) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer>,
 {
-    let mut v = UsageAnalyzer::default();
+    let mut v = UsageAnalyzer {
+        data: Default::default(),
+        scope: Default::default(),
+        ctx: Default::default(),
+    };
     n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    let top_scope = v.scope;
+    v.data.top = top_scope;
+
     v.data
 }
 
@@ -63,7 +70,7 @@ enum ScopeKind {
     Block,
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Clone)]
 pub(crate) struct ScopeData {
     pub has_with_stmt: bool,
     pub has_eval_call: bool,
@@ -126,9 +133,9 @@ impl ProgramData {
 }
 
 /// This assumes there are no two variable with same name and same span hygiene.
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub(crate) struct UsageAnalyzer {
-    pub data: ProgramData,
+    data: ProgramData,
     scope: ScopeData,
     ctx: Ctx,
 }

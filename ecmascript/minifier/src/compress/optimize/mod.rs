@@ -1,3 +1,4 @@
+use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
 use crate::analyzer::UsageAnalyzer;
 use crate::option::CompressOptions;
@@ -138,9 +139,7 @@ impl Optimizer {
         match self.data {
             Some(..) => {}
             None => {
-                let mut analyzer = UsageAnalyzer::default();
-                stmts.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
-                self.data = Some(analyzer.data);
+                self.data = Some(analyze(stmts));
             }
         }
 

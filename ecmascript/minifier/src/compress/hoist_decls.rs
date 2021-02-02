@@ -1,3 +1,4 @@
+use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
 use crate::analyzer::UsageAnalyzer;
 use crate::util::is_hoisted_var_decl_without_init;
@@ -55,9 +56,7 @@ impl Hoister {
     {
         match self.data {
             None => {
-                let mut analyzer = UsageAnalyzer::default();
-                stmts.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
-                self.data = Some(analyzer.data);
+                self.data = Some(analyze(stmts));
             }
             _ => {}
         }

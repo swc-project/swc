@@ -4,7 +4,6 @@
 //! them something other. Don't call methods like `visit_mut_script` nor
 //! `visit_mut_module_items`.
 
-use crate::analyzer::UsageAnalyzer;
 use crate::compress::compressor;
 use crate::hygiene::unique_marker;
 use crate::option::MinifyOptions;
@@ -13,12 +12,10 @@ use crate::pass::expand_names::name_expander;
 use crate::pass::hygiene::hygiene_optimizer;
 use crate::pass::mangle_names::name_mangler;
 use crate::pass::mangle_props::property_mangler;
-use swc_common::DUMMY_SP;
-use swc_ecma_ast::Invalid;
+use analyzer::analyze;
 use swc_ecma_ast::Module;
 use swc_ecma_visit::FoldWith;
 use swc_ecma_visit::VisitMutWith;
-use swc_ecma_visit::VisitWith;
 use timing::Timings;
 
 mod analyzer;
@@ -104,9 +101,8 @@ pub fn optimize(
         // TODO: store `hygiene`
     }
     {
-        let mut analyzer = UsageAnalyzer::default();
-        m.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
-        m.visit_mut_with(&mut hygiene_optimizer(analyzer.data));
+        let data = analyze(&m);
+        m.visit_mut_with(&mut hygiene_optimizer(data));
     }
 
     m
