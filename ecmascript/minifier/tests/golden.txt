@@ -72,7 +72,6 @@ blocks/issue_2946_else_const/input.js
 blocks/keep_some_blocks/input.js
 blocks/remove_blocks/input.js
 class_properties/class_expression_not_constant/input.js
-class_properties/mangle_class_properties_keep_quoted/input.js
 classes/class_duplication/input.js
 classes/class_duplication_2/input.js
 classes/class_recursive_refs/input.js
@@ -160,7 +159,6 @@ conditionals/to_and_or/input.js
 conditionals/trivial_boolean_ternary_expressions/input.js
 const/issue_1194/input.js
 const/unused_regexp_literal/input.js
-dead_code/collapse_vars_assignment/input.js
 dead_code/dead_code_1/input.js
 dead_code/dead_code_block_decls_die/input.js
 dead_code/dead_code_const_annotation_regex/input.js
@@ -217,7 +215,6 @@ drop_unused/unused_keep_harmony_destructuring/input.js
 drop_unused/unused_keep_setter_arg/input.js
 drop_unused/unused_nested_function/input.js
 drop_unused/unused_var_in_catch/input.js
-drop_unused/used_block_decls_in_catch/input.js
 drop_unused/used_var_in_catch/input.js
 drop_unused/vardef_value/input.js
 evaluate/global_hasOwnProperty/input.js
@@ -241,8 +238,6 @@ evaluate/pow_with_right_side_evaluating_to_unary/input.js
 evaluate/unary_prefix/input.js
 evaluate/unsafe_array_bad_index/input.js
 evaluate/unsafe_constant/input.js
-evaluate/unsafe_object/input.js
-evaluate/unsafe_object_repeated/input.js
 evaluate/unsafe_string/input.js
 evaluate/unsafe_string_bad_index/input.js
 expansions/avoid_spread_in_ternary/input.js
@@ -273,13 +268,13 @@ export/keyword_valid_2/input.js
 export/keyword_valid_3/input.js
 export/trailing_comma/input.js
 functions/deduplicate_parenthesis/input.js
-functions/function_returning_constant_literal/input.js
 functions/inline_false/input.js
 functions/inline_loop_1/input.js
 functions/inline_loop_3/input.js
 functions/inline_loop_4/input.js
 functions/issue_2097/input.js
 functions/issue_2663_1/input.js
+functions/issue_2663_3/input.js
 functions/issue_2737_1/input.js
 functions/issue_2737_2/input.js
 functions/no_webkit/input.js
@@ -318,7 +313,6 @@ harmony/import_meta/input.js
 harmony/import_statement/input.js
 harmony/issue_2028/input.js
 harmony/issue_2345/input.js
-harmony/issue_2794_5/input.js
 harmony/issue_3028/input.js
 harmony/new_target/input.js
 harmony/number_literals/input.js
@@ -331,19 +325,13 @@ hoist/dont_hoist_var_destructurings/input.js
 hoist/hoist_funs/input.js
 hoist/hoist_no_destructurings/input.js
 hoist/hoist_vars/input.js
-hoist_props/contains_this_1/input.js
 hoist_props/contains_this_3/input.js
-hoist_props/direct_access_1/input.js
 hoist_props/direct_access_3/input.js
 hoist_props/issue_2462/input.js
-hoist_props/issue_2473_3/input.js
 hoist_props/issue_2508_3/input.js
 hoist_props/issue_2508_4/input.js
 hoist_props/issue_3071_3/input.js
 hoist_props/single_use/input.js
-hoist_props/toplevel_const/input.js
-hoist_props/toplevel_let/input.js
-hoist_props/toplevel_var/input.js
 hoist_vars/issue_2295/input.js
 hoist_vars/regression_toplevel_args/input.js
 hoist_vars/sequences/input.js
@@ -490,7 +478,6 @@ negate_iife/negate_iife_5_off/input.js
 negate_iife/negate_iife_issue_1073/input.js
 negate_iife/negate_iife_nested/input.js
 negate_iife/negate_iife_nested_off/input.js
-negate_iife/sequence_off/input.js
 new/dot_parenthesis_1/input.js
 new/dot_parenthesis_2/input.js
 new/new_constructor_with_unary_arguments/input.js
@@ -567,7 +554,6 @@ properties/keep_properties/input.js
 properties/lhs_prop_1/input.js
 properties/native_prototype_lhs/input.js
 reduce_vars/accessor_1/input.js
-reduce_vars/accessor_2/input.js
 reduce_vars/array_forin_1/input.js
 reduce_vars/array_forin_2/input.js
 reduce_vars/array_forof_1/input.js
@@ -597,7 +583,6 @@ reduce_vars/defun_reference/input.js
 reduce_vars/defun_var_2/input.js
 reduce_vars/delay_def_lhs/input.js
 reduce_vars/do_while/input.js
-reduce_vars/duplicate_lambda_defun_name_2/input.js
 reduce_vars/escape_await/input.js
 reduce_vars/escape_conditional/input.js
 reduce_vars/escape_local_conditional/input.js
@@ -621,11 +606,11 @@ reduce_vars/issue_1595_2/input.js
 reduce_vars/issue_1595_4/input.js
 reduce_vars/issue_1850_1/input.js
 reduce_vars/issue_1850_4/input.js
-reduce_vars/issue_1865/input.js
 reduce_vars/issue_1922_1/input.js
 reduce_vars/issue_1922_2/input.js
 reduce_vars/issue_2090_1/input.js
 reduce_vars/issue_2090_2/input.js
+reduce_vars/issue_2406_1/input.js
 reduce_vars/issue_2406_2/input.js
 reduce_vars/issue_2416/input.js
 reduce_vars/issue_2423_4/input.js
@@ -657,9 +642,7 @@ reduce_vars/method_2/input.js
 reduce_vars/multi_def_1/input.js
 reduce_vars/multi_def_2/input.js
 reduce_vars/multi_def_3/input.js
-reduce_vars/obj_for_1/input.js
 reduce_vars/obj_for_2/input.js
-reduce_vars/obj_var_1/input.js
 reduce_vars/recursive_inlining_5/input.js
 reduce_vars/redefine_arguments_1/input.js
 reduce_vars/redefine_arguments_2/input.js
@@ -670,7 +653,6 @@ reduce_vars/try_abort/input.js
 reduce_vars/unary_delete/input.js
 reduce_vars/unsafe_evaluate_array_3/input.js
 reduce_vars/unsafe_evaluate_array_5/input.js
-reduce_vars/unsafe_evaluate_object_2/input.js
 reduce_vars/unsafe_evaluate_object_3/input.js
 reduce_vars/unsafe_evaluate_unknown/input.js
 reduce_vars/use_before_var/input.js
@@ -753,7 +735,6 @@ template_string/tagged_call_with_invalid_escape_2/input.js
 template_string/tagged_template_function_inline_1/input.js
 template_string/tagged_template_function_inline_2/input.js
 template_string/tagged_template_function_inline_3/input.js
-template_string/tagged_template_function_inline_5/input.js
 template_string/tagged_template_parens/input.js
 template_string/tagged_template_valid_strict_legacy_octal/input.js
 template_string/tagged_template_with_comment/input.js
