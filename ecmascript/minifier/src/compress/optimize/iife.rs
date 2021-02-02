@@ -179,64 +179,64 @@ impl Optimizer {
             return;
         }
 
-        let f = match callee {
-            Expr::Fn(f) => f,
-            _ => return,
-        };
-
-        // TODO: Improve this.
-        if !f.function.params.is_empty() {
-            return;
-        }
-
-        let body = f.function.body.as_mut().unwrap();
-        if body.stmts.is_empty() {
-            *e = *undefined(f.function.span);
-            return;
-        }
-
-        if !body.stmts.iter().all(|stmt| match stmt {
-            Stmt::Expr(..) | Stmt::Return(..) => true,
-            _ => false,
-        }) {
-            return;
-        }
-
-        self.changed = true;
-
-        log::trace!("inline: Inlining a function call");
-
-        //
-        let mut exprs = vec![];
-        for stmt in body.stmts.take() {
-            match stmt {
-                Stmt::Expr(stmt) => {
-                    exprs.push(stmt.expr);
-                }
-
-                Stmt::Return(stmt) => {
-                    let span = stmt.span;
-                    *e = *stmt.arg.unwrap_or_else(|| undefined(span));
+        match callee {
+            Expr::Fn(f) => {
+                // TODO: Improve this.
+                if !f.function.params.is_empty() {
                     return;
                 }
-                _ => {}
+
+                let body = f.function.body.as_mut().unwrap();
+                if body.stmts.is_empty() {
+                    *e = *undefined(f.function.span);
+                    return;
+                }
+
+                if !body.stmts.iter().all(|stmt| match stmt {
+                    Stmt::Expr(..) | Stmt::Return(..) => true,
+                    _ => false,
+                }) {
+                    return;
+                }
+
+                self.changed = true;
+
+                log::trace!("inline: Inlining a function call");
+
+                //
+                let mut exprs = vec![];
+                for stmt in body.stmts.take() {
+                    match stmt {
+                        Stmt::Expr(stmt) => {
+                            exprs.push(stmt.expr);
+                        }
+
+                        Stmt::Return(stmt) => {
+                            let span = stmt.span;
+                            *e = *stmt.arg.unwrap_or_else(|| undefined(span));
+                            return;
+                        }
+                        _ => {}
+                    }
+                }
+
+                if let Some(last) = exprs.last_mut() {
+                    *last = Box::new(Expr::Unary(UnaryExpr {
+                        span: DUMMY_SP,
+                        op: op!("void"),
+                        arg: last.take(),
+                    }));
+                } else {
+                    *e = *undefined(f.function.span);
+                    return;
+                }
+
+                *e = Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs,
+                })
             }
+            _ => {}
         }
-
-        if let Some(last) = exprs.last_mut() {
-            *last = Box::new(Expr::Unary(UnaryExpr {
-                span: DUMMY_SP,
-                op: op!("void"),
-                arg: last.take(),
-            }));
-        } else {
-            *e = *undefined(f.function.span);
-            return;
-        }
-
-        *e = Expr::Seq(SeqExpr {
-            span: DUMMY_SP,
-            exprs,
-        })
     }
 }
