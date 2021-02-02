@@ -24,6 +24,16 @@ impl Optimizer {
             return;
         }
 
+        if let Some(scope) = self
+            .data
+            .as_ref()
+            .and_then(|data| data.scopes.get(&self.ctx.scope))
+        {
+            if scope.has_eval_call || scope.has_with_stmt {
+                return;
+            }
+        }
+
         match name {
             Pat::Ident(i) => {
                 if self.options.top_retain.contains(&i.sym) {
@@ -64,6 +74,16 @@ impl Optimizer {
 
         if !self.options.unused {
             return;
+        }
+
+        if let Some(scope) = self
+            .data
+            .as_ref()
+            .and_then(|data| data.scopes.get(&self.ctx.scope))
+        {
+            if scope.has_eval_call || scope.has_with_stmt {
+                return;
+            }
         }
 
         match decl {
