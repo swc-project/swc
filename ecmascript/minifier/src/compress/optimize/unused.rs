@@ -107,7 +107,7 @@ impl Optimizer {
         if self
             .data
             .as_ref()
-            .map(|v| v.has_eval_call || v.has_with_stmt)
+            .map(|v| v.top.has_eval_call || v.top.has_with_stmt)
             .unwrap_or(false)
         {
             return;

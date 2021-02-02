@@ -74,6 +74,8 @@ pub(crate) struct ScopeData {
 pub(crate) struct ProgramData {
     pub vars: FxHashMap<Id, VarUsageInfo>,
 
+    pub top: ScopeData,
+
     pub scopes: FxHashMap<SyntaxContext, ScopeData>,
 }
 
@@ -83,6 +85,9 @@ impl ProgramData {
             let to = self.scopes.entry(ctxt).or_default();
             to.has_with_stmt |= scope.has_with_stmt;
             to.has_eval_call |= scope.has_eval_call;
+
+            self.top.has_with_stmt |= scope.has_with_stmt;
+            self.top.has_eval_call |= scope.has_eval_call;
         }
 
         for (id, var_info) in child.vars {
@@ -124,6 +129,7 @@ impl ProgramData {
 #[derive(Debug, Default)]
 pub(crate) struct UsageAnalyzer {
     pub data: ProgramData,
+    scope: ScopeData,
     ctx: Ctx,
 }
 
@@ -135,6 +141,7 @@ impl UsageAnalyzer {
         let mut child = UsageAnalyzer {
             data: Default::default(),
             ctx: self.ctx,
+            scope: Default::default(),
         };
 
         let ret = op(&mut child);
@@ -442,7 +449,7 @@ impl Visit for UsageAnalyzer {
         match &n.callee {
             ExprOrSuper::Expr(callee) => match &**callee {
                 Expr::Ident(Ident { sym, .. }) if *sym == *"eval" => {
-                    self.data.has_eval_call = true;
+                    self.scope.has_eval_call = true;
                 }
                 _ => {}
             },
@@ -451,7 +458,7 @@ impl Visit for UsageAnalyzer {
     }
 
     fn visit_with_stmt(&mut self, n: &WithStmt, _: &dyn Node) {
-        self.data.has_with_stmt = true;
+        self.scope.has_with_stmt = true;
         n.visit_children_with(self);
     }
 }
