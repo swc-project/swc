@@ -76,6 +76,13 @@ pub(crate) struct ScopeData {
     pub has_eval_call: bool,
 }
 
+impl ScopeData {
+    fn merge(&mut self, other: ScopeData) {
+        self.has_with_stmt |= other.has_with_stmt;
+        self.has_eval_call |= other.has_eval_call;
+    }
+}
+
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
 pub(crate) struct ProgramData {
@@ -90,11 +97,9 @@ impl ProgramData {
     fn merge(&mut self, kind: ScopeKind, child: ProgramData) {
         for (ctxt, scope) in child.scopes {
             let to = self.scopes.entry(ctxt).or_default();
-            to.has_with_stmt |= scope.has_with_stmt;
-            to.has_eval_call |= scope.has_eval_call;
+            self.top.merge(scope.clone());
 
-            self.top.has_with_stmt |= scope.has_with_stmt;
-            self.top.has_eval_call |= scope.has_eval_call;
+            to.merge(scope);
         }
 
         for (id, var_info) in child.vars {
@@ -141,7 +146,7 @@ pub(crate) struct UsageAnalyzer {
 }
 
 impl UsageAnalyzer {
-    fn with_child<F, Ret>(&mut self, kind: ScopeKind, op: F) -> Ret
+    fn with_child<F, Ret>(&mut self, child_ctxt: SyntaxContext, kind: ScopeKind, op: F) -> Ret
     where
         F: FnOnce(&mut UsageAnalyzer) -> Ret,
     {
@@ -152,6 +157,13 @@ impl UsageAnalyzer {
         };
 
         let ret = op(&mut child);
+
+        child
+            .data
+            .scopes
+            .entry(child_ctxt)
+            .or_default()
+            .merge(child.scope);
 
         self.data.merge(kind, child.data);
 
@@ -202,7 +214,7 @@ impl Visit for UsageAnalyzer {
     noop_visit_type!();
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr, _: &dyn Node) {
-        self.with_child(ScopeKind::Fn, |child| {
+        self.with_child(n.span.ctxt, ScopeKind::Fn, |child| {
             n.params.visit_with(n, child);
 
             match &n.body {
@@ -221,7 +233,7 @@ impl Visit for UsageAnalyzer {
     fn visit_function(&mut self, n: &Function, _: &dyn Node) {
         n.decorators.visit_with(n, self);
 
-        self.with_child(ScopeKind::Fn, |child| {
+        self.with_child(n.span.ctxt, ScopeKind::Fn, |child| {
             n.params.visit_with(n, child);
 
             match &n.body {
@@ -236,7 +248,7 @@ impl Visit for UsageAnalyzer {
     }
 
     fn visit_block_stmt(&mut self, n: &BlockStmt, _: &dyn Node) {
-        self.with_child(ScopeKind::Block, |child| {
+        self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
             n.visit_children_with(child);
         })
     }
@@ -344,7 +356,7 @@ impl Visit for UsageAnalyzer {
     fn visit_for_in_stmt(&mut self, n: &ForInStmt, _: &dyn Node) {
         n.right.visit_with(n, self);
 
-        self.with_child(ScopeKind::Block, |child| {
+        self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
             let ctx = Ctx {
                 in_left_of_for_loop: true,
                 ..child.ctx
@@ -362,7 +374,7 @@ impl Visit for UsageAnalyzer {
     fn visit_for_of_stmt(&mut self, n: &ForOfStmt, _: &dyn Node) {
         n.right.visit_with(n, self);
 
-        self.with_child(ScopeKind::Block, |child| {
+        self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
             let ctx = Ctx {
                 in_left_of_for_loop: true,
                 ..child.ctx
