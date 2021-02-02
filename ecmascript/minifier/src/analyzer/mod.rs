@@ -3,6 +3,7 @@ use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 use std::collections::hash_map::Entry;
 use swc_atoms::JsWord;
+use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
@@ -62,19 +63,27 @@ enum ScopeKind {
     Block,
 }
 
+#[derive(Debug, Default)]
+pub(crate) struct ScopeData {
+    pub has_with_stmt: bool,
+    pub has_eval_call: bool,
+}
+
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
 pub(crate) struct ProgramData {
     pub vars: FxHashMap<Id, VarUsageInfo>,
 
-    pub has_with_stmt: bool,
-    pub has_eval_call: bool,
+    pub scopes: FxHashMap<SyntaxContext, ScopeData>,
 }
 
 impl ProgramData {
     fn merge(&mut self, kind: ScopeKind, child: ProgramData) {
-        self.has_with_stmt |= child.has_with_stmt;
-        self.has_eval_call |= child.has_eval_call;
+        for (ctxt, scope) in child.scopes {
+            let to = self.scopes.entry(ctxt).or_default();
+            to.has_with_stmt |= scope.has_with_stmt;
+            to.has_eval_call |= scope.has_eval_call;
+        }
 
         for (id, var_info) in child.vars {
             match self.vars.entry(id) {
