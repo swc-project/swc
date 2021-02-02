@@ -206,6 +206,7 @@ drop_unused/delete_assign_1/input.js
 drop_unused/double_assign_3/input.js
 drop_unused/drop_fnames/input.js
 drop_unused/drop_toplevel_all/input.js
+drop_unused/iife/input.js
 drop_unused/issue_1709/input.js
 drop_unused/issue_2063/input.js
 drop_unused/issue_3146_1/input.js
