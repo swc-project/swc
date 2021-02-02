@@ -1,4 +1,5 @@
 use crate::analyzer::ProgramData;
+use swc_common::Span;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
@@ -27,6 +28,10 @@ impl Optimizer {
 
 impl VisitMut for Optimizer {
     noop_visit_mut_type!();
+
+    fn visit_mut_span(&mut self, span: &mut Span) {
+        span.ctxt = SyntaxContext::empty();
+    }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if i.span.ctxt == SyntaxContext::empty() {
