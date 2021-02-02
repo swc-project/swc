@@ -66,7 +66,7 @@ impl Optimizer {
 
                     let is_inline_enabled = self.options.reduce_vars
                         || self.options.collapse_vars
-                        || self.options.inline;
+                        || self.options.inline != 0;
 
                     if is_inline_enabled
                         && !usage.reassigned
@@ -88,7 +88,7 @@ impl Optimizer {
                             i.sym,
                             i.span.ctxt
                         );
-                        if self.options.inline {
+                        if self.options.inline != 0 {
                             self.vars_for_inlining.insert(i.to_id(), init.take());
                         } else {
                             self.vars_for_inlining.insert(i.to_id(), init.clone());
@@ -122,7 +122,7 @@ impl Optimizer {
     /// This method handles only class decl and fn decl. Var decl should be
     /// handled specially.
     pub(super) fn store_decl_for_inlining(&mut self, decl: &mut Decl) {
-        if !self.options.inline && !self.options.reduce_vars {
+        if !self.options.inline == 0 && !self.options.reduce_vars {
             return;
         }
 
@@ -161,7 +161,7 @@ impl Optimizer {
             }
 
             // Single use => inlined
-            if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline)
+            if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
                 && usage.ref_count == 1
                 && usage.is_fn_local
                 && !usage.used_in_loop

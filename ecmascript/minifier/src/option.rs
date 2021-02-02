@@ -126,9 +126,15 @@ pub struct CompressOptions {
     #[serde(alias = "if_return")]
     pub if_return: bool,
 
-    #[serde(default = "true_by_default")]
+    ///
+    /// - `0`: disabled inlining
+    /// - `1`: inline simple functions
+    /// - `2`: inline functions with arguments
+    /// - `3`: inline functions with arguments and variables
+
+    #[serde(default = "three_by_default")]
     #[serde(alias = "inline")]
-    pub inline: bool,
+    pub inline: u8,
 
     #[serde(default = "true_by_default")]
     #[serde(alias = "join_vars")]
@@ -246,8 +252,12 @@ const fn one_by_default() -> usize {
     1
 }
 
-const fn default_ecma() -> usize {
+const fn three_by_default() -> u8 {
     1
+}
+
+const fn default_ecma() -> usize {
+    5
 }
 
 /// Implement default using serde.

@@ -50,9 +50,17 @@ fn is_ignored(path: &Path) -> bool {
     false
 }
 
+#[derive(Debug, Clone, Copy, Deserialize)]
+#[serde(deny_unknown_fields)]
+#[serde(untagged)]
+enum InlineOption {
+    Bool(bool),
+    Num(u8),
+}
+
 #[derive(Debug, Clone, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub struct TestOptions {
+struct TestOptions {
     #[serde(default)]
     pub arguments: bool,
 
@@ -120,7 +128,7 @@ pub struct TestOptions {
     pub if_return: Option<bool>,
 
     #[serde(default)]
-    pub inline: Option<bool>,
+    pub inline: Option<InlineOption>,
 
     #[serde(default)]
     pub join_vars: Option<bool>,
@@ -241,7 +249,19 @@ fn parse_compressor_config(s: &str) -> CompressOptions {
         hoist_vars: c.hoist_vars,
         ie8: c.ie8,
         if_return: c.if_return.unwrap_or(c.defaults),
-        inline: c.inline.unwrap_or(c.defaults),
+        inline: c
+            .inline
+            .map(|v| match v {
+                InlineOption::Bool(v) => {
+                    if v {
+                        3
+                    } else {
+                        0
+                    }
+                }
+                InlineOption::Num(n) => n,
+            })
+            .unwrap_or(if c.defaults { 3 } else { 0 }),
         join_vars: c.join_vars.unwrap_or(c.defaults),
         keep_classnames: c.keep_classnames,
         keep_fargs: c.keep_fargs.unwrap_or(c.defaults),

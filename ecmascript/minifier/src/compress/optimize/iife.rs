@@ -102,7 +102,7 @@ impl Optimizer {
     /// })(7);
     /// ```
     pub(super) fn inline_args_of_iife(&mut self, e: &mut CallExpr) {
-        if !self.options.inline {
+        if self.options.inline == 0 {
             return;
         }
 
@@ -160,7 +160,7 @@ impl Optimizer {
     /// }).x = 10;
     /// ```
     pub(super) fn invoke_iife(&mut self, e: &mut Expr) {
-        if !self.options.inline {
+        if self.options.inline == 0 {
             return;
         }
 
