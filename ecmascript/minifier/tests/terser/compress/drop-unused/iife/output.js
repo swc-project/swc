@@ -1,3 +1,2 @@
 function f() {
-    b;
 }
