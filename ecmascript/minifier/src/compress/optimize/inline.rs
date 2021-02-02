@@ -89,9 +89,9 @@ impl Optimizer {
                             i.span.ctxt
                         );
                         if self.options.inline != 0 {
-                            self.vars_for_inlining.insert(i.to_id(), init.take());
+                            self.lits.insert(i.to_id(), init.take());
                         } else {
-                            self.vars_for_inlining.insert(i.to_id(), init.clone());
+                            self.lits.insert(i.to_id(), init.clone());
                         }
                         return;
                     }

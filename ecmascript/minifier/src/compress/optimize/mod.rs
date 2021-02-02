@@ -110,6 +110,8 @@ struct Optimizer {
     changed: bool,
     options: CompressOptions,
     /// Cheap to clone.
+    ///
+    /// Used for inlining.
     lits: FxHashMap<Id, Box<Expr>>,
     vars_for_inlining: FxHashMap<Id, Box<Expr>>,
     vars_for_prop_hoisting: FxHashMap<Id, Box<Expr>>,
