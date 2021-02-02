@@ -180,6 +180,24 @@ impl Optimizer {
         }
 
         match callee {
+            Expr::Arrow(f) => {
+                // TODO: Improve this.
+                if !f.params.is_empty() {
+                    return;
+                }
+
+                match &mut f.body {
+                    BlockStmtOrExpr::BlockStmt(_) => {
+                        // TODO
+                    }
+                    BlockStmtOrExpr::Expr(body) => {
+                        self.changed = true;
+                        log::trace!("inline: Inlining a call to an arrow function");
+                        *e = *body.take();
+                        return;
+                    }
+                }
+            }
             Expr::Fn(f) => {
                 // TODO: Improve this.
                 if !f.function.params.is_empty() {
