@@ -94,6 +94,9 @@ struct Ctx {
 
     /// `true` while we are in a function or something simillar.
     in_fn_like: bool,
+
+    /// Current scope.
+    scope: SyntaxContext,
 }
 
 impl Ctx {
@@ -1218,12 +1221,32 @@ impl VisitMut for Optimizer {
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
-        let ctx = Ctx {
-            stmt_lablled: false,
-            in_fn_like: true,
-            ..self.ctx
-        };
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        {
+            let ctx = Ctx {
+                stmt_lablled: false,
+                ..self.ctx
+            };
+            n.decorators.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+
+        {
+            let ctx = Ctx {
+                stmt_lablled: false,
+                in_fn_like: true,
+                scope: n.span.ctxt,
+                ..self.ctx
+            };
+            let optimizer = &mut *self.with_ctx(ctx);
+
+            n.params.visit_mut_with(optimizer);
+            match n.body.as_mut() {
+                Some(body) => {
+                    // Bypass block scope handler.
+                    body.visit_mut_children_with(optimizer);
+                }
+                None => {}
+            }
+        }
 
         self.optimize_usage_of_arguments(n);
 
