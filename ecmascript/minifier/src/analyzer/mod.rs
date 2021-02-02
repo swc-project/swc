@@ -25,6 +25,8 @@ where
         ctx: Default::default(),
     };
     n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    let top_scope = v.scope;
+    v.data.top.merge(top_scope);
 
     v.data
 }
