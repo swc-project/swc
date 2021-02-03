@@ -268,7 +268,7 @@ impl Optimizer {
                 match &mut *stmt.cons {
                     Stmt::Expr(cons) => {
                         self.changed = true;
-                        log::trace!("conditionals: `if (foo) bar;` => f`oo && bar`");
+                        log::trace!("conditionals: `if (foo) bar;` => `foo && bar`");
                         *s = Stmt::Expr(ExprStmt {
                             span: stmt.span,
                             expr: Box::new(Expr::Bin(BinExpr {
