@@ -16,6 +16,22 @@ use swc_ecma_utils::Value::Known;
 /// Methods related to the option `conditionals`. All methods are noop if
 /// `conditionals` is false.
 impl Optimizer {
+    /// Removes useless operands of an logical expressions.
+    pub(super) fn drop_logical_operands(&mut self, e: &mut Expr) {
+        if !self.options.conditionals {
+            return;
+        }
+
+        let bin = match e {
+            Expr::Bin(b) => b,
+            _ => return,
+        };
+
+        if bin.op != op!("||") && bin.op != op!("&&") {
+            return;
+        }
+    }
+
     pub(super) fn compress_cond_with_logical_as_logical(&mut self, e: &mut Expr) {
         if !self.options.conditionals {
             return;
