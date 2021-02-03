@@ -263,6 +263,10 @@ impl Optimizer {
     ///
     /// - `x() && true` => `!!x()`
     pub(super) fn compress_logical_exprs_as_bang_bang(&mut self, e: &mut Expr) {
+        if !self.options.conditionals && !self.options.reduce_vars {
+            return;
+        }
+
         let bin = match e {
             Expr::Bin(bin) => bin,
             _ => return,
