@@ -182,17 +182,22 @@ impl Optimizer {
         }
 
         let convert_to_true = match &*delete.arg {
+            Expr::Seq(..) => true,
             // V8 and terser test ref have different opinion.
             Expr::Ident(Ident {
                 sym: js_word!("Infinity"),
                 ..
             }) => false,
-
-            e if is_pure_undefined(&e) => true,
+            Expr::Ident(Ident {
+                sym: js_word!("undefined"),
+                ..
+            }) => false,
             Expr::Ident(Ident {
                 sym: js_word!("NaN"),
                 ..
-            }) => true,
+            }) => false,
+
+            e if is_pure_undefined(&e) => true,
 
             Expr::Ident(..) => true,
 
@@ -204,6 +209,7 @@ impl Optimizer {
         if convert_to_true {
             self.changed = true;
             let span = delete.arg.span();
+            log::trace!("booleans: Compressing `delete` => true");
             *e = make_bool(span, true);
             return;
         }
