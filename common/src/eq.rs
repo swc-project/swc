@@ -21,6 +21,19 @@ impl EqIgnoreSpan for Span {
     }
 }
 
+impl<T> EqIgnoreSpan for [T]
+where
+    T: EqIgnoreSpan,
+{
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.len() == other.len()
+            && self
+                .iter()
+                .zip(other.iter())
+                .all(|(a, b)| a.eq_ignore_span(b))
+    }
+}
+
 impl<T> EqIgnoreSpan for Option<T>
 where
     T: EqIgnoreSpan,
