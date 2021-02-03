@@ -205,6 +205,7 @@ directives/simple_statement_is_not_a_directive/input.js
 drop_console/drop_console_1/input.js
 drop_unused/assign_binding/input.js
 drop_unused/assign_chain/input.js
+drop_unused/cascade_drop_assign/input.js
 drop_unused/const_assign/input.js
 drop_unused/delete_assign_1/input.js
 drop_unused/double_assign_3/input.js
@@ -614,6 +615,7 @@ reduce_vars/defun_catch_4/input.js
 reduce_vars/defun_catch_5/input.js
 reduce_vars/defun_catch_6/input.js
 reduce_vars/defun_reference/input.js
+reduce_vars/defun_single_use_loop/input.js
 reduce_vars/defun_var_1/input.js
 reduce_vars/defun_var_2/input.js
 reduce_vars/delay_def_lhs/input.js
