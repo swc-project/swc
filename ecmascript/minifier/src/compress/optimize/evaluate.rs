@@ -81,28 +81,6 @@ impl Optimizer {
                 return;
             }
 
-            Expr::Ident(Ident {
-                span,
-                sym: js_word!("NaN"),
-                ..
-            }) => {
-                log::trace!("evaluate: `NaN` -> `0 / 0`");
-                self.changed = true;
-                *e = Expr::Bin(BinExpr {
-                    span: span.with_ctxt(self.done_ctxt),
-                    op: op!("/"),
-                    left: Box::new(Expr::Lit(Lit::Num(Number {
-                        span: DUMMY_SP,
-                        value: 0.0,
-                    }))),
-                    right: Box::new(Expr::Lit(Lit::Num(Number {
-                        span: DUMMY_SP,
-                        value: 0.0,
-                    }))),
-                });
-                return;
-            }
-
             _ => {}
         }
     }
@@ -200,6 +178,20 @@ impl Optimizer {
                         // It's NaN
                         match (ln.classify(), rn.classify()) {
                             (FpCategory::Zero, FpCategory::Zero) => {
+                                // If a variable named `NaN` is in scope, don't convert e into NaN.
+                                if self
+                                    .data
+                                    .as_ref()
+                                    .map(|data| {
+                                        data.vars.iter().any(|(name, v)| {
+                                            v.declared && name.0 == js_word!("NaN")
+                                        })
+                                    })
+                                    .unwrap_or(false)
+                                {
+                                    return;
+                                }
+
                                 self.changed = true;
                                 log::trace!("evaluate: `0 / 0` => `NaN`");
 
