@@ -832,6 +832,8 @@ unicode/check_escape_style/input.js
 unicode/escape_non_escaped_identifier/input.js
 unicode/issue_2242_1/input.js
 unicode/issue_2242_2/input.js
+unicode/issue_2242_3/input.js
+unicode/issue_2242_4/input.js
 unicode/issue_2569/input.js
 unicode/keep_quoted_unicode_props_es5/input.js
 unicode/keep_quoted_unicode_props_safari/input.js
