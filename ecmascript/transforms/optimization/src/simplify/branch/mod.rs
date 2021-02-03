@@ -478,6 +478,12 @@ impl Fold for Remover {
             }
 
             Stmt::Switch(mut s) => {
+                if s.cases.iter().any(|case| match case.test.as_deref() {
+                    Some(Expr::Update(..)) => true,
+                    _ => false,
+                }) {
+                    return Stmt::Switch(s);
+                }
                 match &*s.discriminant {
                     Expr::Update(..) => {
                         if s.cases.len() != 1 {
@@ -927,6 +933,13 @@ impl Fold for Remover {
 
     fn fold_switch_stmt(&mut self, s: SwitchStmt) -> SwitchStmt {
         let s: SwitchStmt = s.fold_children_with(self);
+
+        if s.cases.iter().any(|case| match case.test.as_deref() {
+            Some(Expr::Update(..)) => true,
+            _ => false,
+        }) {
+            return s;
+        }
 
         if s.cases.iter().all(|case| {
             if case.cons.is_empty() {
