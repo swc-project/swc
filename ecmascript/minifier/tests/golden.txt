@@ -260,6 +260,7 @@ evaluate/pow_sequence_with_constants_and_parens/input.js
 evaluate/pow_sequence_with_parens/input.js
 evaluate/pow_sequence_with_parens_evaluated/input.js
 evaluate/pow_with_right_side_evaluating_to_unary/input.js
+evaluate/string_case/input.js
 evaluate/unary_prefix/input.js
 evaluate/unsafe_array_bad_index/input.js
 evaluate/unsafe_constant/input.js
