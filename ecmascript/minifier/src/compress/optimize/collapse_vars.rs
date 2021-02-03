@@ -51,7 +51,10 @@ impl Optimizer {
                 }
 
                 let value = match &*assign.right {
-                    Expr::Lit(..) => assign.right.clone(),
+                    Expr::Lit(..)
+                    | Expr::Member(MemberExpr {
+                        computed: false, ..
+                    }) => assign.right.clone(),
                     _ => return,
                 };
 
