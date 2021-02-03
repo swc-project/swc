@@ -28,7 +28,8 @@ impl Optimizer {
                     .data
                     .as_ref()
                     .and_then(|data| data.vars.get(&(js_word!("undefined"), span.ctxt)))
-                    .is_some()
+                    .map(|var| var.declared)
+                    .unwrap_or(false)
                 {
                     return;
                 }
