@@ -1197,7 +1197,11 @@ impl VisitMut for Optimizer {
                         *e = *value;
                     } else if let Some(value) = self.vars_for_inlining.remove(&i.to_id()) {
                         self.changed = true;
-                        log::trace!("inline: Replacing a variable with an expression");
+                        log::trace!(
+                            "inline: Replacing '{}{:?}' with an expression",
+                            i.sym,
+                            i.span.ctxt
+                        );
 
                         *e = *value;
                     }
