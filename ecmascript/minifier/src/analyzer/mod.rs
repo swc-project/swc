@@ -64,6 +64,9 @@ pub(crate) struct VarUsageInfo {
     pub used_in_loop: bool,
 
     pub var_kind: Option<VarDeclKind>,
+
+    /// In `c = b`, `b` inffects `c`.
+    infects: Vec<Id>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -124,6 +127,8 @@ impl ProgramData {
                     e.get_mut().assign_count += var_info.assign_count;
                     e.get_mut().usage_count += var_info.usage_count;
 
+                    e.get_mut().infects.extend(var_info.infects);
+
                     match kind {
                         ScopeKind::Fn => {
                             e.get_mut().is_fn_local = false;
@@ -172,15 +177,11 @@ impl UsageAnalyzer {
         ret
     }
 
-    fn report_usage(&mut self, i: &Ident, is_assign: bool) {
-        let e = self
-            .data
-            .vars
-            .entry(i.to_id())
-            .or_insert_with(|| VarUsageInfo {
-                used_above_decl: true,
-                ..Default::default()
-            });
+    fn report(&mut self, i: Id, is_assign: bool) {
+        let e = self.data.vars.entry(i).or_insert_with(|| VarUsageInfo {
+            used_above_decl: true,
+            ..Default::default()
+        });
 
         e.ref_count += 1;
         e.reassigned |= is_assign;
@@ -188,9 +189,17 @@ impl UsageAnalyzer {
 
         if is_assign {
             e.assign_count += 1;
+
+            for other in e.infects.clone() {
+                self.report(other, true)
+            }
         } else {
             e.usage_count += 1;
         }
+    }
+
+    fn report_usage(&mut self, i: &Ident, is_assign: bool) {
+        self.report(i.to_id(), is_assign)
     }
 
     fn declare_decl(
