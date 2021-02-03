@@ -452,11 +452,14 @@ issue_267/issue_267/input.js
 issue_269/issue_269_dangers/input.js
 issue_281/issue_1254_negate_iife_nested/input.js
 issue_281/issue_1254_negate_iife_true/input.js
+issue_281/issue_1595_3/input.js
 issue_281/negate_iife_3/input.js
 issue_281/negate_iife_3_off/input.js
 issue_281/negate_iife_4/input.js
 issue_281/negate_iife_5/input.js
 issue_281/negate_iife_5_off/input.js
+issue_281/negate_iife_issue_1073/input.js
+issue_281/safe_undefined/input.js
 issue_281/wrap_iife/input.js
 issue_281/wrap_iife_in_expression/input.js
 issue_281/wrap_iife_in_return_call/input.js
@@ -596,6 +599,7 @@ properties/join_object_assignments_NaN_1/input.js
 properties/join_object_assignments_null_0/input.js
 properties/keep_properties/input.js
 properties/lhs_prop_1/input.js
+properties/lhs_prop_2/input.js
 properties/native_prototype_lhs/input.js
 reduce_vars/accessor_1/input.js
 reduce_vars/array_forin_1/input.js
