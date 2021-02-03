@@ -244,7 +244,22 @@ impl Optimizer {
 
         let dt = s.discriminant.get_type();
 
-        if let Known(Type::Bool) = dt {}
+        if let Known(Type::Bool) = dt {
+            let db = s.discriminant.as_pure_bool();
+
+            if let Known(db) = db {
+                s.cases.retain(|case| match case.test.as_deref() {
+                    Some(test) => {
+                        let tb = test.as_pure_bool();
+                        match tb {
+                            Known(tb) if db != tb => false,
+                            _ => true,
+                        }
+                    }
+                    None => false,
+                })
+            }
+        }
     }
 
     pub(super) fn optimize_switches(&mut self, _s: &mut Stmt) {
