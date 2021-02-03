@@ -160,6 +160,10 @@ impl Optimizer {
             return;
         }
 
+        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+            return;
+        }
+
         match e {
             Expr::Bin(bin @ BinExpr { op: op!("/"), .. }) => {
                 let ln = bin.left.as_number();
