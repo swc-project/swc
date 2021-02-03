@@ -81,6 +81,7 @@ classes/class_recursive_refs/input.js
 collapse_vars/anonymous_function/input.js
 collapse_vars/boolean_binary_1/input.js
 collapse_vars/boolean_binary_2/input.js
+collapse_vars/cascade_if_1/input.js
 collapse_vars/cascade_if_2/input.js
 collapse_vars/cascade_return/input.js
 collapse_vars/collapse_rhs_array/input.js
@@ -751,6 +752,7 @@ switch/constant_switch_9/input.js
 switch/drop_case/input.js
 switch/drop_default_1/input.js
 switch/drop_default_2/input.js
+switch/if_switch_typeof/input.js
 switch/issue_1674/input.js
 switch/issue_1690_1/input.js
 switch/issue_1690_2/input.js
