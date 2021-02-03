@@ -119,6 +119,8 @@ impl VisitMut for Compressor<'_> {
 
     fn visit_mut_module(&mut self, n: &mut Module) {
         if self.options.passes != 0 && self.options.passes + 1 <= self.pass {
+            let done = dump(&*n);
+            eprintln!("===== Done =====\n{}", done);
             return;
         }
 
