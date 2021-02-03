@@ -171,9 +171,15 @@ impl Optimizer {
                 let rn = bin.right.as_number();
                 match (ln, rn) {
                     (Known(ln), Known(rn)) => {
+                        // Prefer `0/0` over NaN.
+                        if ln == 0.0 && rn == 0.0 {
+                            return;
+                        }
+                        // Prefer `1/0` over Infinity.
                         if ln == 1.0 && rn == 0.0 {
                             return;
                         }
+
                         // It's NaN
                         match (ln.classify(), rn.classify()) {
                             (FpCategory::Zero, FpCategory::Zero) => {
