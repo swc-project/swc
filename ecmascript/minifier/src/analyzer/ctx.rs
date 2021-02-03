@@ -21,6 +21,7 @@ pub(super) struct Ctx {
     pub in_pat_of_var_decl: bool,
     pub in_pat_of_var_decl_with_init: bool,
     pub in_pat_of_param: bool,
+    pub in_catch_param: bool,
 
     pub in_left_of_for_loop: bool,
 

@@ -65,6 +65,8 @@ pub(crate) struct VarUsageInfo {
 
     pub var_kind: Option<VarDeclKind>,
 
+    pub declared_as_catch_param: bool,
+
     /// In `c = b`, `b` inffects `c`.
     infects: Vec<Id>,
 }
@@ -222,6 +224,7 @@ impl UsageAnalyzer {
         if self.ctx.in_cond && has_init {
             v.cond_init = true;
         }
+        v.declared_as_catch_param = self.ctx.in_catch_param;
 
         v
     }
@@ -281,8 +284,7 @@ impl Visit for UsageAnalyzer {
         {
             let ctx = Ctx {
                 in_cond: true,
-                in_pat_of_var_decl: true,
-                var_decl_kind_of_pat: None,
+                in_catch_param: true,
                 ..self.ctx
             };
             n.param.visit_with(n, &mut *self.with_ctx(ctx));
@@ -435,7 +437,10 @@ impl Visit for UsageAnalyzer {
 
         match n {
             Pat::Ident(i) => {
-                if self.ctx.in_pat_of_var_decl || self.ctx.in_pat_of_param {
+                if self.ctx.in_pat_of_var_decl
+                    || self.ctx.in_pat_of_param
+                    || self.ctx.in_catch_param
+                {
                     let v = self.declare_decl(
                         i,
                         self.ctx.in_pat_of_var_decl_with_init,
