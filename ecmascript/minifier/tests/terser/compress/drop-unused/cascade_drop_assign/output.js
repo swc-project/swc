@@ -1,2 +1,1 @@
-var b = "PASS";
-console.log(b);
+console.log("PASS");
