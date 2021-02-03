@@ -1009,7 +1009,14 @@ impl VisitMut for Optimizer {
     }
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
-        e.visit_mut_children_with(self);
+        {
+            let ctx = Ctx {
+                is_lhs_of_assign: true,
+                ..self.ctx
+            };
+            e.left.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+        e.right.visit_mut_with(self);
 
         self.compress_bin_assignment_to_left(e);
         self.compress_bin_assignment_to_right(e);
@@ -1302,6 +1309,8 @@ impl VisitMut for Optimizer {
         let ctx = Ctx {
             in_bang_arg: false,
             is_exported: false,
+            is_update_arg: false,
+            is_lhs_of_assign: false,
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -1414,6 +1423,15 @@ impl VisitMut for Optimizer {
         n.visit_mut_children_with(self);
 
         self.optimize_expr_in_bool_ctx(&mut n.test);
+    }
+
+    fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
+        let ctx = Ctx {
+            is_update_arg: true,
+            ..self.ctx
+        };
+
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
