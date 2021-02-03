@@ -67,6 +67,11 @@ pub(crate) struct VarUsageInfo {
 
     pub declared_as_catch_param: bool,
 
+    /// TODO: Implement this.
+    ///
+    /// Indicates a variable or function is overrided without using it.
+    pub overriden_without_used: bool,
+
     /// In `c = b`, `b` inffects `c`.
     infects: Vec<Id>,
 }
