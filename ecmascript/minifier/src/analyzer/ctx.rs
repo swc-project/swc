@@ -1,3 +1,5 @@
+use swc_ecma_ast::VarDeclKind;
+
 use super::UsageAnalyzer;
 use std::ops::Deref;
 use std::ops::DerefMut;
@@ -15,6 +17,7 @@ impl UsageAnalyzer {
 
 #[derive(Debug, Default, Clone, Copy)]
 pub(super) struct Ctx {
+    pub var_decl_kind_of_pat: Option<VarDeclKind>,
     pub in_pat_of_var_decl: bool,
     pub in_pat_of_var_decl_with_init: bool,
     pub in_pat_of_param: bool,

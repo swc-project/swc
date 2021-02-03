@@ -62,6 +62,8 @@ pub(crate) struct VarUsageInfo {
     pub is_fn_local: bool,
 
     pub used_in_loop: bool,
+
+    pub var_kind: Option<VarDeclKind>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -191,13 +193,19 @@ impl UsageAnalyzer {
         }
     }
 
-    fn declare_decl(&mut self, i: &Ident, has_init: bool) -> &mut VarUsageInfo {
+    fn declare_decl(
+        &mut self,
+        i: &Ident,
+        has_init: bool,
+        kind: Option<VarDeclKind>,
+    ) -> &mut VarUsageInfo {
         let v = self
             .data
             .vars
             .entry(i.to_id())
             .or_insert_with(|| VarUsageInfo {
                 is_fn_local: true,
+                var_kind: kind,
                 ..Default::default()
             });
 
@@ -253,6 +261,14 @@ impl Visit for UsageAnalyzer {
         })
     }
 
+    fn visit_var_decl(&mut self, n: &VarDecl, _: &dyn Node) {
+        let ctx = Ctx {
+            var_decl_kind_of_pat: Some(n.kind),
+            ..self.ctx
+        };
+        n.visit_children_with(&mut *self.with_ctx(ctx));
+    }
+
     fn visit_var_declarator(&mut self, e: &VarDeclarator, _: &dyn Node) {
         let ctx = Ctx {
             in_pat_of_var_decl: true,
@@ -265,13 +281,13 @@ impl Visit for UsageAnalyzer {
     }
 
     fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
-        self.declare_decl(&n.ident, true);
+        self.declare_decl(&n.ident, true, None);
 
         n.visit_children_with(self);
     }
 
     fn visit_fn_decl(&mut self, n: &FnDecl, _: &dyn Node) {
-        self.declare_decl(&n.ident, true);
+        self.declare_decl(&n.ident, true, None);
 
         n.visit_children_with(self);
     }
@@ -302,7 +318,11 @@ impl Visit for UsageAnalyzer {
         match n {
             Pat::Ident(i) => {
                 if self.ctx.in_pat_of_var_decl || self.ctx.in_pat_of_param {
-                    let v = self.declare_decl(i, self.ctx.in_pat_of_var_decl_with_init);
+                    let v = self.declare_decl(
+                        i,
+                        self.ctx.in_pat_of_var_decl_with_init,
+                        self.ctx.var_decl_kind_of_pat,
+                    );
 
                     if in_pat_of_param {
                         v.declared_as_fn_param = true;
