@@ -205,7 +205,36 @@ impl Optimizer {
             Expr::Ident(..) => true,
 
             // NaN
-            Expr::Bin(bin) => bin.right.as_number() == Known(0.0),
+            Expr::Bin(BinExpr {
+                op: op!("/"),
+                right,
+                ..
+            }) => {
+                let rn = right.as_number();
+                let v = if let Known(rn) = rn {
+                    if rn != 0.0 {
+                        true
+                    } else {
+                        false
+                    }
+                } else {
+                    false
+                };
+
+                if v {
+                    true
+                } else {
+                    self.changed = true;
+                    let span = delete.arg.span();
+                    log::trace!("booleans: Compressing `delete` as sequence expression");
+                    *e = Expr::Seq(SeqExpr {
+                        span,
+                        exprs: vec![delete.arg.take(), Box::new(make_bool(span, true))],
+                    });
+                    return;
+                }
+            }
+
             _ => false,
         };
 
