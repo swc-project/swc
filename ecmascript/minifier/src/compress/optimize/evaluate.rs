@@ -5,6 +5,7 @@ use swc_atoms::js_word;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::undefined;
 use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::Value::Known;
@@ -30,23 +31,28 @@ impl Optimizer {
             return;
         }
 
+        // We should not convert used-defined `undefined` to `void 0`.
+        match e {
+            Expr::Ident(i) => {
+                if self
+                    .data
+                    .as_ref()
+                    .and_then(|data| data.vars.get(&i.to_id()))
+                    .map(|var| var.declared)
+                    .unwrap_or(false)
+                {
+                    return;
+                }
+            }
+            _ => {}
+        }
+
         match e {
             Expr::Ident(Ident {
                 span,
                 sym: js_word!("undefined"),
                 ..
             }) => {
-                // We should not convert used-defined `undefined` to `void 0`.
-                if self
-                    .data
-                    .as_ref()
-                    .and_then(|data| data.vars.get(&(js_word!("undefined"), span.ctxt)))
-                    .map(|var| var.declared)
-                    .unwrap_or(false)
-                {
-                    return;
-                }
-
                 log::trace!("evaluate: `undefined` -> `void 0`");
                 self.changed = true;
                 *e = *undefined(*span);
@@ -58,17 +64,6 @@ impl Optimizer {
                 sym: js_word!("Infinity"),
                 ..
             }) => {
-                // We should not convert used-defined varaible.
-                if self
-                    .data
-                    .as_ref()
-                    .and_then(|data| data.vars.get(&(js_word!("Infinity"), span.ctxt)))
-                    .map(|var| var.declared)
-                    .unwrap_or(false)
-                {
-                    return;
-                }
-
                 log::trace!("evaluate: `Infinity` -> `1 / 0`");
                 self.changed = true;
                 *e = Expr::Bin(BinExpr {
@@ -77,6 +72,28 @@ impl Optimizer {
                     left: Box::new(Expr::Lit(Lit::Num(Number {
                         span: DUMMY_SP,
                         value: 1.0,
+                    }))),
+                    right: Box::new(Expr::Lit(Lit::Num(Number {
+                        span: DUMMY_SP,
+                        value: 0.0,
+                    }))),
+                });
+                return;
+            }
+
+            Expr::Ident(Ident {
+                span,
+                sym: js_word!("NaN"),
+                ..
+            }) => {
+                log::trace!("evaluate: `NaN` -> `0 / 0`");
+                self.changed = true;
+                *e = Expr::Bin(BinExpr {
+                    span: span.with_ctxt(self.done_ctxt),
+                    op: op!("/"),
+                    left: Box::new(Expr::Lit(Lit::Num(Number {
+                        span: DUMMY_SP,
+                        value: 0.0,
                     }))),
                     right: Box::new(Expr::Lit(Lit::Num(Number {
                         span: DUMMY_SP,
