@@ -16,6 +16,17 @@ use swc_ecma_visit::VisitWith;
 
 /// Methods related to the option `collapse_vars`.
 impl Optimizer {
+    pub(super) fn collapse_seq_exprs(&mut self, e: &mut Expr) {
+        if !self.options.collapse_vars {
+            return;
+        }
+
+        let seq = match e {
+            Expr::Seq(seq) => seq,
+            _ => return,
+        };
+    }
+
     pub(super) fn collapse_assignment_to_vars(&mut self, e: &mut Expr) {
         if !self.options.collapse_vars {
             return;

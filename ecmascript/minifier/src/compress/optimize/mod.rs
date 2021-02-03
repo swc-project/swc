@@ -1144,6 +1144,8 @@ impl VisitMut for Optimizer {
 
         self.swap_bin_operands(e);
 
+        self.collapse_seq_exprs(e);
+
         // Normalize
         match e {
             Expr::Paren(paren) => {
