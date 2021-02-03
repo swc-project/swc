@@ -1324,7 +1324,7 @@ impl VisitMut for Optimizer {
         self.lift_seqs_of_assign(n);
     }
 
-    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         let ctx = Ctx {
             in_bang_arg: false,
             is_delete_arg: false,
@@ -1333,32 +1333,44 @@ impl VisitMut for Optimizer {
             is_lhs_of_assign: false,
             ..self.ctx
         };
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        self.optiimze_noop_loops(n);
+        if self.options.drop_debugger {
+            match s {
+                Stmt::Debugger(..) => {
+                    self.changed = true;
+                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    log::trace!("drop_debugger: Dropped a debugger statement");
+                    return;
+                }
+                _ => {}
+            }
+        }
 
-        match n {
+        self.optiimze_noop_loops(s);
+
+        match s {
             // We use var devl with no declarator to indicate we dropped an decl.
             Stmt::Decl(Decl::Var(VarDecl { decls, .. })) if decls.is_empty() => {
-                *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                 return;
             }
             _ => {}
         }
 
-        self.try_removing_block(n, false);
+        self.try_removing_block(s, false);
 
-        self.compress_if_without_alt(n);
+        self.compress_if_without_alt(s);
 
-        self.compress_if_stmt_as_cond(n);
+        self.compress_if_stmt_as_cond(s);
 
-        self.compress_if_stmt_as_expr(n);
+        self.compress_if_stmt_as_expr(s);
 
-        self.optimize_const_switches(n);
+        self.optimize_const_switches(s);
 
-        self.optimize_switches(n);
+        self.optimize_switches(s);
 
-        match n {
+        match s {
             Stmt::Expr(ExprStmt { expr, .. }) => {
                 let is_directive = match &**expr {
                     Expr::Lit(Lit::Str(..)) => true,
@@ -1372,7 +1384,7 @@ impl VisitMut for Optimizer {
                             _ => false,
                         }
                     {
-                        *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                         return;
                     }
                 }
@@ -1383,7 +1395,7 @@ impl VisitMut for Optimizer {
                     if can_be_removed {
                         self.changed = true;
                         log::trace!("Dropping an expression without side effect");
-                        *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP })
+                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP })
                     }
                 }
             }
