@@ -490,6 +490,30 @@ impl Optimizer {
             | Expr::PrivateName(_)
             | Expr::Update(_) => return Some(e.take()),
 
+            // We drop `f.g` in
+            //
+            // function f() {
+            //      return f.g, 1
+            // }
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(obj),
+                computed: false,
+                ..
+            }) if self.options.top_level || !self.ctx.in_top_level() => match &**obj {
+                Expr::Ident(obj) => {
+                    if let Some(usage) = self
+                        .data
+                        .as_ref()
+                        .and_then(|data| data.vars.get(&obj.to_id()))
+                    {
+                        if usage.var_kind.is_none() {
+                            return None;
+                        }
+                    }
+                }
+                _ => {}
+            },
+
             // TODO: Check if it is a pure property access.
             Expr::Member(_) => return Some(e.take()),
 
