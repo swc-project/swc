@@ -785,6 +785,7 @@ impl SimplifyExpr {
             }
             op!(unary, "+") => match arg.as_number() {
                 Known(v) => {
+                    self.changed = true;
                     return preserve_effects(
                         span,
                         Expr::Lit(Lit::Num(Number { value: v, span })),
