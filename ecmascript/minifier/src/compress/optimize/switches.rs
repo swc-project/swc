@@ -1,10 +1,10 @@
 use super::Optimizer;
+use crate::util::ExprOptExt;
 use swc_common::EqIgnoreSpan;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::ExprExt;
 use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::Node;
 use swc_ecma_visit::Visit;
@@ -26,16 +26,12 @@ impl Optimizer {
             _ => return,
         };
 
-        if stmt.discriminant.may_have_side_effects() {
-            return;
-        }
-
         let discriminant = &mut stmt.discriminant;
 
         let matching_case = stmt.cases.iter_mut().position(|case| {
             case.test
                 .as_ref()
-                .map(|test| discriminant.eq_ignore_span(&test))
+                .map(|test| discriminant.value_mut().eq_ignore_span(&test))
                 .unwrap_or(false)
         });
 
@@ -61,6 +57,20 @@ impl Optimizer {
             }
 
             self.changed = true;
+            let mut preserved = vec![];
+            if !should_preserve_switch && !discriminant.is_lit() {
+                preserved.push(Stmt::Expr(ExprStmt {
+                    span: stmt.span,
+                    expr: discriminant.take(),
+                }));
+
+                if let Some(expr) = stmt.cases[case_idx].test.take() {
+                    preserved.push(Stmt::Expr(ExprStmt {
+                        span: stmt.cases[case_idx].span,
+                        expr,
+                    }));
+                }
+            }
 
             for case in stmt.cases.iter_mut().skip(case_idx) {
                 let mut found_break = false;
@@ -105,9 +115,10 @@ impl Optimizer {
                     cases: vec![case],
                 })
             } else {
+                preserved.extend(stmts);
                 Stmt::Block(BlockStmt {
                     span: DUMMY_SP,
-                    stmts,
+                    stmts: preserved,
                 })
             };
 
