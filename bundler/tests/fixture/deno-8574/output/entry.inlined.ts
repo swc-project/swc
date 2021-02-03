@@ -660,7 +660,7 @@ var getGlobal = function() {
 };
 var global = getGlobal();
 var nodeFetch = global.fetch.bind(global);
-const VERSION1 = "5.4.13";
+const VERSION1 = "5.4.14";
 function getBufferResponse(response) {
     return response.arrayBuffer();
 }

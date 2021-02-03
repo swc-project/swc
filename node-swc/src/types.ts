@@ -245,6 +245,8 @@ export interface EnvConfig {
 
   targets?: any;
 
+  path?: string;
+
   shippedProposals?: boolean;
 
   /**
