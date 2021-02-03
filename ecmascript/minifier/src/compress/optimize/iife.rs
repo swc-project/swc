@@ -262,7 +262,6 @@ impl Optimizer {
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => self.can_be_inlined_for_iife(&arg),
-            Expr::Ident(i) => true,
             _ => false,
         }
     }
