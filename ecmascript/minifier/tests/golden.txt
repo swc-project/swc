@@ -204,6 +204,7 @@ drop_console/drop_console_1/input.js
 drop_unused/const_assign/input.js
 drop_unused/delete_assign_1/input.js
 drop_unused/double_assign_3/input.js
+drop_unused/drop_assign/input.js
 drop_unused/drop_fnames/input.js
 drop_unused/drop_toplevel_all/input.js
 drop_unused/iife/input.js
