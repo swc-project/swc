@@ -478,6 +478,15 @@ impl Fold for Remover {
             }
 
             Stmt::Switch(mut s) => {
+                match &*s.discriminant {
+                    Expr::Update(..) => {
+                        if s.cases.len() != 1 {
+                            return Stmt::Switch(s);
+                        }
+                    }
+                    _ => {}
+                }
+
                 let remove_break = |stmts: Vec<Stmt>| {
                     debug_assert!(
                         !has_conditional_stopper(&*stmts) || has_unconditional_stopper(&*stmts)
