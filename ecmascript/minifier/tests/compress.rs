@@ -17,6 +17,7 @@ use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_minifier::optimize;
 use swc_ecma_minifier::option::CompressOptions;
+use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_parser::lexer::input::SourceFileInput;
 use swc_ecma_parser::lexer::Lexer;
@@ -56,6 +57,14 @@ fn is_ignored(path: &Path) -> bool {
 enum InlineOption {
     Bool(bool),
     Num(u8),
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields)]
+#[serde(untagged)]
+enum TestMangleOptions {
+    Bool(bool),
+    Normal(MangleOptions),
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -321,7 +330,7 @@ fn fixture(input: PathBuf) {
         );
     }
 
-    let mangle =
+    let mangle: Option<TestMangleOptions> =
         mangle.map(|s| serde_json::from_str(&s).expect("failed to deserialize mangle.json"));
 
     testing::run_test2(false, |cm, handler| {
@@ -356,7 +365,16 @@ fn fixture(input: PathBuf) {
             None,
             &MinifyOptions {
                 compress: Some(config),
-                mangle,
+                mangle: mangle.and_then(|v| match v {
+                    TestMangleOptions::Bool(v) => {
+                        if v {
+                            Some(Default::default())
+                        } else {
+                            None
+                        }
+                    }
+                    TestMangleOptions::Normal(v) => Some(v),
+                }),
                 ..Default::default()
             },
         )
