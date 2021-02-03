@@ -187,9 +187,9 @@ impl Optimizer {
         }
     }
 
+    /// If a case ends with break but content is same with the consequtive case
+    /// except the break statement, we merge them.
     fn merge_cases_with_same_cons(&mut self, cases: &mut Vec<SwitchCase>) {
-        // If a case ends with break but content is same with the consequtive case
-        // except break, we merge them.
         let idx = cases.windows(2).rposition(|cases| {
             let l = &cases[0];
             let r = &cases[1];
