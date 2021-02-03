@@ -844,6 +844,7 @@ unicode/unicode_parse_variables/input.js
 unicode/unicode_props_safari/input.js
 unicode/unicode_string_literals/input.js
 unsafe_symbols/unsafe_symbols_1/input.js
+unsafe_symbols/unsafe_symbols_2/input.js
 wrap_iife/wrap_iife/input.js
 wrap_iife/wrap_iife_in_expression/input.js
 wrap_iife/wrap_iife_in_return_call/input.js
