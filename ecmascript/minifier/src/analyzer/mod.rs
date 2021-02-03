@@ -276,6 +276,20 @@ impl Visit for UsageAnalyzer {
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
+
+        for decl in &n.decls {
+            match (&decl.name, decl.init.as_deref()) {
+                (Pat::Ident(var), Some(Expr::Ident(init))) => {
+                    self.data
+                        .vars
+                        .entry(init.to_id())
+                        .or_default()
+                        .infects
+                        .push(var.to_id());
+                }
+                _ => {}
+            }
+        }
     }
 
     fn visit_var_declarator(&mut self, e: &VarDeclarator, _: &dyn Node) {
