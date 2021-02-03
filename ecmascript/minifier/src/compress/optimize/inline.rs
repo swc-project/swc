@@ -13,11 +13,8 @@ impl Optimizer {
             None => return,
         };
 
-        if (!self.options.top_level && self.options.top_retain.is_empty())
-            && self.ctx.in_top_level()
-        {
-            return;
-        }
+        let should_preserve = (!self.options.top_level && self.options.top_retain.is_empty())
+            && self.ctx.in_top_level();
 
         // TODO: Check for side effect between original decl position and inlined
         // position
@@ -38,6 +35,10 @@ impl Optimizer {
                     .as_ref()
                     .and_then(|data| data.vars.get(&i.to_id()))
                 {
+                    if should_preserve && usage.var_kind != Some(VarDeclKind::Const) {
+                        return;
+                    }
+
                     if usage.cond_init || usage.used_above_decl {
                         return;
                     }
@@ -88,7 +89,7 @@ impl Optimizer {
                             i.sym,
                             i.span.ctxt
                         );
-                        if self.options.inline != 0 {
+                        if self.options.inline != 0 && !should_preserve {
                             self.lits.insert(i.to_id(), init.take());
                         } else {
                             self.lits.insert(i.to_id(), init.clone());
@@ -97,7 +98,11 @@ impl Optimizer {
                     }
 
                     // Single use => inlined
-                    if is_inline_enabled && !usage.reassigned && usage.ref_count == 1 {
+                    if is_inline_enabled
+                        && !should_preserve
+                        && !usage.reassigned
+                        && usage.ref_count == 1
+                    {
                         if init.may_have_side_effects() {
                             // TODO: Inline partially
                             return;
