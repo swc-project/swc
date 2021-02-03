@@ -3,15 +3,12 @@ use super::Optimizer;
 use std::ops::Deref;
 use std::ops::DerefMut;
 use swc_common::Mark;
-use swc_common::Spanned;
+use swc_common::Span;
 
 impl Optimizer {
     #[allow(unused)]
-    pub(super) fn is_done<N>(&mut self, n: &N) -> bool
-    where
-        N: Spanned,
-    {
-        let mut ctxt = n.span().ctxt;
+    pub(super) fn is_done(&mut self, span: Span) -> bool {
+        let mut ctxt = span.ctxt;
         if ctxt == self.done_ctxt {
             return true;
         }
