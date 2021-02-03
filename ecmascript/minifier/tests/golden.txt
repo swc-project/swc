@@ -1,3 +1,4 @@
+arguments/arguments_and_destructuring_1/input.js
 arguments/arguments_in_arrow_func_1/input.js
 arguments/arguments_in_arrow_func_2/input.js
 arguments/issue_687/input.js
@@ -203,6 +204,7 @@ directives/class_directives_compression/input.js
 directives/simple_statement_is_not_a_directive/input.js
 drop_console/drop_console_1/input.js
 drop_unused/assign_binding/input.js
+drop_unused/assign_chain/input.js
 drop_unused/const_assign/input.js
 drop_unused/delete_assign_1/input.js
 drop_unused/double_assign_3/input.js
