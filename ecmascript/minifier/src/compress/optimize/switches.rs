@@ -5,6 +5,9 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::Type;
+use swc_ecma_utils::Value::Known;
 use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::Node;
 use swc_ecma_visit::Visit;
@@ -231,6 +234,17 @@ impl Optimizer {
             log::trace!("switches: Merging cases with same cons");
             cases[idx].cons.clear();
         }
+    }
+
+    /// Remove unreachable cases using discriminant.
+    pub(super) fn drop_unreachable_cases(&mut self, s: &mut SwitchStmt) {
+        if !self.options.switches {
+            return;
+        }
+
+        let dt = s.discriminant.get_type();
+
+        if let Known(Type::Bool) = dt {}
     }
 
     pub(super) fn optimize_switches(&mut self, _s: &mut Stmt) {

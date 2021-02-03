@@ -1426,6 +1426,8 @@ impl VisitMut for Optimizer {
         };
         n.discriminant.visit_mut_with(&mut *self.with_ctx(ctx));
 
+        self.drop_unreachable_cases(n);
+
         n.cases.visit_mut_with(self);
     }
 
