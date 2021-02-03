@@ -1436,6 +1436,14 @@ impl VisitMut for Optimizer {
         n.body.visit_mut_with(self);
     }
 
+    fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
+        let ctx = Ctx {
+            executed_multiple_time: true,
+            ..self.ctx
+        };
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+    }
+
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
         decl.visit_mut_children_with(self);
 

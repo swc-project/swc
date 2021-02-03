@@ -21,7 +21,7 @@ impl Optimizer {
             return;
         }
 
-        if self.ctx.in_try_block {
+        if self.ctx.in_try_block || self.ctx.executed_multiple_time {
             return;
         }
 
