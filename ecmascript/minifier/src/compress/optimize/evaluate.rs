@@ -24,6 +24,15 @@ impl Optimizer {
                 sym: js_word!("undefined"),
                 ..
             }) => {
+                if self
+                    .data
+                    .as_ref()
+                    .and_then(|data| data.vars.get(&(js_word!("undefined"), span.ctxt)))
+                    .is_some()
+                {
+                    return;
+                }
+
                 log::trace!("evaluate: `undefined` -> `void 0`");
                 self.changed = true;
                 *e = *undefined(*span);
