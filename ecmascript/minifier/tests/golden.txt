@@ -791,6 +791,7 @@ switch/issue_1690_2/input.js
 switch/issue_1698/input.js
 switch/issue_1758/input.js
 switch/issue_2535/input.js
+switch/issue_376/input.js
 switch/issue_441_1/input.js
 switch/issue_441_2/input.js
 switch/keep_case/input.js
