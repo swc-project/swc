@@ -131,7 +131,7 @@ impl Optimizer {
     /// This method handles only class decl and fn decl. Var decl should be
     /// handled specially.
     pub(super) fn store_decl_for_inlining(&mut self, decl: &mut Decl) {
-        if !self.options.inline == 0 && !self.options.reduce_vars {
+        if self.options.inline == 0 && !self.options.reduce_vars {
             return;
         }
 
