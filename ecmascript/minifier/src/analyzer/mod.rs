@@ -129,6 +129,8 @@ impl ProgramData {
                     e.get_mut().assign_count += var_info.assign_count;
                     e.get_mut().usage_count += var_info.usage_count;
 
+                    e.get_mut().declared_as_catch_param |= var_info.declared_as_catch_param;
+
                     e.get_mut().infects.extend(var_info.infects);
 
                     match kind {
@@ -224,7 +226,7 @@ impl UsageAnalyzer {
         if self.ctx.in_cond && has_init {
             v.cond_init = true;
         }
-        v.declared_as_catch_param = self.ctx.in_catch_param;
+        v.declared_as_catch_param |= self.ctx.in_catch_param;
 
         v
     }
