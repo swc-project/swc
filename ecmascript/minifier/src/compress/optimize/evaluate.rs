@@ -25,6 +25,10 @@ impl Optimizer {
             return;
         }
 
+        if self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+            return;
+        }
+
         match e {
             Expr::Ident(Ident {
                 span,

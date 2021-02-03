@@ -81,6 +81,9 @@ struct Ctx {
     in_strict: bool,
     in_try_block: bool,
 
+    is_update_arg: bool,
+    is_lhs_of_assign: bool,
+
     /// `true` for loop bodies and conditions of loops.
     executed_multiple_time: bool,
 
