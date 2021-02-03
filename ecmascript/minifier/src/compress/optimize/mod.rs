@@ -47,6 +47,7 @@ mod loops;
 mod ops;
 mod sequences;
 mod switches;
+mod unsafes;
 mod unused;
 mod util;
 
@@ -1039,13 +1040,15 @@ impl VisitMut for Optimizer {
         e.visit_mut_children_with(self);
     }
 
-    fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
-        n.callee.visit_mut_with(self);
+    fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
+        e.callee.visit_mut_with(self);
 
         // TODO: Prevent inline if callee is unknown.
-        n.args.visit_mut_with(self);
+        e.args.visit_mut_with(self);
 
-        self.inline_args_of_iife(n);
+        self.optimize_symbol_call_unsafely(e);
+
+        self.inline_args_of_iife(e);
     }
 
     fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
