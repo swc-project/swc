@@ -122,6 +122,10 @@ impl Optimizer {
             return;
         }
 
+        if self.ctx.is_delete_arg {
+            return;
+        }
+
         if self
             .data
             .as_ref()
