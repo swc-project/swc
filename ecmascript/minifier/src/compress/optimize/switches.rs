@@ -199,6 +199,11 @@ impl Optimizer {
     fn merge_cases_with_same_cons(&mut self, cases: &mut Vec<SwitchCase>) {
         let mut found = None;
         'l: for (li, l) in cases.iter().enumerate().rev() {
+            match l.test.as_deref() {
+                Some(Expr::Update(..)) => continue,
+                _ => {}
+            }
+
             if l.cons.is_empty() {
                 continue;
             }
