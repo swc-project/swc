@@ -33,6 +33,14 @@ pub(super) struct Preserver {
 impl Visit for Preserver {
     noop_visit_type!();
 
+    fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        if (self.in_top_level && !self.options.top_level) || self.options.keep_class_names {
+            self.preserved.insert(n.ident.to_id());
+        }
+    }
+
     fn visit_catch_clause(&mut self, n: &CatchClause, _: &dyn Node) {
         let old = self.should_preserve;
         self.should_preserve = true;
@@ -76,7 +84,7 @@ impl Visit for Preserver {
     fn visit_fn_decl(&mut self, n: &FnDecl, _: &dyn Node) {
         n.visit_children_with(self);
 
-        if self.options.keep_fn_names {
+        if (self.in_top_level && !self.options.top_level) || self.options.keep_fn_names {
             self.preserved.insert(n.ident.to_id());
         }
     }
@@ -109,10 +117,12 @@ impl Visit for Preserver {
     }
 
     fn visit_stmts(&mut self, n: &[Stmt], _: &dyn Node) {
+        let old_top_level = self.in_top_level;
         for n in n {
             self.in_top_level = false;
             n.visit_with(&Invalid { span: DUMMY_SP }, self);
         }
+        self.in_top_level = old_top_level;
     }
 
     fn visit_var_declarator(&mut self, n: &VarDeclarator, _: &dyn Node) {

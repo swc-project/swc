@@ -86,6 +86,17 @@ impl VisitMut for Mangler {
         n.visit_mut_children_with(self);
     }
 
+    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+        self.rename(&mut n.ident);
+
+        n.class.visit_mut_with(self);
+    }
+
+    fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
+        self.rename(&mut n.ident);
+        n.function.visit_mut_with(self);
+    }
+
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
         n.body.visit_mut_with(self);
     }
