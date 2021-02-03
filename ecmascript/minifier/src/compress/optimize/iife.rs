@@ -203,7 +203,7 @@ impl Optimizer {
             Expr::Fn(f) => {
                 // Abort if a parameter is complex
                 if f.function.params.iter().any(|param| match param.pat {
-                    Pat::Assign(..) | Pat::Rest(..) => true,
+                    Pat::Object(..) | Pat::Array(..) | Pat::Assign(..) | Pat::Rest(..) => true,
                     _ => false,
                 }) {
                     return;
