@@ -163,6 +163,10 @@ impl Optimizer {
             return;
         }
 
+        if self.ctx.inline_prevented {
+            return;
+        }
+
         let expr = match e {
             Expr::Call(v) => v,
             _ => return,
@@ -197,8 +201,11 @@ impl Optimizer {
                 }
             }
             Expr::Fn(f) => {
-                // TODO: Improve this.
-                if !f.function.params.is_empty() {
+                // Abort if a parameter is complex
+                if f.function.params.iter().any(|param| match param.pat {
+                    Pat::Assign(..) | Pat::Rest(..) => true,
+                    _ => false,
+                }) {
                     return;
                 }
 
