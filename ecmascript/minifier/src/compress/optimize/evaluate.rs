@@ -3,6 +3,7 @@ use std::num::FpCategory;
 use super::Optimizer;
 use swc_atoms::js_word;
 use swc_common::SyntaxContext;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::undefined;
 use swc_ecma_utils::ExprExt;
@@ -14,13 +15,13 @@ impl Optimizer {
     ///
     /// This method call apppropriate methods for each ast types.
     pub(super) fn evaluate(&mut self, e: &mut Expr) {
-        self.eval_undefined(e);
+        self.eval_global_vars(e);
 
         self.eval_numbers(e);
         self.eval_str_method_call(e);
     }
 
-    fn eval_undefined(&mut self, e: &mut Expr) {
+    fn eval_global_vars(&mut self, e: &mut Expr) {
         if self.options.ie8 {
             return;
         }
@@ -49,6 +50,39 @@ impl Optimizer {
                 log::trace!("evaluate: `undefined` -> `void 0`");
                 self.changed = true;
                 *e = *undefined(*span);
+                return;
+            }
+
+            Expr::Ident(Ident {
+                span,
+                sym: js_word!("Infinity"),
+                ..
+            }) => {
+                // We should not convert used-defined varaible.
+                if self
+                    .data
+                    .as_ref()
+                    .and_then(|data| data.vars.get(&(js_word!("Infinity"), span.ctxt)))
+                    .map(|var| var.declared)
+                    .unwrap_or(false)
+                {
+                    return;
+                }
+
+                log::trace!("evaluate: `Infinity` -> `1 / 0`");
+                self.changed = true;
+                *e = Expr::Bin(BinExpr {
+                    span: span.with_ctxt(self.done_ctxt),
+                    op: op!("/"),
+                    left: Box::new(Expr::Lit(Lit::Num(Number {
+                        span: DUMMY_SP,
+                        value: 1.0,
+                    }))),
+                    right: Box::new(Expr::Lit(Lit::Num(Number {
+                        span: DUMMY_SP,
+                        value: 0.0,
+                    }))),
+                });
                 return;
             }
 
