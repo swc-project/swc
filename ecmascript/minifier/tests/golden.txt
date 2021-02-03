@@ -1,5 +1,6 @@
 arguments/arguments_in_arrow_func_1/input.js
 arguments/arguments_in_arrow_func_2/input.js
+arguments/issue_687/input.js
 arguments/modified/input.js
 arguments/replace_index_keep_fargs_strict/input.js
 array_constructor/array_constructor/input.js
@@ -201,6 +202,7 @@ destructuring/unused/input.js
 directives/class_directives_compression/input.js
 directives/simple_statement_is_not_a_directive/input.js
 drop_console/drop_console_1/input.js
+drop_unused/assign_binding/input.js
 drop_unused/const_assign/input.js
 drop_unused/delete_assign_1/input.js
 drop_unused/double_assign_3/input.js
