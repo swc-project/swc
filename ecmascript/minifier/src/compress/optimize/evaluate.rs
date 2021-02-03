@@ -73,6 +73,29 @@ impl Optimizer {
         let new_val = match &*method {
             "toLowerCase" => s.value.to_lowercase(),
             "toUpperCase" => s.value.to_uppercase(),
+            "charCodeAt" => {
+                if call.args.len() != 1 {
+                    return;
+                }
+                if let Expr::Lit(Lit::Num(Number { value, .. })) = &*call.args[0].expr {
+                    if value.fract() != 0.0 {
+                        return;
+                    }
+
+                    let idx = value.round() as i64 as usize;
+                    let c = s.value.chars().nth(idx);
+                    match c {
+                        Some(v) => {
+                            *e = Expr::Lit(Lit::Num(Number {
+                                span: call.span,
+                                value: v as usize as f64,
+                            }))
+                        }
+                        None => {}
+                    }
+                }
+                return;
+            }
             _ => return,
         };
 
