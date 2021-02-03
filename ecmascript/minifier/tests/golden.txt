@@ -651,6 +651,8 @@ reduce_vars/issue_1533_2/input.js
 reduce_vars/issue_1595_1/input.js
 reduce_vars/issue_1595_2/input.js
 reduce_vars/issue_1595_4/input.js
+reduce_vars/issue_1814_1/input.js
+reduce_vars/issue_1814_2/input.js
 reduce_vars/issue_1850_1/input.js
 reduce_vars/issue_1850_4/input.js
 reduce_vars/issue_1922_1/input.js
