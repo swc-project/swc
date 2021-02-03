@@ -1541,13 +1541,3 @@ fn is_pure_undefined(e: &Expr) -> bool {
         _ => false,
     }
 }
-
-fn is_clone_cheap(arg: &Expr) -> bool {
-    match arg {
-        Expr::Lit(..) => true,
-        Expr::Unary(UnaryExpr {
-            op: op!("!"), arg, ..
-        }) => is_clone_cheap(&arg),
-        _ => false,
-    }
-}
