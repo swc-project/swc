@@ -29,6 +29,7 @@ struct Mangler {
     options: MangleOptions,
     n: usize,
     preserved: FxHashSet<Id>,
+    preserved_symbols: FxHashSet<JsWord>,
     renamed: FxHashMap<Id, JsWord>,
     data: Option<ProgramData>,
 }
@@ -51,10 +52,18 @@ impl Mangler {
             return;
         }
 
-        let sym: JsWord = base54(self.n).into();
-        self.renamed.insert(i.to_id(), sym.clone());
-        i.sym = sym.clone();
-        self.n += 1;
+        loop {
+            let sym: JsWord = base54(self.n).into();
+            self.n += 1;
+            if self.preserved_symbols.contains(&sym) {
+                continue;
+            }
+
+            self.renamed.insert(i.to_id(), sym.clone());
+
+            i.sym = sym.clone();
+            break;
+        }
     }
 }
 
@@ -65,6 +74,7 @@ impl VisitMut for Mangler {
         let data = analyze(&*n);
         self.data = Some(data);
         self.preserved = idents_to_preserve(self.options.clone(), n);
+        self.preserved_symbols = self.preserved.iter().map(|v| v.0.clone()).collect();
         n.visit_mut_children_with(self);
     }
 
@@ -72,6 +82,7 @@ impl VisitMut for Mangler {
         let data = analyze(&*n);
         self.data = Some(data);
         self.preserved = idents_to_preserve(self.options.clone(), n);
+        self.preserved_symbols = self.preserved.iter().map(|v| v.0.clone()).collect();
         n.visit_mut_children_with(self);
     }
 
