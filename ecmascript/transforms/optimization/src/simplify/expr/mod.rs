@@ -1176,6 +1176,12 @@ impl Fold for SimplifyExpr {
     }
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
+        match expr {
+            Expr::Unary(UnaryExpr {
+                op: op!("delete"), ..
+            }) => return expr,
+            _ => {}
+        }
         // fold children before doing something more.
         let expr = expr.fold_children_with(self);
 
