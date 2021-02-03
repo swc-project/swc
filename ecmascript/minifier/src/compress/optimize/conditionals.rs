@@ -252,7 +252,7 @@ impl Optimizer {
     ///     some_condition ? side_effects(x) : side_effects(y);
     /// }
     /// ```
-    pub(super) fn compress_if_stmt_as_expr(&mut self, s: &mut Stmt) {
+    pub(super) fn compress_if_stmt_as_cond(&mut self, s: &mut Stmt) {
         if !self.options.conditionals {
             return;
         }
@@ -262,29 +262,11 @@ impl Optimizer {
             _ => return,
         };
 
+        // If alt does not exist, an if statement is better than a conditional
+        // expression.
         let alt = match &mut stmt.alt {
             Some(v) => &mut **v,
             None => {
-                match &mut *stmt.cons {
-                    Stmt::Expr(cons) => {
-                        self.changed = true;
-                        log::trace!("conditionals: `if (foo) bar;` => `foo && bar`");
-                        *s = Stmt::Expr(ExprStmt {
-                            span: stmt.span,
-                            expr: Box::new(Expr::Bin(BinExpr {
-                                span: stmt.test.span(),
-                                op: op!("&&"),
-                                left: stmt.test.take(),
-                                right: cons.expr.take(),
-                            })),
-                        });
-                        return;
-                    }
-                    _ => {}
-                }
-
-                // If alt does not exist, an if statement is better than a conditional
-                // expression.
                 return;
             }
         };

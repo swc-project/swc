@@ -1330,6 +1330,8 @@ impl VisitMut for Optimizer {
 
         self.compress_if_without_alt(n);
 
+        self.compress_if_stmt_as_cond(n);
+
         self.compress_if_stmt_as_expr(n);
 
         self.optimize_const_switches(n);
