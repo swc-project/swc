@@ -30,6 +30,10 @@ impl Optimizer {
         };
 
         let discriminant = &mut stmt.discriminant;
+        match &**discriminant {
+            Expr::Update(..) => return,
+            _ => {}
+        }
 
         let matching_case = stmt.cases.iter_mut().position(|case| {
             case.test
