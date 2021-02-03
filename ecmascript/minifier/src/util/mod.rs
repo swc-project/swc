@@ -35,6 +35,20 @@ pub(crate) fn make_bool(span: Span, value: bool) -> Expr {
 pub(crate) trait ExprOptExt: Sized {
     fn as_mut(&mut self) -> &mut Expr;
 
+    /// This returns itself for normal expressions and returns last exprssions
+    /// for sequence expressions.
+    fn value_mut(&mut self) -> &mut Expr {
+        let expr = self.as_mut();
+        match expr {
+            Expr::Seq(seq) => seq
+                .exprs
+                .last_mut()
+                .expect("Sequence expressions should have at least one element")
+                .value_mut(),
+            expr => expr,
+        }
+    }
+
     fn force_seq(&mut self) -> &mut SeqExpr {
         let expr = self.as_mut();
         match expr {
