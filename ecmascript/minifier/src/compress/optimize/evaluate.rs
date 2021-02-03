@@ -167,6 +167,9 @@ impl Optimizer {
                 let rn = bin.right.as_number();
                 match (ln, rn) {
                     (Known(ln), Known(rn)) => {
+                        if ln == 1.0 && rn == 0.0 {
+                            return;
+                        }
                         // It's NaN
                         match (ln.classify(), rn.classify()) {
                             (FpCategory::Zero, FpCategory::Zero) => {
