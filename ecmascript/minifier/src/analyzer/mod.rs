@@ -247,6 +247,104 @@ impl Visit for UsageAnalyzer {
         })
     }
 
+    fn visit_assign_expr(&mut self, n: &AssignExpr, _: &dyn Node) {
+        let ctx = Ctx {
+            in_assign_lhs: true,
+            ..self.ctx
+        };
+        n.left.visit_with(n, &mut *self.with_ctx(ctx));
+
+        n.right.visit_with(n, self);
+    }
+
+    fn visit_block_stmt(&mut self, n: &BlockStmt, _: &dyn Node) {
+        self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
+            n.visit_children_with(child);
+        })
+    }
+
+    fn visit_call_expr(&mut self, n: &CallExpr, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        match &n.callee {
+            ExprOrSuper::Expr(callee) => match &**callee {
+                Expr::Ident(Ident { sym, .. }) if *sym == *"eval" => {
+                    self.scope.has_eval_call = true;
+                }
+                _ => {}
+            },
+            _ => {}
+        }
+    }
+
+    fn visit_catch_clause(&mut self, n: &CatchClause, _: &dyn Node) {
+        let ctx = Ctx {
+            in_cond: true,
+            ..self.ctx
+        };
+
+        n.visit_children_with(&mut *self.with_ctx(ctx));
+    }
+
+    fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
+        self.declare_decl(&n.ident, true, None);
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
+        e.visit_children_with(self);
+
+        match e {
+            Expr::Ident(i) => {
+                self.report_usage(i, self.ctx.in_update_arg || self.ctx.in_assign_lhs);
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_fn_decl(&mut self, n: &FnDecl, _: &dyn Node) {
+        self.declare_decl(&n.ident, true, None);
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_for_in_stmt(&mut self, n: &ForInStmt, _: &dyn Node) {
+        n.right.visit_with(n, self);
+
+        self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
+            let ctx = Ctx {
+                in_left_of_for_loop: true,
+                ..child.ctx
+            };
+            n.left.visit_with(n, &mut *child.with_ctx(ctx));
+
+            let ctx = Ctx {
+                in_loop: true,
+                ..child.ctx
+            };
+            n.body.visit_with(n, &mut *child.with_ctx(ctx))
+        });
+    }
+
+    fn visit_for_of_stmt(&mut self, n: &ForOfStmt, _: &dyn Node) {
+        n.right.visit_with(n, self);
+
+        self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
+            let ctx = Ctx {
+                in_left_of_for_loop: true,
+                ..child.ctx
+            };
+            n.left.visit_with(n, &mut *child.with_ctx(ctx));
+
+            let ctx = Ctx {
+                in_loop: true,
+                ..child.ctx
+            };
+            n.body.visit_with(n, &mut *child.with_ctx(ctx))
+        });
+    }
+
     fn visit_function(&mut self, n: &Function, _: &dyn Node) {
         n.decorators.visit_with(n, self);
 
@@ -264,55 +362,41 @@ impl Visit for UsageAnalyzer {
         })
     }
 
-    fn visit_block_stmt(&mut self, n: &BlockStmt, _: &dyn Node) {
-        self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
-            n.visit_children_with(child);
-        })
-    }
-
-    fn visit_var_decl(&mut self, n: &VarDecl, _: &dyn Node) {
+    fn visit_if_stmt(&mut self, n: &IfStmt, _: &dyn Node) {
         let ctx = Ctx {
-            var_decl_kind_of_pat: Some(n.kind),
+            in_cond: true,
             ..self.ctx
         };
-        n.visit_children_with(&mut *self.with_ctx(ctx));
+        n.test.visit_with(n, self);
+        n.cons.visit_with(n, &mut *self.with_ctx(ctx));
+        n.alt.visit_with(n, &mut *self.with_ctx(ctx));
+    }
 
-        for decl in &n.decls {
-            match (&decl.name, decl.init.as_deref()) {
-                (Pat::Ident(var), Some(Expr::Ident(init))) => {
-                    self.data
-                        .vars
-                        .entry(init.to_id())
-                        .or_default()
-                        .infects
-                        .push(var.to_id());
+    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+        e.obj.visit_with(&Invalid { span: DUMMY_SP }, self);
+
+        if e.computed {
+            e.prop.visit_with(&Invalid { span: DUMMY_SP }, self);
+        }
+
+        match &e.obj {
+            ExprOrSuper::Super(_) => {}
+            ExprOrSuper::Expr(obj) => match &**obj {
+                Expr::Ident(obj) => {
+                    let v = self.data.vars.entry(obj.to_id()).or_default();
+                    v.has_property_access = true;
+                    if !e.computed {
+                        match &*e.prop {
+                            Expr::Ident(prop) => {
+                                v.accessed_props.insert(prop.sym.clone());
+                            }
+                            _ => {}
+                        }
+                    }
                 }
                 _ => {}
-            }
+            },
         }
-    }
-
-    fn visit_var_declarator(&mut self, e: &VarDeclarator, _: &dyn Node) {
-        let ctx = Ctx {
-            in_pat_of_var_decl: true,
-            in_pat_of_var_decl_with_init: e.init.is_some(),
-            ..self.ctx
-        };
-        e.name.visit_with(e, &mut *self.with_ctx(ctx));
-
-        e.init.visit_with(e, self);
-    }
-
-    fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
-        self.declare_decl(&n.ident, true, None);
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_fn_decl(&mut self, n: &FnDecl, _: &dyn Node) {
-        self.declare_decl(&n.ident, true, None);
-
-        n.visit_children_with(self);
     }
 
     fn visit_param(&mut self, n: &Param, _: &dyn Node) {
@@ -362,25 +446,6 @@ impl Visit for UsageAnalyzer {
         }
     }
 
-    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
-        e.visit_children_with(self);
-
-        match e {
-            Expr::Ident(i) => {
-                self.report_usage(i, self.ctx.in_update_arg || self.ctx.in_assign_lhs);
-            }
-            _ => {}
-        }
-    }
-
-    fn visit_stmt(&mut self, n: &Stmt, _: &dyn Node) {
-        let ctx = Ctx {
-            in_update_arg: false,
-            ..self.ctx
-        };
-        n.visit_children_with(&mut *self.with_ctx(ctx));
-    }
-
     fn visit_prop(&mut self, n: &Prop, _: &dyn Node) {
         let ctx = Ctx {
             in_update_arg: false,
@@ -396,92 +461,9 @@ impl Visit for UsageAnalyzer {
         }
     }
 
-    fn visit_for_in_stmt(&mut self, n: &ForInStmt, _: &dyn Node) {
-        n.right.visit_with(n, self);
-
-        self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
-            let ctx = Ctx {
-                in_left_of_for_loop: true,
-                ..child.ctx
-            };
-            n.left.visit_with(n, &mut *child.with_ctx(ctx));
-
-            let ctx = Ctx {
-                in_loop: true,
-                ..child.ctx
-            };
-            n.body.visit_with(n, &mut *child.with_ctx(ctx))
-        });
-    }
-
-    fn visit_for_of_stmt(&mut self, n: &ForOfStmt, _: &dyn Node) {
-        n.right.visit_with(n, self);
-
-        self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
-            let ctx = Ctx {
-                in_left_of_for_loop: true,
-                ..child.ctx
-            };
-            n.left.visit_with(n, &mut *child.with_ctx(ctx));
-
-            let ctx = Ctx {
-                in_loop: true,
-                ..child.ctx
-            };
-            n.body.visit_with(n, &mut *child.with_ctx(ctx))
-        });
-    }
-
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
-        e.obj.visit_with(&Invalid { span: DUMMY_SP }, self);
-
-        if e.computed {
-            e.prop.visit_with(&Invalid { span: DUMMY_SP }, self);
-        }
-
-        match &e.obj {
-            ExprOrSuper::Super(_) => {}
-            ExprOrSuper::Expr(obj) => match &**obj {
-                Expr::Ident(obj) => {
-                    let v = self.data.vars.entry(obj.to_id()).or_default();
-                    v.has_property_access = true;
-                    if !e.computed {
-                        match &*e.prop {
-                            Expr::Ident(prop) => {
-                                v.accessed_props.insert(prop.sym.clone());
-                            }
-                            _ => {}
-                        }
-                    }
-                }
-                _ => {}
-            },
-        }
-    }
-
-    fn visit_if_stmt(&mut self, n: &IfStmt, _: &dyn Node) {
+    fn visit_stmt(&mut self, n: &Stmt, _: &dyn Node) {
         let ctx = Ctx {
-            in_cond: true,
-            ..self.ctx
-        };
-        n.test.visit_with(n, self);
-        n.cons.visit_with(n, &mut *self.with_ctx(ctx));
-        n.alt.visit_with(n, &mut *self.with_ctx(ctx));
-    }
-
-    fn visit_assign_expr(&mut self, n: &AssignExpr, _: &dyn Node) {
-        let ctx = Ctx {
-            in_assign_lhs: true,
-            ..self.ctx
-        };
-        n.left.visit_with(n, &mut *self.with_ctx(ctx));
-
-        n.right.visit_with(n, self);
-    }
-
-    fn visit_update_expr(&mut self, n: &UpdateExpr, _: &dyn Node) {
-        let ctx = Ctx {
-            in_update_arg: true,
+            in_update_arg: false,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
@@ -496,27 +478,45 @@ impl Visit for UsageAnalyzer {
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
-    fn visit_catch_clause(&mut self, n: &CatchClause, _: &dyn Node) {
+    fn visit_update_expr(&mut self, n: &UpdateExpr, _: &dyn Node) {
         let ctx = Ctx {
-            in_cond: true,
+            in_update_arg: true,
             ..self.ctx
         };
-
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
-    fn visit_call_expr(&mut self, n: &CallExpr, _: &dyn Node) {
-        n.visit_children_with(self);
+    fn visit_var_decl(&mut self, n: &VarDecl, _: &dyn Node) {
+        let ctx = Ctx {
+            var_decl_kind_of_pat: Some(n.kind),
+            ..self.ctx
+        };
+        n.visit_children_with(&mut *self.with_ctx(ctx));
 
-        match &n.callee {
-            ExprOrSuper::Expr(callee) => match &**callee {
-                Expr::Ident(Ident { sym, .. }) if *sym == *"eval" => {
-                    self.scope.has_eval_call = true;
+        for decl in &n.decls {
+            match (&decl.name, decl.init.as_deref()) {
+                (Pat::Ident(var), Some(Expr::Ident(init))) => {
+                    self.data
+                        .vars
+                        .entry(init.to_id())
+                        .or_default()
+                        .infects
+                        .push(var.to_id());
                 }
                 _ => {}
-            },
-            _ => {}
+            }
         }
+    }
+
+    fn visit_var_declarator(&mut self, e: &VarDeclarator, _: &dyn Node) {
+        let ctx = Ctx {
+            in_pat_of_var_decl: true,
+            in_pat_of_var_decl_with_init: e.init.is_some(),
+            ..self.ctx
+        };
+        e.name.visit_with(e, &mut *self.with_ctx(ctx));
+
+        e.init.visit_with(e, self);
     }
 
     fn visit_with_stmt(&mut self, n: &WithStmt, _: &dyn Node) {
