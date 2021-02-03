@@ -5,6 +5,7 @@ arguments/issue_687/input.js
 arguments/modified/input.js
 arguments/replace_index_keep_fargs_strict/input.js
 array_constructor/array_constructor/input.js
+arrays/holes_and_undefined/input.js
 arrays/length/input.js
 arrays/spread_with_array_at_end/input.js
 arrays/spread_with_logical_expression_at_end/input.js
@@ -242,6 +243,7 @@ drop_unused/unused_nested_function/input.js
 drop_unused/unused_var_in_catch/input.js
 drop_unused/used_var_in_catch/input.js
 drop_unused/vardef_value/input.js
+evaluate/Infinity_NaN_undefined_LHS/input.js
 evaluate/global_hasOwnProperty/input.js
 evaluate/in_boolean_context/input.js
 evaluate/issue_1649/input.js
@@ -380,6 +382,7 @@ html_comments/html_comment_in_right_shift/input.js
 html_comments/html_comment_in_string_literal/input.js
 html_comments/html_comment_in_zero_fill_right_shift/input.js
 ie8/do_screw/input.js
+ie8/do_screw_constants/input.js
 ie8/dont_screw/input.js
 ie8/dont_screw_constants/input.js
 ie8/issue_2120_2/input.js
@@ -402,6 +405,7 @@ issue_1041/const_pragma/input.js
 issue_1041/not_const/input.js
 issue_1044/issue_1044/input.js
 issue_1105/Infinity_in_with_scope/input.js
+issue_1105/Infinity_not_in_with_scope/input.js
 issue_1105/check_drop_unused_in_peer_function/input.js
 issue_1105/with_in_global_scope/input.js
 issue_12/keep_name_of_getter/input.js
@@ -460,6 +464,7 @@ issue_2989/inline_script_on/input.js
 issue_427/no_wrap_func_args/input.js
 issue_427/wrap_func_args/input.js
 issue_59/keep_continue/input.js
+issue_597/NaN_and_Infinity_must_have_parens/input.js
 issue_597/beautify_off_2/input.js
 issue_597/beautify_on_2/input.js
 issue_640/drop_value/input.js
