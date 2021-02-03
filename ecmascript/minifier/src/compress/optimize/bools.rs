@@ -182,7 +182,7 @@ impl Optimizer {
         }
 
         let convert_to_true = match &*delete.arg {
-            Expr::Seq(..) => true,
+            Expr::Seq(..) | Expr::Cond(..) | Expr::Bin(..) => true,
             // V8 and terser test ref have different opinion.
             Expr::Ident(Ident {
                 sym: js_word!("Infinity"),
