@@ -966,50 +966,6 @@ impl Optimizer {
 impl VisitMut for Optimizer {
     noop_visit_mut_type!();
 
-    fn visit_mut_tpl(&mut self, n: &mut Tpl) {
-        debug_assert_eq!(n.exprs.len() + 1, n.quasis.len());
-
-        n.visit_mut_children_with(self);
-
-        n.exprs
-            .iter_mut()
-            .for_each(|expr| self.optimize_expr_in_str_ctx(&mut **expr));
-
-        self.compress_tpl(n);
-
-        debug_assert_eq!(
-            n.exprs.len() + 1,
-            n.quasis.len(),
-            "tagged template literal compressor created an invalid template literal"
-        );
-    }
-
-    fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
-        n.visit_mut_children_with(self);
-
-        if let Some(arg) = &mut n.arg {
-            self.optimize_in_fn_termiation(&mut **arg);
-        }
-    }
-
-    fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
-        n.visit_mut_children_with(self);
-
-        self.optimize_in_fn_termiation(&mut n.arg);
-    }
-
-    fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
-        let ctx = Ctx {
-            in_try_block: true,
-            ..self.ctx
-        };
-        n.block.visit_mut_with(&mut *self.with_ctx(ctx));
-
-        n.handler.visit_mut_with(self);
-
-        n.finalizer.visit_mut_with(self);
-    }
-
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
         {
             let ctx = Ctx {
@@ -1024,20 +980,26 @@ impl VisitMut for Optimizer {
         self.compress_bin_assignment_to_right(e);
     }
 
-    fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
-        if !self.options.keep_fnames {
-            self.remove_name_if_not_used(&mut e.ident);
-        }
+    fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
+        n.visit_mut_children_with(self);
 
-        e.visit_mut_children_with(self);
+        match &n.value {
+            Some(value) => {
+                if is_pure_undefined(&value) {
+                    n.value = None;
+                }
+            }
+            _ => {}
+        }
     }
 
-    fn visit_mut_class_expr(&mut self, e: &mut ClassExpr) {
-        if !self.options.keep_classnames {
-            self.remove_name_if_not_used(&mut e.ident);
-        }
-
-        e.visit_mut_children_with(self);
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        let ctx = Ctx {
+            stmt_lablled: false,
+            scope: n.span.ctxt,
+            ..self.ctx
+        };
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
@@ -1051,98 +1013,61 @@ impl VisitMut for Optimizer {
         self.inline_args_of_iife(e);
     }
 
-    fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
-        let ctx = Ctx {
-            inline_prevented: true,
-            ..self.ctx
-        };
-        n.discriminant.visit_mut_with(&mut *self.with_ctx(ctx));
+    fn visit_mut_class(&mut self, n: &mut Class) {
+        n.decorators.visit_mut_with(self);
 
-        n.cases.visit_mut_with(self);
+        {
+            let ctx = Ctx {
+                inline_prevented: true,
+                ..self.ctx
+            };
+            n.super_class.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+
+        {
+            let ctx = Ctx {
+                in_strict: true,
+                ..self.ctx
+            };
+            n.body.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
     }
 
-    fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
+    fn visit_mut_class_expr(&mut self, e: &mut ClassExpr) {
+        if !self.options.keep_classnames {
+            self.remove_name_if_not_used(&mut e.ident);
+        }
+
+        e.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_cond_expr(&mut self, n: &mut CondExpr) {
         n.visit_mut_children_with(self);
 
         self.optimize_expr_in_bool_ctx(&mut n.test);
     }
 
-    fn visit_mut_var_declarators(&mut self, vars: &mut Vec<VarDeclarator>) {
-        vars.retain_mut(|var| {
-            let had_init = var.init.is_some();
+    fn visit_mut_decl(&mut self, decl: &mut Decl) {
+        decl.visit_mut_children_with(self);
 
-            var.visit_mut_with(self);
-
-            if var.name.is_invalid() {
-                // It will be inlined.
-                self.changed = true;
-                return false;
-            }
-
-            // It will be inlined.
-            if had_init && var.init.is_none() {
-                self.changed = true;
-                return false;
-            }
-
-            true
-        })
+        self.drop_unused_decl(decl);
+        self.store_decl_for_inlining(decl);
     }
 
-    fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
-        var.visit_mut_children_with(self);
-
-        self.store_var_for_inining(var);
-        self.store_var_for_prop_hoisting(var);
-
-        match &var.init {
-            Some(init) => match &**init {
-                Expr::Invalid(..) => {
-                    var.init = None;
-                }
-                // I don't know why, but terser preserves this
-                Expr::Fn(FnExpr {
-                    function: Function { is_async: true, .. },
-                    ..
-                }) => {}
-                _ => {
-                    if !init.may_have_side_effects() {
-                        self.drop_unused_vars(&mut var.name);
-                    }
-                }
-            },
-            None => {
-                self.drop_unused_vars(&mut var.name);
-            }
-        }
+    fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
+        let ctx = Ctx {
+            is_exported: true,
+            ..self.ctx
+        };
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
-    fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
-        n.visit_mut_children_with(self);
-
-        {
-            let exprs = n
-                .exprs
-                .iter_mut()
-                .identify_last()
-                .filter_map(|(last, expr)| {
-                    if !last {
-                        // If negate_iife is true, it's already handled by
-                        // visit_mut_children_with(self) above.
-                        if !self.options.negate_iife {
-                            self.negate_iife_in_cond(&mut **expr);
-                        }
-
-                        self.ignore_return_value(&mut **expr).map(Box::new)
-                    } else {
-                        Some(expr.take())
-                    }
-                })
-                .collect::<Vec<_>>();
-            n.exprs = exprs;
-        }
-
-        self.lift_seqs_of_assign(n);
+    fn visit_mut_export_default_decl(&mut self, n: &mut ExportDefaultDecl) {
+        let ctx = Ctx {
+            is_exported: true,
+            ..self.ctx
+        };
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -1253,19 +1178,50 @@ impl VisitMut for Optimizer {
         self.optimize_bangbang(e);
     }
 
-    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
-        n.obj.visit_mut_with(self);
-        if n.computed {
-            n.prop.visit_mut_with(self);
+    fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
+        n.visit_mut_children_with(self);
+
+        self.negate_iife_ignoring_ret(&mut n.expr);
+
+        if self.options.unused
+            || self.options.side_effects
+            || (self.options.sequences && n.expr.is_seq())
+        {
+            let expr = self.ignore_return_value(&mut n.expr);
+            n.expr = expr.map(Box::new).unwrap_or_else(|| undefined(DUMMY_SP));
         }
     }
 
-    fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+    fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
+        if !self.options.keep_fnames {
+            self.remove_name_if_not_used(&mut e.ident);
+        }
+
+        e.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
+        n.right.visit_mut_with(self);
+
         let ctx = Ctx {
-            top_level: true,
+            in_var_decl_of_for_in_or_of_loop: true,
             ..self.ctx
         };
-        self.with_ctx(ctx).handle_stmt_likes(stmts);
+        n.left.visit_mut_with(&mut *self.with_ctx(ctx));
+
+        n.body.visit_mut_with(self);
+    }
+
+    fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
+        n.right.visit_mut_with(self);
+
+        let ctx = Ctx {
+            in_var_decl_of_for_in_or_of_loop: true,
+            ..self.ctx
+        };
+        n.left.visit_mut_with(&mut *self.with_ctx(ctx));
+
+        n.body.visit_mut_with(self);
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
@@ -1303,14 +1259,69 @@ impl VisitMut for Optimizer {
         }
     }
 
-    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+    fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
+        n.visit_mut_children_with(self);
+
+        self.optimize_expr_in_bool_ctx(&mut n.test);
+    }
+
+    fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
         let ctx = Ctx {
-            top_level: false,
+            stmt_lablled: true,
+            ..self.ctx
+        };
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+    }
+
+    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+        n.obj.visit_mut_with(self);
+        if n.computed {
+            n.prop.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        let ctx = Ctx {
+            top_level: true,
             ..self.ctx
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
+    }
 
-        self.with_ctx(ctx).merge_var_decls(stmts);
+    fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
+        n.visit_mut_children_with(self);
+
+        if let Some(arg) = &mut n.arg {
+            self.optimize_in_fn_termiation(&mut **arg);
+        }
+    }
+
+    fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
+        n.visit_mut_children_with(self);
+
+        {
+            let exprs = n
+                .exprs
+                .iter_mut()
+                .identify_last()
+                .filter_map(|(last, expr)| {
+                    if !last {
+                        // If negate_iife is true, it's already handled by
+                        // visit_mut_children_with(self) above.
+                        if !self.options.negate_iife {
+                            self.negate_iife_in_cond(&mut **expr);
+                        }
+
+                        self.ignore_return_value(&mut **expr).map(Box::new)
+                    } else {
+                        Some(expr.take())
+                    }
+                })
+                .collect::<Vec<_>>();
+            n.exprs = exprs;
+        }
+
+        self.lift_seqs_of_assign(n);
     }
 
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
@@ -1380,24 +1391,144 @@ impl VisitMut for Optimizer {
         }
     }
 
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        let ctx = Ctx {
+            top_level: false,
+            ..self.ctx
+        };
+        self.with_ctx(ctx).handle_stmt_likes(stmts);
+
+        self.with_ctx(ctx).merge_var_decls(stmts);
+    }
+
     fn visit_mut_switch_cases(&mut self, n: &mut Vec<SwitchCase>) {
         n.visit_mut_children_with(self);
 
         self.optimize_switch_cases(n);
     }
 
-    fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
+    fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
         let ctx = Ctx {
-            stmt_lablled: true,
+            inline_prevented: true,
             ..self.ctx
         };
+        n.discriminant.visit_mut_with(&mut *self.with_ctx(ctx));
+
+        n.cases.visit_mut_with(self);
+    }
+
+    fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
+        n.visit_mut_children_with(self);
+
+        self.optimize_in_fn_termiation(&mut n.arg);
+    }
+
+    fn visit_mut_tpl(&mut self, n: &mut Tpl) {
+        debug_assert_eq!(n.exprs.len() + 1, n.quasis.len());
+
+        n.visit_mut_children_with(self);
+
+        n.exprs
+            .iter_mut()
+            .for_each(|expr| self.optimize_expr_in_str_ctx(&mut **expr));
+
+        self.compress_tpl(n);
+
+        debug_assert_eq!(
+            n.exprs.len() + 1,
+            n.quasis.len(),
+            "tagged template literal compressor created an invalid template literal"
+        );
+    }
+
+    fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
+        let ctx = Ctx {
+            in_try_block: true,
+            ..self.ctx
+        };
+        n.block.visit_mut_with(&mut *self.with_ctx(ctx));
+
+        n.handler.visit_mut_with(self);
+
+        n.finalizer.visit_mut_with(self);
+    }
+
+    fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
+        let ctx = Ctx {
+            in_bang_arg: n.op == op!("!"),
+            is_delete_arg: n.op == op!("delete"),
+            ..self.ctx
+        };
+
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        if n.op == op!("!") {
+            self.with_ctx(ctx).optimize_expr_in_bool_ctx(&mut n.arg);
+        }
+    }
+
+    fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
+        let ctx = Ctx {
+            is_update_arg: true,
+            ..self.ctx
+        };
+
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
-    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+    fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
+        var.visit_mut_children_with(self);
+
+        self.store_var_for_inining(var);
+        self.store_var_for_prop_hoisting(var);
+
+        match &var.init {
+            Some(init) => match &**init {
+                Expr::Invalid(..) => {
+                    var.init = None;
+                }
+                // I don't know why, but terser preserves this
+                Expr::Fn(FnExpr {
+                    function: Function { is_async: true, .. },
+                    ..
+                }) => {}
+                _ => {
+                    if !init.may_have_side_effects() {
+                        self.drop_unused_vars(&mut var.name);
+                    }
+                }
+            },
+            None => {
+                self.drop_unused_vars(&mut var.name);
+            }
+        }
+    }
+
+    fn visit_mut_var_declarators(&mut self, vars: &mut Vec<VarDeclarator>) {
+        vars.retain_mut(|var| {
+            let had_init = var.init.is_some();
+
+            var.visit_mut_with(self);
+
+            if var.name.is_invalid() {
+                // It will be inlined.
+                self.changed = true;
+                return false;
+            }
+
+            // It will be inlined.
+            if had_init && var.init.is_none() {
+                self.changed = true;
+                return false;
+            }
+
+            true
+        })
+    }
+
+    fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
         let ctx = Ctx {
-            stmt_lablled: false,
-            scope: n.span.ctxt,
+            executed_multiple_time: true,
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -1415,137 +1546,6 @@ impl VisitMut for Optimizer {
                 }
             }
         }
-    }
-
-    fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
-        n.visit_mut_children_with(self);
-
-        match &n.value {
-            Some(value) => {
-                if is_pure_undefined(&value) {
-                    n.value = None;
-                }
-            }
-            _ => {}
-        }
-    }
-
-    fn visit_mut_cond_expr(&mut self, n: &mut CondExpr) {
-        n.visit_mut_children_with(self);
-
-        self.optimize_expr_in_bool_ctx(&mut n.test);
-    }
-
-    fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
-        let ctx = Ctx {
-            is_update_arg: true,
-            ..self.ctx
-        };
-
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
-    }
-
-    fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
-        let ctx = Ctx {
-            in_bang_arg: n.op == op!("!"),
-            is_delete_arg: n.op == op!("delete"),
-            ..self.ctx
-        };
-
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
-
-        if n.op == op!("!") {
-            self.with_ctx(ctx).optimize_expr_in_bool_ctx(&mut n.arg);
-        }
-    }
-
-    fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
-        n.visit_mut_children_with(self);
-
-        self.negate_iife_ignoring_ret(&mut n.expr);
-
-        if self.options.unused
-            || self.options.side_effects
-            || (self.options.sequences && n.expr.is_seq())
-        {
-            let expr = self.ignore_return_value(&mut n.expr);
-            n.expr = expr.map(Box::new).unwrap_or_else(|| undefined(DUMMY_SP));
-        }
-    }
-
-    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
-        n.right.visit_mut_with(self);
-
-        let ctx = Ctx {
-            in_var_decl_of_for_in_or_of_loop: true,
-            ..self.ctx
-        };
-        n.left.visit_mut_with(&mut *self.with_ctx(ctx));
-
-        n.body.visit_mut_with(self);
-    }
-
-    fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
-        n.right.visit_mut_with(self);
-
-        let ctx = Ctx {
-            in_var_decl_of_for_in_or_of_loop: true,
-            ..self.ctx
-        };
-        n.left.visit_mut_with(&mut *self.with_ctx(ctx));
-
-        n.body.visit_mut_with(self);
-    }
-
-    fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
-        let ctx = Ctx {
-            executed_multiple_time: true,
-            ..self.ctx
-        };
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
-    }
-
-    fn visit_mut_decl(&mut self, decl: &mut Decl) {
-        decl.visit_mut_children_with(self);
-
-        self.drop_unused_decl(decl);
-        self.store_decl_for_inlining(decl);
-    }
-
-    fn visit_mut_class(&mut self, n: &mut Class) {
-        n.decorators.visit_mut_with(self);
-
-        {
-            let ctx = Ctx {
-                inline_prevented: true,
-                ..self.ctx
-            };
-            n.super_class.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
-
-        {
-            let ctx = Ctx {
-                in_strict: true,
-                ..self.ctx
-            };
-            n.body.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
-    }
-
-    fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
-        let ctx = Ctx {
-            is_exported: true,
-            ..self.ctx
-        };
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
-    }
-
-    fn visit_mut_export_default_decl(&mut self, n: &mut ExportDefaultDecl) {
-        let ctx = Ctx {
-            is_exported: true,
-            ..self.ctx
-        };
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 }
 
