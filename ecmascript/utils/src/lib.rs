@@ -522,8 +522,9 @@ pub trait ExprExt {
                         if lv == 0.0 && rv == 0.0 {
                             return (Pure, Known(false));
                         }
+                        // Infinity is true.
                         if rv == 0.0 {
-                            return (MayBeImpure, Unknown);
+                            return (Pure, Known(true));
                         }
                         let v = lv / rv;
 
