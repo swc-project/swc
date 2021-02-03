@@ -1103,102 +1103,104 @@ impl VisitMut for Optimizer {
         self.lift_seqs_of_assign(n);
     }
 
-    fn visit_mut_expr(&mut self, n: &mut Expr) {
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
         let ctx = Ctx {
             is_exported: false,
             ..self.ctx
         };
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        e.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        self.optimize_str_access_to_arguments(n);
+        self.optimize_str_access_to_arguments(e);
 
-        self.replace_props(n);
+        self.replace_props(e);
 
-        self.swap_bin_operands(n);
+        self.swap_bin_operands(e);
 
         // Normalize
-        match n {
+        match e {
             Expr::Paren(paren) => {
                 self.changed = true;
-                *n = *paren.expr.take();
+                *e = *paren.expr.take();
             }
             _ => {}
         }
 
-        self.drop_unused_assignments(n);
+        self.drop_unused_assignments(e);
 
-        self.compress_regexp(n);
+        self.compress_regexp(e);
 
-        self.compress_lits(n);
+        self.compress_lits(e);
 
-        self.compress_typeofs(n);
+        self.compress_typeofs(e);
 
-        self.compress_useless_deletes(n);
+        self.compress_useless_deletes(e);
 
-        self.optimize_nullish_coalescing(n);
+        self.optimize_nullish_coalescing(e);
 
-        self.compress_logical_exprs_as_bang_bang(n);
+        self.compress_logical_exprs_as_bang_bang(e);
 
-        self.compress_useless_cond_expr(n);
+        self.compress_useless_cond_expr(e);
 
-        self.compress_conds_as_logical(n);
+        self.compress_conds_as_logical(e);
 
         if !self.ctx.inline_prevented {
-            match n {
+            match e {
                 Expr::Ident(i) => {
                     //
                     if let Some(value) = self.lits.get(&i.to_id()).cloned() {
                         self.changed = true;
                         log::trace!("inline: Replacing a variable with cheap expression");
 
-                        *n = *value;
+                        *e = *value;
                     } else if let Some(value) = self.vars_for_inlining.remove(&i.to_id()) {
                         self.changed = true;
                         log::trace!("inline: Replacing a variable with an expression");
 
-                        *n = *value;
+                        *e = *value;
                     }
                 }
                 _ => {}
             }
         }
 
-        match n {
+        match e {
             Expr::Bin(bin) => {
                 let expr = self.optimize_lit_cmp(bin);
                 if let Some(expr) = expr {
                     log::trace!("Optimizing: Literal comparison");
                     self.changed = true;
-                    *n = expr;
+                    *e = expr;
                 }
             }
             _ => {}
         }
 
-        self.compress_cond_expr_if_simillar(n);
-        self.compress_cond_with_logical_as_logical(n);
+        self.compress_cond_expr_if_simillar(e);
+        self.compress_cond_with_logical_as_logical(e);
 
-        self.compress_negated_bin_eq(n);
-        self.handle_negated_seq(n);
-        self.compress_array_join(n);
+        self.compress_negated_bin_eq(e);
+        self.handle_negated_seq(e);
+        self.compress_array_join(e);
 
-        self.compress_logical_exprs_with_negated_lhs(n);
+        self.compress_logical_exprs_with_negated_lhs(e);
 
-        self.remove_useless_pipes(n);
+        self.remove_useless_pipes(e);
 
-        self.optimize_bools(n);
+        self.optimize_bools(e);
 
-        self.lift_seqs_of_cond_assign(n);
+        self.lift_seqs_of_cond_assign(e);
 
         if self.options.negate_iife {
-            self.negate_iife_in_cond(n);
+            self.negate_iife_in_cond(e);
         }
 
-        self.evaluate(n);
+        self.collapse_vars_in_seq(e);
 
-        self.invoke_iife(n);
+        self.evaluate(e);
 
-        self.optimize_bangbang(n);
+        self.invoke_iife(e);
+
+        self.optimize_bangbang(e);
     }
 
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {

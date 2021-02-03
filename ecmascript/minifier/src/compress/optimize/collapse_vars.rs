@@ -16,6 +16,12 @@ use swc_ecma_visit::VisitWith;
 
 /// Methods related to option `collapse_vars`
 impl Optimizer {
+    pub(super) fn collapse_vars_in_seq(&mut self, e: &mut Expr) {
+        if !self.options.collapse_vars {
+            return;
+        }
+    }
+
     /// Collapse single-use non-constant variables, side effects permitting.
     pub(super) fn collapse_consequtive_vars<T>(&mut self, stmts: &mut Vec<T>)
     where
