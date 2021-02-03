@@ -252,7 +252,7 @@ impl Optimizer {
     ///     some_condition ? side_effects(x) : side_effects(y);
     /// }
     /// ```
-    pub(super) fn compress_if_stmt_as_cond(&mut self, s: &mut Stmt) {
+    pub(super) fn compress_if_stmt_as_expr(&mut self, s: &mut Stmt) {
         if !self.options.conditionals {
             return;
         }
