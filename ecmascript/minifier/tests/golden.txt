@@ -786,6 +786,7 @@ switch/drop_default_1/input.js
 switch/drop_default_2/input.js
 switch/if_switch_typeof/input.js
 switch/issue_1674/input.js
+switch/issue_1679/input.js
 switch/issue_1690_1/input.js
 switch/issue_1690_2/input.js
 switch/issue_1698/input.js
