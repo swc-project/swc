@@ -519,7 +519,7 @@ pub trait ExprExt {
                 match (lv, rv) {
                     (Known(lv), Known(rv)) => {
                         // NaN is false
-                        if rv == 0.0 {
+                        if lv == 0.0 && rv == 0.0 {
                             return (Pure, Known(false));
                         }
                         let v = lv / rv;
