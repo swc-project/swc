@@ -14,16 +14,12 @@ impl Optimizer {
     ///
     /// This method call apppropriate methods for each ast types.
     pub(super) fn evaluate(&mut self, e: &mut Expr) {
-        if !self.options.evaluate {
-            return;
-        }
-
         match e {
             Expr::Ident(Ident {
                 span,
                 sym: js_word!("undefined"),
                 ..
-            }) => {
+            }) if !self.options.ie8 => {
                 // We should not convert used-defined `undefined` to `void 0`.
                 if self
                     .data
@@ -49,6 +45,10 @@ impl Optimizer {
     }
 
     fn eval_str_method_call(&mut self, e: &mut Expr) {
+        if !self.options.evaluate {
+            return;
+        }
+
         let call = match e {
             Expr::Call(v) => v,
             _ => return,
@@ -110,6 +110,10 @@ impl Optimizer {
     }
 
     fn eval_numbers(&mut self, e: &mut Expr) {
+        if !self.options.evaluate {
+            return;
+        }
+
         match e {
             Expr::Bin(bin @ BinExpr { op: op!("/"), .. }) => {
                 let ln = bin.left.as_number();
