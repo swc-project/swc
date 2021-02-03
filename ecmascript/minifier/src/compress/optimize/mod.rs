@@ -80,6 +80,10 @@ struct Ctx {
     inline_prevented: bool,
     in_strict: bool,
     in_try_block: bool,
+
+    /// `true` for loop bodies and conditions of loops.
+    executed_multiple_time: bool,
+
     /// `true` while handling `expr` of `!expr`
     in_bang_arg: bool,
     in_var_decl_of_for_in_or_of_loop: bool,
@@ -1194,7 +1198,7 @@ impl VisitMut for Optimizer {
             self.negate_iife_in_cond(e);
         }
 
-        self.collapse_vars_in_seq(e);
+        self.collapse_assignment_to_vars(e);
 
         self.evaluate(e);
 

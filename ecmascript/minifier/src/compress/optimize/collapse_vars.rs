@@ -14,11 +14,50 @@ use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
 
-/// Methods related to option `collapse_vars`
+/// Methods related to the option `collapse_vars`.
 impl Optimizer {
-    pub(super) fn collapse_vars_in_seq(&mut self, e: &mut Expr) {
+    pub(super) fn collapse_assignment_to_vars(&mut self, e: &mut Expr) {
         if !self.options.collapse_vars {
             return;
+        }
+
+        if self.ctx.in_try_block {
+            return;
+        }
+
+        match &*e {
+            Expr::Assign(assign) => {
+                //
+                let left = match &assign.left {
+                    PatOrExpr::Expr(_) => return,
+                    PatOrExpr::Pat(left) => match &**left {
+                        Pat::Ident(i) => i,
+                        _ => return,
+                    },
+                };
+
+                if let Some(usage) = self
+                    .data
+                    .as_ref()
+                    .and_then(|data| data.vars.get(&left.to_id()))
+                {
+                    if !usage.declared
+                        || !usage.is_fn_local
+                        || usage.assign_count != 1
+                        || usage.var_kind == Some(VarDeclKind::Const)
+                    {
+                        return;
+                    }
+                }
+
+                let value = match &*assign.right {
+                    Expr::Lit(..) => assign.right.clone(),
+                    _ => return,
+                };
+
+                self.lits.insert(left.to_id(), value);
+            }
+            _ => {}
         }
     }
 
