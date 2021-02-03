@@ -437,6 +437,8 @@ issue_1704/mangle_catch_redef_1_ie8/input.js
 issue_1704/mangle_catch_redef_2/input.js
 issue_1704/mangle_catch_redef_2_ie8/input.js
 issue_1704/mangle_catch_var_ie8/input.js
+issue_1733/function_catch_catch/input.js
+issue_1733/function_catch_catch_ie8/input.js
 issue_1833/iife_for/input.js
 issue_1833/iife_for_in/input.js
 issue_1833/iife_while/input.js
@@ -732,6 +734,8 @@ regexp/regexp_1/input.js
 regexp/regexp_2/input.js
 regexp/regexp_simple/input.js
 regexp/regexp_slashes/input.js
+rename/function_catch_catch/input.js
+rename/function_catch_catch_ie8/input.js
 rename/issue_2120_2/input.js
 rename/mangle_catch_ie8/input.js
 rename/mangle_catch_redef_1/input.js
