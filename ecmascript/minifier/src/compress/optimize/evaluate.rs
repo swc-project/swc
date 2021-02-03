@@ -24,6 +24,7 @@ impl Optimizer {
                 sym: js_word!("undefined"),
                 ..
             }) => {
+                // We should not convert used-defined `undefined` to `void 0`.
                 if self
                     .data
                     .as_ref()
