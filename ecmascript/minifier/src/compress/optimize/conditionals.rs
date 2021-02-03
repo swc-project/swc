@@ -1,4 +1,5 @@
 use super::Optimizer;
+use crate::util::make_bool;
 use crate::util::SpanExt;
 use swc_common::EqIgnoreSpan;
 use swc_common::Spanned;
@@ -29,6 +30,26 @@ impl Optimizer {
 
         if bin.op != op!("||") && bin.op != op!("&&") {
             return;
+        }
+
+        if bin.left.may_have_side_effects() {
+            return;
+        }
+
+        let lt = bin.left.get_type();
+        let rt = bin.right.get_type();
+
+        let lb = bin.left.as_pure_bool();
+        let rb = bin.right.as_pure_bool();
+
+        if let (Known(Type::Bool), Known(Type::Bool)) = (lt, rt) {
+            // `!!b || true` => true
+            if let Known(true) = rb {
+                self.changed = true;
+                log::trace!("conditionals: `!!foo || true` => `true`");
+                *e = make_bool(bin.span, true);
+                return;
+            }
         }
     }
 
