@@ -86,6 +86,8 @@ impl Optimizer {
                     let c = s.value.chars().nth(idx);
                     match c {
                         Some(v) => {
+                            self.changed = true;
+                            log::trace!("evaluate: Evaluated `charCodeAt` of a string literal",);
                             *e = Expr::Lit(Lit::Num(Number {
                                 span: call.span,
                                 value: v as usize as f64,
