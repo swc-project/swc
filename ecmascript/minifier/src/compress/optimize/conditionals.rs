@@ -262,11 +262,31 @@ impl Optimizer {
             _ => return,
         };
 
-        // If alt does not exist, an if statement is better than a conditional
-        // expression.
         let alt = match &mut stmt.alt {
             Some(v) => &mut **v,
-            None => return,
+            None => {
+                match &mut *stmt.cons {
+                    Stmt::Expr(cons) => {
+                        self.changed = true;
+                        log::trace!("conditionals: `if (foo) bar;` => f`oo && bar`");
+                        *s = Stmt::Expr(ExprStmt {
+                            span: stmt.span,
+                            expr: Box::new(Expr::Bin(BinExpr {
+                                span: stmt.test.span(),
+                                op: op!("&&"),
+                                left: stmt.test.take(),
+                                right: cons.expr.take(),
+                            })),
+                        });
+                        return;
+                    }
+                    _ => {}
+                }
+
+                // If alt does not exist, an if statement is better than a conditional
+                // expression.
+                return;
+            }
         };
         let alt = match extract_expr_stmt(alt) {
             Some(v) => v,
