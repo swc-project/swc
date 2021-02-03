@@ -245,6 +245,7 @@ drop_unused/used_var_in_catch/input.js
 drop_unused/vardef_value/input.js
 evaluate/Infinity_NaN_undefined_LHS/input.js
 evaluate/and/input.js
+evaluate/call_args/input.js
 evaluate/global_hasOwnProperty/input.js
 evaluate/in_boolean_context/input.js
 evaluate/issue_1649/input.js
