@@ -7,7 +7,7 @@ use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
 use st_map::StaticMap;
 use std::{
-    convert::{TryFrom, TryInto},
+    path::{Path, PathBuf},
     process::Command,
 };
 use swc_atoms::{js_word, JsWord};
@@ -30,7 +30,8 @@ mod version;
 
 pub fn preset_env(global_mark: Mark, c: Config) -> impl Fold {
     let loose = c.loose;
-    let targets: Versions = c.targets.try_into().expect("failed to parse targets");
+    let targets: Versions =
+        targets_to_versions(c.targets, &c.path).expect("failed to parse targets");
     let is_any_target = targets.is_any_target();
 
     let (include, included_modules) = FeatureOrModule::split(c.include);
@@ -427,6 +428,9 @@ pub struct Config {
     #[serde(default = "default_targets")]
     pub targets: Option<Targets>,
 
+    #[serde(default = "default_path")]
+    pub path: PathBuf,
+
     #[serde(default)]
     pub shipped_proposals: bool,
 
@@ -436,6 +440,10 @@ pub struct Config {
 
 fn default_targets() -> Option<Targets> {
     Some(Targets::Query(Query::Single("".into())))
+}
+
+fn default_path() -> PathBuf {
+    std::env::current_dir().unwrap()
 }
 
 #[derive(Debug, Clone, Deserialize, FromVariant)]
@@ -494,13 +502,14 @@ pub enum Query {
 type QueryResult = Result<Versions, ()>;
 
 impl Query {
-    fn exec(&self) -> QueryResult {
-        fn query<T>(s: &[T]) -> QueryResult
+    fn exec(&self, path: &Path) -> QueryResult {
+        fn query<T>(s: &[T], path: &Path) -> QueryResult
         where
             T: AsRef<str> + Serialize,
         {
             let output = {
                 let output = Command::new("node")
+                    .current_dir(path)
                     .arg("-e")
                     .arg(include_str!("query.js"))
                     .arg(serde_json::to_string(&s).expect("failed to serialize with serde"))
@@ -537,8 +546,8 @@ impl Query {
         }
 
         let result = match *self {
-            Query::Single(ref s) => query(&[s]),
-            Query::Multiple(ref s) => query(&s),
+            Query::Single(ref s) => query(&[s], path),
+            Query::Multiple(ref s) => query(&s, path),
         };
 
         CACHE.insert(self.clone(), result);
@@ -547,36 +556,32 @@ impl Query {
     }
 }
 
-impl TryFrom<Option<Targets>> for Versions {
-    type Error = ();
+fn targets_to_versions(v: Option<Targets>, path: &Path) -> Result<Versions, ()> {
+    match v {
+        None => Ok(Default::default()),
+        Some(Targets::Versions(v)) => Ok(v),
+        Some(Targets::Query(q)) => q.exec(path),
+        Some(Targets::HashMap(mut map)) => {
+            let q = map.remove("browsers").map(|q| match q {
+                QueryOrVersion::Query(q) => q.exec(path).expect("failed to run query"),
+                _ => unreachable!(),
+            });
 
-    fn try_from(v: Option<Targets>) -> Result<Self, Self::Error> {
-        match v {
-            None => Ok(Default::default()),
-            Some(Targets::Versions(v)) => Ok(v),
-            Some(Targets::Query(q)) => q.exec(),
-            Some(Targets::HashMap(mut map)) => {
-                let q = map.remove("browsers").map(|q| match q {
-                    QueryOrVersion::Query(q) => q.exec().expect("failed to run query"),
-                    _ => unreachable!(),
-                });
+            let node = map.remove("node").map(|q| match q {
+                QueryOrVersion::Version(v) => v,
+                QueryOrVersion::Query(..) => unreachable!(),
+            });
 
-                let node = map.remove("node").map(|q| match q {
-                    QueryOrVersion::Version(v) => v,
-                    QueryOrVersion::Query(..) => unreachable!(),
-                });
-
-                if map.is_empty() {
-                    if let Some(mut q) = q {
-                        q.node = node;
-                        return Ok(q);
-                    }
+            if map.is_empty() {
+                if let Some(mut q) = q {
+                    q.node = node;
+                    return Ok(q);
                 }
-
-                unimplemented!("Targets: {:?}", map)
             }
-            _ => unimplemented!("Option<Targets>: {:?}", v),
+
+            unimplemented!("Targets: {:?}", map)
         }
+        _ => unimplemented!("Option<Targets>: {:?}", v),
     }
 }
 
@@ -586,7 +591,8 @@ mod tests {
 
     #[test]
     fn test_empty() {
-        let res = Query::Single("".into()).exec().unwrap();
+        let path = std::env::current_dir().unwrap();
+        let res = Query::Single("".into()).exec(&path).unwrap();
         assert!(
             !res.is_any_target(),
             "empty query should return non-empty result"

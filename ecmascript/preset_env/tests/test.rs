@@ -199,6 +199,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                     force_all_transforms: c.force_all_transforms,
                     shipped_proposals: c.shipped_proposals,
                     targets: c.targets,
+                    path: std::env::current_dir().unwrap(),
                 },
             );
 
