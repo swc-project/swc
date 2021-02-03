@@ -134,6 +134,12 @@ impl Optimizer {
         }
 
         let last_non_empty = cases.iter().rposition(|case| {
+            // We should preserve test cases if the test is not a literal.
+            match case.test.as_deref() {
+                Some(Expr::Lit(..)) | None => {}
+                _ => return true,
+            }
+
             if case.cons.is_empty() {
                 return false;
             }
