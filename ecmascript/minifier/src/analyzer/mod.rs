@@ -278,12 +278,23 @@ impl Visit for UsageAnalyzer {
     }
 
     fn visit_catch_clause(&mut self, n: &CatchClause, _: &dyn Node) {
-        let ctx = Ctx {
-            in_cond: true,
-            ..self.ctx
-        };
+        {
+            let ctx = Ctx {
+                in_cond: true,
+                in_pat_of_var_decl: true,
+                var_decl_kind_of_pat: None,
+                ..self.ctx
+            };
+            n.param.visit_with(n, &mut *self.with_ctx(ctx));
+        }
 
-        n.visit_children_with(&mut *self.with_ctx(ctx));
+        {
+            let ctx = Ctx {
+                in_cond: true,
+                ..self.ctx
+            };
+            n.body.visit_with(n, &mut *self.with_ctx(ctx));
+        }
     }
 
     fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
