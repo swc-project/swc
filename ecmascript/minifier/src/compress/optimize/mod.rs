@@ -1501,11 +1501,23 @@ impl VisitMut for Optimizer {
     }
 
     fn visit_mut_class(&mut self, n: &mut Class) {
-        let ctx = Ctx {
-            in_strict: true,
-            ..self.ctx
-        };
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        n.decorators.visit_mut_with(self);
+
+        {
+            let ctx = Ctx {
+                inline_prevented: true,
+                ..self.ctx
+            };
+            n.super_class.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+
+        {
+            let ctx = Ctx {
+                in_strict: true,
+                ..self.ctx
+            };
+            n.body.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
     }
 
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
