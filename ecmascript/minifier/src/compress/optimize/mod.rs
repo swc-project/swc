@@ -81,6 +81,7 @@ struct Ctx {
     in_strict: bool,
     in_try_block: bool,
 
+    is_delete_arg: bool,
     is_update_arg: bool,
     is_lhs_of_assign: bool,
 
@@ -1308,6 +1309,7 @@ impl VisitMut for Optimizer {
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
         let ctx = Ctx {
             in_bang_arg: false,
+            is_delete_arg: false,
             is_exported: false,
             is_update_arg: false,
             is_lhs_of_assign: false,
@@ -1439,6 +1441,7 @@ impl VisitMut for Optimizer {
     fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
         let ctx = Ctx {
             in_bang_arg: n.op == op!("!"),
+            is_delete_arg: n.op == op!("delete"),
             ..self.ctx
         };
 
