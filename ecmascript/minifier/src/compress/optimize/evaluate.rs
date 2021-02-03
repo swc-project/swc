@@ -53,6 +53,35 @@ impl Optimizer {
             Expr::Call(v) => v,
             _ => return,
         };
+
+        let (s, method) = match &call.callee {
+            ExprOrSuper::Super(_) => return,
+            ExprOrSuper::Expr(callee) => match &**callee {
+                Expr::Member(MemberExpr {
+                    obj: ExprOrSuper::Expr(obj),
+                    prop,
+                    computed: false,
+                    ..
+                }) => match (&**obj, &**prop) {
+                    (Expr::Lit(Lit::Str(s)), Expr::Ident(prop)) => (s.clone(), prop.sym.clone()),
+                    _ => return,
+                },
+                _ => return,
+            },
+        };
+
+        let new_val = match &*method {
+            "toLowerCase" => s.value.to_lowercase(),
+            "toUpperCase" => s.value.to_uppercase(),
+            _ => return,
+        };
+
+        self.changed = true;
+        log::trace!("evaluate: Evaluated `{}` of a string literal", method);
+        *e = Expr::Lit(Lit::Str(Str {
+            value: new_val.into(),
+            ..s
+        }));
     }
 
     fn eval_numbers(&mut self, e: &mut Expr) {
