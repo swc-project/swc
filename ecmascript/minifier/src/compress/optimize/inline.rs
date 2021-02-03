@@ -35,6 +35,10 @@ impl Optimizer {
                     .as_ref()
                     .and_then(|data| data.vars.get(&i.to_id()))
                 {
+                    if usage.declared_as_catch_param {
+                        return;
+                    }
+
                     if should_preserve && usage.var_kind != Some(VarDeclKind::Const) {
                         return;
                     }
@@ -153,6 +157,10 @@ impl Optimizer {
             .as_ref()
             .and_then(|data| data.vars.get(&i.to_id()))
         {
+            if usage.declared_as_catch_param {
+                return;
+            }
+
             if self.options.reduce_vars && self.options.typeofs && !usage.reassigned {
                 match &*decl {
                     Decl::Fn(..) => {
