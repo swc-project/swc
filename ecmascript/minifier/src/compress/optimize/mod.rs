@@ -174,7 +174,7 @@ impl Optimizer {
 
         self.make_sequences(stmts);
 
-        self.collapse_vars(stmts);
+        self.collapse_consequtive_vars(stmts);
 
         stmts.retain(|stmt| match stmt.as_stmt() {
             Some(Stmt::Empty(..)) => false,
