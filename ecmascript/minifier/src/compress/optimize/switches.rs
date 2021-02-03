@@ -133,6 +133,43 @@ impl Optimizer {
             return;
         }
 
+        {
+            // If a case ends with break but content is same with the consequtive case
+            // except break, we merge them.
+            let idx = cases.windows(2).rposition(|cases| {
+                let l = &cases[0];
+                let r = &cases[1];
+                if l.cons.is_empty() {
+                    return false;
+                }
+
+                if let Some(l_last) = l.cons.last() {
+                    match l_last {
+                        Stmt::Break(BreakStmt { label: None, .. }) => {}
+                        _ => return false,
+                    }
+                }
+
+                let mut r_cons_slice = r.cons.len();
+
+                if let Some(last) = r.cons.last() {
+                    match last {
+                        Stmt::Break(BreakStmt { label: None, .. }) => {
+                            r_cons_slice -= 1;
+                        }
+                        _ => return false,
+                    }
+                }
+
+                l.cons[..l.cons.len() - 1].eq_ignore_span(&r.cons[..r_cons_slice])
+            });
+            if let Some(idx) = idx {
+                self.changed = true;
+                log::trace!("switches: Merging cases with same cons");
+                cases[idx].cons.clear();
+            }
+        }
+
         let last_non_empty = cases.iter().rposition(|case| {
             // We should preserve test cases if the test is not a literal.
             match case.test.as_deref() {
