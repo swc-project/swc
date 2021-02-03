@@ -45,6 +45,14 @@ impl Optimizer {
         }
 
         self.eval_numbers(e);
+        self.eval_str_method_call(e);
+    }
+
+    fn eval_str_method_call(&mut self, e: &mut Expr) {
+        let call = match e {
+            Expr::Call(v) => v,
+            _ => return,
+        };
     }
 
     fn eval_numbers(&mut self, e: &mut Expr) {
