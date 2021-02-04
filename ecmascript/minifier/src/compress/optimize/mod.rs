@@ -167,12 +167,15 @@ impl Optimizer {
 
         {
             let mut child_ctx = Ctx { ..self.ctx };
+            let mut directive_count = 0;
 
             if stmts.len() >= 1 {
                 // TODO: Handle multiple directives.
                 match stmts[0].as_stmt() {
                     Some(Stmt::Expr(ExprStmt { expr, .. })) => match &**expr {
                         Expr::Lit(Lit::Str(v)) => {
+                            directive_count += 1;
+
                             if v.value == *"use strict" && !v.has_escape {
                                 child_ctx.in_strict = true;
                             }
@@ -184,11 +187,16 @@ impl Optimizer {
             }
 
             let mut new = Vec::with_capacity(stmts.len() * 11 / 10);
-            for mut stmt in stmts.take() {
+            for (i, mut stmt) in stmts.take().into_iter().enumerate() {
                 debug_assert_eq!(self.prepend_stmts, vec![]);
                 debug_assert_eq!(self.append_stmts, vec![]);
 
-                stmt.visit_mut_with(&mut *self.with_ctx(child_ctx));
+                if i < directive_count {
+                    // Don't set in_strict for directive itselfs.
+                    stmt.visit_mut_with(self);
+                } else {
+                    stmt.visit_mut_with(&mut *self.with_ctx(child_ctx));
+                }
 
                 new.extend(self.prepend_stmts.drain(..).map(T::from_stmt));
                 new.push(stmt);
@@ -1481,6 +1489,7 @@ impl VisitMut for Optimizer {
                             _ => false,
                         }
                     {
+                        log::trace!("removing 'use strict'");
                         *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                         return;
                     }
