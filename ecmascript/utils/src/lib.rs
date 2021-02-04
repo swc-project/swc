@@ -505,7 +505,31 @@ pub trait ExprExt {
                 let (p, v) = arg.as_bool();
                 return (p, !v);
             }
-            Expr::Seq(SeqExpr { ref exprs, .. }) => exprs.last().unwrap().as_bool().1,
+            Expr::Seq(SeqExpr { exprs, .. }) => exprs.last().unwrap().as_bool().1,
+
+            Expr::Bin(BinExpr {
+                left,
+                op: op!(bin, "-"),
+                right,
+                ..
+            }) => {
+                let (lp, ln) = left.cast_to_number();
+                let (rp, rn) = right.cast_to_number();
+
+                return (
+                    lp + rp,
+                    match (ln, rn) {
+                        (Known(ln), Known(rn)) => {
+                            if ln == rn {
+                                Known(false)
+                            } else {
+                                Known(true)
+                            }
+                        }
+                        _ => Unknown,
+                    },
+                );
+            }
 
             Expr::Bin(BinExpr {
                 left,
@@ -734,6 +758,7 @@ pub trait ExprExt {
                 if let Some(last) = seq.exprs.last() {
                     let (_, v) = last.cast_to_number();
 
+                    // TODO: Purity
                     return (MayBeImpure, v);
                 }
 
