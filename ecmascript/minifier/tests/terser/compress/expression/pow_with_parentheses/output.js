@@ -1,6 +1,6 @@
-var g = (-7) ** 0.5;
-var h = 2324334 ** 34343443;
-var i = (-2324334) ** 34343443;
-var j = 2 ** -3;
-var k = 2 ** -3;
-var l = 2 ** (5 - 7);
+var g = NaN;
+var h = Infinity;
+var i = -Infinity;
+var j = 0.125;
+var k = 0.125;
+var l = 0.25;
