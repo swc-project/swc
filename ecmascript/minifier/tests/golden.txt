@@ -312,6 +312,7 @@ functions/deduplicate_parenthesis/input.js
 functions/function_returning_constant_literal/input.js
 functions/inline_0/input.js
 functions/inline_false/input.js
+functions/inline_function_expressions/input.js
 functions/inline_loop_3/input.js
 functions/inline_loop_4/input.js
 functions/issue_2097/input.js
