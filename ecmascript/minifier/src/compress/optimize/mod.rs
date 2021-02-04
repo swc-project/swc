@@ -1446,6 +1446,16 @@ impl VisitMut for Optimizer {
         };
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
+        match s {
+            Stmt::Expr(ExprStmt { expr, .. }) => {
+                if is_pure_undefined(expr) {
+                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    return;
+                }
+            }
+            _ => {}
+        }
+
         if self.options.drop_debugger {
             match s {
                 Stmt::Debugger(..) => {
