@@ -131,6 +131,7 @@ impl Optimizer {
                         *init = Box::new(new);
                         return;
                     } else {
+                        s.init = None;
                         self.changed = true;
                         log::trace!(
                             "loops: Removed side-effect-free expressions in `init` of a for stmt"
