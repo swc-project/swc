@@ -8,6 +8,12 @@ use swc_ecma_utils::Value::Known;
 
 /// Methods related to the option `loops`.
 impl Optimizer {
+    pub(super) fn while_to_for(&mut self, s: &mut Stmt) {
+        if !self.options.loops {
+            return;
+        }
+    }
+
     pub(super) fn optiimze_noop_loops(&mut self, stmt: &mut Stmt) {
         if !self.options.loops {
             return;
