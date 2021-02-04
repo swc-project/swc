@@ -339,6 +339,13 @@ impl MapWithMut for VarDecl {
     }
 }
 
+impl MapWithMut for PropName {
+    #[inline]
+    fn dummy() -> Self {
+        PropName::Ident(Ident::dummy())
+    }
+}
+
 /// Do not use: This is not a public api and it can be changed without a version
 /// bump.
 pub trait PatOrExprExt: AsOptExpr {
