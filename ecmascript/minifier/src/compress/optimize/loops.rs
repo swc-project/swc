@@ -29,7 +29,7 @@ impl Optimizer {
                 let val = stmt.test.as_pure_bool();
                 if let Known(true) = val {
                     self.changed = true;
-                    log::trace!("loops: Converting a do-while loop to a for loop");
+                    log::trace!("loops: Converting an always-true do-while loop to a for loop");
 
                     *s = Stmt::For(ForStmt {
                         span: stmt.span,
