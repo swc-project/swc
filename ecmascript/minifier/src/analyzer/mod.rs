@@ -329,6 +329,22 @@ impl Visit for UsageAnalyzer {
         n.visit_children_with(self);
     }
 
+    fn visit_do_while_stmt(&mut self, n: &DoWhileStmt, _: &dyn Node) {
+        let ctx = Ctx {
+            in_loop: true,
+            ..self.ctx
+        };
+        n.visit_children_with(&mut *self.with_ctx(ctx));
+    }
+
+    fn visit_while_stmt(&mut self, n: &WhileStmt, _: &dyn Node) {
+        let ctx = Ctx {
+            in_loop: true,
+            ..self.ctx
+        };
+        n.visit_children_with(&mut *self.with_ctx(ctx));
+    }
+
     fn visit_for_in_stmt(&mut self, n: &ForInStmt, _: &dyn Node) {
         n.right.visit_with(n, self);
 
