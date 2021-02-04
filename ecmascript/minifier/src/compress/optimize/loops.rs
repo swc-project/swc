@@ -2,6 +2,7 @@ use crate::compress::optimize::unused::UnreachableHandler;
 use crate::compress::optimize::Optimizer;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::StmtLike;
 use swc_ecma_utils::Value::Known;
 
 /// Methods related to option `loops`.

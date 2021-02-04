@@ -63,6 +63,8 @@ pub(super) fn optimizer(options: CompressOptions) -> impl VisitMut + Repeated {
     Optimizer {
         changed: false,
         options,
+        prepend_stmts: Default::default(),
+        append_stmts: Default::default(),
         lits: Default::default(),
         vars_for_inlining: Default::default(),
         vars_for_prop_hoisting: Default::default(),
@@ -118,6 +120,10 @@ impl Ctx {
 struct Optimizer {
     changed: bool,
     options: CompressOptions,
+
+    prepend_stmts: Vec<Stmt>,
+    append_stmts: Vec<Stmt>,
+
     /// Cheap to clone.
     ///
     /// Used for inlining.
@@ -147,7 +153,7 @@ impl Repeated for Optimizer {
 impl Optimizer {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike,
+        T: StmtLike + VisitMutWith<Self>,
         Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer>,
     {
         match self.data {
@@ -175,7 +181,18 @@ impl Optimizer {
                 }
             }
 
-            stmts.visit_mut_children_with(&mut *self.with_ctx(child_ctx));
+            let mut new = Vec::with_capacity(stmts.len() * 11 / 10);
+            for mut stmt in stmts.take() {
+                debug_assert_eq!(self.prepend_stmts, vec![]);
+                debug_assert_eq!(self.append_stmts, vec![]);
+
+                stmt.visit_mut_with(&mut *self.with_ctx(child_ctx));
+
+                new.extend(self.prepend_stmts.drain(..).map(T::from_stmt));
+                new.push(stmt);
+                new.extend(self.append_stmts.drain(..).map(T::from_stmt));
+            }
+            *stmts = new;
         }
 
         self.merge_simillar_ifs(stmts);
