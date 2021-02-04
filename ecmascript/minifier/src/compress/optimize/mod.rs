@@ -1258,7 +1258,12 @@ impl VisitMut for Optimizer {
 
         self.negate_iife_ignoring_ret(&mut n.expr);
 
-        if self.options.unused
+        let is_directive = match &*n.expr {
+            Expr::Lit(Lit::Str(..)) => true,
+            _ => false,
+        };
+
+        if !is_directive && self.options.unused
             || self.options.side_effects
             || (self.options.sequences && n.expr.is_seq())
         {
