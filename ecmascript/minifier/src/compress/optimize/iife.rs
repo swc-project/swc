@@ -194,7 +194,11 @@ impl Optimizer {
                     }
                     BlockStmtOrExpr::Expr(body) => {
                         match &**body {
-                            Expr::Lit(Lit::Num(..)) => return,
+                            Expr::Lit(Lit::Num(..)) => {
+                                if self.ctx.in_obj_of_non_computed_member {
+                                    return;
+                                }
+                            }
                             _ => {}
                         }
                         self.changed = true;
