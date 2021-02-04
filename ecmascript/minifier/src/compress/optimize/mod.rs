@@ -1452,6 +1452,35 @@ impl VisitMut for Optimizer {
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
                 }
+
+                let is_directive = match &**expr {
+                    Expr::Lit(Lit::Str(..)) => true,
+                    _ => false,
+                };
+
+                if self.options.directives && is_directive {
+                    if self.ctx.in_strict
+                        && match &**expr {
+                            Expr::Lit(Lit::Str(Str { value, .. })) => *value == *"use strict",
+                            _ => false,
+                        }
+                    {
+                        log::trace!("Removing 'use strict'");
+                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                        return;
+                    }
+                }
+
+                if self.options.unused {
+                    let can_be_removed = !is_directive && !expr.may_have_side_effects();
+
+                    if can_be_removed {
+                        self.changed = true;
+                        log::trace!("Dropping an expression without side effect");
+                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                        return;
+                    }
+                }
             }
             _ => {}
         }
@@ -1492,39 +1521,6 @@ impl VisitMut for Optimizer {
         self.optimize_const_switches(s);
 
         self.optimize_switches(s);
-
-        match s {
-            Stmt::Expr(ExprStmt { expr, .. }) => {
-                let is_directive = match &**expr {
-                    Expr::Lit(Lit::Str(..)) => true,
-                    _ => false,
-                };
-
-                if self.options.directives && is_directive {
-                    if self.ctx.in_strict
-                        && match &**expr {
-                            Expr::Lit(Lit::Str(Str { value, .. })) => *value == *"use strict",
-                            _ => false,
-                        }
-                    {
-                        log::trace!("Removing 'use strict'");
-                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                        return;
-                    }
-                }
-
-                if self.options.unused {
-                    let can_be_removed = !is_directive && !expr.may_have_side_effects();
-
-                    if can_be_removed {
-                        self.changed = true;
-                        log::trace!("Dropping an expression without side effect");
-                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP })
-                    }
-                }
-            }
-            _ => {}
-        }
     }
 
     fn visit_mut_prop(&mut self, p: &mut Prop) {
