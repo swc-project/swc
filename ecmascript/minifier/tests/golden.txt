@@ -26,8 +26,10 @@ arrow/concise_method_with_super/input.js
 arrow/issue_2271/input.js
 arrow/issue_3092a/input.js
 arrow/no_leading_parentheses/input.js
+ascii/ascii_only_false/input.js
 ascii/ascii_only_false_identifier_es2015/input.js
 ascii/ascii_only_false_identifier_es5/input.js
+ascii/ascii_only_true/input.js
 ascii/ascii_only_true_identifier_es2015/input.js
 ascii/ascii_only_true_identifier_es5/input.js
 asm/asm_function_expression/input.js
@@ -592,6 +594,8 @@ object/methods_and_getters_with_keep_quoted_props_enabled/input.js
 object/prop_arrow_to_concise_method/input.js
 object/prop_arrows_to_concise_method_various/input.js
 object/property_with_operator_value/input.js
+object/property_with_unprintable/input.js
+object/property_with_unprintable_ascii_only/input.js
 object/property_with_unprintable_ascii_only_static/input.js
 object/use_shorthand_opportunity/input.js
 object/variable_as_computed_property/input.js
