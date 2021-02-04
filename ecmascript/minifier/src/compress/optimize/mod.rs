@@ -1224,6 +1224,12 @@ impl VisitMut for Optimizer {
         n.body.visit_mut_with(self);
     }
 
+    fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
+        s.visit_mut_children_with(self);
+
+        self.drop_if_break(s);
+    }
+
     fn visit_mut_function(&mut self, n: &mut Function) {
         {
             let ctx = Ctx {
