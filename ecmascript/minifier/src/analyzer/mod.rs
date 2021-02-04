@@ -506,6 +506,19 @@ impl Visit for UsageAnalyzer {
         }
     }
 
+    fn visit_setter_prop(&mut self, n: &SetterProp, _: &dyn Node) {
+        n.key.visit_with(n, self);
+        {
+            let ctx = Ctx {
+                in_pat_of_param: true,
+                ..self.ctx
+            };
+            n.param.visit_with(n, &mut *self.with_ctx(ctx));
+        }
+
+        n.body.visit_with(n, self);
+    }
+
     fn visit_stmt(&mut self, n: &Stmt, _: &dyn Node) {
         let ctx = Ctx {
             in_update_arg: false,
