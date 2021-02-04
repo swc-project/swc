@@ -503,6 +503,26 @@ impl Optimizer {
                 return Some(e.take())
             }
 
+            // Pure calls can be removed
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(callee),
+                args,
+                ..
+            }) if match &**callee {
+                Expr::Fn(f) => f
+                    .function
+                    .body
+                    .as_ref()
+                    .map(|body| body.stmts.is_empty())
+                    .unwrap_or(false),
+                _ => false,
+            } && args.is_empty() =>
+            {
+                log::trace!("ignore_return_value: Dropping a pure call");
+                self.changed = true;
+                return None;
+            }
+
             Expr::MetaProp(_)
             | Expr::Await(_)
             | Expr::Call(_)
