@@ -310,6 +310,8 @@ expression/pow_with_number_constants/input.js
 expression/pow_with_parentheses/input.js
 expression/pow_with_unary_between_brackets/input.js
 functions/deduplicate_parenthesis/input.js
+functions/drop_lone_use_strict/input.js
+functions/drop_lone_use_strict_arrows_1/input.js
 functions/function_returning_constant_literal/input.js
 functions/inline_0/input.js
 functions/inline_false/input.js
