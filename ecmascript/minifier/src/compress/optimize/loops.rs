@@ -12,6 +12,21 @@ impl Optimizer {
         if !self.options.loops {
             return;
         }
+
+        let stmt = match s {
+            Stmt::While(v) => v,
+            _ => return,
+        };
+
+        self.changed = true;
+        log::trace!("loops: Converting a while loop to a for loop");
+        *s = Stmt::For(ForStmt {
+            span: stmt.span,
+            init: None,
+            test: Some(stmt.test.take()),
+            update: None,
+            body: stmt.body.take(),
+        })
     }
 
     pub(super) fn optiimze_noop_loops(&mut self, stmt: &mut Stmt) {
