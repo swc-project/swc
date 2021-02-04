@@ -1370,7 +1370,7 @@ impl VisitMut for Optimizer {
             }
         }
 
-        self.while_to_for(s);
+        self.loop_to_for_stmt(s);
         self.optiimze_noop_loops(s);
 
         match s {

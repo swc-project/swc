@@ -8,25 +8,25 @@ use swc_ecma_utils::Value::Known;
 
 /// Methods related to the option `loops`.
 impl Optimizer {
-    pub(super) fn while_to_for(&mut self, s: &mut Stmt) {
+    pub(super) fn loop_to_for_stmt(&mut self, s: &mut Stmt) {
         if !self.options.loops {
             return;
         }
 
-        let stmt = match s {
-            Stmt::While(v) => v,
-            _ => return,
-        };
-
-        self.changed = true;
-        log::trace!("loops: Converting a while loop to a for loop");
-        *s = Stmt::For(ForStmt {
-            span: stmt.span,
-            init: None,
-            test: Some(stmt.test.take()),
-            update: None,
-            body: stmt.body.take(),
-        })
+        match s {
+            Stmt::While(stmt) => {
+                self.changed = true;
+                log::trace!("loops: Converting a while loop to a for loop");
+                *s = Stmt::For(ForStmt {
+                    span: stmt.span,
+                    init: None,
+                    test: Some(stmt.test.take()),
+                    update: None,
+                    body: stmt.body.take(),
+                })
+            }
+            _ => {}
+        }
     }
 
     pub(super) fn optiimze_noop_loops(&mut self, stmt: &mut Stmt) {
