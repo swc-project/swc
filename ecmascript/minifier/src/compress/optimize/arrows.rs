@@ -2,6 +2,7 @@ use super::Optimizer;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::contains_this_expr;
 
 /// Methods related to the option `arrows`.
 impl Optimizer {
@@ -13,6 +14,10 @@ impl Optimizer {
         match p {
             Prop::KeyValue(kv) => {
                 //
+                if contains_this_expr(&kv.value) {
+                    return;
+                }
+
                 match &mut *kv.value {
                     Expr::Arrow(
                         m
