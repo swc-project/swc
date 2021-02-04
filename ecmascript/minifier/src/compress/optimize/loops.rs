@@ -44,7 +44,7 @@ impl Optimizer {
         }
     }
 
-    pub(super) fn optiimze_noop_loops(&mut self, stmt: &mut Stmt) {
+    pub(super) fn optiimze_loops_if_cond_is_false(&mut self, stmt: &mut Stmt) {
         if !self.options.loops {
             return;
         }

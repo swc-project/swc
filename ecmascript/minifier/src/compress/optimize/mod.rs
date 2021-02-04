@@ -1393,7 +1393,7 @@ impl VisitMut for Optimizer {
         }
 
         self.loop_to_for_stmt(s);
-        self.optiimze_noop_loops(s);
+        self.optiimze_loops_if_cond_is_false(s);
 
         match s {
             // We use var devl with no declarator to indicate we dropped an decl.
