@@ -700,6 +700,7 @@ reduce_vars/issue_3042_2/input.js
 reduce_vars/issue_3068_1/input.js
 reduce_vars/issue_3068_2/input.js
 reduce_vars/issue_3113_4/input.js
+reduce_vars/issue_3113_5/input.js
 reduce_vars/issue_3125/input.js
 reduce_vars/issue_3140_1/input.js
 reduce_vars/issue_3140_2/input.js
@@ -790,6 +791,7 @@ switch/issue_1679/input.js
 switch/issue_1690_1/input.js
 switch/issue_1690_2/input.js
 switch/issue_1698/input.js
+switch/issue_1750/input.js
 switch/issue_1758/input.js
 switch/issue_2535/input.js
 switch/issue_376/input.js
