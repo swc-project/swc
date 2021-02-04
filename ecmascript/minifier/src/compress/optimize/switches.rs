@@ -151,6 +151,20 @@ impl Optimizer {
             return;
         }
 
+        // If default is not last, we can't remove empty cases.
+        let has_default = cases.iter().any(|case| case.test.is_none());
+        let all_ends_with_break = cases
+            .iter()
+            .all(|case| case.cons.is_empty() || case.cons.last().unwrap().is_break_stmt());
+        let mut preserve_cases = false;
+        if !all_ends_with_break && has_default {
+            if let Some(last) = cases.last() {
+                if last.test.is_some() {
+                    preserve_cases = true;
+                }
+            }
+        }
+
         self.merge_cases_with_same_cons(cases);
 
         let last_non_empty = cases.iter().rposition(|case| {
@@ -174,11 +188,13 @@ impl Optimizer {
             true
         });
 
-        if let Some(last_non_empty) = last_non_empty {
-            if last_non_empty + 1 != cases.len() {
-                log::trace!("switches: Removing empty cases at the end");
-                self.changed = true;
-                cases.drain(last_non_empty + 1..);
+        if !preserve_cases {
+            if let Some(last_non_empty) = last_non_empty {
+                if last_non_empty + 1 != cases.len() {
+                    log::trace!("switches: Removing empty cases at the end");
+                    self.changed = true;
+                    cases.drain(last_non_empty + 1..);
+                }
             }
         }
 
