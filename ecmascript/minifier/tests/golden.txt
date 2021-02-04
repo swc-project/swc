@@ -111,6 +111,7 @@ collapse_vars/issue_1605_1/input.js
 collapse_vars/issue_2203_1/input.js
 collapse_vars/issue_2203_3/input.js
 collapse_vars/issue_2313_1/input.js
+collapse_vars/issue_2319_2/input.js
 collapse_vars/issue_2425_1/input.js
 collapse_vars/issue_2425_2/input.js
 collapse_vars/issue_2425_3/input.js
