@@ -6,7 +6,7 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::Value::Known;
 
-/// Methods related to option `loops`.
+/// Methods related to the option `loops`.
 impl Optimizer {
     pub(super) fn optiimze_noop_loops(&mut self, stmt: &mut Stmt) {
         if !self.options.loops {
