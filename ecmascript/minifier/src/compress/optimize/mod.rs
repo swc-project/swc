@@ -106,6 +106,8 @@ struct Ctx {
     /// `true` while we are in a function or something simillar.
     in_fn_like: bool,
 
+    in_obj_of_non_computed_member: bool,
+
     /// Current scope.
     scope: SyntaxContext,
 }
@@ -1355,7 +1357,13 @@ impl VisitMut for Optimizer {
     }
 
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
-        n.obj.visit_mut_with(self);
+        {
+            let ctx = Ctx {
+                in_obj_of_non_computed_member: !n.computed,
+                ..self.ctx
+            };
+            n.obj.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
         if n.computed {
             n.prop.visit_mut_with(self);
         }
@@ -1412,6 +1420,7 @@ impl VisitMut for Optimizer {
             is_exported: false,
             is_update_arg: false,
             is_lhs_of_assign: false,
+            in_obj_of_non_computed_member: false,
             ..self.ctx
         };
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));

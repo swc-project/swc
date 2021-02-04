@@ -193,6 +193,10 @@ impl Optimizer {
                         // TODO
                     }
                     BlockStmtOrExpr::Expr(body) => {
+                        match &**body {
+                            Expr::Lit(Lit::Num(..)) => return,
+                            _ => {}
+                        }
                         self.changed = true;
                         log::trace!("inline: Inlining a call to an arrow function");
                         *e = *body.take();
@@ -216,7 +220,17 @@ impl Optimizer {
                 }
 
                 if !body.stmts.iter().all(|stmt| match stmt {
-                    Stmt::Expr(..) | Stmt::Return(..) => true,
+                    Stmt::Expr(..) => true,
+                    Stmt::Return(ReturnStmt { arg, .. }) => match arg.as_deref() {
+                        Some(Expr::Lit(Lit::Num(..))) => {
+                            if self.ctx.in_obj_of_non_computed_member {
+                                false
+                            } else {
+                                true
+                            }
+                        }
+                        _ => true,
+                    },
                     _ => false,
                 }) {
                     return;
