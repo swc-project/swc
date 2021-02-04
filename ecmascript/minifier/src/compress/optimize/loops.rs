@@ -44,6 +44,12 @@ impl Optimizer {
         }
     }
 
+    pub(super) fn optimize_loops_with_break(&mut self, s: &Stmt) {
+        if !self.options.loops {
+            return;
+        }
+    }
+
     pub(super) fn optiimze_loops_if_cond_is_false(&mut self, stmt: &mut Stmt) {
         if !self.options.loops {
             return;
