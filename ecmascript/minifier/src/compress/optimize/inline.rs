@@ -173,36 +173,36 @@ impl Optimizer {
                 }
             }
 
-            // Inline very simple functions.
-            match decl {
-                Decl::Fn(f) if self.options.inline != 0 => match &f.function.body {
-                    Some(body) => {
-                        if body.stmts.len() == 1 && body.stmts[0].is_return_stmt() {
-                            self.changed = true;
-                            log::trace!(
-                                "inline: Decided to inline function '{}{:?}' as it's very simple",
-                                f.ident.sym,
-                                f.ident.span.ctxt
-                            );
-                            self.vars_for_inlining.insert(
-                                i.to_id(),
-                                match decl.take() {
-                                    Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
-                                        ident: Some(f.ident),
-                                        function: f.function,
-                                    })),
-                                    _ => {
-                                        unreachable!()
-                                    }
-                                },
-                            );
-                            return;
-                        }
-                    }
-                    None => {}
-                },
-                _ => {}
-            }
+            // // Inline very simple functions.
+            // match decl {
+            //     Decl::Fn(f) if self.options.inline != 0 => match &f.function.body {
+            //         Some(body) => {
+            //             if body.stmts.len() == 1 && body.stmts[0].is_return_stmt() {
+            //                 self.changed = true;
+            //                 log::trace!(
+            //                     "inline: Decided to inline function '{}{:?}' as it's very
+            // simple",                     f.ident.sym,
+            //                     f.ident.span.ctxt
+            //                 );
+            //                 self.vars_for_inlining.insert(
+            //                     i.to_id(),
+            //                     match decl.take() {
+            //                         Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
+            //                             ident: Some(f.ident),
+            //                             function: f.function,
+            //                         })),
+            //                         _ => {
+            //                             unreachable!()
+            //                         }
+            //                     },
+            //                 );
+            //                 return;
+            //             }
+            //         }
+            //         None => {}
+            //     },
+            //     _ => {}
+            // }
 
             // Single use => inlined
             if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
