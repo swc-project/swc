@@ -459,6 +459,46 @@ impl Optimizer {
                 return None;
             }
 
+            Expr::Class(cls) => {
+                let mut exprs = vec![];
+                exprs.extend(
+                    cls.class
+                        .super_class
+                        .as_mut()
+                        .and_then(|e| self.ignore_return_value(e))
+                        .map(Box::new),
+                );
+
+                for member in &mut cls.class.body {
+                    match member {
+                        ClassMember::Method(ClassMethod { key, .. }) => match key {
+                            PropName::Computed(key) => {
+                                exprs.extend(self.ignore_return_value(&mut key.expr).map(Box::new));
+                            }
+                            _ => {}
+                        },
+                        ClassMember::ClassProp(ClassProp {
+                            key,
+                            computed: true,
+                            ..
+                        }) => {
+                            exprs.extend(self.ignore_return_value(key).map(Box::new));
+                        }
+
+                        _ => {}
+                    }
+                }
+
+                if exprs.is_empty() {
+                    return None;
+                }
+
+                return Some(Expr::Seq(SeqExpr {
+                    span: cls.class.span,
+                    exprs,
+                }));
+            }
+
             Expr::Paren(e) => return self.ignore_return_value(&mut e.expr),
 
             Expr::Unary(UnaryExpr {
@@ -675,10 +715,6 @@ impl Optimizer {
                     }));
                 }
             }
-            Expr::Tpl(_) => {}
-            Expr::TaggedTpl(_) => {}
-            Expr::Arrow(_) => {}
-            Expr::OptChain(_) => {}
 
             _ => {}
         }
