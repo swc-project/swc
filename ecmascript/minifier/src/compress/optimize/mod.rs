@@ -1527,6 +1527,20 @@ impl VisitMut for Optimizer {
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
         self.with_ctx(ctx).merge_var_decls(stmts);
+
+        if stmts.len() == 1 {
+            match &stmts[0] {
+                Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
+                    Expr::Lit(Lit::Str(s)) => {
+                        if s.value == *"use strict" {
+                            stmts.clear();
+                        }
+                    }
+                    _ => {}
+                },
+                _ => {}
+            }
+        }
     }
 
     fn visit_mut_switch_cases(&mut self, n: &mut Vec<SwitchCase>) {
