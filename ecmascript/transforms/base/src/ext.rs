@@ -346,6 +346,13 @@ impl MapWithMut for PropName {
     }
 }
 
+impl MapWithMut for BlockStmtOrExpr {
+    #[inline]
+    fn dummy() -> Self {
+        BlockStmtOrExpr::Expr(MapWithMut::dummy())
+    }
+}
+
 /// Do not use: This is not a public api and it can be changed without a version
 /// bump.
 pub trait PatOrExprExt: AsOptExpr {
