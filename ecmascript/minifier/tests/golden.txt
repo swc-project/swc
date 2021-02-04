@@ -725,6 +725,8 @@ reduce_vars/toplevel_off/input.js
 reduce_vars/toplevel_off_loops_3/input.js
 reduce_vars/toplevel_on/input.js
 reduce_vars/toplevel_on_loops_1/input.js
+reduce_vars/toplevel_on_loops_2/input.js
+reduce_vars/toplevel_on_loops_3/input.js
 reduce_vars/try_abort/input.js
 reduce_vars/unary_delete/input.js
 reduce_vars/unsafe_evaluate_array_3/input.js
