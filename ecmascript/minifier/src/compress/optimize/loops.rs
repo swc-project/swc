@@ -72,7 +72,7 @@ impl Optimizer {
             }
             Stmt::For(f) => {
                 if let Some(test) = &mut f.test {
-                    let (_purity, val) = test.as_bool();
+                    let (purity, val) = test.as_bool();
                     if let Known(false) = val {
                         let changed = UnreachableHandler::preserve_vars(&mut f.body);
                         self.changed |= changed;
@@ -96,6 +96,14 @@ impl Optimizer {
                         f.update = None;
                         *stmt = *f.body.take();
                         return;
+                    } else if let Known(true) = val {
+                        if purity.is_pure() {
+                            self.changed = true;
+                            log::trace!(
+                                "loops: Remving `test` part of a for stmt as it's always true"
+                            );
+                            f.test = None;
+                        }
                     }
                 }
             }
