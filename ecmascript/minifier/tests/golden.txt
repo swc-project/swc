@@ -586,6 +586,8 @@ object/getter_setter_with_computed_value/input.js
 object/issue_206/input.js
 object/issue_2554_5/input.js
 object/methods_and_getters_with_keep_quoted_props_enabled/input.js
+object/prop_arrow_to_concise_method/input.js
+object/prop_arrows_to_concise_method_various/input.js
 object/property_with_operator_value/input.js
 object/property_with_unprintable_ascii_only_static/input.js
 object/use_shorthand_opportunity/input.js
