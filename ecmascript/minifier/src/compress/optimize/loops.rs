@@ -44,10 +44,39 @@ impl Optimizer {
         }
     }
 
-    pub(super) fn optimize_loops_with_break(&mut self, s: &Stmt) {
+    pub(super) fn optimize_loops_with_break(&mut self, s: &mut Stmt) {
         if !self.options.loops {
             return;
         }
+
+        // As we normalize loops, this is enough.
+        let f = match s {
+            Stmt::For(v) => v,
+            _ => return,
+        };
+
+        // We only care about instant breaks.
+        if !f.body.is_break_stmt() {
+            return;
+        }
+
+        self.changed = true;
+        log::trace!("loops: Removing a for loop with instant break");
+        self.prepend_stmts
+            .extend(f.init.take().map(|init| match init {
+                VarDeclOrExpr::VarDecl(var) => Stmt::Decl(Decl::Var(var)),
+                VarDeclOrExpr::Expr(expr) => Stmt::Expr(ExprStmt {
+                    span: DUMMY_SP,
+                    expr,
+                }),
+            }));
+        self.prepend_stmts.extend(f.test.take().map(|expr| {
+            Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr,
+            })
+        }));
+        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP })
     }
 
     pub(super) fn optiimze_loops_if_cond_is_false(&mut self, stmt: &mut Stmt) {
