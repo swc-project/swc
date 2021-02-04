@@ -209,6 +209,10 @@ impl Optimizer {
                 }
             }
             Expr::Fn(f) => {
+                if f.function.is_generator {
+                    return;
+                }
+
                 // Abort if a parameter is complex
                 if f.function.params.iter().any(|param| match param.pat {
                     Pat::Object(..) | Pat::Array(..) | Pat::Assign(..) | Pat::Rest(..) => true,
