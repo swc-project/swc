@@ -117,7 +117,7 @@ impl Optimizer {
         }
     }
 
-    pub(super) fn optimize_for_init(&mut self, s: &mut ForStmt) {
+    pub(super) fn optimize_init_of_for_stmt(&mut self, s: &mut ForStmt) {
         if !self.options.side_effects {
             return;
         }

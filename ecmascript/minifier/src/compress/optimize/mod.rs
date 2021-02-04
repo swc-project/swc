@@ -1264,7 +1264,7 @@ impl VisitMut for Optimizer {
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
         s.visit_mut_children_with(self);
 
-        self.optimize_for_init(s);
+        self.optimize_init_of_for_stmt(s);
 
         self.drop_if_break(s);
     }
