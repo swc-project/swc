@@ -163,6 +163,7 @@ conditionals/ifs_1/input.js
 conditionals/ifs_2/input.js
 conditionals/ifs_4/input.js
 conditionals/issue_1645_2/input.js
+conditionals/issue_2560/input.js
 conditionals/no_evaluate/input.js
 conditionals/to_and_or/input.js
 conditionals/trivial_boolean_ternary_expressions/input.js
@@ -315,6 +316,8 @@ functions/inline_loop_1/input.js
 functions/inline_loop_3/input.js
 functions/inline_loop_4/input.js
 functions/issue_2097/input.js
+functions/issue_2531_2/input.js
+functions/issue_2531_3/input.js
 functions/issue_2663_1/input.js
 functions/issue_2663_3/input.js
 functions/issue_2737_1/input.js
@@ -358,6 +361,7 @@ harmony/issue_2028/input.js
 harmony/issue_2345/input.js
 harmony/issue_2676/input.js
 harmony/issue_2794_5/input.js
+harmony/issue_2874_3/input.js
 harmony/issue_3028/input.js
 harmony/issue_3061/input.js
 harmony/new_target/input.js
@@ -689,6 +693,7 @@ reduce_vars/issue_2090_2/input.js
 reduce_vars/issue_2406_1/input.js
 reduce_vars/issue_2406_2/input.js
 reduce_vars/issue_2416/input.js
+reduce_vars/issue_2423_2/input.js
 reduce_vars/issue_2423_4/input.js
 reduce_vars/issue_2436/input.js
 reduce_vars/issue_2440_eval_2/input.js
