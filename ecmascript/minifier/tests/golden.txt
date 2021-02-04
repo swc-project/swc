@@ -511,6 +511,7 @@ labels/labels_8/input.js
 logical_assignment/assign_in_conditional_part_reused/input.js
 logical_assignment/prematurely_evaluate_assignment/input.js
 logical_assignment/prematurely_evaluate_assignment_inv/input.js
+loops/dead_code_condition/input.js
 loops/do_switch/input.js
 loops/in_parenthesis_1/input.js
 loops/in_parenthesis_2/input.js
@@ -720,6 +721,7 @@ reduce_vars/redefine_arguments_2/input.js
 reduce_vars/redefine_arguments_3/input.js
 reduce_vars/toplevel_off/input.js
 reduce_vars/toplevel_on/input.js
+reduce_vars/toplevel_on_loops_1/input.js
 reduce_vars/try_abort/input.js
 reduce_vars/unary_delete/input.js
 reduce_vars/unsafe_evaluate_array_3/input.js
