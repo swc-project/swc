@@ -511,6 +511,7 @@ loops/do_switch/input.js
 loops/evaluate/input.js
 loops/in_parenthesis_1/input.js
 loops/in_parenthesis_2/input.js
+loops/init_side_effects/input.js
 loops/issue_1532/input.js
 loops/issue_1648/input.js
 loops/issue_186/input.js
