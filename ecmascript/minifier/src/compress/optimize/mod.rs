@@ -565,6 +565,10 @@ impl Optimizer {
                     .as_ref()
                     .map(|body| body.stmts.is_empty())
                     .unwrap_or(false),
+                Expr::Arrow(f) => match &f.body {
+                    BlockStmtOrExpr::BlockStmt(body) => body.stmts.is_empty(),
+                    BlockStmtOrExpr::Expr(_) => false,
+                },
                 _ => false,
             } && args.is_empty() =>
             {
