@@ -33,6 +33,7 @@ pub(crate) fn make_bool(span: Span, value: bool) -> Expr {
 
 /// Addditional methods for optimizing expressions.
 pub(crate) trait ExprOptExt: Sized {
+    fn as_expr(&self) -> &Expr;
     fn as_mut(&mut self) -> &mut Expr;
 
     /// This returns itself for normal expressions and returns last exprssions
@@ -90,12 +91,22 @@ pub(crate) trait ExprOptExt: Sized {
 
 impl ExprOptExt for Box<Expr> {
     #[inline]
+    fn as_expr(&self) -> &Expr {
+        &self
+    }
+
+    #[inline]
     fn as_mut(&mut self) -> &mut Expr {
         self
     }
 }
 
 impl ExprOptExt for Expr {
+    #[inline]
+    fn as_expr(&self) -> &Expr {
+        self
+    }
+
     #[inline]
     fn as_mut(&mut self) -> &mut Expr {
         self
