@@ -23,7 +23,22 @@ impl Optimizer {
                     test: Some(stmt.test.take()),
                     update: None,
                     body: stmt.body.take(),
-                })
+                });
+            }
+            Stmt::DoWhile(stmt) => {
+                let val = stmt.test.as_pure_bool();
+                if let Known(true) = val {
+                    self.changed = true;
+                    log::trace!("loops: Converting a do-while loop to a for loop");
+
+                    *s = Stmt::For(ForStmt {
+                        span: stmt.span,
+                        init: None,
+                        test: Some(stmt.test.take()),
+                        update: None,
+                        body: stmt.body.take(),
+                    });
+                }
             }
             _ => {}
         }
