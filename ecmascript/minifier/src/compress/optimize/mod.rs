@@ -1271,7 +1271,11 @@ impl VisitMut for Optimizer {
             _ => false,
         };
 
-        if !is_directive && self.options.unused
+        if is_directive {
+            return;
+        }
+
+        if self.options.unused
             || self.options.side_effects
             || (self.options.sequences && n.expr.is_seq())
         {
@@ -1489,7 +1493,7 @@ impl VisitMut for Optimizer {
                             _ => false,
                         }
                     {
-                        log::trace!("removing 'use strict'");
+                        log::trace!("Removing 'use strict'");
                         *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                         return;
                     }
