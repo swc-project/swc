@@ -1495,6 +1495,12 @@ impl VisitMut for Optimizer {
         }
     }
 
+    fn visit_mut_prop(&mut self, p: &mut Prop) {
+        p.visit_mut_children_with(self);
+
+        self.optimize_arrow_method_prop(p);
+    }
+
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         let ctx = Ctx {
             top_level: false,
