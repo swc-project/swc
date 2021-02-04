@@ -522,6 +522,8 @@ loops/issue_186_beautify_ie8/input.js
 loops/issue_186_braces/input.js
 loops/issue_186_braces_ie8/input.js
 loops/issue_186_ie8/input.js
+loops/issue_2740_1/input.js
+loops/issue_2740_2/input.js
 loops/keep_collapse_const_in_own_block_scope/input.js
 loops/keep_collapse_const_in_own_block_scope_2/input.js
 loops/parse_do_while_with_semicolon/input.js
@@ -723,6 +725,8 @@ reduce_vars/redefine_arguments_1/input.js
 reduce_vars/redefine_arguments_2/input.js
 reduce_vars/redefine_arguments_3/input.js
 reduce_vars/toplevel_off/input.js
+reduce_vars/toplevel_off_loops_1/input.js
+reduce_vars/toplevel_off_loops_2/input.js
 reduce_vars/toplevel_off_loops_3/input.js
 reduce_vars/toplevel_on/input.js
 reduce_vars/toplevel_on_loops_1/input.js
