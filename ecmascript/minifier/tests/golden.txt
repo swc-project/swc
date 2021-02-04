@@ -428,6 +428,7 @@ issue_143/tranformation_sort_order_lesser_or_equal/input.js
 issue_143/tranformation_sort_order_unequal/input.js
 issue_1588/runtime_error/input.js
 issue_1588/support_ie8/input.js
+issue_1656/f7/input.js
 issue_1673/side_effects_catch/input.js
 issue_1673/side_effects_else/input.js
 issue_1673/side_effects_finally/input.js
@@ -513,9 +514,11 @@ logical_assignment/prematurely_evaluate_assignment/input.js
 logical_assignment/prematurely_evaluate_assignment_inv/input.js
 loops/dead_code_condition/input.js
 loops/do_switch/input.js
+loops/evaluate/input.js
 loops/in_parenthesis_1/input.js
 loops/in_parenthesis_2/input.js
 loops/issue_1532/input.js
+loops/issue_1648/input.js
 loops/issue_186/input.js
 loops/issue_186_beautify/input.js
 loops/issue_186_beautify_braces/input.js
@@ -524,8 +527,11 @@ loops/issue_186_beautify_ie8/input.js
 loops/issue_186_braces/input.js
 loops/issue_186_braces_ie8/input.js
 loops/issue_186_ie8/input.js
+loops/keep_collapse_const_in_own_block_scope/input.js
+loops/keep_collapse_const_in_own_block_scope_2/input.js
 loops/parse_do_while_with_semicolon/input.js
 loops/parse_do_while_without_semicolon/input.js
+loops/while_becomes_for/input.js
 max_line_len/just_enough/input.js
 max_line_len/too_short/input.js
 negate_iife/issue_1254_negate_iife_false/input.js
@@ -720,6 +726,7 @@ reduce_vars/redefine_arguments_1/input.js
 reduce_vars/redefine_arguments_2/input.js
 reduce_vars/redefine_arguments_3/input.js
 reduce_vars/toplevel_off/input.js
+reduce_vars/toplevel_off_loops_3/input.js
 reduce_vars/toplevel_on/input.js
 reduce_vars/toplevel_on_loops_1/input.js
 reduce_vars/try_abort/input.js
