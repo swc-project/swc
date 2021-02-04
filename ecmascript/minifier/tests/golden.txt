@@ -696,6 +696,7 @@ reduce_vars/issue_2440_with_2/input.js
 reduce_vars/issue_2450_1/input.js
 reduce_vars/issue_2450_2/input.js
 reduce_vars/issue_2450_3/input.js
+reduce_vars/issue_2450_4/input.js
 reduce_vars/issue_2455/input.js
 reduce_vars/issue_2598/input.js
 reduce_vars/issue_2670/input.js
@@ -721,6 +722,7 @@ reduce_vars/multi_def_2/input.js
 reduce_vars/multi_def_3/input.js
 reduce_vars/obj_for_2/input.js
 reduce_vars/obj_var_1/input.js
+reduce_vars/perf_5/input.js
 reduce_vars/recursive_inlining_5/input.js
 reduce_vars/redefine_arguments_1/input.js
 reduce_vars/redefine_arguments_2/input.js
