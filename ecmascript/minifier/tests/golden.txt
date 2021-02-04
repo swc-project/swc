@@ -140,6 +140,7 @@ collapse_vars/switch_case_3/input.js
 collapse_vars/var_side_effects_1/input.js
 comments/preserve_comments_by_default/input.js
 comments/print_every_comment_only_once/input.js
+comparing/dont_change_in_or_instanceof_expressions/input.js
 comparing/keep_comparisons/input.js
 concat_strings/concat_2/input.js
 concat_strings/concat_3/input.js
@@ -303,6 +304,10 @@ export/keyword_valid_1/input.js
 export/keyword_valid_2/input.js
 export/keyword_valid_3/input.js
 export/trailing_comma/input.js
+expression/pow/input.js
+expression/pow_with_number_constants/input.js
+expression/pow_with_parentheses/input.js
+expression/pow_with_unary_between_brackets/input.js
 functions/deduplicate_parenthesis/input.js
 functions/function_returning_constant_literal/input.js
 functions/inline_0/input.js
@@ -322,6 +327,7 @@ harmony/array_literal_with_spread_1/input.js
 harmony/arrow_function_parens/input.js
 harmony/arrow_function_parens_2/input.js
 harmony/class_expression_statement/input.js
+harmony/class_expression_statement_unused/input.js
 harmony/class_extends/input.js
 harmony/class_extends_class/input.js
 harmony/class_extends_function/input.js
