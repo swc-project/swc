@@ -373,6 +373,20 @@ impl Visit for UsageAnalyzer {
         });
     }
 
+    fn visit_for_stmt(&mut self, n: &ForStmt, _: &dyn Node) {
+        n.init.visit_with(n, self);
+
+        let ctx = Ctx {
+            in_loop: true,
+            ..self.ctx
+        };
+
+        n.test.visit_with(n, &mut *self.with_ctx(ctx));
+        n.update.visit_with(n, &mut *self.with_ctx(ctx));
+
+        n.body.visit_with(n, &mut *self.with_ctx(ctx));
+    }
+
     fn visit_function(&mut self, n: &Function, _: &dyn Node) {
         n.decorators.visit_with(n, self);
 
