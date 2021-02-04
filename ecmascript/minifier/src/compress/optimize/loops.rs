@@ -116,4 +116,29 @@ impl Optimizer {
             return;
         }
     }
+
+    pub(super) fn optimize_for_init(&mut self, s: &mut ForStmt) {
+        if !self.options.side_effects {
+            return;
+        }
+
+        match &mut s.init {
+            Some(init) => match init {
+                VarDeclOrExpr::VarDecl(_) => {}
+                VarDeclOrExpr::Expr(init) => {
+                    let new = self.ignore_return_value(&mut **init);
+                    if let Some(new) = new {
+                        *init = Box::new(new);
+                        return;
+                    } else {
+                        self.changed = true;
+                        log::trace!(
+                            "loops: Removed side-effect-free expressions in `init` of a for stmt"
+                        );
+                    }
+                }
+            },
+            None => {}
+        }
+    }
 }
