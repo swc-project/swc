@@ -495,10 +495,12 @@ impl SimplifyExpr {
                             // 1 && $right
                             right
                         } else {
+                            self.changed = true;
                             // 0 && $right
                             return *left;
                         }
                     } else if val {
+                        self.changed = true;
                         // 1 || $right
                         return *left;
                     } else {
