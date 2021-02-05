@@ -353,6 +353,18 @@ impl MapWithMut for BlockStmtOrExpr {
     }
 }
 
+impl MapWithMut for VarDeclarator {
+    #[inline]
+    fn dummy() -> Self {
+        VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::dummy(),
+            init: None,
+            definite: Default::default(),
+        }
+    }
+}
+
 /// Do not use: This is not a public api and it can be changed without a version
 /// bump.
 pub trait PatOrExprExt: AsOptExpr {
