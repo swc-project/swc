@@ -330,6 +330,7 @@ impl Optimizer {
 
     /// Move `var` in subscope to current scope.
     fn extract_vars(&mut self, s: &mut Stmt) {
+        let mut found_other = false;
         match s {
             Stmt::Block(bs) => {
                 // Extract variables without
@@ -349,12 +350,17 @@ impl Optimizer {
                                 }
                                 self.changed = true;
                                 log::trace!("sequences: Hoisting `var` without init");
-                                self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                                let s = Stmt::Decl(Decl::Var(VarDecl {
                                     span: v.span,
                                     kind: VarDeclKind::Var,
                                     declare: false,
                                     decls: vec![decl.take()],
-                                })));
+                                }));
+                                if found_other {
+                                    self.append_stmts.push(s);
+                                } else {
+                                    self.prepend_stmts.push(s);
+                                }
                             }
 
                             v.decls.retain(|v| !v.name.is_invalid());
@@ -363,7 +369,9 @@ impl Optimizer {
                     }
                 }
             }
-            _ => {}
+            _ => {
+                found_other = true;
+            }
         }
     }
 }
