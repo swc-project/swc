@@ -129,6 +129,9 @@ impl Optimizer {
                         unreachable!()
                     }
                 };
+                self.changed = true;
+                log::trace!("negate: binary");
+                return;
             }
 
             Expr::Unary(UnaryExpr {
