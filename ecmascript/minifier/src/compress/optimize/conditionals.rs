@@ -120,6 +120,24 @@ impl Optimizer {
                 });
                 return;
             }
+
+            // TODO: Verify this rule.
+            if false {
+                if let Known(false) = lb {
+                    log::trace!("conditionals: `foo ? false : bar` => `!foo && bar`");
+
+                    self.changed = true;
+                    self.negate(&mut cond.test);
+
+                    *e = Expr::Bin(BinExpr {
+                        span: cond.span,
+                        op: op!("&&"),
+                        left: cond.test.take(),
+                        right: cond.alt.take(),
+                    });
+                    return;
+                }
+            }
         }
 
         let rt = cond.alt.get_type();
