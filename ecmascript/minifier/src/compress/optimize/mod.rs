@@ -1090,6 +1090,12 @@ impl VisitMut for Optimizer {
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
+    fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
+        body.visit_mut_children_with(self);
+
+        self.optimize_arrow_body(body);
+    }
+
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
         e.callee.visit_mut_with(self);
 
@@ -1408,6 +1414,12 @@ impl VisitMut for Optimizer {
         self.with_ctx(ctx).handle_stmt_likes(stmts);
     }
 
+    fn visit_mut_prop(&mut self, p: &mut Prop) {
+        p.visit_mut_children_with(self);
+
+        self.optimize_arrow_method_prop(p);
+    }
+
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
         n.visit_mut_children_with(self);
 
@@ -1533,12 +1545,6 @@ impl VisitMut for Optimizer {
         self.optimize_const_switches(s);
 
         self.optimize_switches(s);
-    }
-
-    fn visit_mut_prop(&mut self, p: &mut Prop) {
-        p.visit_mut_children_with(self);
-
-        self.optimize_arrow_method_prop(p);
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
