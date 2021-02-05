@@ -333,7 +333,7 @@ impl Optimizer {
         match s {
             Stmt::Block(bs) => {
                 // Extract variables without
-                'outer: for stmt in &mut bs.stmts {
+                for stmt in &mut bs.stmts {
                     match stmt {
                         Stmt::Decl(Decl::Var(
                             v
@@ -345,9 +345,10 @@ impl Optimizer {
                         )) => {
                             for decl in &mut v.decls {
                                 if decl.init.is_some() {
-                                    break 'outer;
+                                    continue;
                                 }
-
+                                self.changed = true;
+                                log::trace!("sequences: Hoisting `var` without init");
                                 self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                                     span: v.span,
                                     kind: VarDeclKind::Var,
@@ -358,7 +359,7 @@ impl Optimizer {
 
                             v.decls.retain(|v| !v.name.is_invalid());
                         }
-                        _ => break,
+                        _ => {}
                     }
                 }
             }
