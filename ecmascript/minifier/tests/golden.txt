@@ -166,6 +166,7 @@ conditionals/delete_conditional_1/input.js
 conditionals/delete_conditional_2/input.js
 conditionals/equality_conditionals_false/input.js
 conditionals/equality_conditionals_true/input.js
+conditionals/hoist_decl/input.js
 conditionals/ifs_1/input.js
 conditionals/ifs_2/input.js
 conditionals/ifs_4/input.js
