@@ -1238,6 +1238,15 @@ impl VisitMut for Optimizer {
         };
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
+        match e {
+            Expr::Tpl(t) if t.quasis.len() == 1 && t.exprs.is_empty() => {
+                if let Some(c) = &t.quasis[0].cooked {
+                    *e = Expr::Lit(Lit::Str(c.clone()));
+                }
+            }
+            _ => {}
+        }
+
         self.optimize_str_access_to_arguments(e);
 
         self.replace_props(e);
