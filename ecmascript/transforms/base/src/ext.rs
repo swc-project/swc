@@ -365,6 +365,23 @@ impl MapWithMut for VarDeclarator {
     }
 }
 
+impl MapWithMut for TplElement {
+    #[inline]
+    fn dummy() -> Self {
+        TplElement {
+            span: DUMMY_SP,
+            tail: false,
+            cooked: None,
+            raw: Str {
+                span: DUMMY_SP,
+                value: "".into(),
+                has_escape: false,
+                kind: Default::default(),
+            },
+        }
+    }
+}
+
 /// Do not use: This is not a public api and it can be changed without a version
 /// bump.
 pub trait PatOrExprExt: AsOptExpr {
