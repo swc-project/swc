@@ -83,6 +83,7 @@ struct Ctx {
     inline_prevented: bool,
     in_strict: bool,
     in_try_block: bool,
+    in_cond: bool,
 
     is_delete_arg: bool,
     is_update_arg: bool,
@@ -1364,7 +1365,16 @@ impl VisitMut for Optimizer {
     }
 
     fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
-        n.visit_mut_children_with(self);
+        n.test.visit_mut_with(self);
+
+        let ctx = Ctx {
+            in_cond: true,
+            ..self.ctx
+        };
+
+        n.cons.visit_mut_with(&mut *self.with_ctx(ctx));
+
+        n.alt.visit_mut_with(&mut *self.with_ctx(ctx));
 
         self.optimize_expr_in_bool_ctx(&mut n.test);
     }
@@ -1511,6 +1521,8 @@ impl VisitMut for Optimizer {
         }
 
         self.try_removing_block(s, false);
+
+        self.move_vars_in_subscopes(s);
 
         self.compress_if_without_alt(s);
 

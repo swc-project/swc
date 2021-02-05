@@ -307,4 +307,14 @@ impl Optimizer {
 
         e.exprs = new_exprs;
     }
+
+    pub(super) fn move_vars_in_subscopes(&mut self, s: &mut Stmt) {
+        if !self.options.sequences {
+            return;
+        }
+
+        if !self.options.conditionals && self.ctx.in_cond {
+            return;
+        }
+    }
 }
