@@ -14,6 +14,21 @@ impl Optimizer {
         if !self.options.arrows {
             return;
         }
+
+        match b {
+            BlockStmtOrExpr::BlockStmt(s) => {
+                if s.stmts.len() == 1 {
+                    if let Stmt::Return(s) = &mut s.stmts[0] {
+                        if let Some(arg) = &mut s.arg {
+                            log::trace!("arrows: Optimizing the body of an arrow");
+                            *b = BlockStmtOrExpr::Expr(arg.take());
+                            return;
+                        }
+                    }
+                }
+            }
+            BlockStmtOrExpr::Expr(_) => {}
+        }
     }
 
     pub(super) fn optimize_arrow_method_prop(&mut self, p: &mut Prop) {
