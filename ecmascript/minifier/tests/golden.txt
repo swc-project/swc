@@ -396,6 +396,7 @@ hoist_vars/sequences/input.js
 hoist_vars/sequences_funs/input.js
 hoist_vars/statements/input.js
 hoist_vars/statements_funs/input.js
+html_comments/html_comment_after_multiline_comment/input.js
 html_comments/html_comment_in_expression/input.js
 html_comments/html_comment_in_greater_than/input.js
 html_comments/html_comment_in_greater_than_or_equal/input.js
@@ -471,6 +472,7 @@ issue_2001/export_func_1/input.js
 issue_2001/export_func_3/input.js
 issue_2001/export_toplevel_1/input.js
 issue_2001/export_toplevel_2/input.js
+issue_2652/insert_semicolon/input.js
 issue_2652/unary_postfix/input.js
 issue_267/issue_267/input.js
 issue_269/issue_269_dangers/input.js
