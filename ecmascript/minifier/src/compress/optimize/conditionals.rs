@@ -10,6 +10,7 @@ use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_utils::Type;
 use swc_ecma_utils::Value::Known;
@@ -475,7 +476,45 @@ impl Optimizer {
                         .zip(alt.args.iter())
                         .filter(|(cons, alt)| !cons.eq_ignore_span(alt))
                         .count();
-                    if diff_count == 1 {}
+                    if diff_count == 1 {
+                        log::trace!(
+                            "conditionals: Merging cons and alt as only one argument differs"
+                        );
+                        self.changed = true;
+                        let diff_idx = cons
+                            .args
+                            .iter()
+                            .zip(alt.args.iter())
+                            .position(|(cons, alt)| !cons.eq_ignore_span(alt))
+                            .unwrap();
+
+                        let mut new_args = vec![];
+
+                        for (idx, arg) in cons.args.take().into_iter().enumerate() {
+                            if idx == diff_idx {
+                                // Inject conditional.
+                                new_args.push(ExprOrSpread {
+                                    spread: None,
+                                    expr: Box::new(Expr::Cond(CondExpr {
+                                        span: arg.expr.span(),
+                                        test: test.take(),
+                                        cons: arg.expr,
+                                        alt: alt.args[idx].expr.take(),
+                                    })),
+                                })
+                            } else {
+                                //
+                                new_args.push(arg)
+                            }
+                        }
+
+                        return Some(Expr::Call(CallExpr {
+                            span: test.span(),
+                            callee: cons_callee.clone().as_callee(),
+                            args: new_args,
+                            type_args: Default::default(),
+                        }));
+                    }
                 }
 
                 if side_effect_free
