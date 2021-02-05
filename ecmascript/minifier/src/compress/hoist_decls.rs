@@ -87,10 +87,11 @@ impl Hoister {
                 _ => 3,
             },
             None => 3,
-        }) || stmts.windows(2).any(|stmts| {
-            is_hoisted_var_decl_without_init(&stmts[0])
-                && is_hoisted_var_decl_without_init(&stmts[1])
-        });
+        }) || (self.config.hoist_vars
+            && stmts.windows(2).any(|stmts| {
+                is_hoisted_var_decl_without_init(&stmts[0])
+                    && is_hoisted_var_decl_without_init(&stmts[1])
+            }));
 
         if !should_hoist {
             return;
