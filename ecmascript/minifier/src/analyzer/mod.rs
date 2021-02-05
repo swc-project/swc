@@ -15,6 +15,8 @@ use swc_ecma_visit::VisitWith;
 
 mod ctx;
 
+/// TODO: Track assignments to variables via `arguments`.
+/// TODO: Scope-local. (Including block)
 pub(crate) fn analyze<N>(n: &N) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer>,
