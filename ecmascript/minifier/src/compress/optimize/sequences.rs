@@ -353,8 +353,10 @@ impl Optimizer {
                                     kind: VarDeclKind::Var,
                                     declare: false,
                                     decls: vec![decl.take()],
-                                })))
+                                })));
                             }
+
+                            v.decls.retain(|v| !v.name.is_invalid());
                         }
                         _ => break,
                     }
