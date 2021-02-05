@@ -423,6 +423,32 @@ impl Optimizer {
             }));
         }
 
+        match &**test {
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(callee),
+                ..
+            }) => match &**callee {
+                Expr::Ident(callee) => {
+                    let side_effect_free = self
+                        .data
+                        .as_ref()
+                        .and_then(|data| data.vars.get(&callee.to_id()))
+                        .map(|v| v.is_fn_local)
+                        .unwrap_or(false);
+                    if !side_effect_free {
+                        match cons {
+                            Expr::Call(..) => {
+                                return None;
+                            }
+                            _ => {}
+                        }
+                    }
+                }
+                _ => return None,
+            },
+            _ => {}
+        }
+
         match (cons, alt) {
             (Expr::Call(cons), Expr::Call(alt)) => {
                 let cons_callee = cons.callee.as_expr().and_then(|e| e.as_ident())?;
@@ -437,6 +463,20 @@ impl Optimizer {
                     .and_then(|data| data.vars.get(&cons_callee.to_id()))
                     .map(|v| v.is_fn_local)
                     .unwrap_or(false);
+
+                if side_effect_free
+                    && cons.args.len() == alt.args.len()
+                    && cons.args.iter().all(|arg| arg.spread.is_none())
+                    && alt.args.iter().all(|arg| arg.spread.is_none())
+                {
+                    let diff_count = cons
+                        .args
+                        .iter()
+                        .zip(alt.args.iter())
+                        .filter(|(cons, alt)| !cons.eq_ignore_span(alt))
+                        .count();
+                    if diff_count == 1 {}
+                }
 
                 if side_effect_free
                     && cons.args.len() == 1
