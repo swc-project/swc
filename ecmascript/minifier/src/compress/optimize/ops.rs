@@ -108,6 +108,29 @@ impl Optimizer {
         let arg = Box::new(e.take());
 
         match e {
+            Expr::Bin(bin @ BinExpr { op: op!("=="), .. })
+            | Expr::Bin(bin @ BinExpr { op: op!("!="), .. })
+            | Expr::Bin(bin @ BinExpr { op: op!("==="), .. })
+            | Expr::Bin(bin @ BinExpr { op: op!("!=="), .. }) => {
+                bin.op = match bin.op {
+                    op!("==") => {
+                        op!("!=")
+                    }
+                    op!("!=") => {
+                        op!("==")
+                    }
+                    op!("===") => {
+                        op!("!==")
+                    }
+                    op!("!==") => {
+                        op!("===")
+                    }
+                    _ => {
+                        unreachable!()
+                    }
+                };
+            }
+
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => match &mut **arg {
