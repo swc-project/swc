@@ -427,61 +427,63 @@ impl Optimizer {
             (Expr::Call(cons), Expr::Call(alt)) => {
                 let cons_callee = cons.callee.as_expr().and_then(|e| e.as_ident())?;
                 //
-                if cons.callee.eq_ignore_span(&alt.callee) {
-                    let side_effect_free = self
-                        .data
-                        .as_ref()
-                        .and_then(|data| data.vars.get(&cons_callee.to_id()))
-                        .map(|v| v.is_fn_local)
-                        .unwrap_or(false);
+                if !cons.callee.eq_ignore_span(&alt.callee) {
+                    return None;
+                }
 
-                    if side_effect_free
-                        && cons.args.len() == 1
-                        && alt.args.len() == 1
-                        && cons.args.iter().all(|arg| arg.spread.is_none())
-                        && alt.args.iter().all(|arg| arg.spread.is_none())
-                    {
-                        // if (some_condition) do_something(x);
-                        // else do_something(y);
-                        //
-                        // =>
-                        //
-                        // do_something(some_condition ? x : y);
-                        //
+                let side_effect_free = self
+                    .data
+                    .as_ref()
+                    .and_then(|data| data.vars.get(&cons_callee.to_id()))
+                    .map(|v| v.is_fn_local)
+                    .unwrap_or(false);
 
-                        let mut args = vec![];
+                if side_effect_free
+                    && cons.args.len() == 1
+                    && alt.args.len() == 1
+                    && cons.args.iter().all(|arg| arg.spread.is_none())
+                    && alt.args.iter().all(|arg| arg.spread.is_none())
+                {
+                    // if (some_condition) do_something(x);
+                    // else do_something(y);
+                    //
+                    // =>
+                    //
+                    // do_something(some_condition ? x : y);
+                    //
 
-                        args.push(ExprOrSpread {
-                            spread: None,
-                            expr: Box::new(Expr::Cond(CondExpr {
-                                span: DUMMY_SP,
-                                test: test.take(),
-                                cons: cons.args[0].expr.take(),
-                                alt: alt.args[0].expr.take(),
-                            })),
-                        });
+                    let mut args = vec![];
 
-                        log::trace!(
-                            "Compreessing if into cond as there's no side effect and the number \
-                             of arguments is 1"
-                        );
-                        return Some(Expr::Call(CallExpr {
-                            span: DUMMY_SP.with_ctxt(self.done_ctxt),
-                            callee: cons.callee.take(),
-                            args,
-                            type_args: Default::default(),
-                        }));
-                    }
-
-                    if !side_effect_free && is_for_if_stmt {
-                        log::trace!("Compreessing if into cond while preserving side effects");
-                        return Some(Expr::Cond(CondExpr {
-                            span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                    args.push(ExprOrSpread {
+                        spread: None,
+                        expr: Box::new(Expr::Cond(CondExpr {
+                            span: DUMMY_SP,
                             test: test.take(),
-                            cons: Box::new(Expr::Call(cons.take())),
-                            alt: Box::new(Expr::Call(alt.take())),
-                        }));
-                    }
+                            cons: cons.args[0].expr.take(),
+                            alt: alt.args[0].expr.take(),
+                        })),
+                    });
+
+                    log::trace!(
+                        "Compreessing if into cond as there's no side effect and the number of \
+                         arguments is 1"
+                    );
+                    return Some(Expr::Call(CallExpr {
+                        span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                        callee: cons.callee.take(),
+                        args,
+                        type_args: Default::default(),
+                    }));
+                }
+
+                if !side_effect_free && is_for_if_stmt {
+                    log::trace!("Compreessing if into cond while preserving side effects");
+                    return Some(Expr::Cond(CondExpr {
+                        span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                        test: test.take(),
+                        cons: Box::new(Expr::Call(cons.take())),
+                        alt: Box::new(Expr::Call(alt.take())),
+                    }));
                 }
 
                 None
