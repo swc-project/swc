@@ -154,6 +154,7 @@ conditionals/cond_1/input.js
 conditionals/cond_2/input.js
 conditionals/cond_3/input.js
 conditionals/cond_4/input.js
+conditionals/cond_5/input.js
 conditionals/cond_7_1/input.js
 conditionals/cond_8/input.js
 conditionals/cond_8b/input.js
