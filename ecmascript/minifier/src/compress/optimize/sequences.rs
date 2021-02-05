@@ -308,13 +308,59 @@ impl Optimizer {
         e.exprs = new_exprs;
     }
 
-    pub(super) fn move_vars_in_subscopes(&mut self, s: &mut Stmt) {
+    /// Hoist varaibles in subscope.
+    ///
+    /// I don't know why it depends on `sequences`.
+    pub(super) fn extract_vars_in_subscopes(&mut self, s: &mut Stmt) {
         if !self.options.sequences {
             return;
         }
 
-        if !self.options.conditionals && self.ctx.in_cond {
-            return;
+        match s {
+            Stmt::If(stmt) if self.options.conditionals => {
+                self.extract_vars(&mut stmt.cons);
+                if let Some(alt) = &mut stmt.alt {
+                    self.extract_vars(alt);
+                }
+            }
+
+            _ => {}
+        }
+    }
+
+    /// Move `var` in subscope to current scope.
+    fn extract_vars(&mut self, s: &mut Stmt) {
+        match s {
+            Stmt::Block(bs) => {
+                // Extract variables without
+                'outer: for stmt in &mut bs.stmts {
+                    match stmt {
+                        Stmt::Decl(Decl::Var(
+                            v
+                            @
+                            VarDecl {
+                                kind: VarDeclKind::Var,
+                                ..
+                            },
+                        )) => {
+                            for decl in &mut v.decls {
+                                if decl.init.is_some() {
+                                    break 'outer;
+                                }
+
+                                self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                                    span: v.span,
+                                    kind: VarDeclKind::Var,
+                                    declare: false,
+                                    decls: vec![decl.take()],
+                                })))
+                            }
+                        }
+                        _ => break,
+                    }
+                }
+            }
+            _ => {}
         }
     }
 }

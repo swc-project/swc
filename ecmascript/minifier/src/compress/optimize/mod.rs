@@ -1522,7 +1522,7 @@ impl VisitMut for Optimizer {
 
         self.try_removing_block(s, false);
 
-        self.move_vars_in_subscopes(s);
+        self.extract_vars_in_subscopes(s);
 
         self.compress_if_without_alt(s);
 
