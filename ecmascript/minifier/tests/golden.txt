@@ -22,10 +22,13 @@ arrow/arrow_unused/input.js
 arrow/arrow_unused_toplevel/input.js
 arrow/arrow_with_regexp/input.js
 arrow/async_identifiers/input.js
+arrow/call_args/input.js
+arrow/call_args_drop_param/input.js
 arrow/concise_method_with_super/input.js
 arrow/issue_2271/input.js
 arrow/issue_3092a/input.js
 arrow/no_leading_parentheses/input.js
+arrow/object_parens/input.js
 ascii/ascii_only_false/input.js
 ascii/ascii_only_false_identifier_es2015/input.js
 ascii/ascii_only_false_identifier_es5/input.js
@@ -45,6 +48,7 @@ async/async_arrow_iife_negate_iife/input.js
 async/async_arrow_wait/input.js
 async/async_class/input.js
 async/async_export/input.js
+async/async_function_declaration/input.js
 async/async_function_expression/input.js
 async/async_generator_class_method/input.js
 async/async_generator_function/input.js
