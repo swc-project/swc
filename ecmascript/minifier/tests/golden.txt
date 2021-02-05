@@ -169,6 +169,7 @@ conditionals/equality_conditionals_true/input.js
 conditionals/hoist_decl/input.js
 conditionals/ifs_1/input.js
 conditionals/ifs_2/input.js
+conditionals/ifs_3_should_warn/input.js
 conditionals/ifs_4/input.js
 conditionals/issue_1645_2/input.js
 conditionals/no_evaluate/input.js
