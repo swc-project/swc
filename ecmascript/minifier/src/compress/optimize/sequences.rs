@@ -365,13 +365,13 @@ impl Optimizer {
 
                             v.decls.retain(|v| !v.name.is_invalid());
                         }
-                        _ => {}
+                        _ => {
+                            found_other = true;
+                        }
                     }
                 }
             }
-            _ => {
-                found_other = true;
-            }
+            _ => {}
         }
     }
 }
