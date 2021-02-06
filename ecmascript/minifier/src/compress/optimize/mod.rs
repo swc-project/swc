@@ -638,7 +638,24 @@ impl Optimizer<'_> {
             | Expr::TsAs(_) => return Some(e.take()),
 
             Expr::Array(arr) => {
-                // TODO:
+                let mut exprs = vec![];
+                for elem in arr.elems.take() {
+                    match elem {
+                        Some(mut elem) => {
+                            exprs.extend(self.ignore_return_value(&mut elem.expr).map(Box::new));
+                        }
+                        None => {}
+                    }
+                }
+
+                if exprs.is_empty() {
+                    return None;
+                }
+
+                return Some(Expr::Seq(SeqExpr {
+                    span: arr.span,
+                    exprs,
+                }));
             }
 
             Expr::Object(obj) => {
