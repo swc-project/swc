@@ -636,8 +636,49 @@ impl Optimizer<'_> {
             | Expr::TsTypeCast(_)
             | Expr::TsAs(_) => return Some(e.take()),
 
-            Expr::Array(_arr) => {}
-            Expr::Object(_) => {}
+            Expr::Array(arr) => {
+                // TODO:
+            }
+
+            Expr::Object(obj) => {
+                let mut exprs = vec![];
+                self.changed = true;
+                log::trace!("ignore_return_value: Inverting object literal");
+                for prop in obj.props.take() {
+                    match prop {
+                        PropOrSpread::Spread(mut e) => {
+                            exprs.extend(self.ignore_return_value(&mut e.expr).map(Box::new));
+                        }
+                        PropOrSpread::Prop(prop) => match *prop {
+                            Prop::KeyValue(KeyValueProp { key, .. })
+                            | Prop::Getter(GetterProp { key, .. })
+                            | Prop::Setter(SetterProp { key, .. })
+                            | Prop::Method(MethodProp { key, .. }) => match key {
+                                PropName::Ident(_) => {}
+                                PropName::Str(_) => {}
+                                PropName::Num(_) => {}
+                                PropName::Computed(mut key) => {
+                                    exprs.extend(
+                                        self.ignore_return_value(&mut key.expr).map(Box::new),
+                                    );
+                                }
+                                PropName::BigInt(_) => {}
+                            },
+
+                            Prop::Shorthand(_) | Prop::Assign(..) => {}
+                        },
+                    }
+                }
+
+                if exprs.is_empty() {
+                    return None;
+                }
+
+                return Some(Expr::Seq(SeqExpr {
+                    span: obj.span,
+                    exprs,
+                }));
+            }
 
             // Preserves negated iife
             Expr::Unary(UnaryExpr {
