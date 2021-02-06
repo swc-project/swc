@@ -201,6 +201,7 @@ conditionals/to_and_or/input.js
 conditionals/trivial_boolean_ternary_expressions/input.js
 const/issue_1194/input.js
 const/unused_regexp_literal/input.js
+dead_code/accessor/input.js
 dead_code/collapse_vars_assignment/input.js
 dead_code/dead_code_1/input.js
 dead_code/dead_code_block_decls_die/input.js
@@ -378,6 +379,7 @@ harmony/arrow_function_parens/input.js
 harmony/arrow_function_parens_2/input.js
 harmony/class_expression_statement/input.js
 harmony/class_expression_statement_unused/input.js
+harmony/class_expression_statement_unused_toplevel/input.js
 harmony/class_extends/input.js
 harmony/class_extends_class/input.js
 harmony/class_extends_function/input.js
@@ -637,8 +639,10 @@ numbers/keep_numbers_in_properties_as_is/input.js
 numbers/no_number_function_transform_without_unsafe_math/input.js
 numbers/numeric_separators/input.js
 object/allow_assignments_to_property_values/input.js
+object/computed_property_names/input.js
 object/computed_property_names_evaluated_1/input.js
 object/computed_property_names_evaluated_2/input.js
+object/computed_property_names_side_effects/input.js
 object/concise_generators/input.js
 object/concise_methods/input.js
 object/concise_methods_and_keyword_names/input.js
