@@ -14,6 +14,7 @@ arrays/spread_with_variable_as_last_element/input.js
 arrays/spread_with_variable_at_front/input.js
 arrays/spread_with_variable_at_front_after_elisions/input.js
 arrays/spread_with_variable_in_middle/input.js
+arrow/arrow_binding_pattern/input.js
 arrow/arrow_binding_pattern_strict/input.js
 arrow/arrow_function_with_single_parameter_with_default/input.js
 arrow/arrow_functions_with_body/input.js
@@ -64,6 +65,7 @@ async/for_await_of/input.js
 async/for_await_of_2/input.js
 async/issue_2344_1/input.js
 async/issue_2344_2/input.js
+async/issue_3079/input.js
 async/issue_3079_2/input.js
 big_int/big_int_binary/input.js
 big_int/big_int_hex/input.js
