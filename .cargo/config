@@ -12,11 +12,13 @@ rustdocflags = [
 [target.aarch64-apple-darwin]
 rustflags = [
     "--cfg", "procmacro2_semver_exempt",
+    "-C", "target-feature=+sse2",
 ]
 
 [target.aarch64-unknown-linux-gnu]
 rustflags = [
     "--cfg", "procmacro2_semver_exempt",
+    "-C", "target-feature=+sse2",
 ]
 linker = "aarch64-linux-gnu-gcc"
 
