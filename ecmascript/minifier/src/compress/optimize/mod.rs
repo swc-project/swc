@@ -36,6 +36,7 @@ mod arguments;
 mod arrows;
 mod bools;
 mod collapse_vars;
+mod computed_props;
 mod conditionals;
 mod dead_code;
 mod evaluate;
@@ -1516,6 +1517,12 @@ impl VisitMut for Optimizer<'_> {
         p.visit_mut_children_with(self);
 
         self.optimize_arrow_method_prop(p);
+    }
+
+    fn visit_mut_prop_name(&mut self, p: &mut PropName) {
+        p.visit_mut_children_with(self);
+
+        self.optimize_computed_prop_name_as_normal(p);
     }
 
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
