@@ -244,7 +244,13 @@ impl Visit for UsageAnalyzer {
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr, _: &dyn Node) {
         self.with_child(n.span.ctxt, ScopeKind::Fn, |child| {
-            n.params.visit_with(n, child);
+            {
+                let ctx = Ctx {
+                    in_pat_of_param: true,
+                    ..child.ctx
+                };
+                n.params.visit_with(n, &mut *child.with_ctx(ctx));
+            }
 
             match &n.body {
                 BlockStmtOrExpr::BlockStmt(body) => {
