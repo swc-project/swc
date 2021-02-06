@@ -7,5 +7,24 @@ impl Optimizer<'_> {
         if !self.options.computed_props {
             return;
         }
+
+        match p {
+            PropName::Computed(c) => match &mut *c.expr {
+                Expr::Lit(Lit::Str(s)) => {
+                    if s.value == *"constructor" || s.value == *"__proto__" {
+                        return;
+                    }
+
+                    *p = PropName::Str(s.clone());
+                    return;
+                }
+                Expr::Lit(Lit::Num(n)) => {
+                    *p = PropName::Num(n.clone());
+                    return;
+                }
+                _ => {}
+            },
+            _ => {}
+        }
     }
 }
