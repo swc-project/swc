@@ -123,7 +123,7 @@ impl Optimizer<'_> {
                             | Expr::Arrow(ArrowExpr { is_async: true, .. })
                             | Expr::Arrow(ArrowExpr {
                                 is_generator: true, ..
-                            }) => {}
+                            }) => return,
                             _ => {}
                         }
                         if init.may_have_side_effects() {
