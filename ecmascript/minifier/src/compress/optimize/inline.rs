@@ -136,6 +136,11 @@ impl Optimizer {
                     _ => {}
                 },
 
+                Stmt::Return(ReturnStmt { arg, .. }) => match arg.as_deref() {
+                    Some(Expr::Lit(Lit::Num(..))) => return true,
+                    _ => {}
+                },
+
                 _ => {}
             }
         }
