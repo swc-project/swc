@@ -108,6 +108,24 @@ impl Optimizer<'_> {
                         && !usage.reassigned
                         && usage.ref_count == 1
                     {
+                        match &**init {
+                            Expr::Fn(FnExpr {
+                                function: Function { is_async: true, .. },
+                                ..
+                            })
+                            | Expr::Fn(FnExpr {
+                                function:
+                                    Function {
+                                        is_generator: true, ..
+                                    },
+                                ..
+                            })
+                            | Expr::Arrow(ArrowExpr { is_async: true, .. })
+                            | Expr::Arrow(ArrowExpr {
+                                is_generator: true, ..
+                            }) => {}
+                            _ => {}
+                        }
                         if init.may_have_side_effects() {
                             // TODO: Inline partially
                             return;
