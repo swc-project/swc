@@ -3,7 +3,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 
 /// Methods related to the option `hoist_props`.
-impl Optimizer {
+impl Optimizer<'_> {
     pub(super) fn store_var_for_prop_hoisting(&mut self, n: &mut VarDeclarator) {
         if !self.options.hoist_props && !self.options.reduce_vars {
             return;

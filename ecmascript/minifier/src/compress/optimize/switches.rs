@@ -14,7 +14,7 @@ use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitWith;
 
 /// Methods related to option `switches`.
-impl Optimizer {
+impl Optimizer<'_> {
     pub(super) fn optimize_const_switches(&mut self, s: &mut Stmt) {
         if !self.options.switches || self.ctx.stmt_lablled {
             return;

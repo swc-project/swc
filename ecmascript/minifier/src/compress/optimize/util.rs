@@ -5,7 +5,7 @@ use std::ops::DerefMut;
 use swc_common::Mark;
 use swc_common::Span;
 
-impl Optimizer {
+impl<'b> Optimizer<'b> {
     #[allow(unused)]
     pub(super) fn is_done(&mut self, span: Span) -> bool {
         let mut ctxt = span.ctxt;
@@ -24,7 +24,7 @@ impl Optimizer {
     }
 
     #[inline]
-    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx {
+    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<'_, 'b> {
         let orig_ctx = self.ctx;
         self.ctx = ctx;
         WithCtx {
@@ -34,26 +34,26 @@ impl Optimizer {
     }
 }
 
-pub(super) struct WithCtx<'a> {
-    reducer: &'a mut Optimizer,
+pub(super) struct WithCtx<'a, 'b> {
+    reducer: &'a mut Optimizer<'b>,
     orig_ctx: Ctx,
 }
 
-impl Deref for WithCtx<'_> {
-    type Target = Optimizer;
+impl<'b> Deref for WithCtx<'_, 'b> {
+    type Target = Optimizer<'b>;
 
     fn deref(&self) -> &Self::Target {
         &self.reducer
     }
 }
 
-impl DerefMut for WithCtx<'_> {
+impl DerefMut for WithCtx<'_, '_> {
     fn deref_mut(&mut self) -> &mut Self::Target {
         self.reducer
     }
 }
 
-impl Drop for WithCtx<'_> {
+impl Drop for WithCtx<'_, '_> {
     fn drop(&mut self) {
         self.reducer.ctx = self.orig_ctx;
     }

@@ -6,7 +6,7 @@ use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::ExprExt;
 
 /// Methods related to option `inline`.
-impl Optimizer {
+impl Optimizer<'_> {
     pub(super) fn store_var_for_inining(&mut self, var: &mut VarDeclarator) {
         let init = match &mut var.init {
             Some(v) => v,

@@ -8,7 +8,7 @@ use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
 /// Methods related to the option `unused`.
-impl Optimizer {
+impl Optimizer<'_> {
     ///
     pub(super) fn drop_unused_vars(&mut self, name: &mut Pat) {
         if !self.options.unused || self.ctx.in_var_decl_of_for_in_or_of_loop || self.ctx.is_exported

@@ -9,7 +9,7 @@ use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitWith;
 
 /// Methods related to the option `arrows`.
-impl Optimizer {
+impl Optimizer<'_> {
     pub(super) fn optimize_arrow_body(&mut self, b: &mut BlockStmtOrExpr) {
         if !self.options.arrows {
             return;

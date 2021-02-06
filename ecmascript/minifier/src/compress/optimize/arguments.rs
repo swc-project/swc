@@ -12,7 +12,7 @@ use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
 /// Methods related to the option `arguments`.
-impl Optimizer {
+impl Optimizer<'_> {
     ///
     /// - `arguments['foo']` => `arguments.foo`
     pub(super) fn optimize_str_access_to_arguments(&mut self, e: &mut Expr) {

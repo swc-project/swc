@@ -13,7 +13,7 @@ use swc_ecma_utils::Value::Known;
 use swc_ecma_utils::Value::Unknown;
 
 /// Methods related to the options `bools` and `bool_as_ints`.
-impl Optimizer {
+impl Optimizer<'_> {
     /// Disabled because it can change semantics.
     ///
     /// - `!foo || bar();` => `foo && bar();`

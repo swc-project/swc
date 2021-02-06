@@ -12,7 +12,7 @@ use swc_ecma_utils::Type;
 use swc_ecma_utils::Value;
 use Value::Known;
 
-impl Optimizer {
+impl Optimizer<'_> {
     pub(super) fn optimize_lit_cmp(&mut self, n: &mut BinExpr) -> Option<Expr> {
         match n.op {
             op!("==") | op!("!=") => {

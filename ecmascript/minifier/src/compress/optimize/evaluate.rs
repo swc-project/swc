@@ -11,7 +11,7 @@ use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::Value::Known;
 
 /// Methods related to the option `evaludate`.
-impl Optimizer {
+impl Optimizer<'_> {
     /// Evaludate expression if possible.
     ///
     /// This method call apppropriate methods for each ast types.

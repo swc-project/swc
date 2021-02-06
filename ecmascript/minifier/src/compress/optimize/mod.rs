@@ -9,6 +9,7 @@ use std::fmt::Write;
 use std::mem::take;
 use swc_atoms::js_word;
 use swc_atoms::JsWord;
+use swc_common::comments::Comments;
 use swc_common::iter::IdentifyLast;
 use swc_common::pass::Repeated;
 use swc_common::Mark;
@@ -53,7 +54,10 @@ mod unused;
 mod util;
 
 /// This pass is simillar to `node.optimize` of terser.
-pub(super) fn optimizer(options: CompressOptions) -> impl VisitMut + Repeated {
+pub(super) fn optimizer<'a>(
+    options: CompressOptions,
+    comments: Option<&'a dyn Comments>,
+) -> impl 'a + VisitMut + Repeated {
     assert!(
         options.top_retain.iter().all(|s| s.trim() != ""),
         "top_retain should not contain empty string"
@@ -62,6 +66,7 @@ pub(super) fn optimizer(options: CompressOptions) -> impl VisitMut + Repeated {
     let done = Mark::fresh(Mark::root());
     let done_ctxt = SyntaxContext::empty().apply_mark(done);
     Optimizer {
+        comments,
         changed: false,
         options,
         prepend_stmts: Default::default(),
@@ -120,8 +125,9 @@ impl Ctx {
     }
 }
 
-#[derive(Debug)]
-struct Optimizer {
+struct Optimizer<'a> {
+    comments: Option<&'a dyn Comments>,
+
     changed: bool,
     options: CompressOptions,
 
@@ -144,7 +150,7 @@ struct Optimizer {
     done_ctxt: SyntaxContext,
 }
 
-impl Repeated for Optimizer {
+impl Repeated for Optimizer<'_> {
     fn changed(&self) -> bool {
         self.changed
     }
@@ -154,7 +160,7 @@ impl Repeated for Optimizer {
     }
 }
 
-impl Optimizer {
+impl Optimizer<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + VisitMutWith<Self>,
@@ -1119,7 +1125,7 @@ impl Optimizer {
     }
 }
 
-impl VisitMut for Optimizer {
+impl VisitMut for Optimizer<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {

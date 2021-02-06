@@ -17,7 +17,7 @@ use swc_ecma_utils::Value::Known;
 
 /// Methods related to the option `conditionals`. All methods are noop if
 /// `conditionals` is false.
-impl Optimizer {
+impl Optimizer<'_> {
     /// Removes useless operands of an logical expressions.
     pub(super) fn drop_logical_operands(&mut self, e: &mut Expr) {
         if !self.options.conditionals {

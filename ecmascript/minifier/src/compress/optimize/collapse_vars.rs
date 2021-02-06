@@ -15,7 +15,7 @@ use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
 
 /// Methods related to the option `collapse_vars`.
-impl Optimizer {
+impl Optimizer<'_> {
     pub(super) fn collapse_seq_exprs(&mut self, e: &mut Expr) {
         if !self.options.collapse_vars {
             return;

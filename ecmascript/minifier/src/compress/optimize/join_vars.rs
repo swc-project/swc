@@ -4,7 +4,7 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::StmtLike;
 
 /// Methods related to option `join_vars`.
-impl Optimizer {
+impl Optimizer<'_> {
     pub(super) fn join_vars<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,

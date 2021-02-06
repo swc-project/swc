@@ -10,7 +10,7 @@ use swc_ecma_utils::ExprExt;
 use swc_ecma_visit::VisitMutWith;
 
 /// Methods related to the option `negate_iife`.
-impl Optimizer {
+impl Optimizer<'_> {
     /// Negates iife, while ignore return value.
     pub(super) fn negate_iife_ignoring_ret(&mut self, e: &mut Expr) {
         if !self.options.negate_iife || self.ctx.in_bang_arg {
@@ -76,7 +76,7 @@ impl Optimizer {
 }
 
 /// Methods related to iife.
-impl Optimizer {
+impl Optimizer<'_> {
     /// # Exmaple
     ///
     /// ## Input

@@ -13,7 +13,7 @@ use swc_ecma_visit::VisitWith;
 
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.
-impl Optimizer {
+impl Optimizer<'_> {
     pub(super) fn merge_if_returns<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,

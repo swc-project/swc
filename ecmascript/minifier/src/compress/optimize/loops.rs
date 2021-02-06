@@ -7,7 +7,7 @@ use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::Value::Known;
 
 /// Methods related to the option `loops`.
-impl Optimizer {
+impl Optimizer<'_> {
     pub(super) fn loop_to_for_stmt(&mut self, s: &mut Stmt) {
         if !self.options.loops {
             return;
