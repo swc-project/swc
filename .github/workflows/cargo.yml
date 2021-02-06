@@ -92,6 +92,11 @@ jobs:
           git submodule sync --recursive
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
 
+      - name: Install tools for coverage
+        shell: bash
+        run: |
+          cargo install cargo-tarpaulin
+
       - name: Install node dependencies
         run: |
           npm config set prefix ~/npm
@@ -108,7 +113,12 @@ jobs:
       - name: Run cargo test
         run: |
           export PATH="$PATH:$HOME/npm/bin"
-          cargo test --color always -p ${{ matrix.crate }}
+          cargo tarpaulin -p ${{ matrix.crate }} --verbose --all-features --out Xml
+
+      - name: Upload to codecov.io
+        uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true
   #
   deploy-docs:
     runs-on: ubuntu-latest
