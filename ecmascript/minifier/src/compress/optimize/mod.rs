@@ -86,6 +86,9 @@ pub(super) fn optimizer<'a>(
 
 #[derive(Debug, Default, Clone, Copy)]
 struct Ctx {
+    /// `true` if the [VarDecl] has const annotation.
+    has_const_ann: bool,
+
     inline_prevented: bool,
     in_strict: bool,
     in_try_block: bool,
@@ -1696,6 +1699,16 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
         let ctx = Ctx {
             is_update_arg: true,
+            ..self.ctx
+        };
+
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+    }
+
+    fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
+        let ctx = Ctx {
+            is_update_arg: false,
+            has_const_ann: self.has_const_ann(n.span),
             ..self.ctx
         };
 
