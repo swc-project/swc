@@ -168,7 +168,13 @@ impl Optimizer<'_> {
 
         let i = match &*decl {
             Decl::Class(v) => v.ident.clone(),
-            Decl::Fn(f) => f.ident.clone(),
+            Decl::Fn(f) => {
+                if f.function.is_async {
+                    return;
+                }
+
+                f.ident.clone()
+            }
             _ => return,
         };
 
