@@ -1,11 +1,11 @@
 var unused_var;
 var test = "test";
-var CONST_FOO_ANN = false;
+/** @const */ var CONST_FOO_ANN = false;
 var unused_var_2;
 if (CONST_FOO_ANN) {
     console.log("unreachable");
     var moo;
-    function bar() {}
+    function bar() { }
 }
 if (test === "test") {
     var beef = "good";
