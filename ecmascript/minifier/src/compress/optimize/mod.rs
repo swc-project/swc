@@ -639,6 +639,8 @@ impl Optimizer<'_> {
 
             Expr::Array(arr) => {
                 let mut exprs = vec![];
+                self.changed = true;
+                log::trace!("ignore_return_value: Inverting an array literal");
                 for elem in arr.elems.take() {
                     match elem {
                         Some(mut elem) => {
@@ -661,7 +663,7 @@ impl Optimizer<'_> {
             Expr::Object(obj) => {
                 let mut exprs = vec![];
                 self.changed = true;
-                log::trace!("ignore_return_value: Inverting object literal");
+                log::trace!("ignore_return_value: Inverting an object literal");
                 for prop in obj.props.take() {
                     match prop {
                         PropOrSpread::Spread(mut e) => {
