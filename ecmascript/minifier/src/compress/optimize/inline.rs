@@ -128,6 +128,21 @@ impl Optimizer {
         }
     }
 
+    fn is_fn_body_simple_enough_to_inline(&self, body: &BlockStmt) -> bool {
+        if body.stmts.len() == 1 {
+            match &body.stmts[0] {
+                Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
+                    Expr::Lit(..) => return true,
+                    _ => {}
+                },
+
+                _ => {}
+            }
+        }
+
+        false
+    }
+
     /// This method handles only class decl and fn decl. Var decl should be
     /// handled specially.
     pub(super) fn store_decl_for_inlining(&mut self, decl: &mut Decl) {
@@ -173,36 +188,35 @@ impl Optimizer {
                 }
             }
 
-            // // Inline very simple functions.
-            // match decl {
-            //     Decl::Fn(f) if self.options.inline != 0 => match &f.function.body {
-            //         Some(body) => {
-            //             if body.stmts.len() == 1 && body.stmts[0].is_return_stmt() {
-            //                 self.changed = true;
-            //                 log::trace!(
-            //                     "inline: Decided to inline function '{}{:?}' as it's very
-            // simple",                     f.ident.sym,
-            //                     f.ident.span.ctxt
-            //                 );
-            //                 self.vars_for_inlining.insert(
-            //                     i.to_id(),
-            //                     match decl.take() {
-            //                         Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
-            //                             ident: Some(f.ident),
-            //                             function: f.function,
-            //                         })),
-            //                         _ => {
-            //                             unreachable!()
-            //                         }
-            //                     },
-            //                 );
-            //                 return;
-            //             }
-            //         }
-            //         None => {}
-            //     },
-            //     _ => {}
-            // }
+            // Inline very simple functions.
+            match decl {
+                Decl::Fn(f) if self.options.inline >= 2 => match &f.function.body {
+                    Some(body) => {
+                        if self.is_fn_body_simple_enough_to_inline(body) {
+                            log::trace!(
+                                "inline: Decided to inline function '{}{:?}' as it's very simple",
+                                f.ident.sym,
+                                f.ident.span.ctxt
+                            );
+                            self.vars_for_inlining.insert(
+                                i.to_id(),
+                                match decl.take() {
+                                    Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
+                                        ident: Some(f.ident),
+                                        function: f.function,
+                                    })),
+                                    _ => {
+                                        unreachable!()
+                                    }
+                                },
+                            );
+                            return;
+                        }
+                    }
+                    None => {}
+                },
+                _ => {}
+            }
 
             // Single use => inlined
             if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
