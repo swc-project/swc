@@ -13,6 +13,7 @@ on: [push, pull_request]
 #      - 'trying'
 
 env:
+  RUSTCFLAGS: "--cfg procmacro2_semver_exempt"
   CARGO_INCREMENTAL: 0
 
 jobs:
