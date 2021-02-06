@@ -32,7 +32,11 @@ impl Optimizer<'_> {
     }
 
     pub(super) fn optimize_arrow_method_prop(&mut self, p: &mut Prop) {
-        if !self.options.unsafe_methods || self.options.ecma < 2015 {
+        if self.options.ecma < 2015 {
+            return;
+        }
+
+        if !self.options.unsafe_methods && !self.options.arrows {
             return;
         }
 
