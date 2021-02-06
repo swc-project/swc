@@ -355,6 +355,8 @@ fn fixture(input: PathBuf) {
             })
             .map(|module| module.fold_with(&mut resolver()));
 
+        dbg!(&comments);
+
         // Ignore parser errors.
         //
         // This is typically related to strict mode caused by module context.

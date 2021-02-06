@@ -1284,29 +1284,7 @@ impl VisitMut for Optimizer<'_> {
 
         self.drop_logical_operands(e);
 
-        if !self.ctx.inline_prevented {
-            match e {
-                Expr::Ident(i) => {
-                    //
-                    if let Some(value) = self.lits.get(&i.to_id()).cloned() {
-                        self.changed = true;
-                        log::trace!("inline: Replacing a variable with cheap expression");
-
-                        *e = *value;
-                    } else if let Some(value) = self.vars_for_inlining.remove(&i.to_id()) {
-                        self.changed = true;
-                        log::trace!(
-                            "inline: Replacing '{}{:?}' with an expression",
-                            i.sym,
-                            i.span.ctxt
-                        );
-
-                        *e = *value;
-                    }
-                }
-                _ => {}
-            }
-        }
+        self.inline(e);
 
         match e {
             Expr::Bin(bin) => {

@@ -208,12 +208,12 @@ impl Optimizer<'_> {
                                 f.ident.sym,
                                 f.ident.span.ctxt
                             );
-                            self.vars_for_inlining.insert(
+                            self.lits.insert(
                                 i.to_id(),
-                                match decl.take() {
+                                match decl {
                                     Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
-                                        ident: Some(f.ident),
-                                        function: f.function,
+                                        ident: Some(f.ident.clone()),
+                                        function: f.function.clone(),
                                     })),
                                     _ => {
                                         unreachable!()
@@ -286,6 +286,37 @@ impl Optimizer<'_> {
                 );
                 return;
             }
+        }
+    }
+
+    pub(super) fn inline(&mut self, e: &mut Expr) {
+        if self.ctx.inline_prevented {
+            return;
+        }
+
+        match e {
+            Expr::Ident(i) => {
+                if self.has_noinline(i.span) {
+                    return;
+                }
+                //
+                if let Some(value) = self.lits.get(&i.to_id()).cloned() {
+                    self.changed = true;
+                    log::trace!("inline: Replacing a variable with cheap expression");
+
+                    *e = *value;
+                } else if let Some(value) = self.vars_for_inlining.remove(&i.to_id()) {
+                    self.changed = true;
+                    log::trace!(
+                        "inline: Replacing '{}{:?}' with an expression",
+                        i.sym,
+                        i.span.ctxt
+                    );
+
+                    *e = *value;
+                }
+            }
+            _ => {}
         }
     }
 }
