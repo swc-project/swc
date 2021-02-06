@@ -10,6 +10,7 @@ use std::fs::read_to_string;
 use std::panic::catch_unwind;
 use std::path::Path;
 use std::path::PathBuf;
+use std::process::Command;
 use swc_common::sync::Lrc;
 use swc_common::FileName;
 use swc_common::SourceMap;
@@ -411,12 +412,36 @@ fn fixture(input: PathBuf) {
             expected
         );
 
-        if let Ok(s) = read_to_string(dir.join("expected.stdout")) {
+        if let Ok(expected_stdout) = read_to_string(dir.join("expected.stdout")) {
             eprintln!(
                 "---- {} -----\n{}",
                 Color::Green.paint("Expected stdout"),
-                s
+                expected_stdout
             );
+
+            // We should compare stdout instead.
+            let output = Command::new("node")
+                .arg("-e")
+                .arg(&output)
+                .output()
+                .expect("failed to execute output of minifier");
+
+            if !output.status.success() {
+                panic!(
+                    "failed to execute output of minifier:\n{}\n{}",
+                    String::from_utf8_lossy(&output.stdout),
+                    String::from_utf8_lossy(&output.stderr)
+                )
+            }
+
+            let actual = String::from_utf8_lossy(&output.stdout);
+            assert_eq!(
+                DebugUsingDisplay(&actual),
+                DebugUsingDisplay(&expected_stdout)
+            );
+            if expected.trim().is_empty() {
+                return Ok(());
+            }
         }
 
         if env::var("UPDATE").map(|s| s == "1").unwrap_or(false) {
