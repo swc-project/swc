@@ -1038,6 +1038,10 @@ impl Optimizer<'_> {
                 }
             }
 
+            Stmt::ForIn(s) => {
+                self.try_removing_block(&mut s.body, true);
+            }
+
             _ => {}
         }
 
