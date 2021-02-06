@@ -17,8 +17,7 @@ rustflags = [
 
 [target.aarch64-unknown-linux-gnu]
 rustflags = [
-    "--cfg", "procmacro2_semver_exempt",
-    "-C", "target-feature=+sse2",
+    "--cfg", "procmacro2_semver_exempt"
 ]
 linker = "aarch64-linux-gnu-gcc"
 
