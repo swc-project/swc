@@ -652,6 +652,8 @@ object/concise_methods_with_various_property_names/input.js
 object/getter_setter/input.js
 object/getter_setter_with_computed_value/input.js
 object/issue_206/input.js
+object/issue_2554_3/input.js
+object/issue_2554_4/input.js
 object/issue_2554_5/input.js
 object/methods_and_getters_with_keep_quoted_props_enabled/input.js
 object/prop_arrow_to_concise_method/input.js
