@@ -12,6 +12,7 @@ use std::fmt::Debug;
 use std::fmt::Display;
 use std::fmt::Formatter;
 use swc_common::chain;
+use swc_common::comments::Comments;
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeat;
 use swc_common::pass::Repeated;
@@ -31,12 +32,16 @@ mod drop_console;
 mod hoist_decls;
 mod optimize;
 
-pub fn compressor(options: &CompressOptions) -> impl '_ + JsPass {
+pub fn compressor<'a>(
+    options: &'a CompressOptions,
+    comments: Option<&'a dyn Comments>,
+) -> impl 'a + JsPass {
     let console_remover = Optional {
         enabled: options.drop_console,
         visitor: drop_console(),
     };
     let compressor = Compressor {
+        comments,
         options,
         pass: 0,
         changed: false,
@@ -49,9 +54,9 @@ pub fn compressor(options: &CompressOptions) -> impl '_ + JsPass {
     )
 }
 
-#[derive(Debug)]
 struct Compressor<'a> {
     options: &'a CompressOptions,
+    comments: Option<&'a dyn Comments>,
     changed: bool,
     pass: usize,
 }
@@ -160,7 +165,7 @@ impl VisitMut for Compressor<'_> {
             // TODO: reset_opt_flags
             //
             // This is swc version of `node.optimize(this);`.
-            let mut visitor = optimizer(self.options.clone());
+            let mut visitor = optimizer(self.options.clone(), self.comments);
             n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
         }

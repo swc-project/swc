@@ -11,6 +11,7 @@ use std::panic::catch_unwind;
 use std::path::Path;
 use std::path::PathBuf;
 use std::process::Command;
+use swc_common::comments::SingleThreadedComments;
 use swc_common::sync::Lrc;
 use swc_common::FileName;
 use swc_common::SourceMap;
@@ -336,6 +337,7 @@ fn fixture(input: PathBuf) {
 
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).expect("failed to load input.js");
+        let comments = SingleThreadedComments::default();
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
 
@@ -343,7 +345,7 @@ fn fixture(input: PathBuf) {
             Default::default(),
             Default::default(),
             SourceFileInput::from(&*fm),
-            None,
+            Some(&comments),
         );
         let mut parser = Parser::new_from(lexer);
         let module = parser
@@ -363,6 +365,7 @@ fn fixture(input: PathBuf) {
 
         let output = optimize(
             module,
+            Some(&comments),
             None,
             &MinifyOptions {
                 compress: Some(config),

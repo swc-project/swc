@@ -13,6 +13,7 @@ use crate::pass::hygiene::hygiene_optimizer;
 use crate::pass::mangle_names::name_mangler;
 use crate::pass::mangle_props::property_mangler;
 use analyzer::analyze;
+use swc_common::comments::Comments;
 use swc_ecma_ast::Module;
 use swc_ecma_visit::FoldWith;
 use swc_ecma_visit::VisitMutWith;
@@ -30,6 +31,7 @@ mod util;
 #[inline]
 pub fn optimize(
     mut m: Module,
+    comments: Option<&dyn Comments>,
     mut timings: Option<&mut Timings>,
     options: &MinifyOptions,
 ) -> Module {
@@ -67,7 +69,7 @@ pub fn optimize(
         // TODO: store `compress`
     }
     if let Some(options) = &options.compress {
-        m = m.fold_with(&mut compressor(&options));
+        m = m.fold_with(&mut compressor(&options, comments));
         // Again, we don't need to validate ast
     }
 
