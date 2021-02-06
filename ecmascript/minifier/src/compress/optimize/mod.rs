@@ -1721,26 +1721,7 @@ impl VisitMut for Optimizer<'_> {
         self.store_var_for_inining(var);
         self.store_var_for_prop_hoisting(var);
 
-        match &var.init {
-            Some(init) => match &**init {
-                Expr::Invalid(..) => {
-                    var.init = None;
-                }
-                // I don't know why, but terser preserves this
-                Expr::Fn(FnExpr {
-                    function: Function { is_async: true, .. },
-                    ..
-                }) => {}
-                _ => {
-                    if !init.may_have_side_effects() {
-                        self.drop_unused_vars(&mut var.name);
-                    }
-                }
-            },
-            None => {
-                self.drop_unused_vars(&mut var.name);
-            }
-        }
+        self.drop_unused_var_declarator(var);
     }
 
     fn visit_mut_var_declarators(&mut self, vars: &mut Vec<VarDeclarator>) {

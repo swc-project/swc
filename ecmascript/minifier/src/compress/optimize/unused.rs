@@ -9,7 +9,37 @@ use swc_ecma_visit::VisitMutWith;
 
 /// Methods related to the option `unused`.
 impl Optimizer<'_> {
-    ///
+    pub(super) fn drop_unused_var_declarator(&mut self, var: &mut VarDeclarator) {
+        match &mut var.init {
+            Some(init) => match &**init {
+                Expr::Invalid(..) => {
+                    var.init = None;
+                }
+                // I don't know why, but terser preserves this
+                Expr::Fn(FnExpr {
+                    function: Function { is_async: true, .. },
+                    ..
+                }) => {}
+                _ => {
+                    self.drop_unused_vars(&mut var.name);
+
+                    if var.name.is_invalid() {
+                        let side_effects = self.ignore_return_value(init);
+                        if let Some(e) = side_effects {
+                            self.append_stmts.push(Stmt::Expr(ExprStmt {
+                                span: var.span,
+                                expr: Box::new(e),
+                            }))
+                        }
+                    }
+                }
+            },
+            None => {
+                self.drop_unused_vars(&mut var.name);
+            }
+        }
+    }
+
     pub(super) fn drop_unused_vars(&mut self, name: &mut Pat) {
         if !self.options.unused || self.ctx.in_var_decl_of_for_in_or_of_loop || self.ctx.is_exported
         {
