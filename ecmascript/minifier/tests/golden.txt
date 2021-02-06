@@ -266,6 +266,7 @@ drop_unused/issue_t161_top_retain_14/input.js
 drop_unused/issue_t161_top_retain_2/input.js
 drop_unused/issue_t161_top_retain_3/input.js
 drop_unused/issue_t161_top_retain_5/input.js
+drop_unused/issue_t161_top_retain_6/input.js
 drop_unused/issue_t161_top_retain_7/input.js
 drop_unused/issue_t161_top_retain_8/input.js
 drop_unused/issue_t161_top_retain_9/input.js
@@ -763,6 +764,7 @@ reduce_vars/issue_2090_2/input.js
 reduce_vars/issue_2406_1/input.js
 reduce_vars/issue_2406_2/input.js
 reduce_vars/issue_2416/input.js
+reduce_vars/issue_2423_2/input.js
 reduce_vars/issue_2423_4/input.js
 reduce_vars/issue_2436/input.js
 reduce_vars/issue_2440_eval_2/input.js
