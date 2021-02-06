@@ -1,5 +1,6 @@
 use super::Optimizer;
 use swc_atoms::js_word;
+use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
@@ -158,6 +159,10 @@ impl Optimizer<'_> {
         if (!self.options.top_level && self.options.top_retain.is_empty())
             && self.ctx.in_top_level()
         {
+            return;
+        }
+
+        if self.has_noinline(decl.span()) {
             return;
         }
 
