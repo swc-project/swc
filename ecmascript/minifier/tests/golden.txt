@@ -649,9 +649,12 @@ object/concise_methods_and_keyword_names/input.js
 object/concise_methods_with_computed_property/input.js
 object/concise_methods_with_computed_property2/input.js
 object/concise_methods_with_various_property_names/input.js
+object/convert_computed_props_to_regular_ones/input.js
 object/getter_setter/input.js
 object/getter_setter_with_computed_value/input.js
 object/issue_206/input.js
+object/issue_2554_1/input.js
+object/issue_2554_2/input.js
 object/issue_2554_3/input.js
 object/issue_2554_4/input.js
 object/issue_2554_5/input.js
