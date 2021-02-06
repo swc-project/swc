@@ -411,6 +411,14 @@ fn fixture(input: PathBuf) {
             expected
         );
 
+        if let Ok(s) = read_to_string(dir.join("expected.stdout")) {
+            eprintln!(
+                "---- {} -----\n{}",
+                Color::Green.paint("Expected stdout"),
+                s
+            );
+        }
+
         if env::var("UPDATE").map(|s| s == "1").unwrap_or(false) {
             let output = output.clone();
             let _ = catch_unwind(|| {
