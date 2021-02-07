@@ -378,7 +378,6 @@ macro_rules! noop {
 impl<'a> VisitMut for Resolver<'a> {
     noop!(visit_mut_accessibility, Accessibility);
     noop!(visit_mut_true_plus_minus, TruePlusMinus);
-    noop!(visit_mut_ts_call_signature_decl, TsCallSignatureDecl);
     noop!(visit_mut_ts_keyword_type, TsKeywordType);
     noop!(visit_mut_ts_keyword_type_kind, TsKeywordTypeKind);
     noop!(visit_mut_ts_type_operator_op, TsTypeOperatorOp);
@@ -536,6 +535,28 @@ impl<'a> VisitMut for Resolver<'a> {
         ty.type_params.visit_mut_with(&mut child);
         ty.params.visit_mut_with(&mut child);
         ty.type_ann.visit_mut_with(&mut child);
+    }
+
+    fn visit_mut_ts_call_signature_decl(&mut self, n: &mut TsCallSignatureDecl) {
+        if !self.handle_types {
+            return;
+        }
+
+        self.in_type = true;
+        let child_mark = Mark::fresh(self.mark);
+
+        // Child folder
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            None,
+            self.handle_types,
+        );
+        child.in_type = true;
+
+        n.type_params.visit_mut_with(&mut child);
+        n.params.visit_mut_with(&mut child);
+        n.type_ann.visit_mut_with(&mut child);
     }
 
     fn visit_mut_ts_method_signature(&mut self, n: &mut TsMethodSignature) {
