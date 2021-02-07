@@ -2113,7 +2113,7 @@ to_ts!(
         private p__0;
     }
     var x338 = (n__2: {
-        () => Base[];
+        (): Base[];
     })=>n__2;
     x338(function named() {
         return [
