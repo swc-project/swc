@@ -2105,7 +2105,8 @@ to_ts!(
     generated_contextual_typing_01,
     "
     class Base { private p; }
-    var x338 = (n: { (): Base[]; }) => n; x338(function named() { return [d1, d2] });
+    var x338 = (n: { (): Base[]; }) => n;
+    x338(function named() { return [d1, d2] });
     ",
     "
     "
