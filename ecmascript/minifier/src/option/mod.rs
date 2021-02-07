@@ -4,6 +4,7 @@ use serde::Serialize;
 use swc_atoms::JsWord;
 use swc_ecma_ast::Lit;
 
+pub mod terser;
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
