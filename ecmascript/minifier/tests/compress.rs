@@ -1,6 +1,8 @@
 use ansi_term::Color;
+use fxhash::FxHashMap;
 use once_cell::sync::Lazy;
 use serde::Deserialize;
+use serde_json::Value;
 use std::env;
 use std::fmt;
 use std::fmt::Debug;
@@ -11,11 +13,13 @@ use std::panic::catch_unwind;
 use std::path::Path;
 use std::path::PathBuf;
 use std::process::Command;
+use swc_atoms::JsWord;
 use swc_common::comments::SingleThreadedComments;
 use swc_common::sync::Lrc;
 use swc_common::FileName;
 use swc_common::SourceMap;
-use swc_ecma_ast::Program;
+use swc_common::DUMMY_SP;
+use swc_ecma_ast::*;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_minifier::optimize;
@@ -122,7 +126,7 @@ struct TestOptions {
     pub expression: bool,
 
     #[serde(default)]
-    pub global_defs: bool,
+    pub global_defs: FxHashMap<JsWord, Value>,
 
     #[serde(default)]
     pub hoist_funs: bool,
@@ -260,7 +264,35 @@ fn parse_compressor_config(s: &str) -> (bool, CompressOptions) {
             ecma: c.ecma,
             evaluate: c.evaluate.unwrap_or(c.defaults),
             expr: c.expression,
-            global_defs: c.global_defs,
+            global_defs: c
+                .global_defs
+                .into_iter()
+                .map(|(k, v)| {
+                    (
+                        k,
+                        match v {
+                            Value::Null => Lit::Null(Null { span: DUMMY_SP }),
+                            Value::Bool(value) => Lit::Bool(Bool {
+                                span: DUMMY_SP,
+                                value,
+                            }),
+                            Value::Number(v) => Lit::Num(Number {
+                                span: DUMMY_SP,
+                                value: v.as_f64().unwrap(),
+                            }),
+                            Value::String(v) => Lit::Str(Str {
+                                span: DUMMY_SP,
+                                value: v.into(),
+                                has_escape: false,
+                                kind: Default::default(),
+                            }),
+                            Value::Object(_) | Value::Array(_) => {
+                                unreachable!()
+                            }
+                        },
+                    )
+                })
+                .collect(),
             hoist_fns: c.hoist_funs,
             hoist_props: c.hoist_props.unwrap_or(c.defaults),
             hoist_vars: c.hoist_vars,

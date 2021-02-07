@@ -1,6 +1,8 @@
+use fxhash::FxHashMap;
 use serde::Deserialize;
 use serde::Serialize;
 use swc_atoms::JsWord;
+use swc_ecma_ast::Lit;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -104,7 +106,7 @@ pub struct CompressOptions {
 
     #[serde(default)]
     #[serde(alias = "global_defs")]
-    pub global_defs: bool,
+    pub global_defs: FxHashMap<JsWord, Lit>,
 
     #[serde(default)]
     #[serde(alias = "hoist_funs")]
