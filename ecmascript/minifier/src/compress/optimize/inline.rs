@@ -187,6 +187,7 @@ impl Optimizer<'_> {
             .and_then(|data| data.vars.get(&i.to_id()))
         {
             if !usage.reassigned {
+                log::trace!("typeofs: Storing typeof `{}{:?}`", i.sym, i.span.ctxt);
                 match &*decl {
                     Decl::Fn(..) => {
                         self.typeofs.insert(i.to_id(), js_word!("function"));
