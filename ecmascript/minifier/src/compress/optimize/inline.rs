@@ -167,6 +167,39 @@ impl Optimizer<'_> {
         false
     }
 
+    pub(super) fn store_typeofs(&mut self, decl: &mut Decl) {
+        if !self.options.reduce_vars || !self.options.typeofs {
+            return;
+        }
+
+        let i = match &*decl {
+            Decl::Class(v) => v.ident.clone(),
+            Decl::Fn(f) => f.ident.clone(),
+            _ => return,
+        };
+        if i.sym == *"arguments" {
+            return;
+        }
+
+        if let Some(usage) = self
+            .data
+            .as_ref()
+            .and_then(|data| data.vars.get(&i.to_id()))
+        {
+            if !usage.reassigned {
+                match &*decl {
+                    Decl::Fn(..) => {
+                        self.typeofs.insert(i.to_id(), js_word!("function"));
+                    }
+                    Decl::Class(..) => {
+                        self.typeofs.insert(i.to_id(), js_word!("object"));
+                    }
+                    _ => {}
+                }
+            }
+        }
+    }
+
     /// This method handles only class decl and fn decl. Var decl should be
     /// handled specially.
     pub(super) fn store_decl_for_inlining(&mut self, decl: &mut Decl) {
@@ -208,18 +241,6 @@ impl Optimizer<'_> {
         {
             if usage.declared_as_catch_param {
                 return;
-            }
-
-            if self.options.reduce_vars && self.options.typeofs && !usage.reassigned {
-                match &*decl {
-                    Decl::Fn(..) => {
-                        self.typeofs.insert(i.to_id(), js_word!("function"));
-                    }
-                    Decl::Class(..) => {
-                        self.typeofs.insert(i.to_id(), js_word!("object"));
-                    }
-                    _ => {}
-                }
             }
 
             // Inline very simple functions.

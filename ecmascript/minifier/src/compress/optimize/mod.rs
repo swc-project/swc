@@ -1287,6 +1287,7 @@ impl VisitMut for Optimizer<'_> {
         decl.visit_mut_children_with(self);
 
         self.drop_unused_decl(decl);
+        self.store_typeofs(decl);
         self.store_decl_for_inlining(decl);
     }
 
