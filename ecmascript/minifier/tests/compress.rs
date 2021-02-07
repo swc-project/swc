@@ -15,6 +15,7 @@ use swc_common::comments::SingleThreadedComments;
 use swc_common::sync::Lrc;
 use swc_common::FileName;
 use swc_common::SourceMap;
+use swc_ecma_ast::Program;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_minifier::optimize;
@@ -228,85 +229,91 @@ struct TestOptions {
 
     #[serde(default)]
     pub unused: Option<bool>,
+
+    #[serde(default)]
+    pub module: bool,
 }
 
 fn ecma_default() -> usize {
     5
 }
 
-fn parse_compressor_config(s: &str) -> CompressOptions {
+fn parse_compressor_config(s: &str) -> (bool, CompressOptions) {
     let c: TestOptions =
         serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
 
-    CompressOptions {
-        arguments: c.arguments,
-        arrows: c.arrows.unwrap_or(c.defaults),
-        bools: c.booleans.unwrap_or(c.defaults),
-        bools_as_ints: c.booleans_as_integers,
-        collapse_vars: c.collapse_vars.unwrap_or(c.defaults),
-        comparisons: c.comparisons.unwrap_or(c.defaults),
-        computed_props: c.computed_props,
-        conditionals: c.conditionals,
-        dead_code: c.dead_code,
-        directives: c.directives,
-        drop_console: c.drop_console,
-        drop_debugger: c.drop_debugger.unwrap_or(c.defaults),
-        ecma: c.ecma,
-        evaluate: c.evaluate.unwrap_or(c.defaults),
-        expr: c.expression,
-        global_defs: c.global_defs,
-        hoist_fns: c.hoist_funs,
-        hoist_props: c.hoist_props.unwrap_or(c.defaults),
-        hoist_vars: c.hoist_vars,
-        ie8: c.ie8,
-        if_return: c.if_return.unwrap_or(c.defaults),
-        inline: c
-            .inline
-            .map(|v| match v {
-                InlineOption::Bool(v) => {
-                    if v {
-                        3
-                    } else {
-                        0
+    (
+        c.module,
+        CompressOptions {
+            arguments: c.arguments,
+            arrows: c.arrows.unwrap_or(c.defaults),
+            bools: c.booleans.unwrap_or(c.defaults),
+            bools_as_ints: c.booleans_as_integers,
+            collapse_vars: c.collapse_vars.unwrap_or(c.defaults),
+            comparisons: c.comparisons.unwrap_or(c.defaults),
+            computed_props: c.computed_props,
+            conditionals: c.conditionals,
+            dead_code: c.dead_code,
+            directives: c.directives,
+            drop_console: c.drop_console,
+            drop_debugger: c.drop_debugger.unwrap_or(c.defaults),
+            ecma: c.ecma,
+            evaluate: c.evaluate.unwrap_or(c.defaults),
+            expr: c.expression,
+            global_defs: c.global_defs,
+            hoist_fns: c.hoist_funs,
+            hoist_props: c.hoist_props.unwrap_or(c.defaults),
+            hoist_vars: c.hoist_vars,
+            ie8: c.ie8,
+            if_return: c.if_return.unwrap_or(c.defaults),
+            inline: c
+                .inline
+                .map(|v| match v {
+                    InlineOption::Bool(v) => {
+                        if v {
+                            3
+                        } else {
+                            0
+                        }
                     }
-                }
-                InlineOption::Num(n) => n,
-            })
-            .unwrap_or(if c.defaults { 3 } else { 0 }),
-        join_vars: c.join_vars.unwrap_or(c.defaults),
-        keep_classnames: c.keep_classnames,
-        keep_fargs: c.keep_fargs.unwrap_or(c.defaults),
-        keep_fnames: c.keep_fnames,
-        keep_infinity: c.keep_infinity,
-        loops: c.loops.unwrap_or(c.defaults),
-        negate_iife: c.negate_iife.unwrap_or(c.defaults),
-        passes: c.passes,
-        props: c.properties.unwrap_or(c.defaults),
-        reduce_fns: c.reduce_funcs,
-        reduce_vars: c.reduce_vars,
-        sequences: c.sequences.unwrap_or(c.defaults),
-        side_effects: c.side_effects.unwrap_or(c.defaults),
-        switches: c.switches,
-        top_retain: c
-            .top_retain
-            .split(",")
-            .filter(|s| s.trim() != "")
-            .map(|v| v.into())
-            .collect(),
-        top_level: c.toplevel,
-        typeofs: c.typeofs.unwrap_or(c.defaults),
-        unsafe_passes: c.unsafe_passes,
-        unsafe_arrows: c.unsafe_arrows,
-        unsafe_comps: c.unsafe_comps,
-        unsafe_function: c.unsafe_function,
-        unsafe_math: c.unsafe_math,
-        unsafe_symbols: c.unsafe_symbols,
-        unsafe_methods: c.unsafe_methods,
-        unsafe_proto: c.unsafe_proto,
-        unsafe_regexp: c.unsafe_regexp,
-        unsafe_undefined: c.unsafe_undefined,
-        unused: c.unused.unwrap_or(c.defaults),
-    }
+                    InlineOption::Num(n) => n,
+                })
+                .unwrap_or(if c.defaults { 3 } else { 0 }),
+            join_vars: c.join_vars.unwrap_or(c.defaults),
+            keep_classnames: c.keep_classnames,
+            keep_fargs: c.keep_fargs.unwrap_or(c.defaults),
+            keep_fnames: c.keep_fnames,
+            keep_infinity: c.keep_infinity,
+            loops: c.loops.unwrap_or(c.defaults),
+            negate_iife: c.negate_iife.unwrap_or(c.defaults),
+            passes: c.passes,
+            props: c.properties.unwrap_or(c.defaults),
+            reduce_fns: c.reduce_funcs,
+            reduce_vars: c.reduce_vars,
+            sequences: c.sequences.unwrap_or(c.defaults),
+            side_effects: c.side_effects.unwrap_or(c.defaults),
+            switches: c.switches,
+            top_retain: c
+                .top_retain
+                .split(",")
+                .filter(|s| s.trim() != "")
+                .map(|v| v.into())
+                .collect(),
+            top_level: c.toplevel,
+            typeofs: c.typeofs.unwrap_or(c.defaults),
+            unsafe_passes: c.unsafe_passes,
+            unsafe_arrows: c.unsafe_arrows,
+            unsafe_comps: c.unsafe_comps,
+            unsafe_function: c.unsafe_function,
+            unsafe_math: c.unsafe_math,
+            unsafe_symbols: c.unsafe_symbols,
+            unsafe_methods: c.unsafe_methods,
+            unsafe_proto: c.unsafe_proto,
+            unsafe_regexp: c.unsafe_regexp,
+            unsafe_undefined: c.unsafe_undefined,
+            unused: c.unused.unwrap_or(c.defaults),
+        },
+    )
 }
 
 /// Tests ported from terser.
@@ -320,7 +327,7 @@ fn fixture(input: PathBuf) {
     let config = dir.join("config.json");
     let config = read_to_string(&config).expect("failed to read config.json");
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
-    let config: CompressOptions = parse_compressor_config(&config);
+    let (module, config) = parse_compressor_config(&config);
 
     let mangle = dir.join("mangle.json");
     let mangle = read_to_string(&mangle).ok();
@@ -348,7 +355,7 @@ fn fixture(input: PathBuf) {
             Some(&comments),
         );
         let mut parser = Parser::new_from(lexer);
-        let module = parser
+        let program = parser
             .parse_module()
             .map_err(|err| {
                 err.into_diagnostic(&handler).emit();
@@ -358,13 +365,13 @@ fn fixture(input: PathBuf) {
         // Ignore parser errors.
         //
         // This is typically related to strict mode caused by module context.
-        let module = match module {
+        let program = match program {
             Ok(v) => v,
             _ => return Ok(()),
         };
 
         let output = optimize(
-            module,
+            program,
             Some(&comments),
             None,
             &MinifyOptions {
