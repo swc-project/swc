@@ -327,7 +327,7 @@ fn fixture(input: PathBuf) {
     let config = dir.join("config.json");
     let config = read_to_string(&config).expect("failed to read config.json");
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
-    let (module, config) = parse_compressor_config(&config);
+    let (_module, config) = parse_compressor_config(&config);
 
     let mangle = dir.join("mangle.json");
     let mangle = read_to_string(&mangle).ok();
