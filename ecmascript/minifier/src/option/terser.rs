@@ -16,6 +16,14 @@ pub enum InlineOption {
     Num(u8),
 }
 
+#[derive(Debug, Clone, Copy, Deserialize)]
+#[serde(deny_unknown_fields)]
+#[serde(untagged)]
+pub enum SequenceOption {
+    Bool(bool),
+    Num(u8),
+}
+
 #[derive(Debug, Clone, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct TerserOptions {
@@ -124,7 +132,7 @@ pub struct TerserOptions {
     pub reduce_vars: bool,
 
     #[serde(default)]
-    pub sequences: Option<bool>,
+    pub sequences: Option<SequenceOption>,
 
     #[serde(default)]
     pub side_effects: Option<bool>,
@@ -260,7 +268,19 @@ impl From<TerserOptions> for CompressOptions {
             props: c.properties.unwrap_or(c.defaults),
             reduce_fns: c.reduce_funcs,
             reduce_vars: c.reduce_vars,
-            sequences: c.sequences.unwrap_or(c.defaults),
+            sequences: c
+                .sequences
+                .map(|v| match v {
+                    SequenceOption::Bool(v) => {
+                        if v {
+                            3
+                        } else {
+                            0
+                        }
+                    }
+                    SequenceOption::Num(v) => v,
+                })
+                .unwrap_or(if c.defaults { 3 } else { 0 }),
             side_effects: c.side_effects.unwrap_or(c.defaults),
             switches: c.switches,
             top_retain: c

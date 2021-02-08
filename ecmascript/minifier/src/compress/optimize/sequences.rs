@@ -43,7 +43,7 @@ impl Optimizer<'_> {
     where
         T: StmtLike,
     {
-        if !self.options.sequences {
+        if !self.options.sequences() {
             return;
         }
 
@@ -202,7 +202,7 @@ impl Optimizer<'_> {
     /// - `x = (foo(), bar(), baz()) ? 10 : 20` => `foo(), bar(), x = baz() ? 10
     ///   : 20;`
     pub(super) fn lift_seqs_of_cond_assign(&mut self, e: &mut Expr) {
-        if !self.options.sequences {
+        if !self.options.sequences() {
             return;
         }
 
@@ -251,7 +251,7 @@ impl Optimizer<'_> {
     }
 
     pub(super) fn lift_seqs_of_assign(&mut self, e: &mut SeqExpr) {
-        if !self.options.sequences {
+        if !self.options.sequences() {
             return;
         }
 
@@ -312,7 +312,7 @@ impl Optimizer<'_> {
     ///
     /// I don't know why it depends on `sequences`.
     pub(super) fn extract_vars_in_subscopes(&mut self, s: &mut Stmt) {
-        if !self.options.sequences {
+        if !self.options.sequences() {
             return;
         }
 

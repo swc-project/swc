@@ -189,9 +189,9 @@ pub struct CompressOptions {
     #[serde(alias = "reduce_vars")]
     pub reduce_vars: bool,
 
-    #[serde(default = "true_by_default")]
+    #[serde(default = "three_by_default")]
     #[serde(alias = "sequences")]
-    pub sequences: bool,
+    pub sequences: u8,
 
     #[serde(default = "true_by_default")]
     #[serde(alias = "side_effects")]
@@ -250,6 +250,12 @@ pub struct CompressOptions {
     pub unused: bool,
 }
 
+impl CompressOptions {
+    pub(crate) fn sequences(&self) -> bool {
+        self.sequences != 0
+    }
+}
+
 const fn true_by_default() -> bool {
     true
 }
@@ -259,7 +265,7 @@ const fn one_by_default() -> usize {
 }
 
 const fn three_by_default() -> u8 {
-    1
+    3
 }
 
 const fn default_ecma() -> usize {

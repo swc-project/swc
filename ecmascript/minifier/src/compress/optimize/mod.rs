@@ -1065,7 +1065,7 @@ impl Optimizer<'_> {
         }
 
         if !self.options.conditionals
-            && !self.options.sequences
+            && !self.options.sequences()
             && !self.options.join_vars
             && !self.options.unused
         {
@@ -1411,7 +1411,7 @@ impl VisitMut for Optimizer<'_> {
 
         if self.options.unused
             || self.options.side_effects
-            || (self.options.sequences && n.expr.is_seq())
+            || (self.options.sequences() && n.expr.is_seq())
         {
             let expr = self.ignore_return_value(&mut n.expr);
             n.expr = expr.map(Box::new).unwrap_or_else(|| undefined(DUMMY_SP));
