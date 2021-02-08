@@ -18,7 +18,7 @@ use swc_common::SourceMap;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_minifier::optimize;
-use swc_ecma_minifier::option::terser::TerserOptions;
+use swc_ecma_minifier::option::terser::TerserCompressorOptions;
 use swc_ecma_minifier::option::CompressOptions;
 use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_minifier::option::MinifyOptions;
@@ -63,7 +63,7 @@ enum TestMangleOptions {
 }
 
 fn parse_compressor_config(s: &str) -> (bool, CompressOptions) {
-    let c: TerserOptions =
+    let c: TerserCompressorOptions =
         serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
 
     (c.module, c.into())

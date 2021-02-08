@@ -67,7 +67,7 @@ pub enum TerserTopRetainOption {
 
 #[derive(Debug, Clone, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub struct TerserOptions {
+pub struct TerserCompressorOptions {
     #[serde(default)]
     pub arguments: bool,
 
@@ -237,8 +237,8 @@ fn ecma_default() -> TerserEcmaVersion {
     TerserEcmaVersion::Num(5)
 }
 
-impl From<TerserOptions> for CompressOptions {
-    fn from(c: TerserOptions) -> Self {
+impl From<TerserCompressorOptions> for CompressOptions {
+    fn from(c: TerserCompressorOptions) -> Self {
         CompressOptions {
             arguments: c.arguments,
             arrows: c.arrows.unwrap_or(c.defaults),
