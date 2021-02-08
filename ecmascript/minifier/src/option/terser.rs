@@ -59,6 +59,14 @@ pub enum TerserSequenceOptions {
 
 #[derive(Debug, Clone, Deserialize)]
 #[serde(deny_unknown_fields)]
+#[serde(untagged)]
+pub enum TerserTopRetainOption {
+    Str(String),
+    Seq(Vec<JsWord>),
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct TerserOptions {
     #[serde(default)]
     pub arguments: bool,
@@ -178,7 +186,7 @@ pub struct TerserOptions {
     pub switches: bool,
 
     #[serde(default)]
-    pub top_retain: String,
+    pub top_retain: Option<TerserTopRetainOption>,
 
     #[serde(default)]
     pub toplevel: Option<TerserTopLevelOptions>,
@@ -320,12 +328,7 @@ impl From<TerserOptions> for CompressOptions {
                 .unwrap_or(if c.defaults { 3 } else { 0 }),
             side_effects: c.side_effects.unwrap_or(c.defaults),
             switches: c.switches,
-            top_retain: c
-                .top_retain
-                .split(",")
-                .filter(|s| s.trim() != "")
-                .map(|v| v.into())
-                .collect(),
+            top_retain: c.top_retain.map(From::from).unwrap_or_default(),
             top_level: c.toplevel.map(From::from),
             typeofs: c.typeofs.unwrap_or(c.defaults),
             unsafe_passes: c.unsafe_passes,
@@ -375,6 +378,19 @@ impl From<TerserEcmaVersion> for EsVersion {
                 TerserEcmaVersion::Num(v.parse().expect("failed to parse version of ecmascript"))
                     .into()
             }
+        }
+    }
+}
+
+impl From<TerserTopRetainOption> for Vec<JsWord> {
+    fn from(v: TerserTopRetainOption) -> Self {
+        match v {
+            TerserTopRetainOption::Str(s) => s
+                .split(",")
+                .filter(|s| s.trim() != "")
+                .map(|v| v.into())
+                .collect(),
+            TerserTopRetainOption::Seq(v) => v,
         }
     }
 }
