@@ -1,6 +1,7 @@
 //! Compatibility for terser config.
 
 use super::CompressOptions;
+use super::TopLevelOptions;
 use fxhash::FxHashMap;
 use serde::Deserialize;
 use serde_json::Value;
@@ -11,15 +12,23 @@ use swc_ecma_ast::*;
 #[derive(Debug, Clone, Copy, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
-pub enum InlineOption {
+pub enum TerserInlineOption {
     Bool(bool),
     Num(u8),
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields)]
+#[serde(untagged)]
+pub enum TerserTopLevelOptions {
+    Bool(bool),
+    Str(String),
 }
 
 #[derive(Debug, Clone, Copy, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
-pub enum SequenceOption {
+pub enum TerserSequenceOptions {
     Bool(bool),
     Num(u8),
 }
@@ -94,7 +103,7 @@ pub struct TerserOptions {
     pub if_return: Option<bool>,
 
     #[serde(default)]
-    pub inline: Option<InlineOption>,
+    pub inline: Option<TerserInlineOption>,
 
     #[serde(default)]
     pub join_vars: Option<bool>,
@@ -132,7 +141,7 @@ pub struct TerserOptions {
     pub reduce_vars: bool,
 
     #[serde(default)]
-    pub sequences: Option<SequenceOption>,
+    pub sequences: Option<TerserSequenceOptions>,
 
     #[serde(default)]
     pub side_effects: Option<bool>,
@@ -144,7 +153,7 @@ pub struct TerserOptions {
     pub top_retain: String,
 
     #[serde(default)]
-    pub toplevel: bool,
+    pub toplevel: Option<TerserTopLevelOptions>,
 
     #[serde(default)]
     pub typeofs: Option<bool>,
@@ -247,14 +256,14 @@ impl From<TerserOptions> for CompressOptions {
             inline: c
                 .inline
                 .map(|v| match v {
-                    InlineOption::Bool(v) => {
+                    TerserInlineOption::Bool(v) => {
                         if v {
                             3
                         } else {
                             0
                         }
                     }
-                    InlineOption::Num(n) => n,
+                    TerserInlineOption::Num(n) => n,
                 })
                 .unwrap_or(if c.defaults { 3 } else { 0 }),
             join_vars: c.join_vars.unwrap_or(c.defaults),
@@ -271,14 +280,14 @@ impl From<TerserOptions> for CompressOptions {
             sequences: c
                 .sequences
                 .map(|v| match v {
-                    SequenceOption::Bool(v) => {
+                    TerserSequenceOptions::Bool(v) => {
                         if v {
                             3
                         } else {
                             0
                         }
                     }
-                    SequenceOption::Num(v) => v,
+                    TerserSequenceOptions::Num(v) => v,
                 })
                 .unwrap_or(if c.defaults { 3 } else { 0 }),
             side_effects: c.side_effects.unwrap_or(c.defaults),
@@ -289,7 +298,7 @@ impl From<TerserOptions> for CompressOptions {
                 .filter(|s| s.trim() != "")
                 .map(|v| v.into())
                 .collect(),
-            top_level: c.toplevel,
+            top_level: c.toplevel.map(From::from),
             typeofs: c.typeofs.unwrap_or(c.defaults),
             unsafe_passes: c.unsafe_passes,
             unsafe_arrows: c.unsafe_arrows,
@@ -302,6 +311,18 @@ impl From<TerserOptions> for CompressOptions {
             unsafe_regexp: c.unsafe_regexp,
             unsafe_undefined: c.unsafe_undefined,
             unused: c.unused.unwrap_or(c.defaults),
+        }
+    }
+}
+
+impl From<TerserTopLevelOptions> for TopLevelOptions {
+    fn from(c: TerserTopLevelOptions) -> Self {
+        match c {
+            TerserTopLevelOptions::Bool(v) => TopLevelOptions { functions: v },
+            TerserTopLevelOptions::Str(..) => {
+                // TODO
+                TopLevelOptions { functions: false }
+            }
         }
     }
 }

@@ -21,6 +21,13 @@ pub struct MinifyOptions {
     pub enclose: bool,
 }
 
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(deny_unknown_fields)]
+pub struct TopLevelOptions {
+    pub functions: bool,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
@@ -208,7 +215,7 @@ pub struct CompressOptions {
 
     #[serde(default)]
     #[serde(alias = "toplevel")]
-    pub top_level: bool,
+    pub top_level: Option<TopLevelOptions>,
 
     #[serde(default = "true_by_default")]
     #[serde(alias = "typeofs")]
@@ -253,6 +260,10 @@ pub struct CompressOptions {
 impl CompressOptions {
     pub(crate) fn sequences(&self) -> bool {
         self.sequences != 0
+    }
+
+    pub(crate) fn top_level(&self) -> bool {
+        self.top_level.is_some()
     }
 }
 

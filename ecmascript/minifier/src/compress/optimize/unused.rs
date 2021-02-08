@@ -46,7 +46,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if (!self.options.top_level && self.options.top_retain.is_empty())
+        if (!self.options.top_level() && self.options.top_retain.is_empty())
             && self.ctx.in_top_level()
         {
             return;
@@ -96,7 +96,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if !self.options.top_level && (self.ctx.top_level || !self.ctx.in_fn_like) {
+        if !self.options.top_level() && (self.ctx.top_level || !self.ctx.in_fn_like) {
             return;
         }
 
@@ -165,7 +165,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if (!self.options.top_level && self.options.top_retain.is_empty())
+        if (!self.options.top_level() && self.options.top_retain.is_empty())
             && self.ctx.in_top_level()
         {
             return;

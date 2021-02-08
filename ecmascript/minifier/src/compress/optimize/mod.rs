@@ -607,7 +607,7 @@ impl Optimizer<'_> {
                 obj: ExprOrSuper::Expr(obj),
                 computed: false,
                 ..
-            }) if self.options.top_level || !self.ctx.in_top_level() => match &**obj {
+            }) if self.options.top_level() || !self.ctx.in_top_level() => match &**obj {
                 Expr::Ident(obj) => {
                     if let Some(usage) = self
                         .data

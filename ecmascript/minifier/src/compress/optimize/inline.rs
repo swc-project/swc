@@ -14,7 +14,7 @@ impl Optimizer<'_> {
             None => return,
         };
 
-        let should_preserve = (!self.options.top_level && self.options.top_retain.is_empty())
+        let should_preserve = (!self.options.top_level() && self.options.top_retain.is_empty())
             && self.ctx.in_top_level();
 
         // TODO: Check for side effect between original decl position and inlined
@@ -208,7 +208,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if (!self.options.top_level && self.options.top_retain.is_empty())
+        if (!self.options.top_level() && self.options.top_retain.is_empty())
             && self.ctx.in_top_level()
         {
             return;
