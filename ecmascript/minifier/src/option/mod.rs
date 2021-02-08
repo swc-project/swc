@@ -2,6 +2,7 @@ use fxhash::FxHashMap;
 use serde::Deserialize;
 use serde::Serialize;
 use swc_atoms::JsWord;
+use swc_ecma_ast::EsVersion;
 use swc_ecma_ast::Lit;
 
 pub mod terser;
@@ -104,7 +105,7 @@ pub struct CompressOptions {
     pub drop_debugger: bool,
 
     #[serde(default = "default_ecma")]
-    pub ecma: usize,
+    pub ecma: EsVersion,
 
     #[serde(default = "true_by_default")]
     #[serde(alias = "evaluate")]
@@ -280,8 +281,8 @@ const fn three_by_default() -> u8 {
     3
 }
 
-const fn default_ecma() -> usize {
-    5
+const fn default_ecma() -> EsVersion {
+    EsVersion::Es5
 }
 
 /// Implement default using serde.

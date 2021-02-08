@@ -12,6 +12,14 @@ use swc_ecma_ast::*;
 #[derive(Debug, Clone, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
+pub enum TerserEcmaVersion {
+    Num(usize),
+    Str(String),
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields)]
+#[serde(untagged)]
 pub enum TerserPureGetterOption {
     Bool(bool),
     #[serde(rename = "strict")]
@@ -92,7 +100,7 @@ pub struct TerserOptions {
     pub drop_debugger: Option<bool>,
 
     #[serde(default = "ecma_default")]
-    pub ecma: usize,
+    pub ecma: TerserEcmaVersion,
 
     #[serde(default)]
     pub evaluate: Option<bool>,
@@ -217,8 +225,8 @@ pub struct TerserOptions {
     pub module: bool,
 }
 
-fn ecma_default() -> usize {
-    5
+fn ecma_default() -> TerserEcmaVersion {
+    TerserEcmaVersion::Num(5)
 }
 
 impl From<TerserOptions> for CompressOptions {
@@ -236,7 +244,7 @@ impl From<TerserOptions> for CompressOptions {
             directives: c.directives,
             drop_console: c.drop_console,
             drop_debugger: c.drop_debugger.unwrap_or(c.defaults),
-            ecma: c.ecma,
+            ecma: c.ecma.into(),
             evaluate: c.evaluate.unwrap_or(c.defaults),
             expr: c.expression,
             global_defs: c
@@ -342,6 +350,30 @@ impl From<TerserTopLevelOptions> for TopLevelOptions {
             TerserTopLevelOptions::Str(..) => {
                 // TODO
                 TopLevelOptions { functions: false }
+            }
+        }
+    }
+}
+
+impl From<TerserEcmaVersion> for EsVersion {
+    fn from(v: TerserEcmaVersion) -> Self {
+        match v {
+            TerserEcmaVersion::Num(v) => match v {
+                3 => EsVersion::Es3,
+                5 => EsVersion::Es5,
+                6 | 2015 => EsVersion::Es2015,
+                2016 => EsVersion::Es2016,
+                2017 => EsVersion::Es2017,
+                2018 => EsVersion::Es2018,
+                2019 => EsVersion::Es2019,
+                2020 => EsVersion::Es2020,
+                _ => {
+                    panic!("`{}` is not a valid ecmascript version", v)
+                }
+            },
+            TerserEcmaVersion::Str(v) => {
+                TerserEcmaVersion::Num(v.parse().expect("failed to parse version of ecmascript"))
+                    .into()
             }
         }
     }
