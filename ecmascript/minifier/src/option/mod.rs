@@ -39,6 +39,9 @@ pub struct MangleOptions {
 
     #[serde(default, alias = "ie8")]
     pub ie8: bool,
+
+    #[serde(default, alias = "safari10")]
+    pub safari10: bool,
 }
 
 /// https://terser.org/docs/api-reference.html#compress-options
