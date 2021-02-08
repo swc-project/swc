@@ -12,6 +12,14 @@ use swc_ecma_ast::*;
 #[derive(Debug, Clone, Copy, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
+pub enum TerserPureGetterOption {
+    Bool(bool),
+    Num(u8),
+}
+
+#[derive(Debug, Clone, Copy, Deserialize)]
+#[serde(deny_unknown_fields)]
+#[serde(untagged)]
 pub enum TerserInlineOption {
     Bool(bool),
     Num(u8),

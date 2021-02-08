@@ -262,8 +262,9 @@ impl CompressOptions {
         self.sequences != 0
     }
 
+    /// Returns `true` if any of toplevel optimizer is enabled.
     pub(crate) fn top_level(&self) -> bool {
-        self.top_level.is_some()
+        self.top_level.map(|v| v.functions).unwrap_or(false)
     }
 }
 
