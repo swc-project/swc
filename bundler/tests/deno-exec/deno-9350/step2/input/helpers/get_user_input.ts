@@ -1,4 +1,5 @@
 import { readLines } from "https://deno.land/std@0.86.0/io/mod.ts";
+
 import { printQuestion } from "./mod";
 
 export const getNumericInput = (): Promise<number> => Promise.resolve(4);
