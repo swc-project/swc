@@ -9,12 +9,20 @@ use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 
-#[derive(Debug, Clone, Copy, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
 pub enum TerserPureGetterOption {
     Bool(bool),
-    Num(u8),
+    #[serde(rename = "strict")]
+    Strict,
+    Str(String),
+}
+
+impl Default for TerserPureGetterOption {
+    fn default() -> Self {
+        TerserPureGetterOption::Strict
+    }
 }
 
 #[derive(Debug, Clone, Copy, Deserialize)]
@@ -140,8 +148,12 @@ pub struct TerserOptions {
     #[serde(default)]
     pub properties: Option<bool>,
 
-    // pure_getters  : !false_by_default && "strict",
-    // pure_funcs    : null,
+    #[serde(default)]
+    pub pure_getters: TerserPureGetterOption,
+
+    #[serde(default)]
+    pub pure_funcs: Vec<String>,
+
     #[serde(default)]
     pub reduce_funcs: bool,
 
