@@ -46,6 +46,9 @@ pub struct DependencyDescriptor {
     /// The location of the specifier.
     pub specifier_line: usize,
     pub specifier_col: usize,
+    /// Import assertions for this dependency.
+    /// NOTE: it's filled only for static imports.
+    pub import_assertions: HashMap<String, String>,
 }
 
 struct DependencyCollector<'a> {
@@ -80,6 +83,28 @@ impl<'a> Visit for DependencyCollector<'a> {
         } else {
             DependencyKind::Import
         };
+        let mut import_assertions = HashMap::new();
+        if let Some(asserts) = node.asserts {
+            for prop in props {
+                let prop = prop.expect_prop();
+                let key_value = prop.expect_key_value();
+                let key = key_value.expect_str().value.to_string();
+                let value_lit = key_value.expect_lit();
+                let value_str = match value_lit {
+                    Lit::Str(Str { ref value, .. }) => value.to_string(),
+                    Lit::Bool(Bool { ref value, .. }) => {
+                        let str_val = if *value { "true" } else { "false" };
+                        str_val.to_string()
+                    }
+                    Lit::Null(_) => "null".to_string(),
+                    Lit::Num(Number { ref value, .. }) => value.to_string(),
+                    Lit::BigInt(BigInt { ref value, .. }) => value.to_string(),
+                    Lit::Regex(Regex { ref exp, .. }) => format!("/{}/", exp),
+                    Lit::JSXText(JSXText { ref raw, .. }) => raw.to_string(),
+                };
+                import_assertions.insert(key, value);
+            }
+        }
         self.items.push(DependencyDescriptor {
             kind,
             is_dynamic: false,
@@ -89,6 +114,7 @@ impl<'a> Visit for DependencyCollector<'a> {
             specifier,
             specifier_col: specifier_location.col_display,
             specifier_line: specifier_location.line,
+            import_assertions,
         });
     }
 
@@ -113,6 +139,7 @@ impl<'a> Visit for DependencyCollector<'a> {
                 specifier,
                 specifier_col: specifier_location.col_display,
                 specifier_line: specifier_location.line,
+                import_assertions: HashMap::default(),
             });
         }
     }
@@ -132,6 +159,7 @@ impl<'a> Visit for DependencyCollector<'a> {
             specifier,
             specifier_col: specifier_location.col_display,
             specifier_line: specifier_location.line,
+            import_assertions: HashMap::default(),
         });
     }
 
@@ -150,6 +178,7 @@ impl<'a> Visit for DependencyCollector<'a> {
             specifier,
             specifier_col: specifier_location.col_display,
             specifier_line: specifier_location.line,
+            import_assertions: HashMap::default(),
         });
     }
 
@@ -201,6 +230,7 @@ impl<'a> Visit for DependencyCollector<'a> {
                         specifier,
                         specifier_col: specifier_location.col_display,
                         specifier_line: specifier_location.line,
+                        import_assertions: HashMap::default(),
                     });
                 }
             }
@@ -263,7 +293,7 @@ mod tests {
 
     #[test]
     fn test_parsed_module_get_dependencies() {
-        let source = r#"import * as bar from "./test.ts";
+        let source = r#"import * as bar from "./test.ts" asserts { "type": "typescript" };
 /** JSDoc */
 import type { Foo } from "./foo.d.ts";
 /// <reference foo="bar" />
@@ -291,7 +321,8 @@ try {
 }
       "#;
         let (module, source_map, comments) = helper("test.ts", &source).unwrap();
-        // eprintln!("module {:#?}", module);
+        let mut expected_assertions = HashMap::new();
+        expected_assertions.insert("type", "typescript");
         let dependencies = analyze_dependencies(&module, &source_map, &comments);
         assert_eq!(dependencies.len(), 8);
         assert_eq!(
@@ -306,6 +337,7 @@ try {
                     specifier: JsWord::from("./test.ts"),
                     specifier_col: 21,
                     specifier_line: 1,
+                    import_assertions: expected_assertions,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::ImportType,
@@ -320,6 +352,7 @@ try {
                     specifier: JsWord::from("./foo.d.ts"),
                     specifier_col: 25,
                     specifier_line: 3,
+                    import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Export,
@@ -334,6 +367,7 @@ try {
                     specifier: JsWord::from("./buzz.ts"),
                     specifier_col: 22,
                     specifier_line: 5,
+                    import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::ExportType,
@@ -355,6 +389,7 @@ try {
                     specifier: JsWord::from("./fizz.d.ts"),
                     specifier_col: 26,
                     specifier_line: 10,
+                    import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Require,
@@ -365,6 +400,7 @@ try {
                     specifier: JsWord::from("path"),
                     specifier_col: 25,
                     specifier_line: 11,
+                    import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -375,6 +411,7 @@ try {
                     specifier: JsWord::from("./foo1.ts"),
                     specifier_col: 13,
                     specifier_line: 14,
+                    import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -385,6 +422,7 @@ try {
                     specifier: JsWord::from("./foo.ts"),
                     specifier_col: 29,
                     specifier_line: 17,
+                    import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Require,
@@ -395,6 +433,7 @@ try {
                     specifier: JsWord::from("some_package"),
                     specifier_col: 24,
                     specifier_line: 23,
+                    import_assertions: HashMap::default(),
                 }
             ]
         );
