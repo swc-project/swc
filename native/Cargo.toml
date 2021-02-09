@@ -12,14 +12,14 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [build-dependencies]
-napi-build = {version = "1.0"}
+napi-build = {version = "1"}
 
 [dependencies]
 anyhow = "1"
 backtrace = "0.3"
 fxhash = "0.2"
-napi = {version = "1.0", features = ["serde-json"]}
-napi-derive = {version = "1.0"}
+napi = {version = "1", features = ["serde-json"]}
+napi-derive = {version = "1"}
 path-clean = "0.1"
 serde = {version = "1", features = ["derive"]}
 serde_json = "1"
