@@ -253,7 +253,7 @@ mod tests {
         file_name: &str,
         source: &str,
     ) -> Result<(ast::Module, Lrc<SourceMap>, SingleThreadedComments), testing::StdErr> {
-        let output = ::testing::run_test(true, |cm, handler| {
+        let output = ::testing::run_test(false, |cm, handler| {
             let fm =
                 cm.new_source_file(FileName::Custom(file_name.to_string()), source.to_string());
 
@@ -265,6 +265,7 @@ mod tests {
                     dynamic_import: true,
                     decorators: true,
                     no_early_errors: true,
+                    import_assertions: true,
                     ..Default::default()
                 }),
                 JscTarget::Es2015,
@@ -294,7 +295,7 @@ mod tests {
 
     #[test]
     fn test_parsed_module_get_dependencies() {
-        let source = r#"import * as bar from "./test.ts" asserts { "type": "typescript" };
+        let source = r#"import * as bar from "./test.ts" assert { "type": "typescript" };
 /** JSDoc */
 import type { Foo } from "./foo.d.ts";
 /// <reference foo="bar" />
@@ -346,7 +347,7 @@ try {
                     leading_comments: vec![Comment {
                         kind: CommentKind::Block,
                         text: r#"* JSDoc "#.to_string(),
-                        span: Span::new(BytePos(34), BytePos(46), SyntaxContext::empty()),
+                        span: Span::new(BytePos(66), BytePos(78), SyntaxContext::empty()),
                     }],
                     col: 0,
                     line: 3,
@@ -361,7 +362,7 @@ try {
                     leading_comments: vec![Comment {
                         kind: CommentKind::Line,
                         text: r#"/ <reference foo="bar" />"#.to_string(),
-                        span: Span::new(BytePos(86), BytePos(113), SyntaxContext::empty()),
+                        span: Span::new(BytePos(118), BytePos(145), SyntaxContext::empty()),
                     }],
                     col: 0,
                     line: 5,
@@ -377,12 +378,12 @@ try {
                         Comment {
                             kind: CommentKind::Line,
                             text: r#" @some-pragma"#.to_string(),
-                            span: Span::new(BytePos(149), BytePos(164), SyntaxContext::empty()),
+                            span: Span::new(BytePos(181), BytePos(196), SyntaxContext::empty()),
                         },
                         Comment {
                             kind: CommentKind::Block,
                             text: "*\n * Foo\n ".to_string(),
-                            span: Span::new(BytePos(165), BytePos(179), SyntaxContext::empty()),
+                            span: Span::new(BytePos(197), BytePos(211), SyntaxContext::empty()),
                         }
                     ],
                     col: 0,
