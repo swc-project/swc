@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use swc_atoms::JsWord;
 use swc_common::{
     comments::{Comment, SingleThreadedComments},
@@ -84,23 +85,23 @@ impl<'a> Visit for DependencyCollector<'a> {
             DependencyKind::Import
         };
         let mut import_assertions = HashMap::new();
-        if let Some(asserts) = node.asserts {
-            for prop in props {
-                let prop = prop.expect_prop();
+        if let Some(asserts) = &node.asserts {
+            for prop in &asserts.props {
+                let prop = prop.clone().expect_prop();
                 let key_value = prop.expect_key_value();
-                let key = key_value.expect_str().value.to_string();
-                let value_lit = key_value.expect_lit();
-                let value_str = match value_lit {
-                    Lit::Str(Str { ref value, .. }) => value.to_string(),
-                    Lit::Bool(Bool { ref value, .. }) => {
+                let key = key_value.key.expect_str().value.to_string();
+                let value_lit = key_value.value.expect_lit();
+                let value = match value_lit {
+                    ast::Lit::Str(ast::Str { ref value, .. }) => value.to_string(),
+                    ast::Lit::Bool(ast::Bool { ref value, .. }) => {
                         let str_val = if *value { "true" } else { "false" };
                         str_val.to_string()
                     }
-                    Lit::Null(_) => "null".to_string(),
-                    Lit::Num(Number { ref value, .. }) => value.to_string(),
-                    Lit::BigInt(BigInt { ref value, .. }) => value.to_string(),
-                    Lit::Regex(Regex { ref exp, .. }) => format!("/{}/", exp),
-                    Lit::JSXText(JSXText { ref raw, .. }) => raw.to_string(),
+                    ast::Lit::Null(_) => "null".to_string(),
+                    ast::Lit::Num(ast::Number { ref value, .. }) => value.to_string(),
+                    ast::Lit::BigInt(ast::BigInt { ref value, .. }) => value.to_string(),
+                    ast::Lit::Regex(ast::Regex { ref exp, .. }) => format!("/{}/", exp),
+                    ast::Lit::JSXText(ast::JSXText { ref raw, .. }) => raw.to_string(),
                 };
                 import_assertions.insert(key, value);
             }
@@ -322,7 +323,7 @@ try {
       "#;
         let (module, source_map, comments) = helper("test.ts", &source).unwrap();
         let mut expected_assertions = HashMap::new();
-        expected_assertions.insert("type", "typescript");
+        expected_assertions.insert("type".to_string(), "typescript".to_string());
         let dependencies = analyze_dependencies(&module, &source_map, &comments);
         assert_eq!(dependencies.len(), 8);
         assert_eq!(
