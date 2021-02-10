@@ -296,10 +296,11 @@ impl<'a, I: Tokens> Parser<I> {
         if eat!(self, '*') {
             has_star = true;
             if is!(self, "from") {
-                let src = self.parse_from_clause_and_semi()?;
+                let (src, asserts) = self.parse_from_clause_and_semi()?;
                 return Ok(ModuleDecl::ExportAll(ExportAll {
                     span: span!(self, start),
                     src,
+                    asserts,
                 }));
             }
             if eat!(self, "as") {
@@ -429,12 +430,13 @@ impl<'a, I: Tokens> Parser<I> {
 
             if is!(self, "from") {
                 if let Some(s) = export_ns {
-                    let src = self.parse_from_clause_and_semi()?;
+                    let (src, asserts) = self.parse_from_clause_and_semi()?;
                     return Ok(ModuleDecl::ExportNamed(NamedExport {
                         span: Span::new(start, src.span.hi(), Default::default()),
                         specifiers: vec![s],
                         src: Some(src),
                         type_only,
+                        asserts,
                     }));
                 }
             }
@@ -452,7 +454,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             if is!(self, "from") {
                 if let Some(default) = default {
-                    let src = self.parse_from_clause_and_semi()?;
+                    let (src, asserts) = self.parse_from_clause_and_semi()?;
                     return Ok(ModuleDecl::ExportNamed(NamedExport {
                         span: Span::new(start, src.span.hi(), Default::default()),
                         specifiers: vec![ExportSpecifier::Default(ExportDefaultSpecifier {
@@ -460,16 +462,18 @@ impl<'a, I: Tokens> Parser<I> {
                         })],
                         src: Some(src),
                         type_only,
+                        asserts,
                     }));
                 }
             }
 
             if has_star && export_ns.is_none() {
                 // improve error message for `export * from foo`
-                let src = self.parse_from_clause_and_semi()?;
+                let (src, asserts) = self.parse_from_clause_and_semi()?;
                 return Ok(ModuleDecl::ExportAll(ExportAll {
                     span: Span::new(start, src.span.hi(), Default::default()),
                     src,
+                    asserts,
                 }));
             }
 
@@ -504,7 +508,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             expect!(self, '}');
 
-            let src = if is!(self, "from") {
+            let opt = if is!(self, "from") {
                 Some(self.parse_from_clause_and_semi()?)
             } else {
                 eat!(self, ';');
@@ -517,11 +521,16 @@ impl<'a, I: Tokens> Parser<I> {
                 }
                 None
             };
+            let (src, asserts) = match opt {
+                Some(v) => (Some(v.0), v.1),
+                None => (None, None),
+            };
             return Ok(ModuleDecl::ExportNamed(NamedExport {
                 span: span!(self, start),
                 specifiers,
                 src,
                 type_only,
+                asserts,
             }));
         };
 
@@ -549,7 +558,8 @@ impl<'a, I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_from_clause_and_semi(&mut self) -> PResult<Str> {
+    /// Parses `from 'foo.js' assert {};`
+    fn parse_from_clause_and_semi(&mut self) -> PResult<(Str, Option<ObjectLit>)> {
         expect!(self, "from");
 
         let str_start = cur_pos!(self);
@@ -567,8 +577,16 @@ impl<'a, I: Tokens> Parser<I> {
             },
             _ => unexpected!(self, "a string literal"),
         };
+        let asserts = if self.input.syntax().import_assertions() && eat!(self, "assert") {
+            match *self.parse_object::<Box<Expr>>()? {
+                Expr::Object(v) => Some(v),
+                _ => unreachable!(),
+            }
+        } else {
+            None
+        };
         expect!(self, ';');
-        Ok(src)
+        Ok((src, asserts))
     }
 }
 
