@@ -505,6 +505,10 @@ impl Strip {
 
     /// Returns `(var_decl, init)`.
     fn handle_ts_module(&mut self, module: TsModuleDecl) -> Option<(Decl, Stmt)> {
+        if module.global{
+            return None
+        }
+        
         let module_name = match module.id {
             TsModuleName::Ident(i) => i,
             TsModuleName::Str(_) => return None,
