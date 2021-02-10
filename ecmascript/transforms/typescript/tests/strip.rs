@@ -3475,3 +3475,18 @@ to!(
     "
     "
 );
+
+
+to!(
+    issue_1383,
+    "
+    declare global {
+        const process: Process;
+    }
+      
+    export {}
+    ",
+    "
+    export {}
+    "
+);
