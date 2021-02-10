@@ -103,6 +103,7 @@ where
                     specifiers: exports,
                     src: None,
                     type_only: false,
+                    asserts: None,
                 },
             )));
         }

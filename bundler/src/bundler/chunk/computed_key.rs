@@ -157,6 +157,7 @@ where
                                                 specifiers: vec![specifier],
                                                 src: None,
                                                 type_only: false,
+                                                asserts: None,
                                             }),
                                         ));
                                     }

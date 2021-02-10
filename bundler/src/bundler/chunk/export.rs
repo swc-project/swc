@@ -154,6 +154,7 @@ pub(super) fn inject_export(
                             exported: None,
                         })],
                         type_only: false,
+                        asserts: None,
                     }));
                 } else {
                     *item = ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
@@ -161,6 +162,7 @@ pub(super) fn inject_export(
                         specifiers: export.specifiers.take(),
                         src: None,
                         type_only: false,
+                        asserts: None,
                     }))
                 }
             }

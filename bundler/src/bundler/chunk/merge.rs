@@ -966,6 +966,7 @@ where
                                 specifiers: vec![specifier],
                                 src: None,
                                 type_only: false,
+                                asserts: None,
                             },
                         )));
                     }
@@ -1004,6 +1005,7 @@ where
                                 specifiers: vec![specifier],
                                 src: None,
                                 type_only: false,
+                                asserts: None,
                             },
                         )));
                     }
@@ -1052,6 +1054,7 @@ where
                                             .collect(),
                                         src: None,
                                         type_only: false,
+                                        asserts: None,
                                     },
                                 )));
                                 continue;
@@ -1077,6 +1080,7 @@ where
                                 specifiers: vec![specifier],
                                 src: None,
                                 type_only: false,
+                                asserts: None,
                             },
                         )));
                     }
