@@ -62,6 +62,7 @@ impl Fold for ExportDefaultFrom {
                                     )],
                                     src: None,
                                     type_only: false,
+                                    asserts: None,
                                 },
                             )));
                         }

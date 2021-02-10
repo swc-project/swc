@@ -159,6 +159,7 @@ impl Fold for Legacy {
                 specifiers: replace(&mut self.exports, Default::default()),
                 src: None,
                 type_only: false,
+                asserts: None,
             });
 
             m.body.push(decl.into());

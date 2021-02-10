@@ -206,6 +206,7 @@ impl Fold for Decorators {
                             .into()],
                             src: None,
                             type_only: false,
+                            asserts: None,
                         },
                     )));
                 }};
