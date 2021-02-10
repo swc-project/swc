@@ -1,1 +1,1 @@
-export * from "https://raw.githubusercontent.com/nats-io/nats.ws/deno-1.6.0/src/nats-base-client.ts";
+export * from "https://raw.githubusercontent.com/nats-io/nats.ws/master/src/nats-base-client.ts";
