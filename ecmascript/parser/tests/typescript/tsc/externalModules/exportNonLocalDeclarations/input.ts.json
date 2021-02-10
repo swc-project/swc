@@ -36,7 +36,8 @@
         }
       ],
       "source": null,
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -68,7 +69,8 @@
         }
       ],
       "source": null,
-      "typeOnly": true
+      "typeOnly": true,
+      "asserts": null
     }
   ],
   "interpreter": null

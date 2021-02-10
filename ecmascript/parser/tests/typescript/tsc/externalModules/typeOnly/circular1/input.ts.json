@@ -49,7 +49,8 @@
           "containsQuote": true
         }
       },
-      "typeOnly": true
+      "typeOnly": true,
+      "asserts": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -94,7 +95,8 @@
           "containsQuote": true
         }
       },
-      "typeOnly": true
+      "typeOnly": true,
+      "asserts": null
     }
   ],
   "interpreter": null

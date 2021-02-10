@@ -210,7 +210,8 @@
           "containsQuote": true
         }
       },
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     }
   ],
   "interpreter": null

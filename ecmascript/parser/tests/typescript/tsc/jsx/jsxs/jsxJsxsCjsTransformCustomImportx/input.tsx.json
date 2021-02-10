@@ -237,7 +237,8 @@
       },
       "specifiers": [],
       "source": null,
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     }
   ],
   "interpreter": null

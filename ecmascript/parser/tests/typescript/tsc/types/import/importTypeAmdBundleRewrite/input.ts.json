@@ -232,7 +232,8 @@
         }
       ],
       "source": null,
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "VariableDeclaration",
@@ -399,7 +400,8 @@
         }
       ],
       "source": null,
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     }
   ],
   "interpreter": null

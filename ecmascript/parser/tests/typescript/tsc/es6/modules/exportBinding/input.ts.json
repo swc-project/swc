@@ -36,7 +36,8 @@
         }
       ],
       "source": null,
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -78,7 +79,8 @@
         }
       ],
       "source": null,
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ExportDefaultExpression",
@@ -185,7 +187,8 @@
         }
       ],
       "source": null,
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ClassDeclaration",
@@ -244,7 +247,8 @@
         }
       ],
       "source": null,
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -286,7 +290,8 @@
         }
       ],
       "source": null,
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ExportDefaultExpression",

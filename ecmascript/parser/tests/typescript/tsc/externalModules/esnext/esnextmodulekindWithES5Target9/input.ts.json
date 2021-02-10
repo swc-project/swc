@@ -172,7 +172,8 @@
         }
       ],
       "source": null,
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -204,7 +205,8 @@
         }
       ],
       "source": null,
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -236,7 +238,8 @@
         }
       ],
       "source": null,
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ExportAllDeclaration",
@@ -258,7 +261,8 @@
           "type": "normal",
           "containsQuote": true
         }
-      }
+      },
+      "asserts": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -303,7 +307,8 @@
           "containsQuote": true
         }
       },
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ExportDefaultExpression",
