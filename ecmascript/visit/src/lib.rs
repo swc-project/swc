@@ -932,12 +932,14 @@ define!({
     pub struct ExportAll {
         pub span: Span,
         pub src: Str,
+        pub asserts: Option<ObjectLit>,
     }
     pub struct NamedExport {
         pub span: Span,
         pub specifiers: Vec<ExportSpecifier>,
         pub src: Option<Str>,
         pub type_only: bool,
+        pub asserts: Option<ObjectLit>,
     }
     pub struct ExportDefaultDecl {
         pub span: Span,
