@@ -90,6 +90,9 @@ pub struct ExportAll {
 
     #[serde(rename = "source")]
     pub src: Str,
+
+    #[serde(default)]
+    pub asserts: Option<ObjectLit>,
 }
 
 /// `export { foo } from 'mod'`
@@ -107,6 +110,9 @@ pub struct NamedExport {
 
     #[serde(rename = "typeOnly")]
     pub type_only: bool,
+
+    #[serde(default)]
+    pub asserts: Option<ObjectLit>,
 }
 
 #[ast_node("ExportDefaultDeclaration")]
