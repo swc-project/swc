@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use swc_atoms::JsWord;
 use swc_common::{
     comments::{Comment, SingleThreadedComments},
@@ -46,6 +47,9 @@ pub struct DependencyDescriptor {
     /// The location of the specifier.
     pub specifier_line: usize,
     pub specifier_col: usize,
+    /// Import assertions for this dependency.
+    /// NOTE: it's filled only for static imports and exports.
+    pub import_assertions: HashMap<String, String>,
 }
 
 struct DependencyCollector<'a> {
@@ -80,6 +84,7 @@ impl<'a> Visit for DependencyCollector<'a> {
         } else {
             DependencyKind::Import
         };
+        let import_assertions = parse_import_assertions(node.asserts.as_ref());
         self.items.push(DependencyDescriptor {
             kind,
             is_dynamic: false,
@@ -89,6 +94,7 @@ impl<'a> Visit for DependencyCollector<'a> {
             specifier,
             specifier_col: specifier_location.col_display,
             specifier_line: specifier_location.line,
+            import_assertions,
         });
     }
 
@@ -104,6 +110,7 @@ impl<'a> Visit for DependencyCollector<'a> {
             } else {
                 DependencyKind::Export
             };
+            let import_assertions = parse_import_assertions(node.asserts.as_ref());
             self.items.push(DependencyDescriptor {
                 kind,
                 is_dynamic: false,
@@ -113,6 +120,7 @@ impl<'a> Visit for DependencyCollector<'a> {
                 specifier,
                 specifier_col: specifier_location.col_display,
                 specifier_line: specifier_location.line,
+                import_assertions,
             });
         }
     }
@@ -123,6 +131,7 @@ impl<'a> Visit for DependencyCollector<'a> {
         let location = self.get_location(span);
         let leading_comments = self.get_leading_comments(span);
         let specifier_location = self.get_location(node.src.span);
+        let import_assertions = parse_import_assertions(node.asserts.as_ref());
         self.items.push(DependencyDescriptor {
             kind: DependencyKind::Export,
             is_dynamic: false,
@@ -132,6 +141,7 @@ impl<'a> Visit for DependencyCollector<'a> {
             specifier,
             specifier_col: specifier_location.col_display,
             specifier_line: specifier_location.line,
+            import_assertions,
         });
     }
 
@@ -150,6 +160,7 @@ impl<'a> Visit for DependencyCollector<'a> {
             specifier,
             specifier_col: specifier_location.col_display,
             specifier_line: specifier_location.line,
+            import_assertions: HashMap::default(),
         });
     }
 
@@ -201,11 +212,31 @@ impl<'a> Visit for DependencyCollector<'a> {
                         specifier,
                         specifier_col: specifier_location.col_display,
                         specifier_line: specifier_location.line,
+                        import_assertions: HashMap::default(),
                     });
                 }
             }
         }
     }
+}
+
+/// Parses import assertions into a hashmap. According to proposal the values
+/// can only be strings (https://github.com/tc39/proposal-import-assertions#should-more-than-just-strings-be-supported-as-attribute-values)
+/// and thus non-string values are skipped.
+fn parse_import_assertions(asserts: Option<&ast::ObjectLit>) -> HashMap<String, String> {
+    let mut import_assertions = HashMap::new();
+    if let Some(asserts) = asserts {
+        for prop in &asserts.props {
+            let prop = prop.clone().expect_prop();
+            let key_value = prop.expect_key_value();
+            let key = key_value.key.expect_str().value.to_string();
+            let value_lit = key_value.value.expect_lit();
+            if let ast::Lit::Str(str_) = value_lit {
+                import_assertions.insert(key, str_.value.to_string());
+            }
+        }
+    }
+    import_assertions
 }
 
 #[cfg(test)]
@@ -222,7 +253,7 @@ mod tests {
         file_name: &str,
         source: &str,
     ) -> Result<(ast::Module, Lrc<SourceMap>, SingleThreadedComments), testing::StdErr> {
-        let output = ::testing::run_test(true, |cm, handler| {
+        let output = ::testing::run_test(false, |cm, handler| {
             let fm =
                 cm.new_source_file(FileName::Custom(file_name.to_string()), source.to_string());
 
@@ -234,6 +265,7 @@ mod tests {
                     dynamic_import: true,
                     decorators: true,
                     no_early_errors: true,
+                    import_assertions: true,
                     ..Default::default()
                 }),
                 JscTarget::Es2015,
@@ -291,7 +323,6 @@ try {
 }
       "#;
         let (module, source_map, comments) = helper("test.ts", &source).unwrap();
-        // eprintln!("module {:#?}", module);
         let dependencies = analyze_dependencies(&module, &source_map, &comments);
         assert_eq!(dependencies.len(), 8);
         assert_eq!(
@@ -306,6 +337,7 @@ try {
                     specifier: JsWord::from("./test.ts"),
                     specifier_col: 21,
                     specifier_line: 1,
+                    import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::ImportType,
@@ -320,6 +352,7 @@ try {
                     specifier: JsWord::from("./foo.d.ts"),
                     specifier_col: 25,
                     specifier_line: 3,
+                    import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Export,
@@ -334,6 +367,7 @@ try {
                     specifier: JsWord::from("./buzz.ts"),
                     specifier_col: 22,
                     specifier_line: 5,
+                    import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::ExportType,
@@ -355,6 +389,7 @@ try {
                     specifier: JsWord::from("./fizz.d.ts"),
                     specifier_col: 26,
                     specifier_line: 10,
+                    import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Require,
@@ -365,6 +400,7 @@ try {
                     specifier: JsWord::from("path"),
                     specifier_col: 25,
                     specifier_line: 11,
+                    import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -375,6 +411,7 @@ try {
                     specifier: JsWord::from("./foo1.ts"),
                     specifier_col: 13,
                     specifier_line: 14,
+                    import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -385,6 +422,7 @@ try {
                     specifier: JsWord::from("./foo.ts"),
                     specifier_col: 29,
                     specifier_line: 17,
+                    import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Require,
@@ -395,7 +433,61 @@ try {
                     specifier: JsWord::from("some_package"),
                     specifier_col: 24,
                     specifier_line: 23,
+                    import_assertions: HashMap::default(),
                 }
+            ]
+        );
+    }
+
+    #[test]
+    fn test_import_assertions() {
+        let source = r#"import * as bar from "./test.ts" assert { "type": "typescript" };
+export * from "./test.ts" assert { "type": "typescript" };
+export { bar } from "./test.json" assert { "type": "json" };
+      "#;
+        let (module, source_map, comments) = helper("test.ts", &source).unwrap();
+        let mut expected_assertions1 = HashMap::new();
+        expected_assertions1.insert("type".to_string(), "typescript".to_string());
+        let mut expected_assertions2 = HashMap::new();
+        expected_assertions2.insert("type".to_string(), "json".to_string());
+        let dependencies = analyze_dependencies(&module, &source_map, &comments);
+        assert_eq!(dependencies.len(), 3);
+        assert_eq!(
+            dependencies,
+            vec![
+                DependencyDescriptor {
+                    kind: DependencyKind::Import,
+                    is_dynamic: false,
+                    leading_comments: Vec::new(),
+                    col: 0,
+                    line: 1,
+                    specifier: JsWord::from("./test.ts"),
+                    specifier_col: 21,
+                    specifier_line: 1,
+                    import_assertions: expected_assertions1.clone(),
+                },
+                DependencyDescriptor {
+                    kind: DependencyKind::Export,
+                    is_dynamic: false,
+                    leading_comments: Vec::new(),
+                    col: 0,
+                    line: 2,
+                    specifier: JsWord::from("./test.ts"),
+                    specifier_col: 14,
+                    specifier_line: 2,
+                    import_assertions: expected_assertions1,
+                },
+                DependencyDescriptor {
+                    kind: DependencyKind::Export,
+                    is_dynamic: false,
+                    leading_comments: Vec::new(),
+                    col: 0,
+                    line: 3,
+                    specifier: JsWord::from("./test.json"),
+                    specifier_col: 20,
+                    specifier_line: 3,
+                    import_assertions: expected_assertions2,
+                },
             ]
         );
     }
