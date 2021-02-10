@@ -169,7 +169,8 @@
         }
       ],
       "source": null,
-      "typeOnly": true
+      "typeOnly": true,
+      "asserts": null
     },
     {
       "type": "ImportDeclaration",

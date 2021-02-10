@@ -197,7 +197,8 @@
           "containsQuote": true
         }
       },
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ImportDeclaration",
@@ -335,7 +336,8 @@
         }
       ],
       "source": null,
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     }
   ],
   "interpreter": null

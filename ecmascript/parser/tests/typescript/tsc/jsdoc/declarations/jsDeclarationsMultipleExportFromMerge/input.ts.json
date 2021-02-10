@@ -236,7 +236,8 @@
           "containsQuote": true
         }
       },
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -281,7 +282,8 @@
           "containsQuote": true
         }
       },
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -346,7 +348,8 @@
           "containsQuote": true
         }
       },
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -411,7 +414,8 @@
           "containsQuote": true
         }
       },
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -466,7 +470,8 @@
           "containsQuote": true
         }
       },
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -521,7 +526,8 @@
           "containsQuote": true
         }
       },
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -566,7 +572,8 @@
           "containsQuote": true
         }
       },
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -621,7 +628,8 @@
           "containsQuote": true
         }
       },
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     }
   ],
   "interpreter": null

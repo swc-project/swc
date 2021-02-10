@@ -61,6 +61,7 @@ impl Fold for ExportNamespaceFrom {
                                     )],
                                     src: None,
                                     type_only: false,
+                                    asserts: None,
                                 },
                             )));
                         }

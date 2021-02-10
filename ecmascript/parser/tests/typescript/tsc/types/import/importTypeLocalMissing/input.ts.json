@@ -681,7 +681,8 @@
         }
       ],
       "source": null,
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ExportDeclaration",

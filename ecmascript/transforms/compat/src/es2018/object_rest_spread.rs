@@ -249,6 +249,7 @@ impl Fold for RestFolder {
                     specifiers,
                     src: None,
                     type_only: false,
+                    asserts: None,
                 };
 
                 let mut var_decl = var_decl.fold_with(self);

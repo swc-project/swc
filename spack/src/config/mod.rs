@@ -16,6 +16,7 @@ mod output;
 mod resolve;
 
 #[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Config {
     #[serde(default)]
     pub working_dir: PathBuf,
