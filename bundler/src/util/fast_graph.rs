@@ -1,6 +1,7 @@
 //! `GraphMap<N, E, Ty>` is a graph datastructure where node values are mapping
 //! keys.
 
+use ahash::RandomState;
 use indexmap::map::Keys;
 use indexmap::map::{Iter as IndexMapIter, IterMut as IndexMapIterMut};
 use indexmap::IndexMap;
@@ -16,19 +17,19 @@ use std::hash::{self, Hash};
 use std::iter::FromIterator;
 use std::iter::{Cloned, DoubleEndedIterator};
 use std::marker::PhantomData;
-use std::ops::{Deref, Index, IndexMut};
+use std::ops::Deref;
 use std::slice::Iter;
 
 /// A `GraphMap` with undirected edges.
 ///
 /// For example, an edge between *1* and *2* is equivalent to an edge between
 /// *2* and *1*.
-pub type UnGraphMap<N, E> = FastGraphMap<N, E, Undirected>;
+pub type FastUnGraphMap<N, E> = FastGraphMap<N, E, Undirected>;
 /// A `GraphMap` with directed edges.
 ///
 /// For example, an edge from *1* to *2* is distinct from an edge from *2* to
 /// *1*.
-pub type DiGraphMap<N, E> = FastGraphMap<N, E, Directed>;
+pub type FastDiGraphMap<N, E> = FastGraphMap<N, E, Directed>;
 
 /// `GraphMap<N, E, Ty>` is a graph datastructure using an associative array
 /// of its node weights `N`.
@@ -56,8 +57,8 @@ pub type DiGraphMap<N, E> = FastGraphMap<N, E, Directed>;
 /// Depends on crate feature `graphmap` (default).
 #[derive(Clone)]
 pub struct FastGraphMap<N, E, Ty> {
-    nodes: IndexMap<N, Vec<(N, CompactDirection)>, ahash::RandomState>,
-    edges: IndexMap<(N, N), E, ahash::RandomState>,
+    nodes: IndexMap<N, Vec<(N, CompactDirection)>, RandomState>,
+    edges: IndexMap<(N, N), E, RandomState>,
     ty: PhantomData<Ty>,
 }
 
@@ -106,8 +107,8 @@ where
     /// Create a new `GraphMap` with estimated capacity.
     pub fn with_capacity(nodes: usize, edges: usize) -> Self {
         FastGraphMap {
-            nodes: IndexMap::with_capacity(nodes),
-            edges: IndexMap::with_capacity(edges),
+            nodes: IndexMap::with_capacity_and_hasher(nodes, Default::default()),
+            edges: IndexMap::with_capacity_and_hasher(edges, Default::default()),
             ty: PhantomData,
         }
     }
@@ -579,7 +580,7 @@ where
     Ty: EdgeType,
 {
     from: N,
-    edges: &'a IndexMap<(N, N), E>,
+    edges: &'a IndexMap<(N, N), E, RandomState>,
     iter: Neighbors<'a, N, Ty>,
 }
 
