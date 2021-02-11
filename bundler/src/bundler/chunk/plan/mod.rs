@@ -3,6 +3,8 @@ use crate::{
     bundler::{load::TransformedModule, scope::Metadata},
     BundleKind, Bundler, Load, ModuleId, Resolve,
 };
+use ahash::AHashMap;
+use ahash::AHashSet;
 use anyhow::{bail, Error};
 use petgraph::{
     algo::all_simple_paths,
@@ -11,7 +13,7 @@ use petgraph::{
     EdgeDirection::{Incoming, Outgoing},
 };
 use std::{
-    collections::{hash_map::Entry, HashMap, HashSet},
+    collections::hash_map::Entry,
     ops::{Deref, DerefMut},
 };
 

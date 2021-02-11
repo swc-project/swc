@@ -3,10 +3,11 @@ use crate::{
     bundler::chunk::merge::Ctx, id::ModuleId, load::Load, resolve::Resolve,
     util::IntoParallelIterator, Bundle,
 };
+use ahash::AHashMap;
+use ahash::AHashSet;
 use anyhow::{Context, Error};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
-use std::collections::{HashMap, HashSet};
 
 mod circular;
 mod cjs;
@@ -83,6 +84,8 @@ where
 
 #[cfg(test)]
 mod tests {
+    use std::collections::HashMap;
+
     use super::*;
     use crate::bundler::tests::suite;
     use swc_common::FileName;

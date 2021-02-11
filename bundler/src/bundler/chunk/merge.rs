@@ -15,18 +15,17 @@ use crate::{
     util::{self, CloneMap, ExprExt, IntoParallelIterator, MapWithMut, VarDeclaratorExt},
     Bundler, Hook, ModuleRecord,
 };
+use ahash::AHashMap;
+use ahash::AHashSet;
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
-use std::collections::HashMap;
-use std::collections::HashSet;
 use swc_atoms::js_word;
 use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, prepend, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use util::CHashSet;
-
 pub(super) struct Ctx {
     pub plan: Plan,
     pub merged: CHashSet<ModuleId>,
