@@ -93,7 +93,7 @@ pub(super) struct RawImports {
     /// function bar() {}
     /// foo[bar()]
     /// ```
-    pub forced_ns: HashSet<JsWord>,
+    pub forced_ns: AHashSet<JsWord>,
 }
 
 /// This type implements two operation (analysis, deglobbing) to reduce binary
@@ -113,13 +113,13 @@ where
 
     /// HashMap from the local identifier of a namespace import to used
     /// properties.
-    usages: HashMap<Id, Vec<Id>>,
+    usages: AHashMap<Id, Vec<Id>>,
 
     /// While deglobbing, we also marks imported identifiers.
-    imported_idents: HashMap<Id, SyntaxContext>,
+    imported_idents: AHashMap<Id, SyntaxContext>,
 
     deglob_phase: bool,
-    idents_to_deglob: HashSet<Id>,
+    idents_to_deglob: AHashSet<Id>,
 
     /// `true` while folding objects of a member expression.
     ///

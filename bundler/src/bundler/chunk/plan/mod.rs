@@ -28,7 +28,7 @@ struct PlanBuilder {
     ///  `(a, b)`, `(a, c)`,`(b, c)` will be inserted.
     ///
     /// `bool` is `true` if it's connected with exports.
-    all_deps: HashMap<(ModuleId, ModuleId), bool>,
+    all_deps: AHashMap<(ModuleId, ModuleId), bool>,
 
     /// Graph to compute direct dependencies (direct means it will be merged
     /// directly)
@@ -36,26 +36,22 @@ struct PlanBuilder {
 
     circular: Circulars,
 
-    kinds: HashMap<ModuleId, BundleKind>,
+    kinds: AHashMap<ModuleId, BundleKind>,
 }
 
 #[derive(Debug, Default)]
-struct Circulars(Vec<HashSet<ModuleId>>);
+struct Circulars(Vec<AHashSet<ModuleId>>);
 
 impl Circulars {
-    pub fn get(&self, id: ModuleId) -> Option<&HashSet<ModuleId>> {
+    pub fn get(&self, id: ModuleId) -> Option<&AHashSet<ModuleId>> {
         let pos = self.0.iter().position(|set| set.contains(&id))?;
 
         Some(&self.0[pos])
     }
-    // pub fn remove(&mut self, id: ModuleId) -> Option<HashSet<ModuleId>> {
-    //     let pos = self.0.iter().position(|set| set.contains(&id))?;
-    //     Some(self.0.remove(pos))
-    // }
 }
 
 impl Deref for Circulars {
-    type Target = Vec<HashSet<ModuleId>>;
+    type Target = Vec<AHashSet<ModuleId>>;
 
     fn deref(&self) -> &Self::Target {
         &self.0
@@ -78,7 +74,7 @@ impl PlanBuilder {
             }
         }
 
-        let mut set = HashSet::default();
+        let mut set = AHashSet::default();
         set.insert(src);
         set.insert(imported);
         self.circular.push(set);
@@ -100,11 +96,11 @@ pub(super) struct Plan {
     pub entries: Vec<ModuleId>,
 
     /// key is entry
-    pub normal: HashMap<ModuleId, NormalPlan>,
+    pub normal: AHashMap<ModuleId, NormalPlan>,
     /// key is entry
-    pub circular: HashMap<ModuleId, CircularPlan>,
+    pub circular: AHashMap<ModuleId, CircularPlan>,
 
-    pub bundle_kinds: HashMap<ModuleId, BundleKind>,
+    pub bundle_kinds: AHashMap<ModuleId, BundleKind>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -147,14 +143,14 @@ where
 {
     pub(super) fn determine_entries(
         &self,
-        entries: HashMap<String, TransformedModule>,
+        entries: AHashMap<String, TransformedModule>,
     ) -> Result<Plan, Error> {
         let plan = self.calculate_plan(entries)?;
 
         Ok(plan)
     }
 
-    fn calculate_plan(&self, entries: HashMap<String, TransformedModule>) -> Result<Plan, Error> {
+    fn calculate_plan(&self, entries: AHashMap<String, TransformedModule>) -> Result<Plan, Error> {
         let mut builder = PlanBuilder::default();
 
         for (name, module) in entries {
@@ -166,7 +162,7 @@ where
             self.add_to_graph(&mut builder, module.id, &mut vec![], true);
         }
 
-        let mut metadata = HashMap::<ModuleId, Metadata>::default();
+        let mut metadata = AHashMap::<ModuleId, Metadata>::default();
 
         // Draw dependency graph to calculte
         for (id, _) in &builder.kinds {
@@ -204,7 +200,7 @@ where
         Ok(self.build_plan(&metadata, builder))
     }
 
-    fn build_plan(&self, _metadata: &HashMap<ModuleId, Metadata>, builder: PlanBuilder) -> Plan {
+    fn build_plan(&self, _metadata: &AHashMap<ModuleId, Metadata>, builder: PlanBuilder) -> Plan {
         let mut plans = Plan::default();
 
         for (id, kind) in builder.kinds.iter() {
@@ -217,7 +213,7 @@ where
             let root_entry = *root_entry;
             let mut bfs = Bfs::new(&builder.direct_deps, root_entry);
 
-            let mut done = HashSet::new();
+            let mut done = AHashSet::new();
 
             while let Some(entry) = bfs.next(&builder.direct_deps) {
                 let mut deps: Vec<_> = builder

@@ -10,7 +10,7 @@ use swc_ecma_visit::VisitMutWith;
 
 #[derive(Default)]
 pub struct KeywordRenamer {
-    renamed: HashMap<Id, Ident>,
+    renamed: AHashMap<Id, Ident>,
 }
 
 impl KeywordRenamer {

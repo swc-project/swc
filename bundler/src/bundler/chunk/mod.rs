@@ -25,9 +25,9 @@ struct InternalEntry {
 
 #[derive(Debug, Default)]
 struct State {
-    synchronously_included: HashSet<ModuleId>,
-    dynamic_entries: HashSet<ModuleId>,
-    common_libs: HashSet<ModuleId>,
+    synchronously_included: AHashSet<ModuleId>,
+    dynamic_entries: AHashSet<ModuleId>,
+    common_libs: AHashSet<ModuleId>,
 }
 
 impl<L, R> Bundler<'_, L, R>
@@ -42,7 +42,7 @@ where
     /// For first, we load all dependencies and determine all entries.
     pub(super) fn chunk(
         &self,
-        entries: HashMap<String, TransformedModule>,
+        entries: AHashMap<String, TransformedModule>,
     ) -> Result<Vec<Bundle>, Error> {
         let plan = self.determine_entries(entries).context("failed to plan")?;
         let ctx = Ctx {

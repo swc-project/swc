@@ -149,8 +149,8 @@ fn iter<'a>(
     // dbg!(&free);
     // dbg!(&module_starts);
 
-    let mut moves = HashSet::new();
-    let mut done = HashSet::new();
+    let mut moves = AHashSet::new();
+    let mut done = AHashSet::new();
     let mut stack = VecDeque::new();
     stack.extend(module_starts.iter().copied());
 
@@ -413,7 +413,7 @@ fn iter<'a>(
 struct FieldInitFinter {
     in_object_assign: bool,
     in_rhs: bool,
-    accessed: HashSet<Id>,
+    accessed: AHashSet<Id>,
 }
 
 impl FieldInitFinter {
@@ -710,8 +710,8 @@ impl Visit for RequirementCalculartor {
 fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
     let mut graph = StmtDepGraph::default();
 
-    let mut declared_by = HashMap::<Id, Vec<usize>>::default();
-    let mut uninitialized_ids = HashMap::<Id, usize>::new();
+    let mut declared_by = AHashMap::<Id, Vec<usize>>::default();
+    let mut uninitialized_ids = AHashMap::<Id, usize>::new();
 
     for (idx, item) in new.iter().enumerate() {
         graph.add_node(idx);

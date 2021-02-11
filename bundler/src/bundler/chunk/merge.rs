@@ -31,7 +31,7 @@ pub(super) struct Ctx {
     pub plan: Plan,
     pub merged: CHashSet<ModuleId>,
     pub transitive_remap: CloneMap<SyntaxContext, SyntaxContext>,
-    pub export_stars_in_wrapped: Lock<HashMap<ModuleId, Vec<SyntaxContext>>>,
+    pub export_stars_in_wrapped: Lock<AHashMap<ModuleId, Vec<SyntaxContext>>>,
 }
 
 impl<L, R> Bundler<'_, L, R>
@@ -516,7 +516,7 @@ where
             // If an user import and export from D, the transitive syntax context map
             // contains a entry from D to foo because it's reexported and
             // the variable (reexported from D) exist because it's imported.
-            let mut declared_ids = HashSet::new();
+            let mut declared_ids = AHashSet::new();
 
             for stmt in entry.iter() {
                 match stmt {
@@ -593,7 +593,7 @@ where
 
         {
             let mut map = ctx.export_stars_in_wrapped.lock();
-            let mut additional_props = HashMap::<_, Vec<_>>::new();
+            let mut additional_props = AHashMap::<_, Vec<_>>::new();
             // Handle `export *` for wrapped modules.
             for (module_id, ctxts) in map.drain() {
                 for stmt in entry.iter() {

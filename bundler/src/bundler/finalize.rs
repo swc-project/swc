@@ -29,7 +29,7 @@ where
     pub(super) fn finalize(&self, bundles: Vec<Bundle>) -> Result<Vec<Bundle>, Error> {
         self.run(|| {
             let mut new = Vec::with_capacity(bundles.len());
-            let mut renamed = HashMap::default();
+            let mut renamed = AHashMap::default();
 
             for mut bundle in bundles {
                 bundle.module = self.optimize(bundle.module);
@@ -368,7 +368,7 @@ where
 {
     resolver: R,
     base: &'a PathBuf,
-    renamed: &'a HashMap<PathBuf, String>,
+    renamed: &'a AHashMap<PathBuf, String>,
 }
 
 impl<R> Fold for Renamer<'_, R>
