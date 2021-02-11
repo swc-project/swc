@@ -1,12 +1,11 @@
 use super::Modules;
 use crate::{id::Id, util::MapWithMut};
+use ahash::AHashMap;
 use ahash::AHashSet;
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::Incoming as Dependants;
 use petgraph::EdgeDirection::Outgoing as Dependancies;
 use retain_mut::RetainMut;
-use std::collections::HashMap;
-use std::collections::HashSet;
 use std::collections::VecDeque;
 use std::iter::from_fn;
 use std::mem::take;

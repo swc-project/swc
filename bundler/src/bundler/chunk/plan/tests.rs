@@ -4,7 +4,7 @@ use crate::bundler::{
     tests::{suite, Tester},
 };
 use ahash::AHashMap;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 use swc_common::FileName;
 
 #[track_caller]
