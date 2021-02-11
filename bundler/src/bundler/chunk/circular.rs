@@ -135,7 +135,6 @@ where
 
             true
         });
-        deps.sort();
 
         self.run(|| {
             for dep in deps {
