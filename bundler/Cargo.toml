@@ -20,6 +20,7 @@ default = []
 anyhow = "1"
 crc = "1.8"
 dashmap = {version = "3", optional = true}
+fxhash = "0.2"
 indexmap = "1.6"
 is-macro = "0.1"
 log = "0.4"
