@@ -133,13 +133,13 @@ export class Compiler {
     if (plugin) {
       const m =
         typeof src === "string" ? this.parseSync(src, options?.jsc?.parser) : src;
-      return this.transformSync(plugin(m), options);
+      return this.transformSync(plugin(m), newOptions);
     }
 
     return bindings.transformSync(
       isModule ? JSON.stringify(src) : src,
       isModule,
-      toBuffer(options),
+      toBuffer(newOptions),
     )
   }
 
@@ -155,10 +155,10 @@ export class Compiler {
 
     if (plugin) {
       const m = await this.parseFile(path, options?.jsc?.parser);
-      return this.transform(plugin(m), options);
+      return this.transform(plugin(m), newOptions);
     }
 
-    return bindings.transformFile(path, false, toBuffer(options))
+    return bindings.transformFile(path, false, toBuffer(newOptions))
   }
 
   transformFileSync(path: string, options?: Options): Output {
@@ -173,10 +173,10 @@ export class Compiler {
 
     if (plugin) {
       const m = this.parseFileSync(path, options?.jsc?.parser);
-      return this.transformSync(plugin(m), options);
+      return this.transformSync(plugin(m), newOptions);
     }
 
-    return bindings.transformFileSync(path, /* isModule */ false, toBuffer(options));
+    return bindings.transformFileSync(path, /* isModule */ false, toBuffer(newOptions));
   }
 
 
