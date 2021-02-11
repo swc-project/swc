@@ -1,9 +1,9 @@
 use crate::bundler::modules::sort::Required;
+use ahash::AHashSet;
 use petgraph::graphmap::DiGraphMap;
 use petgraph::EdgeDirection;
 use petgraph::EdgeDirection::Incoming;
 use petgraph::EdgeDirection::Outgoing;
-use fxhash::FxHashSet;
 
 /// Used to debug petgraph.
 #[derive(Debug, Default)]
@@ -11,7 +11,7 @@ pub(super) struct StmtDepGraph {
     inner: DiGraphMap<usize, Required>,
     /// Read-optimized hashset which contains all direct dependencies and
     /// transitive dependencies.
-    paths: FxHashSet<(usize, usize)>,
+    paths: AHashSet<(usize, usize)>,
 }
 
 impl StmtDepGraph {
