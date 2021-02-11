@@ -84,8 +84,6 @@ where
 
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
-
     use super::*;
     use crate::bundler::tests::suite;
     use swc_common::FileName;
@@ -108,7 +106,7 @@ mod tests {
                     .bundler
                     .load_transformed(&FileName::Real("main.js".into()))?
                     .unwrap();
-                let mut entries = HashMap::default();
+                let mut entries = AHashMap::default();
                 entries.insert("main.js".to_string(), module);
 
                 let chunked = t.bundler.chunk(entries)?;

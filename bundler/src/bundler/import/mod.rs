@@ -1,8 +1,9 @@
 use super::Bundler;
 use crate::{load::Load, resolve::Resolve};
+use ahash::AHashMap;
+use ahash::AHashSet;
 use anyhow::{Context, Error};
 use retain_mut::RetainMut;
-use std::collections::{HashMap, HashSet};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{sync::Lrc, FileName, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;

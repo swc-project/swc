@@ -1,5 +1,6 @@
 use self::scope::Scope;
 use crate::{Hook, Load, ModuleId, Resolve};
+use ahash::AHashMap;
 use anyhow::{Context, Error};
 use std::collections::HashMap;
 use swc_atoms::JsWord;
@@ -157,7 +158,7 @@ where
         // TODO: Handle dynamic imports
 
         let local = {
-            let mut output = HashMap::default();
+            let mut output = AHashMap::default();
 
             for res in results {
                 let (name, m) = res?;

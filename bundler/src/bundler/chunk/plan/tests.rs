@@ -3,6 +3,7 @@ use crate::bundler::{
     chunk::plan::DepType,
     tests::{suite, Tester},
 };
+use ahash::AHashMap;
 use std::collections::{HashMap, HashSet};
 use swc_common::FileName;
 
@@ -124,7 +125,7 @@ fn concurrency_001() {
                 .bundler
                 .load_transformed(&FileName::Real("main.js".into()))?
                 .unwrap();
-            let mut entries = HashMap::default();
+            let mut entries = AHashMap::default();
             entries.insert("main.js".to_string(), module);
 
             let p = t.bundler.calculate_plan(entries)?;
@@ -168,7 +169,7 @@ fn concurrency_002() {
                 .bundler
                 .load_transformed(&FileName::Real("main.js".into()))?
                 .unwrap();
-            let mut entries = HashMap::default();
+            let mut entries = AHashMap::default();
             entries.insert("main.js".to_string(), module);
 
             let p = t.bundler.calculate_plan(entries)?;
@@ -214,7 +215,7 @@ fn concurrency_003() {
                 .bundler
                 .load_transformed(&FileName::Real("main.js".into()))?
                 .unwrap();
-            let mut entries = HashMap::default();
+            let mut entries = AHashMap::default();
             entries.insert("main.js".to_string(), module);
 
             let p = t.bundler.calculate_plan(entries)?;
@@ -258,7 +259,7 @@ fn circular_001() {
                 .bundler
                 .load_transformed(&FileName::Real("main.js".into()))?
                 .unwrap();
-            let mut entries = HashMap::default();
+            let mut entries = AHashMap::default();
             entries.insert("main.js".to_string(), module.clone());
 
             let p = t.bundler.calculate_plan(entries)?;
@@ -292,7 +293,7 @@ fn transitive_001() {
                 .bundler
                 .load_transformed(&FileName::Real("main.js".into()))?
                 .unwrap();
-            let mut entries = HashMap::default();
+            let mut entries = AHashMap::default();
             entries.insert("main.js".to_string(), module);
 
             let p = t.bundler.calculate_plan(entries)?;
@@ -357,7 +358,7 @@ fn transitive_002() {
                 .bundler
                 .load_transformed(&FileName::Real("main.js".into()))?
                 .unwrap();
-            let mut entries = HashMap::default();
+            let mut entries = AHashMap::default();
             entries.insert("main.js".to_string(), module);
 
             let p = t.bundler.calculate_plan(entries)?;
@@ -409,7 +410,7 @@ fn cjs_001() {
                 .bundler
                 .load_transformed(&FileName::Real("main.js".into()))?
                 .unwrap();
-            let mut entries = HashMap::default();
+            let mut entries = AHashMap::default();
             entries.insert("main.js".to_string(), module);
 
             let p = t.bundler.calculate_plan(entries)?;
@@ -450,7 +451,7 @@ fn cjs_002() {
                 .bundler
                 .load_transformed(&FileName::Real("main.js".into()))?
                 .unwrap();
-            let mut entries = HashMap::default();
+            let mut entries = AHashMap::default();
             entries.insert("main.js".to_string(), module);
 
             let p = t.bundler.calculate_plan(entries)?;
@@ -498,7 +499,7 @@ fn cjs_003() {
                 .bundler
                 .load_transformed(&FileName::Real("main.js".into()))?
                 .unwrap();
-            let mut entries = HashMap::default();
+            let mut entries = AHashMap::default();
             entries.insert("main.js".to_string(), module);
 
             let p = t.bundler.calculate_plan(entries)?;
@@ -555,7 +556,7 @@ fn cjs_004() {
                 .bundler
                 .load_transformed(&FileName::Real("main.js".into()))?
                 .unwrap();
-            let mut entries = HashMap::default();
+            let mut entries = AHashMap::default();
             entries.insert("main.js".to_string(), module);
 
             let p = t.bundler.calculate_plan(entries)?;
@@ -608,7 +609,7 @@ fn cjs_005() {
                 .bundler
                 .load_transformed(&FileName::Real("main.js".into()))?
                 .unwrap();
-            let mut entries = HashMap::default();
+            let mut entries = AHashMap::default();
             entries.insert("main.js".to_string(), module);
 
             let p = t.bundler.calculate_plan(entries)?;
@@ -660,7 +661,7 @@ fn deno_001() {
                 .bundler
                 .load_transformed(&FileName::Real("main.js".into()))?
                 .unwrap();
-            let mut entries = HashMap::default();
+            let mut entries = AHashMap::default();
             entries.insert("main.js".to_string(), module);
 
             let p = t.bundler.calculate_plan(entries)?;
@@ -709,7 +710,7 @@ fn circular_002() {
                 .bundler
                 .load_transformed(&FileName::Real("main.js".into()))?
                 .unwrap();
-            let mut entries = HashMap::default();
+            let mut entries = AHashMap::default();
             entries.insert("main.js".to_string(), module.clone());
 
             let p = t.bundler.calculate_plan(entries)?;
@@ -813,7 +814,7 @@ fn deno_002() {
                 .bundler
                 .load_transformed(&FileName::Real("main.js".into()))?
                 .unwrap();
-            let mut entries = HashMap::default();
+            let mut entries = AHashMap::default();
             entries.insert("main.js".to_string(), module.clone());
 
             let p = t.bundler.calculate_plan(entries)?;
@@ -879,7 +880,7 @@ fn circular_root_entry_1() {
                 .bundler
                 .load_transformed(&FileName::Real("main.js".into()))?
                 .unwrap();
-            let mut entries = HashMap::default();
+            let mut entries = AHashMap::default();
             entries.insert("main.js".to_string(), module.clone());
 
             let p = t.bundler.calculate_plan(entries)?;
@@ -916,7 +917,7 @@ fn circular_root_entry_2() {
                 .bundler
                 .load_transformed(&FileName::Real("main.js".into()))?
                 .unwrap();
-            let mut entries = HashMap::default();
+            let mut entries = AHashMap::default();
             entries.insert("main.js".to_string(), module.clone());
 
             let p = t.bundler.calculate_plan(entries)?;
@@ -959,7 +960,7 @@ fn deno_003() {
                 .bundler
                 .load_transformed(&FileName::Real("main.js".into()))?
                 .unwrap();
-            let mut entries = HashMap::default();
+            let mut entries = AHashMap::default();
             entries.insert("main.js".to_string(), module.clone());
 
             let p = t.bundler.calculate_plan(entries)?;
@@ -1017,7 +1018,7 @@ fn deno_8302_3() {
                 .bundler
                 .load_transformed(&FileName::Real("main.js".into()))?
                 .unwrap();
-            let mut entries = HashMap::default();
+            let mut entries = AHashMap::default();
             entries.insert("main.js".to_string(), module.clone());
 
             let p = t.bundler.calculate_plan(entries)?;

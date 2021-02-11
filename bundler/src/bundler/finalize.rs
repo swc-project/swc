@@ -1,10 +1,8 @@
 use crate::{hash::calc_hash, Bundle, BundleKind, Bundler, Load, ModuleType, Resolve};
+use ahash::AHashMap;
 use anyhow::Error;
 use relative_path::RelativePath;
-use std::{
-    collections::HashMap,
-    path::{Path, PathBuf},
-};
+use std::path::{Path, PathBuf};
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, FileName, DUMMY_SP};
 use swc_ecma_ast::*;

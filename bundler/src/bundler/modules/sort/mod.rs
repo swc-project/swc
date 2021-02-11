@@ -1,5 +1,6 @@
 use super::Modules;
 use crate::{id::Id, util::MapWithMut};
+use ahash::AHashSet;
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::Incoming as Dependants;
 use petgraph::EdgeDirection::Outgoing as Dependancies;
