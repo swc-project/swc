@@ -408,6 +408,7 @@ fn deno_8573() {
 
 /// Timeout is long because tfjs is so large.
 #[test]
+#[ignore = "Too slow"]
 fn deno_8597() {
     run(
         "https://cdn.skypack.dev/@tensorflow/tfjs@2.6.0",
