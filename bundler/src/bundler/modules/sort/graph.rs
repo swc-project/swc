@@ -4,6 +4,7 @@ use ahash::AHashSet;
 use petgraph::EdgeDirection;
 use petgraph::EdgeDirection::Incoming;
 use petgraph::EdgeDirection::Outgoing;
+use std::iter::repeat;
 
 /// Used to debug petgraph.
 #[derive(Debug, Default)]
@@ -11,7 +12,7 @@ pub(super) struct StmtDepGraph {
     inner: FastDiGraphMap<usize, Required>,
     /// Read-optimized hashset which contains all direct dependencies and
     /// transitive dependencies.
-    paths: AHashSet<(usize, usize)>,
+    paths: Vec<AHashSet<usize>>,
 }
 
 impl StmtDepGraph {
@@ -34,7 +35,11 @@ impl StmtDepGraph {
     }
 
     fn insert_transitives(&mut self, from: usize, to: usize) {
-        if !self.paths.insert((from, to)) {
+        if self.paths.len() <= from {
+            self.paths
+                .extend(repeat(Default::default()).take(from + 1 - self.paths.len()))
+        }
+        if !self.paths[from].insert(to) {
             return;
         }
 
@@ -68,6 +73,9 @@ impl StmtDepGraph {
     }
 
     pub fn has_a_path(&self, from: usize, to: usize) -> bool {
-        self.paths.contains(&(from, to))
+        match self.paths.get(from) {
+            Some(ps) => ps.contains(&to),
+            None => false,
+        }
     }
 }
