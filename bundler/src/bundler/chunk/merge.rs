@@ -700,7 +700,7 @@ where
 
         entry.sort(&self.cm);
 
-        // print_hygiene("done", &self.cm, &entry.clone().into());
+        print_hygiene("done", &self.cm, &entry.clone().into());
 
         entry.retain_mut(|item| {
             match item {
