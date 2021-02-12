@@ -519,6 +519,7 @@ where
                                         .chunks
                                         .extend(v.iter().copied().filter(|&v| v != dep));
                                 }
+                                circular_plan.chunks.sort();
                             }
                         }
 
