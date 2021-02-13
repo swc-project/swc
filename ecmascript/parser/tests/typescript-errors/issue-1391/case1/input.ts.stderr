@@ -1,0 +1,6 @@
+error: Expected a semicolon
+ --> $DIR/tests/typescript-errors/issue-1391/case1/input.ts:1:15
+  |
+1 | const Methods {
+  |               ^
+
