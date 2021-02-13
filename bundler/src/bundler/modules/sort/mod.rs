@@ -36,23 +36,26 @@ enum Required {
 }
 
 impl Modules {
+    fn normalize_injected(&mut self) {
+        let injected_ctxt = self.injected_ctxt;
+        let mut modules = take(&mut self.modules);
+        for module in &mut modules {
+            module.1.body.retain_mut(|item| {
+                let is_free = item.span().ctxt == injected_ctxt;
+                if is_free {
+                    self.injected.push(item.take());
+                    false
+                } else {
+                    true
+                }
+            });
+        }
+        self.modules = modules;
+    }
+
     pub fn sort(&mut self, entry_id: ModuleId, module_graph: &ModuleGraph, _cm: &Lrc<SourceMap>) {
         let injected_ctxt = self.injected_ctxt;
-        {
-            let mut modules = take(&mut self.modules);
-            for module in &mut modules {
-                module.1.body.retain_mut(|item| {
-                    let is_free = item.span().ctxt == injected_ctxt;
-                    if is_free {
-                        self.injected.push(item.take());
-                        false
-                    } else {
-                        true
-                    }
-                });
-            }
-            self.modules = modules;
-        }
+        self.normalize_injected();
 
         self.retain_mut(|item| match item {
             ModuleItem::Stmt(Stmt::Empty(..)) => false,
