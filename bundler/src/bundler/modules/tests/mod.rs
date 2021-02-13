@@ -47,14 +47,18 @@ fn assert_sorted(src: &[&str], res: &str) {
 }
 
 fn assert_sorted_with_free(src: &[&str], free: &str, res: &str) {
-    suite().run(|t| {
+    let mut s = suite();
+    for (i, src) in src.iter().enumerate() {
+        s = s.file(&format!("{}.js", i), src);
+    }
+    s.run(|t| {
         let mut modules = Modules::empty(t.bundler.injected_ctxt);
         let mut entry = None;
 
         let free: Module = drop_span(t.parse(free));
         modules.inject_all(free.body);
 
-        for (i, src) in src.iter().enumerate() {
+        for (i, _) in src.iter().enumerate() {
             let info = t.module(&format!("{}.js", i));
             if entry.is_none() {
                 entry = Some(info.id);
