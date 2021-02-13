@@ -1,4 +1,5 @@
 use super::Modules;
+use crate::dep_graph::ModuleGraph;
 use crate::ModuleId;
 use crate::{id::Id, util::MapWithMut};
 use ahash::AHashMap;
@@ -36,12 +37,7 @@ enum Required {
 }
 
 impl Modules {
-    pub fn sort(
-        &mut self,
-        entry_id: ModuleId,
-        module_graph: &DiGraphMap<ModuleId, ()>,
-        _cm: &Lrc<SourceMap>,
-    ) {
+    pub fn sort(&mut self, entry_id: ModuleId, module_graph: &ModuleGraph, _cm: &Lrc<SourceMap>) {
         let injected_ctxt = self.injected_ctxt;
         {
             let mut modules = take(&mut self.modules);
