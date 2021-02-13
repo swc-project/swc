@@ -144,13 +144,13 @@ impl Modules {
 }
 
 fn iter<'a>(
-    graph: &'a mut StmtDepGraph,
+    id_graph: &'a mut StmtDepGraph,
     same_module_ranges: &'a [Range<usize>],
     free: Range<usize>,
     module_starts: &[usize],
     stmts: &'a [ModuleItem],
 ) -> impl 'a + Iterator<Item = usize> {
-    let len = graph.node_count();
+    let len = id_graph.node_count();
 
     // dbg!(&same_module_ranges);
     // dbg!(&free);
@@ -242,7 +242,7 @@ fn iter<'a>(
 
             // We
             {
-                let deps = graph
+                let deps = id_graph
                     .neighbors_directed(idx, Dependancies)
                     .filter(|dep| {
                         let declared_in_same_module = match &current_range {
@@ -253,7 +253,7 @@ fn iter<'a>(
                             return false;
                         }
 
-                        if !free.contains(&idx) && graph.has_a_path(*dep, idx) {
+                        if !free.contains(&idx) && id_graph.has_a_path(*dep, idx) {
                             if !moves.insert((idx, *dep)) {
                                 return false;
                             }
@@ -275,10 +275,10 @@ fn iter<'a>(
 
                         let can_ignore_dep = can_ignore_deps
                             || (can_ignore_weak_deps
-                                && graph.edge_weight(idx, dep) == Some(Required::Maybe));
+                                && id_graph.edge_weight(idx, dep) == Some(Required::Maybe));
 
                         if can_ignore_dep {
-                            if graph.has_a_path(dep, idx) {
+                            if id_graph.has_a_path(dep, idx) {
                                 // Just emit idx.
                                 continue;
                             }
@@ -304,7 +304,7 @@ fn iter<'a>(
             }
 
             if is_free {
-                let dependants = graph
+                let dependants = id_graph
                     .neighbors_directed(idx, Dependants)
                     .collect::<Vec<_>>();
 
@@ -314,7 +314,7 @@ fn iter<'a>(
                     }
                 }
 
-                graph.remove_node(idx);
+                id_graph.remove_node(idx);
                 done.insert(idx);
                 return Some(idx);
             }
@@ -322,7 +322,7 @@ fn iter<'a>(
             let current_range = match current_range {
                 Some(v) => v,
                 None => {
-                    let dependants = graph
+                    let dependants = id_graph
                         .neighbors_directed(idx, Dependants)
                         .collect::<Vec<_>>();
 
@@ -337,7 +337,7 @@ fn iter<'a>(
                     }
 
                     // It's not within a module, so explicit ordering is not required.
-                    graph.remove_node(idx);
+                    id_graph.remove_node(idx);
                     done.insert(idx);
                     return Some(idx);
                 }
@@ -362,7 +362,7 @@ fn iter<'a>(
                     continue;
                 }
 
-                let dependants = graph
+                let dependants = id_graph
                     .neighbors_directed(idx, Dependants)
                     .collect::<Vec<_>>();
 
@@ -394,7 +394,7 @@ fn iter<'a>(
 
             {
                 // We emit free dependants as early as possible.
-                let free_dependants = graph
+                let free_dependants = id_graph
                     .neighbors_directed(idx, Dependants)
                     .filter(|&dependant| !done.contains(&dependant) && free.contains(&dependant))
                     .collect::<Vec<_>>();
@@ -406,7 +406,7 @@ fn iter<'a>(
                 }
             }
 
-            graph.remove_node(idx);
+            id_graph.remove_node(idx);
             done.insert(idx);
             return Some(idx);
         }
