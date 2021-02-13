@@ -1184,8 +1184,8 @@ export default class Visitor {
   }
 
   visitObjectExpression(n: ObjectExpression): Expression {
-    if (n.properties) {
-      n.properties = this.visitObjectProperties(n.properties);
+    if (n.props) {
+      n.props = this.visitObjectProperties(n.props);
     }
     return n;
   }
@@ -1656,7 +1656,7 @@ export default class Visitor {
   }
 
   visitObjectPattern(n: ObjectPattern): Pattern {
-    n.properties = this.visitObjectPatternProperties(n.properties);
+    n.props = this.visitObjectPatternProperties(n.props);
     n.typeAnnotation = this.visitTsTypeAnnotation(n.typeAnnotation);
     return n;
   }

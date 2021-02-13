@@ -802,7 +802,7 @@ export interface ArrayExpression extends ExpressionBase {
 export interface ObjectExpression extends ExpressionBase {
   type: "ObjectExpression";
 
-  properties: (Property | SpreadElement)[];
+  props: (Property | SpreadElement)[];
 }
 
 export interface Argument {
