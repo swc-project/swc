@@ -18,6 +18,7 @@ use crate::{
 use ahash::AHashMap;
 use ahash::AHashSet;
 use anyhow::{Context, Error};
+use petgraph::graphmap::DiGraphMap;
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
 use swc_atoms::js_word;
@@ -28,6 +29,7 @@ use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitM
 use util::CHashSet;
 pub(super) struct Ctx {
     pub plan: Plan,
+    pub graph: DiGraphMap<ModuleId, ()>,
     pub merged: CHashSet<ModuleId>,
     pub transitive_remap: CloneMap<SyntaxContext, SyntaxContext>,
     pub export_stars_in_wrapped: Lock<AHashMap<ModuleId, Vec<SyntaxContext>>>,

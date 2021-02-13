@@ -8,6 +8,7 @@ pub use self::{
 
 mod bundler;
 mod debug;
+mod dep_graph;
 mod hash;
 mod hook;
 mod id;

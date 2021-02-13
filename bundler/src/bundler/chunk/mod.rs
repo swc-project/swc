@@ -45,9 +45,10 @@ where
         &self,
         entries: AHashMap<String, TransformedModule>,
     ) -> Result<Vec<Bundle>, Error> {
-        let plan = self.determine_entries(entries).context("failed to plan")?;
+        let (plan, graph) = self.determine_entries(entries).context("failed to plan")?;
         let ctx = Ctx {
             plan,
+            graph,
             merged: Default::default(),
             transitive_remap: Default::default(),
             export_stars_in_wrapped: Default::default(),

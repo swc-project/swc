@@ -1,4 +1,5 @@
 use self::lca::least_common_ancestor;
+use crate::dep_graph::ModuleGraph;
 use crate::{
     bundler::{load::TransformedModule, scope::Metadata},
     BundleKind, Bundler, Load, ModuleId, Resolve,
@@ -136,8 +137,6 @@ pub(super) struct CircularPlan {
     pub chunks: Vec<ModuleId>,
 }
 
-pub(super) type ModuleGraph = DiGraphMap<ModuleId, usize>;
-
 impl<L, R> Bundler<'_, L, R>
 where
     L: Load,
@@ -146,13 +145,16 @@ where
     pub(super) fn determine_entries(
         &self,
         entries: AHashMap<String, TransformedModule>,
-    ) -> Result<Plan, Error> {
+    ) -> Result<(Plan, ModuleGraph), Error> {
         let plan = self.calculate_plan(entries)?;
 
         Ok(plan)
     }
 
-    fn calculate_plan(&self, entries: AHashMap<String, TransformedModule>) -> Result<Plan, Error> {
+    fn calculate_plan(
+        &self,
+        entries: AHashMap<String, TransformedModule>,
+    ) -> Result<(Plan, ModuleGraph), Error> {
         let mut builder = PlanBuilder::default();
 
         for (name, module) in entries {
@@ -571,7 +573,7 @@ where
                 );
             }
 
-            builder.direct_deps.add_edge(module_id, src.module_id, 0);
+            builder.direct_deps.add_edge(module_id, src.module_id, ());
 
             for &id in &*path {
                 builder
