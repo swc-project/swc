@@ -21,7 +21,11 @@ impl Spanned for Error {
 }
 
 impl Error {
-    pub fn kind(self) -> SyntaxError {
+    pub fn kind(&self) -> &SyntaxError {
+        &self.error.1
+    }
+
+    pub fn into_kind(self) -> SyntaxError {
         self.error.1
     }
 }
@@ -528,7 +532,7 @@ impl Error {
     pub fn into_diagnostic(self, handler: &Handler) -> DiagnosticBuilder {
         let span = self.span();
 
-        let kind = self.kind();
+        let kind = self.into_kind();
         let msg = kind.msg();
 
         let mut db = handler.struct_err(&msg);
