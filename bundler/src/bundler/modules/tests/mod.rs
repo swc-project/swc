@@ -18,7 +18,7 @@ fn assert_sorted(src: &[&str], res: &str) {
             let info = t.module(&format!("{}.js", i));
             let actual: Module = drop_span((*info.module).clone());
 
-            let mut module = Modules::from(actual, t.bundler.injected_ctxt);
+            let mut module = Modules::from(info.id, actual, t.bundler.injected_ctxt);
 
             t.bundler.prepare(&info, &mut module);
             modules.push_all(module);

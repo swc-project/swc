@@ -490,7 +490,7 @@ where
                 err: None,
             });
 
-            let module = Modules::from(entry, self.injected_ctxt);
+            let module = Modules::from(module_id, entry, self.injected_ctxt);
 
             Ok(module)
         })

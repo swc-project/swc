@@ -76,7 +76,7 @@ where
             _ => {}
         });
         module.inject_all(injected_vars);
-        module.sort(&self.cm);
+        module.sort(id, &ctx.graph, &self.cm);
 
         let is_async = {
             let mut v = TopLevelAwaitFinder { found: false };
@@ -233,6 +233,7 @@ where
         module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))));
 
         Ok(Modules::from(
+            id,
             Module {
                 span: DUMMY_SP,
                 shebang: None,

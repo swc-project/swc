@@ -1,8 +1,10 @@
 use super::Modules;
+use crate::ModuleId;
 use crate::{id::Id, util::MapWithMut};
 use ahash::AHashMap;
 use ahash::AHashSet;
 use indexmap::IndexSet;
+use petgraph::graphmap::DiGraphMap;
 use petgraph::EdgeDirection::Incoming as Dependants;
 use petgraph::EdgeDirection::Outgoing as Dependancies;
 use retain_mut::RetainMut;
@@ -34,12 +36,17 @@ enum Required {
 }
 
 impl Modules {
-    pub fn sort(&mut self, _cm: &Lrc<SourceMap>) {
+    pub fn sort(
+        &mut self,
+        entry_id: ModuleId,
+        modules: &DiGraphMap<ModuleId, ()>,
+        _cm: &Lrc<SourceMap>,
+    ) {
         let injected_ctxt = self.injected_ctxt;
         {
             let mut modules = take(&mut self.modules);
             for module in &mut modules {
-                module.body.retain_mut(|item| {
+                module.1.body.retain_mut(|item| {
                     let is_free = item.span().ctxt == injected_ctxt;
                     if is_free {
                         self.injected.push(item.take());
@@ -64,7 +71,7 @@ impl Modules {
         let mut same_module_ranges = vec![];
         for module in self.modules.drain(..) {
             let start = new.len();
-            let inner_len = module.body.len();
+            let inner_len = module.1.body.len();
             if inner_len != 0 {
                 let end = start + inner_len;
 
@@ -81,7 +88,7 @@ impl Modules {
             //     new.push(item);
             // }
 
-            new.extend(module.body);
+            new.extend(module.1.body);
         }
         let free = new.len()..(new.len() + self.injected.len());
         if cfg!(debug_assertions) {
@@ -132,7 +139,7 @@ impl Modules {
 
         // print_hygiene("after sort", cm, &module);
 
-        *self = Modules::from(module, injected_ctxt);
+        *self = Modules::from(entry_id, module, injected_ctxt);
     }
 }
 
