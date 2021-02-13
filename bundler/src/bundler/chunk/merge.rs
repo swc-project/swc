@@ -57,7 +57,7 @@ where
                         })?;
                     if is_entry {
                         self.replace_import_specifiers(&info, &mut module);
-                        self.finalize_merging_of_entry(ctx, &mut module);
+                        self.finalize_merging_of_entry(ctx, info.id, &mut module);
                     }
                     return Ok(module);
                 }
@@ -103,7 +103,7 @@ where
 
             if is_entry {
                 self.replace_import_specifiers(&info, &mut module);
-                self.finalize_merging_of_entry(ctx, &mut module);
+                self.finalize_merging_of_entry(ctx, info.id, &mut module);
             }
 
             Ok(module)
@@ -693,12 +693,12 @@ where
         }
     }
 
-    fn finalize_merging_of_entry(&self, ctx: &Ctx, entry: &mut Modules) {
+    fn finalize_merging_of_entry(&self, ctx: &Ctx, id: ModuleId, entry: &mut Modules) {
         self.handle_reexport_of_entry(ctx, entry);
 
         // print_hygiene("before sort", &self.cm, &entry.clone().into());
 
-        entry.sort(&self.cm);
+        entry.sort(id, &ctx.graph, &self.cm);
 
         print_hygiene("done", &self.cm, &entry.clone().into());
 

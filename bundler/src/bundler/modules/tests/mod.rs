@@ -13,9 +13,14 @@ fn assert_sorted(src: &[&str], res: &str) {
     }
     s.run(|t| {
         let mut modules = Modules::empty(t.bundler.injected_ctxt);
+        let mut entry = None;
 
         for (i, _) in src.iter().enumerate() {
             let info = t.module(&format!("{}.js", i));
+            if entry.is_none() {
+                entry = Some(info.id);
+            }
+
             let actual: Module = drop_span((*info.module).clone());
 
             let mut module = Modules::from(info.id, actual, t.bundler.injected_ctxt);
@@ -24,7 +29,7 @@ fn assert_sorted(src: &[&str], res: &str) {
             modules.push_all(module);
         }
 
-        modules.sort(&t.cm);
+        modules.sort(entry.unwrap(), &Default::default(), &t.cm);
         let actual: Module = modules.into();
 
         let expected = drop_span(t.parse(res));
@@ -44,16 +49,21 @@ fn assert_sorted(src: &[&str], res: &str) {
 fn assert_sorted_with_free(src: &[&str], free: &str, res: &str) {
     suite().run(|t| {
         let mut modules = Modules::empty(t.bundler.injected_ctxt);
+        let mut entry = None;
 
         let free: Module = drop_span(t.parse(free));
         modules.inject_all(free.body);
 
-        for src in src {
-            let actual: Module = drop_span(t.parse(src));
-            modules.push_all(Modules::from(actual, t.bundler.injected_ctxt));
+        for (i, src) in src.iter().enumerate() {
+            let info = t.module(&format!("{}.js", i));
+            if entry.is_none() {
+                entry = Some(info.id);
+            }
+            let actual: Module = drop_span((*info.module).clone());
+            modules.push_all(Modules::from(info.id, actual, t.bundler.injected_ctxt));
         }
 
-        modules.sort(&t.cm);
+        modules.sort(entry.unwrap(), &Default::default(), &t.cm);
         let actual: Module = drop_span(modules.into());
 
         let expected = drop_span(t.parse(res));
