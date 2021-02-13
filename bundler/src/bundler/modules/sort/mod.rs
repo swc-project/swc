@@ -112,7 +112,7 @@ impl Modules {
 
         // Now graph contains enough information to sort statements.
         let mut orders = vec![];
-        orders.extend(iter(
+        orders.extend(sort_stmts_using_id_graph(
             &mut graph,
             &same_module_ranges,
             free.clone(),
@@ -141,7 +141,7 @@ impl Modules {
     }
 }
 
-fn iter<'a>(
+fn sort_stmts_using_id_graph<'a>(
     id_graph: &'a mut StmtDepGraph,
     same_module_ranges: &'a [Range<usize>],
     free: Range<usize>,
