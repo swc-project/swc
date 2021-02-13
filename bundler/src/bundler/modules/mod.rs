@@ -11,6 +11,7 @@ use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
 
 use crate::util::MapWithMut;
+use crate::ModuleId;
 
 mod sort;
 #[cfg(test)]
@@ -23,7 +24,7 @@ pub struct Modules {
     pub(crate) injected_ctxt: SyntaxContext,
 
     // We will change this into `Vec<Module>`.
-    modules: Vec<Module>,
+    modules: Vec<(ModuleId, Module)>,
     prepended: Vec<ModuleItem>,
     injected: Vec<ModuleItem>,
 }
