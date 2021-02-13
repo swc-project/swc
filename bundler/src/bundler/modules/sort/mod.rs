@@ -5,7 +5,6 @@ use crate::{id::Id, util::MapWithMut};
 use ahash::AHashMap;
 use ahash::AHashSet;
 use indexmap::IndexSet;
-use petgraph::graphmap::DiGraphMap;
 use petgraph::EdgeDirection::Incoming as Dependants;
 use petgraph::EdgeDirection::Outgoing as Dependancies;
 use retain_mut::RetainMut;
