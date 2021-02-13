@@ -39,9 +39,9 @@ impl Modules {
         }
     }
 
-    pub fn from(module: Module, injected_ctxt: SyntaxContext) -> Self {
+    pub fn from(id: ModuleId, module: Module, injected_ctxt: SyntaxContext) -> Self {
         let mut ret = Self::empty(injected_ctxt);
-        ret.modules.push(module);
+        ret.modules.push((id, module));
         ret
     }
 
@@ -50,7 +50,7 @@ impl Modules {
         // self.modules.pop().unwrap().body
         self.prepended
             .into_iter()
-            .chain(self.modules.into_iter().flat_map(|v| v.body))
+            .chain(self.modules.into_iter().flat_map(|v| v.1.body))
             .chain(self.injected)
             .collect()
     }
@@ -80,14 +80,14 @@ impl Modules {
     pub fn iter(&self) -> impl Iterator<Item = &ModuleItem> {
         self.prepended
             .iter()
-            .chain(self.modules.iter().flat_map(|m| m.body.iter()))
+            .chain(self.modules.iter().flat_map(|m| m.1.body.iter()))
             .chain(self.injected.iter())
     }
 
     pub fn iter_mut(&mut self) -> impl Iterator<Item = &mut ModuleItem> {
         self.prepended
             .iter_mut()
-            .chain(self.modules.iter_mut().flat_map(|m| m.body.iter_mut()))
+            .chain(self.modules.iter_mut().flat_map(|m| m.1.body.iter_mut()))
             .chain(self.injected.iter_mut())
     }
 
@@ -99,9 +99,9 @@ impl Modules {
         self.modules = take(&mut self.modules)
             .into_iter()
             .map(|mut m| {
-                let body = op(take(&mut m.body));
+                let body = op(take(&mut m.1.body));
 
-                Module { body, ..m }
+                (m.0, Module { body, ..m.1 })
             })
             .collect();
         self.injected = op(take(&mut self.injected));
@@ -142,7 +142,7 @@ impl Modules {
     {
         self.prepended.visit_mut_with(&mut *v);
         for module in &mut self.modules {
-            module.visit_mut_with(&mut *v);
+            module.1.visit_mut_with(&mut *v);
         }
         self.injected.visit_mut_with(&mut *v);
     }
@@ -155,7 +155,7 @@ impl Modules {
         self.modules = self
             .modules
             .into_iter()
-            .map(|m| m.fold_with(&mut *v))
+            .map(|m| (m.0, m.1.fold_with(&mut *v)))
             .collect();
         self.injected = self.injected.fold_with(&mut *v);
 
@@ -169,7 +169,7 @@ impl Modules {
         self.prepended.visit_with(&Invalid { span: DUMMY_SP }, v);
         self.modules
             .iter()
-            .for_each(|m| m.visit_with(&Invalid { span: DUMMY_SP }, v));
+            .for_each(|m| m.1.visit_with(&Invalid { span: DUMMY_SP }, v));
         self.injected.visit_with(&Invalid { span: DUMMY_SP }, v);
     }
 
@@ -179,7 +179,7 @@ impl Modules {
     {
         self.prepended.retain_mut(&mut op);
         for module in &mut self.modules {
-            module.body.retain_mut(&mut op);
+            module.1.body.retain_mut(&mut op);
         }
         self.injected.retain_mut(&mut op);
     }
