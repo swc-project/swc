@@ -39,7 +39,7 @@ impl Modules {
     pub fn sort(
         &mut self,
         entry_id: ModuleId,
-        modules: &DiGraphMap<ModuleId, ()>,
+        module_graph: &DiGraphMap<ModuleId, ()>,
         _cm: &Lrc<SourceMap>,
     ) {
         let injected_ctxt = self.injected_ctxt;
