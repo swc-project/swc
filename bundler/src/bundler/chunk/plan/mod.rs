@@ -9,7 +9,6 @@ use ahash::AHashSet;
 use anyhow::{bail, Error};
 use petgraph::{
     algo::all_simple_paths,
-    graphmap::DiGraphMap,
     visit::Bfs,
     EdgeDirection::{Incoming, Outgoing},
 };
@@ -201,7 +200,9 @@ where
             }
         }
 
-        Ok(self.build_plan(&metadata, builder))
+        let graph = builder.direct_deps.clone();
+
+        Ok((self.build_plan(&metadata, builder), graph))
     }
 
     fn build_plan(&self, _metadata: &AHashMap<ModuleId, Metadata>, builder: PlanBuilder) -> Plan {
