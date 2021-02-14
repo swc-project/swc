@@ -23,6 +23,7 @@ use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 type StmtDepGraph = self::graph::StmtDepGraph;
 
+mod chunk;
 mod graph;
 
 /// Is dependancy between nodes hard?
