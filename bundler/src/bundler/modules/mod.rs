@@ -102,10 +102,13 @@ impl Modules {
 
     pub fn map_any_items<F>(&mut self, mut op: F)
     where
-        F: FnMut(Vec<ModuleItem>) -> Vec<ModuleItem>,
+        F: FnMut(ModuleId, Vec<ModuleItem>) -> Vec<ModuleItem>,
     {
         let mut p = take(&mut self.prepended_stmts);
-        self.prepended_stmts = p.into_iter().map(|(id, items)| (id, op(items))).collect();
+        self.prepended_stmts = p
+            .into_iter()
+            .map(|(id, items)| (id, op(id, items)))
+            .collect();
 
         self.modules = take(&mut self.modules)
             .into_iter()
@@ -117,7 +120,10 @@ impl Modules {
             .collect();
 
         let mut a = take(&mut self.appended_stmts);
-        self.appended_stmts = a.into_iter().map(|(id, items)| (id, op(items))).collect();
+        self.appended_stmts = a
+            .into_iter()
+            .map(|(id, items)| (id, op(id, items)))
+            .collect();
     }
 
     pub fn map_items_mut<F>(&mut self, mut op: F)
