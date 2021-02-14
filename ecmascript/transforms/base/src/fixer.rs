@@ -95,7 +95,7 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
 
         match &*expr.arg {
-            Expr::Cond(..) => self.wrap(&mut expr.arg),
+            Expr::Cond(..) | Expr::Await(..) => self.wrap(&mut expr.arg),
             _ => {}
         }
     }
