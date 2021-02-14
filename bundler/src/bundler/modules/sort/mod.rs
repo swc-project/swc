@@ -22,6 +22,7 @@ type StmtDepGraph = self::graph::StmtDepGraph;
 
 mod chunk;
 mod graph;
+mod stmt;
 
 /// Is dependancy between nodes hard?
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
