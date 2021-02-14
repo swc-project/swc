@@ -3,6 +3,8 @@ use crate::dep_graph::ModuleGraph;
 use crate::util::MapWithMut;
 use crate::ModuleId;
 use ahash::AHashSet;
+use indexmap::IndexSet;
+use petgraph::algo::all_simple_paths;
 use petgraph::EdgeDirection::Outgoing;
 use retain_mut::RetainMut;
 use std::collections::VecDeque;
@@ -109,8 +111,29 @@ fn toposort_ids<'a>(
                 .collect::<Vec<_>>();
 
             if deps.is_empty() {
+                done.insert(id);
                 return Some(vec![id]);
             }
+
+            let all_modules_in_circle = deps
+                .iter()
+                .copied()
+                .flat_map(|dep| all_simple_paths::<Vec<_>, _>(&graph, dep, id, 0, None))
+                .flatten()
+                .filter(|module_id| !done.contains(&module_id))
+                .collect::<IndexSet<_>>();
+
+            if all_modules_in_circle.is_empty() {
+                // This module does not have any circular imports.
+                for dep in deps {
+                    queue.push_front(dep);
+                }
+
+                queue.push_front(id);
+                continue;
+            }
+
+            return Some(all_modules_in_circle.into_iter().collect());
         }
 
         None
