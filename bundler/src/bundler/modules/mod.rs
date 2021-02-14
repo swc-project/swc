@@ -196,7 +196,7 @@ impl Modules {
     {
         self.prepended_stmts
             .iter_mut()
-            .for_each(|(_, v)| v.retain_mut(op));
+            .for_each(|(_, v)| v.retain_mut(&mut op));
 
         for module in &mut self.modules {
             module.1.body.retain_mut(&mut op);
@@ -204,7 +204,7 @@ impl Modules {
 
         self.appended_stmts
             .iter_mut()
-            .for_each(|(_, v)| v.retain_mut(op));
+            .for_each(|(_, v)| v.retain_mut(&mut op));
     }
 }
 

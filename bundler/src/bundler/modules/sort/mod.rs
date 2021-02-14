@@ -43,72 +43,10 @@ impl Modules {
         let injected_ctxt = self.injected_ctxt;
         let chunks = self.take_chunks(entry_id, module_graph);
 
-        let mut new = vec![];
-
-        new.extend(self.prepended.drain(..));
-        let mut module_starts = vec![];
-        let mut same_module_ranges = vec![];
-        for module in self.modules.drain(..) {
-            let start = new.len();
-            let inner_len = module.1.body.len();
-            if inner_len != 0 {
-                let end = start + inner_len;
-
-                module_starts.push(start);
-                same_module_ranges.push(start..end);
-            }
-
-            // for (inner_idx, item) in module.body.into_iter().enumerate() {
-            //     let idx = new.len();
-            //     if inner_idx != 0 && inner_idx + 1 != inner_len && !new.is_empty() {
-            //         graph.add_edge(idx - 1, idx, Required::Always);
-            //     }
-
-            //     new.push(item);
-            // }
-
-            new.extend(module.1.body);
-        }
-        let free = new.len()..(new.len() + self.injected.len());
-        if cfg!(debug_assertions) {
-            for rng in &same_module_ranges {
-                for idx in rng.clone() {
-                    assert!(!free.contains(&idx));
-                }
-            }
-        }
-        new.extend(self.injected.drain(..));
-
-        // print_hygiene(
-        //     "before sort",
-        //     cm,
-        //     &Module {
-        //         span: DUMMY_SP,
-        //         body: new.clone(),
-        //         shebang: None,
-        //     },
-        // );
-
-        let mut graph = calc_deps(&new);
-
-        // Now graph contains enough information to sort statements.
-        let mut orders = vec![];
-        orders.extend(iter(
-            &mut graph,
-            &same_module_ranges,
-            free.clone(),
-            &module_starts,
-            &new,
-        ));
-        // let mut delayed = HashSet::new();
-
-        assert_eq!(orders.len(), new.len());
-
-        let mut buf = Vec::with_capacity(new.len());
-        for order in orders {
-            let stmt = new[order].take();
-            buf.push(stmt)
-        }
+        let buf = chunks
+            .into_iter()
+            .flat_map(|chunk| chunk.stmts)
+            .collect::<Vec<_>>();
 
         let module = Module {
             span: DUMMY_SP,
