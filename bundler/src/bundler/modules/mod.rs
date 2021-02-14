@@ -194,13 +194,17 @@ impl Modules {
     where
         F: FnMut(&mut ModuleItem) -> bool,
     {
-        self.prepended_stmts.iter_mut().for_each(|(_, v)| op(v));
+        self.prepended_stmts
+            .iter_mut()
+            .for_each(|(_, v)| v.retain_mut(op));
 
         for module in &mut self.modules {
             module.1.body.retain_mut(&mut op);
         }
 
-        self.appended_stmts.iter_mut().for_each(|(_, v)| op(v));
+        self.appended_stmts
+            .iter_mut()
+            .for_each(|(_, v)| v.retain_mut(op));
     }
 }
 
