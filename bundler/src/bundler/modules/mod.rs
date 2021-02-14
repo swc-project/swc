@@ -127,13 +127,11 @@ impl Modules {
         self.iter_mut().for_each(|item| op(item))
     }
 
-    /// Insert a statement which dependency of can be analyzed statically.
-    pub fn inject_all(&mut self, items: impl IntoIterator<Item = (ModuleId, ModuleItem)>) {
+    pub fn append_all(&mut self, items: impl IntoIterator<Item = (ModuleId, ModuleItem)>) {
         let injected_ctxt = self.injected_ctxt;
-        self.injected.extend(items.into_iter().map(|mut item| {
-            mark(&mut item, injected_ctxt);
-            item
-        }));
+        for v in items {
+            self.append(v.0, v.1);
+        }
     }
 
     pub fn append(&mut self, module_id: ModuleId, mut item: ModuleItem) {
@@ -158,13 +156,22 @@ impl Modules {
     where
         V: Fold,
     {
-        self.prepended = self.prepended.fold_with(&mut *v);
+        self.prepended_stmts = self
+            .prepended_stmts
+            .into_iter()
+            .map(|(id, items)| (id, items.fold_with(&mut *v)))
+            .collect();
         self.modules = self
             .modules
             .into_iter()
             .map(|m| (m.0, m.1.fold_with(&mut *v)))
             .collect();
-        self.injected = self.injected.fold_with(&mut *v);
+
+        self.appended_stmts = self
+            .appended_stmts
+            .into_iter()
+            .map(|(id, items)| (id, items.fold_with(&mut *v)))
+            .collect();
 
         self
     }

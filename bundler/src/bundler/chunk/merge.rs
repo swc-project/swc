@@ -164,7 +164,8 @@ where
 
                         let from = esm_id.clone().into_ident().make_member(i.clone());
 
-                        module.inject(
+                        module.append(
+                            dep_id,
                             from.assign_to(i.with_ctxt(src.export_ctxt))
                                 .into_module_item(injected_ctxt, "namespace_with_normal"),
                         );
@@ -205,8 +206,11 @@ where
 
         module = module.fold_with(&mut Unexporter);
 
-        for var in var_decls {
-            module.inject(var.into_module_item(injected_ctxt, "from_merge_direct_import"));
+        for (id, var) in var_decls {
+            module.append(
+                id,
+                var.into_module_item(injected_ctxt, "from_merge_direct_import"),
+            );
         }
 
         Ok(module)
@@ -1465,14 +1469,17 @@ where
     }
 }
 
-fn vars_from_exports(dep_info: &TransformedModule, module: &Modules) -> Vec<VarDeclarator> {
+fn vars_from_exports(
+    dep_info: &TransformedModule,
+    module: &Modules,
+) -> Vec<(ModuleId, VarDeclarator)> {
     // Convert all exports into variables in form of
     //
     // A__export = A__local
 
     let mut vars = vec![];
 
-    for item in module.iter() {
+    for (module_id, item) in module.iter() {
         let item = match item {
             ModuleItem::ModuleDecl(item) => item,
             ModuleItem::Stmt(_) => continue,
@@ -1486,7 +1493,7 @@ fn vars_from_exports(dep_info: &TransformedModule, module: &Modules) -> Vec<VarD
                         ident.span.with_ctxt(dep_info.export_ctxt()),
                     );
 
-                    vars.push(ident.clone().assign_to(exported_name));
+                    vars.push((module_id, ident.clone().assign_to(exported_name)));
                 }
                 Decl::Var(var) => {
                     let ids: Vec<Id> = find_ids(var);
@@ -1497,7 +1504,7 @@ fn vars_from_exports(dep_info: &TransformedModule, module: &Modules) -> Vec<VarD
                             DUMMY_SP.with_ctxt(dep_info.export_ctxt()),
                         );
 
-                        vars.push(id.assign_to(exported))
+                        vars.push((module_id, id.assign_to(exported)))
                     }
                 }
                 Decl::TsInterface(_) => {}
@@ -1512,13 +1519,14 @@ fn vars_from_exports(dep_info: &TransformedModule, module: &Modules) -> Vec<VarD
                     export.span.with_ctxt(dep_info.export_ctxt()),
                 );
 
-                vars.push(
+                vars.push((
+                    module_id,
                     Ident::new(
                         js_word!("default"),
                         export.span.with_ctxt(dep_info.local_ctxt()),
                     )
                     .assign_to(export_name),
-                );
+                ));
             }
             ModuleDecl::ExportDefaultExpr(export) => {
                 let export_name = Ident::new(
@@ -1526,13 +1534,14 @@ fn vars_from_exports(dep_info: &TransformedModule, module: &Modules) -> Vec<VarD
                     export.span.with_ctxt(dep_info.export_ctxt()),
                 );
 
-                vars.push(
+                vars.push((
+                    module_id,
                     Ident::new(
                         js_word!("default"),
                         export.span.with_ctxt(dep_info.local_ctxt()),
                     )
                     .assign_to(export_name),
-                );
+                ));
             }
             _ => {}
         }

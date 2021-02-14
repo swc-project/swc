@@ -71,7 +71,8 @@ where
                 for specifier in specifiers {
                     match specifier {
                         Specifier::Namespace { local, .. } => {
-                            dep.inject(
+                            dep.append(
+                                dep_info.id,
                                 module_name
                                     .assign_to(local.clone())
                                     .into_module_item(self.injected_ctxt, "merge_export"),
@@ -114,7 +115,7 @@ pub(super) fn inject_export(
     dep: Modules,
     source: Source,
 ) {
-    entry.map_items_mut(|item| {
+    entry.map_items_mut(|_, item| {
         //
         match item {
             ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export))
@@ -190,7 +191,7 @@ pub(super) fn inject_export(
 /// =>
 /// export { foo#7 as foo#5 } where #5 is mark of current entry.
 fn unexprt_as_var(modules: &mut Modules, dep_export_ctxt: SyntaxContext) {
-    modules.map_items_mut(|n| {
+    modules.map_items_mut(|_, n| {
         match n {
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                 ref export @ NamedExport { src: None, .. },

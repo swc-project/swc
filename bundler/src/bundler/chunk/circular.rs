@@ -40,7 +40,7 @@ where
             .context("failed to merge dependency of a cyclic module")?;
 
         let mut exports = vec![];
-        for item in entry.iter_mut() {
+        for (_, item) in entry.iter_mut() {
             match item {
                 ModuleItem::ModuleDecl(decl) => match decl {
                     ModuleDecl::ExportDecl(export) => match &export.decl {
@@ -97,15 +97,16 @@ where
         entry = new_module;
 
         if !exports.is_empty() {
-            entry.inject(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                NamedExport {
+            entry.append(
+                entry_id,
+                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
                     span: DUMMY_SP.with_ctxt(self.synthesized_ctxt),
                     specifiers: exports,
                     src: None,
                     type_only: false,
                     asserts: None,
-                },
-            )));
+                })),
+            );
         }
 
         // print_hygiene("[circular] done", &self.cm, &entry);

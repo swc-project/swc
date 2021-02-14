@@ -81,12 +81,15 @@ where
                     local_ctxt: dep_info.local_ctxt(),
                 });
 
-                entry.prepend(ModuleItem::Stmt(wrap_module(
-                    SyntaxContext::empty(),
-                    dep_info.local_ctxt(),
-                    load_var,
-                    dep.into(),
-                )));
+                entry.prepend(
+                    info.id,
+                    ModuleItem::Stmt(wrap_module(
+                        SyntaxContext::empty(),
+                        dep_info.local_ctxt(),
+                        load_var,
+                        dep.into(),
+                    )),
+                );
 
                 log::warn!("Injecting load");
             }
