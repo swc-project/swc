@@ -111,7 +111,7 @@ fn toposort_ids<'a>(
                 .collect::<Vec<_>>();
 
             if deps.is_empty() {
-                // Add dependants
+                // TODO: Add dependants
 
                 // Emit
                 done.insert(id);
@@ -136,7 +136,7 @@ fn toposort_ids<'a>(
                 continue;
             }
 
-            // Add dependants
+            // TODO: Add dependants
 
             // Emit
             done.extend(all_modules_in_circle.iter().copied());
