@@ -20,11 +20,6 @@ use std::marker::PhantomData;
 use std::ops::Deref;
 use std::slice::Iter;
 
-/// A `GraphMap` with undirected edges.
-///
-/// For example, an edge between *1* and *2* is equivalent to an edge between
-/// *2* and *1*.
-pub type FastUnGraphMap<N, E> = FastGraphMap<N, E, Undirected>;
 /// A `GraphMap` with directed edges.
 ///
 /// For example, an edge from *1* to *2* is distinct from an edge from *2* to
