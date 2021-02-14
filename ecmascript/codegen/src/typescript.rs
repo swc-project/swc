@@ -850,7 +850,10 @@ impl<'a> Emitter<'a> {
     fn emit_ts_type_cast_expr(&mut self, n: &TsTypeCastExpr) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_type_cast_expr")
+        punct!("<");
+        emit!(n.type_ann);
+        punct!(">");
+        emit!(n.expr);
     }
 
     #[emitter]
