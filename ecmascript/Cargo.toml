@@ -33,3 +33,6 @@ swc_ecma_utils = {version = "0.28.0", path = "./utils", optional = true}
 swc_ecma_visit = {version = "0.24.0", path = "./visit", optional = true}
 
 [dev-dependencies]
+
+[package.metadata.docs.rs]
+all-features = true
