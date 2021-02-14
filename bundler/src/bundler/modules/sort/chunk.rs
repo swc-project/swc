@@ -111,6 +111,9 @@ fn toposort_ids<'a>(
                 .collect::<Vec<_>>();
 
             if deps.is_empty() {
+                // Add dependants
+
+                // Emit
                 done.insert(id);
                 return Some(vec![id]);
             }
@@ -133,6 +136,10 @@ fn toposort_ids<'a>(
                 continue;
             }
 
+            // Add dependants
+
+            // Emit
+            done.extend(all_modules_in_circle.iter().copied());
             return Some(all_modules_in_circle.into_iter().collect());
         }
 
