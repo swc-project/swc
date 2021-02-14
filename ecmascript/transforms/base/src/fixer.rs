@@ -95,7 +95,7 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
 
         match &*expr.arg {
-            Expr::Cond(..) | Expr::Await(..) => self.wrap(&mut expr.arg),
+            Expr::Cond(..) => self.wrap(&mut expr.arg),
             _ => {}
         }
     }
@@ -554,7 +554,7 @@ impl Fixer<'_> {
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Expr(ref mut callee),
                 ..
-            }) if callee.is_arrow() => {
+            }) if callee.is_arrow() || callee.is_await_expr() => {
                 self.wrap(&mut **callee);
             }
 
