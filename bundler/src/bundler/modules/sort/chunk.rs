@@ -40,7 +40,7 @@ impl Modules {
     }
 
     /// Modules with circular import relations will be in same chunk.
-    pub(super) fn take_chunks(&mut self, module_graph: &ModuleGraph) -> Vec<Chunk> {
+    pub(super) fn take_chunks(&mut self, entry_id: ModuleId, graph: &ModuleGraph) -> Vec<Chunk> {
         self.normalize_injected();
 
         let mut chunks = vec![];
@@ -54,8 +54,16 @@ impl Modules {
             stmts: vec![stmt],
         }));
 
-        for (id, body) in take(&mut self.modules) {}
+        chunks.extend(toposort(take(&mut self.modules), entry_id, graph));
 
         chunks
     }
+}
+
+/// Sort items topologically, while merging cycles as a
+fn toposort(
+    modules: Vec<(ModuleId, Module)>,
+    entry: ModuleId,
+    graph: &ModuleGraph,
+) -> impl Iterator<Item = Chunk> {
 }
