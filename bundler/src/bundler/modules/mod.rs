@@ -1,6 +1,8 @@
+use crate::ModuleId;
 use ahash::AHashMap;
 use retain_mut::RetainMut;
 use std::mem::take;
+use swc_common::Spanned;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -10,9 +12,6 @@ use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
-
-use crate::util::MapWithMut;
-use crate::ModuleId;
 
 mod sort;
 #[cfg(test)]
@@ -58,7 +57,7 @@ impl Modules {
         self.modules.into_iter().flat_map(|v| v.1.body).collect()
     }
 
-    pub fn add_dep(&mut self, mut dep: Modules) {
+    pub fn add_dep(&mut self, dep: Modules) {
         self.push_all(dep)
     }
 
@@ -104,10 +103,23 @@ impl Modules {
     where
         F: FnMut(ModuleId, Vec<ModuleItem>) -> Vec<ModuleItem>,
     {
-        let mut p = take(&mut self.prepended_stmts);
+        let injected_ctxt = self.injected_ctxt;
+        let p = take(&mut self.prepended_stmts);
         self.prepended_stmts = p
             .into_iter()
-            .map(|(id, items)| (id, op(id, items)))
+            .map(|(id, items)| {
+                let items = op(id, items);
+
+                for item in &items {
+                    debug_assert_ne!(
+                        item.span().ctxt,
+                        injected_ctxt,
+                        "Injected item should be explicitly added via append or prepend"
+                    );
+                }
+
+                (id, items)
+            })
             .collect();
 
         self.modules = take(&mut self.modules)
@@ -115,14 +127,34 @@ impl Modules {
             .map(|mut m| {
                 let body = op(m.0, take(&mut m.1.body));
 
+                for item in &body {
+                    debug_assert_ne!(
+                        item.span().ctxt,
+                        injected_ctxt,
+                        "Injected item should be explicitly added via append or prepend"
+                    );
+                }
+
                 (m.0, Module { body, ..m.1 })
             })
             .collect();
 
-        let mut a = take(&mut self.appended_stmts);
+        let a = take(&mut self.appended_stmts);
         self.appended_stmts = a
             .into_iter()
-            .map(|(id, items)| (id, op(id, items)))
+            .map(|(id, items)| {
+                let items = op(id, items);
+
+                for item in &items {
+                    debug_assert_ne!(
+                        item.span().ctxt,
+                        injected_ctxt,
+                        "Injected item should be explicitly added via append or prepend"
+                    );
+                }
+
+                (id, items)
+            })
             .collect();
     }
 
@@ -130,17 +162,26 @@ impl Modules {
     where
         F: FnMut(ModuleId, &mut ModuleItem),
     {
-        self.iter_mut().for_each(|(id, item)| op(id, item))
+        let injected_ctxt = self.injected_ctxt;
+        self.iter_mut().for_each(|(id, item)| {
+            //
+            op(id, item);
+
+            debug_assert_ne!(
+                item.span().ctxt,
+                injected_ctxt,
+                "Injected item should be explicitly added via append or prepend"
+            );
+        })
     }
 
     pub fn append_all(&mut self, items: impl IntoIterator<Item = (ModuleId, ModuleItem)>) {
-        let injected_ctxt = self.injected_ctxt;
-        for v in items {
-            self.append(v.0, v.1);
+        for (id, item) in items {
+            self.append(id, item);
         }
     }
 
-    pub fn append(&mut self, module_id: ModuleId, mut item: ModuleItem) {
+    pub fn append(&mut self, module_id: ModuleId, item: ModuleItem) {
         self.appended_stmts.entry(module_id).or_default().push(item);
     }
 
