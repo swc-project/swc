@@ -113,7 +113,7 @@ impl Modules {
         self.modules = take(&mut self.modules)
             .into_iter()
             .map(|mut m| {
-                let body = op(take(&mut m.1.body));
+                let body = op(m.0, take(&mut m.1.body));
 
                 (m.0, Module { body, ..m.1 })
             })
@@ -130,7 +130,7 @@ impl Modules {
     where
         F: FnMut(ModuleId, &mut ModuleItem),
     {
-        self.iter_mut().for_each(|item| op(item))
+        self.iter_mut().for_each(|(id, item)| op(id, item))
     }
 
     pub fn append_all(&mut self, items: impl IntoIterator<Item = (ModuleId, ModuleItem)>) {
@@ -155,7 +155,7 @@ impl Modules {
     where
         V: VisitMut,
     {
-        self.iter_mut().for_each(|v| v.1.visit_mut_with(v));
+        self.iter_mut().for_each(|item| item.1.visit_mut_with(v));
     }
 
     pub fn fold_with<V>(mut self, v: &mut V) -> Self
@@ -187,7 +187,7 @@ impl Modules {
         V: Visit,
     {
         self.iter()
-            .for_each(|v| v.1.visit_with(&Invalid { span: DUMMY_SP }, v));
+            .for_each(|item| item.1.visit_with(&Invalid { span: DUMMY_SP }, v));
     }
 
     pub fn retain_mut<F>(&mut self, mut op: F)
