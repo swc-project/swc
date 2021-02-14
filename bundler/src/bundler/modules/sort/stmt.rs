@@ -1,57 +1,27 @@
-use super::Modules;
-use crate::dep_graph::ModuleGraph;
-use crate::ModuleId;
-use swc_common::sync::Lrc;
-use swc_common::SourceMap;
-use swc_common::DUMMY_SP;
+use crate::bundler::modules::sort::graph::StmtDepGraph;
+use crate::util::MapWithMut;
+use ahash::AHashSet;
+use indexmap::IndexSet;
+use petgraph::EdgeDirection::Incoming as Dependants;
+use petgraph::EdgeDirection::Outgoing as Dependancies;
+use std::collections::VecDeque;
 use swc_ecma_ast::*;
 
-mod chunk;
-mod graph;
-mod stmt;
+pub(super) fn sort_stmts(stmts: &mut Vec<ModuleItem>) {
+    let mut id_graph = calc_deps(&stmts);
 
-/// Is dependancy between nodes hard?
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-enum Required {
-    /// Required to evaluate
-    Always,
+    let mut orders = iter(&mut id_graph, &stmts).collect::<Vec<_>>();
 
-    /// Maybe required to evaluate
-    Maybe,
-}
-
-impl Modules {
-    /// If module graph proves that one module can com before other module, it
-    /// will be simply injected. If it is not the case, we will consider the
-    /// dependency between statements.
-    ///
-    /// TODO: Change this to return [Module].
-    pub fn sort(&mut self, entry_id: ModuleId, module_graph: &ModuleGraph, _cm: &Lrc<SourceMap>) {
-        let injected_ctxt = self.injected_ctxt;
-        let chunks = self.take_chunks(entry_id, module_graph);
-
-        let buf = chunks
-            .into_iter()
-            .flat_map(|chunk| chunk.stmts)
-            .collect::<Vec<_>>();
-
-        let module = Module {
-            span: DUMMY_SP,
-            body: buf,
-            shebang: None,
-        };
-
-        // print_hygiene("after sort", cm, &module);
-
-        *self = Modules::from(entry_id, module, injected_ctxt);
+    let mut new = Vec::with_capacity(stmts.len());
+    for idx in orders {
+        new.push(stmts[idx].take());
     }
+
+    *stmts = new;
 }
 
 fn iter<'a>(
     id_graph: &'a mut StmtDepGraph,
-    same_module_ranges: &'a [Range<usize>],
-    free: Range<usize>,
-    module_starts: &[usize],
     stmts: &'a [ModuleItem],
 ) -> impl 'a + Iterator<Item = usize> {
     let len = id_graph.node_count();
@@ -454,7 +424,7 @@ impl Visit for InitializerFinder {
 
     fn visit_pat(&mut self, pat: &Pat, _: &dyn Node) {
         match pat {
-            Pat::Ident(i) if self.ident == i.id => {
+            Pat::Ident(i) if self.ident == *i => {
                 self.found = true;
             }
 
@@ -564,7 +534,7 @@ impl Visit for RequirementCalculartor {
                 if self.in_var_decl && !self.in_assign_lhs {
                     return;
                 }
-                self.insert((&i.id).into());
+                self.insert(i.into());
             }
             _ => {
                 pat.visit_children_with(self);
