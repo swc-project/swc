@@ -53,6 +53,11 @@ impl Modules {
         self.modules = modules;
     }
 
+    /// If module graph proves that one module can com before other module, it
+    /// will be simply injected. If it is not the case, we will consider the
+    /// dependency between statements.
+    ///
+    /// Also,
     pub fn sort(&mut self, entry_id: ModuleId, module_graph: &ModuleGraph, _cm: &Lrc<SourceMap>) {
         let injected_ctxt = self.injected_ctxt;
         self.normalize_injected();
