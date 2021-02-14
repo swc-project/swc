@@ -31,43 +31,50 @@ pub trait MapWithMut: Sized {
     }
 }
 
+impl MapWithMut for Program {
+    #[inline]
+    fn dummy() -> Self {
+        Program::Module(Module::dummy())
+    }
+}
+
 impl MapWithMut for ModuleItem {
-    #[inline(always)]
+    #[inline]
     fn dummy() -> Self {
         ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
     }
 }
 
 impl MapWithMut for Stmt {
-    #[inline(always)]
+    #[inline]
     fn dummy() -> Self {
         Stmt::Empty(EmptyStmt { span: DUMMY_SP })
     }
 }
 
 impl MapWithMut for Expr {
-    #[inline(always)]
+    #[inline]
     fn dummy() -> Self {
         Expr::Invalid(Invalid { span: DUMMY_SP })
     }
 }
 
 impl MapWithMut for Pat {
-    #[inline(always)]
+    #[inline]
     fn dummy() -> Self {
         Pat::Invalid(Invalid { span: DUMMY_SP })
     }
 }
 
 impl<T> MapWithMut for Option<T> {
-    #[inline(always)]
+    #[inline]
     fn dummy() -> Self {
         None
     }
 }
 
 impl<T> MapWithMut for Vec<T> {
-    #[inline(always)]
+    #[inline]
     fn dummy() -> Self {
         Vec::new()
     }
@@ -77,7 +84,7 @@ impl<T> MapWithMut for Box<T>
 where
     T: MapWithMut,
 {
-    #[inline(always)]
+    #[inline]
     fn dummy() -> Self {
         Box::new(T::dummy())
     }
@@ -102,6 +109,104 @@ impl MapWithMut for ObjectPatProp {
 impl MapWithMut for PatOrExpr {
     fn dummy() -> Self {
         PatOrExpr::Pat(Box::new(Pat::Ident(Ident::dummy())))
+    }
+}
+
+impl MapWithMut for Module {
+    fn dummy() -> Self {
+        Module {
+            span: DUMMY_SP,
+            body: vec![],
+            shebang: None,
+        }
+    }
+}
+
+impl MapWithMut for ExprOrSuper {
+    fn dummy() -> Self {
+        ExprOrSuper::Super(Super { span: DUMMY_SP })
+    }
+}
+
+impl MapWithMut for CallExpr {
+    fn dummy() -> Self {
+        CallExpr {
+            span: DUMMY_SP,
+            callee: MapWithMut::dummy(),
+            args: MapWithMut::dummy(),
+            type_args: Default::default(),
+        }
+    }
+}
+
+impl MapWithMut for NewExpr {
+    fn dummy() -> Self {
+        NewExpr {
+            span: DUMMY_SP,
+            callee: MapWithMut::dummy(),
+            args: MapWithMut::dummy(),
+            type_args: Default::default(),
+        }
+    }
+}
+
+impl MapWithMut for Decl {
+    fn dummy() -> Self {
+        Decl::Var(MapWithMut::dummy())
+    }
+}
+
+impl MapWithMut for VarDecl {
+    fn dummy() -> Self {
+        VarDecl {
+            span: DUMMY_SP,
+            kind: VarDeclKind::Var,
+            declare: false,
+            decls: vec![],
+        }
+    }
+}
+
+impl MapWithMut for PropName {
+    #[inline]
+    fn dummy() -> Self {
+        PropName::Ident(Ident::dummy())
+    }
+}
+
+impl MapWithMut for BlockStmtOrExpr {
+    #[inline]
+    fn dummy() -> Self {
+        BlockStmtOrExpr::Expr(MapWithMut::dummy())
+    }
+}
+
+impl MapWithMut for VarDeclarator {
+    #[inline]
+    fn dummy() -> Self {
+        VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::dummy(),
+            init: None,
+            definite: Default::default(),
+        }
+    }
+}
+
+impl MapWithMut for TplElement {
+    #[inline]
+    fn dummy() -> Self {
+        TplElement {
+            span: DUMMY_SP,
+            tail: false,
+            cooked: None,
+            raw: Str {
+                span: DUMMY_SP,
+                value: "".into(),
+                has_escape: false,
+                kind: Default::default(),
+            },
+        }
     }
 }
 
