@@ -583,7 +583,11 @@ impl<'a> Emitter<'a> {
     fn emit_ts_ns_export_decl(&mut self, n: &TsNamespaceExportDecl) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_ns_export_decl")
+        keyword!("export");
+        space!();
+        punct!("=");
+        space!();
+        emit!(n.id);
     }
 
     #[emitter]
