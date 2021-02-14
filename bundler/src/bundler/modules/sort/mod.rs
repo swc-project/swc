@@ -4,6 +4,7 @@ use crate::ModuleId;
 use crate::{id::Id, util::MapWithMut};
 use ahash::AHashMap;
 use ahash::AHashSet;
+use chunk::Chunk;
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::Incoming as Dependants;
 use petgraph::EdgeDirection::Outgoing as Dependancies;
@@ -39,6 +40,12 @@ enum Required {
 impl Modules {
     fn normalize_injected(&mut self) {
         let injected_ctxt = self.injected_ctxt;
+
+        self.retain_mut(|item| match item {
+            ModuleItem::Stmt(Stmt::Empty(..)) => false,
+            _ => true,
+        });
+
         let mut modules = take(&mut self.modules);
         for module in &mut modules {
             module.1.body.retain_mut(|item| {
@@ -54,19 +61,26 @@ impl Modules {
         self.modules = modules;
     }
 
+    /// Modules with circular import relations will be in same chunk.
+    fn take_chunks(&mut self, module_graph: &ModuleGraph) -> Vec<Chunk> {
+        self.normalize_injected();
+
+        let mut chunks = vec![];
+
+        chunks.extend(self.injected.into_iter().map(|stmt| Chunk {
+            module_id: None,
+            stmts: vec![stmt],
+        }));
+    }
+
     /// If module graph proves that one module can com before other module, it
     /// will be simply injected. If it is not the case, we will consider the
     /// dependency between statements.
     ///
-    /// Also,
+    /// TODO: Change this to return [Module].
     pub fn sort(&mut self, entry_id: ModuleId, module_graph: &ModuleGraph, _cm: &Lrc<SourceMap>) {
         let injected_ctxt = self.injected_ctxt;
-        self.normalize_injected();
-
-        self.retain_mut(|item| match item {
-            ModuleItem::Stmt(Stmt::Empty(..)) => false,
-            _ => true,
-        });
+        let chunks = self.take_chunks(module_graph);
 
         let mut new = vec![];
 
