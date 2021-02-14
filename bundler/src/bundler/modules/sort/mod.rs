@@ -38,41 +38,6 @@ enum Required {
 }
 
 impl Modules {
-    fn normalize_injected(&mut self) {
-        let injected_ctxt = self.injected_ctxt;
-
-        self.retain_mut(|item| match item {
-            ModuleItem::Stmt(Stmt::Empty(..)) => false,
-            _ => true,
-        });
-
-        let mut modules = take(&mut self.modules);
-        for module in &mut modules {
-            module.1.body.retain_mut(|item| {
-                let is_free = item.span().ctxt == injected_ctxt;
-                if is_free {
-                    self.injected.push(item.take());
-                    false
-                } else {
-                    true
-                }
-            });
-        }
-        self.modules = modules;
-    }
-
-    /// Modules with circular import relations will be in same chunk.
-    fn take_chunks(&mut self, module_graph: &ModuleGraph) -> Vec<Chunk> {
-        self.normalize_injected();
-
-        let mut chunks = vec![];
-
-        chunks.extend(self.injected.into_iter().map(|stmt| Chunk {
-            module_id: None,
-            stmts: vec![stmt],
-        }));
-    }
-
     /// If module graph proves that one module can com before other module, it
     /// will be simply injected. If it is not the case, we will consider the
     /// dependency between statements.
