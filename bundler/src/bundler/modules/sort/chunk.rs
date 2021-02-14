@@ -81,6 +81,7 @@ fn toposort_real_module_ids<'a>(
             if done.contains(&id) {
                 continue;
             }
+            // dbg!(id);
 
             let deps = graph
                 .neighbors_directed(id, Outgoing)
@@ -95,6 +96,8 @@ fn toposort_real_module_ids<'a>(
                 return Some(vec![id]);
             }
 
+            // dbg!(&deps);
+
             let all_modules_in_circle = deps
                 .iter()
                 .copied()
@@ -104,12 +107,13 @@ fn toposort_real_module_ids<'a>(
                 .collect::<IndexSet<_>>();
 
             if all_modules_in_circle.is_empty() {
+                queue.push_front(id);
+
                 // This module does not have any circular imports.
                 for dep in deps {
                     queue.push_front(dep);
                 }
 
-                queue.push_front(id);
                 continue;
             }
 
