@@ -229,8 +229,11 @@ where
 
         // module = module.fold_with(&mut Unexporter);
 
-        for var in var_decls {
-            module.inject(var.into_module_item(injected_ctxt, "from_merge_transitive_import"));
+        for (id, var) in var_decls {
+            module.append(
+                id,
+                var.into_module_item(injected_ctxt, "from_merge_transitive_import"),
+            );
         }
 
         Ok(module)
@@ -254,7 +257,7 @@ where
     ) -> Result<(), Error> {
         self.run(|| {
             //
-            for stmt in module.iter_mut() {
+            for (_, stmt) in module.iter_mut() {
                 let decl = match stmt {
                     ModuleItem::ModuleDecl(decl) => decl,
                     ModuleItem::Stmt(_) => continue,
@@ -506,7 +509,7 @@ where
     ///
     /// This method does not care about orders of statement, and it's expected
     /// to be called before `sort`.
-    fn handle_reexport_of_entry(&self, ctx: &Ctx, entry: &mut Modules) {
+    fn handle_reexport_of_entry(&self, ctx: &Ctx, entry_id: ModuleId, entry: &mut Modules) {
         let injected_ctxt = self.injected_ctxt;
 
         {
@@ -523,7 +526,7 @@ where
             // the variable (reexported from D) exist because it's imported.
             let mut declared_ids = AHashSet::new();
 
-            for stmt in entry.iter() {
+            for (_, stmt) in entry.iter() {
                 match stmt {
                     ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
                         if decl.span.ctxt == injected_ctxt {
@@ -535,7 +538,7 @@ where
                 }
             }
 
-            for stmt in entry.iter() {
+            for (_, stmt) in entry.iter() {
                 match stmt {
                     ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
                         for s in &export.specifiers {
@@ -549,7 +552,8 @@ where
                                             continue;
                                         }
 
-                                        vars.push(
+                                        vars.push((
+                                            entry_id,
                                             named
                                                 .orig
                                                 .clone()
@@ -558,7 +562,7 @@ where
                                                     injected_ctxt,
                                                     "finalize -> export to var",
                                                 ),
-                                        );
+                                        ));
                                     }
                                     None => {}
                                 },
@@ -581,10 +585,11 @@ where
                                     continue;
                                 }
 
-                                vars.push(
+                                vars.push((
+                                    entry_id,
                                     id.assign_to(reexported)
                                         .into_module_item(injected_ctxt, "export_star_replacer"),
-                                );
+                                ));
                             }
                         }
                     }
@@ -593,7 +598,7 @@ where
                 }
             }
 
-            entry.inject_all(vars);
+            entry.append_all(vars);
         }
 
         {
@@ -601,7 +606,7 @@ where
             let mut additional_props = AHashMap::<_, Vec<_>>::new();
             // Handle `export *` for wrapped modules.
             for (module_id, ctxts) in map.drain() {
-                for stmt in entry.iter() {
+                for (_, stmt) in entry.iter() {
                     match stmt {
                         ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
                             let ids: Vec<Id> = find_ids(decl);
@@ -631,7 +636,7 @@ where
                     None => continue,
                 };
 
-                for stmt in entry.iter_mut() {
+                for (_, stmt) in entry.iter_mut() {
                     let var = match stmt {
                         ModuleItem::Stmt(Stmt::Decl(Decl::Var(
                             var
@@ -700,7 +705,7 @@ where
     }
 
     fn finalize_merging_of_entry(&self, ctx: &Ctx, id: ModuleId, entry: &mut Modules) {
-        self.handle_reexport_of_entry(ctx, entry);
+        self.handle_reexport_of_entry(ctx, id, entry);
 
         // print_hygiene("before sort", &self.cm, &entry.clone().into());
 
