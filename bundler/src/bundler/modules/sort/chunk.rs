@@ -60,14 +60,18 @@ impl Modules {
                 .map(|stmt| Chunk { stmts: vec![stmt] }),
         );
 
-        chunks.extend(toposort_chunks(take(&mut self.modules), entry_id, graph));
+        chunks.extend(toposort_real_modules(
+            take(&mut self.modules),
+            entry_id,
+            graph,
+        ));
 
         chunks
     }
 }
 
 /// Sort items topologically, while merging cycles as a
-fn toposort_chunks<'a>(
+fn toposort_real_modules<'a>(
     mut modules: Vec<(ModuleId, Module)>,
     entry: ModuleId,
     graph: &'a ModuleGraph,
@@ -77,7 +81,7 @@ fn toposort_chunks<'a>(
 
     let mut chunks = vec![];
 
-    let sorted_ids = toposort_ids(queue, graph);
+    let sorted_ids = toposort_real_module_ids(queue, graph);
     for ids in sorted_ids {
         let mut chunk = Chunk { stmts: vec![] };
 
@@ -93,7 +97,7 @@ fn toposort_chunks<'a>(
     chunks
 }
 
-fn toposort_ids<'a>(
+fn toposort_real_module_ids<'a>(
     mut queue: VecDeque<ModuleId>,
     graph: &'a ModuleGraph,
 ) -> impl 'a + Iterator<Item = Vec<ModuleId>> {
