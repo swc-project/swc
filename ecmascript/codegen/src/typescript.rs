@@ -583,7 +583,11 @@ impl<'a> Emitter<'a> {
     fn emit_ts_ns_export_decl(&mut self, n: &TsNamespaceExportDecl) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_ns_export_decl")
+        keyword!("export");
+        space!();
+        punct!("=");
+        space!();
+        emit!(n.id);
     }
 
     #[emitter]
@@ -697,7 +701,23 @@ impl<'a> Emitter<'a> {
     fn emit_ts_signature_decl(&mut self, n: &TsSignatureDecl) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_signature_decl")
+        match n {
+            TsSignatureDecl::TsCallSignatureDecl(n) => {
+                emit!(n);
+            }
+            TsSignatureDecl::TsConstructSignatureDecl(n) => {
+                emit!(n);
+            }
+            TsSignatureDecl::TsMethodSignature(n) => {
+                emit!(n);
+            }
+            TsSignatureDecl::TsFnType(n) => {
+                emit!(n);
+            }
+            TsSignatureDecl::TsConstructorType(n) => {
+                emit!(n);
+            }
+        }
     }
 
     #[emitter]
@@ -825,7 +845,13 @@ impl<'a> Emitter<'a> {
     fn emit_ts_type_assertion(&mut self, n: &TsTypeAssertion) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_type_assertion")
+        keyword!("asserts");
+        space!();
+        emit!(n.expr);
+        space!();
+        keyword!("is");
+        space!();
+        emit!(n.type_ann);
     }
 
     #[emitter]
@@ -844,7 +870,10 @@ impl<'a> Emitter<'a> {
     fn emit_ts_type_cast_expr(&mut self, n: &TsTypeCastExpr) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_type_cast_expr")
+        punct!("<");
+        emit!(n.type_ann);
+        punct!(">");
+        emit!(n.expr);
     }
 
     #[emitter]

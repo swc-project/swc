@@ -1,0 +1,6 @@
+error: Expected a semicolon
+ --> $DIR/tests/typescript-errors/issue-1391/case2/input.ts:2:9
+  |
+2 |     let b = 1;
+  |         ^
+

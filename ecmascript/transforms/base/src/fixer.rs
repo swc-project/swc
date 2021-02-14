@@ -39,6 +39,9 @@ enum Context {
     ForcedExpr {
         is_var_decl: bool,
     },
+
+    /// Always treated as expr and comma does not matter.
+    FreeExpr,
 }
 
 impl Default for Context {
@@ -74,9 +77,12 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Callee { is_new: true };
         node.callee.visit_mut_with(self);
         match *node.callee {
-            Expr::Call(..) | Expr::Bin(..) | Expr::Assign(..) | Expr::Seq(..) => {
-                self.wrap(&mut node.callee)
-            }
+            Expr::Call(..)
+            | Expr::Bin(..)
+            | Expr::Assign(..)
+            | Expr::Seq(..)
+            | Expr::Unary(..)
+            | Expr::Lit(..) => self.wrap(&mut node.callee),
             _ => {}
         }
         self.ctx = old;
@@ -104,7 +110,7 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Callee { is_new: false };
         node.callee.visit_mut_with(self);
         match &mut node.callee {
-            ExprOrSuper::Expr(e) if e.is_cond() || e.is_bin() => {
+            ExprOrSuper::Expr(e) if e.is_cond() || e.is_bin() || e.is_lit() => {
                 self.wrap(&mut **e);
             }
             _ => {}
@@ -150,7 +156,14 @@ impl VisitMut for Fixer<'_> {
                 self.wrap(&mut expr.right);
             }
             Expr::Bin(BinExpr { op: op_of_rhs, .. }) => {
-                if op_of_rhs.precedence() <= expr.op.precedence() {
+                if *op_of_rhs == expr.op {
+                    match expr.op {
+                        op!("&&") | op!("||") => {}
+                        _ => {
+                            self.wrap(&mut expr.right);
+                        }
+                    }
+                } else if op_of_rhs.precedence() <= expr.op.precedence() {
                     self.wrap(&mut expr.right);
                 }
             }
@@ -211,7 +224,7 @@ impl VisitMut for Fixer<'_> {
             MemberExpr { obj, .. }
                 if obj.as_expr().map(|e| e.is_object()).unwrap_or(false)
                     && match self.ctx {
-                        Context::ForcedExpr { is_var_decl: true } => true,
+                        Context::ForcedExpr { .. } => true,
                         _ => false,
                     } => {}
 
@@ -244,7 +257,10 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
+        let old = self.ctx;
+        self.ctx = Context::FreeExpr;
         n.visit_mut_children_with(self);
+        self.ctx = old;
 
         match *n.arg {
             Expr::Assign(..)
@@ -538,7 +554,7 @@ impl Fixer<'_> {
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Expr(ref mut callee),
                 ..
-            }) if callee.is_arrow() => {
+            }) if callee.is_arrow() || callee.is_await_expr() => {
                 self.wrap(&mut **callee);
             }
 
@@ -547,7 +563,7 @@ impl Fixer<'_> {
                 callee: ExprOrSuper::Expr(ref mut callee),
                 ..
             }) if callee.is_fn_expr() => match self.ctx {
-                Context::ForcedExpr { .. } => {}
+                Context::ForcedExpr { .. } | Context::FreeExpr => {}
 
                 Context::Callee { is_new: true } => self.wrap(e),
 
@@ -1027,5 +1043,18 @@ var store = global[SHARED] || (global[SHARED] = {});
         "
         biasInitializer = new (_a = class CustomInit extends Initializer {})();
         "
+    );
+
+    test_fixer!(
+        minifier_001,
+        "var bitsLength = 3, bitsOffset = 3, what = (len = 0)",
+        "var bitsLength = 3, bitsOffset = 3, what = len = 0"
+    );
+
+    test_fixer!(minifier_002, "!(function(){})()", "!function(){}()");
+
+    identical!(
+        issue_1397,
+        "const main = async () => await (await server)()"
     );
 }
