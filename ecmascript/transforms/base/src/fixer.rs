@@ -1052,4 +1052,9 @@ var store = global[SHARED] || (global[SHARED] = {});
     );
 
     test_fixer!(minifier_002, "!(function(){})()", "!function(){}()");
+
+    identical!(
+        issue_1397,
+        "const main = async () => await (await server)()"
+    );
 }
