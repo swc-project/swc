@@ -1,4 +1,5 @@
 use crate::bundler::modules::Modules;
+use crate::dep_graph::DepIndexType;
 use crate::dep_graph::ModuleGraph;
 use crate::util::MapWithMut;
 use crate::ModuleId;
@@ -109,8 +110,13 @@ fn toposort_ids<'a>(
                 .collect::<Vec<_>>();
 
             if deps.is_empty() {
+                done.insert(id);
                 return Some(vec![id]);
             }
+
+            let is_circular = deps
+                .iter()
+                .any(|dep| graph.has_a_path(dep.as_usize(), id.as_usize()));
         }
 
         None

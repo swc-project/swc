@@ -39,7 +39,12 @@ impl Modules {
     /// dependency between statements.
     ///
     /// TODO: Change this to return [Module].
-    pub fn sort(&mut self, entry_id: ModuleId, module_graph: &ModuleGraph, _cm: &Lrc<SourceMap>) {
+    pub(crate) fn sort(
+        &mut self,
+        entry_id: ModuleId,
+        module_graph: &ModuleGraph,
+        _cm: &Lrc<SourceMap>,
+    ) {
         let injected_ctxt = self.injected_ctxt;
         let chunks = self.take_chunks(entry_id, module_graph);
 
