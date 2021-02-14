@@ -2,7 +2,11 @@ use crate::bundler::modules::Modules;
 use crate::dep_graph::ModuleGraph;
 use crate::util::MapWithMut;
 use crate::ModuleId;
+use ahash::AHashSet;
+use petgraph::EdgeDirection::Outgoing;
 use retain_mut::RetainMut;
+use std::collections::VecDeque;
+use std::iter::from_fn;
 use std::mem::take;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
@@ -10,8 +14,6 @@ use swc_ecma_ast::*;
 /// The unit of sorting.
 #[derive(Debug)]
 pub(super) struct Chunk {
-    /// This [None] for injected items.
-    pub module_id: Option<ModuleId>,
     pub stmts: Vec<ModuleItem>,
 }
 
@@ -45,25 +47,72 @@ impl Modules {
 
         let mut chunks = vec![];
 
-        chunks.extend(take(&mut self.prepended).into_iter().map(|stmt| Chunk {
-            module_id: None,
-            stmts: vec![stmt],
-        }));
-        chunks.extend(take(&mut self.injected).into_iter().map(|stmt| Chunk {
-            module_id: None,
-            stmts: vec![stmt],
-        }));
+        chunks.extend(
+            take(&mut self.prepended)
+                .into_iter()
+                .map(|stmt| Chunk { stmts: vec![stmt] }),
+        );
+        chunks.extend(
+            take(&mut self.injected)
+                .into_iter()
+                .map(|stmt| Chunk { stmts: vec![stmt] }),
+        );
 
-        chunks.extend(toposort(take(&mut self.modules), entry_id, graph));
+        chunks.extend(toposort_chunks(take(&mut self.modules), entry_id, graph));
 
         chunks
     }
 }
 
 /// Sort items topologically, while merging cycles as a
-fn toposort(
-    modules: Vec<(ModuleId, Module)>,
+fn toposort_chunks<'a>(
+    mut modules: Vec<(ModuleId, Module)>,
     entry: ModuleId,
-    graph: &ModuleGraph,
-) -> impl Iterator<Item = Chunk> {
+    graph: &'a ModuleGraph,
+) -> Vec<Chunk> {
+    let mut queue = modules.iter().map(|v| v.0).collect::<VecDeque<_>>();
+    queue.push_front(entry);
+
+    let mut chunks = vec![];
+
+    let sorted_ids = toposort_ids(queue, graph);
+    for ids in sorted_ids {
+        let mut chunk = Chunk { stmts: vec![] };
+
+        for id in ids {
+            if let Some((_, module)) = modules.iter_mut().find(|(module_id, _)| *module_id == id) {
+                chunk.stmts.extend(take(&mut module.body));
+            }
+        }
+
+        chunks.push(chunk)
+    }
+
+    chunks
+}
+
+fn toposort_ids<'a>(
+    mut queue: VecDeque<ModuleId>,
+    graph: &'a ModuleGraph,
+) -> impl 'a + Iterator<Item = Vec<ModuleId>> {
+    let mut done = AHashSet::<ModuleId>::default();
+
+    from_fn(move || {
+        while let Some(id) = queue.pop_front() {
+            if done.contains(&id) {
+                continue;
+            }
+
+            let deps = graph
+                .neighbors_directed(id, Outgoing)
+                .filter(|dep| !done.contains(&dep))
+                .collect::<Vec<_>>();
+
+            if deps.is_empty() {
+                return Some(vec![id]);
+            }
+        }
+
+        None
+    })
 }
