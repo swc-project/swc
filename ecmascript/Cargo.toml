@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecmascript"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.20.0"
+version = "0.21.0"
 
 [features]
 codegen = ["swc_ecma_codegen"]
@@ -25,10 +25,10 @@ typescript = ["swc_ecma_transforms/typescript"]
 
 [dependencies]
 swc_ecma_ast = {version = "0.38.0", path = "./ast"}
-swc_ecma_codegen = {version = "0.44.0", path = "./codegen", optional = true}
-swc_ecma_dep_graph = {version = "0.14.0", path = "./dep-graph", optional = true}
-swc_ecma_parser = {version = "0.46.0", path = "./parser", optional = true}
-swc_ecma_transforms = {version = "0.34.0", path = "./transforms", optional = true}
+swc_ecma_codegen = {version = "0.45.0", path = "./codegen", optional = true}
+swc_ecma_dep_graph = {version = "0.15.0", path = "./dep-graph", optional = true}
+swc_ecma_parser = {version = "0.47.0", path = "./parser", optional = true}
+swc_ecma_transforms = {version = "0.35.0", path = "./transforms", optional = true}
 swc_ecma_utils = {version = "0.28.0", path = "./utils", optional = true}
 swc_ecma_visit = {version = "0.24.0", path = "./visit", optional = true}
 
