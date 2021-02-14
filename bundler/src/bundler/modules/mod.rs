@@ -25,8 +25,8 @@ pub struct Modules {
 
     // We will change this into `Vec<Module>`.
     modules: Vec<(ModuleId, Module)>,
-    prepended: Vec<ModuleItem>,
-    injected: Vec<ModuleItem>,
+    prepended_stmts: Vec<(ModuleId, ModuleItem)>,
+    appended_stmts: Vec<(ModuleId, ModuleItem)>,
 }
 
 impl Modules {
@@ -34,8 +34,8 @@ impl Modules {
         Self {
             injected_ctxt,
             modules: Default::default(),
-            prepended: Default::default(),
-            injected: Default::default(),
+            prepended_stmts: Default::default(),
+            appended_stmts: Default::default(),
         }
     }
 
@@ -45,50 +45,52 @@ impl Modules {
         ret
     }
 
-    pub fn into_items(self) -> Vec<ModuleItem> {
-        // self.sort();
-        // self.modules.pop().unwrap().body
-        self.prepended
-            .into_iter()
-            .chain(self.modules.into_iter().flat_map(|v| v.1.body))
-            .chain(self.injected)
-            .collect()
+    fn into_items(self) -> Vec<ModuleItem> {
+        debug_assert_eq!(
+            self.prepended_stmts,
+            vec![],
+            "sort should be called before calling into_items"
+        );
+        debug_assert_eq!(
+            self.appended_stmts,
+            vec![],
+            "sort should be called before calling into_items"
+        );
+        self.modules.into_iter().flat_map(|v| v.1.body).collect()
     }
 
-    /// Entry module is stored as a last element.
     pub fn add_dep(&mut self, mut dep: Modules) {
-        dep.prepended.append(&mut self.prepended);
-
-        let entry = self.modules.pop();
-        let modules = self.modules.take().into_iter();
-        let mut new = vec![];
-        new.extend(modules);
-        new.extend(dep.modules.into_iter());
-        new.extend(entry);
-
-        dep.modules = new;
-        dep.injected.append(&mut self.injected);
-        *self = dep;
+        self.push_all(dep)
     }
 
-    pub fn push_all(&mut self, item: Modules) {
-        self.prepended.extend(item.prepended);
-        self.modules.extend(item.modules);
-        self.injected.extend(item.injected);
+    pub fn push_all(&mut self, other: Modules) {
+        self.prepended_stmts.extend(other.prepended_stmts);
+        self.appended_stmts.extend(other.appended_stmts);
+        self.modules.extend(other.modules);
     }
 
-    pub fn iter(&self) -> impl Iterator<Item = &ModuleItem> {
-        self.prepended
+    pub fn iter(&self) -> impl Iterator<Item = (ModuleId, &ModuleItem)> {
+        self.prepended_stmts
             .iter()
-            .chain(self.modules.iter().flat_map(|m| m.1.body.iter()))
-            .chain(self.injected.iter())
+            .map(|v| (v.0, &v.1))
+            .chain(
+                self.modules
+                    .iter()
+                    .flat_map(|(id, m)| m.body.iter().map(move |v| (*id, v))),
+            )
+            .chain(self.appended_stmts.iter().map(|v| (v.0, &v.1)))
     }
 
-    pub fn iter_mut(&mut self) -> impl Iterator<Item = &mut ModuleItem> {
-        self.prepended
+    pub fn iter_mut(&mut self) -> impl Iterator<Item = (ModuleId, &mut ModuleItem)> {
+        self.prepended_stmts
             .iter_mut()
-            .chain(self.modules.iter_mut().flat_map(|m| m.1.body.iter_mut()))
-            .chain(self.injected.iter_mut())
+            .map(|v| (v.0, &mut v.1))
+            .chain(
+                self.modules
+                    .iter_mut()
+                    .flat_map(|(id, m)| m.body.iter_mut().map(move |v| (*id, v))),
+            )
+            .chain(self.appended_stmts.iter_mut().map(|v| (v.0, &mut v.1)))
     }
 
     pub fn map_any_items<F>(&mut self, mut op: F)
@@ -109,11 +111,9 @@ impl Modules {
 
     pub fn map_items_mut<F>(&mut self, mut op: F)
     where
-        F: FnMut(&mut ModuleItem),
+        F: FnMut(ModuleId, &mut ModuleItem),
     {
-        self.iter_mut().for_each(|item| {
-            op(item);
-        })
+        self.iter_mut().for_each(|item| op(item))
     }
 
     /// Insert a statement which dependency of can be analyzed statically.
