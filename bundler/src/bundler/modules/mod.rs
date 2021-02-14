@@ -1,3 +1,4 @@
+use ahash::AHashMap;
 use retain_mut::RetainMut;
 use std::mem::take;
 use swc_common::SyntaxContext;
@@ -25,8 +26,8 @@ pub struct Modules {
 
     // We will change this into `Vec<Module>`.
     modules: Vec<(ModuleId, Module)>,
-    prepended_stmts: Vec<(ModuleId, ModuleItem)>,
-    appended_stmts: Vec<(ModuleId, ModuleItem)>,
+    prepended_stmts: AHashMap<ModuleId, Vec<ModuleItem>>,
+    appended_stmts: AHashMap<ModuleId, Vec<ModuleItem>>,
 }
 
 impl Modules {
@@ -46,14 +47,12 @@ impl Modules {
     }
 
     fn into_items(self) -> Vec<ModuleItem> {
-        debug_assert_eq!(
-            self.prepended_stmts,
-            vec![],
+        debug_assert!(
+            self.prepended_stmts.is_empty(),
             "sort should be called before calling into_items"
         );
-        debug_assert_eq!(
-            self.appended_stmts,
-            vec![],
+        debug_assert!(
+            self.appended_stmts.is_empty(),
             "sort should be called before calling into_items"
         );
         self.modules.into_iter().flat_map(|v| v.1.body).collect()
@@ -72,32 +71,42 @@ impl Modules {
     pub fn iter(&self) -> impl Iterator<Item = (ModuleId, &ModuleItem)> {
         self.prepended_stmts
             .iter()
-            .map(|v| (v.0, &v.1))
+            .flat_map(|(id, stmts)| stmts.iter().map(move |stmt| (*id, stmt)))
             .chain(
                 self.modules
                     .iter()
                     .flat_map(|(id, m)| m.body.iter().map(move |v| (*id, v))),
             )
-            .chain(self.appended_stmts.iter().map(|v| (v.0, &v.1)))
+            .chain(
+                self.appended_stmts
+                    .iter()
+                    .flat_map(|(id, stmts)| stmts.iter().map(move |stmt| (*id, stmt))),
+            )
     }
 
     pub fn iter_mut(&mut self) -> impl Iterator<Item = (ModuleId, &mut ModuleItem)> {
         self.prepended_stmts
             .iter_mut()
-            .map(|v| (v.0, &mut v.1))
+            .flat_map(|(id, stmts)| stmts.iter_mut().map(move |stmt| (*id, stmt)))
             .chain(
                 self.modules
                     .iter_mut()
                     .flat_map(|(id, m)| m.body.iter_mut().map(move |v| (*id, v))),
             )
-            .chain(self.appended_stmts.iter_mut().map(|v| (v.0, &mut v.1)))
+            .chain(
+                self.appended_stmts
+                    .iter_mut()
+                    .flat_map(|(id, stmts)| stmts.iter_mut().map(move |stmt| (*id, stmt))),
+            )
     }
 
     pub fn map_any_items<F>(&mut self, mut op: F)
     where
         F: FnMut(Vec<ModuleItem>) -> Vec<ModuleItem>,
     {
-        self.prepended = op(take(&mut self.prepended));
+        let mut p = take(&mut self.prepended_stmts);
+        self.prepended_stmts = p.into_iter().map(|(id, items)| (id, op(items))).collect();
+
         self.modules = take(&mut self.modules)
             .into_iter()
             .map(|mut m| {
@@ -106,7 +115,9 @@ impl Modules {
                 (m.0, Module { body, ..m.1 })
             })
             .collect();
-        self.injected = op(take(&mut self.injected));
+
+        let mut a = take(&mut self.appended_stmts);
+        self.appended_stmts = a.into_iter().map(|(id, items)| (id, op(items))).collect();
     }
 
     pub fn map_items_mut<F>(&mut self, mut op: F)
@@ -117,7 +128,7 @@ impl Modules {
     }
 
     /// Insert a statement which dependency of can be analyzed statically.
-    pub fn inject_all(&mut self, items: impl IntoIterator<Item = ModuleItem>) {
+    pub fn inject_all(&mut self, items: impl IntoIterator<Item = (ModuleId, ModuleItem)>) {
         let injected_ctxt = self.injected_ctxt;
         self.injected.extend(items.into_iter().map(|mut item| {
             mark(&mut item, injected_ctxt);
@@ -125,26 +136,22 @@ impl Modules {
         }));
     }
 
-    /// Insert a statement which dependency of can be analyzed statically.
-    pub fn inject(&mut self, mut var: ModuleItem) {
-        mark(&mut var, self.injected_ctxt);
-
-        self.injected.push(var)
+    pub fn append(&mut self, module_id: ModuleId, mut item: ModuleItem) {
+        self.appended_stmts.entry(module_id).or_default().push(item);
     }
 
-    pub fn prepend(&mut self, item: ModuleItem) {
-        self.prepended.push(item)
+    pub fn prepend(&mut self, module_id: ModuleId, item: ModuleItem) {
+        self.prepended_stmts
+            .entry(module_id)
+            .or_default()
+            .push(item);
     }
 
     pub fn visit_mut_with<V>(&mut self, v: &mut V)
     where
         V: VisitMut,
     {
-        self.prepended.visit_mut_with(&mut *v);
-        for module in &mut self.modules {
-            module.1.visit_mut_with(&mut *v);
-        }
-        self.injected.visit_mut_with(&mut *v);
+        self.iter_mut().for_each(|v| v.1.visit_mut_with(v));
     }
 
     pub fn fold_with<V>(mut self, v: &mut V) -> Self
@@ -166,22 +173,21 @@ impl Modules {
     where
         V: Visit,
     {
-        self.prepended.visit_with(&Invalid { span: DUMMY_SP }, v);
-        self.modules
-            .iter()
-            .for_each(|m| m.1.visit_with(&Invalid { span: DUMMY_SP }, v));
-        self.injected.visit_with(&Invalid { span: DUMMY_SP }, v);
+        self.iter()
+            .for_each(|v| v.1.visit_with(&Invalid { span: DUMMY_SP }, v));
     }
 
     pub fn retain_mut<F>(&mut self, mut op: F)
     where
         F: FnMut(&mut ModuleItem) -> bool,
     {
-        self.prepended.retain_mut(&mut op);
+        self.prepended_stmts.iter_mut().for_each(|(_, v)| op(v));
+
         for module in &mut self.modules {
             module.1.body.retain_mut(&mut op);
         }
-        self.injected.retain_mut(&mut op);
+
+        self.appended_stmts.iter_mut().for_each(|(_, v)| op(v));
     }
 }
 
