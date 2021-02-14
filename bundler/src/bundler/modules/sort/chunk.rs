@@ -12,6 +12,7 @@ use std::iter::from_fn;
 use std::mem::take;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
+use swc_ecma_utils::prepend_stmts;
 
 /// The unit of sorting.
 #[derive(Debug)]
@@ -20,7 +21,7 @@ pub(super) struct Chunk {
 }
 
 impl Modules {
-    fn normalize_injected(&mut self) {
+    fn check_injected(&mut self) {
         let injected_ctxt = self.injected_ctxt;
 
         self.retain_mut(|item| match item {
@@ -30,13 +31,10 @@ impl Modules {
 
         let mut modules = take(&mut self.modules);
         for module in &mut modules {
-            module.1.body.retain_mut(|item| {
+            module.1.body.iter().for_each(|item| {
                 let is_free = item.span().ctxt == injected_ctxt;
                 if is_free {
-                    self.injected.push(item.take());
-                    false
-                } else {
-                    true
+                    panic!("Injected item should not reside in the Modules.modules")
                 }
             });
         }
@@ -45,26 +43,23 @@ impl Modules {
 
     /// Modules with circular import relations will be in same chunk.
     pub(super) fn take_chunks(&mut self, entry_id: ModuleId, graph: &ModuleGraph) -> Vec<Chunk> {
-        self.normalize_injected();
+        self.check_injected();
 
         let mut chunks = vec![];
 
-        chunks.extend(
-            take(&mut self.prepended)
-                .into_iter()
-                .map(|stmt| Chunk { stmts: vec![stmt] }),
-        );
-        chunks.extend(
-            take(&mut self.injected)
-                .into_iter()
-                .map(|stmt| Chunk { stmts: vec![stmt] }),
-        );
+        let mut modules = take(&mut self.modules);
 
-        chunks.extend(toposort_real_modules(
-            take(&mut self.modules),
-            entry_id,
-            graph,
-        ));
+        for (id, module) in &mut modules {
+            if let Some(prepended) = self.prepended_stmts.remove(&*id) {
+                prepend_stmts(&mut module.body, prepended.into_iter());
+            }
+
+            if let Some(items) = self.appended_stmts.remove(&*id) {
+                module.body.extend(items);
+            }
+        }
+
+        chunks.extend(toposort_real_modules(modules, entry_id, graph));
 
         chunks
     }
