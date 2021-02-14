@@ -171,7 +171,7 @@ where
         for (id, _) in &builder.kinds {
             let mut bfs = Bfs::new(&builder.direct_deps, *id);
 
-            while let Some(dep) = bfs.next(&*builder.direct_deps) {
+            while let Some(dep) = bfs.next(&builder.direct_deps) {
                 if dep == *id {
                     // Useless
                     continue;
@@ -220,7 +220,7 @@ where
 
             let mut done = AHashSet::new();
 
-            while let Some(entry) = bfs.next(&*builder.direct_deps) {
+            while let Some(entry) = bfs.next(&builder.direct_deps) {
                 let mut deps: Vec<_> = builder
                     .direct_deps
                     .neighbors_directed(entry, Outgoing)
@@ -463,7 +463,7 @@ where
         for (root_entry, _) in builder.kinds.iter() {
             let mut bfs = Bfs::new(&builder.direct_deps, *root_entry);
 
-            while let Some(entry) = bfs.next(&*builder.direct_deps) {
+            while let Some(entry) = bfs.next(&builder.direct_deps) {
                 let deps: Vec<_> = builder
                     .direct_deps
                     .neighbors_directed(entry, Outgoing)
@@ -605,7 +605,7 @@ where
                 builder.mark_as_circular(module_id, src.module_id);
 
                 let circular_paths = all_simple_paths::<Vec<ModuleId>, _>(
-                    &*builder.direct_deps,
+                    &builder.direct_deps,
                     src.module_id,
                     module_id,
                     0,
