@@ -21,30 +21,8 @@ pub(super) struct Chunk {
 }
 
 impl Modules {
-    fn check_injected(&mut self) {
-        let injected_ctxt = self.injected_ctxt;
-
-        self.retain_mut(|item| match item {
-            ModuleItem::Stmt(Stmt::Empty(..)) => false,
-            _ => true,
-        });
-
-        let mut modules = take(&mut self.modules);
-        for module in &mut modules {
-            module.1.body.iter().for_each(|item| {
-                let is_free = item.span().ctxt == injected_ctxt;
-                if is_free {
-                    panic!("Injected item should not reside in the Modules.modules")
-                }
-            });
-        }
-        self.modules = modules;
-    }
-
     /// Modules with circular import relations will be in same chunk.
     pub(super) fn take_chunks(&mut self, entry_id: ModuleId, graph: &ModuleGraph) -> Vec<Chunk> {
-        self.check_injected();
-
         let mut chunks = vec![];
 
         let mut modules = take(&mut self.modules);
