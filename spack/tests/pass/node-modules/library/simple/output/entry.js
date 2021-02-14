@@ -73,7 +73,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
             this.chars = {
                 complete: options.complete || '=',
                 incomplete: options.incomplete || '-',
-                head: options.head || (options.complete || '=')
+                head: options.head || options.complete || '='
             };
             this.renderThrottle = options.renderThrottle !== 0 ? options.renderThrottle || 16 : 0;
             this.lastRender = -Infinity;
