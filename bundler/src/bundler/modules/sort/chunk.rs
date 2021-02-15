@@ -1,5 +1,6 @@
 use super::stmt::sort_stmts;
 use crate::bundler::modules::Modules;
+use crate::debug::print_hygiene;
 use crate::dep_graph::ModuleGraph;
 use crate::ModuleId;
 use ahash::AHashSet;
@@ -9,7 +10,10 @@ use petgraph::EdgeDirection::Outgoing;
 use std::collections::VecDeque;
 use std::iter::from_fn;
 use std::mem::take;
+use swc_common::sync::Lrc;
+use swc_common::SourceMap;
 use swc_common::SyntaxContext;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::prepend_stmts;
 
@@ -21,7 +25,12 @@ pub(super) struct Chunk {
 
 impl Modules {
     /// Modules with circular import relations will be in same chunk.
-    pub(super) fn take_chunks(&mut self, entry_id: ModuleId, graph: &ModuleGraph) -> Vec<Chunk> {
+    pub(super) fn take_chunks(
+        &mut self,
+        entry_id: ModuleId,
+        graph: &ModuleGraph,
+        cm: &Lrc<SourceMap>,
+    ) -> Vec<Chunk> {
         let injected_ctxt = self.injected_ctxt;
         let mut chunks = vec![];
 
@@ -42,6 +51,7 @@ impl Modules {
             modules,
             entry_id,
             graph,
+            cm,
         ));
 
         chunks
@@ -54,6 +64,7 @@ fn toposort_real_modules<'a>(
     mut modules: Vec<(ModuleId, Module)>,
     entry: ModuleId,
     graph: &'a ModuleGraph,
+    cm: &Lrc<SourceMap>,
 ) -> Vec<Chunk> {
     let mut queue = modules.iter().map(|v| v.0).collect::<VecDeque<_>>();
     queue.push_front(entry);
@@ -69,6 +80,16 @@ fn toposort_real_modules<'a>(
                 chunk.stmts.extend(take(&mut module.body));
             }
         }
+
+        print_hygiene(
+            "before sort",
+            cm,
+            &Module {
+                span: DUMMY_SP,
+                body: chunks.stmts.clone(),
+                shebang: None,
+            },
+        );
 
         sort_stmts(injected_ctxt, &mut chunk.stmts);
 
