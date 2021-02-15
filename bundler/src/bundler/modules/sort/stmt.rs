@@ -9,6 +9,7 @@ use petgraph::EdgeDirection::Incoming as Dependants;
 use petgraph::EdgeDirection::Outgoing as Dependancies;
 use std::collections::VecDeque;
 use std::iter::from_fn;
+use std::ops::Range;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -20,8 +21,9 @@ use swc_ecma_visit::VisitWith;
 
 pub(super) fn sort_stmts(stmts: &mut Vec<ModuleItem>) {
     let mut id_graph = calc_deps(&stmts);
+    let all = &[0..stmts.len()];
 
-    let orders = iter(&mut id_graph, &stmts).collect::<Vec<_>>();
+    let orders = iter(&mut id_graph, all, 0..0, &[0], &stmts).collect::<Vec<_>>();
 
     let mut new = Vec::with_capacity(stmts.len());
     for idx in orders {
@@ -32,10 +34,13 @@ pub(super) fn sort_stmts(stmts: &mut Vec<ModuleItem>) {
 }
 
 fn iter<'a>(
-    id_graph: &'a mut StmtDepGraph,
+    graph: &'a mut StmtDepGraph,
+    same_module_ranges: &'a [Range<usize>],
+    free: Range<usize>,
+    module_starts: &[usize],
     stmts: &'a [ModuleItem],
 ) -> impl 'a + Iterator<Item = usize> {
-    let len = id_graph.node_count();
+    let len = graph.node_count();
 
     // dbg!(&same_module_ranges);
     // dbg!(&free);
@@ -44,7 +49,22 @@ fn iter<'a>(
     let mut moves = AHashSet::new();
     let mut done = AHashSet::new();
     let mut stack = VecDeque::new();
-    stack.extend(0..stmts.len());
+    stack.extend(module_starts.iter().copied());
+
+    for &start in module_starts {
+        let range = same_module_ranges
+            .iter()
+            .find(|range| range.contains(&start))
+            .cloned();
+        if let Some(range) = range {
+            for v in range {
+                stack.push_back(v);
+            }
+        }
+    }
+    for v in free.clone() {
+        stack.push_back(v);
+    }
 
     from_fn(move || {
         if done.len() == len {
@@ -57,7 +77,7 @@ fn iter<'a>(
                 // eprintln!("Done: {}", idx);
                 continue;
             }
-            let is_free = false;
+            let is_free = free.contains(&idx);
 
             // dbg!(idx, is_free);
             // match &stmts[idx] {
@@ -74,7 +94,10 @@ fn iter<'a>(
             //     _ => eprintln!("(`{}`) Stmt", idx,),
             // }
 
-            let current_range = None;
+            let current_range = same_module_ranges
+                .iter()
+                .find(|range| range.contains(&idx))
+                .cloned();
 
             // dbg!(&current_range);
 
@@ -109,10 +132,18 @@ fn iter<'a>(
 
             // We
             {
-                let deps = id_graph
+                let deps = graph
                     .neighbors_directed(idx, Dependancies)
                     .filter(|dep| {
-                        if id_graph.has_a_path(*dep, idx) {
+                        let declared_in_same_module = match &current_range {
+                            Some(v) => v.contains(&dep),
+                            None => false,
+                        };
+                        if declared_in_same_module {
+                            return false;
+                        }
+
+                        if !free.contains(&idx) && graph.has_a_path(*dep, idx) {
                             if !moves.insert((idx, *dep)) {
                                 return false;
                             }
@@ -134,10 +165,10 @@ fn iter<'a>(
 
                         let can_ignore_dep = can_ignore_deps
                             || (can_ignore_weak_deps
-                                && id_graph.edge_weight(idx, dep) == Some(Required::Maybe));
+                                && graph.edge_weight(idx, dep) == Some(Required::Maybe));
 
                         if can_ignore_dep {
-                            if id_graph.has_a_path(dep, idx) {
+                            if graph.has_a_path(dep, idx) {
                                 // Just emit idx.
                                 continue;
                             }
@@ -162,29 +193,110 @@ fn iter<'a>(
                 }
             }
 
+            if is_free {
+                let dependants = graph
+                    .neighbors_directed(idx, Dependants)
+                    .collect::<Vec<_>>();
+
+                for dependant in dependants {
+                    if !done.contains(&dependant) && free.contains(&dependant) {
+                        stack.push_front(dependant);
+                    }
+                }
+
+                graph.remove_node(idx);
+                done.insert(idx);
+                return Some(idx);
+            }
+
             let current_range = match current_range {
                 Some(v) => v,
                 None => {
-                    let dependants = id_graph
+                    let dependants = graph
                         .neighbors_directed(idx, Dependants)
                         .collect::<Vec<_>>();
 
+                    // dbg!(&dependants);
+
+                    // We only emit free items because we want to emit statements from same module
+                    // to emitted closedly.
+                    for dependant in dependants {
+                        if !done.contains(&dependant) && free.contains(&dependant) {
+                            stack.push_front(dependant);
+                        }
+                    }
+
                     // It's not within a module, so explicit ordering is not required.
-                    id_graph.remove_node(idx);
+                    graph.remove_node(idx);
                     done.insert(idx);
                     return Some(idx);
                 }
             };
 
+            // We should respect original order of statements within a module.
+            for preceding in current_range.clone() {
+                // We should select first statement in module which is not emitted yet.
+                if done.contains(&preceding) {
+                    continue;
+                }
+                // dbg!(preceding);
+                if preceding == idx {
+                    continue;
+                }
+                if preceding > idx {
+                    break;
+                }
+
+                if !moves.insert((idx, preceding)) {
+                    // idx = preceding;
+                    continue;
+                }
+
+                let dependants = graph
+                    .neighbors_directed(idx, Dependants)
+                    .collect::<Vec<_>>();
+
+                // dbg!(&dependants);
+
+                // We only emit free items because we want to emit statements from same module
+                // to emitted closedly.
+                for dependant in dependants {
+                    if !done.contains(&dependant) && free.contains(&dependant) {
+                        stack.push_front(dependant);
+                    }
+                }
+
+                // We found a preceding statement which is not emitted yet.
+                stack.push_front(idx);
+                stack.push_front(preceding);
+                continue 'main;
+            }
+
             // Prefer inserting module as a whole.
             let next = idx + 1;
-            if moves.insert((idx, next)) {
-                if !done.contains(&next) {
-                    stack.push_front(next);
+            if current_range.contains(&next) {
+                if moves.insert((idx, next)) {
+                    if !done.contains(&next) {
+                        stack.push_front(next);
+                    }
                 }
             }
 
-            id_graph.remove_node(idx);
+            {
+                // We emit free dependants as early as possible.
+                let free_dependants = graph
+                    .neighbors_directed(idx, Dependants)
+                    .filter(|&dependant| !done.contains(&dependant) && free.contains(&dependant))
+                    .collect::<Vec<_>>();
+
+                if !free_dependants.is_empty() {
+                    for dependant in free_dependants {
+                        stack.push_front(dependant);
+                    }
+                }
+            }
+
+            graph.remove_node(idx);
             done.insert(idx);
             return Some(idx);
         }
