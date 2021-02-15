@@ -43,7 +43,7 @@ pub(super) fn sort_stmts(injected_ctxt: SyntaxContext, stmts: &mut Vec<ModuleIte
 
     let mut new = Vec::with_capacity(stmts.len());
     for idx in orders {
-        new.push(stmts[idx].take());
+        new.push(buf[idx].take());
     }
 
     *stmts = new;
