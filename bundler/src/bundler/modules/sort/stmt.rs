@@ -23,8 +23,6 @@ use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitWith;
 
 pub(super) fn sort_stmts(injected_ctxt: SyntaxContext, stmts: &mut Vec<ModuleItem>) {
-    let mut id_graph = calc_deps(&stmts);
-
     let mut buf = Vec::with_capacity(stmts.len());
     let mut free = vec![];
     for stmt in take(stmts) {
@@ -38,6 +36,8 @@ pub(super) fn sort_stmts(injected_ctxt: SyntaxContext, stmts: &mut Vec<ModuleIte
     let all = &[0..len];
     let free_range = len..len + free.len();
     buf.extend(free);
+
+    let mut id_graph = calc_deps(&buf);
 
     let orders = iter(&mut id_graph, all, free_range, &[0], &buf).collect::<Vec<_>>();
 
