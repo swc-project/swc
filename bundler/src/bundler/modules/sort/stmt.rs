@@ -9,8 +9,11 @@ use petgraph::EdgeDirection::Incoming as Dependants;
 use petgraph::EdgeDirection::Outgoing as Dependancies;
 use std::collections::VecDeque;
 use std::iter::from_fn;
+use std::mem::take;
 use std::ops::Range;
 use swc_atoms::js_word;
+use swc_common::Spanned;
+use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
@@ -19,11 +22,24 @@ use swc_ecma_visit::Node;
 use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitWith;
 
-pub(super) fn sort_stmts(stmts: &mut Vec<ModuleItem>) {
+pub(super) fn sort_stmts(injected_ctxt: SyntaxContext, stmts: &mut Vec<ModuleItem>) {
     let mut id_graph = calc_deps(&stmts);
-    let all = &[0..stmts.len()];
 
-    let orders = iter(&mut id_graph, all, 0..0, &[0], &stmts).collect::<Vec<_>>();
+    let mut buf = Vec::with_capacity(stmts.len());
+    let mut free = vec![];
+    for stmt in take(stmts) {
+        if stmt.span().ctxt == injected_ctxt {
+            free.push(stmt)
+        } else {
+            buf.push(stmt)
+        }
+    }
+    let len = buf.len();
+    let all = &[0..len];
+    let free_range = len..len + free.len();
+    buf.extend(free);
+
+    let orders = iter(&mut id_graph, all, free_range, &[0], &stmts).collect::<Vec<_>>();
 
     let mut new = Vec::with_capacity(stmts.len());
     for idx in orders {

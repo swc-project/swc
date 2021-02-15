@@ -9,6 +9,7 @@ use petgraph::EdgeDirection::Outgoing;
 use std::collections::VecDeque;
 use std::iter::from_fn;
 use std::mem::take;
+use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::prepend_stmts;
 
@@ -21,6 +22,7 @@ pub(super) struct Chunk {
 impl Modules {
     /// Modules with circular import relations will be in same chunk.
     pub(super) fn take_chunks(&mut self, entry_id: ModuleId, graph: &ModuleGraph) -> Vec<Chunk> {
+        let injected_ctxt = self.injected_ctxt;
         let mut chunks = vec![];
 
         let mut modules = take(&mut self.modules);
@@ -35,7 +37,12 @@ impl Modules {
             }
         }
 
-        chunks.extend(toposort_real_modules(modules, entry_id, graph));
+        chunks.extend(toposort_real_modules(
+            injected_ctxt,
+            modules,
+            entry_id,
+            graph,
+        ));
 
         chunks
     }
@@ -43,6 +50,7 @@ impl Modules {
 
 /// Sort items topologically, while merging cycles as a
 fn toposort_real_modules<'a>(
+    injected_ctxt: SyntaxContext,
     mut modules: Vec<(ModuleId, Module)>,
     entry: ModuleId,
     graph: &'a ModuleGraph,
@@ -55,7 +63,6 @@ fn toposort_real_modules<'a>(
     let sorted_ids = toposort_real_module_ids(queue, graph);
     for ids in sorted_ids {
         let mut chunk = Chunk { stmts: vec![] };
-        let need_sort = ids.len() != 1;
 
         for id in ids {
             if let Some((_, module)) = modules.iter_mut().find(|(module_id, _)| *module_id == id) {
@@ -63,9 +70,7 @@ fn toposort_real_modules<'a>(
             }
         }
 
-        if need_sort {
-            sort_stmts(&mut chunk.stmts);
-        }
+        sort_stmts(injected_ctxt, &mut chunk.stmts);
 
         chunks.push(chunk)
     }
