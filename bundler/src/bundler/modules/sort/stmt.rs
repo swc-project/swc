@@ -782,7 +782,7 @@ mod tests {
     use crate::bundler::tests::suite;
 
     fn assert_no_cycle(s: &str) {
-        suite().file("main", s).run(|t| {
+        suite().file("main.js", s).run(|t| {
             let info = t.module("main.js");
             let module = (*info.module).clone();
 
