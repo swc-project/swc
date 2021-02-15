@@ -72,7 +72,7 @@ fn toposort_real_modules<'a>(
     let mut chunks = vec![];
 
     let sorted_ids = toposort_real_module_ids(queue, graph);
-    for ids in sorted_ids {
+    for (idx, ids) in sorted_ids.enumerate() {
         if ids.is_empty() {
             continue;
         }
@@ -100,7 +100,7 @@ fn toposort_real_modules<'a>(
         let stmts = sort_stmts(injected_ctxt, stmts);
 
         print_hygiene(
-            "after sort",
+            &format!("after sort: {}", idx),
             cm,
             &Module {
                 span: DUMMY_SP,
