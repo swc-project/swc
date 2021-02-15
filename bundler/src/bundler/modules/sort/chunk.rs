@@ -149,12 +149,33 @@ fn toposort_real_module_ids<'a>(
                 .flat_map(|dep| all_simple_paths::<Vec<_>, _>(&graph, dep, id, 0, None))
                 .flatten()
                 .filter(|module_id| !done.contains(&module_id))
-                .collect::<IndexSet<_>>();
+                .collect::<IndexSet<ModuleId>>();
 
             if all_modules_in_circle.is_empty() {
                 queue.push_front(id);
 
                 // This module does not have any circular imports.
+                for dep in deps {
+                    queue.push_front(dep);
+                }
+
+                continue;
+            }
+
+            // We need to handle dependencies of all circular modules.
+            let deps = all_modules_in_circle
+                .iter()
+                .flat_map(|id| {
+                    graph
+                        .neighbors_directed(*id, Outgoing)
+                        .filter(|dep| !done.contains(&dep) && !all_modules_in_circle.contains(dep))
+                })
+                .collect::<Vec<_>>();
+
+            if !deps.is_empty() {
+                queue.push_front(id);
+
+                // Handle dependencies first.
                 for dep in deps {
                     queue.push_front(dep);
                 }
