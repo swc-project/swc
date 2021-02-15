@@ -9,7 +9,6 @@ use petgraph::EdgeDirection::Incoming as Dependants;
 use petgraph::EdgeDirection::Outgoing as Dependancies;
 use std::collections::VecDeque;
 use std::iter::from_fn;
-use std::mem::take;
 use std::ops::Range;
 use swc_atoms::js_word;
 use swc_common::Spanned;
@@ -24,32 +23,48 @@ use swc_ecma_visit::VisitWith;
 
 pub(super) fn sort_stmts(
     injected_ctxt: SyntaxContext,
-    stmts: Vec<Vec<ModuleItem>>,
+    modules: Vec<Vec<ModuleItem>>,
 ) -> Vec<ModuleItem> {
-    let mut buf = Vec::with_capacity(stmts.len());
+    let mut stmts = Vec::with_capacity(modules.len());
     let mut free = vec![];
-    for stmt in take(stmts) {
-        if stmt.span().ctxt == injected_ctxt {
-            free.push(stmt)
-        } else {
-            buf.push(stmt)
+    let mut same_module_ranges = vec![];
+    let mut module_starts = vec![];
+
+    for module in modules {
+        let start = stmts.len();
+        module_starts.push(stmts.len());
+        let len = module.len();
+        same_module_ranges.push(start..start + len);
+
+        for stmt in module {
+            if stmt.span().ctxt == injected_ctxt {
+                free.push(stmt)
+            } else {
+                stmts.push(stmt)
+            }
         }
     }
-    let len = buf.len();
-    let all = &[0..len];
-    let free_range = len..len + free.len();
-    buf.extend(free);
+    let non_free_count = stmts.len();
+    let free_range = non_free_count..non_free_count + free.len();
+    stmts.extend(free);
 
-    let mut id_graph = calc_deps(&buf);
+    let mut id_graph = calc_deps(&stmts);
 
-    let orders = iter(&mut id_graph, all, free_range, &[0], &buf).collect::<Vec<_>>();
+    let orders = iter(
+        &mut id_graph,
+        &same_module_ranges,
+        free_range,
+        &module_starts,
+        &stmts,
+    )
+    .collect::<Vec<_>>();
 
     let mut new = Vec::with_capacity(stmts.len());
     for idx in orders {
-        new.push(buf[idx].take());
+        new.push(stmts[idx].take());
     }
 
-    *stmts = new;
+    new
 }
 
 fn iter<'a>(
