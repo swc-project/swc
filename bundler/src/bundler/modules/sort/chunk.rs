@@ -82,6 +82,10 @@ fn toposort_real_modules<'a>(
                 chunk.stmts.extend(take(&mut module.body));
             }
         }
+        chunk.stmts.retain(|item| match item {
+            ModuleItem::Stmt(Stmt::Empty(..)) => false,
+            _ => true,
+        });
 
         if chunk.stmts.is_empty() {
             continue;
