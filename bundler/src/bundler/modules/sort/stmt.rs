@@ -33,16 +33,18 @@ pub(super) fn sort_stmts(
     for module in modules {
         let start = stmts.len();
         module_starts.push(stmts.len());
-        let len = module.len();
-        same_module_ranges.push(start..start + len);
+        let mut module_item_count = 0;
 
         for stmt in module {
             if stmt.span().ctxt == injected_ctxt {
                 free.push(stmt)
             } else {
+                module_item_count += 1;
                 stmts.push(stmt)
             }
         }
+
+        same_module_ranges.push(start..start + module_item_count);
     }
     let non_free_count = stmts.len();
     let free_range = non_free_count..non_free_count + free.len();
