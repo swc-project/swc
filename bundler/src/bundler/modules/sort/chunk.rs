@@ -15,9 +15,7 @@ use swc_common::SourceMap;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_transforms::hygiene;
 use swc_ecma_utils::prepend_stmts;
-use swc_ecma_visit::FoldWith;
 
 /// The unit of sorting.
 #[derive(Debug)]
@@ -79,35 +77,36 @@ fn toposort_real_modules<'a>(
             continue;
         }
 
-        let mut chunk = Chunk { stmts: vec![] };
+        let mut stmts = vec![];
 
         for id in ids {
             if let Some((_, module)) = modules.iter_mut().find(|(module_id, _)| *module_id == id) {
-                chunk.stmts.extend(take(&mut module.body));
+                module.body.retain(|item| match item {
+                    ModuleItem::Stmt(Stmt::Empty(..)) => false,
+                    _ => true,
+                });
+
+                stmts.push(take(&mut module.body));
             }
         }
-        chunk.stmts.retain(|item| match item {
-            ModuleItem::Stmt(Stmt::Empty(..)) => false,
-            _ => true,
-        });
 
-        if chunk.stmts.is_empty() {
+        if stmts.is_empty() {
             continue;
         }
 
-        sort_stmts(injected_ctxt, &mut chunk.stmts);
+        let stmts = sort_stmts(injected_ctxt, stmts);
 
         print_hygiene(
             "after sort",
             cm,
             &Module {
                 span: DUMMY_SP,
-                body: chunk.stmts.clone(),
+                body: stmts.clone(),
                 shebang: None,
             },
         );
 
-        chunks.push(chunk)
+        chunks.push(Chunk { stmts })
     }
 
     chunks

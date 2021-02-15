@@ -22,7 +22,10 @@ use swc_ecma_visit::Node;
 use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitWith;
 
-pub(super) fn sort_stmts(injected_ctxt: SyntaxContext, stmts: &mut Vec<ModuleItem>) {
+pub(super) fn sort_stmts(
+    injected_ctxt: SyntaxContext,
+    stmts: Vec<Vec<ModuleItem>>,
+) -> Vec<ModuleItem> {
     let mut buf = Vec::with_capacity(stmts.len());
     let mut free = vec![];
     for stmt in take(stmts) {
