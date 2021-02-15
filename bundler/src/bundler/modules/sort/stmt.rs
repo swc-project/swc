@@ -39,7 +39,7 @@ pub(super) fn sort_stmts(injected_ctxt: SyntaxContext, stmts: &mut Vec<ModuleIte
     let free_range = len..len + free.len();
     buf.extend(free);
 
-    let orders = iter(&mut id_graph, all, free_range, &[0], &stmts).collect::<Vec<_>>();
+    let orders = iter(&mut id_graph, all, free_range, &[0], &buf).collect::<Vec<_>>();
 
     let mut new = Vec::with_capacity(stmts.len());
     for idx in orders {
