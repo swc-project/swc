@@ -86,7 +86,7 @@ fn toposort_real_modules<'a>(
             cm,
             &Module {
                 span: DUMMY_SP,
-                body: chunks.stmts.clone(),
+                body: chunk.stmts.clone(),
                 shebang: None,
             },
         );
