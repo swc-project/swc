@@ -1,3 +1,4 @@
+use crate::ModuleId;
 use ahash::AHashMap;
 use retain_mut::RetainMut;
 use std::mem::take;
@@ -10,9 +11,6 @@ use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
-
-use crate::util::MapWithMut;
-use crate::ModuleId;
 
 mod sort;
 #[cfg(test)]
@@ -104,7 +102,7 @@ impl Modules {
     where
         F: FnMut(ModuleId, Vec<ModuleItem>) -> Vec<ModuleItem>,
     {
-        let mut p = take(&mut self.prepended_stmts);
+        let p = take(&mut self.prepended_stmts);
         self.prepended_stmts = p
             .into_iter()
             .map(|(id, items)| (id, op(id, items)))
@@ -119,7 +117,7 @@ impl Modules {
             })
             .collect();
 
-        let mut a = take(&mut self.appended_stmts);
+        let a = take(&mut self.appended_stmts);
         self.appended_stmts = a
             .into_iter()
             .map(|(id, items)| (id, op(id, items)))
@@ -134,13 +132,12 @@ impl Modules {
     }
 
     pub fn append_all(&mut self, items: impl IntoIterator<Item = (ModuleId, ModuleItem)>) {
-        let injected_ctxt = self.injected_ctxt;
         for v in items {
             self.append(v.0, v.1);
         }
     }
 
-    pub fn append(&mut self, module_id: ModuleId, mut item: ModuleItem) {
+    pub fn append(&mut self, module_id: ModuleId, item: ModuleItem) {
         self.appended_stmts.entry(module_id).or_default().push(item);
     }
 
