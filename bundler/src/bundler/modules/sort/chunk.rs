@@ -141,7 +141,7 @@ fn toposort_real_module_ids<'a>(
                 return Some(vec![id]);
             }
 
-            // dbg!(&deps);
+            dbg!(&deps);
 
             let all_modules_in_circle = deps
                 .iter()
@@ -155,7 +155,7 @@ fn toposort_real_module_ids<'a>(
                 queue.push_front(id);
 
                 // This module does not have any circular imports.
-                for dep in deps {
+                for dep in deps.into_iter().rev() {
                     queue.push_front(dep);
                 }
 
@@ -163,7 +163,7 @@ fn toposort_real_module_ids<'a>(
             }
 
             // We need to handle dependencies of all circular modules.
-            let deps = all_modules_in_circle
+            let deps_of_circle = all_modules_in_circle
                 .iter()
                 .flat_map(|id| {
                     graph
@@ -172,11 +172,11 @@ fn toposort_real_module_ids<'a>(
                 })
                 .collect::<Vec<_>>();
 
-            if !deps.is_empty() {
+            if !deps_of_circle.is_empty() {
                 queue.push_front(id);
 
                 // Handle dependencies first.
-                for dep in deps {
+                for dep in deps_of_circle.into_iter().rev() {
                     queue.push_front(dep);
                 }
 
