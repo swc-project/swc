@@ -15,7 +15,9 @@ use swc_common::SourceMap;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_transforms::hygiene;
 use swc_ecma_utils::prepend_stmts;
+use swc_ecma_visit::FoldWith;
 
 /// The unit of sorting.
 #[derive(Debug)]
@@ -81,8 +83,14 @@ fn toposort_real_modules<'a>(
             }
         }
 
+        if chunk.stmts.is_empty() {
+            continue;
+        }
+
+        sort_stmts(injected_ctxt, &mut chunk.stmts);
+
         print_hygiene(
-            "before sort",
+            "after sort",
             cm,
             &Module {
                 span: DUMMY_SP,
@@ -90,8 +98,6 @@ fn toposort_real_modules<'a>(
                 shebang: None,
             },
         );
-
-        sort_stmts(injected_ctxt, &mut chunk.stmts);
 
         chunks.push(chunk)
     }
