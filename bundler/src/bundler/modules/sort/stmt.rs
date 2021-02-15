@@ -170,7 +170,7 @@ fn iter<'a>(
                     })
                     .collect::<Vec<_>>();
 
-                dbg!(&deps);
+                // dbg!(&deps);
 
                 if !deps.is_empty() {
                     let mut deps_to_push = vec![];
