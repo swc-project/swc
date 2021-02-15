@@ -1,10 +1,19 @@
-use crate::bundler::modules::sort::Required;
 use crate::util::fast_graph::FastDiGraphMap;
 use ahash::AHashSet;
 use petgraph::EdgeDirection;
 use petgraph::EdgeDirection::Incoming;
 use petgraph::EdgeDirection::Outgoing;
 use std::iter::repeat;
+
+/// Is dependancy between nodes hard?
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub(super) enum Required {
+    /// Required to evaluate
+    Always,
+
+    /// Maybe required to evaluate
+    Maybe,
+}
 
 /// Used to debug petgraph.
 #[derive(Debug, Default)]

@@ -1,16 +1,14 @@
+use super::stmt::sort_stmts;
 use crate::bundler::modules::Modules;
 use crate::dep_graph::ModuleGraph;
-use crate::util::MapWithMut;
 use crate::ModuleId;
 use ahash::AHashSet;
 use indexmap::IndexSet;
 use petgraph::algo::all_simple_paths;
 use petgraph::EdgeDirection::Outgoing;
-use retain_mut::RetainMut;
 use std::collections::VecDeque;
 use std::iter::from_fn;
 use std::mem::take;
-use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_utils::prepend_stmts;
 
@@ -57,11 +55,16 @@ fn toposort_real_modules<'a>(
     let sorted_ids = toposort_real_module_ids(queue, graph);
     for ids in sorted_ids {
         let mut chunk = Chunk { stmts: vec![] };
+        let need_sort = ids.len() != 1;
 
         for id in ids {
             if let Some((_, module)) = modules.iter_mut().find(|(module_id, _)| *module_id == id) {
                 chunk.stmts.extend(take(&mut module.body));
             }
+        }
+
+        if need_sort {
+            sort_stmts(&mut chunk.stmts);
         }
 
         chunks.push(chunk)

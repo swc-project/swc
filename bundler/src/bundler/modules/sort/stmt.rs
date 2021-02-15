@@ -1,16 +1,27 @@
+use super::graph::Required;
 use crate::bundler::modules::sort::graph::StmtDepGraph;
+use crate::id::Id;
 use crate::util::MapWithMut;
+use ahash::AHashMap;
 use ahash::AHashSet;
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::Incoming as Dependants;
 use petgraph::EdgeDirection::Outgoing as Dependancies;
 use std::collections::VecDeque;
+use std::iter::from_fn;
+use swc_atoms::js_word;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_utils::find_ids;
+use swc_ecma_visit::noop_visit_type;
+use swc_ecma_visit::Node;
+use swc_ecma_visit::Visit;
+use swc_ecma_visit::VisitWith;
 
 pub(super) fn sort_stmts(stmts: &mut Vec<ModuleItem>) {
     let mut id_graph = calc_deps(&stmts);
 
-    let mut orders = iter(&mut id_graph, &stmts).collect::<Vec<_>>();
+    let orders = iter(&mut id_graph, &stmts).collect::<Vec<_>>();
 
     let mut new = Vec::with_capacity(stmts.len());
     for idx in orders {
@@ -33,22 +44,7 @@ fn iter<'a>(
     let mut moves = AHashSet::new();
     let mut done = AHashSet::new();
     let mut stack = VecDeque::new();
-    stack.extend(module_starts.iter().copied());
-
-    for &start in module_starts {
-        let range = same_module_ranges
-            .iter()
-            .find(|range| range.contains(&start))
-            .cloned();
-        if let Some(range) = range {
-            for v in range {
-                stack.push_back(v);
-            }
-        }
-    }
-    for v in free.clone() {
-        stack.push_back(v);
-    }
+    stack.extend(0..stmts.len());
 
     from_fn(move || {
         if done.len() == len {
@@ -61,7 +57,7 @@ fn iter<'a>(
                 // eprintln!("Done: {}", idx);
                 continue;
             }
-            let is_free = free.contains(&idx);
+            let is_free = false;
 
             // dbg!(idx, is_free);
             // match &stmts[idx] {
@@ -78,10 +74,7 @@ fn iter<'a>(
             //     _ => eprintln!("(`{}`) Stmt", idx,),
             // }
 
-            let current_range = same_module_ranges
-                .iter()
-                .find(|range| range.contains(&idx))
-                .cloned();
+            let current_range = None;
 
             // dbg!(&current_range);
 
@@ -119,15 +112,7 @@ fn iter<'a>(
                 let deps = id_graph
                     .neighbors_directed(idx, Dependancies)
                     .filter(|dep| {
-                        let declared_in_same_module = match &current_range {
-                            Some(v) => v.contains(&dep),
-                            None => false,
-                        };
-                        if declared_in_same_module {
-                            return false;
-                        }
-
-                        if !free.contains(&idx) && id_graph.has_a_path(*dep, idx) {
+                        if id_graph.has_a_path(*dep, idx) {
                             if !moves.insert((idx, *dep)) {
                                 return false;
                             }
@@ -177,38 +162,12 @@ fn iter<'a>(
                 }
             }
 
-            if is_free {
-                let dependants = id_graph
-                    .neighbors_directed(idx, Dependants)
-                    .collect::<Vec<_>>();
-
-                for dependant in dependants {
-                    if !done.contains(&dependant) && free.contains(&dependant) {
-                        stack.push_front(dependant);
-                    }
-                }
-
-                id_graph.remove_node(idx);
-                done.insert(idx);
-                return Some(idx);
-            }
-
             let current_range = match current_range {
                 Some(v) => v,
                 None => {
                     let dependants = id_graph
                         .neighbors_directed(idx, Dependants)
                         .collect::<Vec<_>>();
-
-                    // dbg!(&dependants);
-
-                    // We only emit free items because we want to emit statements from same module
-                    // to emitted closedly.
-                    for dependant in dependants {
-                        if !done.contains(&dependant) && free.contains(&dependant) {
-                            stack.push_front(dependant);
-                        }
-                    }
 
                     // It's not within a module, so explicit ordering is not required.
                     id_graph.remove_node(idx);
@@ -217,66 +176,11 @@ fn iter<'a>(
                 }
             };
 
-            // We should respect original order of statements within a module.
-            for preceding in current_range.clone() {
-                // We should select first statement in module which is not emitted yet.
-                if done.contains(&preceding) {
-                    continue;
-                }
-                // dbg!(preceding);
-                if preceding == idx {
-                    continue;
-                }
-                if preceding > idx {
-                    break;
-                }
-
-                if !moves.insert((idx, preceding)) {
-                    // idx = preceding;
-                    continue;
-                }
-
-                let dependants = id_graph
-                    .neighbors_directed(idx, Dependants)
-                    .collect::<Vec<_>>();
-
-                // dbg!(&dependants);
-
-                // We only emit free items because we want to emit statements from same module
-                // to emitted closedly.
-                for dependant in dependants {
-                    if !done.contains(&dependant) && free.contains(&dependant) {
-                        stack.push_front(dependant);
-                    }
-                }
-
-                // We found a preceding statement which is not emitted yet.
-                stack.push_front(idx);
-                stack.push_front(preceding);
-                continue 'main;
-            }
-
             // Prefer inserting module as a whole.
             let next = idx + 1;
-            if current_range.contains(&next) {
-                if moves.insert((idx, next)) {
-                    if !done.contains(&next) {
-                        stack.push_front(next);
-                    }
-                }
-            }
-
-            {
-                // We emit free dependants as early as possible.
-                let free_dependants = id_graph
-                    .neighbors_directed(idx, Dependants)
-                    .filter(|&dependant| !done.contains(&dependant) && free.contains(&dependant))
-                    .collect::<Vec<_>>();
-
-                if !free_dependants.is_empty() {
-                    for dependant in free_dependants {
-                        stack.push_front(dependant);
-                    }
+            if moves.insert((idx, next)) {
+                if !done.contains(&next) {
+                    stack.push_front(next);
                 }
             }
 
@@ -333,6 +237,8 @@ impl FieldInitFinter {
 }
 
 impl Visit for FieldInitFinter {
+    noop_visit_type!();
+
     fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
         let old = self.in_rhs;
         e.left.visit_with(e, self);

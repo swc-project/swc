@@ -10,16 +10,6 @@ mod chunk;
 mod graph;
 mod stmt;
 
-/// Is dependancy between nodes hard?
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-enum Required {
-    /// Required to evaluate
-    Always,
-
-    /// Maybe required to evaluate
-    Maybe,
-}
-
 impl Modules {
     /// If module graph proves that one module can com before other module, it
     /// will be simply injected. If it is not the case, we will consider the
