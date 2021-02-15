@@ -90,9 +90,7 @@ impl NodeResolver {
 
     /// Resolve using the package.json "main" key.
     fn resolve_package_main(&self, pkg_path: &PathBuf) -> Result<PathBuf, Error> {
-        // TODO how to not always initialise this here?
-        let root = PathBuf::from("/");
-        let pkg_dir = pkg_path.parent().unwrap_or(&root);
+        let pkg_dir = pkg_path.parent().unwrap_or_else(|| Path::new("/"));
         let file = File::open(pkg_path)?;
         let reader = BufReader::new(file);
         let pkg: PackageJson =
