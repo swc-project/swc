@@ -85,6 +85,9 @@ fn toposort_real_modules<'a>(
                     ModuleItem::Stmt(Stmt::Empty(..)) => false,
                     _ => true,
                 });
+                if module.body.is_empty() {
+                    continue;
+                }
 
                 stmts.push(take(&mut module.body));
             }
