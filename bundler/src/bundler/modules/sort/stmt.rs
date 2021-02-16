@@ -25,7 +25,9 @@ pub(super) fn sort_stmts(
     injected_ctxt: SyntaxContext,
     modules: Vec<Vec<ModuleItem>>,
 ) -> Vec<ModuleItem> {
-    let mut stmts = Vec::with_capacity(modules.len());
+    let total_len: usize = modules.iter().map(|v| v.len()).sum();
+
+    let mut stmts = vec![];
     let mut free = vec![];
     let mut same_module_ranges = vec![];
     let mut module_starts = vec![];
@@ -60,6 +62,8 @@ pub(super) fn sort_stmts(
         &stmts,
     )
     .collect::<Vec<_>>();
+
+    debug_assert_eq!(total_len, orders.len());
 
     let mut new = Vec::with_capacity(stmts.len());
     for idx in orders {
