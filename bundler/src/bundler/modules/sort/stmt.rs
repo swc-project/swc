@@ -1,6 +1,5 @@
 use super::graph::Required;
 use crate::bundler::modules::sort::graph::StmtDepGraph;
-use crate::debug::print_hygiene;
 use crate::id::Id;
 use crate::util::MapWithMut;
 use ahash::AHashMap;
@@ -12,8 +11,6 @@ use std::collections::VecDeque;
 use std::iter::from_fn;
 use std::ops::Range;
 use swc_atoms::js_word;
-use swc_common::sync::Lrc;
-use swc_common::SourceMap;
 use swc_common::Spanned;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
@@ -27,7 +24,6 @@ use swc_ecma_visit::VisitWith;
 pub(super) fn sort_stmts(
     injected_ctxt: SyntaxContext,
     modules: Vec<Vec<ModuleItem>>,
-    cm: &Lrc<SourceMap>,
 ) -> Vec<ModuleItem> {
     let mut stmts = Vec::with_capacity(modules.len());
     let mut free = vec![];
@@ -54,16 +50,6 @@ pub(super) fn sort_stmts(
     let free_range = non_free_count..non_free_count + free.len();
     stmts.extend(free);
 
-    print_hygiene(
-        &format!("before sort"),
-        cm,
-        &Module {
-            span: DUMMY_SP,
-            body: stmts.clone(),
-            shebang: None,
-        },
-    );
-
     let mut id_graph = calc_deps(&same_module_ranges, &stmts);
 
     let orders = iter(
@@ -79,16 +65,6 @@ pub(super) fn sort_stmts(
     for idx in orders {
         new.push(stmts[idx].take());
     }
-
-    print_hygiene(
-        &format!("after sort"),
-        cm,
-        &Module {
-            span: DUMMY_SP,
-            body: new.clone(),
-            shebang: None,
-        },
-    );
 
     new
 }
@@ -664,8 +640,6 @@ fn calc_deps(same_module_ranges: &[Range<usize>], new: &[ModuleItem]) -> StmtDep
 
     let mut declared_by = AHashMap::<Id, Vec<usize>>::default();
     let mut uninitialized_ids = AHashMap::<Id, usize>::new();
-
-    dbg!(new.len(), same_module_ranges);
 
     let in_same_module = |a: usize, b: usize| {
         let range = same_module_ranges.iter().find(|range| range.contains(&a));

@@ -97,7 +97,17 @@ fn toposort_real_modules<'a>(
             continue;
         }
 
-        let stmts = sort_stmts(injected_ctxt, stmts, cm);
+        let stmts = sort_stmts(injected_ctxt, stmts);
+
+        // print_hygiene(
+        //     &format!("after sort: {}", idx),
+        //     cm,
+        //     &Module {
+        //         span: DUMMY_SP,
+        //         body: stmts.clone(),
+        //         shebang: None,
+        //     },
+        // );
 
         chunks.push(Chunk { stmts })
     }
