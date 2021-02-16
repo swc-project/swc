@@ -922,6 +922,7 @@ impl<'a, I: Tokens> Parser<I> {
         self.with_ctx(ctx).parse_with(|p| {
             let type_params = if p.syntax().typescript() && is_one_of!(p, '<', JSXTagStart) {
                 //
+                trace_cur!(p, parse_fn_args_body__type_params);
                 Some(p.parse_ts_type_params()?)
             } else {
                 None
