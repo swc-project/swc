@@ -56,14 +56,26 @@ impl Modules {
         self.modules.into_iter().flat_map(|v| v.1.body).collect()
     }
 
-    pub fn add_dep(&mut self, mut dep: Modules) {
+    pub fn add_dep(&mut self, dep: Modules) {
         self.push_all(dep)
     }
 
     pub fn push_all(&mut self, other: Modules) {
-        self.prepended_stmts.extend(other.prepended_stmts);
-        self.appended_stmts.extend(other.appended_stmts);
-        self.modules.extend(other.modules);
+        for (id, stmts) in other.prepended_stmts {
+            self.prepended_stmts.entry(id).or_default().extend(stmts);
+        }
+
+        for (id, stmts) in other.appended_stmts {
+            self.appended_stmts.entry(id).or_default().extend(stmts);
+        }
+
+        for (id, module) in other.modules {
+            if let Some(prev) = self.modules.iter_mut().find(|prev| prev.0 == id) {
+                prev.1.body.extend(module.body);
+            } else {
+                self.modules.push((id, module));
+            }
+        }
     }
 
     pub fn iter(&self) -> impl Iterator<Item = (ModuleId, &ModuleItem)> {
