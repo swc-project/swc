@@ -31,7 +31,7 @@ where
             return Ok(Modules::empty(self.injected_ctxt));
         }
 
-        log::debug!("[circular] Stsrting with: {:?}", entry_id);
+        log::debug!("[circular] Starting with: {:?}", entry_id);
 
         let entry_module = self.scope.get_module(entry_id).unwrap();
 
