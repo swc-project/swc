@@ -1,4 +1,5 @@
 use crate::bundler::modules::Modules;
+use crate::debug::print_hygiene;
 use crate::util::ExprExt;
 use crate::util::VarDeclaratorExt;
 use crate::{bundler::chunk::merge::Ctx, Bundler, Load, ModuleId, Resolve};
@@ -86,11 +87,13 @@ where
         };
 
         let mut module_items = vec![];
+        let mut extra_exports = vec![];
 
         let stmts = {
             let mut module = Module::from(module).fold_with(&mut ExportToReturn {
                 synthesized_ctxt: self.synthesized_ctxt,
                 exports: Default::default(),
+                esm_exports: &mut extra_exports,
             });
 
             take(&mut module.body)
@@ -188,6 +191,16 @@ where
                 .collect()
         };
 
+        print_hygiene(
+            "wrap - module items",
+            &self.cm,
+            &Module {
+                span: DUMMY_SP,
+                body: module_items.clone(),
+                shebang: None,
+            },
+        );
+
         let module_fn = Expr::Fn(FnExpr {
             function: Function {
                 params: Default::default(),
@@ -232,6 +245,7 @@ where
         };
 
         module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))));
+        module_items.extend(extra_exports);
 
         Ok(Modules::from(
             id,
@@ -261,12 +275,13 @@ impl Visit for TopLevelAwaitFinder {
     }
 }
 
-struct ExportToReturn {
+struct ExportToReturn<'a> {
     exports: Vec<PropOrSpread>,
     synthesized_ctxt: SyntaxContext,
+    esm_exports: &'a mut Vec<ModuleItem>,
 }
 
-impl Fold for ExportToReturn {
+impl Fold for ExportToReturn<'_> {
     noop_fold_type!();
 
     fn fold_stmt(&mut self, s: Stmt) -> Stmt {
