@@ -141,7 +141,7 @@ fn toposort_real_module_ids<'a>(
                 return Some(vec![id]);
             }
 
-            dbg!(&deps);
+            // dbg!(&deps);
 
             let all_modules_in_circle = deps
                 .iter()
