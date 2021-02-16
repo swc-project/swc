@@ -100,7 +100,7 @@ fn toposort_real_modules<'a>(
         let stmts = sort_stmts(injected_ctxt, stmts);
 
         print_hygiene(
-            &format!("after sort: {}", idx),
+            "after sort",
             cm,
             &Module {
                 span: DUMMY_SP,
