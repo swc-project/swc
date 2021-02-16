@@ -97,7 +97,10 @@ fn toposort_real_modules<'a>(
             continue;
         }
 
-        let stmts = sort_stmts(injected_ctxt, stmts);
+        let stmts = match stmts.len() {
+            1 => stmts.into_iter().next().unwrap(),
+            _ => sort_stmts(injected_ctxt, stmts),
+        };
 
         print_hygiene(
             &format!("after sort: {}", idx),
@@ -141,7 +144,7 @@ fn toposort_real_module_ids<'a>(
                 return Some(vec![id]);
             }
 
-            dbg!(&deps);
+            // dbg!(&deps);
 
             let all_modules_in_circle = deps
                 .iter()
