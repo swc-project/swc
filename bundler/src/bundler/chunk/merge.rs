@@ -538,7 +538,7 @@ where
                 }
             }
 
-            for (_, stmt) in entry.iter() {
+            for (module_id, stmt) in entry.iter() {
                 match stmt {
                     ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
                         for s in &export.specifiers {
@@ -553,7 +553,7 @@ where
                                         }
 
                                         vars.push((
-                                            entry_id,
+                                            module_id,
                                             named
                                                 .orig
                                                 .clone()
@@ -586,7 +586,7 @@ where
                                 }
 
                                 vars.push((
-                                    entry_id,
+                                    module_id,
                                     id.assign_to(reexported)
                                         .into_module_item(injected_ctxt, "export_star_replacer"),
                                 ));
