@@ -72,7 +72,7 @@ fn toposort_real_modules<'a>(
     let mut chunks = vec![];
 
     let sorted_ids = toposort_real_module_ids(queue, graph);
-    for (idx, ids) in sorted_ids.enumerate() {
+    for ids in sorted_ids {
         if ids.is_empty() {
             continue;
         }
