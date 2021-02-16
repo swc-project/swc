@@ -297,6 +297,8 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_class_member(&mut self) -> PResult<ClassMember> {
+        trace_cur!(self, parse_class_member);
+
         let start = cur_pos!(self);
         let decorators = self.parse_decorators(false)?;
         let declare = self.syntax().typescript() && eat!(self, "declare");
@@ -476,6 +478,7 @@ impl<'a, I: Tokens> Parser<I> {
             );
         }
 
+        trace_cur!(self, parse_class_member_with_is_static__normal_class_member);
         let mut key = self.parse_class_prop_name()?;
         let is_optional = self.input.syntax().typescript() && eat!(self, '?');
 
@@ -495,6 +498,8 @@ impl<'a, I: Tokens> Parser<I> {
 
         if self.is_class_method()? {
             // handle a(){} / get(){} / set(){} / async(){}
+
+            trace_cur!(self, parse_class_member_with_is_static__normal_class_method);
 
             if readonly {
                 syntax_error!(self, span!(self, start), SyntaxError::ReadOnlyMethod);
@@ -819,7 +824,9 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn is_class_method(&mut self) -> PResult<bool> {
-        Ok(is!(self, '(') || (self.input.syntax().typescript() && is!(self, '<')))
+        Ok(is!(self, '(')
+            || (self.input.syntax().typescript() && is!(self, '<'))
+            || (self.input.syntax().typescript() && is!(self, JSXTagStart)))
     }
 
     fn is_class_property(&mut self) -> PResult<bool> {
@@ -912,6 +919,8 @@ impl<'a, I: Tokens> Parser<I> {
     where
         F: FnOnce(&mut Self) -> PResult<Vec<Param>>,
     {
+        trace_cur!(self, parse_fn_args_body);
+
         // let prev_in_generator = self.ctx().in_generator;
         let ctx = Context {
             in_async: is_async,
@@ -922,6 +931,7 @@ impl<'a, I: Tokens> Parser<I> {
         self.with_ctx(ctx).parse_with(|p| {
             let type_params = if p.syntax().typescript() && is_one_of!(p, '<', JSXTagStart) {
                 //
+                trace_cur!(p, parse_fn_args_body__type_params);
                 Some(p.parse_ts_type_params()?)
             } else {
                 None
@@ -1033,6 +1043,8 @@ impl<'a, I: Tokens> Parser<I> {
     where
         F: FnOnce(&mut Self) -> PResult<Vec<Param>>,
     {
+        trace_cur!(self, make_method);
+
         let is_static = static_token.is_some();
         let ctx = Context {
             span_of_fn_name: Some(key.span()),
