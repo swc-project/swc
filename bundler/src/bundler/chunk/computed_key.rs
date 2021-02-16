@@ -194,16 +194,6 @@ where
                 .collect()
         };
 
-        print_hygiene(
-            "wrap - module items",
-            &self.cm,
-            &Module {
-                span: DUMMY_SP,
-                body: module_items.clone(),
-                shebang: None,
-            },
-        );
-
         let module_fn = Expr::Fn(FnExpr {
             function: Function {
                 params: Default::default(),
@@ -249,6 +239,16 @@ where
 
         module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))));
         module_items.extend(extra_exports);
+
+        print_hygiene(
+            "wrap",
+            &self.cm,
+            &Module {
+                span: DUMMY_SP,
+                body: module_items.clone(),
+                shebang: None,
+            },
+        );
 
         Ok(Modules::from(
             id,
