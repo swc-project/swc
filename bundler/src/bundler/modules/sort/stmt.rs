@@ -319,17 +319,18 @@ fn iter<'a>(
             }
 
             {
-                // We emit free dependants as early as possible.
-                let free_dependants = graph
-                    .neighbors_directed(idx, Dependants)
-                    .filter(|&dependant| !done.contains(&dependant) && free.contains(&dependant))
-                    .collect::<Vec<_>>();
+                // // We emit free dependants as early as possible.
+                // let free_dependants = graph
+                //     .neighbors_directed(idx, Dependants)
+                //     .filter(|&dependant| !done.contains(&dependant) &&
+                // free.contains(&dependant))     .collect::
+                // <Vec<_>>();
 
-                if !free_dependants.is_empty() {
-                    for dependant in free_dependants {
-                        stack.push_front(dependant);
-                    }
-                }
+                // if !free_dependants.is_empty() {
+                //     for dependant in free_dependants {
+                //         stack.push_front(dependant);
+                //     }
+                // }
             }
 
             graph.remove_node(idx);
