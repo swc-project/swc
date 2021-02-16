@@ -297,6 +297,8 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_class_member(&mut self) -> PResult<ClassMember> {
+        trace_cur!(self, parse_class_member);
+
         let start = cur_pos!(self);
         let decorators = self.parse_decorators(false)?;
         let declare = self.syntax().typescript() && eat!(self, "declare");
@@ -912,6 +914,8 @@ impl<'a, I: Tokens> Parser<I> {
     where
         F: FnOnce(&mut Self) -> PResult<Vec<Param>>,
     {
+        trace_cur!(self, parse_fn_args_body);
+
         // let prev_in_generator = self.ctx().in_generator;
         let ctx = Context {
             in_async: is_async,
@@ -1034,6 +1038,8 @@ impl<'a, I: Tokens> Parser<I> {
     where
         F: FnOnce(&mut Self) -> PResult<Vec<Param>>,
     {
+        trace_cur!(self, make_method);
+
         let is_static = static_token.is_some();
         let ctx = Context {
             span_of_fn_name: Some(key.span()),
