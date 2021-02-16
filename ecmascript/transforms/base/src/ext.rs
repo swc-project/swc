@@ -124,6 +124,10 @@ impl MapWithMut for Module {
             span: DUMMY_SP,
             body: vec![],
             shebang: None,
+        }
+    }
+}
+
 impl MapWithMut for JSXElement {
     fn dummy() -> Self {
         JSXElement {
@@ -159,6 +163,9 @@ impl MapWithMut for CallExpr {
             callee: MapWithMut::dummy(),
             args: MapWithMut::dummy(),
             type_args: Default::default(),
+        }
+    }
+}
 impl MapWithMut for JSXOpeningElement {
     fn dummy() -> Self {
         JSXOpeningElement {
@@ -189,6 +196,9 @@ impl MapWithMut for NewExpr {
             callee: MapWithMut::dummy(),
             args: MapWithMut::dummy(),
             type_args: Default::default(),
+        }
+    }
+}
 impl MapWithMut for JSXClosingElement {
     fn dummy() -> Self {
         JSXClosingElement {
@@ -219,6 +229,9 @@ impl MapWithMut for VarDecl {
             kind: VarDeclKind::Var,
             declare: false,
             decls: vec![],
+        }
+    }
+}
 impl MapWithMut for JSXElementName {
     fn dummy() -> Self {
         JSXElementName::Ident(Ident::dummy())
@@ -292,6 +305,8 @@ impl MapWithMut for TplElement {
                 kind: Default::default(),
             },
         }
+    }
+}
 impl MapWithMut for JSXOpeningFragment {
     fn dummy() -> Self {
         JSXOpeningFragment { span: DUMMY_SP }
