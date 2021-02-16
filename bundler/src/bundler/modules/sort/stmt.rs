@@ -641,6 +641,15 @@ fn calc_deps(same_module_ranges: &[Range<usize>], new: &[ModuleItem]) -> StmtDep
     let mut declared_by = AHashMap::<Id, Vec<usize>>::default();
     let mut uninitialized_ids = AHashMap::<Id, usize>::new();
 
+    let in_same_module = |a: usize, b: usize| {
+        let range = same_module_ranges.iter().find(|range| range.contains(&a));
+        if let Some(range) = range {
+            range.contains(&b)
+        } else {
+            false
+        }
+    };
+
     for (idx, item) in new.iter().enumerate() {
         graph.add_node(idx);
 
@@ -701,6 +710,9 @@ fn calc_deps(same_module_ranges: &[Range<usize>], new: &[ModuleItem]) -> StmtDep
 
                     for &declarator_index in declarator_indexes {
                         if declarator_index != idx {
+                            if in_same_module(idx, declarator_index) {
+                                continue;
+                            }
                             graph.add_edge(idx, declarator_index, Required::Always);
                             // eprintln!(
                             //     "Field init: `{}` ({}) depends on `{}`:
@@ -755,6 +767,10 @@ fn calc_deps(same_module_ranges: &[Range<usize>], new: &[ModuleItem]) -> StmtDep
             if let Some(declarator_indexes) = declared_by.get(&id) {
                 for &declarator_index in declarator_indexes {
                     if declarator_index != idx {
+                        if in_same_module(idx, declarator_index) {
+                            continue;
+                        }
+
                         // let idx_decl = match &item {
                         //     ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
                         //         let ids: Vec<Id> = find_ids(&var.decls);

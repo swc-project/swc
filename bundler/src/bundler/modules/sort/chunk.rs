@@ -99,15 +99,15 @@ fn toposort_real_modules<'a>(
 
         let stmts = sort_stmts(injected_ctxt, stmts);
 
-        print_hygiene(
-            &format!("after sort: {}", idx),
-            cm,
-            &Module {
-                span: DUMMY_SP,
-                body: stmts.clone(),
-                shebang: None,
-            },
-        );
+        // print_hygiene(
+        //     &format!("after sort: {}", idx),
+        //     cm,
+        //     &Module {
+        //         span: DUMMY_SP,
+        //         body: stmts.clone(),
+        //         shebang: None,
+        //     },
+        // );
 
         chunks.push(Chunk { stmts })
     }
