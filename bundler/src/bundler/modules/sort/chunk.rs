@@ -79,7 +79,7 @@ fn toposort_real_modules<'a>(
 
         let mut stmts = vec![];
 
-        for id in ids {
+        for id in ids.iter().copied() {
             if let Some((_, module)) = modules.iter_mut().find(|(module_id, _)| *module_id == id) {
                 module.body.retain(|item| match item {
                     ModuleItem::Stmt(Stmt::Empty(..)) => false,
@@ -99,15 +99,15 @@ fn toposort_real_modules<'a>(
 
         let stmts = sort_stmts(injected_ctxt, stmts);
 
-        // print_hygiene(
-        //     "after sort",
-        //     cm,
-        //     &Module {
-        //         span: DUMMY_SP,
-        //         body: stmts.clone(),
-        //         shebang: None,
-        //     },
-        // );
+        print_hygiene(
+            &format!("after sort: {:?}", ids),
+            cm,
+            &Module {
+                span: DUMMY_SP,
+                body: stmts.clone(),
+                shebang: None,
+            },
+        );
 
         chunks.push(Chunk { stmts })
     }
