@@ -1,6 +1,5 @@
 use super::stmt::sort_stmts;
 use crate::bundler::modules::Modules;
-use crate::debug::print_hygiene;
 use crate::dep_graph::ModuleGraph;
 use crate::ModuleId;
 use ahash::AHashSet;
@@ -13,7 +12,6 @@ use std::mem::take;
 use swc_common::sync::Lrc;
 use swc_common::SourceMap;
 use swc_common::SyntaxContext;
-use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::prepend_stmts;
 
@@ -97,17 +95,17 @@ fn toposort_real_modules<'a>(
             continue;
         }
 
-        let stmts = sort_stmts(injected_ctxt, stmts);
+        let stmts = sort_stmts(injected_ctxt, stmts, cm);
 
-        print_hygiene(
-            &format!("after sort: {:?}", ids),
-            cm,
-            &Module {
-                span: DUMMY_SP,
-                body: stmts.clone(),
-                shebang: None,
-            },
-        );
+        // print_hygiene(
+        //     &format!("after sort: {:?}", ids),
+        //     cm,
+        //     &Module {
+        //         span: DUMMY_SP,
+        //         body: stmts.clone(),
+        //         shebang: None,
+        //     },
+        // );
 
         chunks.push(Chunk { stmts })
     }

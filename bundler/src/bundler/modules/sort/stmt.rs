@@ -1,5 +1,6 @@
 use super::graph::Required;
 use crate::bundler::modules::sort::graph::StmtDepGraph;
+use crate::debug::print_hygiene;
 use crate::id::Id;
 use crate::util::MapWithMut;
 use ahash::AHashMap;
@@ -11,6 +12,8 @@ use std::collections::VecDeque;
 use std::iter::from_fn;
 use std::ops::Range;
 use swc_atoms::js_word;
+use swc_common::sync::Lrc;
+use swc_common::SourceMap;
 use swc_common::Spanned;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
@@ -24,6 +27,7 @@ use swc_ecma_visit::VisitWith;
 pub(super) fn sort_stmts(
     injected_ctxt: SyntaxContext,
     modules: Vec<Vec<ModuleItem>>,
+    cm: &Lrc<SourceMap>,
 ) -> Vec<ModuleItem> {
     let total_len: usize = modules.iter().map(|v| v.len()).sum();
 
@@ -51,6 +55,16 @@ pub(super) fn sort_stmts(
     let non_free_count = stmts.len();
     let free_range = non_free_count..non_free_count + free.len();
     stmts.extend(free);
+
+    print_hygiene(
+        &format!("before sort"),
+        cm,
+        &Module {
+            span: DUMMY_SP,
+            body: stmts.clone(),
+            shebang: None,
+        },
+    );
 
     let mut id_graph = calc_deps(&stmts);
 
@@ -119,20 +133,20 @@ fn iter<'a>(
             }
             let is_free = free.contains(&idx);
 
-            // dbg!(idx, is_free);
-            // match &stmts[idx] {
-            //     ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-            //         let ids: Vec<Id> = find_ids(&var.decls);
-            //         eprintln!("(`{}`) Declare var: `{:?}`", idx, ids);
-            //     }
-            //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
-            //         eprintln!("(`{}`) Declare class: `{:?}`", idx, Id::from(&cls.ident));
-            //     }
-            //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-            //         eprintln!("(`{}`) Declare fn: `{:?}`", idx, Id::from(&f.ident));
-            //     }
-            //     _ => eprintln!("(`{}`) Stmt", idx,),
-            // }
+            dbg!(idx, is_free);
+            match &stmts[idx] {
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+                    let ids: Vec<Id> = find_ids(&var.decls);
+                    eprintln!("(`{}`) Declare var: `{:?}`", idx, ids);
+                }
+                ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
+                    eprintln!("(`{}`) Declare class: `{:?}`", idx, Id::from(&cls.ident));
+                }
+                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
+                    eprintln!("(`{}`) Declare fn: `{:?}`", idx, Id::from(&f.ident));
+                }
+                _ => eprintln!("(`{}`) Stmt", idx,),
+            }
 
             let current_range = same_module_ranges
                 .iter()
