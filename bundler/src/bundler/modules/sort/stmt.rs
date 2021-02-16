@@ -50,7 +50,7 @@ pub(super) fn sort_stmts(
     let free_range = non_free_count..non_free_count + free.len();
     stmts.extend(free);
 
-    let mut id_graph = calc_deps(&stmts);
+    let mut id_graph = calc_deps(&same_module_ranges, &stmts);
 
     let orders = iter(
         &mut id_graph,
@@ -628,7 +628,14 @@ impl Visit for RequirementCalculartor {
     }
 }
 
-fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
+///
+/// # Parameters
+///
+/// ## same_module_ranges
+///
+/// If two indexes are in a same module accoarding to `same_module_ranges`, this
+/// method will not add a dependency info of those statements.
+fn calc_deps(same_module_ranges: &[Range<usize>], new: &[ModuleItem]) -> StmtDepGraph {
     let mut graph = StmtDepGraph::default();
 
     let mut declared_by = AHashMap::<Id, Vec<usize>>::default();
@@ -795,7 +802,7 @@ mod tests {
             let info = t.module("main.js");
             let module = (*info.module).clone();
 
-            let graph = calc_deps(&module.body);
+            let graph = calc_deps(&[], &module.body);
 
             for i in 0..module.body.len() {
                 match &module.body[i] {
