@@ -478,6 +478,7 @@ impl<'a, I: Tokens> Parser<I> {
             );
         }
 
+        trace_cur!(self, parse_class_member_with_is_static__normal_class_member);
         let mut key = self.parse_class_prop_name()?;
         let is_optional = self.input.syntax().typescript() && eat!(self, '?');
 
@@ -497,6 +498,8 @@ impl<'a, I: Tokens> Parser<I> {
 
         if self.is_class_method()? {
             // handle a(){} / get(){} / set(){} / async(){}
+
+            trace_cur!(self, parse_class_member_with_is_static__normal_class_method);
 
             if readonly {
                 syntax_error!(self, span!(self, start), SyntaxError::ReadOnlyMethod);
