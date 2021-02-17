@@ -583,21 +583,41 @@ where
                     }
 
                     for line in leading.text.lines() {
-                        if !line.trim().starts_with("* @jsx") {
+                        let mut line = line.trim();
+                        if line.starts_with('*') {
+                            line = line[1..].trim();
+                        }
+
+                        if !line.starts_with("@jsx") {
                             continue;
                         }
 
-                        if line.trim().starts_with("* @jsxFrag") {
-                            let src = line.replace("* @jsxFrag", "").trim().to_string();
+                        if line.starts_with("@jsxRuntime ") {
+                            let src = line.replace("@jsxRuntime ", "").trim().to_string();
+                            if src == "classic" {
+                                self.runtime = Runtime::Classic;
+                            } else if src == "automatic" {
+                                self.runtime = Runtime::Automatic;
+                            } else {
+                                todo!("proper error reporting for wrong `@jsxRuntime`")
+                            }
+                            continue;
+                        }
+
+                        if line.starts_with("@jsxFrag") {
+                            let src = line.replace("@jsxFrag", "").trim().to_string();
                             self.pragma_frag = ExprOrSpread {
                                 expr: parse_classic_option(&self.cm, "module-jsx-pragma-frag", src),
                                 spread: None,
                             };
                         } else {
-                            let src = line.replace("* @jsx", "").trim().to_string();
+                            let src = line.replace("@jsx", "").trim().to_string();
 
-                            self.pragma =
-                                ExprOrSuper::Expr(parse_option(&self.cm, "module-jsx-pragma", src));
+                            self.pragma = ExprOrSuper::Expr(parse_classic_option(
+                                &self.cm,
+                                "module-jsx-pragma",
+                                src,
+                            ));
                         }
                     }
                 }
@@ -615,6 +635,50 @@ where
         }
 
         module.visit_mut_children_with(self);
+
+        if self.runtime == Runtime::Automatic {
+            let mut imports = vec![];
+            if let Some(local) = self.import_jsx.take() {
+                imports.push(ImportSpecifier::Named(ImportNamedSpecifier {
+                    span: DUMMY_SP,
+                    local,
+                    imported: Some(quote_ident!("jsx")),
+                }));
+            }
+
+            if let Some(local) = self.import_jsxs.take() {
+                imports.push(ImportSpecifier::Named(ImportNamedSpecifier {
+                    span: DUMMY_SP,
+                    local,
+                    imported: Some(quote_ident!("jsxs")),
+                }));
+            }
+
+            if let Some(local) = self.import_fragment.take() {
+                imports.push(ImportSpecifier::Named(ImportNamedSpecifier {
+                    span: DUMMY_SP,
+                    local,
+                    imported: Some(quote_ident!("Fragment")),
+                }));
+            }
+
+            if !imports.is_empty() {
+                prepend(
+                    &mut module.body,
+                    ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                        span: DUMMY_SP,
+                        specifiers: imports,
+                        src: Str {
+                            span: DUMMY_SP,
+                            value: format!("{}/jsx-runtime", self.import_source).into(),
+                            has_escape: false,
+                        },
+                        type_only: Default::default(),
+                        asserts: Default::default(),
+                    })),
+                );
+            }
+        }
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
