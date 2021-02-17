@@ -897,6 +897,7 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
     }
 }
 
+#[inline]
 fn jsx_text_to_str(t: JsWord) -> JsWord {
     static SPACE_NL_START: Lazy<Regex> = Lazy::new(|| Regex::new("^\\s*\n\\s*").unwrap());
     static SPACE_NL_END: Lazy<Regex> = Lazy::new(|| Regex::new("\\s*\n\\s*$").unwrap());
@@ -945,7 +946,10 @@ fn count_children(children: &[JSXElementChild]) -> usize {
     children
         .iter()
         .filter(|v| match v {
-            JSXElementChild::JSXText(..) => true,
+            JSXElementChild::JSXText(text) => {
+                let text = jsx_text_to_str(text.value.clone());
+                !text.is_empty()
+            }
             JSXElementChild::JSXExprContainer(e) => match e.expr {
                 JSXExpr::JSXEmptyExpr(_) => false,
                 JSXExpr::Expr(_) => true,
