@@ -1,3 +1,4 @@
+use ansi_term::Color;
 use serde::de::DeserializeOwned;
 use std::env;
 use std::fs::read_to_string;
@@ -450,6 +451,7 @@ where
         match read_to_string(&file) {
             Ok(v) => {
                 eprintln!("Using options.json at {}", file.display());
+                eprintln!("----- {} -----{}", Color::Green.paint("Options"), v);
 
                 return Some(v);
             }
@@ -477,11 +479,15 @@ where
 
     let (values, stderr) = Tester::run_captured(|tester| {
         let input_str = read_to_string(input).unwrap();
-        println!("----- Input -----\n{}", input_str);
+        println!("----- {} -----\n{}", Color::Green.paint("Input"), input_str);
 
         let tr = tr(tester);
 
-        println!("----- Expected -----\n{}", expected);
+        println!(
+            "----- {} -----\n{}",
+            Color::Green.paint("Expected"),
+            expected
+        );
         let expected = tester.apply_transform(
             as_folder(::swc_ecma_utils::DropSpan {
                 preserve_ctxt: true,
@@ -491,7 +497,7 @@ where
             &expected,
         )?;
 
-        println!("----- Actual -----");
+        println!("----- {} -----", Color::Green.paint("Actual"));
 
         let actual =
             tester.apply_transform(tr, "input.js", syntax, &read_to_string(&input).unwrap())?;
@@ -499,7 +505,11 @@ where
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
                 let hygiene_src = tester.print(&actual.clone().fold_with(&mut HygieneVisualizer));
-                println!("----- Hygiene -----\n{}", hygiene_src);
+                println!(
+                    "----- {} -----\n{}",
+                    Color::Green.paint("Hygiene"),
+                    hygiene_src
+                );
             }
             _ => {}
         }
