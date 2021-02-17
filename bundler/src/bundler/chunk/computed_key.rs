@@ -194,34 +194,38 @@ where
                 .collect()
         };
 
-        let module_fn = Expr::Fn(FnExpr {
-            function: Function {
-                params: Default::default(),
-                decorators: Default::default(),
+        let module_fn = Function {
+            params: Default::default(),
+            decorators: Default::default(),
+            span: DUMMY_SP.with_ctxt(injected_ctxt),
+            body: Some(BlockStmt {
                 span: DUMMY_SP,
-                body: Some(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts,
-                }),
-                is_generator: false,
-                is_async,
-                type_params: Default::default(),
-                return_type: Default::default(),
-            },
-            ident: None,
-        });
+                stmts,
+            }),
+            is_generator: false,
+            is_async,
+            type_params: Default::default(),
+            return_type: Default::default(),
+        };
 
-        let mut module_expr = Expr::Call(CallExpr {
+        let init_mod_fn_ident = private_ident!("initModule");
+        let module_init_fn_decl = ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+            ident: init_mod_fn_ident.clone(),
+            function: module_fn,
+            declare: false,
+        })));
+
+        let mut module_var_expr = Expr::Call(CallExpr {
             span: DUMMY_SP,
-            callee: module_fn.as_callee(),
+            callee: init_mod_fn_ident.as_callee(),
             type_args: Default::default(),
             args: Default::default(),
         });
 
         if is_async {
-            module_expr = Expr::Await(AwaitExpr {
+            module_var_expr = Expr::Await(AwaitExpr {
                 span: DUMMY_SP,
-                arg: Box::new(module_expr),
+                arg: Box::new(module_var_expr),
             });
         }
 
@@ -234,9 +238,12 @@ where
                 definite: false,
                 name: Pat::Ident(module_var_name.into_ident().into()),
                 init: Some(Box::new(module_expr)),
+                name: Pat::Ident(module_var_name.into_ident()),
+                init: Some(Box::new(module_var_expr)),
             }],
         };
 
+        module_items.push(module_init_fn_decl);
         module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))));
         module_items.extend(extra_exports);
 
