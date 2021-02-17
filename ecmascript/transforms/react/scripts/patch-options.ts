@@ -26,6 +26,16 @@ async function main() {
 
         console.log(f);
         if (obj.plugins) {
+            if (obj.plugins.includes('transform-react-jsx')) {
+                const newObj = {
+                    ...obj,
+                };
+                delete newObj.sourceType
+                delete newObj.plugins;
+                await fs.promises.writeFile(f, JSON.stringify(newObj), { encoding: 'utf-8' });
+                continue
+            }
+
             for (const [plugin, config] of obj.plugins) {
                 if (plugin === 'transform-react-jsx') {
                     console.log(plugin, config);
