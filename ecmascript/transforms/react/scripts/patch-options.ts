@@ -34,7 +34,6 @@ async function main() {
                         ...config,
                     };
                     delete newObj.sourceType
-                    delete newObj.throws
                     delete newObj.plugins;
                     await fs.promises.writeFile(f, JSON.stringify(newObj), { encoding: 'utf-8' });
                     break

@@ -26,8 +26,11 @@ fn tr(t: &mut Tester, options: Options) -> impl Fold {
 struct FixtureOptions {
     #[serde(flatten)]
     options: Options,
-    #[serde(rename = "BABEL_8_BREAKING")]
+    #[serde(default, rename = "BABEL_8_BREAKING")]
     breaking: bool,
+
+    #[serde(default)]
+    throws: Option<String>,
 }
 
 fn fixture_tr(t: &mut Tester, options: FixtureOptions) -> impl Fold {
