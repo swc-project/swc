@@ -202,12 +202,19 @@ where
     fn jsx_frag_to_expr(&mut self, el: JSXFragment) -> Expr {
         let span = el.span();
 
+        let use_jsxs = is_static(&el);
+
         match self.runtime {
             Runtime::Automatic => {
-                let jsx = self
-                    .import_jsx
-                    .get_or_insert_with(|| private_ident!("_jsx"))
-                    .clone();
+                let jsx = if use_jsxs {
+                    self.import_jsxs
+                        .get_or_insert_with(|| private_ident!("_jsxs"))
+                        .clone()
+                } else {
+                    self.import_jsx
+                        .get_or_insert_with(|| private_ident!("_jsx"))
+                        .clone()
+                };
 
                 let fragment = self
                     .import_fragment
