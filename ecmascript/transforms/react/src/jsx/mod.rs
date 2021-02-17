@@ -694,29 +694,21 @@ where
             did_work = true;
             // <div></div> => React.createElement('div', null);
             *expr = self.jsx_elem_to_expr(*el.take());
-            return;
-        }
-        if let Expr::JSXFragment(frag) = expr {
+        } else if let Expr::JSXFragment(frag) = expr {
             // <></> => React.createElement(React.Fragment, null);
             did_work = true;
             *expr = self.jsx_frag_to_expr(frag.take());
-            return;
-        }
-
-        if let Expr::Paren(ParenExpr {
+        } else if let Expr::Paren(ParenExpr {
             expr: inner_expr, ..
         }) = expr
         {
             if let Expr::JSXElement(el) = &mut **inner_expr {
                 did_work = true;
                 *expr = self.jsx_elem_to_expr(*el.take());
-                return;
-            }
-            if let Expr::JSXFragment(frag) = &mut **inner_expr {
+            } else if let Expr::JSXFragment(frag) = &mut **inner_expr {
                 // <></> => React.createElement(React.Fragment, null);
                 did_work = true;
                 *expr = self.jsx_frag_to_expr(frag.take());
-                return;
             }
         }
 
