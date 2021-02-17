@@ -643,6 +643,11 @@ where
                             continue;
                         }
 
+                        if line.starts_with("@jsxImportSource") {
+                            let src = line.replace("@jsxImportSource", "").trim().to_string();
+                            self.import_source = src.into();
+                        }
+
                         if line.starts_with("@jsxFrag") {
                             let src = line.replace("@jsxFrag", "").trim().to_string();
                             self.pragma_frag = ExprOrSpread {
