@@ -11,6 +11,8 @@ version = "0.4.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+serde = "1"
+serde_json = "1"
 swc_common = {version = "0.10", path = "../../../common"}
 swc_ecma_ast = {version = "0.38.0", path = "../../ast"}
 swc_ecma_codegen = {version = "0.45.0", path = "../../codegen"}

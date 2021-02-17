@@ -1,3 +1,5 @@
+use serde::de::DeserializeOwned;
+use std::fs::read_to_string;
 use std::mem::replace;
 use std::{
     fmt,
@@ -18,10 +20,12 @@ use swc_ecma_transforms_base::fixer;
 use swc_ecma_transforms_base::helpers::{inject_helpers, HELPERS};
 use swc_ecma_transforms_base::hygiene;
 use swc_ecma_utils::DropSpan;
+use swc_ecma_utils::HANDLER;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::{as_folder, Fold, FoldWith};
 use tempfile::tempdir_in;
+use testing::NormalizedOutput;
 
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
@@ -50,6 +54,35 @@ impl<'a> Tester<'a> {
             Ok(()) => {}
             Err(stderr) => panic!("Stderr:\n{}", stderr),
         }
+    }
+
+    pub(crate) fn run_captured<F, T>(op: F) -> (Option<T>, NormalizedOutput)
+    where
+        F: FnOnce(&mut Tester<'_>) -> Result<T, ()>,
+    {
+        let mut res = None;
+        let output = ::testing::Tester::new().print_errors(|cm, handler| -> Result<(), _> {
+            HANDLER.set(&handler, || {
+                HELPERS.set(&Default::default(), || {
+                    let result = op(&mut Tester {
+                        cm,
+                        handler: &handler,
+                        comments: Default::default(),
+                    });
+
+                    res = result.ok();
+
+                    // We need stderr
+                    Err(())
+                })
+            })
+        });
+
+        let output = output
+            .err()
+            .unwrap_or_else(|| NormalizedOutput::from(String::from("")));
+
+        (res, output)
     }
 
     pub fn with_parser<F, T>(
@@ -401,5 +434,101 @@ impl Fold for HygieneVisualizer {
             sym: format!("{}{:?}", ident.sym, ident.span.ctxt()).into(),
             ..ident
         }
+    }
+}
+
+pub fn parse_options<T>(dir: &Path) -> T
+where
+    T: DeserializeOwned,
+{
+    let mut s = String::from("{}");
+
+    fn check(dir: &Path) -> Option<String> {
+        let file = dir.join("options.json");
+        match read_to_string(&file) {
+            Ok(v) => {
+                eprintln!("Using options.json at {}", file.display());
+
+                return Some(v);
+            }
+            Err(_) => {}
+        }
+
+        dir.parent().and_then(check)
+    }
+
+    if let Some(content) = check(dir) {
+        s = content;
+    }
+
+    serde_json::from_str(&s)
+        .unwrap_or_else(|err| panic!("failed to deserialize options.json: {}", err))
+}
+
+pub fn test_fixture<P>(syntax: Syntax, tr: &dyn Fn(&mut Tester) -> P, input: &Path, output: &Path)
+where
+    P: Fold,
+{
+    let expected = read_to_string(output);
+    let _is_really_expected = expected.is_ok();
+    let expected = expected.unwrap_or_default();
+
+    let (values, stderr) = Tester::run_captured(|tester| {
+        let input_str = read_to_string(input).unwrap();
+        println!("----- Input -----\n{}", input_str);
+
+        let tr = make_tr("actual", tr, tester);
+
+        println!("----- Expected -----\n{}", expected);
+        let expected = tester.apply_transform(
+            as_folder(::swc_ecma_utils::DropSpan {
+                preserve_ctxt: true,
+            }),
+            "output.js",
+            syntax,
+            &expected,
+        )?;
+
+        println!("----- Actual -----");
+
+        let actual =
+            tester.apply_transform(tr, "input.js", syntax, &read_to_string(&input).unwrap())?;
+
+        match ::std::env::var("PRINT_HYGIENE") {
+            Ok(ref s) if s == "1" => {
+                let hygiene_src = tester.print(&actual.clone().fold_with(&mut HygieneVisualizer));
+                println!("----- Hygiene -----\n{}", hygiene_src);
+            }
+            _ => {}
+        }
+
+        let actual = actual
+            .fold_with(&mut crate::hygiene::hygiene())
+            .fold_with(&mut crate::fixer::fixer(None))
+            .fold_with(&mut as_folder(DropSpan {
+                preserve_ctxt: false,
+            }));
+
+        let (actual_src, expected_src) = (tester.print(&actual), tester.print(&expected));
+
+        Ok((actual_src, expected_src))
+    });
+
+    let mut results = vec![];
+
+    if !stderr.is_empty() {
+        results
+            .push(NormalizedOutput::from(stderr).compare_to_file(output.with_extension("stderr")));
+    }
+
+    match values {
+        Some((actual_src, _expected_src)) => {
+            results.push(NormalizedOutput::from(actual_src).compare_to_file(output));
+        }
+        _ => {}
+    }
+
+    for result in results {
+        result.unwrap();
     }
 }

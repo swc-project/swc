@@ -1,7 +1,10 @@
+use self::static_check::is_static;
+use self::static_check::should_use_create_element;
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
+use std::iter::once;
 use std::{iter, mem};
 use string_enum::StringEnum;
 use swc_atoms::{js_word, JsWord};
@@ -17,16 +20,22 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::drop_span;
 use swc_ecma_utils::member_expr;
+use swc_ecma_utils::prepend;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::HANDLER;
 use swc_ecma_visit::as_folder;
 use swc_ecma_visit::noop_visit_mut_type;
+use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::Fold;
+use swc_ecma_visit::Node;
+use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::VisitWith;
 
+mod static_check;
 #[cfg(test)]
 mod tests;
 
@@ -671,6 +680,7 @@ where
                             span: DUMMY_SP,
                             value: format!("{}/jsx-runtime", self.import_source).into(),
                             has_escape: false,
+                            kind: Default::default(),
                         },
                         type_only: Default::default(),
                         asserts: Default::default(),
@@ -909,79 +919,4 @@ fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
         JSXAttrValue::JSXElement(e) => Box::new(Expr::JSXElement(e)),
         JSXAttrValue::JSXFragment(f) => Box::new(Expr::JSXFragment(f)),
     })
-}
-
-fn is_static<T>(node: &T) -> bool
-where
-    T: VisitWith<StaticVisitor>,
-{
-    let mut v = StaticVisitor::default();
-    node.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
-    !v.dynamic
-}
-
-#[derive(Default)]
-struct StaticVisitor {
-    dynamic: bool,
-}
-
-impl Visit for StaticVisitor {
-    noop_visit_type!();
-
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
-        e.obj.visit_with(e, self);
-        if e.computed {
-            e.prop.visit_with(e, self);
-        }
-    }
-
-    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
-        e.visit_children_with(self);
-
-        match e {
-            Expr::Lit(..) | Expr::JSXElement(..) | Expr::JSXFragment(..) | Expr::Array(..) => {
-                return
-            }
-            _ => {
-                self.dynamic = true;
-            }
-        }
-    }
-
-    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
-        if i.sym == js_word!("this") {
-            self.dynamic = true;
-        }
-    }
-}
-
-/// We want to use React.createElement, even in the case of
-/// jsx, for <div {...props} key={key} /> to distinguish it
-/// from <div key={key} {...props} />. This is an intermediary
-/// step while we deprecate key spread from props. Afterwards,
-/// we will stop using createElement in the transform.
-fn should_use_create_element(attrs: &[JSXAttrOrSpread]) -> bool {
-    let mut seen_prop_spread = false;
-    for attr in attrs {
-        if seen_prop_spread
-            && match attr {
-                JSXAttrOrSpread::JSXAttr(attr) => match &attr.name {
-                    JSXAttrName::Ident(i) => i.sym == js_word!("key"),
-                    JSXAttrName::JSXNamespacedName(_) => false,
-                },
-                _ => false,
-            }
-        {
-            return true;
-        }
-
-        match attr {
-            JSXAttrOrSpread::SpreadElement(_) => {
-                seen_prop_spread = true;
-            }
-            _ => {}
-        }
-    }
-
-    false
 }
