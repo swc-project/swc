@@ -483,11 +483,6 @@ where
 
         let tr = tr(tester);
 
-        println!(
-            "----- {} -----\n{}",
-            Color::Green.paint("Expected"),
-            expected
-        );
         let expected = tester.apply_transform(
             as_folder(::swc_ecma_utils::DropSpan {
                 preserve_ctxt: true,
@@ -496,6 +491,14 @@ where
             syntax,
             &expected,
         )?;
+
+        let expected_src = tester.print(&expected);
+
+        println!(
+            "----- {} -----\n{}",
+            Color::Green.paint("Expected"),
+            expected_src
+        );
 
         println!("----- {} -----", Color::Green.paint("Actual"));
 
@@ -521,7 +524,7 @@ where
                 preserve_ctxt: false,
             }));
 
-        let (actual_src, expected_src) = (tester.print(&actual), tester.print(&expected));
+        let actual_src = tester.print(&actual);
 
         Ok((actual_src, expected_src))
     });
