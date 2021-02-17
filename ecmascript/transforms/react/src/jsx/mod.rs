@@ -945,7 +945,7 @@ fn count_children(children: &[JSXElementChild]) -> usize {
     children
         .iter()
         .filter(|v| match v {
-            JSXElementChild::JSXText(..) => false,
+            JSXElementChild::JSXText(..) => true,
             JSXElementChild::JSXExprContainer(e) => match e.expr {
                 JSXExpr::JSXEmptyExpr(_) => false,
                 JSXExpr::Expr(_) => true,
