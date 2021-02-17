@@ -260,31 +260,149 @@ where
         }
     }
 
+    /// # Automatic
+    ///
+    ///
+    ///
+    /// # Classic
+    ///
+    /// <div></div> => React.createElement('div', null);
     fn jsx_elem_to_expr(&mut self, el: JSXElement) -> Expr {
+        let top_level_node = self.top_level_node;
         let span = el.span();
+        let use_create_element = should_use_create_element(&el.opening.attrs);
+        let use_jsxs = self.top_level_node && !use_create_element && is_static(&el);
+        self.top_level_node = false;
 
         let name = self.jsx_name(el.opening.name);
 
-        Expr::Call(CallExpr {
-            span,
-            callee: self.pragma.clone(),
-            args: iter::once(name.as_arg())
-                .chain(iter::once({
-                    // Attributes
-                    self.fold_attrs(el.opening.attrs).as_arg()
-                }))
-                .chain({
-                    // Children
-                    el.children
-                        .into_iter()
-                        .filter_map(|c| self.jsx_elem_child_to_expr(c))
+        match self.runtime {
+            Runtime::Automatic => {
+                // function jsx(tagName: string, props: { children: Node[], ... }, key: string)
+
+                let jsx = if use_jsxs {
+                    self.import_jsxs
+                        .get_or_insert_with(|| private_ident!("_jsxs"))
+                        .clone()
+                } else if use_create_element {
+                    self.import_create_element
+                        .get_or_insert_with(|| private_ident!("_createElement"))
+                        .clone()
+                } else {
+                    self.import_jsx
+                        .get_or_insert_with(|| private_ident!("_jsx"))
+                        .clone()
+                };
+
+                let mut props_obj = ObjectLit {
+                    span: DUMMY_SP,
+                    props: vec![],
+                };
+
+                let mut key = None;
+
+                for attr in el.opening.attrs {
+                    match attr {
+                        JSXAttrOrSpread::JSXAttr(attr) => {
+                            //
+                            match attr.name {
+                                JSXAttrName::Ident(i) => {
+                                    //
+                                    if i.sym == js_word!("key") {
+                                        key = attr
+                                            .value
+                                            .map(jsx_attr_value_to_expr)
+                                            .flatten()
+                                            .map(|expr| ExprOrSpread { expr, spread: None });
+                                        assert_ne!(
+                                            key, None,
+                                            "value of property 'key' should not be empty"
+                                        );
+                                        continue;
+                                    }
+
+                                    let value = match attr.value {
+                                        Some(v) => jsx_attr_value_to_expr(v)
+                                            .expect("empty expression container?"),
+                                        None => Box::new(Expr::Lit(Lit::Bool(Bool {
+                                            span: DUMMY_SP,
+                                            value: true,
+                                        }))),
+                                    };
+                                    props_obj.props.push(PropOrSpread::Prop(Box::new(
+                                        Prop::KeyValue(KeyValueProp {
+                                            key: PropName::Ident(i),
+                                            value,
+                                        }),
+                                    )));
+                                }
+                                JSXAttrName::JSXNamespacedName(_) => {
+                                    unimplemented!("automatic runtime: JSXNamespacedName")
+                                }
+                            }
+                        }
+                        JSXAttrOrSpread::SpreadElement(attr) => {
+                            props_obj.props.push(PropOrSpread::Spread(attr));
+                        }
+                    }
+                }
+
+                let children = el
+                    .children
+                    .into_iter()
+                    .filter_map(|child| self.jsx_elem_child_to_expr(child))
+                    .map(Some)
+                    .collect::<Vec<_>>();
+
+                if !children.is_empty() {
+                    props_obj
+                        .props
+                        .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                            key: PropName::Ident(quote_ident!("children")),
+                            value: Box::new(Expr::Array(ArrayLit {
+                                span: DUMMY_SP,
+                                elems: children,
+                            })),
+                        }))));
+                }
+
+                self.top_level_node = top_level_node;
+
+                Expr::Call(CallExpr {
+                    span,
+                    callee: jsx.as_callee(),
+                    args: once(name.as_arg())
+                        .chain(once(props_obj.as_arg()))
+                        .chain(key)
+                        .collect(),
+                    type_args: Default::default(),
                 })
-                .collect(),
-            type_args: Default::default(),
-        })
+            }
+            Runtime::Classic => {
+                Expr::Call(CallExpr {
+                    span,
+                    callee: self.pragma.clone(),
+                    args: iter::once(name.as_arg())
+                        .chain(iter::once({
+                            // Attributes
+                            self.fold_attrs_for_old_classic(el.opening.attrs).as_arg()
+                        }))
+                        .chain({
+                            // Children
+                            el.children
+                                .into_iter()
+                                .filter_map(|c| self.jsx_elem_child_to_expr(c))
+                        })
+                        .collect(),
+                    type_args: Default::default(),
+                })
+            }
+        }
     }
 
     fn jsx_elem_child_to_expr(&mut self, c: JSXElementChild) -> Option<ExprOrSpread> {
+        self.top_level_node = false;
+
         Some(match c {
             JSXElementChild::JSXText(text) => {
                 // TODO(kdy1): Optimize
@@ -316,7 +434,38 @@ where
         })
     }
 
-    fn fold_attrs(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
+    fn fold_attrs_for_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
+        if self.next {
+            self.fold_attrs_for_next_classic(attrs)
+        } else {
+            self.fold_attrs_for_old_classic(attrs)
+        }
+    }
+
+    /// Runtiem; `classic`
+    fn fold_attrs_for_next_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
+        if attrs.is_empty() {
+            return Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP })));
+        }
+        let props = attrs
+            .into_iter()
+            .map(|attr| match attr {
+                JSXAttrOrSpread::JSXAttr(attr) => {
+                    PropOrSpread::Prop(Box::new(self.attr_to_prop(attr)))
+                }
+                JSXAttrOrSpread::SpreadElement(spread) => PropOrSpread::Spread(spread),
+            })
+            .collect();
+
+        let obj = ObjectLit {
+            span: DUMMY_SP,
+            props,
+        };
+
+        Box::new(Expr::Object(obj))
+    }
+
+    fn fold_attrs_for_old_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
         if attrs.is_empty() {
             return Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP })));
         }
