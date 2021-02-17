@@ -352,23 +352,49 @@ where
                     }
                 }
 
-                let children = el
-                    .children
-                    .into_iter()
-                    .filter_map(|child| self.jsx_elem_child_to_expr(child))
-                    .map(Some)
-                    .collect::<Vec<_>>();
+                if el.children.len() == 1
+                    && match el.children.first() {
+                        Some(JSXElementChild::JSXText(..)) => true,
+                        _ => false,
+                    }
+                {
+                    match el.children.first() {
+                        Some(JSXElementChild::JSXText(t)) => {
+                            props_obj
+                                .props
+                                .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                    key: PropName::Ident(quote_ident!("children")),
+                                    value: Box::new(Expr::Lit(Lit::Str(Str {
+                                        span: t.span,
+                                        value: t.value.clone(),
+                                        has_escape: false,
+                                        kind: Default::default(),
+                                    }))),
+                                }))));
+                        }
+                        _ => {
+                            unreachable!()
+                        }
+                    }
+                } else {
+                    let children = el
+                        .children
+                        .into_iter()
+                        .filter_map(|child| self.jsx_elem_child_to_expr(child))
+                        .map(Some)
+                        .collect::<Vec<_>>();
 
-                if !children.is_empty() {
-                    props_obj
-                        .props
-                        .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                            key: PropName::Ident(quote_ident!("children")),
-                            value: Box::new(Expr::Array(ArrayLit {
-                                span: DUMMY_SP,
-                                elems: children,
-                            })),
-                        }))));
+                    if !children.is_empty() {
+                        props_obj
+                            .props
+                            .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                key: PropName::Ident(quote_ident!("children")),
+                                value: Box::new(Expr::Array(ArrayLit {
+                                    span: DUMMY_SP,
+                                    elems: children,
+                                })),
+                            }))));
+                    }
                 }
 
                 self.top_level_node = top_level_node;
