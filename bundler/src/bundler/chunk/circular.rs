@@ -30,6 +30,7 @@ where
             log::debug!("[circular] skip: {:?}", entry_id);
             return Ok(Modules::empty(self.injected_ctxt));
         }
+        // TODO: Handle wrapped esms
 
         log::debug!("[circular] Starting with: {:?}", entry_id);
 
