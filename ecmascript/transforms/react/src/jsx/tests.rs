@@ -28,7 +28,7 @@ struct FixtureOptions {
     options: Options,
 
     #[serde(default, rename = "BABEL_8_BREAKING")]
-    breaking: bool,
+    babel_8_breaking: bool,
 
     #[serde(default = "true_by_default")]
     pure: bool,
