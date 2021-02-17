@@ -29,10 +29,13 @@ async function main() {
             for (const [plugin, config] of obj.plugins) {
                 if (plugin === 'transform-react-jsx') {
                     console.log(plugin, config);
-                    await fs.promises.writeFile(f, JSON.stringify({
+                    const newObj = {
                         ...obj,
                         ...config,
-                    }), { encoding: 'utf-8' });
+                    };
+                    delete newObj.sourceType
+                    delete newObj.plugins;
+                    await fs.promises.writeFile(f, JSON.stringify(newObj), { encoding: 'utf-8' });
                     break
                 }
             }
