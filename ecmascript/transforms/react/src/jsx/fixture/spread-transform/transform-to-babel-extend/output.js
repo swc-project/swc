@@ -1,3 +1,4 @@
-var div = /*#__PURE__*/React.createElement(Component, babelHelpers.extends({}, props, {
-  foo: "bar"
+var div = React.createElement(Component, _extends({
+}, props, {
+    foo: "bar"
 }));
