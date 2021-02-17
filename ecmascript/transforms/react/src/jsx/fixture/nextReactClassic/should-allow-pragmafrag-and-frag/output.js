@@ -1,0 +1,1 @@
+dom(DomFrag, null);

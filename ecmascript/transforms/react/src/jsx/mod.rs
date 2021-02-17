@@ -24,6 +24,7 @@ use swc_ecma_visit::Fold;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
+mod jsx2;
 #[cfg(test)]
 mod tests;
 

@@ -1,0 +1,1 @@
+foo("div", null, "Hi");

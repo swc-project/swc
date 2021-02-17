@@ -18,6 +18,13 @@ fn tr(t: &mut Tester, options: Options) -> impl Fold {
     )
 }
 
+fn fixture_tr(t: &mut Tester, options: Options) -> impl Fold {
+    chain!(
+        jsx(t.cm.clone(), Some(t.comments.clone()), options),
+        display_name(),
+        arrow(),
+    )
+}
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
@@ -1236,3 +1243,24 @@ exports.default = RandomComponent;
 
 "#
 );
+
+#[testing::fixture("fixture/**/input.js")]
+fn fixture(input: PathBuf) {
+    let mut output = input.with_file_name("output.js");
+    if !output.exists() {
+        output = input.with_file_name("output.mjs");
+    }
+
+    test_fixture(
+        Syntax::Es(EsConfig {
+            jsx: true,
+            ..Default::default()
+        }),
+        &|t| {
+            let options = parse_options(input.parent().unwrap());
+            fixture_tr(t, options)
+        },
+        &input,
+        &output,
+    );
+}
