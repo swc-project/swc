@@ -360,39 +360,24 @@ where
                     }
                 }
 
-                if el.children.len() == 1
-                    && match el.children.first() {
-                        Some(JSXElementChild::JSXText(..)) => true,
-                        _ => false,
-                    }
-                {
-                    match el.children.first() {
-                        Some(JSXElementChild::JSXText(t)) => {
-                            props_obj
-                                .props
-                                .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                    key: PropName::Ident(quote_ident!("children")),
-                                    value: Box::new(Expr::Lit(Lit::Str(Str {
-                                        span: t.span,
-                                        value: t.value.clone(),
-                                        has_escape: false,
-                                        kind: Default::default(),
-                                    }))),
-                                }))));
-                        }
-                        _ => {
-                            unreachable!()
-                        }
-                    }
-                } else {
-                    let children = el
-                        .children
-                        .into_iter()
-                        .filter_map(|child| self.jsx_elem_child_to_expr(child))
-                        .map(Some)
-                        .collect::<Vec<_>>();
+                let children = el
+                    .children
+                    .into_iter()
+                    .filter_map(|child| self.jsx_elem_child_to_expr(child))
+                    .map(Some)
+                    .collect::<Vec<_>>();
 
-                    if !children.is_empty() {
+                match children.len() {
+                    0 => {}
+                    1 if children[0].as_ref().unwrap().spread.is_none() => {
+                        props_obj
+                            .props
+                            .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                key: PropName::Ident(quote_ident!("children")),
+                                value: children.into_iter().next().flatten().unwrap().expr,
+                            }))));
+                    }
+                    _ => {
                         props_obj
                             .props
                             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
