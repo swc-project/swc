@@ -451,7 +451,7 @@ where
         match read_to_string(&file) {
             Ok(v) => {
                 eprintln!("Using options.json at {}", file.display());
-                eprintln!("----- {} -----{}", Color::Green.paint("Options"), v);
+                eprintln!("----- {} -----\n{}", Color::Green.paint("Options"), v);
 
                 return Some(v);
             }
