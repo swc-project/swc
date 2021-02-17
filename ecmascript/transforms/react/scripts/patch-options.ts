@@ -1,5 +1,5 @@
-const fs = require("fs");
-const path = require("path");
+import * as fs from 'fs';
+import * as path from 'path';
 
 async function* walk(dir: string) {
     for await (const d of await fs.promises.opendir(dir)) {
