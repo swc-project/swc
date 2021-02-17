@@ -27,4 +27,4 @@ swc_ecma_visit = {version = "0.24.0", path = "../../visit"}
 swc_ecma_transforms_compat = {version = "0.5.0", path = "../compat/"}
 swc_ecma_transforms_module = {version = "0.5.0", path = "../module"}
 swc_ecma_transforms_testing = {version = "0.4.0", path = "../testing/"}
-testing = {version = "0.12", path = "../../testing"}
+testing = {version = "0.10.2", path = "../../../testing"}
