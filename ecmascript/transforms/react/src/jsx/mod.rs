@@ -136,14 +136,23 @@ where
 {
     as_folder(Jsx {
         cm: cm.clone(),
-        pragma: ExprOrSuper::Expr(parse_option(&cm, "pragma", options.pragma)),
+        next: options.runtime.is_some(),
+        runtime: options.runtime.unwrap_or_default(),
+        import_source: options.import_source.into(),
+        import_jsx: None,
+        import_jsxs: None,
+        import_fragment: None,
+        import_create_element: None,
+
+        pragma: ExprOrSuper::Expr(parse_classic_option(&cm, "pragma", options.pragma)),
         comments,
         pragma_frag: ExprOrSpread {
             spread: None,
-            expr: parse_option(&cm, "pragmaFrag", options.pragma_frag),
+            expr: parse_classic_option(&cm, "pragmaFrag", options.pragma_frag),
         },
         use_builtins: options.use_builtins,
         throw_if_namespace: options.throw_if_namespace,
+        top_level_node: true,
     })
 }
 
@@ -151,7 +160,20 @@ struct Jsx<C>
 where
     C: Comments,
 {
-    cm: Lrc<SourceMap>,
+    next: bool,
+    runtime: Runtime,
+    /// For automatic runtime.
+    import_source: JsWord,
+    /// For automatic runtime.
+    import_jsx: Option<Ident>,
+    /// For automatic runtime.
+    import_jsxs: Option<Ident>,
+    /// For automatic runtime.
+    import_create_element: Option<Ident>,
+    /// For automatic runtime.
+    import_fragment: Option<Ident>,
+    top_level_node: bool,
+
     pragma: ExprOrSuper,
     comments: Option<C>,
     pragma_frag: ExprOrSpread,
