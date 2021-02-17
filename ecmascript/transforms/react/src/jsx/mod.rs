@@ -618,15 +618,18 @@ where
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        expr.visit_mut_children_with(self);
+        let top_level_node = self.top_level_node;
+        let mut did_work = false;
 
         if let Expr::JSXElement(el) = expr {
+            did_work = true;
             // <div></div> => React.createElement('div', null);
             *expr = self.jsx_elem_to_expr(*el.take());
             return;
         }
         if let Expr::JSXFragment(frag) = expr {
             // <></> => React.createElement(React.Fragment, null);
+            did_work = true;
             *expr = self.jsx_frag_to_expr(frag.take());
             return;
         }
@@ -636,14 +639,31 @@ where
         }) = expr
         {
             if let Expr::JSXElement(el) = &mut **inner_expr {
+                did_work = true;
                 *expr = self.jsx_elem_to_expr(*el.take());
                 return;
             }
             if let Expr::JSXFragment(frag) = &mut **inner_expr {
                 // <></> => React.createElement(React.Fragment, null);
+                did_work = true;
                 *expr = self.jsx_frag_to_expr(frag.take());
                 return;
             }
+        }
+
+        if did_work {
+            self.top_level_node = false;
+        }
+
+        expr.visit_mut_children_with(self);
+
+        self.top_level_node = top_level_node;
+    }
+
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
+        if e.computed {
+            e.prop.visit_mut_with(self);
         }
     }
 }

@@ -137,60 +137,6 @@ where
             }
         }
     }
-
-    fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        let top_level_node = self.top_level_node;
-        let mut did_work = false;
-        expr.map_with_mut(|expr| {
-            if let Expr::JSXElement(el) = expr {
-                did_work = true;
-                return self.jsx_elem_to_expr(*el);
-            }
-            if let Expr::JSXFragment(frag) = expr {
-                did_work = true;
-                // <></> => React.createElement(React.Fragment, null);
-                return self.jsx_frag_to_expr(frag);
-            }
-
-            if let Expr::Paren(ParenExpr {
-                span,
-                expr: inner_expr,
-                ..
-            }) = expr
-            {
-                if let Expr::JSXElement(el) = *inner_expr {
-                    did_work = true;
-                    return self.jsx_elem_to_expr(*el);
-                }
-                if let Expr::JSXFragment(frag) = *inner_expr {
-                    did_work = true;
-                    // <></> => React.createElement(React.Fragment, null);
-                    return self.jsx_frag_to_expr(frag);
-                }
-                return Expr::Paren(ParenExpr {
-                    span,
-                    expr: inner_expr,
-                });
-            }
-
-            expr
-        });
-
-        if did_work {
-            self.top_level_node = false;
-        }
-
-        expr.visit_mut_children_with(self);
-
-        self.top_level_node = top_level_node;
-    }
-
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.obj.visit_mut_with(self);
-        if e.computed {
-            e.prop.visit_mut_with(self);
-        }
-    }
 }
 
 impl<C> Jsx<C>
