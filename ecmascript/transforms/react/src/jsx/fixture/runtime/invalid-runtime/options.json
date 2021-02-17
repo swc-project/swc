@@ -1,4 +1,1 @@
-{
-  "plugins": [["transform-react-jsx", { "runtime": "invalidOption" }]],
-  "throws": "Runtime must be either \"classic\" or \"automatic\"."
-}
+{"throws":"Runtime must be either \"classic\" or \"automatic\".","runtime":"invalidOption"}

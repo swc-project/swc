@@ -1,8 +1,1 @@
-{
-  "plugins": [
-    "external-helpers",
-    "syntax-jsx",
-    ["transform-react-jsx", { "runtime": "classic" }],
-    "transform-arrow-functions"
-  ]
-}
+{"runtime":"classic"}

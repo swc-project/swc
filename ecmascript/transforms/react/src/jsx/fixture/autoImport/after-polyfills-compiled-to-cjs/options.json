@@ -1,7 +1,1 @@
-{
-  "plugins": [
-    ["transform-react-jsx", { "runtime": "automatic" }],
-    "transform-modules-commonjs"
-  ],
-  "sourceType": "module"
-}
+{"runtime":"automatic"}

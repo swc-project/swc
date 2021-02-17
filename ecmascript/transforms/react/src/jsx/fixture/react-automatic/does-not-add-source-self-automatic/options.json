@@ -1,11 +1,1 @@
-{
-  "plugins": [
-    [
-      "transform-react-jsx",
-      {
-        "autoImport": "namedExports",
-        "runtime": "automatic"
-      }
-    ]
-  ]
-}
+{"autoImport":"namedExports","runtime":"automatic"}

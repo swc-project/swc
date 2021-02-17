@@ -1,6 +1,1 @@
-{
-  "plugins": [
-    ["transform-react-jsx", { "runtime": "automatic" }],
-    "transform-property-literals"
-  ]
-}
+{"runtime":"automatic"}
