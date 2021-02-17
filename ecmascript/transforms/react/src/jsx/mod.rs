@@ -294,12 +294,12 @@ where
                 let use_jsxs = count_children(&el.children) > 1;
 
                 let jsx = if use_create_element {
-                    self.import_jsxs
-                        .get_or_insert_with(|| private_ident!("_jsxs"))
-                        .clone()
-                } else if use_jsxs {
                     self.import_create_element
                         .get_or_insert_with(|| private_ident!("_createElement"))
+                        .clone()
+                } else if use_jsxs {
+                    self.import_jsxs
+                        .get_or_insert_with(|| private_ident!("_jsxs"))
                         .clone()
                 } else {
                     self.import_jsx
