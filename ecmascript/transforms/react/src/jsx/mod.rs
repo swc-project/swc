@@ -21,6 +21,7 @@ use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::drop_span;
 use swc_ecma_utils::member_expr;
 use swc_ecma_utils::prepend;
+use swc_ecma_utils::prepend_stmts;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::ExprFactory;
@@ -668,37 +669,34 @@ where
         module.visit_mut_children_with(self);
 
         if self.runtime == Runtime::Automatic {
-            let mut imports = vec![];
-            if let Some(local) = self.import_jsx.take() {
-                imports.push(ImportSpecifier::Named(ImportNamedSpecifier {
+            let mut imports = self
+                .import_jsx
+                .take()
+                .map(|local| ImportNamedSpecifier {
                     span: DUMMY_SP,
                     local,
                     imported: Some(quote_ident!("jsx")),
-                }));
-            }
-
-            if let Some(local) = self.import_jsxs.take() {
-                imports.push(ImportSpecifier::Named(ImportNamedSpecifier {
+                })
+                .into_iter()
+                .chain(self.import_jsxs.take().map(|local| ImportNamedSpecifier {
                     span: DUMMY_SP,
                     local,
                     imported: Some(quote_ident!("jsxs")),
-                }));
-            }
-
-            if let Some(local) = self.import_fragment.take() {
-                imports.push(ImportSpecifier::Named(ImportNamedSpecifier {
-                    span: DUMMY_SP,
-                    local,
-                    imported: Some(quote_ident!("Fragment")),
-                }));
-            }
-
-            if !imports.is_empty() {
-                prepend(
-                    &mut module.body,
+                }))
+                .chain(
+                    self.import_fragment
+                        .take()
+                        .map(|local| ImportNamedSpecifier {
+                            span: DUMMY_SP,
+                            local,
+                            imported: Some(quote_ident!("Fragment")),
+                        }),
+                )
+                .map(ImportSpecifier::Named)
+                .map(|specifier| {
                     ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                         span: DUMMY_SP,
-                        specifiers: imports,
+                        specifiers: vec![specifier],
                         src: Str {
                             span: DUMMY_SP,
                             value: format!("{}/jsx-runtime", self.import_source).into(),
@@ -707,8 +705,12 @@ where
                         },
                         type_only: Default::default(),
                         asserts: Default::default(),
-                    })),
-                );
+                    }))
+                })
+                .collect::<Vec<_>>();
+
+            if !imports.is_empty() {
+                prepend_stmts(&mut module.body, imports.into_iter());
             }
         }
     }
