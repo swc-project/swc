@@ -228,10 +228,6 @@ fn iter<'a>(
                             }
                         }
 
-                        if !moves.insert((idx, dep)) {
-                            continue;
-                        }
-
                         deps_to_push.push(dep);
                     }
 
