@@ -21,9 +21,18 @@ fn tr(t: &mut Tester, options: Options) -> impl Fold {
     )
 }
 
-fn fixture_tr(t: &mut Tester, options: Options) -> impl Fold {
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct FixtureOptions {
+    #[serde(flatten)]
+    options: Options,
+    #[serde(rename = "BABEL_8_BREAKING")]
+    breaking: bool,
+}
+
+fn fixture_tr(t: &mut Tester, options: FixtureOptions) -> impl Fold {
     chain!(
-        jsx(t.cm.clone(), Some(t.comments.clone()), options),
+        jsx(t.cm.clone(), Some(t.comments.clone()), options.options),
         display_name(),
         arrow(),
     )
