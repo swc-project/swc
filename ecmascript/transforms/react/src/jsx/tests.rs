@@ -29,8 +29,15 @@ struct FixtureOptions {
     #[serde(default, rename = "BABEL_8_BREAKING")]
     breaking: bool,
 
+    #[serde(default = "true_by_default")]
+    pure: bool,
+
     #[serde(default)]
     throws: Option<String>,
+}
+
+fn true_by_default() -> bool {
+    true
 }
 
 fn fixture_tr(t: &mut Tester, options: FixtureOptions) -> impl Fold {
