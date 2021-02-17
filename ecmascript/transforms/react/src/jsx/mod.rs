@@ -3,6 +3,7 @@ use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::{iter, mem};
+use string_enum::StringEnum;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     comments::{CommentKind, Comments},

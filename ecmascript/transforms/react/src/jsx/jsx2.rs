@@ -23,6 +23,32 @@ use swc_ecma_visit::{
     VisitWith,
 };
 
+struct Jsx<C>
+where
+    C: Comments,
+{
+    cm: Lrc<SourceMap>,
+    next: bool,
+    runtime: Runtime,
+    /// For automatic runtime.
+    import_source: JsWord,
+    /// For automatic runtime.
+    import_jsx: Option<Ident>,
+    /// For automatic runtime.
+    import_jsxs: Option<Ident>,
+    /// For automatic runtime.
+    import_create_element: Option<Ident>,
+    /// For automatic runtime.
+    import_fragment: Option<Ident>,
+    top_level_node: bool,
+
+    pragma: ExprOrSuper,
+    comments: Option<C>,
+    pragma_frag: ExprOrSpread,
+    use_builtins: bool,
+    throw_if_namespace: bool,
+}
+
 impl<C> Jsx<C>
 where
     C: Comments,
