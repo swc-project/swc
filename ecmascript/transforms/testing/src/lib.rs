@@ -1,4 +1,5 @@
 use serde::de::DeserializeOwned;
+use std::env;
 use std::fs::read_to_string;
 use std::mem::replace;
 use std::{
@@ -477,7 +478,7 @@ where
         let input_str = read_to_string(input).unwrap();
         println!("----- Input -----\n{}", input_str);
 
-        let tr = make_tr("actual", tr, tester);
+        let tr = tr(tester);
 
         println!("----- Expected -----\n{}", expected);
         let expected = tester.apply_transform(
@@ -522,8 +523,11 @@ where
     }
 
     match values {
-        Some((actual_src, _expected_src)) => {
-            results.push(NormalizedOutput::from(actual_src).compare_to_file(output));
+        Some((actual_src, expected_src)) => {
+            if let Ok("1") = env::var("UPDATE").as_deref() {
+                results.push(NormalizedOutput::from(actual_src.clone()).compare_to_file(output));
+            }
+            assert_eq!(actual_src, expected_src);
         }
         _ => {}
     }
