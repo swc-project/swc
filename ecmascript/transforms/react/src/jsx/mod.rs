@@ -27,13 +27,9 @@ use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::HANDLER;
 use swc_ecma_visit::as_folder;
 use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::Fold;
-use swc_ecma_visit::Node;
-use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
-use swc_ecma_visit::VisitWith;
 
 mod static_check;
 #[cfg(test)]
