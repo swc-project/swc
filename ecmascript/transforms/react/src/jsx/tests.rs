@@ -49,7 +49,6 @@ fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
     chain!(
         jsx(t.cm.clone(), Some(t.comments.clone()), options.options),
         display_name(),
-        arrow(),
     )
 }
 test!(
