@@ -202,7 +202,7 @@ where
     fn jsx_frag_to_expr(&mut self, el: JSXFragment) -> Expr {
         let span = el.span();
 
-        let use_jsxs = is_static(&el);
+        let use_jsxs = count_children(&el.children) > 1;
 
         match self.runtime {
             Runtime::Automatic => {
@@ -283,7 +283,6 @@ where
         let top_level_node = self.top_level_node;
         let span = el.span();
         let use_create_element = should_use_create_element(&el.opening.attrs);
-        let use_jsxs = self.top_level_node && !use_create_element && is_static(&el);
         self.top_level_node = false;
 
         let name = self.jsx_name(el.opening.name);
@@ -292,11 +291,13 @@ where
             Runtime::Automatic => {
                 // function jsx(tagName: string, props: { children: Node[], ... }, key: string)
 
-                let jsx = if use_jsxs {
+                let use_jsxs = count_children(&el.children) > 1;
+
+                let jsx = if use_create_element {
                     self.import_jsxs
                         .get_or_insert_with(|| private_ident!("_jsxs"))
                         .clone()
-                } else if use_create_element {
+                } else if use_jsxs {
                     self.import_create_element
                         .get_or_insert_with(|| private_ident!("_createElement"))
                         .clone()
@@ -942,4 +943,20 @@ fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
         JSXAttrValue::JSXElement(e) => Box::new(Expr::JSXElement(e)),
         JSXAttrValue::JSXFragment(f) => Box::new(Expr::JSXFragment(f)),
     })
+}
+
+fn count_children(children: &[JSXElementChild]) -> usize {
+    children
+        .iter()
+        .filter(|v| match v {
+            JSXElementChild::JSXText(..) => false,
+            JSXElementChild::JSXExprContainer(e) => match e.expr {
+                JSXExpr::JSXEmptyExpr(_) => false,
+                JSXExpr::Expr(_) => true,
+            },
+            JSXElementChild::JSXSpreadChild(_) => true,
+            JSXElementChild::JSXElement(_) => true,
+            JSXElementChild::JSXFragment(_) => true,
+        })
+        .count()
 }
