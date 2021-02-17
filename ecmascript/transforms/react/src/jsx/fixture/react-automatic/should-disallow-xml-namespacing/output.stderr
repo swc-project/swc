@@ -1,1 +1,6 @@
-Namespace tags are not supported by default. React's JSX doesn't support namespace tags. You can set `throwIfNamespace: false` to bypass this warning.
+error: JSX Namespace is disabled by default because react does not support it yet. You can specify jsc.transform.react.throwIfNamespace to false to override default behavior
+ --> input.js:1:2
+  |
+1 | <Namespace:Component />;
+  |  ^^^^^^^^^^^^^^^^^^^
+
