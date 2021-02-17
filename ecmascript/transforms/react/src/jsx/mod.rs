@@ -342,11 +342,22 @@ where
                                             value: true,
                                         }))),
                                     };
+
+                                    // TODO: Check if `i` is a valid identifier.
+                                    let key = if i.sym.contains("-") {
+                                        PropName::Str(Str {
+                                            span: i.span,
+                                            value: i.sym,
+                                            has_escape: false,
+                                            kind: StrKind::Normal {
+                                                contains_quote: false,
+                                            },
+                                        })
+                                    } else {
+                                        PropName::Ident(i)
+                                    };
                                     props_obj.props.push(PropOrSpread::Prop(Box::new(
-                                        Prop::KeyValue(KeyValueProp {
-                                            key: PropName::Ident(i),
-                                            value,
-                                        }),
+                                        Prop::KeyValue(KeyValueProp { key, value }),
                                     )));
                                 }
                                 JSXAttrName::JSXNamespacedName(_) => {
