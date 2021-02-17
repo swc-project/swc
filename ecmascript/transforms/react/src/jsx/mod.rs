@@ -17,6 +17,8 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::drop_span;
 use swc_ecma_utils::member_expr;
+use swc_ecma_utils::private_ident;
+use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::HANDLER;
 use swc_ecma_visit::as_folder;
@@ -195,21 +197,67 @@ where
     fn jsx_frag_to_expr(&mut self, el: JSXFragment) -> Expr {
         let span = el.span();
 
-        Expr::Call(CallExpr {
-            span,
-            callee: self.pragma.clone(),
-            args: iter::once(self.pragma_frag.clone())
-                // attribute: null
-                .chain(iter::once(Lit::Null(Null { span: DUMMY_SP }).as_arg()))
-                .chain({
-                    // Children
-                    el.children
-                        .into_iter()
-                        .filter_map(|c| self.jsx_elem_child_to_expr(c))
+        match self.runtime {
+            Runtime::Automatic => {
+                let jsx = self
+                    .import_jsx
+                    .get_or_insert_with(|| private_ident!("_jsx"))
+                    .clone();
+
+                let fragment = self
+                    .import_fragment
+                    .get_or_insert_with(|| private_ident!("_Fragment"))
+                    .clone();
+
+                let mut props_obj = ObjectLit {
+                    span: DUMMY_SP,
+                    props: vec![],
+                };
+
+                let children = el
+                    .children
+                    .into_iter()
+                    .filter_map(|child| self.jsx_elem_child_to_expr(child))
+                    .map(Some)
+                    .collect::<Vec<_>>();
+
+                if !children.is_empty() {
+                    props_obj
+                        .props
+                        .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                            key: PropName::Ident(quote_ident!("children")),
+                            value: Box::new(Expr::Array(ArrayLit {
+                                span: DUMMY_SP,
+                                elems: children,
+                            })),
+                        }))));
+                }
+
+                Expr::Call(CallExpr {
+                    span,
+                    callee: jsx.as_callee(),
+                    args: vec![fragment.as_arg(), props_obj.as_arg()],
+                    type_args: None,
                 })
-                .collect(),
-            type_args: None,
-        })
+            }
+            Runtime::Classic => {
+                Expr::Call(CallExpr {
+                    span,
+                    callee: self.pragma.clone(),
+                    args: iter::once(self.pragma_frag.clone())
+                        // attribute: null
+                        .chain(iter::once(Lit::Null(Null { span: DUMMY_SP }).as_arg()))
+                        .chain({
+                            // Children
+                            el.children
+                                .into_iter()
+                                .filter_map(|c| self.jsx_elem_child_to_expr(c))
+                        })
+                        .collect(),
+                    type_args: None,
+                })
+            }
+        }
     }
 
     fn jsx_elem_to_expr(&mut self, el: JSXElement) -> Expr {
