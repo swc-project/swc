@@ -472,11 +472,24 @@ where
                 for dep in deps {
                     // Check if it's circular.
                     if let Some(members) = builder.circular.get(dep) {
+                        let mut contained_in_entry = false;
+
                         // Exclude circular imnports from normal dependencies
                         for &circular_member in members {
                             if entry == circular_member {
                                 continue;
                             }
+                            {
+                                let c = &mut plans.normal.entry(entry).or_default().chunks;
+                                if let Some(pos) = c.iter().position(|&v| v.id == circular_member) {
+                                    if contained_in_entry {
+                                        c.remove(pos);
+                                    } else {
+                                        contained_in_entry = true;
+                                    }
+                                }
+                            }
+
                             // Remove direct deps if it's circular
                             if builder.direct_deps.contains_edge(dep, circular_member) {
                                 log::debug!(
@@ -538,7 +551,7 @@ where
             plans.normal.entry(entry).or_default();
         }
 
-        // dbg!(&plans);
+        dbg!(&plans);
 
         plans
     }
