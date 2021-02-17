@@ -367,7 +367,7 @@ where
                         if line.trim().starts_with("* @jsxFrag") {
                             let src = line.replace("* @jsxFrag", "").trim().to_string();
                             self.pragma_frag = ExprOrSpread {
-                                expr: parse_option(&self.cm, "module-jsx-pragma-frag", src),
+                                expr: parse_classic_option(&self.cm, "module-jsx-pragma-frag", src),
                                 spread: None,
                             };
                         } else {
