@@ -34,6 +34,8 @@ struct FixtureOptions {
 }
 
 fn fixture_tr(t: &mut Tester, options: FixtureOptions) -> impl Fold {
+    dbg!(&options.breaking);
+    dbg!(&options.throws);
     chain!(
         jsx(t.cm.clone(), Some(t.comments.clone()), options.options),
         display_name(),
