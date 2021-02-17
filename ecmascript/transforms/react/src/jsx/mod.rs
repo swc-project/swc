@@ -673,7 +673,30 @@ where
         module.visit_mut_children_with(self);
 
         if self.runtime == Runtime::Automatic {
-            let mut imports = self
+            if let Some(local) = self.import_create_element.take() {
+                let specifier = ImportSpecifier::Named(ImportNamedSpecifier {
+                    span: DUMMY_SP,
+                    local,
+                    imported: Some(Ident::new("createElement".into(), DUMMY_SP)),
+                });
+                prepend(
+                    &mut module.body,
+                    ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                        span: DUMMY_SP,
+                        specifiers: vec![specifier],
+                        src: Str {
+                            span: DUMMY_SP,
+                            value: "react".into(),
+                            has_escape: false,
+                            kind: Default::default(),
+                        },
+                        type_only: Default::default(),
+                        asserts: Default::default(),
+                    })),
+                );
+            }
+
+            let imports = self
                 .import_jsx
                 .take()
                 .map(|local| ImportNamedSpecifier {
