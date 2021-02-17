@@ -540,6 +540,11 @@ where
         Some((actual_src, expected_src)) => {
             println!("{}", actual_src);
 
+            if actual_src == expected_src {
+                // Ignore `UPDATE`
+                return;
+            }
+
             if let Ok("1") = env::var("UPDATE").as_deref() {
                 results.push(NormalizedOutput::from(actual_src.clone()).compare_to_file(output));
             }
