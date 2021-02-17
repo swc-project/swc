@@ -12,11 +12,32 @@ async function* walk(dir: string): AsyncGenerator<string> {
 // Then, use it with a simple async for loop
 async function main() {
     // TODO: Generalize path
-    for await (const p of walk('src/jsx/fixture')) {
-        if (!p.endsWith('.json')) {
+    for await (const f of walk('src/jsx/fixture')) {
+        if (!f.endsWith('.json')) {
             continue
         }
-        console.log(p)
+        const obj = JSON.parse(await fs.promises.readFile(f, { encoding: 'utf-8' }));
+        const dir = path.dirname(f);
+
+        if (obj.throws) {
+            await fs.promises.writeFile(path.join(dir, "output.stderr"), obj.throws);
+        }
+
+
+        console.log(f);
+        if (obj.plugins) {
+            for (const [plugin, config] of obj.plugins) {
+                if (plugin === 'transform-react-jsx') {
+                    console.log(plugin, config);
+                    await fs.promises.writeFile(f, {
+                        ...obj,
+                        ...config,
+                    }, { encoding: 'utf-8' });
+                    break
+                }
+            }
+        }
+
     }
 }
 
