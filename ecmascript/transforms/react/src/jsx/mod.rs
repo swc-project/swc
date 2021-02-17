@@ -12,12 +12,17 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
+use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::drop_span;
 use swc_ecma_utils::member_expr;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::HANDLER;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::as_folder;
+use swc_ecma_visit::noop_visit_mut_type;
+use swc_ecma_visit::Fold;
+use swc_ecma_visit::VisitMut;
+use swc_ecma_visit::VisitMutWith;
 
 #[cfg(test)]
 mod tests;
@@ -99,7 +104,7 @@ pub fn jsx<C>(cm: Lrc<SourceMap>, comments: Option<C>, options: Options) -> impl
 where
     C: Comments,
 {
-    Jsx {
+    as_folder(Jsx {
         cm: cm.clone(),
         pragma: ExprOrSuper::Expr(parse_option(&cm, "pragma", options.pragma)),
         comments,
@@ -109,7 +114,7 @@ where
         },
         use_builtins: options.use_builtins,
         throw_if_namespace: options.throw_if_namespace,
-    }
+    })
 }
 
 struct Jsx<C>
@@ -266,7 +271,11 @@ where
                         _ => unreachable!(),
                     })
                     .map(attr_to_prop)
-                    .map(|v| v.fold_with(self))
+                    .map(|mut v| {
+                        v.visit_mut_with(self);
+
+                        v
+                    })
                     .map(Box::new)
                     .map(PropOrSpread::Prop)
                     .collect(),
@@ -275,13 +284,13 @@ where
     }
 }
 
-impl<C> Fold for Jsx<C>
+impl<C> VisitMut for Jsx<C>
 where
     C: Comments,
 {
-    noop_fold_type!();
+    noop_visit_mut_type!();
 
-    fn fold_module(&mut self, module: Module) -> Module {
+    fn visit_mut_module(&mut self, module: &mut Module) {
         let leading = if let Some(comments) = &self.comments {
             let leading = comments.take_leading(module.span.lo);
 
@@ -317,49 +326,43 @@ where
             None
         };
 
-        let module = module.fold_children_with(self);
-
         if let Some(leading) = leading {
             if let Some(comments) = &self.comments {
                 comments.add_leading_comments(module.span.lo, leading);
             }
         }
 
-        module
+        module.visit_mut_children_with(self);
     }
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let mut expr = expr.fold_children_with(self);
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        expr.visit_mut_children_with(self);
 
         if let Expr::JSXElement(el) = expr {
             // <div></div> => React.createElement('div', null);
-            return self.jsx_elem_to_expr(*el);
+            *expr = self.jsx_elem_to_expr(*el.take());
+            return;
         }
         if let Expr::JSXFragment(frag) = expr {
             // <></> => React.createElement(React.Fragment, null);
-            return self.jsx_frag_to_expr(frag);
+            *expr = self.jsx_frag_to_expr(frag.take());
+            return;
         }
 
         if let Expr::Paren(ParenExpr {
-            span,
-            expr: inner_expr,
-            ..
+            expr: inner_expr, ..
         }) = expr
         {
-            if let Expr::JSXElement(el) = *inner_expr {
-                return self.jsx_elem_to_expr(*el);
+            if let Expr::JSXElement(el) = &mut **inner_expr {
+                *expr = self.jsx_elem_to_expr(*el.take());
+                return;
             }
-            if let Expr::JSXFragment(frag) = *inner_expr {
+            if let Expr::JSXFragment(frag) = &mut **inner_expr {
                 // <></> => React.createElement(React.Fragment, null);
-                return self.jsx_frag_to_expr(frag);
+                *expr = self.jsx_frag_to_expr(frag.take());
+                return;
             }
-            expr = Expr::Paren(ParenExpr {
-                span,
-                expr: inner_expr,
-            });
         }
-
-        expr
     }
 }
 
