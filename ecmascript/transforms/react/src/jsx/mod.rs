@@ -73,7 +73,7 @@ pub struct Options {
     #[serde(default)]
     pub development: bool,
 
-    #[serde(default)]
+    #[serde(default, alias = "useBuiltIns")]
     pub use_builtins: bool,
 
     #[serde(default)]
