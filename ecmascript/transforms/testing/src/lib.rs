@@ -26,6 +26,7 @@ use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::{as_folder, Fold, FoldWith};
 use tempfile::tempdir_in;
+use testing::assert_eq;
 use testing::NormalizedOutput;
 
 pub struct Tester<'a> {
