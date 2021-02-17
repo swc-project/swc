@@ -165,6 +165,8 @@ struct Jsx<C>
 where
     C: Comments,
 {
+    cm: Lrc<SourceMap>,
+
     next: bool,
     runtime: Runtime,
     /// For automatic runtime.
