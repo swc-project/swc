@@ -73,6 +73,8 @@ pub struct Options {
     #[serde(default)]
     pub development: bool,
 
+    /// TODO: Remove this field.
+    #[deprecated = "Babel dropped support for `useBuiltIns` and swc will also drop it"]
     #[serde(default, alias = "useBuiltIns")]
     pub use_builtins: bool,
 
