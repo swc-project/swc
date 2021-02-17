@@ -21,7 +21,6 @@ use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::drop_span;
 use swc_ecma_utils::member_expr;
 use swc_ecma_utils::prepend;
-use swc_ecma_utils::prepend_stmts;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::ExprFactory;
@@ -693,10 +692,14 @@ where
                         }),
                 )
                 .map(ImportSpecifier::Named)
-                .map(|specifier| {
+                .collect::<Vec<_>>();
+
+            if !imports.is_empty() {
+                prepend(
+                    &mut module.body,
                     ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                         span: DUMMY_SP,
-                        specifiers: vec![specifier],
+                        specifiers: imports,
                         src: Str {
                             span: DUMMY_SP,
                             value: format!("{}/jsx-runtime", self.import_source).into(),
@@ -705,12 +708,8 @@ where
                         },
                         type_only: Default::default(),
                         asserts: Default::default(),
-                    }))
-                })
-                .collect::<Vec<_>>();
-
-            if !imports.is_empty() {
-                prepend_stmts(&mut module.body, imports.into_iter());
+                    })),
+                );
             }
         }
     }
