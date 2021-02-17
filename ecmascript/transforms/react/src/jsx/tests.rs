@@ -36,7 +36,7 @@ struct FixtureOptions {
     #[serde(default)]
     throws: Option<String>,
 
-    #[serde(alias = "useBuiltIns")]
+    #[serde(default, alias = "useBuiltIns")]
     use_builtins: bool,
 }
 
