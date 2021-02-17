@@ -1,4 +1,1 @@
-{
-  "BABEL_8_BREAKING": true,
-  "plugins": ["transform-react-jsx"]
-}
+{"BABEL_8_BREAKING":true}
