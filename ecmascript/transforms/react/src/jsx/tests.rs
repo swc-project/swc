@@ -26,6 +26,7 @@ fn tr(t: &mut Tester, options: Options) -> impl Fold {
 struct FixtureOptions {
     #[serde(flatten)]
     options: Options,
+
     #[serde(default, rename = "BABEL_8_BREAKING")]
     breaking: bool,
 
@@ -34,15 +35,17 @@ struct FixtureOptions {
 
     #[serde(default)]
     throws: Option<String>,
+
+    #[serde(alias = "useBuiltIns")]
+    use_builtins: bool,
 }
 
 fn true_by_default() -> bool {
     true
 }
 
-fn fixture_tr(t: &mut Tester, options: FixtureOptions) -> impl Fold {
-    dbg!(&options.breaking);
-    dbg!(&options.throws);
+fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
+    options.options.use_builtins |= options.use_builtins;
     chain!(
         jsx(t.cm.clone(), Some(t.comments.clone()), options.options),
         display_name(),
