@@ -51,6 +51,10 @@ pub struct Options {
     #[serde(default)]
     pub runtime: Option<Runtime>,
 
+    /// For automatic runtime
+    #[serde(default = "default_import_source")]
+    pub import_source: String,
+
     #[serde(default = "default_pragma")]
     pub pragma: String,
     #[serde(default = "default_pragma_frag")]
