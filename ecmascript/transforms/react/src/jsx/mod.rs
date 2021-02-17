@@ -28,9 +28,28 @@ mod jsx2;
 #[cfg(test)]
 mod tests;
 
+/// https://babeljs.io/docs/en/babel-plugin-transform-react-jsx#runtime
+#[derive(StringEnum, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Hash)]
+pub enum Runtime {
+    /// `automatic`
+    Automatic,
+    /// `classic`
+    Classic,
+}
+
+/// Note: This will changed in v2
+impl Default for Runtime {
+    fn default() -> Self {
+        Runtime::Classic
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Options {
+    #[serde(default)]
+    pub runtime: Option<Runtime>,
+
     #[serde(default = "default_pragma")]
     pub pragma: String,
     #[serde(default = "default_pragma_frag")]
@@ -44,18 +63,28 @@ pub struct Options {
 
     #[serde(default)]
     pub use_builtins: bool,
+
+    #[serde(default)]
+    pub use_spread: bool,
 }
 
 impl Default for Options {
     fn default() -> Self {
         Options {
+            runtime: Default::default(),
+            import_source: default_import_source(),
             pragma: default_pragma(),
             pragma_frag: default_pragma_frag(),
             throw_if_namespace: default_throw_if_namespace(),
             development: false,
             use_builtins: false,
+            use_spread: false,
         }
     }
+}
+
+fn default_import_source() -> String {
+    "react".into()
 }
 
 fn default_pragma() -> String {
@@ -70,7 +99,7 @@ fn default_throw_if_namespace() -> bool {
     true
 }
 
-fn parse_option(cm: &SourceMap, name: &str, src: String) -> Box<Expr> {
+fn parse_classic_option(cm: &SourceMap, name: &str, src: String) -> Box<Expr> {
     static CACHE: Lazy<DashMap<String, Box<Expr>>> = Lazy::new(|| DashMap::with_capacity(2));
 
     let fm = cm.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", name)), src);
