@@ -1,3 +1,4 @@
+use crate::ident::BindingIdent;
 use crate::{expr::Expr, ident::Ident, prop::PropName, typescript::TsTypeAnn, Invalid};
 use is_macro::Is;
 use swc_common::EqIgnoreSpan;
@@ -8,7 +9,7 @@ use swc_common::{ast_node, Span};
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Pat {
     #[tag("Identifier")]
-    Ident(Ident),
+    Ident(BindingIdent),
 
     #[tag("ArrayPattern")]
     Array(ArrayPat),

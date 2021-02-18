@@ -3,6 +3,20 @@ use swc_atoms::JsWord;
 use swc_common::EqIgnoreSpan;
 use swc_common::{ast_node, Span};
 
+/// Identifer used as a pattern.
+#[ast_node("BindingIdentifier")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct BindingIdent {
+    #[span]
+    #[serde(flatten)]
+    pub id: Ident,
+    #[serde(default, rename = "typeAnnotation")]
+    pub type_ann: Option<TsTypeAnn>,
+    /// TypeScript only. Used in case of an optional parameter.
+    #[serde(default)]
+    pub optional: bool,
+}
+
 /// Ident with span.
 #[ast_node("Identifier")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
@@ -10,11 +24,6 @@ pub struct Ident {
     pub span: Span,
     #[serde(rename = "value")]
     pub sym: JsWord,
-    #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
-    /// TypeScript only. Used in case of an optional parameter.
-    #[serde(default)]
-    pub optional: bool,
 }
 
 #[cfg(feature = "arbitrary")]
@@ -55,12 +64,7 @@ impl AsRef<str> for Ident {
 
 impl Ident {
     pub const fn new(sym: JsWord, span: Span) -> Self {
-        Ident {
-            span,
-            sym,
-            type_ann: None,
-            optional: false,
-        }
+        Ident { span, sym }
     }
 }
 
