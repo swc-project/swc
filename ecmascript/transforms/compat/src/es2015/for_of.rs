@@ -360,7 +360,7 @@ impl Actual {
             },
             handler: Some(CatchClause {
                 span: DUMMY_SP,
-                param: Some(Pat::Ident(quote_ident!("err"))),
+                param: Some(Pat::Ident(quote_ident!("err").into())),
                 // _didIteratorError = true;
                 // _iteratorError = err;
                 body: BlockStmt {
@@ -369,7 +369,9 @@ impl Actual {
                         // _didIteratorError = true;
                         AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(error_flag_ident.clone()))),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                error_flag_ident.clone().into(),
+                            ))),
                             op: op!("="),
                             right: Box::new(Expr::Lit(Lit::Bool(Bool {
                                 span: DUMMY_SP,
@@ -380,7 +382,7 @@ impl Actual {
                         // _iteratorError = err;
                         AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(error_ident.clone()))),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(error_ident.clone().into()))),
                             op: op!("="),
                             right: Box::new(Expr::Ident(quote_ident!("err"))),
                         }

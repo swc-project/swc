@@ -501,7 +501,7 @@ impl Fold for Umd {
             factory_params.push(Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(ident.clone()),
+                pat: Pat::Ident(ident.clone().into()),
             });
             factory_args.push(make_require_call(self.root_mark, src.clone()).as_arg());
             global_factory_args.push(quote_ident!("global").make_member(global_ident).as_arg());
@@ -529,7 +529,9 @@ impl Fold for Umd {
                             import_stmts.push(
                                 AssignExpr {
                                     span: DUMMY_SP,
-                                    left: PatOrExpr::Pat(Box::new(Pat::Ident(ident.clone()))),
+                                    left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                        ident.clone().into(),
+                                    ))),
                                     op: op!("="),
                                     right,
                                 }
