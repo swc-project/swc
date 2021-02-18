@@ -1512,11 +1512,11 @@ impl<I: Tokens> Parser<I> {
                 Pat::Rest(RestPat {
                     span: span!(p, start),
                     dot3_token,
-                    arg: Box::new(Pat::Ident(ident)),
+                    arg: Box::new(Pat::Ident(ident.into())),
                     type_ann: None,
                 })
             } else {
-                Pat::Ident(ident)
+                Pat::Ident(ident.into())
             }))
         })
     }
@@ -2563,7 +2563,7 @@ mod tests {
                     declare: false,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(Ident::new("t".into(), DUMMY_SP)),
+                        name: Pat::Ident(Ident::new("t".into(), DUMMY_SP).into()),
                         init: Some(Box::new(Expr::Unary(UnaryExpr {
                             span: DUMMY_SP,
                             op: op!(unary, "-"),
