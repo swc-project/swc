@@ -364,8 +364,41 @@ where
                                         Prop::KeyValue(KeyValueProp { key, value }),
                                     )));
                                 }
-                                JSXAttrName::JSXNamespacedName(_) => {
-                                    unimplemented!("automatic runtime: JSXNamespacedName")
+                                JSXAttrName::JSXNamespacedName(JSXNamespacedName { ns, name }) => {
+                                    if self.throw_if_namespace {
+                                        HANDLER.with(|handler| {
+                                            handler
+                                                .struct_span_err(
+                                                    span,
+                                                    "JSX Namespace is disabled by default because \
+                                                     react does not support it yet. You can \
+                                                     specify jsc.transform.react.throwIfNamespace \
+                                                     to false to override default behavior",
+                                                )
+                                                .emit()
+                                        });
+                                    }
+
+                                    let value = match attr.value {
+                                        Some(v) => jsx_attr_value_to_expr(v)
+                                            .expect("empty expression container?"),
+                                        None => Box::new(Expr::Lit(Lit::Bool(Bool {
+                                            span: DUMMY_SP,
+                                            value: true,
+                                        }))),
+                                    };
+
+                                    let key = Str {
+                                        span,
+                                        value: format!("{}:{}", ns.sym, name.sym).into(),
+                                        has_escape: false,
+                                        kind: Default::default(),
+                                    };
+                                    let key = PropName::Str(key);
+
+                                    props_obj.props.push(PropOrSpread::Prop(Box::new(
+                                        Prop::KeyValue(KeyValueProp { key, value }),
+                                    )));
                                 }
                             }
                         }
