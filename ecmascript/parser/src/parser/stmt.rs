@@ -601,7 +601,7 @@ impl<'a, I: Tokens> Parser<I> {
                 // self.emit_err(ty.span(), SyntaxError::TS1196);
 
                 match &mut pat {
-                    Pat::Ident(Ident { type_ann, .. })
+                    Pat::Ident(BindingIdent { type_ann, .. })
                     | Pat::Array(ArrayPat { type_ann, .. })
                     | Pat::Rest(RestPat { type_ann, .. })
                     | Pat::Object(ObjectPat { type_ann, .. })
@@ -746,7 +746,7 @@ impl<'a, I: Tokens> Parser<I> {
                 | Pat::Assign(AssignPat {
                     ref mut type_ann, ..
                 })
-                | Pat::Ident(Ident {
+                | Pat::Ident(BindingIdent {
                     ref mut type_ann, ..
                 })
                 | Pat::Object(ObjectPat {
