@@ -40,9 +40,9 @@ impl<'a> Scope<'a> {
 impl VisitMut for ConstPropagation<'_> {
     noop_visit_mut_type!();
 
-    /// Altough span hygiene is magic, bundler creates invalid code in aspect of
-    /// span hygiene. (The bundled code can have two variables with identical
-    /// name with each other, with respect to span hygiene.)
+    /// Although span hygiene is magic, bundler creates invalid code in aspect
+    /// of span hygiene. (The bundled code can have two variables with
+    /// identical name with each other, with respect to span hygiene.)
     ///
     /// We avoid bugs caused by the bundler's wrong behavior by
     /// scoping variables.

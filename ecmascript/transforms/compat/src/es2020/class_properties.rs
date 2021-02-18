@@ -32,7 +32,7 @@ mod used_name;
 ///
 /// # Impl note
 ///
-/// We use custom helper to handle export defaul class
+/// We use custom helper to handle export default class
 pub fn class_properties() -> impl Fold {
     ClassProperties {
         typescript: false,

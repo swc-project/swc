@@ -266,7 +266,7 @@ impl Fold for Umd {
                         ModuleDecl::ExportDefaultExpr(expr) => {
                             let ident = private_ident!("_default");
 
-                            // We use extra statements because of the initialzation
+                            // We use extra statements because of the initialization
                             extra_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                                 span: DUMMY_SP,
                                 kind: VarDeclKind::Var,

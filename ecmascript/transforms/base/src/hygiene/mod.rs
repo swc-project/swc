@@ -137,7 +137,7 @@ impl<'a> Hygiene<'a> {
             {
                 // This assertion was correct in old time, but bundler creates
                 // same variable with same name and same span
-                // hygieen, so this assertion is not valid anymore.
+                // hygiene, so this assertion is not valid anymore.
                 //
                 // I decided not to remove this code because I may modify the
                 // bundler to be correct in aspect of original span hygiene.
@@ -631,7 +631,7 @@ impl<'a> VisitMut for Hygiene<'a> {
 
     fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
 
-    /// Invoked for `IdetifierRefrence` / `BindingIdentifier`
+    /// Invoked for `IdentifierReference` / `BindingIdentifier`
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if i.sym == js_word!("arguments") || i.sym == js_word!("undefined") {
             return;

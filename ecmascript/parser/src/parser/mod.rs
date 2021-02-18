@@ -119,7 +119,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    /// Returns [Module] if it'a module and returns [Script] if it's not a
+    /// Returns [Module] if it's a module and returns [Script] if it's not a
     /// module.
     ///
     /// Note: This is not perfect yet. It means, some strict mode violations may

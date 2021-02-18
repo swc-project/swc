@@ -1,6 +1,6 @@
 //! Ported from [babel/bablyon][]
 //!
-//! [babel/bablyon]:https://github.com/babel/babel/blob/2d378d076eb0c5fe63234a8b509886005c01d7ee/packages/babylon/src/tokenizer/types.js
+//! [babel/babylon]:https://github.com/babel/babel/blob/2d378d076eb0c5fe63234a8b509886005c01d7ee/packages/babylon/src/tokenizer/types.js
 pub(crate) use self::{AssignOpToken::*, BinOpToken::*, Keyword::*, Token::*};
 use crate::error::Error;
 use enum_kind::Kind;
@@ -109,7 +109,7 @@ pub enum Token {
     #[kind(starts_expr)]
     Str {
         value: JsWord,
-        /// This field exsits because 'use\x20strict' is **not** an use strict
+        /// This field exists because 'use\x20strict' is **not** an use strict
         /// directive.
         has_escape: bool,
     },

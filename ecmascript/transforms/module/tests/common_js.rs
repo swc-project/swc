@@ -2467,7 +2467,7 @@ function diff() {
 
 // interop_module_shadow
 test!(
-    // TODO(kdy1): Uningnore this
+    // TODO(kdy1): Unignore this
     ignore,
     syntax(),
     |_| tr(Config {

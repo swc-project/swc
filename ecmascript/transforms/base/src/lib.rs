@@ -1,6 +1,6 @@
 #![deny(unused)]
 
-#[doc(hideen)]
+#[doc(hidden)]
 pub mod ext;
 pub mod fixer;
 #[macro_use]

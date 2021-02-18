@@ -1340,7 +1340,7 @@ fn test_object_literal() {
     test("({a:1})", "");
     test("({a:foo()})", "foo()");
     test("({'a':foo()})", "foo()");
-    // Object-spread may tigger getters.
+    // Object-spread may trigger getters.
     test_same("({...a})");
     test_same("({...foo()})");
 }

@@ -11,7 +11,7 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 pub(super) struct SuperCallFinder {
     mode: Option<SuperFoldingMode>,
-    /// True in conditional statement or arrow expresion.
+    /// True in conditional statement or arrow expression.
     in_complex: bool,
 }
 
@@ -103,7 +103,7 @@ impl Visit for SuperCallFinder {
     /// Don't recurse into class declaration.
     fn visit_class(&mut self, _: &Class, _: &dyn Node) {}
 
-    /// Don't recurse into funcrion.
+    /// Don't recurse into function.
     fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
 
     fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {

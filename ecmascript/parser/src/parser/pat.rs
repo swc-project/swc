@@ -436,7 +436,7 @@ impl<'a, I: Tokens> Parser<I> {
 pub enum PatType {
     BindingPat,
     BindingElement,
-    /// AssigmentPattern
+    /// AssignmentPattern
     AssignPat,
     AssignElement,
 }
@@ -540,7 +540,7 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                 }
 
-                // It's special because of optional intializer
+                // It's special because of optional initializer
                 Expr::Assign(..) => {}
 
                 _ => self.emit_err(span, SyntaxError::InvalidPat),
@@ -701,7 +701,7 @@ impl<'a, I: Tokens> Parser<I> {
                             // TODO: is BindingPat correct?
                             self.reparse_expr_as_pat(pat_ty.element(), expr).map(Some)?
                         }
-                        // TODO: sytax error if last element is ellison and ...rest exists.
+                        // TODO: syntax error if last element is ellison and ...rest exists.
                         None => None,
                     };
                     params.push(last);

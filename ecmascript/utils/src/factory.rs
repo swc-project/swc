@@ -50,7 +50,7 @@ pub trait ExprFactory: Into<Expr> {
         Expr::Paren(ParenExpr { expr, span })
     }
 
-    /// Creates a binrary expr `$self === `
+    /// Creates a binary expr `$self === `
     #[inline]
     fn make_eq<T>(self, right: T) -> Expr
     where
@@ -59,7 +59,7 @@ pub trait ExprFactory: Into<Expr> {
         self.make_bin(op!("==="), right)
     }
 
-    /// Creates a binrary expr `$self $op $rhs`
+    /// Creates a binary expr `$self $op $rhs`
     #[inline]
     fn make_bin<T>(self, op: BinaryOp, right: T) -> Expr
     where
