@@ -324,7 +324,7 @@ where
                             match attr.name {
                                 JSXAttrName::Ident(i) => {
                                     //
-                                    if i.sym == js_word!("key") {
+                                    if !use_create_element && i.sym == js_word!("key") {
                                         key = attr
                                             .value
                                             .map(jsx_attr_value_to_expr)
