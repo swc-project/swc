@@ -85,7 +85,7 @@ impl Fold for ObjectLitFolder {
                 } else {
                     Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(obj_ident.clone()))),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(obj_ident.clone().into()))),
                         op: op!("="),
                         right: Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
@@ -234,14 +234,14 @@ impl Fold for ObjectLitFolder {
 
                 self.vars.push(VarDeclarator {
                     span,
-                    name: Pat::Ident(obj_ident.clone()),
+                    name: Pat::Ident(obj_ident.clone().into()),
                     init: None,
                     definite: false,
                 });
                 if self.used_define_enum_props {
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(mutator_map.clone()),
+                        name: Pat::Ident(mutator_map.clone().into()),
                         init: Some(Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: vec![],

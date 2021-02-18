@@ -711,7 +711,7 @@ pub(super) fn handle_dynamic_import(span: Span, args: Vec<ExprOrSpread>) -> Expr
                                             params: vec![Param {
                                                 span: DUMMY_SP,
                                                 decorators: Default::default(),
-                                                pat: Pat::Ident(quote_ident!("dep")),
+                                                pat: Pat::Ident(quote_ident!("dep").into()),
                                             }],
                                             body: Some(BlockStmt {
                                                 span: DUMMY_SP,
@@ -741,7 +741,7 @@ pub(super) fn handle_dynamic_import(span: Span, args: Vec<ExprOrSpread>) -> Expr
                                             params: vec![Param {
                                                 span: DUMMY_SP,
                                                 decorators: Default::default(),
-                                                pat: Pat::Ident(quote_ident!("err")),
+                                                pat: Pat::Ident(quote_ident!("err").into()),
                                             }],
                                             body: Some(BlockStmt {
                                                 span: DUMMY_SP,

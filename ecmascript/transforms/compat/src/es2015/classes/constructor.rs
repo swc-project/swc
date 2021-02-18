@@ -209,10 +209,9 @@ impl Fold for ConstructorFolder<'_> {
 
                 Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Pat(Box::new(Pat::Ident(quote_ident!(
-                        DUMMY_SP.apply_mark(self.mark),
-                        "_this"
-                    )))),
+                    left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                        quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
+                    ))),
                     op: op!("="),
                     right,
                 })
@@ -257,10 +256,9 @@ impl Fold for ConstructorFolder<'_> {
                     match self.mode {
                         Some(SuperFoldingMode::Assign) => AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(quote_ident!(
-                                DUMMY_SP.apply_mark(self.mark),
-                                "_this"
-                            )))),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
+                            ))),
                             op: op!("="),
                             right: expr.into(),
                         }
@@ -271,10 +269,9 @@ impl Fold for ConstructorFolder<'_> {
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(quote_ident!(
-                                    DUMMY_SP.apply_mark(self.mark),
-                                    "_this"
-                                )),
+                                name: Pat::Ident(
+                                    quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
+                                ),
                                 init: Some(expr.into()),
                                 definite: false,
                             }],
@@ -495,11 +492,17 @@ impl<'a> Fold for VarRenamer<'a> {
     fn fold_pat(&mut self, pat: Pat) -> Pat {
         match pat {
             Pat::Ident(ident) => {
-                if *self.class_name == ident.sym {
-                    Pat::Ident(Ident {
-                        span: ident.span.apply_mark(self.mark),
-                        ..ident
-                    })
+                if *self.class_name == ident.id.sym {
+                    Pat::Ident(
+                        BindingIdent {
+                            id: Ident {
+                                span: ident.id.span.apply_mark(self.mark),
+                                ..ident.id
+                            },
+                            ..ident
+                        }
+                        .into(),
+                    )
                 } else {
                     Pat::Ident(ident)
                 }
