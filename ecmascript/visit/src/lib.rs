@@ -745,16 +745,22 @@ define!({
         Param(Param),
     }
 
-    pub struct Ident {
-        pub span: Span,
-        pub sym: JsWord,
+    pub struct BindingIdent {
+        pub id: Ident,
         pub type_ann: Option<TsTypeAnn>,
         pub optional: bool,
     }
+
+    pub struct Ident {
+        pub span: Span,
+        pub sym: JsWord,
+    }
+
     pub struct PrivateName {
         pub span: Span,
         pub id: Ident,
     }
+
     pub enum JSXObject {
         JSXMemberExpr(Box<JSXMemberExpr>),
         Ident(Ident),
