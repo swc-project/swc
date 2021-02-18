@@ -548,8 +548,8 @@ impl Decorators {
                     function: Function {
                         span: DUMMY_SP,
 
-                        params: iter::once(Pat::Ident(initialize))
-                            .chain(super_class_ident.map(Pat::Ident))
+                        params: iter::once(Pat::Ident(initialize.into()))
+                            .chain(super_class_ident.map(BindingIdent::from).map(Pat::Ident))
                             .map(|pat| Param {
                                 span: DUMMY_SP,
                                 decorators: vec![],

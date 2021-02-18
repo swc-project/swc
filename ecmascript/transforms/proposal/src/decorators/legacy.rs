@@ -104,7 +104,7 @@ impl Fold for Legacy {
                     declare: false,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(c.ident),
+                        name: Pat::Ident(c.ident.into()),
                         init: Some(expr),
                         definite: false,
                     }],
@@ -193,7 +193,7 @@ impl Fold for Legacy {
                     declare: false,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(export_ident),
+                        name: Pat::Ident(export_ident.into()),
                         init: Some(expr),
                         definite: false,
                     }],
@@ -285,7 +285,7 @@ impl Legacy {
 
         self.uninitialized_vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(cls_ident.clone()),
+            name: Pat::Ident(cls_ident.clone().into()),
             init: None,
             definite: false,
         });
@@ -325,7 +325,7 @@ impl Legacy {
                     if aliased {
                         self.uninitialized_vars.push(VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(i.clone()),
+                            name: Pat::Ident(i.clone().into()),
                             init: None,
                             definite: false,
                         });
@@ -354,7 +354,7 @@ impl Legacy {
                         dec_inits.push(Box::new(Expr::Assign(AssignExpr {
                             span: dec.span,
                             op: op!("="),
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone()))),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone().into()))),
                             right,
                         })));
                     }
@@ -368,7 +368,7 @@ impl Legacy {
                         if aliased {
                             self.initialized_vars.push(VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(name.clone()),
+                                name: Pat::Ident(name.clone().into()),
                                 init: Some(e.expr.clone()),
                                 definite: Default::default(),
                             })
@@ -466,7 +466,7 @@ impl Legacy {
                 if !p.is_static {
                     self.uninitialized_vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(descriptor.clone()),
+                        name: Pat::Ident(descriptor.clone().into()),
                         init: None,
                         definite: false,
                     });
