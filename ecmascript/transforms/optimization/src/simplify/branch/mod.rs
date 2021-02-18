@@ -627,7 +627,7 @@ impl Fold for Remover {
                             .flat_map(|stmt| stmt.extract_var_ids())
                             .map(|i| VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(i),
+                                name: Pat::Ident(i.into()),
                                 init: None,
                                 definite: false,
                             })
@@ -776,7 +776,7 @@ impl Fold for Remover {
                             .chain(var_ids)
                             .map(|i| VarDeclarator {
                                 span: i.span,
-                                name: Pat::Ident(i),
+                                name: Pat::Ident(i.into()),
                                 init: None,
                                 definite: false,
                             })
@@ -971,7 +971,7 @@ impl Remover {
                                 .flat_map(|t| extract_var_ids(&t))
                                 .map(|i| VarDeclarator {
                                     span: i.span,
-                                    name: Pat::Ident(i),
+                                    name: Pat::Ident(i.into()),
                                     init: None,
                                     definite: false,
                                 })
@@ -1106,7 +1106,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             ..
         }) if match &*left {
             Pat::Ident(l) => match &*right {
-                Expr::Ident(r) => l.sym == r.sym && l.span.ctxt() == r.span.ctxt(),
+                Expr::Ident(r) => l.id.sym == r.sym && l.id.span.ctxt() == r.span.ctxt(),
                 _ => false,
             },
             _ => false,

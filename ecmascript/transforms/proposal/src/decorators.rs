@@ -188,7 +188,7 @@ impl Fold for Decorators {
                         declare: false,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(ident.clone()),
+                            name: Pat::Ident(ident.clone().into()),
                             init: Some(decorate_call),
                             definite: false,
                         }],
