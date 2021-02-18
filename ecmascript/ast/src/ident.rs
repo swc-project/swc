@@ -1,11 +1,14 @@
 use crate::typescript::TsTypeAnn;
+use serde::Deserialize;
+use serde::Serialize;
 use swc_atoms::JsWord;
+use swc_common::ast_node;
 use swc_common::EqIgnoreSpan;
-use swc_common::{ast_node, Span};
+use swc_common::Span;
+use swc_common::Spanned;
 
 /// Identifer used as a pattern.
-#[ast_node("BindingIdentifier")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Serialize, Deserialize)]
 pub struct BindingIdent {
     #[span]
     #[serde(flatten)]

@@ -89,7 +89,7 @@ pub struct TsParamProp {
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsParamPropParam {
-    #[tag("BindingIdentifier")]
+    #[tag("Identifier")]
     Ident(BindingIdent),
 
     #[tag("AssignmentPattern")]
@@ -399,7 +399,7 @@ pub struct TsThisType {
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsFnParam {
-    #[tag("BindingIdentifier")]
+    #[tag("Identifier")]
     Ident(BindingIdent),
 
     #[tag("ArrayPattern")]
