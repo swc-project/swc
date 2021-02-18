@@ -45,6 +45,10 @@ fn true_by_default() -> bool {
 }
 
 fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
+    if options.babel_8_breaking && options.options.runtime.is_none() {
+        options.options.runtime = Some(Runtime::Automatic);
+    }
+
     options.options.use_builtins |= options.use_builtins;
     chain!(
         jsx(t.cm.clone(), Some(t.comments.clone()), options.options),
