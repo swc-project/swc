@@ -704,7 +704,7 @@ where
                                 expr: parse_classic_option(&self.cm, "module-jsx-pragma-frag", src),
                                 spread: None,
                             };
-                        } else {
+                        } else if line.starts_with("@jsx ") {
                             if self.runtime == Runtime::Automatic {
                                 if self.runtime == Runtime::Automatic {
                                     HANDLER.with(|handler| {
