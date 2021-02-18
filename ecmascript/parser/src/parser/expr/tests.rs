@@ -37,7 +37,7 @@ fn expr(s: &'static str) -> Box<Expr> {
 fn regex_expr() -> Box<Expr> {
     Box::new(Expr::Assign(AssignExpr {
         span,
-        left: PatOrExpr::Pat(Box::new(Pat::Ident(Ident::new("re".into(), span)))),
+        left: PatOrExpr::Pat(Box::new(Pat::Ident(Ident::new("re".into(), span).into()))),
         op: AssignOp::Assign,
         right: Box::new(Expr::Lit(Lit::Regex(Regex {
             span,
@@ -131,7 +131,7 @@ fn object_rest_pat() {
                 props: vec![ObjectPatProp::Rest(RestPat {
                     span,
                     dot3_token: span,
-                    arg: Box::new(Pat::Ident(Ident::new("a34".into(), span))),
+                    arg: Box::new(Pat::Ident(Ident::new("a34".into(), span).into())),
                     type_ann: None,
                 })],
                 type_ann: None

@@ -1248,8 +1248,11 @@ fn is_constructor(key: &Either<PrivateName, PropName>) -> bool {
 
 pub(crate) fn is_not_this(p: &Param) -> bool {
     match p.pat {
-        Pat::Ident(Ident {
-            sym: js_word!("this"),
+        Pat::Ident(BindingIdent {
+            id: Ident {
+                sym: js_word!("this"),
+                ..
+            },
             ..
         }) => false,
         _ => true,

@@ -6,7 +6,7 @@ use swc_atoms::js_word;
 use swc_common::Spanned;
 
 impl<'a, I: Tokens> Parser<I> {
-    pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<Option<Ident>> {
+    pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<Option<BindingIdent>> {
         trace_cur!(self, parse_opt_binding_ident);
 
         if is!(self, BindingIdent) || (self.input.syntax().typescript() && is!(self, "this")) {
@@ -19,7 +19,7 @@ impl<'a, I: Tokens> Parser<I> {
     /// babel: `parseBindingIdentifier`
     ///
     /// spec: `BindingIdentifier`
-    pub(super) fn parse_binding_ident(&mut self) -> PResult<Ident> {
+    pub(super) fn parse_binding_ident(&mut self) -> PResult<BindingIdent> {
         trace_cur!(self, parse_binding_ident);
 
         // "yield" and "await" is **lexically** accepted.
@@ -34,7 +34,7 @@ impl<'a, I: Tokens> Parser<I> {
             self.emit_err(ident.span, SyntaxError::ExpectedIdent);
         }
 
-        Ok(ident)
+        Ok(ident.into())
     }
 
     pub(super) fn parse_binding_pat_or_ident(&mut self) -> PResult<Pat> {

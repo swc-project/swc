@@ -1341,7 +1341,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let mut pat = self.reparse_expr_as_pat(PatType::BindingPat, arg.expr)?;
                 if optional {
                     match pat {
-                        Pat::Ident(ref mut i) => i.optional = true,
+                        Pat::Ident(ref mut i) => i.id.optional = true,
                         _ => unreachable!(),
                     }
                 }
@@ -1361,9 +1361,9 @@ impl<'a, I: Tokens> Parser<I> {
                     });
                 }
                 match pat {
-                    Pat::Ident(Ident {
+                    Pat::Ident(BindingIdent {
+                        id: Ident { ref mut span, .. },
                         ref mut type_ann,
-                        ref mut span,
                         ..
                     })
                     | Pat::Array(ArrayPat {
