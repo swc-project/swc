@@ -295,7 +295,7 @@ impl Decorators {
                             pat: Pat::Rest(RestPat {
                                 span: DUMMY_SP,
                                 dot3_token: DUMMY_SP,
-                                arg: Box::new(Pat::Ident(quote_ident!("args"))),
+                                arg: Box::new(Pat::Ident(quote_ident!("args").into())),
                                 type_ann: Default::default(),
                             }),
                         })]

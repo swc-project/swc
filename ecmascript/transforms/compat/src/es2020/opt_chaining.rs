@@ -354,14 +354,14 @@ impl OptChaining {
                         self.vars_without_init.push(VarDeclarator {
                             span: obj_span,
                             definite: false,
-                            name: Pat::Ident(i.clone()),
+                            name: Pat::Ident(i.clone().into()),
                             init: None,
                         });
 
                         (
                             Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone()))),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone().into()))),
                                 op: op!("="),
                                 right: Box::new(obj),
                             })),
@@ -439,7 +439,7 @@ impl OptChaining {
                             self.vars_with_init.push(VarDeclarator {
                                 span: obj_span,
                                 definite: false,
-                                name: Pat::Ident(this_obj.clone()),
+                                name: Pat::Ident(this_obj.clone().into()),
                                 init: Some(obj),
                             });
 
@@ -451,14 +451,14 @@ impl OptChaining {
                         self.vars_without_init.push(VarDeclarator {
                             span: obj_span,
                             definite: false,
-                            name: Pat::Ident(i.clone()),
+                            name: Pat::Ident(i.clone().into()),
                             init: None,
                         });
 
                         (
                             Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone()))),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone().into()))),
                                 op: op!("="),
                                 right: obj,
                             })),

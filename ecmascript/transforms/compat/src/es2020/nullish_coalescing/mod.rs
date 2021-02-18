@@ -148,7 +148,7 @@ impl Fold for NullishCoalescing {
                                 right: Box::new(make_cond(
                                     assign.span,
                                     &i.id,
-                                    Expr::Ident(i.clone().into()),
+                                    Expr::Ident(i.id.clone()),
                                     assign.right.take(),
                                 )),
                             });
