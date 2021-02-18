@@ -748,12 +748,12 @@ define!({
     pub struct BindingIdent {
         pub id: Ident,
         pub type_ann: Option<TsTypeAnn>,
-        pub optional: bool,
     }
 
     pub struct Ident {
         pub span: Span,
         pub sym: JsWord,
+        pub optional: bool,
     }
 
     pub struct PrivateName {
