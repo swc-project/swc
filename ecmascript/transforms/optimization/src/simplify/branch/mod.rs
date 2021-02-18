@@ -92,7 +92,7 @@ impl Fold for Remover {
                 ..
             }) if match &*l {
                 Pat::Ident(l) => match &*r {
-                    Expr::Ident(r) => l.sym == r.sym && l.span.ctxt() == r.span.ctxt(),
+                    Expr::Ident(r) => l.id.sym == r.sym && l.id.span.ctxt() == r.span.ctxt(),
                     _ => false,
                 },
                 _ => false,
