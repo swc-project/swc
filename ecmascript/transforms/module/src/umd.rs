@@ -272,7 +272,7 @@ impl Fold for Umd {
                                 kind: VarDeclKind::Var,
                                 decls: vec![VarDeclarator {
                                     span: DUMMY_SP,
-                                    name: Pat::Ident(ident.clone()),
+                                    name: Pat::Ident(ident.clone().into()),
                                     init: Some(expr.expr.fold_with(self)),
                                     definite: false,
                                 }],
@@ -425,7 +425,7 @@ impl Fold for Umd {
             factory_params.push(Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(exports_ident.clone()),
+                pat: Pat::Ident(exports_ident.clone().into()),
             });
             factory_args.push(quote_ident!("exports").as_arg());
             global_factory_args.push(member_expr!(DUMMY_SP, mod.exports).as_arg());

@@ -158,7 +158,7 @@ impl Scope {
             params: vec![Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(key_ident.clone()),
+                pat: Pat::Ident(key_ident.clone().into()),
             }],
             body: Some(BlockStmt {
                 span: DUMMY_SP,
