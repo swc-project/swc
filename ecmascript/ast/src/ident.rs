@@ -12,9 +12,12 @@ pub struct BindingIdent {
     pub id: Ident,
     #[serde(default, rename = "typeAnnotation")]
     pub type_ann: Option<TsTypeAnn>,
-    /// TypeScript only. Used in case of an optional parameter.
-    #[serde(default)]
-    pub optional: bool,
+}
+
+impl From<Ident> for BindingIdent {
+    fn from(id: Ident) -> Self {
+        Self { id, type_ann: None }
+    }
 }
 
 /// Ident with span.
@@ -24,6 +27,10 @@ pub struct Ident {
     pub span: Span,
     #[serde(rename = "value")]
     pub sym: JsWord,
+
+    /// TypeScript only. Used in case of an optional parameter.
+    #[serde(default)]
+    pub optional: bool,
 }
 
 #[cfg(feature = "arbitrary")]
@@ -64,7 +71,11 @@ impl AsRef<str> for Ident {
 
 impl Ident {
     pub const fn new(sym: JsWord, span: Span) -> Self {
-        Ident { span, sym }
+        Ident {
+            span,
+            sym,
+            optional: false,
+        }
     }
 }
 

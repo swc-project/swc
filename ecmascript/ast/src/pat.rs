@@ -4,6 +4,12 @@ use is_macro::Is;
 use swc_common::EqIgnoreSpan;
 use swc_common::{ast_node, Span};
 
+impl From<Ident> for Pat {
+    fn from(i: Ident) -> Self {
+        BindingIdent::from(i).into()
+    }
+}
+
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
