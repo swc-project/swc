@@ -1,47 +1,31 @@
-import { jsx as _jsx } from "react/jsx-runtime";
-import { jsxs as _jsxs } from "react/jsx-runtime";
-
-/*#__PURE__*/
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 _jsx("div", {
-  children: "wow"
+    children: "wow"
 });
-
-/*#__PURE__*/
 _jsx("div", {
-  children: "wôw"
+    children: "w\xf4w"
 });
-
-/*#__PURE__*/
 _jsx("div", {
-  children: "w & w"
+    children: "w & w"
 });
-
-/*#__PURE__*/
 _jsx("div", {
-  children: "w & w"
+    children: "w & w"
 });
-
-/*#__PURE__*/
 _jsx("div", {
-  children: "w \xA0 w"
+    children: "w \xa0 w"
 });
-
-/*#__PURE__*/
 _jsx("div", {
-  children: "this should not parse as unicode: \\u00a0"
+    children: "this should not parse as unicode: \\u00a0"
 });
-
-/*#__PURE__*/
 _jsx("div", {
-  children: "this should parse as nbsp: \xA0 "
+    children: "this should parse as nbsp: \xa0 "
 });
-
-/*#__PURE__*/
 _jsxs("div", {
-  children: ["this should parse as unicode: ", '\u00a0 ']
+    children: [
+        "this should parse as unicode: ",
+        "\xa0\xa0"
+    ]
 });
-
-/*#__PURE__*/
 _jsx("div", {
-  children: "w < w"
+    children: "w < w"
 });
