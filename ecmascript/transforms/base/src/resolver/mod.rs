@@ -1111,7 +1111,10 @@ impl<'a> VisitMut for Resolver<'a> {
         self.ident_type = old_type;
 
         let cur_name = match decl.name {
-            Pat::Ident(Ident { ref sym, .. }) => Some((sym.clone(), self.mark)),
+            Pat::Ident(BindingIdent {
+                id: Ident { ref sym, .. },
+                ..
+            }) => Some((sym.clone(), self.mark)),
             _ => None,
         };
 
@@ -1233,7 +1236,7 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_pat(&mut self, node: &mut Pat) {
         self.resolver.in_type = false;
         match node {
-            Pat::Ident(i) => self.resolver.visit_mut_binding_ident(i, self.kind),
+            Pat::Ident(i) => self.resolver.visit_mut_binding_ident(&mut i.id, self.kind),
             _ => node.visit_mut_children_with(self),
         }
     }

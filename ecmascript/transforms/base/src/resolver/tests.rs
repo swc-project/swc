@@ -9,8 +9,6 @@ struct TsHygiene {
 
 impl VisitMut for TsHygiene {
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        i.type_ann.visit_mut_with(self);
-
         if SyntaxContext::empty().apply_mark(self.top_level_mark) == i.span.ctxt {
             println!("ts_hygiene: {} is top-level", i.sym);
             return;

@@ -509,7 +509,7 @@ fn fn_args() {
                     params: vec![Param {
                         span: DUMMY_SP,
                         decorators: vec![],
-                        pat: Pat::Ident(quote_ident!("force")),
+                        pat: Pat::Ident(quote_ident!("force").into()),
                     }
                     .fold_with(&mut marker(&[("force", mark1)]))],
                     type_params: Default::default(),
@@ -635,12 +635,16 @@ fn params_in_fn() {
                         Param {
                             span: DUMMY_SP,
                             decorators: Default::default(),
-                            pat: Pat::Ident(Ident::new("param".into(), DUMMY_SP.apply_mark(mark1))),
+                            pat: Pat::Ident(
+                                Ident::new("param".into(), DUMMY_SP.apply_mark(mark1)).into(),
+                            ),
                         },
                         Param {
                             span: DUMMY_SP,
                             decorators: Default::default(),
-                            pat: Pat::Ident(Ident::new("param".into(), DUMMY_SP.apply_mark(mark2))),
+                            pat: Pat::Ident(
+                                Ident::new("param".into(), DUMMY_SP.apply_mark(mark2)).into(),
+                            ),
                         },
                     ],
                     type_params: Default::default(),
