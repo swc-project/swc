@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "testcase",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -60,8 +59,8 @@
                     "ctxt": 0
                   },
                   "value": "obj",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ObjectExpression",
@@ -81,7 +80,6 @@
                           "ctxt": 0
                         },
                         "value": "toString",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -158,8 +156,8 @@
                     "ctxt": 0
                   },
                   "value": "one",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "NumericLiteral",
@@ -199,8 +197,8 @@
                     "ctxt": 0
                   },
                   "value": "_float",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "UnaryExpression",
@@ -275,8 +273,8 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "NewExpression",
@@ -293,7 +291,6 @@
                       "ctxt": 0
                     },
                     "value": "Array",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [
@@ -319,7 +316,6 @@
                           "ctxt": 0
                         },
                         "value": "undefined",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -361,7 +357,6 @@
                           "ctxt": 0
                         },
                         "value": "obj",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -467,7 +462,6 @@
                           "ctxt": 0
                         },
                         "value": "one",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -517,7 +511,6 @@
                           "ctxt": 0
                         },
                         "value": "_float",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -636,7 +629,6 @@
                             "ctxt": 0
                           },
                           "value": "a",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -647,7 +639,6 @@
                             "ctxt": 0
                           },
                           "value": "indexOf",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -743,7 +734,6 @@
                             "ctxt": 0
                           },
                           "value": "a",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -754,7 +744,6 @@
                             "ctxt": 0
                           },
                           "value": "indexOf",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -816,7 +805,6 @@
                           "ctxt": 0
                         },
                         "value": "a",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -827,7 +815,6 @@
                           "ctxt": 0
                         },
                         "value": "indexOf",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -898,7 +885,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -909,7 +895,6 @@
                         "ctxt": 0
                       },
                       "value": "indexOf",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -999,7 +984,6 @@
             "ctxt": 0
           },
           "value": "runTestCase",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -1013,7 +997,6 @@
                 "ctxt": 0
               },
               "value": "testcase",
-              "typeAnnotation": null,
               "optional": false
             }
           }

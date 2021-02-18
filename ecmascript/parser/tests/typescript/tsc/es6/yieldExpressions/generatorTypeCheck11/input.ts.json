@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "g",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -79,7 +78,6 @@
               "ctxt": 0
             },
             "value": "IterableIterator",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {

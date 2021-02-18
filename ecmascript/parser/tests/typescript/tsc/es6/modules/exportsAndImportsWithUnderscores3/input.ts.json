@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "R",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -47,8 +48,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -78,8 +78,8 @@
             "ctxt": 0
           },
           "value": "R",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ObjectExpression",
@@ -194,7 +194,6 @@
               "ctxt": 0
             },
             "value": "R",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -256,7 +255,6 @@
                     "ctxt": 0
                   },
                   "value": "___",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -276,7 +274,6 @@
                     "ctxt": 0
                   },
                   "value": "___hello",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -296,7 +293,6 @@
                     "ctxt": 0
                   },
                   "value": "_hi",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -313,7 +309,6 @@
               "ctxt": 0
             },
             "value": "R",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false

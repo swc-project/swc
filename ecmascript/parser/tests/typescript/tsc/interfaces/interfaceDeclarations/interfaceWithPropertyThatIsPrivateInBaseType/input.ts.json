@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -95,7 +93,6 @@
           "ctxt": 0
         },
         "value": "Foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -116,7 +113,6 @@
               "ctxt": 0
             },
             "value": "Base",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": null
@@ -146,7 +142,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -185,7 +180,6 @@
           "ctxt": 0
         },
         "value": "Base2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -211,7 +205,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -237,7 +230,6 @@
                   "ctxt": 0
                 },
                 "value": "T",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -279,7 +271,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -305,7 +296,6 @@
           "ctxt": 0
         },
         "value": "Foo2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -332,7 +322,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -356,7 +345,6 @@
               "ctxt": 0
             },
             "value": "Base2",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": {
@@ -382,7 +370,6 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -415,7 +402,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,

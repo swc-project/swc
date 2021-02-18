@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "a1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -88,8 +89,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -121,8 +121,8 @@
               "ctxt": 0
             },
             "value": "aa1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -140,7 +140,6 @@
                 "ctxt": 0
               },
               "value": "a1",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -165,7 +164,6 @@
                     "ctxt": 0
                   },
                   "value": "a1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -176,7 +174,6 @@
                     "ctxt": 0
                   },
                   "value": "toLowerCase",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -214,8 +211,8 @@
               "ctxt": 0
             },
             "value": "aa2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -233,7 +230,6 @@
                 "ctxt": 0
               },
               "value": "a1",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -258,7 +254,6 @@
                     "ctxt": 0
                   },
                   "value": "a1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -269,7 +264,6 @@
                     "ctxt": 0
                   },
                   "value": "toLocaleUpperCase",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false

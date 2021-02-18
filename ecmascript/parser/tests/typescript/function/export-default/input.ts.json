@@ -33,6 +33,7 @@
                 "ctxt": 0
               },
               "value": "x",
+              "optional": true,
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -49,8 +50,7 @@
                   },
                   "kind": "number"
                 }
-              },
-              "optional": true
+              }
             }
           }
         ],

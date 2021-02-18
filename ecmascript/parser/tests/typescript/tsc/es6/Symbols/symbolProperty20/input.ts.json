@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "I",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -58,7 +57,6 @@
                   "ctxt": 0
                 },
                 "value": "Symbol",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -69,7 +67,6 @@
                   "ctxt": 0
                 },
                 "value": "iterator",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -101,6 +98,7 @@
                       "ctxt": 0
                     },
                     "value": "s",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -117,8 +115,7 @@
                         },
                         "kind": "string"
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 ],
                 "typeParams": null,
@@ -166,7 +163,6 @@
                   "ctxt": 0
                 },
                 "value": "Symbol",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -177,7 +173,6 @@
                   "ctxt": 0
                 },
                 "value": "toStringTag",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -193,6 +188,7 @@
                   "ctxt": 0
                 },
                 "value": "s",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -209,8 +205,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnn": {
@@ -260,6 +255,7 @@
               "ctxt": 0
             },
             "value": "i",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -282,13 +278,11 @@
                     "ctxt": 0
                   },
                   "value": "I",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ObjectExpression",
@@ -322,7 +316,6 @@
                         "ctxt": 0
                       },
                       "value": "Symbol",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -333,7 +326,6 @@
                         "ctxt": 0
                       },
                       "value": "iterator",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -355,8 +347,8 @@
                         "ctxt": 0
                       },
                       "value": "s",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     }
                   ],
                   "body": {
@@ -367,7 +359,6 @@
                       "ctxt": 0
                     },
                     "value": "s",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "async": false,
@@ -400,7 +391,6 @@
                         "ctxt": 0
                       },
                       "value": "Symbol",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -411,7 +401,6 @@
                         "ctxt": 0
                       },
                       "value": "toStringTag",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -434,8 +423,8 @@
                         "ctxt": 0
                       },
                       "value": "n",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     }
                   }
                 ],
@@ -468,7 +457,6 @@
                           "ctxt": 0
                         },
                         "value": "n",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }

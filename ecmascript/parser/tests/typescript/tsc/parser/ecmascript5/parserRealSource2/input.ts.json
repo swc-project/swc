@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "TypeScript",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -51,7 +50,6 @@
                   "ctxt": 0
                 },
                 "value": "hasFlag",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -72,6 +70,7 @@
                       "ctxt": 0
                     },
                     "value": "val",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -88,8 +87,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -108,6 +106,7 @@
                       "ctxt": 0
                     },
                     "value": "flag",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -124,8 +123,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 }
               ],
@@ -181,7 +179,6 @@
                               "ctxt": 0
                             },
                             "value": "val",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "right": {
@@ -192,7 +189,6 @@
                               "ctxt": 0
                             },
                             "value": "flag",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }
@@ -240,7 +236,6 @@
                   "ctxt": 0
                 },
                 "value": "ErrorRecoverySet",
-                "typeAnnotation": null,
                 "optional": false
               },
               "members": [
@@ -259,7 +254,6 @@
                       "ctxt": 0
                     },
                     "value": "None",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -287,7 +281,6 @@
                       "ctxt": 0
                     },
                     "value": "Comma",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -315,7 +308,6 @@
                       "ctxt": 0
                     },
                     "value": "SColon",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -361,7 +353,6 @@
                       "ctxt": 0
                     },
                     "value": "Asg",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -407,7 +398,6 @@
                       "ctxt": 0
                     },
                     "value": "BinOp",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -453,7 +443,6 @@
                       "ctxt": 0
                     },
                     "value": "RBrack",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -499,7 +488,6 @@
                       "ctxt": 0
                     },
                     "value": "RCurly",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -545,7 +533,6 @@
                       "ctxt": 0
                     },
                     "value": "RParen",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -591,7 +578,6 @@
                       "ctxt": 0
                     },
                     "value": "Dot",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -637,7 +623,6 @@
                       "ctxt": 0
                     },
                     "value": "Colon",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -683,7 +668,6 @@
                       "ctxt": 0
                     },
                     "value": "PrimType",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -729,7 +713,6 @@
                       "ctxt": 0
                     },
                     "value": "AddOp",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -775,7 +758,6 @@
                       "ctxt": 0
                     },
                     "value": "LCurly",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -821,7 +803,6 @@
                       "ctxt": 0
                     },
                     "value": "PreOp",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -867,7 +848,6 @@
                       "ctxt": 0
                     },
                     "value": "RegExp",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -913,7 +893,6 @@
                       "ctxt": 0
                     },
                     "value": "LParen",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -959,7 +938,6 @@
                       "ctxt": 0
                     },
                     "value": "LBrack",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -1005,7 +983,6 @@
                       "ctxt": 0
                     },
                     "value": "Scope",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -1051,7 +1028,6 @@
                       "ctxt": 0
                     },
                     "value": "In",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -1097,7 +1073,6 @@
                       "ctxt": 0
                     },
                     "value": "SCase",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -1143,7 +1118,6 @@
                       "ctxt": 0
                     },
                     "value": "Else",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -1189,7 +1163,6 @@
                       "ctxt": 0
                     },
                     "value": "Catch",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -1235,7 +1208,6 @@
                       "ctxt": 0
                     },
                     "value": "Var",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -1281,7 +1253,6 @@
                       "ctxt": 0
                     },
                     "value": "Stmt",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -1327,7 +1298,6 @@
                       "ctxt": 0
                     },
                     "value": "While",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -1373,7 +1343,6 @@
                       "ctxt": 0
                     },
                     "value": "ID",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -1419,7 +1388,6 @@
                       "ctxt": 0
                     },
                     "value": "Prefix",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -1465,7 +1433,6 @@
                       "ctxt": 0
                     },
                     "value": "Literal",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -1511,7 +1478,6 @@
                       "ctxt": 0
                     },
                     "value": "RLit",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -1557,7 +1523,6 @@
                       "ctxt": 0
                     },
                     "value": "Func",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -1603,7 +1568,6 @@
                       "ctxt": 0
                     },
                     "value": "EOF",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -1649,7 +1613,6 @@
                       "ctxt": 0
                     },
                     "value": "TypeScriptS",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -1695,7 +1658,6 @@
                       "ctxt": 0
                     },
                     "value": "ExprStart",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -1794,7 +1756,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "SColon",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "right": {
@@ -1805,7 +1766,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "AddOp",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         }
                                       },
@@ -1817,7 +1777,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "LCurly",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       }
                                     },
@@ -1829,7 +1788,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "PreOp",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     }
                                   },
@@ -1841,7 +1799,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "RegExp",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   }
                                 },
@@ -1853,7 +1810,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "LParen",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 }
                               },
@@ -1865,7 +1821,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "LBrack",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             },
@@ -1877,7 +1832,6 @@
                                 "ctxt": 0
                               },
                               "value": "ID",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           },
@@ -1889,7 +1843,6 @@
                               "ctxt": 0
                             },
                             "value": "Prefix",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         },
@@ -1901,7 +1854,6 @@
                             "ctxt": 0
                           },
                           "value": "RLit",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -1913,7 +1865,6 @@
                           "ctxt": 0
                         },
                         "value": "Func",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -1925,7 +1876,6 @@
                         "ctxt": 0
                       },
                       "value": "Literal",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -1945,7 +1895,6 @@
                       "ctxt": 0
                     },
                     "value": "StmtStart",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -1996,7 +1945,6 @@
                                 "ctxt": 0
                               },
                               "value": "ExprStart",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "right": {
@@ -2007,7 +1955,6 @@
                                 "ctxt": 0
                               },
                               "value": "SColon",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           },
@@ -2019,7 +1966,6 @@
                               "ctxt": 0
                             },
                             "value": "Var",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         },
@@ -2031,7 +1977,6 @@
                             "ctxt": 0
                           },
                           "value": "Stmt",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -2043,7 +1988,6 @@
                           "ctxt": 0
                         },
                         "value": "While",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -2055,7 +1999,6 @@
                         "ctxt": 0
                       },
                       "value": "TypeScriptS",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -2075,7 +2018,6 @@
                       "ctxt": 0
                     },
                     "value": "Postfix",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -2102,7 +2044,6 @@
                           "ctxt": 0
                         },
                         "value": "Dot",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "right": {
@@ -2113,7 +2054,6 @@
                           "ctxt": 0
                         },
                         "value": "LParen",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -2125,7 +2065,6 @@
                         "ctxt": 0
                       },
                       "value": "LBrack",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -2157,7 +2096,6 @@
                   "ctxt": 0
                 },
                 "value": "AllowedElements",
-                "typeAnnotation": null,
                 "optional": false
               },
               "members": [
@@ -2176,7 +2114,6 @@
                       "ctxt": 0
                     },
                     "value": "None",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -2204,7 +2141,6 @@
                       "ctxt": 0
                     },
                     "value": "ModuleDeclarations",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -2250,7 +2186,6 @@
                       "ctxt": 0
                     },
                     "value": "ClassDeclarations",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -2296,7 +2231,6 @@
                       "ctxt": 0
                     },
                     "value": "InterfaceDeclarations",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -2342,7 +2276,6 @@
                       "ctxt": 0
                     },
                     "value": "AmbientDeclarations",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -2388,7 +2321,6 @@
                       "ctxt": 0
                     },
                     "value": "Properties",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -2434,7 +2366,6 @@
                       "ctxt": 0
                     },
                     "value": "Global",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -2469,7 +2400,6 @@
                             "ctxt": 0
                           },
                           "value": "ModuleDeclarations",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "right": {
@@ -2480,7 +2410,6 @@
                             "ctxt": 0
                           },
                           "value": "ClassDeclarations",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -2492,7 +2421,6 @@
                           "ctxt": 0
                         },
                         "value": "InterfaceDeclarations",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -2504,7 +2432,6 @@
                         "ctxt": 0
                       },
                       "value": "AmbientDeclarations",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -2524,7 +2451,6 @@
                       "ctxt": 0
                     },
                     "value": "QuickParse",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -2543,7 +2469,6 @@
                         "ctxt": 0
                       },
                       "value": "Global",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "right": {
@@ -2554,7 +2479,6 @@
                         "ctxt": 0
                       },
                       "value": "Properties",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -2586,7 +2510,6 @@
                   "ctxt": 0
                 },
                 "value": "Modifiers",
-                "typeAnnotation": null,
                 "optional": false
               },
               "members": [
@@ -2605,7 +2528,6 @@
                       "ctxt": 0
                     },
                     "value": "None",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -2633,7 +2555,6 @@
                       "ctxt": 0
                     },
                     "value": "Private",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -2661,7 +2582,6 @@
                       "ctxt": 0
                     },
                     "value": "Public",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -2707,7 +2627,6 @@
                       "ctxt": 0
                     },
                     "value": "Readonly",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -2753,7 +2672,6 @@
                       "ctxt": 0
                     },
                     "value": "Ambient",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -2799,7 +2717,6 @@
                       "ctxt": 0
                     },
                     "value": "Exported",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -2845,7 +2762,6 @@
                       "ctxt": 0
                     },
                     "value": "Getter",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -2891,7 +2807,6 @@
                       "ctxt": 0
                     },
                     "value": "Setter",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -2937,7 +2852,6 @@
                       "ctxt": 0
                     },
                     "value": "Static",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -2995,7 +2909,6 @@
                   "ctxt": 0
                 },
                 "value": "ASTFlags",
-                "typeAnnotation": null,
                 "optional": false
               },
               "members": [
@@ -3014,7 +2927,6 @@
                       "ctxt": 0
                     },
                     "value": "None",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3042,7 +2954,6 @@
                       "ctxt": 0
                     },
                     "value": "ExplicitSemicolon",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3070,7 +2981,6 @@
                       "ctxt": 0
                     },
                     "value": "AutomaticSemicolon",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3116,7 +3026,6 @@
                       "ctxt": 0
                     },
                     "value": "Writeable",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3162,7 +3071,6 @@
                       "ctxt": 0
                     },
                     "value": "Error",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3208,7 +3116,6 @@
                       "ctxt": 0
                     },
                     "value": "DotLHSPartial",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3254,7 +3161,6 @@
                       "ctxt": 0
                     },
                     "value": "DotLHS",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3300,7 +3206,6 @@
                       "ctxt": 0
                     },
                     "value": "IsStatement",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3346,7 +3251,6 @@
                       "ctxt": 0
                     },
                     "value": "StrictMode",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3392,7 +3296,6 @@
                       "ctxt": 0
                     },
                     "value": "PossibleOptionalParameter",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3438,7 +3341,6 @@
                       "ctxt": 0
                     },
                     "value": "ClassBaseConstructorCall",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3484,7 +3386,6 @@
                       "ctxt": 0
                     },
                     "value": "OptionalName",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3530,7 +3431,6 @@
                       "ctxt": 0
                     },
                     "value": "SkipNextRParen",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3588,7 +3488,6 @@
                   "ctxt": 0
                 },
                 "value": "DeclFlags",
-                "typeAnnotation": null,
                 "optional": false
               },
               "members": [
@@ -3607,7 +3506,6 @@
                       "ctxt": 0
                     },
                     "value": "None",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3635,7 +3533,6 @@
                       "ctxt": 0
                     },
                     "value": "Exported",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3663,7 +3560,6 @@
                       "ctxt": 0
                     },
                     "value": "Private",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3709,7 +3605,6 @@
                       "ctxt": 0
                     },
                     "value": "Public",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3755,7 +3650,6 @@
                       "ctxt": 0
                     },
                     "value": "Ambient",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3801,7 +3695,6 @@
                       "ctxt": 0
                     },
                     "value": "Static",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3847,7 +3740,6 @@
                       "ctxt": 0
                     },
                     "value": "LocalStatic",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3893,7 +3785,6 @@
                       "ctxt": 0
                     },
                     "value": "GetAccessor",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3939,7 +3830,6 @@
                       "ctxt": 0
                     },
                     "value": "SetAccessor",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -3997,7 +3887,6 @@
                   "ctxt": 0
                 },
                 "value": "ModuleFlags",
-                "typeAnnotation": null,
                 "optional": false
               },
               "members": [
@@ -4016,7 +3905,6 @@
                       "ctxt": 0
                     },
                     "value": "None",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4044,7 +3932,6 @@
                       "ctxt": 0
                     },
                     "value": "Exported",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4072,7 +3959,6 @@
                       "ctxt": 0
                     },
                     "value": "Private",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4118,7 +4004,6 @@
                       "ctxt": 0
                     },
                     "value": "Public",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4164,7 +4049,6 @@
                       "ctxt": 0
                     },
                     "value": "Ambient",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4210,7 +4094,6 @@
                       "ctxt": 0
                     },
                     "value": "Static",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4256,7 +4139,6 @@
                       "ctxt": 0
                     },
                     "value": "LocalStatic",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4302,7 +4184,6 @@
                       "ctxt": 0
                     },
                     "value": "GetAccessor",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4348,7 +4229,6 @@
                       "ctxt": 0
                     },
                     "value": "SetAccessor",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4394,7 +4274,6 @@
                       "ctxt": 0
                     },
                     "value": "IsEnum",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4440,7 +4319,6 @@
                       "ctxt": 0
                     },
                     "value": "ShouldEmitModuleDecl",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4486,7 +4364,6 @@
                       "ctxt": 0
                     },
                     "value": "IsWholeFile",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4532,7 +4409,6 @@
                       "ctxt": 0
                     },
                     "value": "IsDynamic",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4578,7 +4454,6 @@
                       "ctxt": 0
                     },
                     "value": "MustCaptureThis",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4636,7 +4511,6 @@
                   "ctxt": 0
                 },
                 "value": "SymbolFlags",
-                "typeAnnotation": null,
                 "optional": false
               },
               "members": [
@@ -4655,7 +4529,6 @@
                       "ctxt": 0
                     },
                     "value": "None",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4683,7 +4556,6 @@
                       "ctxt": 0
                     },
                     "value": "Exported",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4711,7 +4583,6 @@
                       "ctxt": 0
                     },
                     "value": "Private",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4757,7 +4628,6 @@
                       "ctxt": 0
                     },
                     "value": "Public",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4803,7 +4673,6 @@
                       "ctxt": 0
                     },
                     "value": "Ambient",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4849,7 +4718,6 @@
                       "ctxt": 0
                     },
                     "value": "Static",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4895,7 +4763,6 @@
                       "ctxt": 0
                     },
                     "value": "LocalStatic",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4941,7 +4808,6 @@
                       "ctxt": 0
                     },
                     "value": "GetAccessor",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -4987,7 +4853,6 @@
                       "ctxt": 0
                     },
                     "value": "SetAccessor",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5033,7 +4898,6 @@
                       "ctxt": 0
                     },
                     "value": "Property",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5079,7 +4943,6 @@
                       "ctxt": 0
                     },
                     "value": "Readonly",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5125,7 +4988,6 @@
                       "ctxt": 0
                     },
                     "value": "ModuleMember",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5171,7 +5033,6 @@
                       "ctxt": 0
                     },
                     "value": "InterfaceMember",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5217,7 +5078,6 @@
                       "ctxt": 0
                     },
                     "value": "ClassMember",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5263,7 +5123,6 @@
                       "ctxt": 0
                     },
                     "value": "BuiltIn",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5309,7 +5168,6 @@
                       "ctxt": 0
                     },
                     "value": "TypeSetDuringScopeAssignment",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5355,7 +5213,6 @@
                       "ctxt": 0
                     },
                     "value": "Constant",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5401,7 +5258,6 @@
                       "ctxt": 0
                     },
                     "value": "Optional",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5447,7 +5303,6 @@
                       "ctxt": 0
                     },
                     "value": "RecursivelyReferenced",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5493,7 +5348,6 @@
                       "ctxt": 0
                     },
                     "value": "Bound",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5539,7 +5393,6 @@
                       "ctxt": 0
                     },
                     "value": "CompilerGenerated",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5597,7 +5450,6 @@
                   "ctxt": 0
                 },
                 "value": "VarFlags",
-                "typeAnnotation": null,
                 "optional": false
               },
               "members": [
@@ -5616,7 +5468,6 @@
                       "ctxt": 0
                     },
                     "value": "None",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5644,7 +5495,6 @@
                       "ctxt": 0
                     },
                     "value": "Exported",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5672,7 +5522,6 @@
                       "ctxt": 0
                     },
                     "value": "Private",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5718,7 +5567,6 @@
                       "ctxt": 0
                     },
                     "value": "Public",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5764,7 +5612,6 @@
                       "ctxt": 0
                     },
                     "value": "Ambient",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5810,7 +5657,6 @@
                       "ctxt": 0
                     },
                     "value": "Static",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5856,7 +5702,6 @@
                       "ctxt": 0
                     },
                     "value": "LocalStatic",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5902,7 +5747,6 @@
                       "ctxt": 0
                     },
                     "value": "GetAccessor",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5948,7 +5792,6 @@
                       "ctxt": 0
                     },
                     "value": "SetAccessor",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -5994,7 +5837,6 @@
                       "ctxt": 0
                     },
                     "value": "AutoInit",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6040,7 +5882,6 @@
                       "ctxt": 0
                     },
                     "value": "Property",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6086,7 +5927,6 @@
                       "ctxt": 0
                     },
                     "value": "Readonly",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6132,7 +5972,6 @@
                       "ctxt": 0
                     },
                     "value": "Class",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6178,7 +6017,6 @@
                       "ctxt": 0
                     },
                     "value": "ClassProperty",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6224,7 +6062,6 @@
                       "ctxt": 0
                     },
                     "value": "ClassBodyProperty",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6270,7 +6107,6 @@
                       "ctxt": 0
                     },
                     "value": "ClassConstructorProperty",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6316,7 +6152,6 @@
                       "ctxt": 0
                     },
                     "value": "ClassSuperMustBeFirstCallInConstructor",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6362,7 +6197,6 @@
                       "ctxt": 0
                     },
                     "value": "Constant",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6408,7 +6242,6 @@
                       "ctxt": 0
                     },
                     "value": "MustCaptureThis",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6466,7 +6299,6 @@
                   "ctxt": 0
                 },
                 "value": "FncFlags",
-                "typeAnnotation": null,
                 "optional": false
               },
               "members": [
@@ -6485,7 +6317,6 @@
                       "ctxt": 0
                     },
                     "value": "None",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6513,7 +6344,6 @@
                       "ctxt": 0
                     },
                     "value": "Exported",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6541,7 +6371,6 @@
                       "ctxt": 0
                     },
                     "value": "Private",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6587,7 +6416,6 @@
                       "ctxt": 0
                     },
                     "value": "Public",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6633,7 +6461,6 @@
                       "ctxt": 0
                     },
                     "value": "Ambient",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6679,7 +6506,6 @@
                       "ctxt": 0
                     },
                     "value": "Static",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6725,7 +6551,6 @@
                       "ctxt": 0
                     },
                     "value": "LocalStatic",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6771,7 +6596,6 @@
                       "ctxt": 0
                     },
                     "value": "GetAccessor",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6817,7 +6641,6 @@
                       "ctxt": 0
                     },
                     "value": "SetAccessor",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6863,7 +6686,6 @@
                       "ctxt": 0
                     },
                     "value": "Definition",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6909,7 +6731,6 @@
                       "ctxt": 0
                     },
                     "value": "Signature",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -6955,7 +6776,6 @@
                       "ctxt": 0
                     },
                     "value": "Method",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -7001,7 +6821,6 @@
                       "ctxt": 0
                     },
                     "value": "HasReturnExpression",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -7047,7 +6866,6 @@
                       "ctxt": 0
                     },
                     "value": "CallMember",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -7093,7 +6911,6 @@
                       "ctxt": 0
                     },
                     "value": "ConstructMember",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -7139,7 +6956,6 @@
                       "ctxt": 0
                     },
                     "value": "HasSelfReference",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -7185,7 +7001,6 @@
                       "ctxt": 0
                     },
                     "value": "IsFatArrowFunction",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -7231,7 +7046,6 @@
                       "ctxt": 0
                     },
                     "value": "IndexerMember",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -7277,7 +7091,6 @@
                       "ctxt": 0
                     },
                     "value": "IsFunctionExpression",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -7323,7 +7136,6 @@
                       "ctxt": 0
                     },
                     "value": "ClassMethod",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -7369,7 +7181,6 @@
                       "ctxt": 0
                     },
                     "value": "ClassPropertyMethodExported",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -7427,7 +7238,6 @@
                   "ctxt": 0
                 },
                 "value": "SignatureFlags",
-                "typeAnnotation": null,
                 "optional": false
               },
               "members": [
@@ -7446,7 +7256,6 @@
                       "ctxt": 0
                     },
                     "value": "None",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -7474,7 +7283,6 @@
                       "ctxt": 0
                     },
                     "value": "IsIndexer",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -7502,7 +7310,6 @@
                       "ctxt": 0
                     },
                     "value": "IsStringIndexer",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -7548,7 +7355,6 @@
                       "ctxt": 0
                     },
                     "value": "IsNumberIndexer",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -7599,7 +7405,6 @@
                   "ctxt": 0
                 },
                 "value": "ToDeclFlags",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -7620,6 +7425,7 @@
                       "ctxt": 0
                     },
                     "value": "fncFlags",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -7642,13 +7448,11 @@
                             "ctxt": 0
                           },
                           "value": "FncFlags",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 }
               ],
@@ -7684,7 +7488,6 @@
                       "ctxt": 0
                     },
                     "value": "DeclFlags",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -7709,7 +7512,6 @@
                   "ctxt": 0
                 },
                 "value": "ToDeclFlags",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -7730,6 +7532,7 @@
                       "ctxt": 0
                     },
                     "value": "varFlags",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -7752,13 +7555,11 @@
                             "ctxt": 0
                           },
                           "value": "VarFlags",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 }
               ],
@@ -7794,7 +7595,6 @@
                       "ctxt": 0
                     },
                     "value": "DeclFlags",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -7819,7 +7619,6 @@
                   "ctxt": 0
                 },
                 "value": "ToDeclFlags",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -7840,6 +7639,7 @@
                       "ctxt": 0
                     },
                     "value": "symFlags",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -7862,13 +7662,11 @@
                             "ctxt": 0
                           },
                           "value": "SymbolFlags",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 }
               ],
@@ -7904,7 +7702,6 @@
                       "ctxt": 0
                     },
                     "value": "DeclFlags",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -7929,7 +7726,6 @@
                   "ctxt": 0
                 },
                 "value": "ToDeclFlags",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -7950,6 +7746,7 @@
                       "ctxt": 0
                     },
                     "value": "moduleFlags",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -7972,13 +7769,11 @@
                             "ctxt": 0
                           },
                           "value": "ModuleFlags",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 }
               ],
@@ -8014,7 +7809,6 @@
                       "ctxt": 0
                     },
                     "value": "DeclFlags",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -8039,7 +7833,6 @@
                   "ctxt": 0
                 },
                 "value": "ToDeclFlags",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -8060,6 +7853,7 @@
                       "ctxt": 0
                     },
                     "value": "fncOrVarOrSymbolOrModuleFlags",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -8076,8 +7870,7 @@
                         },
                         "kind": "any"
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 }
               ],
@@ -8117,7 +7910,6 @@
                           "ctxt": 0
                         },
                         "value": "fncOrVarOrSymbolOrModuleFlags",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeAnnotation": {
@@ -8135,7 +7927,6 @@
                             "ctxt": 0
                           },
                           "value": "DeclFlags",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -8174,7 +7965,6 @@
                   "ctxt": 0
                 },
                 "value": "TypeFlags",
-                "typeAnnotation": null,
                 "optional": false
               },
               "members": [
@@ -8193,7 +7983,6 @@
                       "ctxt": 0
                     },
                     "value": "None",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -8221,7 +8010,6 @@
                       "ctxt": 0
                     },
                     "value": "HasImplementation",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -8249,7 +8037,6 @@
                       "ctxt": 0
                     },
                     "value": "HasSelfReference",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -8295,7 +8082,6 @@
                       "ctxt": 0
                     },
                     "value": "MergeResult",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -8341,7 +8127,6 @@
                       "ctxt": 0
                     },
                     "value": "IsEnum",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -8387,7 +8172,6 @@
                       "ctxt": 0
                     },
                     "value": "BuildingName",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -8433,7 +8217,6 @@
                       "ctxt": 0
                     },
                     "value": "HasBaseType",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -8479,7 +8262,6 @@
                       "ctxt": 0
                     },
                     "value": "HasBaseTypeOfObject",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -8525,7 +8307,6 @@
                       "ctxt": 0
                     },
                     "value": "IsClass",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -8583,7 +8364,6 @@
                   "ctxt": 0
                 },
                 "value": "TypeRelationshipFlags",
-                "typeAnnotation": null,
                 "optional": false
               },
               "members": [
@@ -8602,7 +8382,6 @@
                       "ctxt": 0
                     },
                     "value": "SuccessfulComparison",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -8630,7 +8409,6 @@
                       "ctxt": 0
                     },
                     "value": "SourceIsNullTargetIsVoidOrUndefined",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -8658,7 +8436,6 @@
                       "ctxt": 0
                     },
                     "value": "RequiredPropertyIsMissing",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -8704,7 +8481,6 @@
                       "ctxt": 0
                     },
                     "value": "IncompatibleSignatures",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -8750,7 +8526,6 @@
                       "ctxt": 0
                     },
                     "value": "SourceSignatureHasTooManyParameters",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -8778,7 +8553,6 @@
                       "ctxt": 0
                     },
                     "value": "IncompatibleReturnTypes",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -8824,7 +8598,6 @@
                       "ctxt": 0
                     },
                     "value": "IncompatiblePropertyTypes",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -8870,7 +8643,6 @@
                       "ctxt": 0
                     },
                     "value": "IncompatibleParameterTypes",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -8928,7 +8700,6 @@
                   "ctxt": 0
                 },
                 "value": "CodeGenTarget",
-                "typeAnnotation": null,
                 "optional": false
               },
               "members": [
@@ -8947,7 +8718,6 @@
                       "ctxt": 0
                     },
                     "value": "ES3",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -8975,7 +8745,6 @@
                       "ctxt": 0
                     },
                     "value": "ES5",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -9015,7 +8784,6 @@
                   "ctxt": 0
                 },
                 "value": "ModuleGenTarget",
-                "typeAnnotation": null,
                 "optional": false
               },
               "members": [
@@ -9034,7 +8802,6 @@
                       "ctxt": 0
                     },
                     "value": "Synchronous",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -9062,7 +8829,6 @@
                       "ctxt": 0
                     },
                     "value": "Asynchronous",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -9090,7 +8856,6 @@
                       "ctxt": 0
                     },
                     "value": "Local",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": {
@@ -9156,6 +8921,7 @@
                       "ctxt": 0
                     },
                     "value": "codeGenTarget",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -9178,13 +8944,11 @@
                             "ctxt": 0
                           },
                           "value": "CodeGenTarget",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   },
                   "init": {
                     "type": "MemberExpression",
@@ -9201,7 +8965,6 @@
                         "ctxt": 0
                       },
                       "value": "CodeGenTarget",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -9212,7 +8975,6 @@
                         "ctxt": 0
                       },
                       "value": "ES3",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -9254,6 +9016,7 @@
                       "ctxt": 0
                     },
                     "value": "moduleGenTarget",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -9276,13 +9039,11 @@
                             "ctxt": 0
                           },
                           "value": "ModuleGenTarget",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   },
                   "init": {
                     "type": "MemberExpression",
@@ -9299,7 +9060,6 @@
                         "ctxt": 0
                       },
                       "value": "ModuleGenTarget",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -9310,7 +9070,6 @@
                         "ctxt": 0
                       },
                       "value": "Synchronous",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -9352,8 +9111,8 @@
                       "ctxt": 0
                     },
                     "value": "optimizeModuleCodeGen",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "BooleanLiteral",
@@ -9386,7 +9145,6 @@
                   "ctxt": 0
                 },
                 "value": "flagsToString",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -9407,8 +9165,8 @@
                       "ctxt": 0
                     },
                     "value": "e",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   }
                 },
                 {
@@ -9427,6 +9185,7 @@
                       "ctxt": 0
                     },
                     "value": "flags",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -9443,8 +9202,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 }
               ],
@@ -9487,8 +9245,8 @@
                             "ctxt": 0
                           },
                           "value": "builder",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "init": {
                           "type": "StringLiteral",
@@ -9540,8 +9298,8 @@
                               "ctxt": 0
                             },
                             "value": "i",
-                            "typeAnnotation": null,
-                            "optional": false
+                            "optional": false,
+                            "typeAnnotation": null
                           },
                           "init": {
                             "type": "NumericLiteral",
@@ -9572,7 +9330,6 @@
                           "ctxt": 0
                         },
                         "value": "i",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "right": {
@@ -9627,8 +9384,8 @@
                           "ctxt": 0
                         },
                         "value": "i",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "right": {
                         "type": "BinaryExpression",
@@ -9646,7 +9403,6 @@
                             "ctxt": 0
                           },
                           "value": "i",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "right": {
@@ -9706,7 +9462,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "flags",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "right": {
@@ -9717,7 +9472,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "i",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 }
                               }
@@ -9772,8 +9526,8 @@
                                           "ctxt": 0
                                         },
                                         "value": "k",
-                                        "typeAnnotation": null,
-                                        "optional": false
+                                        "optional": false,
+                                        "typeAnnotation": null
                                       },
                                       "init": null,
                                       "definite": false
@@ -9788,7 +9542,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "e",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "body": {
@@ -9829,7 +9582,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "e",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           },
                                           "property": {
@@ -9840,7 +9592,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "k",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           },
                                           "computed": true
@@ -9853,7 +9604,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "i",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         }
                                       },
@@ -9895,7 +9645,6 @@
                                                     "ctxt": 0
                                                   },
                                                   "value": "builder",
-                                                  "typeAnnotation": null,
                                                   "optional": false
                                                 },
                                                 "property": {
@@ -9906,7 +9655,6 @@
                                                     "ctxt": 0
                                                   },
                                                   "value": "length",
-                                                  "typeAnnotation": null,
                                                   "optional": false
                                                 },
                                                 "computed": false
@@ -9952,8 +9700,8 @@
                                                         "ctxt": 0
                                                       },
                                                       "value": "builder",
-                                                      "typeAnnotation": null,
-                                                      "optional": false
+                                                      "optional": false,
+                                                      "typeAnnotation": null
                                                     },
                                                     "right": {
                                                       "type": "StringLiteral",
@@ -9998,8 +9746,8 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "builder",
-                                                "typeAnnotation": null,
-                                                "optional": false
+                                                "optional": false,
+                                                "typeAnnotation": null
                                               },
                                               "right": {
                                                 "type": "Identifier",
@@ -10009,7 +9757,6 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "k",
-                                                "typeAnnotation": null,
                                                 "optional": false
                                               }
                                             }
@@ -10052,7 +9799,6 @@
                         "ctxt": 0
                       },
                       "value": "builder",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }

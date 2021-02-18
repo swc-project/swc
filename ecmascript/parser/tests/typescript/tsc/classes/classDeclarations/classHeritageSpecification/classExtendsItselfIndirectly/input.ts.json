@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -82,7 +80,6 @@
           "ctxt": 0
         },
         "value": "E",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -100,7 +97,6 @@
           "ctxt": 0
         },
         "value": "D",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -126,7 +122,6 @@
               "ctxt": 0
             },
             "value": "bar",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -166,7 +161,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -184,7 +178,6 @@
           "ctxt": 0
         },
         "value": "E",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -210,7 +203,6 @@
               "ctxt": 0
             },
             "value": "baz",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -250,7 +242,6 @@
           "ctxt": 0
         },
         "value": "D",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -268,7 +259,6 @@
           "ctxt": 0
         },
         "value": "C2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -294,7 +284,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -320,7 +309,6 @@
                   "ctxt": 0
                 },
                 "value": "T",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -345,7 +333,6 @@
           "ctxt": 0
         },
         "value": "E2",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -372,7 +359,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -403,7 +389,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -422,7 +407,6 @@
           "ctxt": 0
         },
         "value": "D2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -448,7 +432,6 @@
               "ctxt": 0
             },
             "value": "bar",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -474,7 +457,6 @@
                   "ctxt": 0
                 },
                 "value": "T",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -499,7 +481,6 @@
           "ctxt": 0
         },
         "value": "C2",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -526,7 +507,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -557,7 +537,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -576,7 +555,6 @@
           "ctxt": 0
         },
         "value": "E2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -602,7 +580,6 @@
               "ctxt": 0
             },
             "value": "baz",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -628,7 +605,6 @@
                   "ctxt": 0
                 },
                 "value": "T",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -653,7 +629,6 @@
           "ctxt": 0
         },
         "value": "D2",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -680,7 +655,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -711,7 +685,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null

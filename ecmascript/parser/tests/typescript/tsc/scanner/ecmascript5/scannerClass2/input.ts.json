@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "LoggerAdapter",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "constructor",
-              "typeAnnotation": null,
               "optional": false
             },
             "params": [
@@ -71,6 +69,7 @@
                     "ctxt": 0
                   },
                   "value": "logger",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -93,13 +92,11 @@
                           "ctxt": 0
                         },
                         "value": "ILogger",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -149,7 +146,6 @@
                           "ctxt": 0
                         },
                         "value": "_information",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -191,7 +187,6 @@
                               "ctxt": 0
                             },
                             "value": "logger",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -204,7 +199,6 @@
                             "ctxt": 0
                           },
                           "value": "information",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -240,7 +234,6 @@
                 "ctxt": 0
               },
               "value": "ILogger",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeArguments": null

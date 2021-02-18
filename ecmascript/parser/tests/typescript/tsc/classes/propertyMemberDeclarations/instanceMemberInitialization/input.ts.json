@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -97,8 +95,8 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -115,7 +113,6 @@
                 "ctxt": 0
               },
               "value": "C",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -155,7 +152,6 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -166,7 +162,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -207,8 +202,8 @@
               "ctxt": 0
             },
             "value": "c2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -225,7 +220,6 @@
                 "ctxt": 0
               },
               "value": "C",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -260,8 +254,8 @@
               "ctxt": 0
             },
             "value": "r",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -286,7 +280,6 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -297,7 +290,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -317,7 +309,6 @@
                   "ctxt": 0
                 },
                 "value": "c2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -328,7 +319,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -348,7 +338,6 @@
           "ctxt": 0
         },
         "value": "MyMap",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -374,7 +363,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
@@ -396,6 +384,7 @@
                   "ctxt": 0
                 },
                 "value": "Map_",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -459,7 +448,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "K",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "constraint": null,
@@ -480,7 +468,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "V",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "constraint": null,
@@ -491,8 +478,7 @@
                       }
                     ]
                   }
-                },
-                "optional": false
+                }
               }
             }
           ],
@@ -523,7 +509,6 @@
               "ctxt": 0
             },
             "value": "store",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -556,7 +541,6 @@
                   "ctxt": 0
                 },
                 "value": "Map_",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -585,7 +569,6 @@
                       "ctxt": 0
                     },
                     "value": "K",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -605,7 +588,6 @@
                       "ctxt": 0
                     },
                     "value": "V",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -650,7 +632,6 @@
                 "ctxt": 0
               },
               "value": "K",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -671,7 +652,6 @@
                 "ctxt": 0
               },
               "value": "V",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,

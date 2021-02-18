@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "Kind",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -91,7 +90,6 @@
           "ctxt": 0
         },
         "value": "kindIs",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -112,6 +110,7 @@
               "ctxt": 0
             },
             "value": "kind",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -134,13 +133,11 @@
                     "ctxt": 0
                   },
                   "value": "Kind",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -159,6 +156,7 @@
               "ctxt": 0
             },
             "value": "is",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -188,8 +186,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -226,7 +223,6 @@
               "ctxt": 0
             },
             "value": "kind",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -272,7 +268,6 @@
           "ctxt": 0
         },
         "value": "kindIs",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -293,6 +288,7 @@
               "ctxt": 0
             },
             "value": "kind",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -315,13 +311,11 @@
                     "ctxt": 0
                   },
                   "value": "Kind",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -340,6 +334,7 @@
               "ctxt": 0
             },
             "value": "is",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -369,8 +364,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -407,7 +401,6 @@
               "ctxt": 0
             },
             "value": "kind",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -453,7 +446,6 @@
           "ctxt": 0
         },
         "value": "kindIs",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -474,6 +466,7 @@
               "ctxt": 0
             },
             "value": "kind",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -496,13 +489,11 @@
                     "ctxt": 0
                   },
                   "value": "Kind",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -521,6 +512,7 @@
               "ctxt": 0
             },
             "value": "is",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -543,13 +535,11 @@
                     "ctxt": 0
                   },
                   "value": "Kind",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -590,7 +580,6 @@
                   "ctxt": 0
                 },
                 "value": "kind",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -601,7 +590,6 @@
                   "ctxt": 0
                 },
                 "value": "is",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -654,6 +642,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -676,13 +665,11 @@
                     "ctxt": 0
                   },
                   "value": "Kind",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "Identifier",
@@ -692,7 +679,6 @@
               "ctxt": 0
             },
             "value": "undefined",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false
@@ -721,7 +707,6 @@
             "ctxt": 0
           },
           "value": "kindIs",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -735,7 +720,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -792,8 +776,8 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "Identifier",
@@ -803,7 +787,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "definite": false
@@ -845,8 +828,8 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "Identifier",
@@ -856,7 +839,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "definite": false
@@ -896,7 +878,6 @@
               "ctxt": 0
             },
             "value": "kindIs",
-            "typeAnnotation": null,
             "optional": false
           },
           "arguments": [
@@ -910,7 +891,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -968,8 +948,8 @@
                     "ctxt": 0
                   },
                   "value": "c",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "Identifier",
@@ -979,7 +959,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "definite": false
@@ -1021,8 +1000,8 @@
                     "ctxt": 0
                   },
                   "value": "d",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "Identifier",
@@ -1032,7 +1011,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "definite": false

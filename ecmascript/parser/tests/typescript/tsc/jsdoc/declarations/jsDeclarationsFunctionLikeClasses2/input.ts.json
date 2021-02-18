@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "Vec",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -44,8 +43,8 @@
                 "ctxt": 0
               },
               "value": "len",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             }
           }
         ],
@@ -101,7 +100,6 @@
                       "ctxt": 0
                     },
                     "value": "storage",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -121,7 +119,6 @@
                       "ctxt": 0
                     },
                     "value": "Array",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [
@@ -135,7 +132,6 @@
                           "ctxt": 0
                         },
                         "value": "len",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -182,7 +178,6 @@
               "ctxt": 0
             },
             "value": "Vec",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -193,7 +188,6 @@
               "ctxt": 0
             },
             "value": "prototype",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -216,7 +210,6 @@
                   "ctxt": 0
                 },
                 "value": "dot",
-                "typeAnnotation": null,
                 "optional": false
               },
               "params": [
@@ -236,8 +229,8 @@
                       "ctxt": 0
                     },
                     "value": "other",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   }
                 }
               ],
@@ -292,7 +285,6 @@
                               "ctxt": 0
                             },
                             "value": "other",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -303,7 +295,6 @@
                               "ctxt": 0
                             },
                             "value": "storage",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -316,7 +307,6 @@
                             "ctxt": 0
                           },
                           "value": "length",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -351,7 +341,6 @@
                               "ctxt": 0
                             },
                             "value": "storage",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -364,7 +353,6 @@
                             "ctxt": 0
                           },
                           "value": "length",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -400,7 +388,6 @@
                                 "ctxt": 0
                               },
                               "value": "Error",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "arguments": [
@@ -488,8 +475,8 @@
                             "ctxt": 0
                           },
                           "value": "sum",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "init": {
                           "type": "NumericLiteral",
@@ -536,8 +523,8 @@
                               "ctxt": 0
                             },
                             "value": "i",
-                            "typeAnnotation": null,
-                            "optional": false
+                            "optional": false,
+                            "typeAnnotation": null
                           },
                           "init": {
                             "type": "NumericLiteral",
@@ -568,7 +555,6 @@
                           "ctxt": 0
                         },
                         "value": "i",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "right": {
@@ -601,7 +587,6 @@
                               "ctxt": 0
                             },
                             "value": "storage",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -614,7 +599,6 @@
                             "ctxt": 0
                           },
                           "value": "length",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -637,7 +621,6 @@
                           "ctxt": 0
                         },
                         "value": "i",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -672,8 +655,8 @@
                                 "ctxt": 0
                               },
                               "value": "sum",
-                              "typeAnnotation": null,
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             },
                             "right": {
                               "type": "ParenthesisExpression",
@@ -720,7 +703,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "storage",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "computed": false
@@ -733,7 +715,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "i",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": true
@@ -760,7 +741,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "other",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "property": {
@@ -771,7 +751,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "storage",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "computed": false
@@ -784,7 +763,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "i",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": true
@@ -811,7 +789,6 @@
                         "ctxt": 0
                       },
                       "value": "sum",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -832,7 +809,6 @@
                   "ctxt": 0
                 },
                 "value": "magnitude",
-                "typeAnnotation": null,
                 "optional": false
               },
               "params": [],
@@ -875,8 +851,8 @@
                             "ctxt": 0
                           },
                           "value": "sum",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "init": {
                           "type": "NumericLiteral",
@@ -923,8 +899,8 @@
                               "ctxt": 0
                             },
                             "value": "i",
-                            "typeAnnotation": null,
-                            "optional": false
+                            "optional": false,
+                            "typeAnnotation": null
                           },
                           "init": {
                             "type": "NumericLiteral",
@@ -955,7 +931,6 @@
                           "ctxt": 0
                         },
                         "value": "i",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "right": {
@@ -988,7 +963,6 @@
                               "ctxt": 0
                             },
                             "value": "storage",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -1001,7 +975,6 @@
                             "ctxt": 0
                           },
                           "value": "length",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1024,7 +997,6 @@
                           "ctxt": 0
                         },
                         "value": "i",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -1059,8 +1031,8 @@
                                 "ctxt": 0
                               },
                               "value": "sum",
-                              "typeAnnotation": null,
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             },
                             "right": {
                               "type": "ParenthesisExpression",
@@ -1107,7 +1079,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "storage",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "computed": false
@@ -1120,7 +1091,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "i",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": true
@@ -1170,7 +1140,6 @@
                             "ctxt": 0
                           },
                           "value": "Math",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -1181,7 +1150,6 @@
                             "ctxt": 0
                           },
                           "value": "sqrt",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1197,7 +1165,6 @@
                               "ctxt": 0
                             },
                             "value": "sum",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }
@@ -1233,7 +1200,6 @@
             "ctxt": 0
           },
           "value": "Point2D",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -1254,8 +1220,8 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             }
           },
           {
@@ -1274,8 +1240,8 @@
                 "ctxt": 0
               },
               "value": "y",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             }
           }
         ],
@@ -1339,7 +1305,6 @@
                         "ctxt": 0
                       },
                       "value": "Point2D",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -1375,7 +1340,6 @@
                           "ctxt": 0
                         },
                         "value": "Point2D",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "arguments": [
@@ -1389,7 +1353,6 @@
                               "ctxt": 0
                             },
                             "value": "x",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         },
@@ -1403,7 +1366,6 @@
                               "ctxt": 0
                             },
                             "value": "y",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }
@@ -1444,7 +1406,6 @@
                       "ctxt": 0
                     },
                     "value": "Vec",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -1455,7 +1416,6 @@
                       "ctxt": 0
                     },
                     "value": "call",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -1526,7 +1486,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -1539,7 +1498,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -1582,7 +1540,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -1595,7 +1552,6 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -1638,7 +1594,6 @@
               "ctxt": 0
             },
             "value": "Point2D",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1649,7 +1604,6 @@
               "ctxt": 0
             },
             "value": "prototype",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1672,7 +1626,6 @@
                   "ctxt": 0
                 },
                 "value": "__proto__",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -1683,7 +1636,6 @@
                   "ctxt": 0
                 },
                 "value": "Vec",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -1702,7 +1654,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeAnnotation": null,
@@ -1751,7 +1702,6 @@
                             "ctxt": 0
                           },
                           "value": "storage",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1786,7 +1736,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "param": {
@@ -1797,8 +1746,8 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "body": {
                 "type": "BlockStatement",
@@ -1853,7 +1802,6 @@
                               "ctxt": 0
                             },
                             "value": "storage",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -1877,7 +1825,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -1900,7 +1847,6 @@
                   "ctxt": 0
                 },
                 "value": "y",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeAnnotation": null,
@@ -1949,7 +1895,6 @@
                             "ctxt": 0
                           },
                           "value": "storage",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1984,7 +1929,6 @@
                   "ctxt": 0
                 },
                 "value": "y",
-                "typeAnnotation": null,
                 "optional": false
               },
               "param": {
@@ -1995,8 +1939,8 @@
                   "ctxt": 0
                 },
                 "value": "y",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "body": {
                 "type": "BlockStatement",
@@ -2051,7 +1995,6 @@
                               "ctxt": 0
                             },
                             "value": "storage",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -2075,7 +2018,6 @@
                           "ctxt": 0
                         },
                         "value": "y",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -2110,7 +2052,6 @@
               "ctxt": 0
             },
             "value": "Point2D",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -2165,8 +2106,8 @@
                 "ctxt": 0
               },
               "value": "origin",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "NewExpression",
@@ -2183,7 +2124,6 @@
                   "ctxt": 0
                 },
                 "value": "Point2D",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [

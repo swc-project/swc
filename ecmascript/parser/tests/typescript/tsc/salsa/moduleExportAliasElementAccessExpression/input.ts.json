@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "D",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -71,7 +70,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -98,7 +96,6 @@
             "ctxt": 0
           },
           "value": "D",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -133,7 +130,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -160,7 +156,6 @@
             "ctxt": 0
           },
           "value": "D",
-          "typeAnnotation": null,
           "optional": false
         }
       }

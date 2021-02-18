@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BooleanLiteral",
@@ -72,8 +72,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -97,7 +97,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -108,7 +107,6 @@
                   "ctxt": 0
                 },
                 "value": "toString",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -145,8 +143,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -170,7 +168,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {

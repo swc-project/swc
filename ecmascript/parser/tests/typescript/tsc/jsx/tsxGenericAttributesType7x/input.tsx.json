@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "React",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -59,7 +58,6 @@
           "ctxt": 0
         },
         "value": "Component",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -80,6 +78,7 @@
               "ctxt": 0
             },
             "value": "props",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -102,13 +101,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -144,7 +141,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -176,7 +172,6 @@
                 "ctxt": 0
               },
               "value": "JSX",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -187,7 +182,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -220,8 +214,8 @@
               "ctxt": 0
             },
             "value": "decorator",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -243,6 +237,7 @@
                     "ctxt": 0
                   },
                   "value": "props",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -265,13 +260,11 @@
                           "ctxt": 0
                         },
                         "value": "U",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -313,7 +306,6 @@
                           "ctxt": 0
                         },
                         "value": "Component",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "span": {
@@ -337,7 +329,6 @@
                               "ctxt": 0
                             },
                             "value": "props",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }
@@ -376,7 +367,6 @@
                       "ctxt": 0
                     },
                     "value": "U",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -415,8 +405,8 @@
               "ctxt": 0
             },
             "value": "decorator1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -438,6 +428,7 @@
                     "ctxt": 0
                   },
                   "value": "props",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -460,13 +451,11 @@
                           "ctxt": 0
                         },
                         "value": "U",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -508,7 +497,6 @@
                           "ctxt": 0
                         },
                         "value": "Component",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "span": {
@@ -532,7 +520,6 @@
                               "ctxt": 0
                             },
                             "value": "props",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         },
@@ -551,7 +538,6 @@
                               "ctxt": 0
                             },
                             "value": "x",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "value": {
@@ -604,7 +590,6 @@
                       "ctxt": 0
                     },
                     "value": "U",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": {
@@ -631,7 +616,6 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false,

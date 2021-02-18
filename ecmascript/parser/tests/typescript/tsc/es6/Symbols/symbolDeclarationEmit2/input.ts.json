@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "Symbol",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -60,7 +58,6 @@
                 "ctxt": 0
               },
               "value": "toPrimitive",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false

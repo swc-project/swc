@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "numStrTuple",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -84,8 +85,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -155,6 +155,7 @@
               "ctxt": 0
             },
             "value": "numStrTuple2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -208,8 +209,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -291,6 +291,7 @@
               "ctxt": 0
             },
             "value": "numStrBoolTuple",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -362,8 +363,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -445,6 +445,7 @@
               "ctxt": 0
             },
             "value": "objNumTuple",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -492,7 +493,6 @@
                               "ctxt": 0
                             },
                             "value": "a",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -541,8 +541,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -572,7 +571,6 @@
                           "ctxt": 0
                         },
                         "value": "a",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -636,6 +634,7 @@
               "ctxt": 0
             },
             "value": "strTupleTuple",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -726,8 +725,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -796,7 +794,6 @@
                                 "ctxt": 0
                               },
                               "value": "x",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -819,7 +816,6 @@
                                 "ctxt": 0
                               },
                               "value": "y",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -854,7 +850,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -881,7 +876,6 @@
           "ctxt": 0
         },
         "value": "D",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -923,6 +917,7 @@
               "ctxt": 0
             },
             "value": "unionTuple",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -961,7 +956,6 @@
                           "ctxt": 0
                         },
                         "value": "C",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1006,8 +1000,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -1034,7 +1027,6 @@
                       "ctxt": 0
                     },
                     "value": "C",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [],
@@ -1089,6 +1081,7 @@
               "ctxt": 0
             },
             "value": "unionTuple1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1127,7 +1120,6 @@
                           "ctxt": 0
                         },
                         "value": "C",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1172,8 +1164,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -1200,7 +1191,6 @@
                       "ctxt": 0
                     },
                     "value": "C",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [],
@@ -1255,6 +1245,7 @@
               "ctxt": 0
             },
             "value": "unionTuple2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1293,7 +1284,6 @@
                           "ctxt": 0
                         },
                         "value": "C",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1359,7 +1349,6 @@
                           "ctxt": 0
                         },
                         "value": "D",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1367,8 +1356,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -1395,7 +1383,6 @@
                       "ctxt": 0
                     },
                     "value": "C",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [],
@@ -1436,7 +1423,6 @@
                       "ctxt": 0
                     },
                     "value": "D",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [],
@@ -1474,6 +1460,7 @@
               "ctxt": 0
             },
             "value": "unionTuple3",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1546,8 +1533,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -1615,8 +1601,8 @@
             "ctxt": 0
           },
           "value": "numStrTuple",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -1626,7 +1612,6 @@
             "ctxt": 0
           },
           "value": "numStrTuple2",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1654,8 +1639,8 @@
             "ctxt": 0
           },
           "value": "numStrTuple",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -1665,7 +1650,6 @@
             "ctxt": 0
           },
           "value": "numStrBoolTuple",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1693,8 +1677,8 @@
             "ctxt": 0
           },
           "value": "objNumTuple",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ArrayExpression",
@@ -1755,8 +1739,8 @@
             "ctxt": 0
           },
           "value": "numStrBoolTuple",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -1766,7 +1750,6 @@
             "ctxt": 0
           },
           "value": "numStrTuple",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1796,6 +1779,7 @@
               "ctxt": 0
             },
             "value": "strStrTuple",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1849,8 +1833,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -1935,8 +1918,8 @@
             "ctxt": 0
           },
           "value": "unionTuple",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -1946,7 +1929,6 @@
             "ctxt": 0
           },
           "value": "unionTuple1",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1974,8 +1956,8 @@
             "ctxt": 0
           },
           "value": "unionTuple",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -1985,7 +1967,6 @@
             "ctxt": 0
           },
           "value": "unionTuple2",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -2013,8 +1994,8 @@
             "ctxt": 0
           },
           "value": "unionTuple2",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -2024,7 +2005,6 @@
             "ctxt": 0
           },
           "value": "unionTuple",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -2052,8 +2032,8 @@
             "ctxt": 0
           },
           "value": "numStrTuple",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -2063,7 +2043,6 @@
             "ctxt": 0
           },
           "value": "unionTuple3",
-          "typeAnnotation": null,
           "optional": false
         }
       }

@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "C",
-          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -65,7 +64,6 @@
                 "ctxt": 0
               },
               "value": "uhoh",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": {

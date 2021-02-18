@@ -30,7 +30,6 @@
             "ctxt": 0
           },
           "value": "E1",
-          "typeAnnotation": null,
           "optional": false
         },
         "members": [
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "A",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": null
@@ -69,7 +67,6 @@
                 "ctxt": 0
               },
               "value": "B",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": null
@@ -89,7 +86,6 @@
                 "ctxt": 0
               },
               "value": "C",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": null
@@ -114,7 +110,6 @@
           "ctxt": 0
         },
         "value": "foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -177,7 +172,6 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -188,7 +182,6 @@
                 "ctxt": 0
               },
               "value": "E1",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -201,7 +194,6 @@
               "ctxt": 0
             },
             "value": "A",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

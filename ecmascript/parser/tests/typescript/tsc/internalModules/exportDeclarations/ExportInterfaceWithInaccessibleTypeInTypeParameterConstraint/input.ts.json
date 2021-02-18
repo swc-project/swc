@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "Point",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -79,7 +77,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -121,7 +118,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -182,6 +178,7 @@
                       "ctxt": 0
                     },
                     "value": "Origin",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -204,13 +201,11 @@
                             "ctxt": 0
                           },
                           "value": "Point",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   },
                   "init": {
                     "type": "ObjectExpression",
@@ -230,7 +225,6 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -253,7 +247,6 @@
                             "ctxt": 0
                           },
                           "value": "y",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -295,7 +288,6 @@
                   "ctxt": 0
                 },
                 "value": "Point3d",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -316,7 +308,6 @@
                       "ctxt": 0
                     },
                     "value": "Point",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeArguments": null
@@ -346,7 +337,6 @@
                         "ctxt": 0
                       },
                       "value": "z",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -408,6 +398,7 @@
                       "ctxt": 0
                     },
                     "value": "Origin3d",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -430,13 +421,11 @@
                             "ctxt": 0
                           },
                           "value": "Point3d",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   },
                   "init": {
                     "type": "ObjectExpression",
@@ -456,7 +445,6 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -479,7 +467,6 @@
                             "ctxt": 0
                           },
                           "value": "y",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -502,7 +489,6 @@
                             "ctxt": 0
                           },
                           "value": "z",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -544,7 +530,6 @@
                   "ctxt": 0
                 },
                 "value": "Line",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -571,7 +556,6 @@
                         "ctxt": 0
                       },
                       "value": "TPoint",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "constraint": {
@@ -589,7 +573,6 @@
                           "ctxt": 0
                         },
                         "value": "Point",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -623,6 +606,7 @@
                           "ctxt": 0
                         },
                         "value": "start",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -645,13 +629,11 @@
                                 "ctxt": 0
                               },
                               "value": "TPoint",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       {
                         "type": "Identifier",
@@ -661,6 +643,7 @@
                           "ctxt": 0
                         },
                         "value": "end",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -683,13 +666,11 @@
                                 "ctxt": 0
                               },
                               "value": "TPoint",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     ],
                     "typeAnnotation": null,
@@ -711,7 +692,6 @@
                         "ctxt": 0
                       },
                       "value": "start",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -740,7 +720,6 @@
                             "ctxt": 0
                           },
                           "value": "TPoint",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -764,7 +743,6 @@
                         "ctxt": 0
                       },
                       "value": "end",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -793,7 +771,6 @@
                             "ctxt": 0
                           },
                           "value": "TPoint",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null

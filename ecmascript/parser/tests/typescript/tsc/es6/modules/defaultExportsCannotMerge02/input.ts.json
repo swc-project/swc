@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "Decl",
-          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -62,7 +61,6 @@
             "ctxt": 0
           },
           "value": "Decl",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -92,7 +90,6 @@
                   "ctxt": 0
                 },
                 "value": "p1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false,
@@ -134,7 +131,6 @@
                   "ctxt": 0
                 },
                 "value": "p2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false,
@@ -188,7 +184,6 @@
             "ctxt": 0
           },
           "value": "Decl",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -214,7 +209,6 @@
                   "ctxt": 0
                 },
                 "value": "I",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -257,7 +251,6 @@
               "ctxt": 0
             },
             "value": "Entity",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -301,7 +294,6 @@
             "ctxt": 0
           },
           "value": "Entity",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [],
@@ -333,6 +325,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -355,13 +348,11 @@
                     "ctxt": 0
                   },
                   "value": "Entity",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -393,6 +384,7 @@
               "ctxt": 0
             },
             "value": "y",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -417,7 +409,6 @@
                       "ctxt": 0
                     },
                     "value": "Entity",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -428,14 +419,12 @@
                       "ctxt": 0
                     },
                     "value": "I",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -467,8 +456,8 @@
               "ctxt": 0
             },
             "value": "z",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -485,7 +474,6 @@
                 "ctxt": 0
               },
               "value": "Entity",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -520,8 +508,8 @@
               "ctxt": 0
             },
             "value": "sum",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -546,7 +534,6 @@
                   "ctxt": 0
                 },
                 "value": "z",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -557,7 +544,6 @@
                   "ctxt": 0
                 },
                 "value": "p1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -577,7 +563,6 @@
                   "ctxt": 0
                 },
                 "value": "z",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -588,7 +573,6 @@
                   "ctxt": 0
                 },
                 "value": "p2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false

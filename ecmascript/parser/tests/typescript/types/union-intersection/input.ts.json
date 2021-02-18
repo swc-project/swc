@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "union",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -75,8 +76,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -108,6 +108,7 @@
               "ctxt": 0
             },
             "value": "intersection",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -143,8 +144,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -176,6 +176,7 @@
               "ctxt": 0
             },
             "value": "precedence1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -230,8 +231,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -263,6 +263,7 @@
               "ctxt": 0
             },
             "value": "precedence2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -317,8 +318,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -341,7 +341,6 @@
           "ctxt": 0
         },
         "value": "LeadingUnion",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -390,7 +389,6 @@
           "ctxt": 0
         },
         "value": "LeadingIntersection",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,

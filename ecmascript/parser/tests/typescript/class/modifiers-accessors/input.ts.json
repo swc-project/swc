@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -80,7 +78,6 @@
               "ctxt": 0
             },
             "value": "s",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -144,7 +141,6 @@
               "ctxt": 0
             },
             "value": "pua",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -182,7 +178,6 @@
               "ctxt": 0
             },
             "value": "pus",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -246,7 +241,6 @@
               "ctxt": 0
             },
             "value": "pu",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -310,7 +304,6 @@
               "ctxt": 0
             },
             "value": "po",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -374,7 +367,6 @@
               "ctxt": 0
             },
             "value": "pi",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {

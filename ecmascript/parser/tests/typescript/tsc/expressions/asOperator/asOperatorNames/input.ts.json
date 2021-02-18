@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -72,8 +72,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "TsAsExpression",
@@ -90,7 +90,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeAnnotation": {
@@ -132,8 +131,8 @@
               "ctxt": 0
             },
             "value": "as",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "StringLiteral",
@@ -178,8 +177,8 @@
               "ctxt": 0
             },
             "value": "as1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "TsAsExpression",
@@ -196,7 +195,6 @@
                 "ctxt": 0
               },
               "value": "as",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeAnnotation": {

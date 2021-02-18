@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "members": [
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "red",
-            "typeAnnotation": null,
             "optional": false
           },
           "init": null
@@ -62,7 +60,6 @@
               "ctxt": 0
             },
             "value": "green",
-            "typeAnnotation": null,
             "optional": false
           },
           "init": null
@@ -82,7 +79,6 @@
               "ctxt": 0
             },
             "value": "blue",
-            "typeAnnotation": null,
             "optional": false
           },
           "init": null
@@ -106,7 +102,6 @@
           "ctxt": 0
         },
         "value": "foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -149,8 +144,8 @@
                       "ctxt": 0
                     },
                     "value": "answer",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "NumericLiteral",
@@ -184,7 +179,6 @@
           "ctxt": 0
         },
         "value": "foo",
-        "typeAnnotation": null,
         "optional": false
       }
     },
@@ -205,7 +199,6 @@
           "ctxt": 0
         },
         "value": "foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -256,6 +249,7 @@
               "ctxt": 0
             },
             "value": "color",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -278,13 +272,11 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -314,7 +306,6 @@
             "ctxt": 0
           },
           "value": "color",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -332,7 +323,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -343,7 +333,6 @@
               "ctxt": 0
             },
             "value": "green",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -380,8 +369,8 @@
                   "ctxt": 0
                 },
                 "value": "color",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "MemberExpression",
@@ -398,7 +387,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -409,7 +397,6 @@
                     "ctxt": 0
                   },
                   "value": "answer",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false

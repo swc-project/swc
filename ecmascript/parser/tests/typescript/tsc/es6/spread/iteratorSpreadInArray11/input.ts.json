@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "iter",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -53,7 +54,6 @@
                     "ctxt": 0
                   },
                   "value": "Iterable",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -76,8 +76,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -109,8 +108,8 @@
               "ctxt": 0
             },
             "value": "array",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -134,7 +133,6 @@
                     "ctxt": 0
                   },
                   "value": "iter",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }

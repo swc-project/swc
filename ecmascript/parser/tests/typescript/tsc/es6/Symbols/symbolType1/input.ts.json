@@ -36,7 +36,6 @@
               "ctxt": 0
             },
             "value": "Symbol",
-            "typeAnnotation": null,
             "optional": false
           },
           "arguments": [],
@@ -50,7 +49,6 @@
             "ctxt": 0
           },
           "value": "Symbol",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -78,7 +76,6 @@
             "ctxt": 0
           },
           "value": "Symbol",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -96,7 +93,6 @@
               "ctxt": 0
             },
             "value": "Symbol",
-            "typeAnnotation": null,
             "optional": false
           },
           "arguments": [],
@@ -149,7 +145,6 @@
                   "ctxt": 0
                 },
                 "value": "Symbol",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -174,7 +169,6 @@
             "ctxt": 0
           },
           "value": "Object",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -202,7 +196,6 @@
             "ctxt": 0
           },
           "value": "Symbol",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -235,7 +228,6 @@
                   "ctxt": 0
                 },
                 "value": "Symbol",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],

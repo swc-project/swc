@@ -29,7 +29,6 @@
               "ctxt": 0
             },
             "value": "dummy",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -77,8 +76,8 @@
               "ctxt": 0
             },
             "value": "dot2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -117,8 +116,8 @@
                 "ctxt": 0
               },
               "value": "dummy",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "NumericLiteral",

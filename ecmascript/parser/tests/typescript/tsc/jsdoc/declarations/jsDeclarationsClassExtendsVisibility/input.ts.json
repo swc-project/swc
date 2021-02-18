@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Bar",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -63,7 +62,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -74,7 +72,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -87,7 +84,6 @@
             "ctxt": 0
           },
           "value": "Bar",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -117,8 +113,8 @@
               "ctxt": 0
             },
             "value": "Bar",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -135,7 +131,6 @@
                 "ctxt": 0
               },
               "value": "require",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -188,8 +183,8 @@
               "ctxt": 0
             },
             "value": "Strings",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -209,7 +204,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -237,7 +231,6 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -271,7 +264,6 @@
           "ctxt": 0
         },
         "value": "Foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -290,7 +282,6 @@
           "ctxt": 0
         },
         "value": "Bar",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -328,7 +319,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -339,7 +329,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -352,7 +341,6 @@
             "ctxt": 0
           },
           "value": "Foo",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -394,7 +382,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -405,7 +392,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -418,7 +404,6 @@
               "ctxt": 0
             },
             "value": "Strings",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -431,7 +416,6 @@
             "ctxt": 0
           },
           "value": "Strings",
-          "typeAnnotation": null,
           "optional": false
         }
       }

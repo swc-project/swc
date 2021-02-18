@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "Workspace",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -72,8 +72,8 @@
               "ctxt": 0
             },
             "value": "p",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -109,7 +109,6 @@
               "ctxt": 0
             },
             "value": "p",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -120,7 +119,6 @@
               "ctxt": 0
             },
             "value": "isServiceProject",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -159,7 +157,6 @@
               "ctxt": 0
             },
             "value": "Workspace",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -170,7 +167,6 @@
               "ctxt": 0
             },
             "value": "Project",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -185,7 +181,6 @@
               "ctxt": 0
             },
             "value": "wp",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -248,7 +243,6 @@
                 "ctxt": 0
               },
               "value": "Workspace",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -259,7 +253,6 @@
                 "ctxt": 0
               },
               "value": "Project",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -272,7 +265,6 @@
               "ctxt": 0
             },
             "value": "prototype",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -295,7 +287,6 @@
                   "ctxt": 0
                 },
                 "value": "isServiceProject",
-                "typeAnnotation": null,
                 "optional": false
               },
               "params": [],

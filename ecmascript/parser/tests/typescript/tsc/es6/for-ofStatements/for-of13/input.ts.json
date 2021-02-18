@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "v",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -47,8 +48,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -71,8 +71,8 @@
           "ctxt": 0
         },
         "value": "v",
-        "typeAnnotation": null,
-        "optional": false
+        "optional": false,
+        "typeAnnotation": null
       },
       "right": {
         "type": "CallExpression",
@@ -123,7 +123,6 @@
               "ctxt": 0
             },
             "value": "values",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

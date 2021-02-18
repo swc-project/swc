@@ -30,7 +30,6 @@
               "ctxt": 0
             },
             "value": "AbC-def",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -54,7 +53,6 @@
                   "ctxt": 0
                 },
                 "value": "test",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -103,7 +101,6 @@
               "ctxt": 0
             },
             "value": "AbC-def",
-            "typeAnnotation": null,
             "optional": false
           }
         }

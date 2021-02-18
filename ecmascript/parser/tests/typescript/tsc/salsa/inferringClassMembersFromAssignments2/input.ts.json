@@ -43,7 +43,6 @@
                 "ctxt": 0
               },
               "value": "OOOrder",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -54,7 +53,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -67,7 +65,6 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -128,7 +125,6 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -163,7 +159,6 @@
           "ctxt": 0
         },
         "value": "OOOrder",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -220,7 +215,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false

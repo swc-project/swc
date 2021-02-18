@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -57,6 +57,7 @@
                     "ctxt": 0
                   },
                   "value": "greeting",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -73,8 +74,7 @@
                       },
                       "kind": "string"
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "right": {
                   "type": "StringLiteral",
@@ -100,6 +100,7 @@
                   "ctxt": 0
                 },
                 "value": "target",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -116,8 +117,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "body": {
@@ -151,7 +151,6 @@
                           "ctxt": 0
                         },
                         "value": "greeting",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       {
@@ -162,7 +161,6 @@
                           "ctxt": 0
                         },
                         "value": "target",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     ],

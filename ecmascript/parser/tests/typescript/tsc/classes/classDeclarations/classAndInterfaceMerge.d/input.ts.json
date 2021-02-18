@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -47,7 +46,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -79,7 +77,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -110,7 +107,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -143,7 +139,6 @@
           "ctxt": 0
         },
         "value": "M",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -169,7 +164,6 @@
                 "ctxt": 0
               },
               "value": "C1",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -195,7 +189,6 @@
                 "ctxt": 0
               },
               "value": "C1",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -227,7 +220,6 @@
                 "ctxt": 0
               },
               "value": "C1",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -258,7 +250,6 @@
                 "ctxt": 0
               },
               "value": "C1",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -291,7 +282,6 @@
                   "ctxt": 0
                 },
                 "value": "C2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -329,7 +319,6 @@
           "ctxt": 0
         },
         "value": "M",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -362,7 +351,6 @@
                   "ctxt": 0
                 },
                 "value": "C2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,

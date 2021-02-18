@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "JSX",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -80,7 +78,6 @@
                 "ctxt": 0
               },
               "value": "IntrinsicElements",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -105,6 +102,7 @@
                         "ctxt": 0
                       },
                       "value": "s",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -121,8 +119,7 @@
                           },
                           "kind": "string"
                         }
-                      },
-                      "optional": false
+                      }
                     }
                   ],
                   "typeAnnotation": {
@@ -180,6 +177,7 @@
               "ctxt": 0
             },
             "value": "React",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -196,8 +194,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -219,7 +216,6 @@
           "ctxt": 0
         },
         "value": "TodoProp",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -249,7 +245,6 @@
                 "ctxt": 0
               },
               "value": "id",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -291,7 +286,6 @@
                 "ctxt": 0
               },
               "value": "todo",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -335,7 +329,6 @@
           "ctxt": 0
         },
         "value": "TodoListProps",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -365,7 +358,6 @@
                 "ctxt": 0
               },
               "value": "todos",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -401,7 +393,6 @@
                       "ctxt": 0
                     },
                     "value": "TodoProp",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -423,7 +414,6 @@
           "ctxt": 0
         },
         "value": "Todo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -444,6 +434,7 @@
               "ctxt": 0
             },
             "value": "prop",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -475,7 +466,6 @@
                         "ctxt": 0
                       },
                       "value": "key",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -517,7 +507,6 @@
                         "ctxt": 0
                       },
                       "value": "todo",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -545,8 +534,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -588,7 +576,6 @@
                     "ctxt": 0
                   },
                   "value": "div",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "span": {
@@ -645,7 +632,6 @@
                               "ctxt": 0
                             },
                             "value": "prop",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -656,7 +642,6 @@
                               "ctxt": 0
                             },
                             "value": "key",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -669,7 +654,6 @@
                             "ctxt": 0
                           },
                           "value": "toString",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -692,7 +676,6 @@
                           "ctxt": 0
                         },
                         "value": "prop",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -703,7 +686,6 @@
                           "ctxt": 0
                         },
                         "value": "todo",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -726,7 +708,6 @@
                     "ctxt": 0
                   },
                   "value": "div",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -749,7 +730,6 @@
           "ctxt": 0
         },
         "value": "TodoList",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -785,7 +765,6 @@
                     "ctxt": 0
                   },
                   "value": "todos",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -814,7 +793,6 @@
                     "ctxt": 0
                   },
                   "value": "TodoListProps",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -861,7 +839,6 @@
                     "ctxt": 0
                   },
                   "value": "div",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "span": {
@@ -908,7 +885,6 @@
                           "ctxt": 0
                         },
                         "value": "Todo",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "span": {
@@ -932,7 +908,6 @@
                               "ctxt": 0
                             },
                             "value": "key",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "value": {
@@ -964,7 +939,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "todos",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -986,7 +960,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "id",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -1008,7 +981,6 @@
                               "ctxt": 0
                             },
                             "value": "todo",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "value": {
@@ -1040,7 +1012,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "todos",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -1062,7 +1033,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "todo",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -1103,7 +1073,6 @@
                     "ctxt": 0
                   },
                   "value": "div",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -1126,7 +1095,6 @@
           "ctxt": 0
         },
         "value": "TodoListNoError",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1162,7 +1130,6 @@
                     "ctxt": 0
                   },
                   "value": "todos",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -1191,7 +1158,6 @@
                     "ctxt": 0
                   },
                   "value": "TodoListProps",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -1238,7 +1204,6 @@
                     "ctxt": 0
                   },
                   "value": "div",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "span": {
@@ -1299,7 +1264,6 @@
                               "ctxt": 0
                             },
                             "value": "Todo",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "span": {
@@ -1323,7 +1287,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "key",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "value": {
@@ -1355,7 +1318,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "todos",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "property": {
@@ -1377,7 +1339,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "id",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false
@@ -1399,7 +1360,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "todo",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "value": {
@@ -1431,7 +1391,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "todos",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "property": {
@@ -1453,7 +1412,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "todo",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false
@@ -1505,7 +1463,6 @@
                     "ctxt": 0
                   },
                   "value": "div",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -1543,6 +1500,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1565,13 +1523,11 @@
                     "ctxt": 0
                   },
                   "value": "TodoListProps",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -1602,7 +1558,6 @@
               "ctxt": 0
             },
             "value": "TodoList",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -1626,7 +1581,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               }
             }

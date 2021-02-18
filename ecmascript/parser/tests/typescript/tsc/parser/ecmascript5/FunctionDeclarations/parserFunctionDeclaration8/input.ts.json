@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "M",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -44,7 +43,6 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,

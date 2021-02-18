@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -74,7 +73,6 @@
           "ctxt": 0
         },
         "value": "f1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -132,7 +130,6 @@
           "ctxt": 0
         },
         "value": "f2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,

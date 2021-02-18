@@ -29,7 +29,6 @@
               "ctxt": 0
             },
             "value": "json",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -67,7 +66,6 @@
                 "ctxt": 0
               },
               "value": "type",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": {

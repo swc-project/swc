@@ -38,8 +38,8 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "NumericLiteral",
@@ -72,7 +72,6 @@
             "ctxt": 0
           },
           "value": "f",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -140,7 +139,6 @@
             "ctxt": 0
           },
           "value": "M2",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -183,8 +181,8 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "init": {
                       "type": "BooleanLiteral",
@@ -221,7 +219,6 @@
           "ctxt": 0
         },
         "value": "foo0",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -264,7 +261,6 @@
           "ctxt": 0
         },
         "value": "foo1",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -307,7 +303,6 @@
           "ctxt": 0
         },
         "value": "foo2",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -362,7 +357,6 @@
               "ctxt": 0
             },
             "value": "foo2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -373,7 +367,6 @@
               "ctxt": 0
             },
             "value": "M2",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -386,7 +379,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -424,8 +416,8 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "BinaryExpression",
@@ -450,7 +442,6 @@
                         "ctxt": 0
                       },
                       "value": "foo0",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -461,7 +452,6 @@
                         "ctxt": 0
                       },
                       "value": "foo",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -488,7 +478,6 @@
                           "ctxt": 0
                         },
                         "value": "foo1",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -499,7 +488,6 @@
                           "ctxt": 0
                         },
                         "value": "f",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false

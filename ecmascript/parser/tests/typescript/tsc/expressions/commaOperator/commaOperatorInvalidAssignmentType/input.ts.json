@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "BOOLEAN",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -47,8 +48,7 @@
                 },
                 "kind": "boolean"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -80,6 +80,7 @@
               "ctxt": 0
             },
             "value": "NUMBER",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -96,8 +97,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -129,6 +129,7 @@
               "ctxt": 0
             },
             "value": "STRING",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -145,8 +146,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -178,6 +178,7 @@
               "ctxt": 0
             },
             "value": "resultIsBoolean",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -194,8 +195,7 @@
                 },
                 "kind": "boolean"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -227,6 +227,7 @@
               "ctxt": 0
             },
             "value": "resultIsNumber",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -243,8 +244,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -276,6 +276,7 @@
               "ctxt": 0
             },
             "value": "resultIsString",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -292,8 +293,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -323,8 +323,8 @@
             "ctxt": 0
           },
           "value": "resultIsBoolean",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ParenthesisExpression",
@@ -349,7 +349,6 @@
                   "ctxt": 0
                 },
                 "value": "BOOLEAN",
-                "typeAnnotation": null,
                 "optional": false
               },
               {
@@ -360,7 +359,6 @@
                   "ctxt": 0
                 },
                 "value": "STRING",
-                "typeAnnotation": null,
                 "optional": false
               }
             ]
@@ -391,8 +389,8 @@
             "ctxt": 0
           },
           "value": "resultIsBoolean",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ParenthesisExpression",
@@ -417,7 +415,6 @@
                   "ctxt": 0
                 },
                 "value": "BOOLEAN",
-                "typeAnnotation": null,
                 "optional": false
               },
               {
@@ -428,7 +425,6 @@
                   "ctxt": 0
                 },
                 "value": "NUMBER",
-                "typeAnnotation": null,
                 "optional": false
               }
             ]
@@ -459,8 +455,8 @@
             "ctxt": 0
           },
           "value": "resultIsNumber",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ParenthesisExpression",
@@ -485,7 +481,6 @@
                   "ctxt": 0
                 },
                 "value": "NUMBER",
-                "typeAnnotation": null,
                 "optional": false
               },
               {
@@ -496,7 +491,6 @@
                   "ctxt": 0
                 },
                 "value": "BOOLEAN",
-                "typeAnnotation": null,
                 "optional": false
               }
             ]
@@ -527,8 +521,8 @@
             "ctxt": 0
           },
           "value": "resultIsNumber",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ParenthesisExpression",
@@ -553,7 +547,6 @@
                   "ctxt": 0
                 },
                 "value": "NUMBER",
-                "typeAnnotation": null,
                 "optional": false
               },
               {
@@ -564,7 +557,6 @@
                   "ctxt": 0
                 },
                 "value": "STRING",
-                "typeAnnotation": null,
                 "optional": false
               }
             ]
@@ -595,8 +587,8 @@
             "ctxt": 0
           },
           "value": "resultIsString",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ParenthesisExpression",
@@ -621,7 +613,6 @@
                   "ctxt": 0
                 },
                 "value": "STRING",
-                "typeAnnotation": null,
                 "optional": false
               },
               {
@@ -632,7 +623,6 @@
                   "ctxt": 0
                 },
                 "value": "BOOLEAN",
-                "typeAnnotation": null,
                 "optional": false
               }
             ]
@@ -663,8 +653,8 @@
             "ctxt": 0
           },
           "value": "resultIsString",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ParenthesisExpression",
@@ -689,7 +679,6 @@
                   "ctxt": 0
                 },
                 "value": "STRING",
-                "typeAnnotation": null,
                 "optional": false
               },
               {
@@ -700,7 +689,6 @@
                   "ctxt": 0
                 },
                 "value": "NUMBER",
-                "typeAnnotation": null,
                 "optional": false
               }
             ]

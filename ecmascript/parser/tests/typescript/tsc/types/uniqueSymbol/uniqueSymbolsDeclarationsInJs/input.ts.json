@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "readonlyStaticCall",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -60,7 +58,6 @@
                 "ctxt": 0
               },
               "value": "Symbol",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -92,7 +89,6 @@
               "ctxt": 0
             },
             "value": "readonlyStaticType",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -122,7 +118,6 @@
               "ctxt": 0
             },
             "value": "readonlyStaticTypeAndCall",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -140,7 +135,6 @@
                 "ctxt": 0
               },
               "value": "Symbol",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -172,7 +166,6 @@
               "ctxt": 0
             },
             "value": "readwriteStaticCall",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -190,7 +183,6 @@
                 "ctxt": 0
               },
               "value": "Symbol",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -222,7 +214,6 @@
               "ctxt": 0
             },
             "value": "readonlyCall",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -240,7 +231,6 @@
                 "ctxt": 0
               },
               "value": "Symbol",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -272,7 +262,6 @@
               "ctxt": 0
             },
             "value": "readwriteCall",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -290,7 +279,6 @@
                 "ctxt": 0
               },
               "value": "Symbol",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],

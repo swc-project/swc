@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "JSX",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -80,7 +78,6 @@
                 "ctxt": 0
               },
               "value": "IntrinsicElements",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -105,6 +102,7 @@
                         "ctxt": 0
                       },
                       "value": "s",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -121,8 +119,7 @@
                           },
                           "kind": "string"
                         }
-                      },
-                      "optional": false
+                      }
                     }
                   ],
                   "typeAnnotation": {
@@ -180,6 +177,7 @@
               "ctxt": 0
             },
             "value": "React",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -196,8 +194,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -229,8 +226,8 @@
               "ctxt": 0
             },
             "value": "p",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -269,7 +266,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -308,7 +304,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -338,7 +333,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -376,7 +370,6 @@
                 "ctxt": 0
               },
               "value": "p",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -406,7 +399,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -436,7 +428,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -474,7 +465,6 @@
                 "ctxt": 0
               },
               "value": "p",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -504,7 +494,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -534,7 +523,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -572,7 +560,6 @@
                 "ctxt": 0
               },
               "value": "p",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -602,7 +589,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -632,7 +618,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -671,7 +656,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -701,7 +685,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -740,7 +723,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -770,7 +752,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -809,7 +790,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -839,7 +819,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -878,7 +857,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -908,7 +886,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -947,7 +924,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -977,7 +953,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -1016,7 +991,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -1046,7 +1020,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -1085,7 +1058,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           }
         }

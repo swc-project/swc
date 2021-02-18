@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "assert",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -50,8 +50,8 @@
                   "ctxt": 0
                 },
                 "value": "check",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
             "body": {
@@ -85,7 +85,6 @@
                         "ctxt": 0
                       },
                       "value": "check",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   },
@@ -111,7 +110,6 @@
                           "ctxt": 0
                         },
                         "value": "Error",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "arguments": [],
@@ -141,7 +139,6 @@
           "ctxt": 0
         },
         "value": "assertIsString",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -162,8 +159,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -227,7 +224,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   },
@@ -270,7 +266,6 @@
                     "ctxt": 0
                   },
                   "value": "Error",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [],
@@ -296,7 +291,6 @@
           "ctxt": 0
         },
         "value": "assert2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -317,8 +311,8 @@
               "ctxt": 0
             },
             "value": "check",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -359,7 +353,6 @@
                   "ctxt": 0
                 },
                 "value": "check",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -385,7 +378,6 @@
                     "ctxt": 0
                   },
                   "value": "Error",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [],
@@ -411,7 +403,6 @@
           "ctxt": 0
         },
         "value": "fail",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -452,7 +443,6 @@
                   "ctxt": 0
                 },
                 "value": "Error",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -476,7 +466,6 @@
           "ctxt": 0
         },
         "value": "f1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -497,8 +486,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -580,7 +569,6 @@
                         "ctxt": 0
                       },
                       "value": "assert",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -610,7 +598,6 @@
                                 "ctxt": 0
                               },
                               "value": "x",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           },
@@ -656,7 +643,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -667,7 +653,6 @@
                         "ctxt": 0
                       },
                       "value": "length",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -741,7 +726,6 @@
                         "ctxt": 0
                       },
                       "value": "assert2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -771,7 +755,6 @@
                                 "ctxt": 0
                               },
                               "value": "x",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           },
@@ -817,7 +800,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -828,7 +810,6 @@
                         "ctxt": 0
                       },
                       "value": "length",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -902,7 +883,6 @@
                         "ctxt": 0
                       },
                       "value": "assertIsString",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -916,7 +896,6 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       }
@@ -946,7 +925,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -957,7 +935,6 @@
                         "ctxt": 0
                       },
                       "value": "length",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -1031,7 +1008,6 @@
                         "ctxt": 0
                       },
                       "value": "fail",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -1053,7 +1029,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -1078,7 +1053,6 @@
           "ctxt": 0
         },
         "value": "f2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1099,8 +1073,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -1133,7 +1107,6 @@
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             },
             "cases": [
@@ -1226,7 +1199,6 @@
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             }
           }

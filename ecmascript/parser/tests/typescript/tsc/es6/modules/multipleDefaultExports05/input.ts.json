@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "AA1",
-          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -57,7 +56,6 @@
             "ctxt": 0
           },
           "value": "BB1",
-          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -91,7 +89,6 @@
             "ctxt": 0
           },
           "value": "CC1",
-          "typeAnnotation": null,
           "optional": false
         },
         "span": {

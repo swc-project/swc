@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -83,7 +81,6 @@
                         "ctxt": 0
                       },
                       "value": "Math",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -94,7 +91,6 @@
                         "ctxt": 0
                       },
                       "value": "random",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -148,7 +144,6 @@
                               "ctxt": 0
                             },
                             "value": "inConstructor",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -212,7 +207,6 @@
                               "ctxt": 0
                             },
                             "value": "inConstructor",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -274,7 +268,6 @@
                         "ctxt": 0
                       },
                       "value": "inMultiple",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -310,7 +303,6 @@
               "ctxt": 0
             },
             "value": "method",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -358,7 +350,6 @@
                           "ctxt": 0
                         },
                         "value": "Math",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -369,7 +360,6 @@
                           "ctxt": 0
                         },
                         "value": "random",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -423,7 +413,6 @@
                                 "ctxt": 0
                               },
                               "value": "inMethod",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -477,7 +466,6 @@
                                 "ctxt": 0
                               },
                               "value": "inMethodNullable",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -540,7 +528,6 @@
                                 "ctxt": 0
                               },
                               "value": "inMethod",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -599,7 +586,6 @@
                                 "ctxt": 0
                               },
                               "value": "inMethodNullable",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -612,7 +598,6 @@
                               "ctxt": 0
                             },
                             "value": "undefined",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }
@@ -658,7 +643,6 @@
                           "ctxt": 0
                         },
                         "value": "inMultiple",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -717,7 +701,6 @@
                           "ctxt": 0
                         },
                         "value": "inMultipleMethods",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -763,8 +746,8 @@
                           "ctxt": 0
                         },
                         "value": "action",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ArrowFunctionExpression",
@@ -811,7 +794,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "Math",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "property": {
@@ -822,7 +804,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "random",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false
@@ -876,7 +857,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "inNestedArrowFunction",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "computed": false
@@ -940,7 +920,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "inNestedArrowFunction",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "computed": false
@@ -1003,7 +982,6 @@
               "ctxt": 0
             },
             "value": "get",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1051,7 +1029,6 @@
                           "ctxt": 0
                         },
                         "value": "Math",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -1062,7 +1039,6 @@
                           "ctxt": 0
                         },
                         "value": "random",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -1116,7 +1092,6 @@
                                 "ctxt": 0
                               },
                               "value": "inGetter",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -1180,7 +1155,6 @@
                                 "ctxt": 0
                               },
                               "value": "inGetter",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -1242,7 +1216,6 @@
                           "ctxt": 0
                         },
                         "value": "inMultiple",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -1296,7 +1269,6 @@
                           "ctxt": 0
                         },
                         "value": "inMultipleMethods",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -1340,7 +1312,6 @@
               "ctxt": 0
             },
             "value": "set",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1388,7 +1359,6 @@
                           "ctxt": 0
                         },
                         "value": "Math",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -1399,7 +1369,6 @@
                           "ctxt": 0
                         },
                         "value": "random",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -1453,7 +1422,6 @@
                                 "ctxt": 0
                               },
                               "value": "inSetter",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -1517,7 +1485,6 @@
                                 "ctxt": 0
                               },
                               "value": "inSetter",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -1569,7 +1536,6 @@
               "ctxt": 0
             },
             "value": "prop",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -1617,7 +1583,6 @@
                           "ctxt": 0
                         },
                         "value": "Math",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -1628,7 +1593,6 @@
                           "ctxt": 0
                         },
                         "value": "random",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -1682,7 +1646,6 @@
                                 "ctxt": 0
                               },
                               "value": "inPropertyDeclaration",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -1746,7 +1709,6 @@
                                 "ctxt": 0
                               },
                               "value": "inPropertyDeclaration",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -1803,7 +1765,6 @@
               "ctxt": 0
             },
             "value": "method",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1851,7 +1812,6 @@
                           "ctxt": 0
                         },
                         "value": "Math",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -1862,7 +1822,6 @@
                           "ctxt": 0
                         },
                         "value": "random",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -1916,7 +1875,6 @@
                                 "ctxt": 0
                               },
                               "value": "inStaticMethod",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -1980,7 +1938,6 @@
                                 "ctxt": 0
                               },
                               "value": "inStaticMethod",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -2029,8 +1986,8 @@
                           "ctxt": 0
                         },
                         "value": "action",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ArrowFunctionExpression",
@@ -2077,7 +2034,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "Math",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "property": {
@@ -2088,7 +2044,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "random",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false
@@ -2142,7 +2097,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "inStaticNestedArrowFunction",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "computed": false
@@ -2206,7 +2160,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "inStaticNestedArrowFunction",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "computed": false
@@ -2269,7 +2222,6 @@
               "ctxt": 0
             },
             "value": "get",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -2317,7 +2269,6 @@
                           "ctxt": 0
                         },
                         "value": "Math",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -2328,7 +2279,6 @@
                           "ctxt": 0
                         },
                         "value": "random",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -2382,7 +2332,6 @@
                                 "ctxt": 0
                               },
                               "value": "inStaticGetter",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -2446,7 +2395,6 @@
                                 "ctxt": 0
                               },
                               "value": "inStaticGetter",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -2498,7 +2446,6 @@
               "ctxt": 0
             },
             "value": "set",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -2546,7 +2493,6 @@
                           "ctxt": 0
                         },
                         "value": "Math",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -2557,7 +2503,6 @@
                           "ctxt": 0
                         },
                         "value": "random",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -2611,7 +2556,6 @@
                                 "ctxt": 0
                               },
                               "value": "inStaticSetter",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -2675,7 +2619,6 @@
                                 "ctxt": 0
                               },
                               "value": "inStaticSetter",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -2727,7 +2670,6 @@
               "ctxt": 0
             },
             "value": "prop",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -2775,7 +2717,6 @@
                           "ctxt": 0
                         },
                         "value": "Math",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -2786,7 +2727,6 @@
                           "ctxt": 0
                         },
                         "value": "random",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -2840,7 +2780,6 @@
                                 "ctxt": 0
                               },
                               "value": "inStaticPropertyDeclaration",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -2904,7 +2843,6 @@
                                 "ctxt": 0
                               },
                               "value": "inStaticPropertyDeclaration",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -2978,8 +2916,8 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -2996,7 +2934,6 @@
                 "ctxt": 0
               },
               "value": "C",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -3031,6 +2968,7 @@
               "ctxt": 0
             },
             "value": "stringOrNumber",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -3066,8 +3004,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -3099,8 +3036,8 @@
               "ctxt": 0
             },
             "value": "stringOrNumber",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -3117,7 +3054,6 @@
                 "ctxt": 0
               },
               "value": "c",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -3128,7 +3064,6 @@
                 "ctxt": 0
               },
               "value": "inConstructor",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -3162,6 +3097,7 @@
               "ctxt": 0
             },
             "value": "stringOrNumberOrUndefined",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -3206,8 +3142,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -3239,8 +3174,8 @@
               "ctxt": 0
             },
             "value": "stringOrNumberOrUndefined",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -3257,7 +3192,6 @@
                 "ctxt": 0
               },
               "value": "c",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -3268,7 +3202,6 @@
                 "ctxt": 0
               },
               "value": "inMethod",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -3302,8 +3235,8 @@
               "ctxt": 0
             },
             "value": "stringOrNumberOrUndefined",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -3320,7 +3253,6 @@
                 "ctxt": 0
               },
               "value": "c",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -3331,7 +3263,6 @@
                 "ctxt": 0
               },
               "value": "inGetter",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -3365,8 +3296,8 @@
               "ctxt": 0
             },
             "value": "stringOrNumberOrUndefined",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -3383,7 +3314,6 @@
                 "ctxt": 0
               },
               "value": "c",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -3394,7 +3324,6 @@
                 "ctxt": 0
               },
               "value": "inSetter",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -3428,8 +3357,8 @@
               "ctxt": 0
             },
             "value": "stringOrNumberOrUndefined",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -3446,7 +3375,6 @@
                 "ctxt": 0
               },
               "value": "c",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -3457,7 +3385,6 @@
                 "ctxt": 0
               },
               "value": "inPropertyDeclaration",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -3491,8 +3418,8 @@
               "ctxt": 0
             },
             "value": "stringOrNumberOrUndefined",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -3509,7 +3436,6 @@
                 "ctxt": 0
               },
               "value": "c",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -3520,7 +3446,6 @@
                 "ctxt": 0
               },
               "value": "inNestedArrowFunction",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -3554,6 +3479,7 @@
               "ctxt": 0
             },
             "value": "stringOrNumberOrBoolean",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -3598,8 +3524,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -3631,6 +3556,7 @@
               "ctxt": 0
             },
             "value": "number",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -3647,8 +3573,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -3680,8 +3605,8 @@
               "ctxt": 0
             },
             "value": "number",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -3698,7 +3623,6 @@
                 "ctxt": 0
               },
               "value": "c",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -3709,7 +3633,6 @@
                 "ctxt": 0
               },
               "value": "inMultiple",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -3743,6 +3666,7 @@
               "ctxt": 0
             },
             "value": "stringOrBooleanOrUndefined",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -3787,8 +3711,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -3820,8 +3743,8 @@
               "ctxt": 0
             },
             "value": "stringOrBooleanOrUndefined",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -3838,7 +3761,6 @@
                 "ctxt": 0
               },
               "value": "c",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -3849,7 +3771,6 @@
                 "ctxt": 0
               },
               "value": "inMultipleMethods",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -3883,6 +3804,7 @@
               "ctxt": 0
             },
             "value": "any",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -3899,8 +3821,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -3932,8 +3853,8 @@
               "ctxt": 0
             },
             "value": "any",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -3950,7 +3871,6 @@
                 "ctxt": 0
               },
               "value": "c",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -3961,7 +3881,6 @@
                 "ctxt": 0
               },
               "value": "inMethodNullable",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -3995,8 +3914,8 @@
               "ctxt": 0
             },
             "value": "stringOrNumberOrUndefined",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -4013,7 +3932,6 @@
                 "ctxt": 0
               },
               "value": "C",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -4024,7 +3942,6 @@
                 "ctxt": 0
               },
               "value": "inStaticMethod",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -4058,8 +3975,8 @@
               "ctxt": 0
             },
             "value": "stringOrNumberOrUndefined",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -4076,7 +3993,6 @@
                 "ctxt": 0
               },
               "value": "C",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -4087,7 +4003,6 @@
                 "ctxt": 0
               },
               "value": "inStaticGetter",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -4121,8 +4036,8 @@
               "ctxt": 0
             },
             "value": "stringOrNumberOrUndefined",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -4139,7 +4054,6 @@
                 "ctxt": 0
               },
               "value": "C",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -4150,7 +4064,6 @@
                 "ctxt": 0
               },
               "value": "inStaticSetter",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -4184,8 +4097,8 @@
               "ctxt": 0
             },
             "value": "stringOrNumberOrUndefined",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -4202,7 +4115,6 @@
                 "ctxt": 0
               },
               "value": "C",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -4213,7 +4125,6 @@
                 "ctxt": 0
               },
               "value": "inStaticPropertyDeclaration",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -4247,8 +4158,8 @@
               "ctxt": 0
             },
             "value": "stringOrNumberOrUndefined",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -4265,7 +4176,6 @@
                 "ctxt": 0
               },
               "value": "C",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -4276,7 +4186,6 @@
                 "ctxt": 0
               },
               "value": "inStaticNestedArrowFunction",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false

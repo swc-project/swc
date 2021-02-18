@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "JSX",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -51,7 +50,6 @@
           "ctxt": 0
         },
         "value": "Obj1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -81,6 +79,7 @@
                   "ctxt": 0
                 },
                 "value": "n",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -97,8 +96,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -148,6 +146,7 @@
               "ctxt": 0
             },
             "value": "obj1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -170,13 +169,11 @@
                     "ctxt": 0
                   },
                   "value": "Obj1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -207,7 +204,6 @@
               "ctxt": 0
             },
             "value": "obj1",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -231,7 +227,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {

@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Instance",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -73,7 +72,6 @@
                     "ctxt": 0
                   },
                   "value": "i",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -126,8 +124,8 @@
               "ctxt": 0
             },
             "value": "i",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -144,7 +142,6 @@
                 "ctxt": 0
               },
               "value": "Instance",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -169,7 +166,6 @@
           "ctxt": 0
         },
         "value": "Instance",
-        "typeAnnotation": null,
         "optional": false
       }
     },
@@ -188,7 +184,6 @@
           "ctxt": 0
         },
         "value": "i",
-        "typeAnnotation": null,
         "optional": false
       }
     },
@@ -202,7 +197,6 @@
           "ctxt": 0
         },
         "value": "StaticToo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -259,7 +253,6 @@
                     "ctxt": 0
                   },
                   "value": "i",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -317,7 +310,6 @@
               "ctxt": 0
             },
             "value": "StaticToo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -328,7 +320,6 @@
               "ctxt": 0
             },
             "value": "property",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -374,8 +365,8 @@
               "ctxt": 0
             },
             "value": "s",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -392,7 +383,6 @@
                 "ctxt": 0
               },
               "value": "StaticToo",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -417,7 +407,6 @@
           "ctxt": 0
         },
         "value": "s",
-        "typeAnnotation": null,
         "optional": false
       }
     },
@@ -436,7 +425,6 @@
           "ctxt": 0
         },
         "value": "StaticToo",
-        "typeAnnotation": null,
         "optional": false
       }
     },
@@ -450,7 +438,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -507,7 +494,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -561,7 +547,6 @@
                     "ctxt": 0
                   },
                   "value": "second",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -621,7 +606,6 @@
                 "ctxt": 0
               },
               "value": "A",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -632,7 +616,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -645,7 +628,6 @@
               "ctxt": 0
             },
             "value": "z",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -660,7 +642,6 @@
               "ctxt": 0
             },
             "value": "f",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
@@ -680,8 +661,8 @@
                   "ctxt": 0
                 },
                 "value": "n",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             }
           ],
@@ -722,7 +703,6 @@
                       "ctxt": 0
                     },
                     "value": "n",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -748,7 +728,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -794,7 +773,6 @@
               "ctxt": 0
             },
             "value": "A",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -805,7 +783,6 @@
               "ctxt": 0
             },
             "value": "t",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -820,7 +797,6 @@
               "ctxt": 0
             },
             "value": "g",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
@@ -840,8 +816,8 @@
                   "ctxt": 0
                 },
                 "value": "m",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             }
           ],
@@ -882,7 +858,6 @@
                       "ctxt": 0
                     },
                     "value": "m",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -930,8 +905,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -948,7 +923,6 @@
                 "ctxt": 0
               },
               "value": "A",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -987,7 +961,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -998,7 +971,6 @@
               "ctxt": 0
             },
             "value": "z",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1049,7 +1021,6 @@
               "ctxt": 0
             },
             "value": "A",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1060,7 +1031,6 @@
               "ctxt": 0
             },
             "value": "t",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1112,7 +1082,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1123,7 +1092,6 @@
               "ctxt": 0
             },
             "value": "second",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

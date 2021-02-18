@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "W",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -47,8 +48,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -80,8 +80,8 @@
               "ctxt": 0
             },
             "value": "W",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ParenthesisExpression",
@@ -137,8 +137,8 @@
               "ctxt": 0
             },
             "value": "W",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ParenthesisExpression",
@@ -186,8 +186,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -219,8 +219,8 @@
               "ctxt": 0
             },
             "value": "s",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -252,8 +252,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ParenthesisExpression",
@@ -324,8 +324,8 @@
               "ctxt": 0
             },
             "value": "s",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -381,7 +381,6 @@
           "ctxt": 0
         },
         "value": "SomeBase",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -407,7 +406,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -457,7 +455,6 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -495,7 +492,6 @@
           "ctxt": 0
         },
         "value": "SomeDerived",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -521,7 +517,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -597,7 +592,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -627,7 +621,6 @@
           "ctxt": 0
         },
         "value": "SomeBase",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -645,7 +638,6 @@
           "ctxt": 0
         },
         "value": "SomeOther",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -671,7 +663,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -721,7 +712,6 @@
                         "ctxt": 0
                       },
                       "value": "q",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -759,7 +749,6 @@
           "ctxt": 0
         },
         "value": "SomeFakeClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -816,7 +805,6 @@
                     "ctxt": 0
                   },
                   "value": "p",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -869,8 +857,8 @@
               "ctxt": 0
             },
             "value": "someBase",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -887,7 +875,6 @@
                 "ctxt": 0
               },
               "value": "SomeBase",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -922,8 +909,8 @@
               "ctxt": 0
             },
             "value": "someDerived",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -940,7 +927,6 @@
                 "ctxt": 0
               },
               "value": "SomeDerived",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -975,8 +961,8 @@
               "ctxt": 0
             },
             "value": "someOther",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -993,7 +979,6 @@
                 "ctxt": 0
               },
               "value": "SomeOther",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -1028,8 +1013,8 @@
               "ctxt": 0
             },
             "value": "someFakeClass",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -1046,7 +1031,6 @@
                 "ctxt": 0
               },
               "value": "SomeFakeClass",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -1079,8 +1063,8 @@
             "ctxt": 0
           },
           "value": "someBase",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ParenthesisExpression",
@@ -1097,7 +1081,6 @@
               "ctxt": 0
             },
             "value": "someDerived",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -1126,8 +1109,8 @@
             "ctxt": 0
           },
           "value": "someBase",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ParenthesisExpression",
@@ -1144,7 +1127,6 @@
               "ctxt": 0
             },
             "value": "someBase",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -1173,8 +1155,8 @@
             "ctxt": 0
           },
           "value": "someBase",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ParenthesisExpression",
@@ -1191,7 +1173,6 @@
               "ctxt": 0
             },
             "value": "someOther",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -1220,8 +1201,8 @@
             "ctxt": 0
           },
           "value": "someDerived",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ParenthesisExpression",
@@ -1238,7 +1219,6 @@
               "ctxt": 0
             },
             "value": "someDerived",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -1267,8 +1247,8 @@
             "ctxt": 0
           },
           "value": "someDerived",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ParenthesisExpression",
@@ -1285,7 +1265,6 @@
               "ctxt": 0
             },
             "value": "someBase",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -1314,8 +1293,8 @@
             "ctxt": 0
           },
           "value": "someDerived",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ParenthesisExpression",
@@ -1332,7 +1311,6 @@
               "ctxt": 0
             },
             "value": "someOther",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -1361,8 +1339,8 @@
             "ctxt": 0
           },
           "value": "someOther",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ParenthesisExpression",
@@ -1379,7 +1357,6 @@
               "ctxt": 0
             },
             "value": "someDerived",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -1408,8 +1385,8 @@
             "ctxt": 0
           },
           "value": "someOther",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ParenthesisExpression",
@@ -1426,7 +1403,6 @@
               "ctxt": 0
             },
             "value": "someBase",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -1455,8 +1431,8 @@
             "ctxt": 0
           },
           "value": "someOther",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ParenthesisExpression",
@@ -1473,7 +1449,6 @@
               "ctxt": 0
             },
             "value": "someOther",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -1502,8 +1477,8 @@
             "ctxt": 0
           },
           "value": "someFakeClass",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -1513,7 +1488,6 @@
             "ctxt": 0
           },
           "value": "someBase",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1541,8 +1515,8 @@
             "ctxt": 0
           },
           "value": "someFakeClass",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -1552,7 +1526,6 @@
             "ctxt": 0
           },
           "value": "someDerived",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1580,8 +1553,8 @@
             "ctxt": 0
           },
           "value": "someBase",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -1591,7 +1564,6 @@
             "ctxt": 0
           },
           "value": "someFakeClass",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1619,8 +1591,8 @@
             "ctxt": 0
           },
           "value": "someBase",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ParenthesisExpression",
@@ -1637,7 +1609,6 @@
               "ctxt": 0
             },
             "value": "someFakeClass",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -1668,8 +1639,8 @@
               "ctxt": 0
             },
             "value": "numOrStr",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -1701,8 +1672,8 @@
               "ctxt": 0
             },
             "value": "str",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -1739,7 +1710,6 @@
               "ctxt": 0
             },
             "value": "numOrStr",
-            "typeAnnotation": null,
             "optional": false
           },
           "right": {
@@ -1750,7 +1720,6 @@
               "ctxt": 0
             },
             "value": "undefined",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -1786,8 +1755,8 @@
                   "ctxt": 0
                 },
                 "value": "str",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "Identifier",
@@ -1797,7 +1766,6 @@
                   "ctxt": 0
                 },
                 "value": "numOrStr",
-                "typeAnnotation": null,
                 "optional": false
               }
             }

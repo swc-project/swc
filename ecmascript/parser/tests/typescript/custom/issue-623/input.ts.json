@@ -54,7 +54,6 @@
                 "ctxt": 0
               },
               "value": "packageName",
-              "typeAnnotation": null,
               "optional": false
             },
             "body": {

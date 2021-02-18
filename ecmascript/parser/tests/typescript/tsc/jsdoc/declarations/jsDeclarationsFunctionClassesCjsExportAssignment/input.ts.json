@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Timer",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -37,8 +36,8 @@
               "ctxt": 0
             },
             "value": "timeout",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -94,7 +93,6 @@
                     "ctxt": 0
                   },
                   "value": "timeout",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -107,7 +105,6 @@
                   "ctxt": 0
                 },
                 "value": "timeout",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -149,7 +146,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -160,7 +156,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -173,7 +168,6 @@
             "ctxt": 0
           },
           "value": "Timer",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -188,7 +182,6 @@
           "ctxt": 0
         },
         "value": "Hook",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -209,8 +202,8 @@
               "ctxt": 0
             },
             "value": "handle",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -266,7 +259,6 @@
                     "ctxt": 0
                   },
                   "value": "handle",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -279,7 +271,6 @@
                   "ctxt": 0
                 },
                 "value": "handle",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -321,7 +312,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -332,7 +322,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -345,7 +334,6 @@
             "ctxt": 0
           },
           "value": "Hook",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -360,7 +348,6 @@
           "ctxt": 0
         },
         "value": "Context",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -381,8 +368,8 @@
               "ctxt": 0
             },
             "value": "input",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -446,7 +433,6 @@
                       "ctxt": 0
                     },
                     "value": "Context",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -482,7 +468,6 @@
                         "ctxt": 0
                       },
                       "value": "Context",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -496,7 +481,6 @@
                             "ctxt": 0
                           },
                           "value": "input",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       }
@@ -546,7 +530,6 @@
                     "ctxt": 0
                   },
                   "value": "state",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -581,7 +564,6 @@
                       "ctxt": 0
                     },
                     "value": "construct",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -597,7 +579,6 @@
                         "ctxt": 0
                       },
                       "value": "input",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -643,7 +624,6 @@
               "ctxt": 0
             },
             "value": "Context",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -654,7 +634,6 @@
               "ctxt": 0
             },
             "value": "prototype",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -677,7 +656,6 @@
                   "ctxt": 0
                 },
                 "value": "construct",
-                "typeAnnotation": null,
                 "optional": false
               },
               "params": [
@@ -697,8 +675,8 @@
                       "ctxt": 0
                     },
                     "value": "input",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   }
                 },
                 {
@@ -724,8 +702,8 @@
                         "ctxt": 0
                       },
                       "value": "handle",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "right": {
                       "type": "ArrowFunctionExpression",
@@ -791,7 +769,6 @@
                         "ctxt": 0
                       },
                       "value": "input",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -836,7 +813,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -847,7 +823,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -860,7 +835,6 @@
             "ctxt": 0
           },
           "value": "Context",
-          "typeAnnotation": null,
           "optional": false
         }
       }

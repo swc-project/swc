@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "type",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -64,8 +64,8 @@
               "ctxt": 0
             },
             "value": "string",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -97,8 +97,8 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -121,7 +121,6 @@
           "ctxt": 0
         },
         "value": "Foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,

@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "data",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -59,7 +58,6 @@
           "ctxt": 0
         },
         "value": "next",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,

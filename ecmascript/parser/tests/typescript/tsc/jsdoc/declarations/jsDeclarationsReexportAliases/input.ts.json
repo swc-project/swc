@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "Foo",
-          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -63,7 +62,6 @@
               "ctxt": 0
             },
             "value": "Fooa",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": {
@@ -74,7 +72,6 @@
               "ctxt": 0
             },
             "value": "default",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -128,8 +125,8 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "NewExpression",
@@ -146,7 +143,6 @@
                   "ctxt": 0
                 },
                 "value": "Fooa",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -180,7 +176,6 @@
               "ctxt": 0
             },
             "value": "default",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": {
@@ -191,7 +186,6 @@
               "ctxt": 0
             },
             "value": "Foob",
-            "typeAnnotation": null,
             "optional": false
           }
         }

@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -73,7 +72,6 @@
                     "ctxt": 0
                   },
                   "value": "unknown",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -126,7 +124,6 @@
                     "ctxt": 0
                   },
                   "value": "unknowable",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -139,7 +136,6 @@
                   "ctxt": 0
                 },
                 "value": "undefined",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -182,7 +178,6 @@
                     "ctxt": 0
                   },
                   "value": "empty",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -230,8 +225,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -248,7 +243,6 @@
                 "ctxt": 0
               },
               "value": "A",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -288,7 +282,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -299,7 +292,6 @@
               "ctxt": 0
             },
             "value": "unknown",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -345,7 +337,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -356,7 +347,6 @@
               "ctxt": 0
             },
             "value": "unknown",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -402,7 +392,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -413,7 +402,6 @@
               "ctxt": 0
             },
             "value": "unknown",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -459,7 +447,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -470,7 +457,6 @@
               "ctxt": 0
             },
             "value": "unknown",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -521,7 +507,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -532,7 +517,6 @@
               "ctxt": 0
             },
             "value": "unknowable",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -578,7 +562,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -589,7 +572,6 @@
               "ctxt": 0
             },
             "value": "unknowable",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -635,7 +617,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -646,7 +627,6 @@
               "ctxt": 0
             },
             "value": "unknowable",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -692,7 +672,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -703,7 +682,6 @@
               "ctxt": 0
             },
             "value": "unknowable",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -760,7 +738,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -771,7 +748,6 @@
                 "ctxt": 0
               },
               "value": "empty",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -784,7 +760,6 @@
               "ctxt": 0
             },
             "value": "push",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -842,7 +817,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -853,7 +827,6 @@
                 "ctxt": 0
               },
               "value": "empty",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -866,7 +839,6 @@
               "ctxt": 0
             },
             "value": "push",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -924,7 +896,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -935,7 +906,6 @@
                 "ctxt": 0
               },
               "value": "empty",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -948,7 +918,6 @@
               "ctxt": 0
             },
             "value": "push",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1006,7 +975,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1017,7 +985,6 @@
                 "ctxt": 0
               },
               "value": "empty",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1030,7 +997,6 @@
               "ctxt": 0
             },
             "value": "push",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1082,8 +1048,8 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -1100,7 +1066,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1128,8 +1093,8 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "right": {
               "type": "NullLiteral",
@@ -1165,8 +1130,8 @@
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "right": {
               "type": "Identifier",
@@ -1176,7 +1141,6 @@
                 "ctxt": 0
               },
               "value": "n",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeAnnotation": null
@@ -1205,8 +1169,8 @@
                 "ctxt": 0
               },
               "value": "l",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "right": {
               "type": "ArrayExpression",
@@ -1258,8 +1222,8 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "Identifier",
@@ -1269,7 +1233,6 @@
                   "ctxt": 0
                 },
                 "value": "undefined",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1297,8 +1260,8 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "NullLiteral",
@@ -1333,8 +1296,8 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "NumericLiteral",
@@ -1370,8 +1333,8 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "BooleanLiteral",
@@ -1407,8 +1370,8 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "ObjectExpression",
@@ -1444,8 +1407,8 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "StringLiteral",
@@ -1486,8 +1449,8 @@
                   "ctxt": 0
                 },
                 "value": "b",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "NumericLiteral",
@@ -1523,8 +1486,8 @@
                   "ctxt": 0
                 },
                 "value": "b",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "Identifier",
@@ -1534,7 +1497,6 @@
                   "ctxt": 0
                 },
                 "value": "undefined",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1562,8 +1524,8 @@
                   "ctxt": 0
                 },
                 "value": "b",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "StringLiteral",
@@ -1610,7 +1572,6 @@
                     "ctxt": 0
                   },
                   "value": "l",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -1621,7 +1582,6 @@
                     "ctxt": 0
                   },
                   "value": "push",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -1672,7 +1632,6 @@
                     "ctxt": 0
                   },
                   "value": "l",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -1683,7 +1642,6 @@
                     "ctxt": 0
                   },
                   "value": "push",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -1742,8 +1700,8 @@
               "ctxt": 0
             },
             "value": "u",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "Identifier",
@@ -1753,7 +1711,6 @@
               "ctxt": 0
             },
             "value": "undefined",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false
@@ -1785,8 +1742,8 @@
               "ctxt": 0
             },
             "value": "l",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -1824,8 +1781,8 @@
             "ctxt": 0
           },
           "value": "u",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -1835,7 +1792,6 @@
             "ctxt": 0
           },
           "value": "undefined",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1863,8 +1819,8 @@
             "ctxt": 0
           },
           "value": "u",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "NumericLiteral",
@@ -1900,8 +1856,8 @@
             "ctxt": 0
           },
           "value": "u",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "BooleanLiteral",
@@ -1937,8 +1893,8 @@
             "ctxt": 0
           },
           "value": "u",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ObjectExpression",
@@ -1974,8 +1930,8 @@
             "ctxt": 0
           },
           "value": "u",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "StringLiteral",
@@ -2022,7 +1978,6 @@
               "ctxt": 0
             },
             "value": "l",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2033,7 +1988,6 @@
               "ctxt": 0
             },
             "value": "push",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

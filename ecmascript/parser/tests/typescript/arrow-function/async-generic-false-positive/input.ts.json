@@ -29,7 +29,6 @@
             "ctxt": 0
           },
           "value": "async",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -73,7 +72,6 @@
               "ctxt": 0
             },
             "value": "async",
-            "typeAnnotation": null,
             "optional": false
           },
           "arguments": [],
@@ -100,7 +98,6 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null

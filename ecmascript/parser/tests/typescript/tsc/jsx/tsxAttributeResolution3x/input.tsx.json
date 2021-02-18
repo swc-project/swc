@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "JSX",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -80,7 +78,6 @@
                 "ctxt": 0
               },
               "value": "IntrinsicElements",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -110,7 +107,6 @@
                       "ctxt": 0
                     },
                     "value": "test1",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -139,7 +135,6 @@
                           "ctxt": 0
                         },
                         "value": "Attribs1",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -168,7 +163,6 @@
           "ctxt": 0
         },
         "value": "Attribs1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -198,7 +192,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -240,7 +233,6 @@
                 "ctxt": 0
               },
               "value": "y",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -282,7 +274,6 @@
                 "ctxt": 0
               },
               "value": "z",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -336,8 +327,8 @@
               "ctxt": 0
             },
             "value": "obj1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -357,7 +348,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -405,7 +395,6 @@
               "ctxt": 0
             },
             "value": "test1",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -429,7 +418,6 @@
                   "ctxt": 0
                 },
                 "value": "obj1",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -466,8 +454,8 @@
               "ctxt": 0
             },
             "value": "obj2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -487,7 +475,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -530,7 +517,6 @@
               "ctxt": 0
             },
             "value": "test1",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -554,7 +540,6 @@
                   "ctxt": 0
                 },
                 "value": "obj2",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -591,8 +576,8 @@
               "ctxt": 0
             },
             "value": "obj3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -612,7 +597,6 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -655,7 +639,6 @@
               "ctxt": 0
             },
             "value": "test1",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -679,7 +662,6 @@
                   "ctxt": 0
                 },
                 "value": "obj3",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -716,8 +698,8 @@
               "ctxt": 0
             },
             "value": "obj4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -737,7 +719,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -760,7 +741,6 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -803,7 +783,6 @@
               "ctxt": 0
             },
             "value": "test1",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -827,7 +806,6 @@
                   "ctxt": 0
                 },
                 "value": "obj4",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -846,7 +824,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -897,8 +874,8 @@
               "ctxt": 0
             },
             "value": "obj5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -918,7 +895,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -941,7 +917,6 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -984,7 +959,6 @@
               "ctxt": 0
             },
             "value": "test1",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -1008,7 +982,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -1041,7 +1014,6 @@
                   "ctxt": 0
                 },
                 "value": "obj5",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1078,8 +1050,8 @@
               "ctxt": 0
             },
             "value": "obj6",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -1099,7 +1071,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -1127,7 +1098,6 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -1150,7 +1120,6 @@
                     "ctxt": 0
                   },
                   "value": "extra",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -1193,7 +1162,6 @@
               "ctxt": 0
             },
             "value": "test1",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -1217,7 +1185,6 @@
                   "ctxt": 0
                 },
                 "value": "obj6",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1254,8 +1221,8 @@
               "ctxt": 0
             },
             "value": "obj7",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -1275,7 +1242,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -1323,7 +1289,6 @@
               "ctxt": 0
             },
             "value": "test1",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -1347,7 +1312,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -1383,7 +1347,6 @@
                   "ctxt": 0
                 },
                 "value": "obj7",
-                "typeAnnotation": null,
                 "optional": false
               }
             }

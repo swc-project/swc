@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "WeirdIter",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "IterableIterator",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": {
@@ -90,7 +88,6 @@
                 "ctxt": 0
               },
               "value": "hello",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -129,7 +126,6 @@
           "ctxt": 0
         },
         "value": "g1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -174,7 +170,6 @@
               "ctxt": 0
             },
             "value": "WeirdIter",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null

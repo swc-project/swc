@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "v",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -55,7 +56,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -66,14 +66,12 @@
                       "ctxt": 0
                     },
                     "value": "void",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false

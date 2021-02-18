@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "A",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "method",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -122,7 +120,6 @@
             "ctxt": 0
           },
           "value": "Base",
-          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -147,7 +144,6 @@
                 "ctxt": 0
               },
               "value": "verify",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -187,7 +183,6 @@
             "ctxt": 0
           },
           "value": "A",
-          "typeAnnotation": null,
           "optional": false
         },
         "isAbstract": false,

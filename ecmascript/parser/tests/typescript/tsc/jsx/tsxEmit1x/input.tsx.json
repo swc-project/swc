@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "JSX",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -80,7 +78,6 @@
                 "ctxt": 0
               },
               "value": "IntrinsicElements",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -105,6 +102,7 @@
                         "ctxt": 0
                       },
                       "value": "s",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -121,8 +119,7 @@
                           },
                           "kind": "string"
                         }
-                      },
-                      "optional": false
+                      }
                     }
                   ],
                   "typeAnnotation": {
@@ -180,8 +177,8 @@
               "ctxt": 0
             },
             "value": "p",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -213,8 +210,8 @@
               "ctxt": 0
             },
             "value": "selfClosed1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -233,7 +230,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -277,8 +273,8 @@
               "ctxt": 0
             },
             "value": "selfClosed2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -297,7 +293,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -321,7 +316,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -375,8 +369,8 @@
               "ctxt": 0
             },
             "value": "selfClosed3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -395,7 +389,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -419,7 +412,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -473,8 +465,8 @@
               "ctxt": 0
             },
             "value": "selfClosed4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -493,7 +485,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -517,7 +508,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -550,7 +540,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -604,8 +593,8 @@
               "ctxt": 0
             },
             "value": "selfClosed5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -624,7 +613,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -648,7 +636,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -684,7 +671,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -738,8 +724,8 @@
               "ctxt": 0
             },
             "value": "selfClosed6",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -758,7 +744,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -782,7 +767,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -823,7 +807,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -877,8 +860,8 @@
               "ctxt": 0
             },
             "value": "selfClosed7",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -897,7 +880,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -921,7 +903,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -939,7 +920,6 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -959,7 +939,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1013,8 +992,8 @@
               "ctxt": 0
             },
             "value": "openClosed1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1033,7 +1012,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1061,7 +1039,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1095,8 +1072,8 @@
               "ctxt": 0
             },
             "value": "openClosed2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1115,7 +1092,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1139,7 +1115,6 @@
                       "ctxt": 0
                     },
                     "value": "n",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1188,7 +1163,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1222,8 +1196,8 @@
               "ctxt": 0
             },
             "value": "openClosed3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1242,7 +1216,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1266,7 +1239,6 @@
                       "ctxt": 0
                     },
                     "value": "n",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1304,7 +1276,6 @@
                     "ctxt": 0
                   },
                   "value": "p",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -1324,7 +1295,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1358,8 +1328,8 @@
               "ctxt": 0
             },
             "value": "openClosed4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1378,7 +1348,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1402,7 +1371,6 @@
                       "ctxt": 0
                     },
                     "value": "n",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1448,7 +1416,6 @@
                       "ctxt": 0
                     },
                     "value": "p",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -1459,7 +1426,6 @@
                       "ctxt": 0
                     },
                     "value": "p",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -1480,7 +1446,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1514,8 +1479,8 @@
               "ctxt": 0
             },
             "value": "openClosed5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1534,7 +1499,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1558,7 +1522,6 @@
                       "ctxt": 0
                     },
                     "value": "n",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1604,7 +1567,6 @@
                       "ctxt": 0
                     },
                     "value": "p",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -1615,7 +1577,6 @@
                       "ctxt": 0
                     },
                     "value": "p",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -1636,7 +1597,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1655,7 +1615,6 @@
           "ctxt": 0
         },
         "value": "SomeClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1681,7 +1640,6 @@
               "ctxt": 0
             },
             "value": "f",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1725,8 +1683,8 @@
                           "ctxt": 0
                         },
                         "value": "rewrites1",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "JSXElement",
@@ -1745,7 +1703,6 @@
                               "ctxt": 0
                             },
                             "value": "div",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "span": {
@@ -1803,7 +1760,6 @@
                               "ctxt": 0
                             },
                             "value": "div",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }
@@ -1837,8 +1793,8 @@
                           "ctxt": 0
                         },
                         "value": "rewrites2",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "JSXElement",
@@ -1857,7 +1813,6 @@
                               "ctxt": 0
                             },
                             "value": "div",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "span": {
@@ -1895,7 +1850,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "p",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   }
                                 },
@@ -1913,7 +1867,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "p",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   }
                                 },
@@ -1927,7 +1880,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "p",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   }
                                 }
@@ -1950,7 +1902,6 @@
                               "ctxt": 0
                             },
                             "value": "div",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }
@@ -1984,8 +1935,8 @@
                           "ctxt": 0
                         },
                         "value": "rewrites3",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "JSXElement",
@@ -2004,7 +1955,6 @@
                               "ctxt": 0
                             },
                             "value": "div",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "span": {
@@ -2040,7 +1990,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "p",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 }
                               ]
@@ -2062,7 +2011,6 @@
                               "ctxt": 0
                             },
                             "value": "div",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }
@@ -2096,8 +2044,8 @@
                           "ctxt": 0
                         },
                         "value": "rewrites4",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "JSXElement",
@@ -2116,7 +2064,6 @@
                               "ctxt": 0
                             },
                             "value": "div",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "span": {
@@ -2140,7 +2087,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "a",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "value": {
@@ -2193,7 +2139,6 @@
                               "ctxt": 0
                             },
                             "value": "div",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }
@@ -2227,8 +2172,8 @@
                           "ctxt": 0
                         },
                         "value": "rewrites5",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "JSXElement",
@@ -2247,7 +2192,6 @@
                               "ctxt": 0
                             },
                             "value": "div",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "span": {
@@ -2271,7 +2215,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "a",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "value": {
@@ -2299,7 +2242,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "p",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       }
                                     },
@@ -2317,7 +2259,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "p",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       }
                                     },
@@ -2331,7 +2272,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "p",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       }
                                     }
@@ -2359,7 +2299,6 @@
                               "ctxt": 0
                             },
                             "value": "div",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }
@@ -2393,8 +2332,8 @@
                           "ctxt": 0
                         },
                         "value": "rewrites6",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "JSXElement",
@@ -2413,7 +2352,6 @@
                               "ctxt": 0
                             },
                             "value": "div",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "span": {
@@ -2437,7 +2375,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "a",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "value": {
@@ -2463,7 +2400,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "p",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     }
                                   ]
@@ -2490,7 +2426,6 @@
                               "ctxt": 0
                             },
                             "value": "div",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }
@@ -2544,8 +2479,8 @@
               "ctxt": 0
             },
             "value": "whitespace1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -2564,7 +2499,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -2603,7 +2537,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -2637,8 +2570,8 @@
               "ctxt": 0
             },
             "value": "whitespace2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -2657,7 +2590,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -2695,7 +2627,6 @@
                     "ctxt": 0
                   },
                   "value": "p",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -2725,7 +2656,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -2759,8 +2689,8 @@
               "ctxt": 0
             },
             "value": "whitespace3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -2779,7 +2709,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -2817,7 +2746,6 @@
                     "ctxt": 0
                   },
                   "value": "p",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -2847,7 +2775,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               }
             }

@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Multimap4",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -73,7 +72,6 @@
                     "ctxt": 0
                   },
                   "value": "_map",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -134,7 +132,6 @@
               "ctxt": 0
             },
             "value": "Multimap4",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -171,7 +168,6 @@
                   "ctxt": 0
                 },
                 "value": "get",
-                "typeAnnotation": null,
                 "optional": false
               },
               "params": [
@@ -191,8 +187,8 @@
                       "ctxt": 0
                     },
                     "value": "key",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   }
                 }
               ],
@@ -247,7 +243,6 @@
                             "ctxt": 0
                           },
                           "value": "_map",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -268,7 +263,6 @@
                             "ctxt": 0
                           },
                           "value": "key",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "right": {
@@ -337,7 +331,6 @@
                 "ctxt": 0
               },
               "value": "Multimap4",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -435,7 +428,6 @@
                 "ctxt": 0
               },
               "value": "Multimap4",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -533,7 +525,6 @@
                 "ctxt": 0
               },
               "value": "Multimap4",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -619,8 +610,8 @@
               "ctxt": 0
             },
             "value": "map4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -637,7 +628,6 @@
                 "ctxt": 0
               },
               "value": "Multimap4",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -676,7 +666,6 @@
               "ctxt": 0
             },
             "value": "map4",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -687,7 +676,6 @@
               "ctxt": 0
             },
             "value": "get",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -743,7 +731,6 @@
               "ctxt": 0
             },
             "value": "map4",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -795,7 +782,6 @@
               "ctxt": 0
             },
             "value": "map4",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -806,7 +792,6 @@
               "ctxt": 0
             },
             "value": "addon",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -844,7 +829,6 @@
               "ctxt": 0
             },
             "value": "map4",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -855,7 +839,6 @@
               "ctxt": 0
             },
             "value": "__underscores__",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

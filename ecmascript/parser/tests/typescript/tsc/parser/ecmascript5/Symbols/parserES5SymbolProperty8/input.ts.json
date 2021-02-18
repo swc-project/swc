@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -69,7 +70,6 @@
                           "ctxt": 0
                         },
                         "value": "Symbol",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -80,7 +80,6 @@
                           "ctxt": 0
                         },
                         "value": "toPrimitive",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -109,8 +108,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false

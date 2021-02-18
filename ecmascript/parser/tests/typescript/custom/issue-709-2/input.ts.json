@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "EventInit",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": true,
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "constructor",
-              "typeAnnotation": null,
               "optional": false
             },
             "params": [
@@ -77,8 +75,8 @@
                         "ctxt": 0
                       },
                       "value": "t",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     }
                   ],
                   "optional": true,

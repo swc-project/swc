@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "list",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -55,8 +56,7 @@
                   "kind": "any"
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -104,8 +104,8 @@
                 "ctxt": 0
               },
               "value": "comp",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": null,
             "definite": false
@@ -120,7 +120,6 @@
           "ctxt": 0
         },
         "value": "list",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -168,7 +167,6 @@
                       "ctxt": 0
                     },
                     "value": "comp",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -179,7 +177,6 @@
                       "ctxt": 0
                     },
                     "value": "sp",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -192,7 +189,6 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -233,7 +229,6 @@
                           "ctxt": 0
                         },
                         "value": "comp",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -244,7 +239,6 @@
                           "ctxt": 0
                         },
                         "value": "sp",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -257,7 +251,6 @@
                         "ctxt": 0
                       },
                       "value": "r",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -270,7 +263,6 @@
                       "ctxt": 0
                     },
                     "value": "find",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -294,6 +286,7 @@
                             "ctxt": 0
                           },
                           "value": "k",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -310,8 +303,7 @@
                               },
                               "kind": "any"
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "body": {
@@ -337,7 +329,6 @@
                               "ctxt": 0
                             },
                             "value": "k",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -348,7 +339,6 @@
                               "ctxt": 0
                             },
                             "value": "c",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -382,7 +372,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "comp",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -393,7 +382,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "xp",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -473,8 +461,8 @@
                       "ctxt": 0
                     },
                     "value": "item",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": null,
                   "definite": false
@@ -496,7 +484,6 @@
                   "ctxt": 0
                 },
                 "value": "comp",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -507,7 +494,6 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -550,7 +536,6 @@
                           "ctxt": 0
                         },
                         "value": "item",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -561,7 +546,6 @@
                           "ctxt": 0
                         },
                         "value": "v",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -616,7 +600,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "item",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -627,7 +610,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "t",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -640,7 +622,6 @@
                                 "ctxt": 0
                               },
                               "value": "length",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false

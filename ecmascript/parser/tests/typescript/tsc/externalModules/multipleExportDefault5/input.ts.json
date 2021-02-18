@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "bar",
-          "typeAnnotation": null,
           "optional": false
         },
         "params": [],
@@ -65,7 +64,6 @@
             "ctxt": 0
           },
           "value": "C",
-          "typeAnnotation": null,
           "optional": false
         },
         "span": {

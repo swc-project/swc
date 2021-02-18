@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "D",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "noWiden",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -80,7 +78,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
@@ -109,8 +106,8 @@
                     "ctxt": 0
                   },
                   "value": "widen",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "right": {
                   "type": "NumericLiteral",
@@ -171,7 +168,6 @@
                         "ctxt": 0
                       },
                       "value": "noWiden",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -225,7 +221,6 @@
                         "ctxt": 0
                       },
                       "value": "widen",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -275,7 +270,6 @@
             "ctxt": 0
           },
           "value": "D",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [

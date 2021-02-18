@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "field",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -94,7 +92,6 @@
                 "ctxt": 0
               },
               "value": "uninitialized",
-              "typeAnnotation": null,
               "optional": false
             }
           },

@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "fooOrBar",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -92,8 +93,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -125,8 +125,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "TsAsExpression",
@@ -201,8 +201,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "TsAsExpression",
@@ -277,8 +277,8 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "TsAsExpression",
@@ -295,7 +295,6 @@
                 "ctxt": 0
               },
               "value": "fooOrBar",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeAnnotation": {
@@ -350,8 +349,8 @@
               "ctxt": 0
             },
             "value": "d",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "TsAsExpression",
@@ -368,7 +367,6 @@
                 "ctxt": 0
               },
               "value": "fooOrBar",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeAnnotation": {
@@ -423,8 +421,8 @@
               "ctxt": 0
             },
             "value": "e",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "TsAsExpression",
@@ -441,7 +439,6 @@
                 "ctxt": 0
               },
               "value": "fooOrBar",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeAnnotation": {
@@ -496,8 +493,8 @@
               "ctxt": 0
             },
             "value": "f",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "TsAsExpression",
@@ -535,7 +532,6 @@
                   "ctxt": 0
                 },
                 "value": "fooOrBar",
-                "typeAnnotation": null,
                 "optional": false
               }
             }

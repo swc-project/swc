@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -64,8 +64,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -105,8 +105,8 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -128,8 +128,8 @@
           "ctxt": 0
         },
         "value": "a",
-        "typeAnnotation": null,
-        "optional": false
+        "optional": false,
+        "typeAnnotation": null
       },
       "right": {
         "type": "SequenceExpression",
@@ -162,7 +162,6 @@
                   "ctxt": 0
                 },
                 "value": "b",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -173,7 +172,6 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": true
@@ -201,7 +199,6 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -212,7 +209,6 @@
                     "ctxt": 0
                   },
                   "value": "c",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": true
@@ -236,7 +232,6 @@
               "ctxt": 0
             },
             "value": "d",
-            "typeAnnotation": null,
             "optional": false
           }
         ]

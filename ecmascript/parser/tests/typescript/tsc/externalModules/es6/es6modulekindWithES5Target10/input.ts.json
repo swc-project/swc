@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "i",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -66,7 +65,6 @@
           "ctxt": 0
         },
         "value": "N",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -94,7 +92,6 @@
           "ctxt": 0
         },
         "value": "N",
-        "typeAnnotation": null,
         "optional": false
       }
     }

@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "F",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -47,7 +46,6 @@
           "ctxt": 0
         },
         "value": "Class",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -73,7 +71,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -110,7 +107,6 @@
               "ctxt": 0
             },
             "value": "F",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": null
@@ -127,7 +123,6 @@
           "ctxt": 0
         },
         "value": "SubClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -153,7 +148,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -199,7 +193,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -251,7 +244,6 @@
           "ctxt": 0
         },
         "value": "Class",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -269,7 +261,6 @@
           "ctxt": 0
         },
         "value": "D",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -295,7 +286,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -341,7 +331,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -378,7 +367,6 @@
               "ctxt": 0
             },
             "value": "F",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": null
@@ -395,7 +383,6 @@
           "ctxt": 0
         },
         "value": "SubD",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -421,7 +408,6 @@
               "ctxt": 0
             },
             "value": "bar",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -467,7 +453,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -519,7 +504,6 @@
           "ctxt": 0
         },
         "value": "D",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -537,7 +521,6 @@
           "ctxt": 0
         },
         "value": "d0",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -580,7 +563,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": null
@@ -607,7 +589,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -625,7 +606,6 @@
                         "ctxt": 0
                       },
                       "value": "Class",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -678,7 +658,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -696,7 +675,6 @@
                   "ctxt": 0
                 },
                 "value": "Class",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -717,7 +695,6 @@
           "ctxt": 0
         },
         "value": "d1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -753,7 +730,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -791,7 +767,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -820,7 +795,6 @@
                             "ctxt": 0
                           },
                           "value": "F",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -874,7 +848,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -892,7 +865,6 @@
                   "ctxt": 0
                 },
                 "value": "F",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -913,7 +885,6 @@
           "ctxt": 0
         },
         "value": "d2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -949,7 +920,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -987,7 +957,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -1016,7 +985,6 @@
                             "ctxt": 0
                           },
                           "value": "Class",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -1070,7 +1038,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -1088,7 +1055,6 @@
                   "ctxt": 0
                 },
                 "value": "Class",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -1109,7 +1075,6 @@
           "ctxt": 0
         },
         "value": "d3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1145,7 +1110,6 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -1183,7 +1147,6 @@
                         "ctxt": 0
                       },
                       "value": "y",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -1212,7 +1175,6 @@
                             "ctxt": 0
                           },
                           "value": "D",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -1266,7 +1228,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -1284,7 +1245,6 @@
                   "ctxt": 0
                 },
                 "value": "D",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -1305,7 +1265,6 @@
           "ctxt": 0
         },
         "value": "d4",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1348,7 +1307,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": null
@@ -1375,7 +1333,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1393,7 +1350,6 @@
                         "ctxt": 0
                       },
                       "value": "D",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -1446,7 +1402,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -1464,7 +1419,6 @@
                   "ctxt": 0
                 },
                 "value": "D",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -1500,8 +1454,8 @@
               "ctxt": 0
             },
             "value": "obj",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -1518,7 +1472,6 @@
                 "ctxt": 0
               },
               "value": "Class",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -1550,7 +1503,6 @@
             "ctxt": 0
           },
           "value": "d0",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -1574,7 +1526,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1616,7 +1567,6 @@
             "ctxt": 0
           },
           "value": "d0",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -1640,7 +1590,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1682,7 +1631,6 @@
             "ctxt": 0
           },
           "value": "d0",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -1706,7 +1654,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1753,7 +1700,6 @@
             "ctxt": 0
           },
           "value": "d1",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -1777,7 +1723,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1795,7 +1740,6 @@
                         "ctxt": 0
                       },
                       "value": "Class",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -1831,7 +1775,6 @@
             "ctxt": 0
           },
           "value": "d1",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -1855,7 +1798,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1897,7 +1839,6 @@
             "ctxt": 0
           },
           "value": "d1",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -1921,7 +1862,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1968,7 +1908,6 @@
             "ctxt": 0
           },
           "value": "d2",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -1992,7 +1931,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -2010,7 +1948,6 @@
                         "ctxt": 0
                       },
                       "value": "SubClass",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -2046,7 +1983,6 @@
             "ctxt": 0
           },
           "value": "d2",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -2070,7 +2006,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -2112,7 +2047,6 @@
             "ctxt": 0
           },
           "value": "d3",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -2136,7 +2070,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -2154,7 +2087,6 @@
                         "ctxt": 0
                       },
                       "value": "SubD",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -2190,7 +2122,6 @@
             "ctxt": 0
           },
           "value": "d3",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -2214,7 +2145,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -2232,7 +2162,6 @@
                         "ctxt": 0
                       },
                       "value": "SubClass",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -2268,7 +2197,6 @@
             "ctxt": 0
           },
           "value": "d3",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -2292,7 +2220,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -2310,7 +2237,6 @@
                         "ctxt": 0
                       },
                       "value": "Class",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -2346,7 +2272,6 @@
             "ctxt": 0
           },
           "value": "d3",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -2388,7 +2313,6 @@
             "ctxt": 0
           },
           "value": "d3",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -2412,7 +2336,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -2454,7 +2377,6 @@
             "ctxt": 0
           },
           "value": "d3",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -2478,7 +2400,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {

@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "global",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -51,7 +50,6 @@
                 "ctxt": 0
               },
               "value": "JSX",
-              "typeAnnotation": null,
               "optional": false
             },
             "body": {
@@ -77,7 +75,6 @@
                       "ctxt": 0
                     },
                     "value": "IntrinsicElements",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "declare": false,
@@ -102,6 +99,7 @@
                               "ctxt": 0
                             },
                             "value": "e",
+                            "optional": false,
                             "typeAnnotation": {
                               "type": "TsTypeAnnotation",
                               "span": {
@@ -118,8 +116,7 @@
                                 },
                                 "kind": "string"
                               }
-                            },
-                            "optional": false
+                            }
                           }
                         ],
                         "typeAnnotation": {
@@ -172,7 +169,6 @@
             "ctxt": 0
           },
           "value": "dom",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -223,7 +219,6 @@
             "ctxt": 0
           },
           "value": "createElement",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -280,7 +275,6 @@
               "ctxt": 0
             },
             "value": "React",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -342,7 +336,6 @@
                   "ctxt": 0
                 },
                 "value": "h",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -370,7 +363,6 @@
                   "ctxt": 0
                 },
                 "value": "h",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -409,7 +401,6 @@
               "ctxt": 0
             },
             "value": "dom",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -472,7 +463,6 @@
                   "ctxt": 0
                 },
                 "value": "h",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -500,7 +490,6 @@
                   "ctxt": 0
                 },
                 "value": "h",
-                "typeAnnotation": null,
                 "optional": false
               }
             }

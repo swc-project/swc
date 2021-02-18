@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "Foo",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -58,7 +57,6 @@
             "ctxt": 0
           },
           "value": "func",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -176,7 +174,6 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -222,7 +219,6 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -255,7 +251,6 @@
               "ctxt": 0
             },
             "value": "ns",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -292,7 +287,6 @@
           "ctxt": 0
         },
         "value": "ns",
-        "typeAnnotation": null,
         "optional": false
       }
     },
@@ -319,7 +313,6 @@
               "ctxt": 0
             },
             "value": "ns",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -364,7 +357,6 @@
               "ctxt": 0
             },
             "value": "ns",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -397,7 +389,6 @@
               "ctxt": 0
             },
             "value": "ns",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -442,7 +433,6 @@
               "ctxt": 0
             },
             "value": "ns",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": {
@@ -453,7 +443,6 @@
               "ctxt": 0
             },
             "value": "classContainer",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -487,8 +476,8 @@
               "ctxt": 0
             },
             "value": "ns",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -505,7 +494,6 @@
                 "ctxt": 0
               },
               "value": "require",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -563,7 +551,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -574,7 +561,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -595,7 +581,6 @@
                 "ctxt": 0
               },
               "value": "ns",
-              "typeAnnotation": null,
               "optional": false
             }
           ]
@@ -627,8 +612,8 @@
               "ctxt": 0
             },
             "value": "ns",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -645,7 +630,6 @@
                 "ctxt": 0
               },
               "value": "require",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -703,7 +687,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -714,7 +697,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -727,7 +709,6 @@
             "ctxt": 0
           },
           "value": "ns",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -757,8 +738,8 @@
               "ctxt": 0
             },
             "value": "ns",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -775,7 +756,6 @@
                 "ctxt": 0
               },
               "value": "require",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -840,7 +820,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -851,7 +830,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -864,7 +842,6 @@
               "ctxt": 0
             },
             "value": "ns",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -877,7 +854,6 @@
             "ctxt": 0
           },
           "value": "ns",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -907,8 +883,8 @@
               "ctxt": 0
             },
             "value": "ns",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -925,7 +901,6 @@
                 "ctxt": 0
               },
               "value": "require",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -990,7 +965,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1001,7 +975,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1014,7 +987,6 @@
               "ctxt": 0
             },
             "value": "names",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1027,7 +999,6 @@
             "ctxt": 0
           },
           "value": "ns",
-          "typeAnnotation": null,
           "optional": false
         }
       }

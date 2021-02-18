@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "MyClass",
-          "typeAnnotation": null,
           "optional": false
         },
         "params": [],
@@ -78,7 +77,6 @@
               "ctxt": 0
             },
             "value": "MyClass",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -89,7 +87,6 @@
               "ctxt": 0
             },
             "value": "bar",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -104,7 +101,6 @@
               "ctxt": 0
             },
             "value": "C",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -144,7 +140,6 @@
             "ctxt": 0
           },
           "value": "MyClass",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -155,7 +150,6 @@
             "ctxt": 0
           },
           "value": "bar",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -184,7 +178,6 @@
               "ctxt": 0
             },
             "value": "MC",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -228,7 +221,6 @@
             "ctxt": 0
           },
           "value": "MC",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -239,7 +231,6 @@
             "ctxt": 0
           },
           "value": "bar",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -270,8 +261,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false

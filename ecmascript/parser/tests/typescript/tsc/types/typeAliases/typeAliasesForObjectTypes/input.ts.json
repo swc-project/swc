@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "T1",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -50,7 +49,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -94,7 +92,6 @@
           "ctxt": 0
         },
         "value": "I1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -115,7 +112,6 @@
               "ctxt": 0
             },
             "value": "T1",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": null
@@ -145,7 +141,6 @@
                 "ctxt": 0
               },
               "value": "y",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -184,7 +179,6 @@
           "ctxt": 0
         },
         "value": "C1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -210,7 +204,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -262,7 +255,6 @@
               "ctxt": 0
             },
             "value": "T1",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": null
@@ -285,7 +277,6 @@
           "ctxt": 0
         },
         "value": "T2",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -313,7 +304,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -358,7 +348,6 @@
           "ctxt": 0
         },
         "value": "T2",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -386,7 +375,6 @@
                 "ctxt": 0
               },
               "value": "y",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -431,7 +419,6 @@
           "ctxt": 0
         },
         "value": "T3",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -457,7 +444,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -489,7 +475,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -518,7 +503,6 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null

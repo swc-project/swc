@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -60,8 +61,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -93,6 +93,7 @@
               "ctxt": 0
             },
             "value": "y",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -154,8 +155,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -177,7 +177,6 @@
           "ctxt": 0
         },
         "value": "x",
-        "typeAnnotation": null,
         "optional": false
       },
       "cases": [
@@ -262,7 +261,6 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
             "optional": false
           },
           "consequent": [
@@ -281,7 +279,6 @@
                   "ctxt": 0
                 },
                 "value": "y",
-                "typeAnnotation": null,
                 "optional": false
               }
             },

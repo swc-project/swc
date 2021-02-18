@@ -42,7 +42,6 @@
                 "ctxt": 0
               },
               "value": "href",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -53,7 +52,6 @@
                 "ctxt": 0
               },
               "value": "match",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false

@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "p",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -113,6 +111,7 @@
               "ctxt": 0
             },
             "value": "strOrNum",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -148,8 +147,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -181,6 +179,7 @@
               "ctxt": 0
             },
             "value": "strOrBool",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -216,8 +215,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -249,6 +247,7 @@
               "ctxt": 0
             },
             "value": "numOrBool",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -284,8 +283,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -317,6 +315,7 @@
               "ctxt": 0
             },
             "value": "strOrC",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -356,15 +355,13 @@
                         "ctxt": 0
                       },
                       "value": "C",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -402,7 +399,6 @@
               "ctxt": 0
             },
             "value": "strOrNum",
-            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -454,8 +450,8 @@
                     "ctxt": 0
                   },
                   "value": "r1",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "Identifier",
@@ -465,7 +461,6 @@
                     "ctxt": 0
                   },
                   "value": "strOrNum",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "definite": false
@@ -507,8 +502,8 @@
                     "ctxt": 0
                   },
                   "value": "r1",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "Identifier",
@@ -518,7 +513,6 @@
                     "ctxt": 0
                   },
                   "value": "strOrNum",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "definite": false
@@ -559,7 +553,6 @@
               "ctxt": 0
             },
             "value": "strOrBool",
-            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -611,8 +604,8 @@
                     "ctxt": 0
                   },
                   "value": "r2",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "Identifier",
@@ -622,7 +615,6 @@
                     "ctxt": 0
                   },
                   "value": "strOrBool",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "definite": false
@@ -664,8 +656,8 @@
                     "ctxt": 0
                   },
                   "value": "r2",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "Identifier",
@@ -675,7 +667,6 @@
                     "ctxt": 0
                   },
                   "value": "strOrBool",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "definite": false
@@ -716,7 +707,6 @@
               "ctxt": 0
             },
             "value": "numOrBool",
-            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -768,8 +758,8 @@
                     "ctxt": 0
                   },
                   "value": "r3",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "Identifier",
@@ -779,7 +769,6 @@
                     "ctxt": 0
                   },
                   "value": "numOrBool",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "definite": false
@@ -821,8 +810,8 @@
                     "ctxt": 0
                   },
                   "value": "r3",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "Identifier",
@@ -832,7 +821,6 @@
                     "ctxt": 0
                   },
                   "value": "numOrBool",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "definite": false
@@ -873,7 +861,6 @@
               "ctxt": 0
             },
             "value": "strOrC",
-            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -925,8 +912,8 @@
                     "ctxt": 0
                   },
                   "value": "r4",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "Identifier",
@@ -936,7 +923,6 @@
                     "ctxt": 0
                   },
                   "value": "strOrC",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "definite": false
@@ -978,8 +964,8 @@
                     "ctxt": 0
                   },
                   "value": "r4",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "Identifier",
@@ -989,7 +975,6 @@
                     "ctxt": 0
                   },
                   "value": "strOrC",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "definite": false

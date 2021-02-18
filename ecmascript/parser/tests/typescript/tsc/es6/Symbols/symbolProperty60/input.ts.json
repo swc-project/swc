@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "I1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -58,7 +57,6 @@
                   "ctxt": 0
                 },
                 "value": "Symbol",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -69,7 +67,6 @@
                   "ctxt": 0
                 },
                 "value": "toStringTag",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -108,6 +105,7 @@
                   "ctxt": 0
                 },
                 "value": "key",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -124,8 +122,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -170,7 +167,6 @@
           "ctxt": 0
         },
         "value": "I2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -207,7 +203,6 @@
                   "ctxt": 0
                 },
                 "value": "Symbol",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -218,7 +213,6 @@
                   "ctxt": 0
                 },
                 "value": "toStringTag",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -257,6 +251,7 @@
                   "ctxt": 0
                 },
                 "value": "key",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -273,8 +268,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -329,6 +323,7 @@
               "ctxt": 0
             },
             "value": "mySymbol",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -354,8 +349,7 @@
                   "kind": "symbol"
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -377,7 +371,6 @@
           "ctxt": 0
         },
         "value": "I3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -407,7 +400,6 @@
                 "ctxt": 0
               },
               "value": "mySymbol",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": true,
@@ -444,6 +436,7 @@
                   "ctxt": 0
                 },
                 "value": "key",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -460,8 +453,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -506,7 +498,6 @@
           "ctxt": 0
         },
         "value": "I4",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -536,7 +527,6 @@
                 "ctxt": 0
               },
               "value": "mySymbol",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": true,
@@ -573,6 +563,7 @@
                   "ctxt": 0
                 },
                 "value": "key",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -589,8 +580,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {

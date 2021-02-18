@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -56,7 +56,6 @@
                   "ctxt": 0
                 },
                 "value": "require",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -88,7 +87,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -112,7 +110,6 @@
           "ctxt": 0
         },
         "value": "x",
-        "typeAnnotation": null,
         "optional": false
       }
     },
@@ -138,7 +135,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -149,7 +145,6 @@
             "ctxt": 0
           },
           "value": "grey",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -184,7 +179,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -195,7 +189,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -208,7 +201,6 @@
             "ctxt": 0
           },
           "value": "grey",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -239,8 +231,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -260,7 +252,6 @@
                     "ctxt": 0
                   },
                   "value": "grey",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -302,7 +293,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null

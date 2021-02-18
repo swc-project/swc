@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "LOL",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -80,7 +78,6 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -118,7 +115,6 @@
               "ctxt": 0
             },
             "value": "z",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -156,7 +152,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -206,7 +201,6 @@
                         "ctxt": 0
                       },
                       "value": "y",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -260,7 +254,6 @@
                         "ctxt": 0
                       },
                       "value": "ka",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -313,8 +306,8 @@
               "ctxt": 0
             },
             "value": "l",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -331,7 +324,6 @@
                 "ctxt": 0
               },
               "value": "LOL",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -371,7 +363,6 @@
               "ctxt": 0
             },
             "value": "l",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -382,7 +373,6 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

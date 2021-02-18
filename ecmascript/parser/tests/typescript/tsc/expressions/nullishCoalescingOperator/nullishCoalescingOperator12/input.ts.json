@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "obj",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -62,7 +63,6 @@
                         "ctxt": 0
                       },
                       "value": "arr",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -98,8 +98,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ObjectExpression",
@@ -119,7 +118,6 @@
                     "ctxt": 0
                   },
                   "value": "arr",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -171,8 +169,8 @@
                 "ctxt": 0
               },
               "value": "i",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": null,
             "definite": false
@@ -214,7 +212,6 @@
                 "ctxt": 0
               },
               "value": "obj",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -225,7 +222,6 @@
                 "ctxt": 0
               },
               "value": "arr",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false

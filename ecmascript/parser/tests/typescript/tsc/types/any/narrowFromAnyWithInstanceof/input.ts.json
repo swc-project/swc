@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -47,8 +48,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -78,7 +78,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -89,7 +88,6 @@
             "ctxt": 0
           },
           "value": "Function",
-          "typeAnnotation": null,
           "optional": false
         }
       },
@@ -123,7 +121,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -152,7 +149,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -218,7 +214,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -265,7 +260,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -276,7 +270,6 @@
                   "ctxt": 0
                 },
                 "value": "prop",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -309,7 +302,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -320,7 +312,6 @@
             "ctxt": 0
           },
           "value": "Object",
-          "typeAnnotation": null,
           "optional": false
         }
       },
@@ -361,7 +352,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -372,7 +362,6 @@
                     "ctxt": 0
                   },
                   "value": "method",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -403,7 +392,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -437,7 +425,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -448,7 +435,6 @@
             "ctxt": 0
           },
           "value": "Error",
-          "typeAnnotation": null,
           "optional": false
         }
       },
@@ -482,7 +468,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -493,7 +478,6 @@
                   "ctxt": 0
                 },
                 "value": "message",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -521,7 +505,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -532,7 +515,6 @@
                   "ctxt": 0
                 },
                 "value": "mesage",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -565,7 +547,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -576,7 +557,6 @@
             "ctxt": 0
           },
           "value": "Date",
-          "typeAnnotation": null,
           "optional": false
         }
       },
@@ -617,7 +597,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -628,7 +607,6 @@
                     "ctxt": 0
                   },
                   "value": "getDate",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -666,7 +644,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -677,7 +654,6 @@
                     "ctxt": 0
                   },
                   "value": "getHuors",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false

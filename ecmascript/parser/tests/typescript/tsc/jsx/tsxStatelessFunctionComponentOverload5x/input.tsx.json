@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "React",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -71,7 +70,6 @@
             "ctxt": 0
           },
           "value": "ClickableProps",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -101,7 +99,6 @@
                   "ctxt": 0
                 },
                 "value": "children",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false,
@@ -143,7 +140,6 @@
                   "ctxt": 0
                 },
                 "value": "className",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false,
@@ -195,7 +191,6 @@
             "ctxt": 0
           },
           "value": "ButtonProps",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -216,7 +211,6 @@
                 "ctxt": 0
               },
               "value": "ClickableProps",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeArguments": null
@@ -246,7 +240,6 @@
                   "ctxt": 0
                 },
                 "value": "onClick",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false,
@@ -277,7 +270,6 @@
                         "ctxt": 0
                       },
                       "value": "React",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "right": {
@@ -288,7 +280,6 @@
                         "ctxt": 0
                       },
                       "value": "MouseEventHandler",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   },
@@ -341,7 +332,6 @@
             "ctxt": 0
           },
           "value": "LinkProps",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -362,7 +352,6 @@
                 "ctxt": 0
               },
               "value": "ClickableProps",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeArguments": null
@@ -392,7 +381,6 @@
                   "ctxt": 0
                 },
                 "value": "to",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false,
@@ -444,7 +432,6 @@
             "ctxt": 0
           },
           "value": "HyphenProps",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -465,7 +452,6 @@
                 "ctxt": 0
               },
               "value": "ClickableProps",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeArguments": null
@@ -553,8 +539,8 @@
               "ctxt": 0
             },
             "value": "obj0",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -574,7 +560,6 @@
                     "ctxt": 0
                   },
                   "value": "to",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -623,8 +608,8 @@
               "ctxt": 0
             },
             "value": "obj1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -644,7 +629,6 @@
                     "ctxt": 0
                   },
                   "value": "children",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -672,7 +656,6 @@
                     "ctxt": 0
                   },
                   "value": "to",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -721,8 +704,8 @@
               "ctxt": 0
             },
             "value": "obj2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -742,7 +725,6 @@
                     "ctxt": 0
                   },
                   "value": "onClick",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -799,6 +781,7 @@
               "ctxt": 0
             },
             "value": "obj3",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -815,8 +798,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -840,7 +822,6 @@
             "ctxt": 0
           },
           "value": "MainButton",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -861,6 +842,7 @@
                 "ctxt": 0
               },
               "value": "buttonProps",
+              "optional": false,
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -883,13 +865,11 @@
                       "ctxt": 0
                     },
                     "value": "ButtonProps",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
                 }
-              },
-              "optional": false
+              }
             }
           }
         ],
@@ -927,7 +907,6 @@
                   "ctxt": 0
                 },
                 "value": "JSX",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -938,7 +917,6 @@
                   "ctxt": 0
                 },
                 "value": "Element",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -964,7 +942,6 @@
             "ctxt": 0
           },
           "value": "MainButton",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -985,6 +962,7 @@
                 "ctxt": 0
               },
               "value": "linkProps",
+              "optional": false,
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -1007,13 +985,11 @@
                       "ctxt": 0
                     },
                     "value": "LinkProps",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
                 }
-              },
-              "optional": false
+              }
             }
           }
         ],
@@ -1051,7 +1027,6 @@
                   "ctxt": 0
                 },
                 "value": "JSX",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -1062,7 +1037,6 @@
                   "ctxt": 0
                 },
                 "value": "Element",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -1088,7 +1062,6 @@
             "ctxt": 0
           },
           "value": "MainButton",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -1109,6 +1082,7 @@
                 "ctxt": 0
               },
               "value": "hyphenProps",
+              "optional": false,
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -1131,13 +1105,11 @@
                       "ctxt": 0
                     },
                     "value": "HyphenProps",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
                 }
-              },
-              "optional": false
+              }
             }
           }
         ],
@@ -1175,7 +1147,6 @@
                   "ctxt": 0
                 },
                 "value": "JSX",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -1186,7 +1157,6 @@
                   "ctxt": 0
                 },
                 "value": "Element",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -1212,7 +1182,6 @@
             "ctxt": 0
           },
           "value": "MainButton",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -1233,6 +1202,7 @@
                 "ctxt": 0
               },
               "value": "props",
+              "optional": false,
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -1263,7 +1233,6 @@
                           "ctxt": 0
                         },
                         "value": "ButtonProps",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1283,7 +1252,6 @@
                           "ctxt": 0
                         },
                         "value": "LinkProps",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1303,15 +1271,13 @@
                           "ctxt": 0
                         },
                         "value": "HyphenProps",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
                     }
                   ]
                 }
-              },
-              "optional": false
+              }
             }
           }
         ],
@@ -1354,8 +1320,8 @@
                       "ctxt": 0
                     },
                     "value": "linkProps",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "TsAsExpression",
@@ -1372,7 +1338,6 @@
                         "ctxt": 0
                       },
                       "value": "props",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeAnnotation": {
@@ -1390,7 +1355,6 @@
                           "ctxt": 0
                         },
                         "value": "LinkProps",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1422,7 +1386,6 @@
                     "ctxt": 0
                   },
                   "value": "linkProps",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -1433,7 +1396,6 @@
                     "ctxt": 0
                   },
                   "value": "to",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -1483,7 +1445,6 @@
                             "ctxt": 0
                           },
                           "value": "_buildMainLink",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1499,7 +1460,6 @@
                               "ctxt": 0
                             },
                             "value": "props",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }
@@ -1548,7 +1508,6 @@
                       "ctxt": 0
                     },
                     "value": "_buildMainButton",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -1564,7 +1523,6 @@
                         "ctxt": 0
                       },
                       "value": "props",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -1601,7 +1559,6 @@
                   "ctxt": 0
                 },
                 "value": "JSX",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -1612,7 +1569,6 @@
                   "ctxt": 0
                 },
                 "value": "Element",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -1646,8 +1602,8 @@
               "ctxt": 0
             },
             "value": "b0",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1666,7 +1622,6 @@
                   "ctxt": 0
                 },
                 "value": "MainButton",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1690,7 +1645,6 @@
                       "ctxt": 0
                     },
                     "value": "to",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1723,7 +1677,6 @@
                       "ctxt": 0
                     },
                     "value": "onClick",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1749,8 +1702,8 @@
                             "ctxt": 0
                           },
                           "value": "e",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         }
                       ],
                       "body": {
@@ -1800,7 +1753,6 @@
                   "ctxt": 0
                 },
                 "value": "MainButton",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1834,8 +1786,8 @@
               "ctxt": 0
             },
             "value": "b1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1854,7 +1806,6 @@
                   "ctxt": 0
                 },
                 "value": "MainButton",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1878,7 +1829,6 @@
                       "ctxt": 0
                     },
                     "value": "onClick",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1904,6 +1854,7 @@
                             "ctxt": 0
                           },
                           "value": "e",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -1920,8 +1871,7 @@
                               },
                               "kind": "any"
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "body": {
@@ -1955,7 +1905,6 @@
                       "ctxt": 0
                     },
                     "value": "obj0",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -1990,7 +1939,6 @@
                   "ctxt": 0
                 },
                 "value": "MainButton",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -2024,8 +1972,8 @@
               "ctxt": 0
             },
             "value": "b2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -2044,7 +1992,6 @@
                   "ctxt": 0
                 },
                 "value": "MainButton",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -2078,7 +2025,6 @@
                             "ctxt": 0
                           },
                           "value": "to",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -2114,7 +2060,6 @@
                       "ctxt": 0
                     },
                     "value": "obj2",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -2154,8 +2099,8 @@
               "ctxt": 0
             },
             "value": "b3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -2174,7 +2119,6 @@
                   "ctxt": 0
                 },
                 "value": "MainButton",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -2208,7 +2152,6 @@
                             "ctxt": 0
                           },
                           "value": "to",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -2254,7 +2197,6 @@
                             "ctxt": 0
                           },
                           "value": "onClick",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -2273,8 +2215,8 @@
                                 "ctxt": 0
                               },
                               "value": "k",
-                              "typeAnnotation": null,
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             }
                           ],
                           "body": {
@@ -2331,8 +2273,8 @@
               "ctxt": 0
             },
             "value": "b4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -2351,7 +2293,6 @@
                   "ctxt": 0
                 },
                 "value": "MainButton",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -2375,7 +2316,6 @@
                       "ctxt": 0
                     },
                     "value": "obj3",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -2394,7 +2334,6 @@
                       "ctxt": 0
                     },
                     "value": "to",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": null
@@ -2435,8 +2374,8 @@
               "ctxt": 0
             },
             "value": "b5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -2455,7 +2394,6 @@
                   "ctxt": 0
                 },
                 "value": "MainButton",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -2489,7 +2427,6 @@
                             "ctxt": 0
                           },
                           "value": "onClick",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "params": [
@@ -2509,6 +2446,7 @@
                                 "ctxt": 0
                               },
                               "value": "e",
+                              "optional": false,
                               "typeAnnotation": {
                                 "type": "TsTypeAnnotation",
                                 "span": {
@@ -2525,8 +2463,7 @@
                                   },
                                   "kind": "any"
                                 }
-                              },
-                              "optional": false
+                              }
                             }
                           }
                         ],
@@ -2568,7 +2505,6 @@
                       "ctxt": 0
                     },
                     "value": "obj0",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -2608,8 +2544,8 @@
               "ctxt": 0
             },
             "value": "b6",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -2628,7 +2564,6 @@
                   "ctxt": 0
                 },
                 "value": "MainButton",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -2662,7 +2597,6 @@
                             "ctxt": 0
                           },
                           "value": "onClick",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "params": [
@@ -2682,6 +2616,7 @@
                                 "ctxt": 0
                               },
                               "value": "e",
+                              "optional": false,
                               "typeAnnotation": {
                                 "type": "TsTypeAnnotation",
                                 "span": {
@@ -2698,8 +2633,7 @@
                                   },
                                   "kind": "any"
                                 }
-                              },
-                              "optional": false
+                              }
                             }
                           }
                         ],
@@ -2741,7 +2675,6 @@
                       "ctxt": 0
                     },
                     "value": "children",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -2798,8 +2731,8 @@
               "ctxt": 0
             },
             "value": "b7",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -2818,7 +2751,6 @@
                   "ctxt": 0
                 },
                 "value": "MainButton",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -2852,7 +2784,6 @@
                             "ctxt": 0
                           },
                           "value": "onClick",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "params": [
@@ -2872,6 +2803,7 @@
                                 "ctxt": 0
                               },
                               "value": "e",
+                              "optional": false,
                               "typeAnnotation": {
                                 "type": "TsTypeAnnotation",
                                 "span": {
@@ -2888,8 +2820,7 @@
                                   },
                                   "kind": "any"
                                 }
-                              },
-                              "optional": false
+                              }
                             }
                           }
                         ],
@@ -2931,7 +2862,6 @@
                       "ctxt": 0
                     },
                     "value": "children",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -2964,7 +2894,6 @@
                       "ctxt": 0
                     },
                     "value": "className",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": null
@@ -3005,8 +2934,8 @@
               "ctxt": 0
             },
             "value": "b8",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -3025,7 +2954,6 @@
                   "ctxt": 0
                 },
                 "value": "MainButton",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -3049,7 +2977,6 @@
                       "ctxt": 0
                     },
                     "value": "data-format",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": null

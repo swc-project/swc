@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "g1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -61,7 +60,6 @@
               "ctxt": 0
             },
             "value": "Iterator",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {

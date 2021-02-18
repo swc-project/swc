@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "ObjType",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -50,7 +49,6 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -92,7 +90,6 @@
                 "ctxt": 0
               },
               "value": "baz",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -134,7 +131,6 @@
                 "ctxt": 0
               },
               "value": "quux",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -188,6 +184,7 @@
               "ctxt": 0
             },
             "value": "obj",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -210,7 +207,6 @@
                     "ctxt": 0
                   },
                   "value": "Readonly",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -236,7 +232,6 @@
                           "ctxt": 0
                         },
                         "value": "ObjType",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -244,8 +239,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ObjectExpression",
@@ -265,7 +259,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -293,7 +286,6 @@
                     "ctxt": 0
                   },
                   "value": "baz",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -321,7 +313,6 @@
                     "ctxt": 0
                   },
                   "value": "quux",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -385,7 +376,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -410,8 +400,8 @@
                     "ctxt": 0
                   },
                   "value": "rest",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "typeAnnotation": null
               }
@@ -427,7 +417,6 @@
               "ctxt": 0
             },
             "value": "obj",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false
@@ -464,7 +453,6 @@
               "ctxt": 0
             },
             "value": "rest",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -475,7 +463,6 @@
               "ctxt": 0
             },
             "value": "baz",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

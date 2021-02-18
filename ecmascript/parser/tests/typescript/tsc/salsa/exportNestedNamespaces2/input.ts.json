@@ -36,7 +36,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -47,7 +46,6 @@
               "ctxt": 0
             },
             "value": "formatters",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -86,8 +84,8 @@
             "ctxt": 0
           },
           "value": "exports",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "CallExpression",
@@ -104,7 +102,6 @@
               "ctxt": 0
             },
             "value": "require",
-            "typeAnnotation": null,
             "optional": false
           },
           "arguments": [
@@ -167,7 +164,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -178,7 +174,6 @@
                 "ctxt": 0
               },
               "value": "formatters",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -191,7 +186,6 @@
               "ctxt": 0
             },
             "value": "j",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -216,8 +210,8 @@
                   "ctxt": 0
                 },
                 "value": "v",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             }
           ],
@@ -250,7 +244,6 @@
                     "ctxt": 0
                   },
                   "value": "v",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -286,8 +279,8 @@
             "ctxt": 0
           },
           "value": "exports",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "CallExpression",
@@ -304,7 +297,6 @@
               "ctxt": 0
             },
             "value": "require",
-            "typeAnnotation": null,
             "optional": false
           },
           "arguments": [
@@ -367,7 +359,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -378,7 +369,6 @@
                 "ctxt": 0
               },
               "value": "formatters",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -391,7 +381,6 @@
               "ctxt": 0
             },
             "value": "o",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -416,8 +405,8 @@
                   "ctxt": 0
                 },
                 "value": "v",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             }
           ],
@@ -450,7 +439,6 @@
                     "ctxt": 0
                   },
                   "value": "v",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -486,7 +474,6 @@
               "ctxt": 0
             },
             "value": "debug",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -537,7 +524,6 @@
               "ctxt": 0
             },
             "value": "debug",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -548,7 +534,6 @@
               "ctxt": 0
             },
             "value": "formatters",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -561,7 +546,6 @@
             "ctxt": 0
           },
           "value": "j",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -592,8 +576,8 @@
               "ctxt": 0
             },
             "value": "one",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -624,7 +608,6 @@
                     "ctxt": 0
                   },
                   "value": "debug",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -635,7 +618,6 @@
                     "ctxt": 0
                   },
                   "value": "formatters",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -648,7 +630,6 @@
                   "ctxt": 0
                 },
                 "value": "o",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false

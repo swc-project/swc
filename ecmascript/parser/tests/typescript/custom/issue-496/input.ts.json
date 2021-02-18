@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "SomethingWithId",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "variant",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": null,
@@ -95,7 +93,6 @@
                 "ctxt": 0
               },
               "value": "constructor",
-              "typeAnnotation": null,
               "optional": false
             },
             "params": [
@@ -115,6 +112,7 @@
                     "ctxt": 0
                   },
                   "value": "variant",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -131,8 +129,7 @@
                       },
                       "kind": "any"
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -182,7 +179,6 @@
                           "ctxt": 0
                         },
                         "value": "variant",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -195,7 +191,6 @@
                         "ctxt": 0
                       },
                       "value": "variant",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -220,7 +215,6 @@
                 "ctxt": 0
               },
               "value": "id",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -276,7 +270,6 @@
                             "ctxt": 0
                           },
                           "value": "variant",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -289,7 +282,6 @@
                           "ctxt": 0
                         },
                         "value": "id",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false

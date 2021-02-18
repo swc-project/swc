@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "myField",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -92,7 +90,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -133,7 +130,6 @@
                         "ctxt": 0
                       },
                       "value": "console",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -144,7 +140,6 @@
                         "ctxt": 0
                       },
                       "value": "log",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -182,7 +177,6 @@
                               "ctxt": 0
                             },
                             "value": "myField",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         },

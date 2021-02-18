@@ -29,7 +29,6 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null

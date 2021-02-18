@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "IPoint",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -51,7 +50,6 @@
                 "ctxt": 0
               },
               "value": "getDist",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -96,7 +94,6 @@
           "ctxt": 0
         },
         "value": "Shapes",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -124,7 +121,6 @@
                   "ctxt": 0
                 },
                 "value": "Point",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -150,7 +146,6 @@
                       "ctxt": 0
                     },
                     "value": "con",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": null,
@@ -209,7 +204,6 @@
                       "ctxt": 0
                     },
                     "value": "constructor",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "params": [
@@ -231,6 +225,7 @@
                           "ctxt": 0
                         },
                         "value": "x",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -247,8 +242,7 @@
                             },
                             "kind": "number"
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     },
                     {
@@ -269,6 +263,7 @@
                           "ctxt": 0
                         },
                         "value": "y",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -285,8 +280,7 @@
                             },
                             "kind": "number"
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     }
                   ],
@@ -317,7 +311,6 @@
                       "ctxt": 0
                     },
                     "value": "getDist",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "function": {
@@ -365,7 +358,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "Math",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -376,7 +368,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "sqrt",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -423,7 +414,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "x",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -451,7 +441,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "x",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -488,7 +477,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "y",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -516,7 +504,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "y",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -556,7 +543,6 @@
                       "ctxt": 0
                     },
                     "value": "origin",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -574,7 +560,6 @@
                         "ctxt": 0
                       },
                       "value": "Point",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -637,7 +622,6 @@
                       "ctxt": 0
                     },
                     "value": "IPoint",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeArguments": null
@@ -673,6 +657,7 @@
               "ctxt": 0
             },
             "value": "p",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -695,13 +680,11 @@
                     "ctxt": 0
                   },
                   "value": "IPoint",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "NewExpression",
@@ -725,7 +708,6 @@
                   "ctxt": 0
                 },
                 "value": "Shapes",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -736,7 +718,6 @@
                   "ctxt": 0
                 },
                 "value": "Point",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -798,8 +779,8 @@
               "ctxt": 0
             },
             "value": "dist",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -823,7 +804,6 @@
                   "ctxt": 0
                 },
                 "value": "p",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -834,7 +814,6 @@
                   "ctxt": 0
                 },
                 "value": "getDist",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false

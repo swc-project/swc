@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "JSX",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -80,7 +78,6 @@
                 "ctxt": 0
               },
               "value": "IntrinsicElements",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -110,7 +107,6 @@
                       "ctxt": 0
                     },
                     "value": "div",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -167,6 +163,7 @@
               "ctxt": 0
             },
             "value": "CustomTag",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -196,8 +193,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "StringLiteral",
@@ -241,7 +237,6 @@
               "ctxt": 0
             },
             "value": "CustomTag",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -280,7 +275,6 @@
               "ctxt": 0
             },
             "value": "CustomTag",
-            "typeAnnotation": null,
             "optional": false
           }
         }

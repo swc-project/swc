@@ -46,8 +46,8 @@
                     "ctxt": 0
                   },
                   "value": "xx",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "NumericLiteral",
@@ -85,7 +85,6 @@
                   "ctxt": 0
                 },
                 "value": "xx",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -128,7 +127,6 @@
                         "ctxt": 0
                       },
                       "value": "$ERROR",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -171,7 +169,6 @@
                                 "ctxt": 0
                               },
                               "value": "xx",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           }
@@ -202,8 +199,8 @@
             "ctxt": 0
           },
           "value": "e",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "body": {
           "type": "BlockStatement",
@@ -235,7 +232,6 @@
                     "ctxt": 0
                   },
                   "value": "$ERROR",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -278,7 +274,6 @@
                             "ctxt": 0
                           },
                           "value": "xx",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       }

@@ -38,8 +38,8 @@
                 "ctxt": 0
               },
               "value": "then",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "ArrowFunctionExpression",
@@ -57,6 +57,7 @@
                     "ctxt": 0
                   },
                   "value": "callback",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -92,8 +93,8 @@
                               "ctxt": 0
                             },
                             "value": "args",
-                            "typeAnnotation": null,
-                            "optional": false
+                            "optional": false,
+                            "typeAnnotation": null
                           },
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
@@ -117,7 +118,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "TupleReturns",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": {
@@ -143,7 +143,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "Ws",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "typeParams": null
@@ -177,15 +176,13 @@
                               "ctxt": 0
                             },
                             "value": "R",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
                         }
                       }
                     }
-                  },
-                  "optional": false
+                  }
                 }
               ],
               "body": {
@@ -221,6 +218,7 @@
                             "ctxt": 0
                           },
                           "value": "returns",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -243,13 +241,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "R",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         "init": null,
                         "definite": false
@@ -281,6 +277,7 @@
                             "ctxt": 0
                           },
                           "value": "called",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -297,8 +294,7 @@
                               },
                               "kind": "boolean"
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         "init": null,
                         "definite": false
@@ -332,7 +328,6 @@
                         "ctxt": 0
                       },
                       "value": "R",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "constraint": null,

@@ -36,7 +36,6 @@
               "ctxt": 0
             },
             "value": "ns",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -47,7 +46,6 @@
               "ctxt": 0
             },
             "value": "next",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -75,7 +73,6 @@
                 "ctxt": 0
               },
               "value": "ns",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -86,7 +83,6 @@
                 "ctxt": 0
               },
               "value": "next",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -109,7 +105,6 @@
                     "ctxt": 0
                   },
                   "value": "shared",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -171,7 +166,6 @@
                   "ctxt": 0
                 },
                 "value": "ns",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -182,7 +176,6 @@
                   "ctxt": 0
                 },
                 "value": "next",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -195,7 +188,6 @@
                 "ctxt": 0
               },
               "value": "shared",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -208,7 +200,6 @@
               "ctxt": 0
             },
             "value": "mymethod",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

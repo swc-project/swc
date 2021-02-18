@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "E",
-        "typeAnnotation": null,
         "optional": false
       },
       "members": [
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "member",
-            "typeAnnotation": null,
             "optional": false
           },
           "init": null
@@ -74,8 +72,8 @@
               "ctxt": 0
             },
             "value": "v",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -109,7 +107,6 @@
                         "ctxt": 0
                       },
                       "value": "E",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -120,7 +117,6 @@
                         "ctxt": 0
                       },
                       "value": "member",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false

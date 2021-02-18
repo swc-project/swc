@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "B",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -343,7 +342,6 @@
               "ctxt": 0
             },
             "value": "interface",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {

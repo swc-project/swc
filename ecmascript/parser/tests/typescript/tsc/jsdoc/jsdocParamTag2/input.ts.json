@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "good1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -52,7 +51,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -72,7 +70,6 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -98,8 +95,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -133,7 +130,6 @@
           "ctxt": 0
         },
         "value": "good2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -169,7 +165,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -189,7 +184,6 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -230,7 +224,6 @@
                     "ctxt": 0
                   },
                   "value": "c",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -250,7 +243,6 @@
                     "ctxt": 0
                   },
                   "value": "d",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -291,7 +283,6 @@
           "ctxt": 0
         },
         "value": "good3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -312,8 +303,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         },
         {
@@ -347,7 +338,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -367,7 +357,6 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -393,8 +382,8 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -428,7 +417,6 @@
           "ctxt": 0
         },
         "value": "good4",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -464,7 +452,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -484,7 +471,6 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -525,7 +511,6 @@
           "ctxt": 0
         },
         "value": "good5",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -561,7 +546,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -581,7 +565,6 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -607,8 +590,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -642,7 +625,6 @@
           "ctxt": 0
         },
         "value": "good6",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -678,7 +660,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -698,7 +679,6 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -739,7 +719,6 @@
                     "ctxt": 0
                   },
                   "value": "c",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -759,7 +738,6 @@
                     "ctxt": 0
                   },
                   "value": "d",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -800,7 +778,6 @@
           "ctxt": 0
         },
         "value": "good7",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -821,8 +798,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         },
         {
@@ -856,7 +833,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -876,7 +852,6 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -902,8 +877,8 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -937,7 +912,6 @@
           "ctxt": 0
         },
         "value": "good8",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -973,7 +947,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -993,7 +966,6 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -1034,7 +1006,6 @@
           "ctxt": 0
         },
         "value": "bad1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1055,8 +1026,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         },
         {
@@ -1090,7 +1061,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -1110,7 +1080,6 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -1151,7 +1120,6 @@
           "ctxt": 0
         },
         "value": "bad2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1172,8 +1140,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         },
         {
@@ -1207,7 +1175,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -1227,7 +1194,6 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null

@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "CtorTag",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -55,7 +54,6 @@
             "ctxt": 0
           },
           "value": "CtorTag",
-          "typeAnnotation": null,
           "optional": false
         },
         "expressions": [],

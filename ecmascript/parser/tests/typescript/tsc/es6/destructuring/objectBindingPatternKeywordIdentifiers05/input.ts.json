@@ -46,7 +46,6 @@
                     "ctxt": 0
                   },
                   "value": "as",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -73,7 +72,6 @@
                     "ctxt": 0
                   },
                   "value": "as",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {

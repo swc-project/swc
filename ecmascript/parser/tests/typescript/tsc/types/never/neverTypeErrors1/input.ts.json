@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "f1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -60,6 +59,7 @@
                     "ctxt": 0
                   },
                   "value": "x",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -76,8 +76,7 @@
                       },
                       "kind": "never"
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -107,8 +106,8 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "NumericLiteral",
@@ -144,8 +143,8 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "StringLiteral",
@@ -186,8 +185,8 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "BooleanLiteral",
@@ -223,8 +222,8 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "Identifier",
@@ -234,7 +233,6 @@
                   "ctxt": 0
                 },
                 "value": "undefined",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -262,8 +260,8 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "NullLiteral",
@@ -298,8 +296,8 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "ObjectExpression",
@@ -334,7 +332,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -358,7 +355,6 @@
           "ctxt": 0
         },
         "value": "f2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -419,7 +415,6 @@
           "ctxt": 0
         },
         "value": "f3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -488,7 +483,6 @@
           "ctxt": 0
         },
         "value": "f4",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -562,8 +556,8 @@
                 "ctxt": 0
               },
               "value": "n",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": null,
             "definite": false
@@ -585,7 +579,6 @@
             "ctxt": 0
           },
           "value": "f4",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [],
@@ -633,8 +626,8 @@
                 "ctxt": 0
               },
               "value": "n",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": null,
             "definite": false
@@ -656,7 +649,6 @@
             "ctxt": 0
           },
           "value": "f4",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [],

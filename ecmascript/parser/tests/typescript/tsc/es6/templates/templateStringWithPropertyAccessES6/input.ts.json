@@ -130,7 +130,6 @@
               "ctxt": 0
             },
             "value": "indexOf",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

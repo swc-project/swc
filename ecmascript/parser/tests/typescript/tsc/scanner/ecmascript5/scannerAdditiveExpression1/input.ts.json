@@ -44,7 +44,6 @@
                 "ctxt": 0
               },
               "value": "m",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -55,7 +54,6 @@
                 "ctxt": 0
               },
               "value": "index",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -92,7 +90,6 @@
                 "ctxt": 0
               },
               "value": "m",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -114,7 +111,6 @@
               "ctxt": 0
             },
             "value": "length",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

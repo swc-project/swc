@@ -39,8 +39,8 @@
                   "ctxt": 0
                 },
                 "value": "hello",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               {
                 "type": "Identifier",
@@ -50,8 +50,8 @@
                   "ctxt": 0
                 },
                 "value": "brave",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               {
                 "type": "Identifier",
@@ -61,8 +61,8 @@
                   "ctxt": 0
                 },
                 "value": "newish",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               {
                 "type": "Identifier",
@@ -72,8 +72,8 @@
                   "ctxt": 0
                 },
                 "value": "world",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
             "optional": false,
@@ -177,7 +177,6 @@
           "ctxt": 0
         },
         "value": "RexOrRaptor",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -269,8 +268,8 @@
                   "ctxt": 0
                 },
                 "value": "im",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               {
                 "type": "Identifier",
@@ -280,8 +279,8 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               {
                 "type": "Identifier",
@@ -291,8 +290,8 @@
                   "ctxt": 0
                 },
                 "value": "dinosaur",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
             "optional": false,
@@ -396,7 +395,6 @@
                           "ctxt": 0
                         },
                         "value": "RexOrRaptor",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -493,7 +491,6 @@
             "ctxt": 0
           },
           "value": "rawr",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -507,7 +504,6 @@
                 "ctxt": 0
               },
               "value": "dinosaur",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -525,7 +521,6 @@
           "ctxt": 0
         },
         "value": "rawr",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -546,6 +541,7 @@
               "ctxt": 0
             },
             "value": "dino",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -568,13 +564,11 @@
                     "ctxt": 0
                   },
                   "value": "RexOrRaptor",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -615,7 +609,6 @@
                   "ctxt": 0
                 },
                 "value": "dino",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -690,7 +683,6 @@
                   "ctxt": 0
                 },
                 "value": "dino",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -779,7 +771,6 @@
                   "ctxt": 0
                 },
                 "value": "dino",
-                "typeAnnotation": null,
                 "optional": false
               }
             }

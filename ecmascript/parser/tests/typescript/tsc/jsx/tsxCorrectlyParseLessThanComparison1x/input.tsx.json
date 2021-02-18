@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "JSX",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -79,7 +77,6 @@
                       "ctxt": 0
                     },
                     "value": "div",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -128,7 +125,6 @@
           "ctxt": 0
         },
         "value": "React",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -149,7 +145,6 @@
                 "ctxt": 0
               },
               "value": "Component",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -175,7 +170,6 @@
                     "ctxt": 0
                   },
                   "value": "constructor",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "params": [
@@ -195,6 +189,7 @@
                         "ctxt": 0
                       },
                       "value": "props",
+                      "optional": true,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -217,13 +212,11 @@
                               "ctxt": 0
                             },
                             "value": "P",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
                         }
-                      },
-                      "optional": true
+                      }
                     }
                   },
                   {
@@ -242,6 +235,7 @@
                         "ctxt": 0
                       },
                       "value": "context",
+                      "optional": true,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -258,8 +252,7 @@
                           },
                           "kind": "any"
                         }
-                      },
-                      "optional": true
+                      }
                     }
                   }
                 ],
@@ -282,7 +275,6 @@
                     "ctxt": 0
                   },
                   "value": "props",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null,
@@ -308,7 +300,6 @@
                         "ctxt": 0
                       },
                       "value": "P",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -350,7 +341,6 @@
                       "ctxt": 0
                     },
                     "value": "P",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -371,7 +361,6 @@
                       "ctxt": 0
                     },
                     "value": "S",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -402,7 +391,6 @@
             "ctxt": 0
           },
           "value": "ShortDetails",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -428,7 +416,6 @@
                 "ctxt": 0
               },
               "value": "render",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -492,7 +479,6 @@
                               "ctxt": 0
                             },
                             "value": "props",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -505,7 +491,6 @@
                             "ctxt": 0
                           },
                           "value": "id",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -559,7 +544,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "div",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "span": {
@@ -587,7 +571,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "div",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 }
                               }
@@ -627,7 +610,6 @@
                         "ctxt": 0
                       },
                       "value": "JSX",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "right": {
@@ -638,7 +620,6 @@
                         "ctxt": 0
                       },
                       "value": "Element",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   },
@@ -668,7 +649,6 @@
               "ctxt": 0
             },
             "value": "React",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -679,7 +659,6 @@
               "ctxt": 0
             },
             "value": "Component",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -718,7 +697,6 @@
                       "ctxt": 0
                     },
                     "value": "id",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,

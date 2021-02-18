@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -66,8 +67,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -105,7 +105,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -157,8 +156,8 @@
                     "ctxt": 0
                   },
                   "value": "n",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ClassExpression",
@@ -185,7 +184,6 @@
                           "ctxt": 0
                         },
                         "value": "constructor",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "params": [],
@@ -222,6 +220,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "y",
+                                  "optional": false,
                                   "typeAnnotation": {
                                     "type": "TsTypeAnnotation",
                                     "span": {
@@ -238,8 +237,7 @@
                                       },
                                       "kind": "string"
                                     }
-                                  },
-                                  "optional": false
+                                  }
                                 },
                                 "init": {
                                   "type": "Identifier",
@@ -249,7 +247,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "x",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "definite": false
@@ -307,8 +304,8 @@
                     "ctxt": 0
                   },
                   "value": "m",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ClassExpression",
@@ -335,7 +332,6 @@
                           "ctxt": 0
                         },
                         "value": "constructor",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "params": [],
@@ -372,6 +368,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "y",
+                                  "optional": false,
                                   "typeAnnotation": {
                                     "type": "TsTypeAnnotation",
                                     "span": {
@@ -388,8 +385,7 @@
                                       },
                                       "kind": "number"
                                     }
-                                  },
-                                  "optional": false
+                                  }
                                 },
                                 "init": {
                                   "type": "Identifier",
@@ -399,7 +395,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "x",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "definite": false

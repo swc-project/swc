@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "v",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -59,7 +59,6 @@
                       "ctxt": 0
                     },
                     "value": "await",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -71,7 +70,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }

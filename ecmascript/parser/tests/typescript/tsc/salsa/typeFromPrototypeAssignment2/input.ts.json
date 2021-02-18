@@ -30,7 +30,6 @@
               "ctxt": 0
             },
             "value": "container",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -73,8 +72,8 @@
                         "ctxt": 0
                       },
                       "value": "Multimap",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "init": {
                       "type": "FunctionExpression",
@@ -132,7 +131,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "_map",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -178,7 +176,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "_map",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -214,7 +211,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "set",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -250,7 +246,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "get",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -286,7 +281,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "addon",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -333,7 +327,6 @@
                         "ctxt": 0
                       },
                       "value": "Multimap",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -344,7 +337,6 @@
                         "ctxt": 0
                       },
                       "value": "prototype",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -367,7 +359,6 @@
                             "ctxt": 0
                           },
                           "value": "set",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -418,7 +409,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "_map",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false
@@ -454,7 +444,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "set",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false
@@ -490,7 +479,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "get",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false
@@ -526,7 +514,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "addon",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false
@@ -550,7 +537,6 @@
                             "ctxt": 0
                           },
                           "value": "get",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "params": [],
@@ -598,7 +584,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "_map",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -634,7 +619,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "set",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -670,7 +654,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "get",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -706,7 +689,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "addon",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -760,7 +742,6 @@
                           "ctxt": 0
                         },
                         "value": "Multimap",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -771,7 +752,6 @@
                           "ctxt": 0
                         },
                         "value": "prototype",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -784,7 +764,6 @@
                         "ctxt": 0
                       },
                       "value": "addon",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -837,7 +816,6 @@
                                 "ctxt": 0
                               },
                               "value": "_map",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -873,7 +851,6 @@
                                 "ctxt": 0
                               },
                               "value": "set",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -909,7 +886,6 @@
                                 "ctxt": 0
                               },
                               "value": "get",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -945,7 +921,6 @@
                                 "ctxt": 0
                               },
                               "value": "addon",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -985,8 +960,8 @@
                         "ctxt": 0
                       },
                       "value": "mm",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "init": {
                       "type": "NewExpression",
@@ -1003,7 +978,6 @@
                           "ctxt": 0
                         },
                         "value": "Multimap",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "arguments": [],
@@ -1035,7 +1009,6 @@
                       "ctxt": 0
                     },
                     "value": "mm",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -1046,7 +1019,6 @@
                       "ctxt": 0
                     },
                     "value": "_map",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -1074,7 +1046,6 @@
                       "ctxt": 0
                     },
                     "value": "mm",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -1085,7 +1056,6 @@
                       "ctxt": 0
                     },
                     "value": "set",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -1113,7 +1083,6 @@
                       "ctxt": 0
                     },
                     "value": "mm",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -1124,7 +1093,6 @@
                       "ctxt": 0
                     },
                     "value": "get",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -1152,7 +1120,6 @@
                       "ctxt": 0
                     },
                     "value": "mm",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -1163,7 +1130,6 @@
                       "ctxt": 0
                     },
                     "value": "addon",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false

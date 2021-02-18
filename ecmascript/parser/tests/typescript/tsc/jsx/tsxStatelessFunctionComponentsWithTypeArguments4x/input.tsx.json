@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "React",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -59,7 +58,6 @@
           "ctxt": 0
         },
         "value": "OverloadComponent",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -96,7 +94,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -128,7 +125,6 @@
                 "ctxt": 0
               },
               "value": "JSX",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -139,7 +135,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -157,7 +152,6 @@
           "ctxt": 0
         },
         "value": "OverloadComponent",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -178,6 +172,7 @@
               "ctxt": 0
             },
             "value": "attr",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -209,7 +204,6 @@
                         "ctxt": 0
                       },
                       "value": "b",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -238,7 +232,6 @@
                             "ctxt": 0
                           },
                           "value": "U",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -262,7 +255,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -335,8 +327,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -372,7 +363,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -404,7 +394,6 @@
                 "ctxt": 0
               },
               "value": "JSX",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -415,7 +404,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -433,7 +421,6 @@
           "ctxt": 0
         },
         "value": "OverloadComponent",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -454,6 +441,7 @@
               "ctxt": 0
             },
             "value": "attr",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -485,7 +473,6 @@
                         "ctxt": 0
                       },
                       "value": "b",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -514,7 +501,6 @@
                             "ctxt": 0
                           },
                           "value": "U",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -538,7 +524,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -567,7 +552,6 @@
                             "ctxt": 0
                           },
                           "value": "T",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -577,8 +561,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -614,7 +597,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -635,7 +617,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -667,7 +648,6 @@
                 "ctxt": 0
               },
               "value": "JSX",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -678,7 +658,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -696,7 +675,6 @@
           "ctxt": 0
         },
         "value": "Baz",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -717,6 +695,7 @@
               "ctxt": 0
             },
             "value": "arg1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -739,13 +718,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -764,6 +741,7 @@
               "ctxt": 0
             },
             "value": "arg2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -786,13 +764,11 @@
                     "ctxt": 0
                   },
                   "value": "U",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -835,8 +811,8 @@
                     "ctxt": 0
                   },
                   "value": "a0",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "JSXElement",
@@ -855,7 +831,6 @@
                         "ctxt": 0
                       },
                       "value": "OverloadComponent",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "span": {
@@ -879,7 +854,6 @@
                             "ctxt": 0
                           },
                           "value": "a",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -904,7 +878,6 @@
                                 "ctxt": 0
                               },
                               "value": "arg1",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "property": {
@@ -915,7 +888,6 @@
                                 "ctxt": 0
                               },
                               "value": "b",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -958,8 +930,8 @@
                     "ctxt": 0
                   },
                   "value": "a2",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "JSXElement",
@@ -978,7 +950,6 @@
                         "ctxt": 0
                       },
                       "value": "OverloadComponent",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "span": {
@@ -1002,7 +973,6 @@
                             "ctxt": 0
                           },
                           "value": "arg1",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -1021,7 +991,6 @@
                             "ctxt": 0
                           },
                           "value": "ignore-prop",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": null
@@ -1064,7 +1033,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -1091,7 +1059,6 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -1136,7 +1103,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -1163,7 +1129,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -1205,7 +1170,6 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,

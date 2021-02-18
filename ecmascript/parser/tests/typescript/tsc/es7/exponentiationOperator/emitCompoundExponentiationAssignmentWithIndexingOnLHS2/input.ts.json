@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "globalCounter",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -57,7 +57,6 @@
           "ctxt": 0
         },
         "value": "foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -99,8 +98,8 @@
                   "ctxt": 0
                 },
                 "value": "globalCounter",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "NumericLiteral",
@@ -196,7 +195,6 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -235,7 +233,6 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -279,8 +276,8 @@
               "ctxt": 0
             },
             "value": "result_foo1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "AssignmentExpression",
@@ -312,7 +309,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [],
@@ -351,7 +347,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [],
@@ -410,7 +405,6 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -457,7 +451,6 @@
                   "ctxt": 0
                 },
                 "value": "foo",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -511,8 +504,8 @@
               "ctxt": 0
             },
             "value": "result_foo2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "AssignmentExpression",
@@ -544,7 +537,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [],
@@ -591,7 +583,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [],
@@ -660,7 +651,6 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -707,7 +697,6 @@
                   "ctxt": 0
                 },
                 "value": "foo",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -761,8 +750,8 @@
               "ctxt": 0
             },
             "value": "result_foo3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "AssignmentExpression",
@@ -794,7 +783,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [],
@@ -841,7 +829,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [],

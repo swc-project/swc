@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -66,8 +67,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -99,8 +99,8 @@
               "ctxt": 0
             },
             "value": "r1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -141,7 +141,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -184,7 +183,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -219,7 +217,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -230,7 +227,6 @@
                   "ctxt": 0
                 },
                 "value": "substr",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -250,7 +246,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -261,7 +256,6 @@
                   "ctxt": 0
                 },
                 "value": "toFixed",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -296,8 +290,8 @@
               "ctxt": 0
             },
             "value": "r2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -353,7 +347,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -396,7 +389,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -433,7 +425,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -444,7 +435,6 @@
                   "ctxt": 0
                 },
                 "value": "toFixed",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -464,7 +454,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -475,7 +464,6 @@
                   "ctxt": 0
                 },
                 "value": "substr",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -510,8 +498,8 @@
               "ctxt": 0
             },
             "value": "r3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -552,7 +540,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -595,7 +582,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -630,7 +616,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -641,7 +626,6 @@
                   "ctxt": 0
                 },
                 "value": "substr",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -661,7 +645,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -672,7 +655,6 @@
                   "ctxt": 0
                 },
                 "value": "toFixed",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -707,8 +689,8 @@
               "ctxt": 0
             },
             "value": "r4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -764,7 +746,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -807,7 +788,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -844,7 +824,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -855,7 +834,6 @@
                   "ctxt": 0
                 },
                 "value": "toFixed",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -875,7 +853,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -886,7 +863,6 @@
                   "ctxt": 0
                 },
                 "value": "substr",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false

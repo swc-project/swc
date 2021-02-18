@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "f1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -51,7 +50,6 @@
           "ctxt": 0
         },
         "value": "f2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -95,8 +93,8 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "YieldExpression",
@@ -129,7 +127,6 @@
           "ctxt": 0
         },
         "value": "f3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -173,8 +170,8 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "YieldExpression",
@@ -215,7 +212,6 @@
           "ctxt": 0
         },
         "value": "f4",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -259,8 +255,8 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "YieldExpression",
@@ -314,7 +310,6 @@
           "ctxt": 0
         },
         "value": "f5",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -358,8 +353,8 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "YieldExpression",
@@ -460,7 +455,6 @@
           "ctxt": 0
         },
         "value": "f6",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -504,8 +498,8 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "AwaitExpression",
@@ -545,7 +539,6 @@
           "ctxt": 0
         },
         "value": "f7",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,

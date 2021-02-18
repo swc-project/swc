@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "globalCounter",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -57,7 +57,6 @@
           "ctxt": 0
         },
         "value": "incrementIdx",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -78,6 +77,7 @@
               "ctxt": 0
             },
             "value": "max",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -94,8 +94,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -136,8 +135,8 @@
                   "ctxt": 0
                 },
                 "value": "globalCounter",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "NumericLiteral",
@@ -175,8 +174,8 @@
                     "ctxt": 0
                   },
                   "value": "idx",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "CallExpression",
@@ -200,7 +199,6 @@
                         "ctxt": 0
                       },
                       "value": "Math",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -211,7 +209,6 @@
                         "ctxt": 0
                       },
                       "value": "floor",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -249,7 +246,6 @@
                                 "ctxt": 0
                               },
                               "value": "Math",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "property": {
@@ -260,7 +256,6 @@
                                 "ctxt": 0
                               },
                               "value": "random",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -276,7 +271,6 @@
                             "ctxt": 0
                           },
                           "value": "max",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       }
@@ -303,7 +297,6 @@
                 "ctxt": 0
               },
               "value": "idx",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -339,8 +332,8 @@
               "ctxt": 0
             },
             "value": "array1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -446,7 +439,6 @@
               "ctxt": 0
             },
             "value": "array1",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -464,7 +456,6 @@
                 "ctxt": 0
               },
               "value": "incrementIdx",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -485,7 +476,6 @@
                       "ctxt": 0
                     },
                     "value": "array1",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -496,7 +486,6 @@
                       "ctxt": 0
                     },
                     "value": "length",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -548,7 +537,6 @@
               "ctxt": 0
             },
             "value": "array1",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -566,7 +554,6 @@
                 "ctxt": 0
               },
               "value": "incrementIdx",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -587,7 +574,6 @@
                       "ctxt": 0
                     },
                     "value": "array1",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -598,7 +584,6 @@
                       "ctxt": 0
                     },
                     "value": "length",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -632,7 +617,6 @@
                 "ctxt": 0
               },
               "value": "array1",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -650,7 +634,6 @@
                   "ctxt": 0
                 },
                 "value": "incrementIdx",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -671,7 +654,6 @@
                         "ctxt": 0
                       },
                       "value": "array1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -682,7 +664,6 @@
                         "ctxt": 0
                       },
                       "value": "length",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -735,7 +716,6 @@
               "ctxt": 0
             },
             "value": "array1",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -753,7 +733,6 @@
                 "ctxt": 0
               },
               "value": "incrementIdx",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -774,7 +753,6 @@
                       "ctxt": 0
                     },
                     "value": "array1",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -785,7 +763,6 @@
                       "ctxt": 0
                     },
                     "value": "length",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -819,7 +796,6 @@
                 "ctxt": 0
               },
               "value": "array1",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -837,7 +813,6 @@
                   "ctxt": 0
                 },
                 "value": "incrementIdx",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -858,7 +833,6 @@
                         "ctxt": 0
                       },
                       "value": "array1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -869,7 +843,6 @@
                         "ctxt": 0
                       },
                       "value": "length",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false

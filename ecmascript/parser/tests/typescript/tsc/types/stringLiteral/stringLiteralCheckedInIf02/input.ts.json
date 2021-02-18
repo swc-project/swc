@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "S",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -97,7 +96,6 @@
           "ctxt": 0
         },
         "value": "T",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -131,7 +129,6 @@
                   "ctxt": 0
                 },
                 "value": "S",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -152,7 +149,6 @@
                 "ctxt": 0
               },
               "value": "S",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -170,7 +166,6 @@
           "ctxt": 0
         },
         "value": "isS",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -191,6 +186,7 @@
               "ctxt": 0
             },
             "value": "t",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -213,13 +209,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -268,7 +262,6 @@
                     "ctxt": 0
                   },
                   "value": "t",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -302,7 +295,6 @@
                     "ctxt": 0
                   },
                   "value": "t",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -350,7 +342,6 @@
               "ctxt": 0
             },
             "value": "t",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -375,7 +366,6 @@
                   "ctxt": 0
                 },
                 "value": "S",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -394,7 +384,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -415,6 +404,7 @@
               "ctxt": 0
             },
             "value": "foo",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -437,13 +427,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -483,7 +471,6 @@
                   "ctxt": 0
                 },
                 "value": "isS",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -497,7 +484,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -527,7 +513,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -563,7 +548,6 @@
                         "ctxt": 0
                       },
                       "value": "foo",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {

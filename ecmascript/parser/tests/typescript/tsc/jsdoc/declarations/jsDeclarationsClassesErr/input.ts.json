@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "M",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "field",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": null,
@@ -75,7 +73,6 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -117,7 +114,6 @@
                   "ctxt": 0
                 },
                 "value": "T",
-                "typeAnnotation": null,
                 "optional": false
               },
               "constraint": null,
@@ -146,7 +142,6 @@
             "ctxt": 0
           },
           "value": "N",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -172,7 +167,6 @@
                 "ctxt": 0
               },
               "value": "other",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": null,
@@ -198,7 +192,6 @@
                     "ctxt": 0
                   },
                   "value": "U",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -223,7 +216,6 @@
             "ctxt": 0
           },
           "value": "M",
-          "typeAnnotation": null,
           "optional": false
         },
         "isAbstract": false,
@@ -250,7 +242,6 @@
                   "ctxt": 0
                 },
                 "value": "U",
-                "typeAnnotation": null,
                 "optional": false
               },
               "constraint": null,
@@ -281,7 +272,6 @@
                   "ctxt": 0
                 },
                 "value": "U",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -308,7 +298,6 @@
             "ctxt": 0
           },
           "value": "O",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -330,6 +319,7 @@
                   "ctxt": 0
                 },
                 "value": "idx",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -346,8 +336,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -399,7 +388,6 @@
             "ctxt": 0
           },
           "value": "P",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -418,7 +406,6 @@
             "ctxt": 0
           },
           "value": "O",
-          "typeAnnotation": null,
           "optional": false
         },
         "isAbstract": false,
@@ -444,7 +431,6 @@
             "ctxt": 0
           },
           "value": "Q",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -466,6 +452,7 @@
                   "ctxt": 0
                 },
                 "value": "idx",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -482,8 +469,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -532,7 +518,6 @@
             "ctxt": 0
           },
           "value": "O",
-          "typeAnnotation": null,
           "optional": false
         },
         "isAbstract": false,
@@ -558,7 +543,6 @@
             "ctxt": 0
           },
           "value": "R",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -580,6 +564,7 @@
                   "ctxt": 0
                 },
                 "value": "idx",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -596,8 +581,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -646,7 +630,6 @@
             "ctxt": 0
           },
           "value": "O",
-          "typeAnnotation": null,
           "optional": false
         },
         "isAbstract": false,
@@ -672,7 +655,6 @@
             "ctxt": 0
           },
           "value": "S",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -694,6 +676,7 @@
                   "ctxt": 0
                 },
                 "value": "idx",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -710,8 +693,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -762,6 +744,7 @@
                   "ctxt": 0
                 },
                 "value": "idx",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -778,8 +761,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -815,7 +797,6 @@
             "ctxt": 0
           },
           "value": "O",
-          "typeAnnotation": null,
           "optional": false
         },
         "isAbstract": false,
@@ -841,7 +822,6 @@
             "ctxt": 0
           },
           "value": "T",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -863,6 +843,7 @@
                   "ctxt": 0
                 },
                 "value": "idx",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -879,8 +860,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -932,7 +912,6 @@
             "ctxt": 0
           },
           "value": "U",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -951,7 +930,6 @@
             "ctxt": 0
           },
           "value": "T",
-          "typeAnnotation": null,
           "optional": false
         },
         "isAbstract": false,
@@ -977,7 +955,6 @@
             "ctxt": 0
           },
           "value": "V",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -999,6 +976,7 @@
                   "ctxt": 0
                 },
                 "value": "idx",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1015,8 +993,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -1052,7 +1029,6 @@
             "ctxt": 0
           },
           "value": "T",
-          "typeAnnotation": null,
           "optional": false
         },
         "isAbstract": false,
@@ -1078,7 +1054,6 @@
             "ctxt": 0
           },
           "value": "W",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -1100,6 +1075,7 @@
                   "ctxt": 0
                 },
                 "value": "idx",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1116,8 +1092,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -1166,7 +1141,6 @@
             "ctxt": 0
           },
           "value": "T",
-          "typeAnnotation": null,
           "optional": false
         },
         "isAbstract": false,
@@ -1192,7 +1166,6 @@
             "ctxt": 0
           },
           "value": "X",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -1214,6 +1187,7 @@
                   "ctxt": 0
                 },
                 "value": "idx",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1230,8 +1204,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -1269,6 +1242,7 @@
                   "ctxt": 0
                 },
                 "value": "idx",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1285,8 +1259,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -1335,7 +1308,6 @@
             "ctxt": 0
           },
           "value": "T",
-          "typeAnnotation": null,
           "optional": false
         },
         "isAbstract": false,
@@ -1361,7 +1333,6 @@
             "ctxt": 0
           },
           "value": "Y",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -1383,6 +1354,7 @@
                   "ctxt": 0
                 },
                 "value": "idx",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1399,8 +1371,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -1434,7 +1405,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -1481,6 +1451,7 @@
                   "ctxt": 0
                 },
                 "value": "idx",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1497,8 +1468,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -1532,7 +1502,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -1574,7 +1543,6 @@
                         "ctxt": 0
                       },
                       "value": "y",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -1635,7 +1603,6 @@
             "ctxt": 0
           },
           "value": "Z",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -1654,7 +1621,6 @@
             "ctxt": 0
           },
           "value": "Y",
-          "typeAnnotation": null,
           "optional": false
         },
         "isAbstract": false,
@@ -1680,7 +1646,6 @@
             "ctxt": 0
           },
           "value": "AA",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -1702,6 +1667,7 @@
                   "ctxt": 0
                 },
                 "value": "idx",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1718,8 +1684,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -1753,7 +1718,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -1795,7 +1759,6 @@
                         "ctxt": 0
                       },
                       "value": "y",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -1840,7 +1803,6 @@
             "ctxt": 0
           },
           "value": "Y",
-          "typeAnnotation": null,
           "optional": false
         },
         "isAbstract": false,
@@ -1866,7 +1828,6 @@
             "ctxt": 0
           },
           "value": "BB",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -1888,6 +1849,7 @@
                   "ctxt": 0
                 },
                 "value": "idx",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1904,8 +1866,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -1939,7 +1900,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -1989,7 +1949,6 @@
                         "ctxt": 0
                       },
                       "value": "y",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -2042,7 +2001,6 @@
             "ctxt": 0
           },
           "value": "Y",
-          "typeAnnotation": null,
           "optional": false
         },
         "isAbstract": false,
@@ -2068,7 +2026,6 @@
             "ctxt": 0
           },
           "value": "CC",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -2090,6 +2047,7 @@
                   "ctxt": 0
                 },
                 "value": "idx",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -2106,8 +2064,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -2141,7 +2098,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -2183,7 +2139,6 @@
                         "ctxt": 0
                       },
                       "value": "y",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -2230,6 +2185,7 @@
                   "ctxt": 0
                 },
                 "value": "idx",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -2246,8 +2202,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -2281,7 +2236,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -2331,7 +2285,6 @@
                         "ctxt": 0
                       },
                       "value": "y",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -2384,7 +2337,6 @@
             "ctxt": 0
           },
           "value": "Y",
-          "typeAnnotation": null,
           "optional": false
         },
         "isAbstract": false,

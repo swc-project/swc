@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "map",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -49,7 +49,6 @@
                 "ctxt": 0
               },
               "value": "Map",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -148,8 +147,8 @@
                 "ctxt": 0
               },
               "value": "v",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": null,
             "definite": false
@@ -164,7 +163,6 @@
           "ctxt": 0
         },
         "value": "map",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -190,7 +188,6 @@
                 "ctxt": 0
               },
               "value": "v",
-              "typeAnnotation": null,
               "optional": false
             }
           }

@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Alias",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "bar",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -128,7 +126,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -139,7 +136,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -152,7 +148,6 @@
             "ctxt": 0
           },
           "value": "Alias",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -180,7 +175,6 @@
               "ctxt": 0
             },
             "value": "A",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -239,7 +233,6 @@
                 "ctxt": 0
               },
               "value": "A",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -250,7 +243,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -263,7 +255,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -316,7 +307,6 @@
                 "ctxt": 0
               },
               "value": "A",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -327,7 +317,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -340,7 +329,6 @@
               "ctxt": 0
             },
             "value": "func",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -401,7 +389,6 @@
                         "ctxt": 0
                       },
                       "value": "_func",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -455,7 +442,6 @@
               "ctxt": 0
             },
             "value": "Object",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -466,7 +452,6 @@
               "ctxt": 0
             },
             "value": "defineProperty",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -489,7 +474,6 @@
                   "ctxt": 0
                 },
                 "value": "A",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -500,7 +484,6 @@
                   "ctxt": 0
                 },
                 "value": "prototype",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -543,7 +526,6 @@
                       "ctxt": 0
                     },
                     "value": "value",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -592,7 +574,6 @@
               "ctxt": 0
             },
             "value": "A",
-            "typeAnnotation": null,
             "optional": false
           },
           "arguments": [],
@@ -606,7 +587,6 @@
             "ctxt": 0
           },
           "value": "bar",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -641,7 +621,6 @@
               "ctxt": 0
             },
             "value": "A",
-            "typeAnnotation": null,
             "optional": false
           },
           "arguments": [],
@@ -655,7 +634,6 @@
             "ctxt": 0
           },
           "value": "foo",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -697,7 +675,6 @@
                 "ctxt": 0
               },
               "value": "A",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -711,7 +688,6 @@
               "ctxt": 0
             },
             "value": "func",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -749,7 +725,6 @@
               "ctxt": 0
             },
             "value": "A",
-            "typeAnnotation": null,
             "optional": false
           },
           "arguments": [],
@@ -763,7 +738,6 @@
             "ctxt": 0
           },
           "value": "def",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false

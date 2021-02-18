@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "e1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -47,8 +48,7 @@
                 },
                 "kind": "intrinsic"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -80,6 +80,7 @@
               "ctxt": 0
             },
             "value": "e2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -111,7 +112,6 @@
                         "ctxt": 0
                       },
                       "value": "intrinsic",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -139,8 +139,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -163,7 +162,6 @@
           "ctxt": 0
         },
         "value": "TE1",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -201,7 +199,6 @@
           "ctxt": 0
         },
         "value": "TE2",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -227,7 +224,6 @@
                 "ctxt": 0
               },
               "value": "intrinsic",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -261,7 +257,6 @@
           "ctxt": 0
         },
         "value": "TE3",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -287,7 +282,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -318,7 +312,6 @@
             "ctxt": 0
           },
           "value": "T",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeParams": null
@@ -340,7 +333,6 @@
           "ctxt": 0
         },
         "value": "TE4",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -366,7 +358,6 @@
                 "ctxt": 0
               },
               "value": "intrinsic",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -408,7 +399,6 @@
           "ctxt": 0
         },
         "value": "TE5",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -434,7 +424,6 @@
                 "ctxt": 0
               },
               "value": "intrinsic",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -478,7 +467,6 @@
           "ctxt": 0
         },
         "value": "f1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -522,6 +510,7 @@
                     "ctxt": 0
                   },
                   "value": "intrinsic",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -546,7 +535,6 @@
                             "ctxt": 0
                           },
                           "value": "intrinsic",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "right": {
@@ -557,14 +545,12 @@
                             "ctxt": 0
                           },
                           "value": "intrinsic",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
                       "typeParams": null
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -588,7 +574,6 @@
           "ctxt": 0
         },
         "value": "f2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -609,6 +594,7 @@
               "ctxt": 0
             },
             "value": "intrinsic",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -625,8 +611,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -659,7 +644,6 @@
                 "ctxt": 0
               },
               "value": "intrinsic",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -680,7 +664,6 @@
           "ctxt": 0
         },
         "value": "f3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -715,7 +698,6 @@
                 "ctxt": 0
               },
               "value": "intrinsic",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null,
@@ -754,6 +736,7 @@
                     "ctxt": 0
                   },
                   "value": "s1",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -770,8 +753,7 @@
                       },
                       "kind": "intrinsic"
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": {
                   "type": "StringLiteral",

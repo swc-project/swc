@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -52,7 +51,6 @@
                 "ctxt": 0
               },
               "value": "K",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -73,7 +71,6 @@
                 "ctxt": 0
               },
               "value": "V",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,

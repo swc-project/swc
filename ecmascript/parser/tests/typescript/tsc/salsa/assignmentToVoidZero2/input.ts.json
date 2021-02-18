@@ -36,7 +36,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -47,7 +46,6 @@
               "ctxt": 0
             },
             "value": "j",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -93,7 +91,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -104,7 +101,6 @@
               "ctxt": 0
             },
             "value": "k",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -154,8 +150,8 @@
               "ctxt": 0
             },
             "value": "o",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -200,7 +196,6 @@
               "ctxt": 0
             },
             "value": "o",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -211,7 +206,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -257,7 +251,6 @@
               "ctxt": 0
             },
             "value": "o",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -268,7 +261,6 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -323,7 +315,6 @@
               "ctxt": 0
             },
             "value": "o",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -334,7 +325,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -354,7 +344,6 @@
               "ctxt": 0
             },
             "value": "o",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -365,7 +354,6 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -382,7 +370,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -439,7 +426,6 @@
                     "ctxt": 0
                   },
                   "value": "p",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -493,7 +479,6 @@
                     "ctxt": 0
                   },
                   "value": "q",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -550,8 +535,8 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -568,7 +553,6 @@
                 "ctxt": 0
               },
               "value": "C",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -608,7 +592,6 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -619,7 +602,6 @@
               "ctxt": 0
             },
             "value": "p",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -639,7 +621,6 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -650,7 +631,6 @@
               "ctxt": 0
             },
             "value": "q",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -680,7 +660,6 @@
               "ctxt": 0
             },
             "value": "j",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -700,7 +679,6 @@
               "ctxt": 0
             },
             "value": "k",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -746,7 +724,6 @@
             "ctxt": 0
           },
           "value": "j",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -757,7 +734,6 @@
             "ctxt": 0
           },
           "value": "k",
-          "typeAnnotation": null,
           "optional": false
         }
       }

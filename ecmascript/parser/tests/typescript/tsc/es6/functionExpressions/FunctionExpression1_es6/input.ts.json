@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "v",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",

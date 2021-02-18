@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "React",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -65,7 +64,6 @@
           "ctxt": 0
         },
         "value": "TextProps",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -101,7 +99,6 @@
                     "ctxt": 0
                   },
                   "value": "editable",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false,
@@ -161,7 +158,6 @@
                     "ctxt": 0
                   },
                   "value": "editable",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false,
@@ -211,7 +207,6 @@
                     "ctxt": 0
                   },
                   "value": "onEdit",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false,
@@ -241,6 +236,7 @@
                           "ctxt": 0
                         },
                         "value": "newText",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -257,8 +253,7 @@
                             },
                             "kind": "string"
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     ],
                     "typeParams": null,
@@ -298,7 +293,6 @@
           "ctxt": 0
         },
         "value": "TextComponent",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -324,7 +318,6 @@
               "ctxt": 0
             },
             "value": "render",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -367,7 +360,6 @@
                           "ctxt": 0
                         },
                         "value": "span",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "span": {
@@ -406,7 +398,6 @@
                           "ctxt": 0
                         },
                         "value": "span",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -441,7 +432,6 @@
             "ctxt": 0
           },
           "value": "React",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -452,7 +442,6 @@
             "ctxt": 0
           },
           "value": "Component",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -482,7 +471,6 @@
                 "ctxt": 0
               },
               "value": "TextProps",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -525,6 +513,7 @@
               "ctxt": 0
             },
             "value": "textPropsFalse",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -547,13 +536,11 @@
                     "ctxt": 0
                   },
                   "value": "TextProps",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ObjectExpression",
@@ -573,7 +560,6 @@
                     "ctxt": 0
                   },
                   "value": "editable",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -617,8 +603,8 @@
               "ctxt": 0
             },
             "value": "y1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -637,7 +623,6 @@
                   "ctxt": 0
                 },
                 "value": "TextComponent",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -661,7 +646,6 @@
                       "ctxt": 0
                     },
                     "value": "textPropsFalse",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -701,6 +685,7 @@
               "ctxt": 0
             },
             "value": "textPropsTrue",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -723,13 +708,11 @@
                     "ctxt": 0
                   },
                   "value": "TextProps",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ObjectExpression",
@@ -749,7 +732,6 @@
                     "ctxt": 0
                   },
                   "value": "editable",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -772,7 +754,6 @@
                     "ctxt": 0
                   },
                   "value": "onEdit",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -829,8 +810,8 @@
               "ctxt": 0
             },
             "value": "y2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -849,7 +830,6 @@
                   "ctxt": 0
                 },
                 "value": "TextComponent",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -873,7 +853,6 @@
                       "ctxt": 0
                     },
                     "value": "textPropsTrue",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }

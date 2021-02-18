@@ -36,7 +36,6 @@
               "ctxt": 0
             },
             "value": "Date",
-            "typeAnnotation": null,
             "optional": false
           },
           "arguments": null,
@@ -50,7 +49,6 @@
             "ctxt": 0
           },
           "value": "A",
-          "typeAnnotation": null,
           "optional": false
         }
       }

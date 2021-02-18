@@ -35,7 +35,6 @@
               "ctxt": 0
             },
             "value": "model",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -46,7 +45,6 @@
               "ctxt": 0
             },
             "value": "rotate",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -90,7 +88,6 @@
                     "ctxt": 0
                   },
                   "value": "rotateY",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -108,7 +105,6 @@
                       "ctxt": 0
                     },
                     "value": "Math",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -119,7 +115,6 @@
                       "ctxt": 0
                     },
                     "value": "PI",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -162,7 +157,6 @@
                     "ctxt": 0
                   },
                   "value": "rotateZ",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -180,7 +174,6 @@
                       "ctxt": 0
                     },
                     "value": "Math",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -191,7 +184,6 @@
                       "ctxt": 0
                     },
                     "value": "PI",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false

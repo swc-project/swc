@@ -45,7 +45,6 @@
             "ctxt": 0
           },
           "value": "Logger",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -71,7 +70,6 @@
                 "ctxt": 0
               },
               "value": "public",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": null,

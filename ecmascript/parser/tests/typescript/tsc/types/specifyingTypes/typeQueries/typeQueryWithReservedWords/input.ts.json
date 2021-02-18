@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Controller",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "create",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -88,7 +86,6 @@
               "ctxt": 0
             },
             "value": "delete",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -134,7 +131,6 @@
               "ctxt": 0
             },
             "value": "var",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -187,7 +183,6 @@
           "ctxt": 0
         },
         "value": "IScope",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -217,7 +212,6 @@
                 "ctxt": 0
               },
               "value": "create",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -250,7 +244,6 @@
                         "ctxt": 0
                       },
                       "value": "Controller",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "right": {
@@ -261,7 +254,6 @@
                         "ctxt": 0
                       },
                       "value": "prototype",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   },
@@ -273,7 +265,6 @@
                       "ctxt": 0
                     },
                     "value": "create",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -297,7 +288,6 @@
                 "ctxt": 0
               },
               "value": "delete",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -330,7 +320,6 @@
                         "ctxt": 0
                       },
                       "value": "Controller",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "right": {
@@ -341,7 +330,6 @@
                         "ctxt": 0
                       },
                       "value": "prototype",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   },
@@ -353,7 +341,6 @@
                       "ctxt": 0
                     },
                     "value": "delete",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -377,7 +364,6 @@
                 "ctxt": 0
               },
               "value": "var",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -410,7 +396,6 @@
                         "ctxt": 0
                       },
                       "value": "Controller",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "right": {
@@ -421,7 +406,6 @@
                         "ctxt": 0
                       },
                       "value": "prototype",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   },
@@ -433,7 +417,6 @@
                       "ctxt": 0
                     },
                     "value": "var",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }

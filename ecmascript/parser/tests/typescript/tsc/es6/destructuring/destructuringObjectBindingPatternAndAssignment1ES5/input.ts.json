@@ -46,7 +46,6 @@
                     "ctxt": 0
                   },
                   "value": "a1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -79,7 +78,6 @@
               "ctxt": 0
             },
             "value": "undefined",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false
@@ -126,7 +124,6 @@
                     "ctxt": 0
                   },
                   "value": "a2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -204,7 +201,6 @@
                     "ctxt": 0
                   },
                   "value": "b1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -231,7 +227,6 @@
                     "ctxt": 0
                   },
                   "value": "b1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -285,7 +280,6 @@
                     "ctxt": 0
                   },
                   "value": "b2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -318,7 +312,6 @@
                             "ctxt": 0
                           },
                           "value": "b21",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": null
@@ -345,7 +338,6 @@
                             "ctxt": 0
                           },
                           "value": "b21",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -390,7 +382,6 @@
                     "ctxt": 0
                   },
                   "value": "b2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -411,7 +402,6 @@
                           "ctxt": 0
                         },
                         "value": "b21",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -482,8 +472,8 @@
                     "ctxt": 0
                   },
                   "value": "b3",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -570,7 +560,6 @@
                     "ctxt": 0
                   },
                   "value": "b4",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -621,7 +610,6 @@
                     "ctxt": 0
                   },
                   "value": "b4",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -675,7 +663,6 @@
                     "ctxt": 0
                   },
                   "value": "b5",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -701,7 +688,6 @@
                           "ctxt": 0
                         },
                         "value": "b52",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": null
@@ -733,7 +719,6 @@
                     "ctxt": 0
                   },
                   "value": "b5",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -752,7 +737,6 @@
                         "ctxt": 0
                       },
                       "value": "b52",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   ]
@@ -779,7 +763,6 @@
           "ctxt": 0
         },
         "value": "F",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -804,6 +787,7 @@
                   "ctxt": 0
                 },
                 "value": "idx",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -820,8 +804,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -861,7 +844,6 @@
           "ctxt": 0
         },
         "value": "foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -946,7 +928,6 @@
               "ctxt": 0
             },
             "value": "F",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null
@@ -963,7 +944,6 @@
           "ctxt": 0
         },
         "value": "bar",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1048,7 +1028,6 @@
               "ctxt": 0
             },
             "value": "F",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null
@@ -1099,8 +1078,8 @@
                     "ctxt": 0
                   },
                   "value": "c0",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -1122,7 +1101,6 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -1176,8 +1154,8 @@
                     "ctxt": 0
                   },
                   "value": "c1",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -1199,7 +1177,6 @@
                 "ctxt": 0
               },
               "value": "bar",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -1224,7 +1201,6 @@
           "ctxt": 0
         },
         "value": "F1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1249,6 +1225,7 @@
                   "ctxt": 0
                 },
                 "value": "str",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1265,8 +1242,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -1306,7 +1282,6 @@
           "ctxt": 0
         },
         "value": "foo1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1396,7 +1371,6 @@
               "ctxt": 0
             },
             "value": "F1",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null
@@ -1452,8 +1426,8 @@
                     "ctxt": 0
                   },
                   "value": "d1",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -1475,7 +1449,6 @@
                 "ctxt": 0
               },
               "value": "foo1",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -1534,8 +1507,8 @@
                     "ctxt": 0
                   },
                   "value": "d1",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -1557,7 +1530,6 @@
                 "ctxt": 0
               },
               "value": "foo1",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],

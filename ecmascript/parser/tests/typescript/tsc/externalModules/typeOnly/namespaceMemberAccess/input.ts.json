@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -103,7 +101,6 @@
               "ctxt": 0
             },
             "value": "A",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -136,7 +133,6 @@
               "ctxt": 0
             },
             "value": "types",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -180,7 +176,6 @@
             "ctxt": 0
           },
           "value": "types",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -191,7 +186,6 @@
             "ctxt": 0
           },
           "value": "A",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -237,7 +231,6 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -254,7 +247,6 @@
               "ctxt": 0
             },
             "value": "types",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false

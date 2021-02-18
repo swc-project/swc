@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "abstract",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -120,7 +118,6 @@
             "ctxt": 0
           },
           "value": "abstract",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": null,

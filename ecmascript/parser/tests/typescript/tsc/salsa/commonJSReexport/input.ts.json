@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "hardline",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -52,7 +52,6 @@
                     "ctxt": 0
                   },
                   "value": "type",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -106,7 +105,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -117,7 +115,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -138,7 +135,6 @@
                 "ctxt": 0
               },
               "value": "hardline",
-              "typeAnnotation": null,
               "optional": false
             }
           ]
@@ -175,7 +171,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -186,7 +181,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -209,7 +203,6 @@
                   "ctxt": 0
                 },
                 "value": "nested",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -227,7 +220,6 @@
                     "ctxt": 0
                   },
                   "value": "require",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -296,7 +288,6 @@
                     "ctxt": 0
                   },
                   "value": "hardline",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -327,7 +318,6 @@
                   "ctxt": 0
                 },
                 "value": "require",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -359,7 +349,6 @@
                 "ctxt": 0
               },
               "value": "nested",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -383,7 +372,6 @@
           "ctxt": 0
         },
         "value": "hardline",
-        "typeAnnotation": null,
         "optional": false
       }
     }

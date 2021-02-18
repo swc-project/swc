@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -49,7 +49,6 @@
                 "ctxt": 0
               },
               "value": "require",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -107,7 +106,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -118,7 +116,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -138,7 +135,6 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -149,7 +145,6 @@
               "ctxt": 0
             },
             "value": "default",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -193,7 +188,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -204,7 +198,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -217,7 +210,6 @@
               "ctxt": 0
             },
             "value": "memberName",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -248,7 +240,6 @@
           "ctxt": 0
         },
         "value": "validate",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -288,7 +279,6 @@
           "ctxt": 0
         },
         "value": "validate",
-        "typeAnnotation": null,
         "optional": false
       }
     }

@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "array",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -109,8 +109,8 @@
               "ctxt": 0
             },
             "value": "sum",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -158,8 +158,8 @@
                 "ctxt": 0
               },
               "value": "num",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": null,
             "definite": false
@@ -174,7 +174,6 @@
           "ctxt": 0
         },
         "value": "array",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -208,7 +207,6 @@
                   "ctxt": 0
                 },
                 "value": "sum",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -252,8 +250,8 @@
                         "ctxt": 0
                       },
                       "value": "array",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "right": {
                       "type": "ArrayExpression",
@@ -330,8 +328,8 @@
                   "ctxt": 0
                 },
                 "value": "sum",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "Identifier",
@@ -341,7 +339,6 @@
                   "ctxt": 0
                 },
                 "value": "num",
-                "typeAnnotation": null,
                 "optional": false
               }
             }

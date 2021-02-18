@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "Foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -117,6 +116,7 @@
               "ctxt": 0
             },
             "value": "f",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -139,13 +139,11 @@
                     "ctxt": 0
                   },
                   "value": "Foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -177,8 +175,8 @@
               "ctxt": 0
             },
             "value": "r",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -195,7 +193,6 @@
                 "ctxt": 0
               },
               "value": "f",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -230,8 +227,8 @@
               "ctxt": 0
             },
             "value": "r2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -248,7 +245,6 @@
                 "ctxt": 0
               },
               "value": "f",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],

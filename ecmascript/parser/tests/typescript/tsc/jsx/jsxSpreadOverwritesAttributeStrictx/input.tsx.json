@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "React",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -64,7 +63,6 @@
           "ctxt": 0
         },
         "value": "Props",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -94,7 +92,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -136,7 +133,6 @@
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -178,7 +174,6 @@
                 "ctxt": 0
               },
               "value": "c",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -220,7 +215,6 @@
                 "ctxt": 0
               },
               "value": "d",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -274,6 +268,7 @@
               "ctxt": 0
             },
             "value": "props",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -296,13 +291,11 @@
                     "ctxt": 0
                   },
                   "value": "Props",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ObjectExpression",
@@ -322,7 +315,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -345,7 +337,6 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -389,8 +380,8 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -408,6 +399,7 @@
                   "ctxt": 0
                 },
                 "value": "props",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -430,13 +422,11 @@
                         "ctxt": 0
                       },
                       "value": "Props",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "body": {
@@ -456,7 +446,6 @@
                     "ctxt": 0
                   },
                   "value": "div",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "span": {
@@ -491,7 +480,6 @@
                         "ctxt": 0
                       },
                       "value": "props",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -502,7 +490,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -524,7 +511,6 @@
                     "ctxt": 0
                   },
                   "value": "div",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -563,8 +549,8 @@
               "ctxt": 0
             },
             "value": "a1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -583,7 +569,6 @@
                   "ctxt": 0
                 },
                 "value": "Foo",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -607,7 +592,6 @@
                       "ctxt": 0
                     },
                     "value": "props",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -631,7 +615,6 @@
                   "ctxt": 0
                 },
                 "value": "Foo",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -665,8 +648,8 @@
               "ctxt": 0
             },
             "value": "a2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -685,7 +668,6 @@
                   "ctxt": 0
                 },
                 "value": "Foo",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -709,7 +691,6 @@
                       "ctxt": 0
                     },
                     "value": "d",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -745,7 +726,6 @@
                       "ctxt": 0
                     },
                     "value": "props",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -769,7 +749,6 @@
                   "ctxt": 0
                 },
                 "value": "Foo",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -803,8 +782,8 @@
               "ctxt": 0
             },
             "value": "b1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -823,7 +802,6 @@
                   "ctxt": 0
                 },
                 "value": "Foo",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -847,7 +825,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -883,7 +860,6 @@
                       "ctxt": 0
                     },
                     "value": "props",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -907,7 +883,6 @@
                   "ctxt": 0
                 },
                 "value": "Foo",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -941,8 +916,8 @@
               "ctxt": 0
             },
             "value": "b2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -961,7 +936,6 @@
                   "ctxt": 0
                 },
                 "value": "Foo",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -985,7 +959,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1021,7 +994,6 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1057,7 +1029,6 @@
                       "ctxt": 0
                     },
                     "value": "props",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -1081,7 +1052,6 @@
                   "ctxt": 0
                 },
                 "value": "Foo",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1115,8 +1085,8 @@
               "ctxt": 0
             },
             "value": "b3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1135,7 +1105,6 @@
                   "ctxt": 0
                 },
                 "value": "Foo",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1159,7 +1128,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1195,7 +1163,6 @@
                       "ctxt": 0
                     },
                     "value": "d",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1231,7 +1198,6 @@
                       "ctxt": 0
                     },
                     "value": "props",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -1260,7 +1226,6 @@
                             "ctxt": 0
                           },
                           "value": "d",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -1296,7 +1261,6 @@
                   "ctxt": 0
                 },
                 "value": "Foo",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1330,8 +1294,8 @@
               "ctxt": 0
             },
             "value": "b4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1350,7 +1314,6 @@
                   "ctxt": 0
                 },
                 "value": "Foo",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1374,7 +1337,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1410,7 +1372,6 @@
                       "ctxt": 0
                     },
                     "value": "d",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1446,7 +1407,6 @@
                       "ctxt": 0
                     },
                     "value": "props",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -1475,7 +1435,6 @@
                             "ctxt": 0
                           },
                           "value": "a",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -1498,7 +1457,6 @@
                             "ctxt": 0
                           },
                           "value": "d",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -1534,7 +1492,6 @@
                   "ctxt": 0
                 },
                 "value": "Foo",
-                "typeAnnotation": null,
                 "optional": false
               }
             }

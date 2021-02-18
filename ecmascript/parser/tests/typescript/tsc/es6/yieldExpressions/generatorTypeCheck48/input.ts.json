@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "g",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -70,7 +69,6 @@
           "ctxt": 0
         },
         "value": "h",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -111,7 +109,6 @@
                   "ctxt": 0
                 },
                 "value": "undefined",
-                "typeAnnotation": null,
                 "optional": false
               },
               "delegate": false

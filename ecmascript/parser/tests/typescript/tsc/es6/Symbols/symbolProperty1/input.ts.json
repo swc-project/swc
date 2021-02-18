@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "s",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -47,8 +48,7 @@
                 },
                 "kind": "symbol"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -80,8 +80,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -108,7 +108,6 @@
                       "ctxt": 0
                     },
                     "value": "s",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -139,7 +138,6 @@
                       "ctxt": 0
                     },
                     "value": "s",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -186,7 +184,6 @@
                       "ctxt": 0
                     },
                     "value": "s",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },

@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "X",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "cancel",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -78,7 +76,6 @@
                           "ctxt": 0
                         },
                         "value": "reason",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": null
@@ -98,7 +95,6 @@
                           "ctxt": 0
                         },
                         "value": "code",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": null
@@ -152,7 +148,6 @@
           "ctxt": 0
         },
         "value": "Y",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -178,7 +173,6 @@
               "ctxt": 0
             },
             "value": "cancel",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -214,7 +208,6 @@
                           "ctxt": 0
                         },
                         "value": "reason",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": null
@@ -234,7 +227,6 @@
                           "ctxt": 0
                         },
                         "value": "suberr",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": null

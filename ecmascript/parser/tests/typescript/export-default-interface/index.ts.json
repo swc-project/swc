@@ -28,7 +28,6 @@
             "ctxt": 0
           },
           "value": "Foo",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,

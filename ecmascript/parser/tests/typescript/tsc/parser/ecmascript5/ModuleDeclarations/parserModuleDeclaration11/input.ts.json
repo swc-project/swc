@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "string",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "X",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -82,7 +80,6 @@
                   "ctxt": 0
                 },
                 "value": "foo",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -103,6 +100,7 @@
                       "ctxt": 0
                     },
                     "value": "s",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -119,8 +117,7 @@
                         },
                         "kind": "string"
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 }
               ],
@@ -169,7 +166,6 @@
               "ctxt": 0
             },
             "value": "string",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -180,7 +176,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -232,6 +227,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -256,7 +252,6 @@
                       "ctxt": 0
                     },
                     "value": "string",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -267,14 +262,12 @@
                       "ctxt": 0
                     },
                     "value": "X",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false

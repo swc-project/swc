@@ -29,7 +29,6 @@
             "ctxt": 0
           },
           "value": "A",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeParams": null,
@@ -60,7 +59,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,

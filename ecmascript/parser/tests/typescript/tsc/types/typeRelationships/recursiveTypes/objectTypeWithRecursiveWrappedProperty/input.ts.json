@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "List",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "data",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -68,7 +66,6 @@
                   "ctxt": 0
                 },
                 "value": "T",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -99,7 +96,6 @@
               "ctxt": 0
             },
             "value": "next",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -125,7 +121,6 @@
                   "ctxt": 0
                 },
                 "value": "List",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": {
@@ -151,7 +146,6 @@
                         "ctxt": 0
                       },
                       "value": "List",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -177,7 +171,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -225,7 +218,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -261,8 +253,8 @@
               "ctxt": 0
             },
             "value": "list1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -279,7 +271,6 @@
                 "ctxt": 0
               },
               "value": "List",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -332,8 +323,8 @@
               "ctxt": 0
             },
             "value": "list2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -350,7 +341,6 @@
                 "ctxt": 0
               },
               "value": "List",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -403,8 +393,8 @@
               "ctxt": 0
             },
             "value": "list3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -421,7 +411,6 @@
                 "ctxt": 0
               },
               "value": "List",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -472,8 +461,8 @@
             "ctxt": 0
           },
           "value": "list1",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -483,7 +472,6 @@
             "ctxt": 0
           },
           "value": "list2",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -511,8 +499,8 @@
             "ctxt": 0
           },
           "value": "list1",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -522,7 +510,6 @@
             "ctxt": 0
           },
           "value": "list3",
-          "typeAnnotation": null,
           "optional": false
         }
       }

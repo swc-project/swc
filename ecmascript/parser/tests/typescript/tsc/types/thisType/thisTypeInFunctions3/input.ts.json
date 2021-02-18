@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "check",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -63,6 +61,7 @@
                     "ctxt": 0
                   },
                   "value": "prop",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -85,13 +84,11 @@
                           "ctxt": 0
                         },
                         "value": "TProp",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -127,7 +124,6 @@
                       "ctxt": 0
                     },
                     "value": "TProp",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": {
@@ -183,7 +179,6 @@
           "ctxt": 0
         },
         "value": "Test",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -209,7 +204,6 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -265,7 +259,6 @@
                           "ctxt": 0
                         },
                         "value": "check",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -308,7 +301,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,

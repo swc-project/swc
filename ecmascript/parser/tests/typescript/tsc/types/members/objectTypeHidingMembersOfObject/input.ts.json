@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "valueOf",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -105,6 +103,7 @@
               "ctxt": 0
             },
             "value": "c",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -127,13 +126,11 @@
                     "ctxt": 0
                   },
                   "value": "C",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -165,6 +162,7 @@
               "ctxt": 0
             },
             "value": "r1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -181,8 +179,7 @@
                 },
                 "kind": "void"
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "CallExpression",
@@ -206,7 +203,6 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -217,7 +213,6 @@
                   "ctxt": 0
                 },
                 "value": "valueOf",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -244,7 +239,6 @@
           "ctxt": 0
         },
         "value": "I",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -274,7 +268,6 @@
                 "ctxt": 0
               },
               "value": "valueOf",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -327,6 +320,7 @@
               "ctxt": 0
             },
             "value": "i",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -349,13 +343,11 @@
                     "ctxt": 0
                   },
                   "value": "I",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -387,6 +379,7 @@
               "ctxt": 0
             },
             "value": "r2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -403,8 +396,7 @@
                 },
                 "kind": "void"
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "CallExpression",
@@ -428,7 +420,6 @@
                   "ctxt": 0
                 },
                 "value": "i",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -439,7 +430,6 @@
                   "ctxt": 0
                 },
                 "value": "valueOf",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -476,8 +466,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -497,7 +487,6 @@
                     "ctxt": 0
                   },
                   "value": "valueOf",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -554,6 +543,7 @@
               "ctxt": 0
             },
             "value": "r3",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -570,8 +560,7 @@
                 },
                 "kind": "void"
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "CallExpression",
@@ -595,7 +584,6 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -606,7 +594,6 @@
                   "ctxt": 0
                 },
                 "value": "valueOf",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -643,6 +630,7 @@
               "ctxt": 0
             },
             "value": "b",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -674,7 +662,6 @@
                         "ctxt": 0
                       },
                       "value": "valueOf",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -701,8 +688,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -734,6 +720,7 @@
               "ctxt": 0
             },
             "value": "r4",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -750,8 +737,7 @@
                 },
                 "kind": "void"
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "CallExpression",
@@ -775,7 +761,6 @@
                   "ctxt": 0
                 },
                 "value": "b",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -786,7 +771,6 @@
                   "ctxt": 0
                 },
                 "value": "valueOf",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false

@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "myRandBool",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -74,6 +73,7 @@
               "ctxt": 0
             },
             "value": "a",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -103,8 +103,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "StringLiteral",
@@ -149,8 +148,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -168,7 +167,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -215,6 +213,7 @@
               "ctxt": 0
             },
             "value": "c",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -244,8 +243,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "Identifier",
@@ -255,7 +253,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false
@@ -287,8 +284,8 @@
               "ctxt": 0
             },
             "value": "d",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -306,7 +303,6 @@
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -353,6 +349,7 @@
               "ctxt": 0
             },
             "value": "e",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -414,8 +411,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "Identifier",
@@ -425,7 +421,6 @@
               "ctxt": 0
             },
             "value": "d",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false

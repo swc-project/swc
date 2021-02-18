@@ -29,7 +29,6 @@
               "ctxt": 0
             },
             "value": "B",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -75,7 +74,6 @@
             "ctxt": 0
           },
           "value": "A",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeParams": null,
@@ -94,7 +92,6 @@
               "ctxt": 0
             },
             "value": "B",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null
@@ -124,7 +121,6 @@
               "ctxt": 0
             },
             "value": "A",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -170,7 +166,6 @@
             "ctxt": 0
           },
           "value": "B",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeParams": null,
@@ -189,7 +184,6 @@
               "ctxt": 0
             },
             "value": "A",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null

@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "JSX",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -80,7 +78,6 @@
                 "ctxt": 0
               },
               "value": "ElementAttributesProperty",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -110,7 +107,6 @@
                       "ctxt": 0
                     },
                     "value": "pr",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -154,7 +150,6 @@
                 "ctxt": 0
               },
               "value": "IntrinsicElements",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -188,7 +183,6 @@
           "ctxt": 0
         },
         "value": "Obj1type",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -218,6 +212,7 @@
                   "ctxt": 0
                 },
                 "value": "n",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -234,8 +229,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -285,6 +279,7 @@
               "ctxt": 0
             },
             "value": "Obj1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -307,13 +302,11 @@
                     "ctxt": 0
                   },
                   "value": "Obj1type",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -344,7 +337,6 @@
               "ctxt": 0
             },
             "value": "Obj1",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -368,7 +360,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -412,7 +403,6 @@
           "ctxt": 0
         },
         "value": "Obj2type",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -442,6 +432,7 @@
                   "ctxt": 0
                 },
                 "value": "n",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -458,8 +449,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -493,7 +483,6 @@
                         "ctxt": 0
                       },
                       "value": "q",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -535,7 +524,6 @@
                         "ctxt": 0
                       },
                       "value": "pr",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -594,6 +582,7 @@
               "ctxt": 0
             },
             "value": "Obj2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -616,13 +605,11 @@
                     "ctxt": 0
                   },
                   "value": "Obj2type",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -653,7 +640,6 @@
               "ctxt": 0
             },
             "value": "Obj2",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -677,7 +663,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -721,7 +706,6 @@
           "ctxt": 0
         },
         "value": "Obj3type",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -751,6 +735,7 @@
                   "ctxt": 0
                 },
                 "value": "n",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -767,8 +752,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -802,7 +786,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -861,6 +844,7 @@
               "ctxt": 0
             },
             "value": "Obj3",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -883,13 +867,11 @@
                     "ctxt": 0
                   },
                   "value": "Obj3type",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -920,7 +902,6 @@
               "ctxt": 0
             },
             "value": "Obj3",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -944,7 +925,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -998,6 +978,7 @@
               "ctxt": 0
             },
             "value": "attributes",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1014,8 +995,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -1046,7 +1026,6 @@
               "ctxt": 0
             },
             "value": "Obj3",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -1070,7 +1049,6 @@
                   "ctxt": 0
                 },
                 "value": "attributes",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1106,7 +1084,6 @@
               "ctxt": 0
             },
             "value": "Obj3",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -1155,7 +1132,6 @@
           "ctxt": 0
         },
         "value": "Obj4type",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1185,6 +1161,7 @@
                   "ctxt": 0
                 },
                 "value": "n",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1201,8 +1178,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -1236,7 +1212,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -1278,7 +1253,6 @@
                         "ctxt": 0
                       },
                       "value": "pr",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -1316,7 +1290,6 @@
                                 "ctxt": 0
                               },
                               "value": "x",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false,
@@ -1380,6 +1353,7 @@
               "ctxt": 0
             },
             "value": "Obj4",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1402,13 +1376,11 @@
                     "ctxt": 0
                   },
                   "value": "Obj4type",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -1439,7 +1411,6 @@
               "ctxt": 0
             },
             "value": "Obj4",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -1463,7 +1434,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -1516,7 +1486,6 @@
               "ctxt": 0
             },
             "value": "Obj4",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -1540,7 +1509,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {

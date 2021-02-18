@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "module",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -62,7 +63,6 @@
                         "ctxt": 0
                       },
                       "value": "exports",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -90,8 +90,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -108,7 +107,6 @@
           "ctxt": 0
         },
         "value": "require",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -129,6 +127,7 @@
               "ctxt": 0
             },
             "value": "name",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -145,8 +144,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -215,7 +213,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -226,7 +223,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -239,7 +235,6 @@
               "ctxt": 0
             },
             "value": "bothBefore",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -290,7 +285,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -301,7 +295,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -324,7 +317,6 @@
                   "ctxt": 0
                 },
                 "value": "justExport",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -347,7 +339,6 @@
                   "ctxt": 0
                 },
                 "value": "bothBefore",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -370,7 +361,6 @@
                   "ctxt": 0
                 },
                 "value": "bothAfter",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -424,7 +414,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -435,7 +424,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -448,7 +436,6 @@
               "ctxt": 0
             },
             "value": "bothAfter",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -506,7 +493,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -517,7 +503,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -530,7 +515,6 @@
               "ctxt": 0
             },
             "value": "justProperty",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -576,8 +560,8 @@
               "ctxt": 0
             },
             "value": "mod1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -594,7 +578,6 @@
                 "ctxt": 0
               },
               "value": "require",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -658,7 +641,6 @@
                 "ctxt": 0
               },
               "value": "mod1",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -669,7 +651,6 @@
                 "ctxt": 0
               },
               "value": "justExport",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -682,7 +663,6 @@
               "ctxt": 0
             },
             "value": "toFixed",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -727,7 +707,6 @@
                 "ctxt": 0
               },
               "value": "mod1",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -738,7 +717,6 @@
                 "ctxt": 0
               },
               "value": "bothBefore",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -751,7 +729,6 @@
               "ctxt": 0
             },
             "value": "toFixed",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -796,7 +773,6 @@
                 "ctxt": 0
               },
               "value": "mod1",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -807,7 +783,6 @@
                 "ctxt": 0
               },
               "value": "bothAfter",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -820,7 +795,6 @@
               "ctxt": 0
             },
             "value": "toFixed",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -858,7 +832,6 @@
               "ctxt": 0
             },
             "value": "mod1",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -869,7 +842,6 @@
               "ctxt": 0
             },
             "value": "justProperty",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -882,7 +854,6 @@
             "ctxt": 0
           },
           "value": "length",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false

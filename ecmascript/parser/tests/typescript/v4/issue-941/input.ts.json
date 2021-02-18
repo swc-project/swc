@@ -37,6 +37,7 @@
             "ctxt": 0
           },
           "value": "e",
+          "optional": false,
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
@@ -53,8 +54,7 @@
               },
               "kind": "unknown"
             }
-          },
-          "optional": false
+          }
         },
         "body": {
           "type": "BlockStatement",

@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "Super",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "constructor",
-              "typeAnnotation": null,
               "optional": false
             },
             "params": [
@@ -69,8 +67,8 @@
                     "ctxt": 0
                   },
                   "value": "firstArg",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               },
               {
@@ -89,8 +87,8 @@
                     "ctxt": 0
                   },
                   "value": "secondArg",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -131,7 +129,6 @@
             "ctxt": 0
           },
           "value": "Sub",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -157,7 +154,6 @@
                 "ctxt": 0
               },
               "value": "constructor",
-              "typeAnnotation": null,
               "optional": false
             },
             "params": [],
@@ -244,7 +240,6 @@
             "ctxt": 0
           },
           "value": "Super",
-          "typeAnnotation": null,
           "optional": false
         },
         "isAbstract": false,

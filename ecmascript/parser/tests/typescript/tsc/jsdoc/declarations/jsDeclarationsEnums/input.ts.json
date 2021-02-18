@@ -30,7 +30,6 @@
             "ctxt": 0
           },
           "value": "A",
-          "typeAnnotation": null,
           "optional": false
         },
         "members": []
@@ -60,7 +59,6 @@
             "ctxt": 0
           },
           "value": "B",
-          "typeAnnotation": null,
           "optional": false
         },
         "members": [
@@ -79,7 +77,6 @@
                 "ctxt": 0
               },
               "value": "Member",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": null
@@ -104,7 +101,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "members": []
@@ -132,7 +128,6 @@
               "ctxt": 0
             },
             "value": "C",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -159,7 +154,6 @@
           "ctxt": 0
         },
         "value": "DD",
-        "typeAnnotation": null,
         "optional": false
       },
       "members": []
@@ -187,7 +181,6 @@
               "ctxt": 0
             },
             "value": "DD",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": {
@@ -198,7 +191,6 @@
               "ctxt": 0
             },
             "value": "D",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -231,7 +223,6 @@
             "ctxt": 0
           },
           "value": "E",
-          "typeAnnotation": null,
           "optional": false
         },
         "members": []
@@ -260,7 +251,6 @@
               "ctxt": 0
             },
             "value": "E",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": {
@@ -271,7 +261,6 @@
               "ctxt": 0
             },
             "value": "EE",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -303,7 +292,6 @@
               "ctxt": 0
             },
             "value": "F",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": {
@@ -314,7 +302,6 @@
               "ctxt": 0
             },
             "value": "FF",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -347,7 +334,6 @@
             "ctxt": 0
           },
           "value": "F",
-          "typeAnnotation": null,
           "optional": false
         },
         "members": []
@@ -377,7 +363,6 @@
             "ctxt": 0
           },
           "value": "G",
-          "typeAnnotation": null,
           "optional": false
         },
         "members": [
@@ -396,7 +381,6 @@
                 "ctxt": 0
               },
               "value": "A",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -424,7 +408,6 @@
                 "ctxt": 0
               },
               "value": "B",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": null
@@ -444,7 +427,6 @@
                 "ctxt": 0
               },
               "value": "C",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": null
@@ -476,7 +458,6 @@
             "ctxt": 0
           },
           "value": "H",
-          "typeAnnotation": null,
           "optional": false
         },
         "members": [
@@ -495,7 +476,6 @@
                 "ctxt": 0
               },
               "value": "A",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -528,7 +508,6 @@
                 "ctxt": 0
               },
               "value": "B",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -573,7 +552,6 @@
             "ctxt": 0
           },
           "value": "I",
-          "typeAnnotation": null,
           "optional": false
         },
         "members": [
@@ -592,7 +570,6 @@
                 "ctxt": 0
               },
               "value": "A",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -625,7 +602,6 @@
                 "ctxt": 0
               },
               "value": "B",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -653,7 +629,6 @@
                 "ctxt": 0
               },
               "value": "C",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": null
@@ -685,7 +660,6 @@
             "ctxt": 0
           },
           "value": "J",
-          "typeAnnotation": null,
           "optional": false
         },
         "members": [
@@ -704,7 +678,6 @@
                 "ctxt": 0
               },
               "value": "A",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -732,7 +705,6 @@
                 "ctxt": 0
               },
               "value": "B",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": null
@@ -752,7 +724,6 @@
                 "ctxt": 0
               },
               "value": "C",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": null
@@ -784,7 +755,6 @@
             "ctxt": 0
           },
           "value": "K",
-          "typeAnnotation": null,
           "optional": false
         },
         "members": [
@@ -803,7 +773,6 @@
                 "ctxt": 0
               },
               "value": "None",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -831,7 +800,6 @@
                 "ctxt": 0
               },
               "value": "A",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -877,7 +845,6 @@
                 "ctxt": 0
               },
               "value": "B",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -923,7 +890,6 @@
                 "ctxt": 0
               },
               "value": "C",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -969,7 +935,6 @@
                 "ctxt": 0
               },
               "value": "Mask",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -996,7 +961,6 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -1007,7 +971,6 @@
                     "ctxt": 0
                   },
                   "value": "B",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -1019,7 +982,6 @@
                   "ctxt": 0
                 },
                 "value": "C",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1051,7 +1013,6 @@
             "ctxt": 0
           },
           "value": "L",
-          "typeAnnotation": null,
           "optional": false
         },
         "members": [
@@ -1070,7 +1031,6 @@
                 "ctxt": 0
               },
               "value": "None",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -1098,7 +1058,6 @@
                 "ctxt": 0
               },
               "value": "A",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -1144,7 +1103,6 @@
                 "ctxt": 0
               },
               "value": "B",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -1190,7 +1148,6 @@
                 "ctxt": 0
               },
               "value": "C",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -1236,7 +1193,6 @@
                 "ctxt": 0
               },
               "value": "Mask",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -1263,7 +1219,6 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -1274,7 +1229,6 @@
                     "ctxt": 0
                   },
                   "value": "B",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -1286,7 +1240,6 @@
                   "ctxt": 0
                 },
                 "value": "C",
-                "typeAnnotation": null,
                 "optional": false
               }
             }

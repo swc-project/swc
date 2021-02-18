@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "any",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -43,7 +42,6 @@
           "ctxt": 0
         },
         "value": "number",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -70,7 +68,6 @@
           "ctxt": 0
         },
         "value": "boolean",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -97,7 +94,6 @@
           "ctxt": 0
         },
         "value": "bool",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -124,7 +120,6 @@
           "ctxt": 0
         },
         "value": "string",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,

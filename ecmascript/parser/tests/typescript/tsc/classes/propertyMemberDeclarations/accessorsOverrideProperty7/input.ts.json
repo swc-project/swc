@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "p",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -87,7 +85,6 @@
           "ctxt": 0
         },
         "value": "B",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -113,7 +110,6 @@
               "ctxt": 0
             },
             "value": "p",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -176,7 +172,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,

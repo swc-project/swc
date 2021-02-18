@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -37,8 +36,8 @@
               "ctxt": 0
             },
             "value": "p1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         },
         {
@@ -57,8 +56,8 @@
               "ctxt": 0
             },
             "value": "p2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         },
         {
@@ -77,8 +76,8 @@
               "ctxt": 0
             },
             "value": "p3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         },
         {
@@ -97,8 +96,8 @@
               "ctxt": 0
             },
             "value": "p4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         },
         {
@@ -117,8 +116,8 @@
               "ctxt": 0
             },
             "value": "p5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -191,7 +190,6 @@
                           "ctxt": 0
                         },
                         "value": "p1",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "right": {
@@ -202,7 +200,6 @@
                           "ctxt": 0
                         },
                         "value": "p2",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -214,7 +211,6 @@
                         "ctxt": 0
                       },
                       "value": "p3",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   },
@@ -226,7 +222,6 @@
                       "ctxt": 0
                     },
                     "value": "p4",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -238,7 +233,6 @@
                     "ctxt": 0
                   },
                   "value": "p5",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },

@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "f",
-          "typeAnnotation": null,
           "optional": false
         },
         "params": [],
@@ -65,7 +64,6 @@
             "ctxt": 0
           },
           "value": "f",
-          "typeAnnotation": null,
           "optional": false
         },
         "params": [],

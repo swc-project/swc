@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "Outer",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -77,7 +77,6 @@
               "ctxt": 0
             },
             "value": "Outer",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -88,7 +87,6 @@
               "ctxt": 0
             },
             "value": "Inner",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -156,7 +154,6 @@
                 "ctxt": 0
               },
               "value": "Outer",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -167,7 +164,6 @@
                 "ctxt": 0
               },
               "value": "Inner",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -180,7 +176,6 @@
               "ctxt": 0
             },
             "value": "prototype",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -203,7 +198,6 @@
                   "ctxt": 0
                 },
                 "value": "m",
-                "typeAnnotation": null,
                 "optional": false
               },
               "params": [],
@@ -237,7 +231,6 @@
                   "ctxt": 0
                 },
                 "value": "i",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -298,7 +291,6 @@
                   "ctxt": 0
                 },
                 "value": "Outer",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -309,7 +301,6 @@
                   "ctxt": 0
                 },
                 "value": "Inner",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -322,7 +313,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -335,7 +325,6 @@
               "ctxt": 0
             },
             "value": "j",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -387,7 +376,6 @@
                 "ctxt": 0
               },
               "value": "Outer",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -398,7 +386,6 @@
                 "ctxt": 0
               },
               "value": "Inner",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -411,7 +398,6 @@
               "ctxt": 0
             },
             "value": "prototype",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -424,7 +410,6 @@
             "ctxt": 0
           },
           "value": "k",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -455,8 +440,8 @@
               "ctxt": 0
             },
             "value": "inner",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -480,7 +465,6 @@
                   "ctxt": 0
                 },
                 "value": "Outer",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -491,7 +475,6 @@
                   "ctxt": 0
                 },
                 "value": "Inner",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -532,7 +515,6 @@
               "ctxt": 0
             },
             "value": "inner",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -543,7 +525,6 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -574,7 +555,6 @@
             "ctxt": 0
           },
           "value": "inner",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -585,7 +565,6 @@
             "ctxt": 0
           },
           "value": "i",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -613,7 +592,6 @@
             "ctxt": 0
           },
           "value": "inner",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -624,7 +602,6 @@
             "ctxt": 0
           },
           "value": "j",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -652,7 +629,6 @@
             "ctxt": 0
           },
           "value": "inner",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -663,7 +639,6 @@
             "ctxt": 0
           },
           "value": "k",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false

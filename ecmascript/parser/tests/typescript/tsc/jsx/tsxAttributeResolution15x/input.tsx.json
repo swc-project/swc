@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "React",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -59,7 +58,6 @@
           "ctxt": 0
         },
         "value": "BigGreeter",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -85,7 +83,6 @@
               "ctxt": 0
             },
             "value": "render",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -128,7 +125,6 @@
                           "ctxt": 0
                         },
                         "value": "div",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "span": {
@@ -167,7 +163,6 @@
                           "ctxt": 0
                         },
                         "value": "div",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -201,7 +196,6 @@
               "ctxt": 0
             },
             "value": "greeting",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -248,7 +242,6 @@
             "ctxt": 0
           },
           "value": "React",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -259,7 +252,6 @@
             "ctxt": 0
           },
           "value": "Component",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -321,8 +313,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -341,7 +333,6 @@
                   "ctxt": 0
                 },
                 "value": "BigGreeter",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -365,7 +356,6 @@
                       "ctxt": 0
                     },
                     "value": "prop1",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -419,8 +409,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -439,7 +429,6 @@
                   "ctxt": 0
                 },
                 "value": "BigGreeter",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -463,7 +452,6 @@
                       "ctxt": 0
                     },
                     "value": "ref",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -489,8 +477,8 @@
                             "ctxt": 0
                           },
                           "value": "input",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         }
                       ],
                       "body": {
@@ -539,7 +527,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "textInput",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -552,7 +539,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "input",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             }
@@ -602,8 +588,8 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -622,7 +608,6 @@
                   "ctxt": 0
                 },
                 "value": "BigGreeter",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -646,7 +631,6 @@
                       "ctxt": 0
                     },
                     "value": "data-extra",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {

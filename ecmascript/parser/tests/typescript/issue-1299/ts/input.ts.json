@@ -38,8 +38,8 @@
                 "ctxt": 0
               },
               "value": "iteratorMapGenerator",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "FunctionExpression",
@@ -61,6 +61,7 @@
                       "ctxt": 0
                     },
                     "value": "values",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -83,7 +84,6 @@
                             "ctxt": 0
                           },
                           "value": "IterableIterator",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": {
@@ -109,7 +109,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
@@ -117,8 +116,7 @@
                           ]
                         }
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -137,6 +135,7 @@
                       "ctxt": 0
                     },
                     "value": "execute",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -159,7 +158,6 @@
                             "ctxt": 0
                           },
                           "value": "IteratorExecution",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": {
@@ -185,7 +183,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
@@ -205,7 +202,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "R",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
@@ -213,8 +209,7 @@
                           ]
                         }
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 }
               ],
@@ -258,7 +253,6 @@
                         "ctxt": 0
                       },
                       "value": "T",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "constraint": null,
@@ -279,7 +273,6 @@
                         "ctxt": 0
                       },
                       "value": "R",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "constraint": null,
@@ -309,7 +302,6 @@
                       "ctxt": 0
                     },
                     "value": "IterableIterator",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": {
@@ -335,7 +327,6 @@
                             "ctxt": 0
                           },
                           "value": "R",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null

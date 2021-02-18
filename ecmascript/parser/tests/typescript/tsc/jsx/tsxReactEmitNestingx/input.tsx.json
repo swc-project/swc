@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "vdom",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -47,8 +48,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -80,6 +80,7 @@
               "ctxt": 0
             },
             "value": "ctrl",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -96,8 +97,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -129,6 +129,7 @@
               "ctxt": 0
             },
             "value": "model",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -145,8 +146,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -178,8 +178,8 @@
               "ctxt": 0
             },
             "value": "render",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -197,8 +197,8 @@
                   "ctxt": 0
                 },
                 "value": "ctrl",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               {
                 "type": "Identifier",
@@ -208,8 +208,8 @@
                   "ctxt": 0
                 },
                 "value": "model",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
             "body": {
@@ -229,7 +229,6 @@
                     "ctxt": 0
                   },
                   "value": "section",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "span": {
@@ -253,7 +252,6 @@
                         "ctxt": 0
                       },
                       "value": "class",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "value": {
@@ -303,7 +301,6 @@
                         "ctxt": 0
                       },
                       "value": "header",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "span": {
@@ -327,7 +324,6 @@
                             "ctxt": 0
                           },
                           "value": "class",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -377,7 +373,6 @@
                             "ctxt": 0
                           },
                           "value": "h1",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "span": {
@@ -416,7 +411,6 @@
                             "ctxt": 0
                           },
                           "value": "h1",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       }
@@ -448,7 +442,6 @@
                             "ctxt": 0
                           },
                           "value": "input",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "span": {
@@ -472,7 +465,6 @@
                                 "ctxt": 0
                               },
                               "value": "class",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -505,7 +497,6 @@
                                 "ctxt": 0
                               },
                               "value": "autofocus",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": null
@@ -525,7 +516,6 @@
                                 "ctxt": 0
                               },
                               "value": "autocomplete",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -558,7 +548,6 @@
                                 "ctxt": 0
                               },
                               "value": "placeholder",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -591,7 +580,6 @@
                                 "ctxt": 0
                               },
                               "value": "value",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -616,7 +604,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "model",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -627,7 +614,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "newTodo",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -649,7 +635,6 @@
                                 "ctxt": 0
                               },
                               "value": "onKeyup",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -688,7 +673,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "ctrl",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "property": {
@@ -699,7 +683,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "addTodo",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "computed": false
@@ -712,7 +695,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "bind",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false
@@ -728,7 +710,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "ctrl",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     }
                                   },
@@ -742,7 +723,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "model",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     }
                                   }
@@ -784,7 +764,6 @@
                         "ctxt": 0
                       },
                       "value": "header",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -816,7 +795,6 @@
                         "ctxt": 0
                       },
                       "value": "section",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "span": {
@@ -840,7 +818,6 @@
                             "ctxt": 0
                           },
                           "value": "class",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -873,7 +850,6 @@
                             "ctxt": 0
                           },
                           "value": "style",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -901,7 +877,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "display",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "value": {
@@ -941,7 +916,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "model",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "property": {
@@ -952,7 +926,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "todos",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "computed": false
@@ -979,7 +952,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "model",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           },
                                           "property": {
@@ -990,7 +962,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "todos",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           },
                                           "computed": false
@@ -1003,7 +974,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "length",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "computed": false
@@ -1076,7 +1046,6 @@
                             "ctxt": 0
                           },
                           "value": "input",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "span": {
@@ -1100,7 +1069,6 @@
                                 "ctxt": 0
                               },
                               "value": "class",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -1133,7 +1101,6 @@
                                 "ctxt": 0
                               },
                               "value": "type",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -1166,7 +1133,6 @@
                                 "ctxt": 0
                               },
                               "value": "onChange",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -1205,7 +1171,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "ctrl",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "property": {
@@ -1216,7 +1181,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "toggleAll",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "computed": false
@@ -1229,7 +1193,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "bind",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false
@@ -1245,7 +1208,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "ctrl",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     }
                                   }
@@ -1288,7 +1250,6 @@
                             "ctxt": 0
                           },
                           "value": "ul",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "span": {
@@ -1312,7 +1273,6 @@
                                 "ctxt": 0
                               },
                               "value": "class",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -1381,7 +1341,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "model",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -1392,7 +1351,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "filteredTodos",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -1405,7 +1363,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "map",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -1429,8 +1386,8 @@
                                         "ctxt": 0
                                       },
                                       "value": "todo",
-                                      "typeAnnotation": null,
-                                      "optional": false
+                                      "optional": false,
+                                      "typeAnnotation": null
                                     }
                                   ],
                                   "body": {
@@ -1450,7 +1407,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "li",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "span": {
@@ -1474,7 +1430,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "class",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           },
                                           "value": {
@@ -1502,7 +1457,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "todo",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "value": {
@@ -1525,7 +1479,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "completed",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "value": {
@@ -1543,7 +1496,6 @@
                                                         "ctxt": 0
                                                       },
                                                       "value": "todo",
-                                                      "typeAnnotation": null,
                                                       "optional": false
                                                     },
                                                     "property": {
@@ -1554,7 +1506,6 @@
                                                         "ctxt": 0
                                                       },
                                                       "value": "completed",
-                                                      "typeAnnotation": null,
                                                       "optional": false
                                                     },
                                                     "computed": false
@@ -1570,7 +1521,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "editing",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "value": {
@@ -1589,7 +1539,6 @@
                                                         "ctxt": 0
                                                       },
                                                       "value": "todo",
-                                                      "typeAnnotation": null,
                                                       "optional": false
                                                     },
                                                     "right": {
@@ -1607,7 +1556,6 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "model",
-                                                        "typeAnnotation": null,
                                                         "optional": false
                                                       },
                                                       "property": {
@@ -1618,7 +1566,6 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "editedTodo",
-                                                        "typeAnnotation": null,
                                                         "optional": false
                                                       },
                                                       "computed": false
@@ -1661,7 +1608,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "div",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           },
                                           "span": {
@@ -1685,7 +1631,6 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "class",
-                                                "typeAnnotation": null,
                                                 "optional": false
                                               },
                                               "value": {
@@ -1762,7 +1707,6 @@
                                                         "ctxt": 0
                                                       },
                                                       "value": "todo",
-                                                      "typeAnnotation": null,
                                                       "optional": false
                                                     },
                                                     "property": {
@@ -1773,7 +1717,6 @@
                                                         "ctxt": 0
                                                       },
                                                       "value": "editable",
-                                                      "typeAnnotation": null,
                                                       "optional": false
                                                     },
                                                     "computed": false
@@ -1797,7 +1740,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "input",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "span": {
@@ -1821,7 +1763,6 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "class",
-                                                        "typeAnnotation": null,
                                                         "optional": false
                                                       },
                                                       "value": {
@@ -1854,7 +1795,6 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "type",
-                                                        "typeAnnotation": null,
                                                         "optional": false
                                                       },
                                                       "value": {
@@ -1892,7 +1832,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "input",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   }
                                                 }
@@ -1934,7 +1873,6 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "label",
-                                                "typeAnnotation": null,
                                                 "optional": false
                                               },
                                               "span": {
@@ -1958,7 +1896,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "onDoubleClick",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "value": {
@@ -2013,7 +1950,6 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "ctrl",
-                                                                  "typeAnnotation": null,
                                                                   "optional": false
                                                                 },
                                                                 "property": {
@@ -2024,7 +1960,6 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "editTodo",
-                                                                  "typeAnnotation": null,
                                                                   "optional": false
                                                                 },
                                                                 "computed": false
@@ -2040,7 +1975,6 @@
                                                                       "ctxt": 0
                                                                     },
                                                                     "value": "todo",
-                                                                    "typeAnnotation": null,
                                                                     "optional": false
                                                                   }
                                                                 }
@@ -2084,7 +2018,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "todo",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "property": {
@@ -2095,7 +2028,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "title",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "computed": false
@@ -2117,7 +2049,6 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "label",
-                                                "typeAnnotation": null,
                                                 "optional": false
                                               }
                                             }
@@ -2149,7 +2080,6 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "button",
-                                                "typeAnnotation": null,
                                                 "optional": false
                                               },
                                               "span": {
@@ -2173,7 +2103,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "class",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "value": {
@@ -2206,7 +2135,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "onClick",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "value": {
@@ -2245,7 +2173,6 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "ctrl",
-                                                            "typeAnnotation": null,
                                                             "optional": false
                                                           },
                                                           "property": {
@@ -2256,7 +2183,6 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "removeTodo",
-                                                            "typeAnnotation": null,
                                                             "optional": false
                                                           },
                                                           "computed": false
@@ -2269,7 +2195,6 @@
                                                             "ctxt": 0
                                                           },
                                                           "value": "bind",
-                                                          "typeAnnotation": null,
                                                           "optional": false
                                                         },
                                                         "computed": false
@@ -2285,7 +2210,6 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "ctrl",
-                                                            "typeAnnotation": null,
                                                             "optional": false
                                                           }
                                                         },
@@ -2299,7 +2223,6 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "todo",
-                                                            "typeAnnotation": null,
                                                             "optional": false
                                                           }
                                                         }
@@ -2328,7 +2251,6 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "button",
-                                                "typeAnnotation": null,
                                                 "optional": false
                                               }
                                             }
@@ -2360,7 +2282,6 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "div",
-                                                "typeAnnotation": null,
                                                 "optional": false
                                               },
                                               "span": {
@@ -2384,7 +2305,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "class",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "value": {
@@ -2434,7 +2354,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "div",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "span": {
@@ -2458,7 +2377,6 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "class",
-                                                        "typeAnnotation": null,
                                                         "optional": false
                                                       },
                                                       "value": {
@@ -2509,7 +2427,6 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "div",
-                                                "typeAnnotation": null,
                                                 "optional": false
                                               }
                                             }
@@ -2540,7 +2457,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "div",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           }
                                         }
@@ -2571,7 +2487,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "li",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       }
                                     }
@@ -2612,7 +2527,6 @@
                             "ctxt": 0
                           },
                           "value": "ul",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       }
@@ -2643,7 +2557,6 @@
                         "ctxt": 0
                       },
                       "value": "section",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -2674,7 +2587,6 @@
                     "ctxt": 0
                   },
                   "value": "section",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }

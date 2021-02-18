@@ -30,7 +30,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -60,7 +59,6 @@
                   "ctxt": 0
                 },
                 "value": "br",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -101,7 +99,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           }
         }

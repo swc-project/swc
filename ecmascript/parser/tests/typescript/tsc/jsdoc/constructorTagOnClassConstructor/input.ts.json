@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "Alpha",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -58,7 +57,6 @@
             "ctxt": 0
           },
           "value": "Beta",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -84,7 +82,6 @@
                 "ctxt": 0
               },
               "value": "constructor",
-              "typeAnnotation": null,
               "optional": false
             },
             "params": [],
@@ -133,8 +130,8 @@
               "ctxt": 0
             },
             "value": "arr",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -154,7 +151,6 @@
                     "ctxt": 0
                   },
                   "value": "Alpha",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -168,7 +164,6 @@
                     "ctxt": 0
                   },
                   "value": "Beta",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }

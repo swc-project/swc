@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -51,7 +50,6 @@
                   "ctxt": 0
                 },
                 "value": "Point",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -77,7 +75,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": null,
@@ -123,7 +120,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": null,
@@ -182,7 +178,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -210,7 +205,6 @@
                   "ctxt": 0
                 },
                 "value": "Point",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -236,7 +230,6 @@
                       "ctxt": 0
                     },
                     "value": "origin",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": null,
@@ -282,7 +275,6 @@
                       "ctxt": 0
                     },
                     "value": "angle",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": null,
@@ -341,7 +333,6 @@
           "ctxt": 0
         },
         "value": "X",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -361,7 +352,6 @@
             "ctxt": 0
           },
           "value": "Y",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -381,7 +371,6 @@
               "ctxt": 0
             },
             "value": "Z",
-            "typeAnnotation": null,
             "optional": false
           },
           "body": {
@@ -409,7 +398,6 @@
                       "ctxt": 0
                     },
                     "value": "Line",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "declare": false,
@@ -435,7 +423,6 @@
                           "ctxt": 0
                         },
                         "value": "length",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": null,
@@ -496,7 +483,6 @@
           "ctxt": 0
         },
         "value": "X",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -531,7 +517,6 @@
                   "ctxt": 0
                 },
                 "value": "Y",
-                "typeAnnotation": null,
                 "optional": false
               },
               "body": {
@@ -566,7 +551,6 @@
                           "ctxt": 0
                         },
                         "value": "Z",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "body": {
@@ -594,7 +578,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "Line",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "declare": false,
@@ -620,7 +603,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "name",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "value": null,

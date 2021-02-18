@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "Animal",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -51,7 +50,6 @@
                 "ctxt": 0
               },
               "value": "animal",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -103,7 +101,6 @@
           "ctxt": 0
         },
         "value": "Dog",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -124,7 +121,6 @@
               "ctxt": 0
             },
             "value": "Animal",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": null
@@ -154,7 +150,6 @@
                 "ctxt": 0
               },
               "value": "dog",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -198,7 +193,6 @@
           "ctxt": 0
         },
         "value": "Cat",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -219,7 +213,6 @@
               "ctxt": 0
             },
             "value": "Animal",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": null
@@ -249,7 +242,6 @@
                 "ctxt": 0
               },
               "value": "cat",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -293,7 +285,6 @@
           "ctxt": 0
         },
         "value": "Moose",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -314,7 +305,6 @@
               "ctxt": 0
             },
             "value": "Animal",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": null
@@ -344,7 +334,6 @@
                 "ctxt": 0
               },
               "value": "moose",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -383,7 +372,6 @@
           "ctxt": 0
         },
         "value": "doThing",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -404,6 +392,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -433,8 +422,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -470,7 +458,6 @@
               "ctxt": 0
             },
             "value": "Dog",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null
@@ -487,7 +474,6 @@
           "ctxt": 0
         },
         "value": "doThing",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -508,6 +494,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -537,8 +524,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -574,7 +560,6 @@
               "ctxt": 0
             },
             "value": "Cat",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null
@@ -591,7 +576,6 @@
           "ctxt": 0
         },
         "value": "doThing",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -612,6 +596,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -628,8 +613,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -665,7 +649,6 @@
               "ctxt": 0
             },
             "value": "Animal",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null
@@ -682,7 +665,6 @@
           "ctxt": 0
         },
         "value": "doThing",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -703,6 +685,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -719,8 +702,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -739,6 +721,7 @@
               "ctxt": 0
             },
             "value": "y",
+            "optional": true,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -755,8 +738,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": true
+            }
           }
         }
       ],
@@ -789,7 +771,6 @@
                 "ctxt": 0
               },
               "value": "undefined",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -820,7 +801,6 @@
               "ctxt": 0
             },
             "value": "Moose",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null

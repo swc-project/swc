@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "Person",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -51,7 +50,6 @@
                 "ctxt": 0
               },
               "value": "naam",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -93,7 +91,6 @@
                 "ctxt": 0
               },
               "value": "age",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -147,6 +144,7 @@
               "ctxt": 0
             },
             "value": "bob",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -169,13 +167,11 @@
                     "ctxt": 0
                   },
                   "value": "Person",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -207,6 +203,7 @@
               "ctxt": 0
             },
             "value": "alice",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -229,13 +226,11 @@
                     "ctxt": 0
                   },
                   "value": "Person",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -282,7 +277,6 @@
                     "ctxt": 0
                   },
                   "value": "naam",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -302,7 +296,6 @@
                     "ctxt": 0
                   },
                   "value": "age",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -334,7 +327,6 @@
                     "ctxt": 0
                   },
                   "value": "bob",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -353,7 +345,6 @@
                     "ctxt": 0
                   },
                   "value": "alice",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }

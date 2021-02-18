@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "MyTestClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "canary",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -88,7 +86,6 @@
               "ctxt": 0
             },
             "value": "staticCanary",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -134,7 +131,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -171,8 +167,8 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "init": {
                       "type": "MemberExpression",
@@ -197,7 +193,6 @@
                           "ctxt": 0
                         },
                         "value": "canary",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -231,6 +226,7 @@
                         "ctxt": 0
                       },
                       "value": "p",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -247,8 +243,7 @@
                           },
                           "kind": "number"
                         }
-                      },
-                      "optional": false
+                      }
                     },
                     "init": null,
                     "definite": false
@@ -293,7 +288,6 @@
                         "ctxt": 0
                       },
                       "value": "canary",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -329,7 +323,6 @@
               "ctxt": 0
             },
             "value": "memberFunc",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -357,8 +350,8 @@
                       "ctxt": 0
                     },
                     "value": "t",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "right": {
                     "type": "ThisExpression",
@@ -411,6 +404,7 @@
                           "ctxt": 0
                         },
                         "value": "t",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -433,13 +427,11 @@
                                 "ctxt": 0
                               },
                               "value": "MyTestClass",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -471,8 +463,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -511,6 +503,7 @@
                           "ctxt": 0
                         },
                         "value": "p",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -533,13 +526,11 @@
                                 "ctxt": 0
                               },
                               "value": "MyTestClass",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -574,7 +565,6 @@
               "ctxt": 0
             },
             "value": "prop",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -618,8 +608,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -658,6 +648,7 @@
                           "ctxt": 0
                         },
                         "value": "p",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -680,13 +671,11 @@
                                 "ctxt": 0
                               },
                               "value": "MyTestClass",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -737,7 +726,6 @@
               "ctxt": 0
             },
             "value": "prop",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -758,8 +746,8 @@
                     "ctxt": 0
                   },
                   "value": "v",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -802,8 +790,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -842,6 +830,7 @@
                           "ctxt": 0
                         },
                         "value": "p",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -864,13 +853,11 @@
                                 "ctxt": 0
                               },
                               "value": "MyTestClass",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -900,8 +887,8 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "right": {
                       "type": "Identifier",
@@ -911,7 +898,6 @@
                         "ctxt": 0
                       },
                       "value": "v",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -939,8 +925,8 @@
                         "ctxt": 0
                       },
                       "value": "v",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "right": {
                       "type": "Identifier",
@@ -950,7 +936,6 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -983,7 +968,6 @@
               "ctxt": 0
             },
             "value": "someFunc",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -1027,8 +1011,8 @@
                           "ctxt": 0
                         },
                         "value": "t",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -1067,6 +1051,7 @@
                           "ctxt": 0
                         },
                         "value": "t",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -1089,13 +1074,11 @@
                                 "ctxt": 0
                               },
                               "value": "MyTestClass",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -1135,7 +1118,6 @@
               "ctxt": 0
             },
             "value": "staticFn",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1163,8 +1145,8 @@
                       "ctxt": 0
                     },
                     "value": "t",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "right": {
                     "type": "ThisExpression",
@@ -1217,6 +1199,7 @@
                           "ctxt": 0
                         },
                         "value": "t",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -1239,12 +1222,10 @@
                                 "ctxt": 0
                               },
                               "value": "MyTestClass",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -1276,8 +1257,8 @@
                           "ctxt": 0
                         },
                         "value": "t",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "Identifier",
@@ -1287,7 +1268,6 @@
                           "ctxt": 0
                         },
                         "value": "MyTestClass",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "definite": false
@@ -1316,7 +1296,6 @@
                         "ctxt": 0
                       },
                       "value": "t",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -1327,7 +1306,6 @@
                         "ctxt": 0
                       },
                       "value": "staticCanary",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -1358,8 +1336,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -1398,6 +1376,7 @@
                           "ctxt": 0
                         },
                         "value": "p",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -1420,12 +1399,10 @@
                                 "ctxt": 0
                               },
                               "value": "MyTestClass",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -1457,8 +1434,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "Identifier",
@@ -1468,7 +1445,6 @@
                           "ctxt": 0
                         },
                         "value": "MyTestClass",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "definite": false
@@ -1497,7 +1473,6 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -1508,7 +1483,6 @@
                         "ctxt": 0
                       },
                       "value": "staticCanary",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -1542,7 +1516,6 @@
               "ctxt": 0
             },
             "value": "staticProp",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1586,8 +1559,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -1626,6 +1599,7 @@
                           "ctxt": 0
                         },
                         "value": "p",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -1648,12 +1622,10 @@
                                 "ctxt": 0
                               },
                               "value": "MyTestClass",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -1685,8 +1657,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "Identifier",
@@ -1696,7 +1668,6 @@
                           "ctxt": 0
                         },
                         "value": "MyTestClass",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "definite": false
@@ -1725,7 +1696,6 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -1736,7 +1706,6 @@
                         "ctxt": 0
                       },
                       "value": "staticCanary",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -1786,7 +1755,6 @@
               "ctxt": 0
             },
             "value": "staticProp",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1807,6 +1775,7 @@
                     "ctxt": 0
                   },
                   "value": "v",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -1829,12 +1798,10 @@
                           "ctxt": 0
                         },
                         "value": "MyTestClass",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -1877,8 +1844,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -1917,6 +1884,7 @@
                           "ctxt": 0
                         },
                         "value": "p",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -1939,12 +1907,10 @@
                                 "ctxt": 0
                               },
                               "value": "MyTestClass",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -1976,8 +1942,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "Identifier",
@@ -1987,7 +1953,6 @@
                           "ctxt": 0
                         },
                         "value": "MyTestClass",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "definite": false
@@ -2016,7 +1981,6 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -2027,7 +1991,6 @@
                         "ctxt": 0
                       },
                       "value": "staticCanary",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -2063,7 +2026,6 @@
           "ctxt": 0
         },
         "value": "MyGenericTestClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -2089,7 +2051,6 @@
               "ctxt": 0
             },
             "value": "canary",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -2135,7 +2096,6 @@
               "ctxt": 0
             },
             "value": "staticCanary",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -2181,7 +2141,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -2218,8 +2177,8 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "init": {
                       "type": "MemberExpression",
@@ -2244,7 +2203,6 @@
                           "ctxt": 0
                         },
                         "value": "canary",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -2278,6 +2236,7 @@
                         "ctxt": 0
                       },
                       "value": "p",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -2294,8 +2253,7 @@
                           },
                           "kind": "number"
                         }
-                      },
-                      "optional": false
+                      }
                     },
                     "init": null,
                     "definite": false
@@ -2340,7 +2298,6 @@
                         "ctxt": 0
                       },
                       "value": "canary",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -2376,7 +2333,6 @@
               "ctxt": 0
             },
             "value": "memberFunc",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -2404,8 +2360,8 @@
                       "ctxt": 0
                     },
                     "value": "t",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "right": {
                     "type": "ThisExpression",
@@ -2458,6 +2414,7 @@
                           "ctxt": 0
                         },
                         "value": "t",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -2480,7 +2437,6 @@
                                 "ctxt": 0
                               },
                               "value": "MyGenericTestClass",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": {
@@ -2506,7 +2462,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "T",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "typeParams": null
@@ -2526,7 +2481,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "U",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "typeParams": null
@@ -2534,8 +2488,7 @@
                               ]
                             }
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -2567,8 +2520,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -2607,6 +2560,7 @@
                           "ctxt": 0
                         },
                         "value": "p",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -2629,7 +2583,6 @@
                                 "ctxt": 0
                               },
                               "value": "MyGenericTestClass",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": {
@@ -2655,7 +2608,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "T",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "typeParams": null
@@ -2675,7 +2627,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "U",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "typeParams": null
@@ -2683,8 +2634,7 @@
                               ]
                             }
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -2719,7 +2669,6 @@
               "ctxt": 0
             },
             "value": "prop",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -2763,8 +2712,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -2803,6 +2752,7 @@
                           "ctxt": 0
                         },
                         "value": "p",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -2825,7 +2775,6 @@
                                 "ctxt": 0
                               },
                               "value": "MyGenericTestClass",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": {
@@ -2851,7 +2800,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "T",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "typeParams": null
@@ -2871,7 +2819,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "U",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "typeParams": null
@@ -2879,8 +2826,7 @@
                               ]
                             }
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -2931,7 +2877,6 @@
               "ctxt": 0
             },
             "value": "prop",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -2952,8 +2897,8 @@
                     "ctxt": 0
                   },
                   "value": "v",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -2996,8 +2941,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -3036,6 +2981,7 @@
                           "ctxt": 0
                         },
                         "value": "p",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -3058,7 +3004,6 @@
                                 "ctxt": 0
                               },
                               "value": "MyGenericTestClass",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": {
@@ -3084,7 +3029,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "T",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "typeParams": null
@@ -3104,7 +3048,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "U",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "typeParams": null
@@ -3112,8 +3055,7 @@
                               ]
                             }
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -3143,8 +3085,8 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "right": {
                       "type": "Identifier",
@@ -3154,7 +3096,6 @@
                         "ctxt": 0
                       },
                       "value": "v",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -3182,8 +3123,8 @@
                         "ctxt": 0
                       },
                       "value": "v",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "right": {
                       "type": "Identifier",
@@ -3193,7 +3134,6 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -3226,7 +3166,6 @@
               "ctxt": 0
             },
             "value": "someFunc",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -3270,8 +3209,8 @@
                           "ctxt": 0
                         },
                         "value": "t",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -3310,6 +3249,7 @@
                           "ctxt": 0
                         },
                         "value": "t",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -3332,7 +3272,6 @@
                                 "ctxt": 0
                               },
                               "value": "MyGenericTestClass",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": {
@@ -3358,7 +3297,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "T",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "typeParams": null
@@ -3378,7 +3316,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "U",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "typeParams": null
@@ -3386,8 +3323,7 @@
                               ]
                             }
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -3427,7 +3363,6 @@
               "ctxt": 0
             },
             "value": "staticFn",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -3455,8 +3390,8 @@
                       "ctxt": 0
                     },
                     "value": "t",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "right": {
                     "type": "ThisExpression",
@@ -3509,6 +3444,7 @@
                           "ctxt": 0
                         },
                         "value": "t",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -3531,12 +3467,10 @@
                                 "ctxt": 0
                               },
                               "value": "MyGenericTestClass",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -3568,8 +3502,8 @@
                           "ctxt": 0
                         },
                         "value": "t",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "Identifier",
@@ -3579,7 +3513,6 @@
                           "ctxt": 0
                         },
                         "value": "MyGenericTestClass",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "definite": false
@@ -3608,7 +3541,6 @@
                         "ctxt": 0
                       },
                       "value": "t",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -3619,7 +3551,6 @@
                         "ctxt": 0
                       },
                       "value": "staticCanary",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -3650,8 +3581,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -3690,6 +3621,7 @@
                           "ctxt": 0
                         },
                         "value": "p",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -3712,12 +3644,10 @@
                                 "ctxt": 0
                               },
                               "value": "MyGenericTestClass",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -3749,8 +3679,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "Identifier",
@@ -3760,7 +3690,6 @@
                           "ctxt": 0
                         },
                         "value": "MyGenericTestClass",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "definite": false
@@ -3789,7 +3718,6 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -3800,7 +3728,6 @@
                         "ctxt": 0
                       },
                       "value": "staticCanary",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -3834,7 +3761,6 @@
               "ctxt": 0
             },
             "value": "staticProp",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -3878,8 +3804,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -3918,6 +3844,7 @@
                           "ctxt": 0
                         },
                         "value": "p",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -3940,12 +3867,10 @@
                                 "ctxt": 0
                               },
                               "value": "MyGenericTestClass",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -3977,8 +3902,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "Identifier",
@@ -3988,7 +3913,6 @@
                           "ctxt": 0
                         },
                         "value": "MyGenericTestClass",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "definite": false
@@ -4017,7 +3941,6 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -4028,7 +3951,6 @@
                         "ctxt": 0
                       },
                       "value": "staticCanary",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -4078,7 +4000,6 @@
               "ctxt": 0
             },
             "value": "staticProp",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -4099,6 +4020,7 @@
                     "ctxt": 0
                   },
                   "value": "v",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -4121,12 +4043,10 @@
                           "ctxt": 0
                         },
                         "value": "MyGenericTestClass",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -4169,8 +4089,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -4209,6 +4129,7 @@
                           "ctxt": 0
                         },
                         "value": "p",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -4231,12 +4152,10 @@
                                 "ctxt": 0
                               },
                               "value": "MyGenericTestClass",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -4268,8 +4187,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "Identifier",
@@ -4279,7 +4198,6 @@
                           "ctxt": 0
                         },
                         "value": "MyGenericTestClass",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "definite": false
@@ -4308,7 +4226,6 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -4319,7 +4236,6 @@
                         "ctxt": 0
                       },
                       "value": "staticCanary",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -4364,7 +4280,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -4385,7 +4300,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -4406,7 +4320,6 @@
           "ctxt": 0
         },
         "value": "fn",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -4434,8 +4347,8 @@
                 "ctxt": 0
               },
               "value": "s",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "right": {
               "type": "ThisExpression",
@@ -4488,6 +4401,7 @@
                     "ctxt": 0
                   },
                   "value": "s",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -4504,8 +4418,7 @@
                       },
                       "kind": "any"
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -4542,7 +4455,6 @@
                     "ctxt": 0
                   },
                   "value": "s",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -4553,7 +4465,6 @@
                     "ctxt": 0
                   },
                   "value": "spaaaaaaace",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -4594,6 +4505,7 @@
                     "ctxt": 0
                   },
                   "value": "t",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -4610,8 +4522,7 @@
                       },
                       "kind": "any"
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -4643,8 +4554,8 @@
                     "ctxt": 0
                   },
                   "value": "t",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ThisExpression",
@@ -4696,7 +4607,6 @@
                     "ctxt": 0
                   },
                   "value": "spaaaaace",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -4744,8 +4654,8 @@
               "ctxt": 0
             },
             "value": "q1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -4774,8 +4684,8 @@
                       "ctxt": 0
                     },
                     "value": "s",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "right": {
                     "type": "ThisExpression",
@@ -4828,6 +4738,7 @@
                           "ctxt": 0
                         },
                         "value": "s",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -4844,8 +4755,7 @@
                             },
                             "kind": "any"
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -4882,7 +4792,6 @@
                           "ctxt": 0
                         },
                         "value": "s",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -4893,7 +4802,6 @@
                           "ctxt": 0
                         },
                         "value": "spaaaaaaace",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -4934,6 +4842,7 @@
                           "ctxt": 0
                         },
                         "value": "t",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -4950,8 +4859,7 @@
                             },
                             "kind": "any"
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -4983,8 +4891,8 @@
                           "ctxt": 0
                         },
                         "value": "t",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -5036,7 +4944,6 @@
                           "ctxt": 0
                         },
                         "value": "spaaaaace",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -5088,8 +4995,8 @@
               "ctxt": 0
             },
             "value": "q2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -5114,8 +5021,8 @@
                     "ctxt": 0
                   },
                   "value": "s",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "right": {
                   "type": "ThisExpression",
@@ -5161,6 +5068,7 @@
                           "ctxt": 0
                         },
                         "value": "s",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -5183,12 +5091,10 @@
                                 "ctxt": 0
                               },
                               "value": "globalThis",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -5225,7 +5131,6 @@
                           "ctxt": 0
                         },
                         "value": "s",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -5236,7 +5141,6 @@
                           "ctxt": 0
                         },
                         "value": "spaaaaaaace",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -5277,6 +5181,7 @@
                           "ctxt": 0
                         },
                         "value": "t",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -5299,12 +5204,10 @@
                                 "ctxt": 0
                               },
                               "value": "globalThis",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -5336,8 +5239,8 @@
                           "ctxt": 0
                         },
                         "value": "t",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -5389,7 +5292,6 @@
                           "ctxt": 0
                         },
                         "value": "spaaaaace",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -5441,6 +5343,7 @@
               "ctxt": 0
             },
             "value": "t",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -5463,12 +5366,10 @@
                     "ctxt": 0
                   },
                   "value": "globalThis",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -5500,8 +5401,8 @@
               "ctxt": 0
             },
             "value": "t",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ThisExpression",
@@ -5553,7 +5454,6 @@
               "ctxt": 0
             },
             "value": "spaaaaace",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

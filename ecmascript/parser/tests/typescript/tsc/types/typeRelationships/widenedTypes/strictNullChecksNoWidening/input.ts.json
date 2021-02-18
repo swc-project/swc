@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "a1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NullLiteral",
@@ -71,8 +71,8 @@
               "ctxt": 0
             },
             "value": "a2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "Identifier",
@@ -82,7 +82,6 @@
               "ctxt": 0
             },
             "value": "undefined",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false
@@ -114,8 +113,8 @@
               "ctxt": 0
             },
             "value": "a3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -164,8 +163,8 @@
               "ctxt": 0
             },
             "value": "b1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -205,8 +204,8 @@
               "ctxt": 0
             },
             "value": "b2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -248,8 +247,8 @@
               "ctxt": 0
             },
             "value": "b3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -269,7 +268,6 @@
                     "ctxt": 0
                   },
                   "value": "undefined",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -304,8 +302,8 @@
               "ctxt": 0
             },
             "value": "b4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -370,8 +368,8 @@
               "ctxt": 0
             },
             "value": "b5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -423,7 +421,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -444,6 +441,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -466,13 +464,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -508,7 +504,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -538,7 +533,6 @@
               "ctxt": 0
             },
             "value": "T",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null
@@ -570,8 +564,8 @@
               "ctxt": 0
             },
             "value": "c1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -588,7 +582,6 @@
                 "ctxt": 0
               },
               "value": "f",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -635,8 +628,8 @@
               "ctxt": 0
             },
             "value": "c2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -653,7 +646,6 @@
                 "ctxt": 0
               },
               "value": "f",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -667,7 +659,6 @@
                     "ctxt": 0
                   },
                   "value": "undefined",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -703,8 +694,8 @@
               "ctxt": 0
             },
             "value": "c3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -721,7 +712,6 @@
                 "ctxt": 0
               },
               "value": "f",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [

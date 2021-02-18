@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -99,7 +97,6 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -145,7 +142,6 @@
           "ctxt": 0
         },
         "value": "Derived",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -171,7 +167,6 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -228,7 +223,6 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -266,7 +260,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,

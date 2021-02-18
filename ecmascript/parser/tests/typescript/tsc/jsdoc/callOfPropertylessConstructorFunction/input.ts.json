@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Dependency",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -37,8 +36,8 @@
               "ctxt": 0
             },
             "value": "j",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -71,7 +70,6 @@
                 "ctxt": 0
               },
               "value": "j",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -104,7 +102,6 @@
             "ctxt": 0
           },
           "value": "Dependency",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [

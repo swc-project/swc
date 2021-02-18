@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "array",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -109,8 +109,8 @@
               "ctxt": 0
             },
             "value": "array1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -187,6 +187,7 @@
               "ctxt": 0
             },
             "value": "tup",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -258,8 +259,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -348,6 +348,7 @@
               "ctxt": 0
             },
             "value": "tup1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -476,8 +477,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -571,6 +571,7 @@
               "ctxt": 0
             },
             "value": "tup2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -642,8 +643,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -737,8 +737,8 @@
               "ctxt": 0
             },
             "value": "spr",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -798,7 +798,6 @@
                     "ctxt": 0
                   },
                   "value": "array",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -833,8 +832,8 @@
               "ctxt": 0
             },
             "value": "spr1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -894,7 +893,6 @@
                     "ctxt": 0
                   },
                   "value": "tup",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -929,6 +927,7 @@
               "ctxt": 0
             },
             "value": "spr2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1000,8 +999,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -1061,7 +1059,6 @@
                     "ctxt": 0
                   },
                   "value": "tup",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }

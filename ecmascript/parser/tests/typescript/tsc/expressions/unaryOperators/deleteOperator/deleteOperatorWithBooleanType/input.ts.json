@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "BOOLEAN",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -47,8 +48,7 @@
                 },
                 "kind": "boolean"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -65,7 +65,6 @@
           "ctxt": 0
         },
         "value": "foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -134,7 +133,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -160,7 +158,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -206,7 +203,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -279,7 +275,6 @@
           "ctxt": 0
         },
         "value": "M",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -322,6 +317,7 @@
                       "ctxt": 0
                     },
                     "value": "n",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -338,8 +334,7 @@
                         },
                         "kind": "boolean"
                       }
-                    },
-                    "optional": false
+                    }
                   },
                   "init": null,
                   "definite": false
@@ -375,8 +370,8 @@
               "ctxt": 0
             },
             "value": "objA",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -393,7 +388,6 @@
                 "ctxt": 0
               },
               "value": "A",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -428,8 +422,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -447,7 +441,6 @@
                 "ctxt": 0
               },
               "value": "BOOLEAN",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -480,8 +473,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -530,8 +523,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -559,7 +552,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -582,7 +574,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -627,8 +618,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -653,7 +644,6 @@
                   "ctxt": 0
                 },
                 "value": "objA",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -664,7 +654,6 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -699,8 +688,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -725,7 +714,6 @@
                   "ctxt": 0
                 },
                 "value": "M",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -736,7 +724,6 @@
                   "ctxt": 0
                 },
                 "value": "n",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -771,8 +758,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean6",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -797,7 +784,6 @@
                   "ctxt": 0
                 },
                 "value": "foo",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -833,8 +819,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean7",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -866,7 +852,6 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -877,7 +862,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -915,8 +899,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean8",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -942,7 +926,6 @@
                   "ctxt": 0
                 },
                 "value": "BOOLEAN",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1000,7 +983,6 @@
             "ctxt": 0
           },
           "value": "BOOLEAN",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1035,7 +1017,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "arguments": [],
@@ -1118,7 +1099,6 @@
               "ctxt": 0
             },
             "value": "objA",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1129,7 +1109,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1166,7 +1145,6 @@
               "ctxt": 0
             },
             "value": "M",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1177,7 +1155,6 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

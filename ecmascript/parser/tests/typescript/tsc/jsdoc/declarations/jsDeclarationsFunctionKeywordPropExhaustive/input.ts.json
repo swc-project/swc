@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -71,7 +70,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -82,7 +80,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -128,7 +125,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -139,7 +135,6 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -185,7 +180,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -196,7 +190,6 @@
               "ctxt": 0
             },
             "value": "break",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -242,7 +235,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -253,7 +245,6 @@
               "ctxt": 0
             },
             "value": "case",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -299,7 +290,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -310,7 +300,6 @@
               "ctxt": 0
             },
             "value": "catch",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -356,7 +345,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -367,7 +355,6 @@
               "ctxt": 0
             },
             "value": "class",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -413,7 +400,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -424,7 +410,6 @@
               "ctxt": 0
             },
             "value": "const",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -470,7 +455,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -481,7 +465,6 @@
               "ctxt": 0
             },
             "value": "continue",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -527,7 +510,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -538,7 +520,6 @@
               "ctxt": 0
             },
             "value": "debugger",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -584,7 +565,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -595,7 +575,6 @@
               "ctxt": 0
             },
             "value": "default",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -641,7 +620,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -652,7 +630,6 @@
               "ctxt": 0
             },
             "value": "delete",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -698,7 +675,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -709,7 +685,6 @@
               "ctxt": 0
             },
             "value": "do",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -755,7 +730,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -766,7 +740,6 @@
               "ctxt": 0
             },
             "value": "else",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -812,7 +785,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -823,7 +795,6 @@
               "ctxt": 0
             },
             "value": "enum",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -869,7 +840,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -880,7 +850,6 @@
               "ctxt": 0
             },
             "value": "export",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -926,7 +895,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -937,7 +905,6 @@
               "ctxt": 0
             },
             "value": "extends",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -983,7 +950,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -994,7 +960,6 @@
               "ctxt": 0
             },
             "value": "false",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1040,7 +1005,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1051,7 +1015,6 @@
               "ctxt": 0
             },
             "value": "finally",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1097,7 +1060,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1108,7 +1070,6 @@
               "ctxt": 0
             },
             "value": "for",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1154,7 +1115,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1165,7 +1125,6 @@
               "ctxt": 0
             },
             "value": "function",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1211,7 +1170,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1222,7 +1180,6 @@
               "ctxt": 0
             },
             "value": "if",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1268,7 +1225,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1279,7 +1235,6 @@
               "ctxt": 0
             },
             "value": "import",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1325,7 +1280,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1336,7 +1290,6 @@
               "ctxt": 0
             },
             "value": "in",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1382,7 +1335,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1393,7 +1345,6 @@
               "ctxt": 0
             },
             "value": "instanceof",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1439,7 +1390,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1450,7 +1400,6 @@
               "ctxt": 0
             },
             "value": "new",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1496,7 +1445,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1507,7 +1455,6 @@
               "ctxt": 0
             },
             "value": "null",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1553,7 +1500,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1564,7 +1510,6 @@
               "ctxt": 0
             },
             "value": "return",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1610,7 +1555,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1621,7 +1565,6 @@
               "ctxt": 0
             },
             "value": "super",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1667,7 +1610,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1678,7 +1620,6 @@
               "ctxt": 0
             },
             "value": "switch",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1724,7 +1665,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1735,7 +1675,6 @@
               "ctxt": 0
             },
             "value": "this",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1781,7 +1720,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1792,7 +1730,6 @@
               "ctxt": 0
             },
             "value": "throw",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1838,7 +1775,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1849,7 +1785,6 @@
               "ctxt": 0
             },
             "value": "true",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1895,7 +1830,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1906,7 +1840,6 @@
               "ctxt": 0
             },
             "value": "try",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1952,7 +1885,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1963,7 +1895,6 @@
               "ctxt": 0
             },
             "value": "typeof",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2009,7 +1940,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2020,7 +1950,6 @@
               "ctxt": 0
             },
             "value": "var",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2066,7 +1995,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2077,7 +2005,6 @@
               "ctxt": 0
             },
             "value": "void",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2123,7 +2050,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2134,7 +2060,6 @@
               "ctxt": 0
             },
             "value": "while",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2180,7 +2105,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2191,7 +2115,6 @@
               "ctxt": 0
             },
             "value": "with",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2237,7 +2160,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2248,7 +2170,6 @@
               "ctxt": 0
             },
             "value": "implements",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2294,7 +2215,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2305,7 +2225,6 @@
               "ctxt": 0
             },
             "value": "interface",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2351,7 +2270,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2362,7 +2280,6 @@
               "ctxt": 0
             },
             "value": "let",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2408,7 +2325,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2419,7 +2335,6 @@
               "ctxt": 0
             },
             "value": "package",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2465,7 +2380,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2476,7 +2390,6 @@
               "ctxt": 0
             },
             "value": "private",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2522,7 +2435,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2533,7 +2445,6 @@
               "ctxt": 0
             },
             "value": "protected",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2579,7 +2490,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2590,7 +2500,6 @@
               "ctxt": 0
             },
             "value": "public",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2636,7 +2545,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2647,7 +2555,6 @@
               "ctxt": 0
             },
             "value": "static",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2693,7 +2600,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2704,7 +2610,6 @@
               "ctxt": 0
             },
             "value": "yield",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2750,7 +2655,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2761,7 +2665,6 @@
               "ctxt": 0
             },
             "value": "abstract",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2807,7 +2710,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2818,7 +2720,6 @@
               "ctxt": 0
             },
             "value": "as",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2864,7 +2765,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2875,7 +2775,6 @@
               "ctxt": 0
             },
             "value": "asserts",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2921,7 +2820,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2932,7 +2830,6 @@
               "ctxt": 0
             },
             "value": "any",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2978,7 +2875,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2989,7 +2885,6 @@
               "ctxt": 0
             },
             "value": "async",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3035,7 +2930,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3046,7 +2940,6 @@
               "ctxt": 0
             },
             "value": "await",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3092,7 +2985,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3103,7 +2995,6 @@
               "ctxt": 0
             },
             "value": "boolean",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3149,7 +3040,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3160,7 +3050,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3206,7 +3095,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3217,7 +3105,6 @@
               "ctxt": 0
             },
             "value": "declare",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3263,7 +3150,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3274,7 +3160,6 @@
               "ctxt": 0
             },
             "value": "get",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3320,7 +3205,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3331,7 +3215,6 @@
               "ctxt": 0
             },
             "value": "infer",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3377,7 +3260,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3388,7 +3270,6 @@
               "ctxt": 0
             },
             "value": "is",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3434,7 +3315,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3445,7 +3325,6 @@
               "ctxt": 0
             },
             "value": "keyof",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3491,7 +3370,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3502,7 +3380,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3548,7 +3425,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3559,7 +3435,6 @@
               "ctxt": 0
             },
             "value": "namespace",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3605,7 +3480,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3616,7 +3490,6 @@
               "ctxt": 0
             },
             "value": "never",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3662,7 +3535,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3673,7 +3545,6 @@
               "ctxt": 0
             },
             "value": "readonly",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3719,7 +3590,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3730,7 +3600,6 @@
               "ctxt": 0
             },
             "value": "require",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3776,7 +3645,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3787,7 +3655,6 @@
               "ctxt": 0
             },
             "value": "number",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3833,7 +3700,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3844,7 +3710,6 @@
               "ctxt": 0
             },
             "value": "object",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3890,7 +3755,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3901,7 +3765,6 @@
               "ctxt": 0
             },
             "value": "set",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3947,7 +3810,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3958,7 +3820,6 @@
               "ctxt": 0
             },
             "value": "string",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -4004,7 +3865,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -4015,7 +3875,6 @@
               "ctxt": 0
             },
             "value": "symbol",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -4061,7 +3920,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -4072,7 +3930,6 @@
               "ctxt": 0
             },
             "value": "type",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -4118,7 +3975,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -4129,7 +3985,6 @@
               "ctxt": 0
             },
             "value": "undefined",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -4175,7 +4030,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -4186,7 +4040,6 @@
               "ctxt": 0
             },
             "value": "unique",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -4232,7 +4085,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -4243,7 +4095,6 @@
               "ctxt": 0
             },
             "value": "unknown",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -4289,7 +4140,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -4300,7 +4150,6 @@
               "ctxt": 0
             },
             "value": "from",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -4346,7 +4195,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -4357,7 +4205,6 @@
               "ctxt": 0
             },
             "value": "global",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -4403,7 +4250,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -4414,7 +4260,6 @@
               "ctxt": 0
             },
             "value": "bigint",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -4460,7 +4305,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -4471,7 +4315,6 @@
               "ctxt": 0
             },
             "value": "of",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

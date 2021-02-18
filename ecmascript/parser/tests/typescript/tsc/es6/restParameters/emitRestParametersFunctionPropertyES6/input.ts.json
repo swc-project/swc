@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "obj",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -62,7 +63,6 @@
                         "ctxt": 0
                       },
                       "value": "func1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -104,8 +104,8 @@
                                 "ctxt": 0
                               },
                               "value": "rest",
-                              "typeAnnotation": null,
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             },
                             "typeAnnotation": null
                           }
@@ -134,8 +134,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -167,8 +166,8 @@
               "ctxt": 0
             },
             "value": "obj2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -188,7 +187,6 @@
                     "ctxt": 0
                   },
                   "value": "func",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "params": [
@@ -220,8 +218,8 @@
                           "ctxt": 0
                         },
                         "value": "rest",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "typeAnnotation": null
                     }

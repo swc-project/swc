@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "v1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "StringLiteral",
@@ -77,8 +77,8 @@
               "ctxt": 0
             },
             "value": "v2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -118,8 +118,8 @@
               "ctxt": 0
             },
             "value": "v4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -179,8 +179,8 @@
                 "ctxt": 0
               },
               "value": "v3",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "BooleanLiteral",
@@ -221,8 +221,8 @@
               "ctxt": 0
             },
             "value": "v2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -291,7 +291,6 @@
           "ctxt": 0
         },
         "value": "file3",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -342,8 +341,8 @@
               "ctxt": 0
             },
             "value": "t1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "Identifier",
@@ -353,7 +352,6 @@
               "ctxt": 0
             },
             "value": "v1",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false
@@ -385,8 +383,8 @@
               "ctxt": 0
             },
             "value": "t2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "Identifier",
@@ -396,7 +394,6 @@
               "ctxt": 0
             },
             "value": "v2",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false
@@ -428,8 +425,8 @@
               "ctxt": 0
             },
             "value": "t3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -446,7 +443,6 @@
                 "ctxt": 0
               },
               "value": "file3",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -457,7 +453,6 @@
                 "ctxt": 0
               },
               "value": "v3",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -491,8 +486,8 @@
               "ctxt": 0
             },
             "value": "v4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -512,7 +507,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -535,7 +529,6 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -546,7 +539,6 @@
                     "ctxt": 0
                   },
                   "value": "NaN",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -581,8 +573,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "Identifier",
@@ -592,7 +584,6 @@
               "ctxt": 0
             },
             "value": "v2",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false

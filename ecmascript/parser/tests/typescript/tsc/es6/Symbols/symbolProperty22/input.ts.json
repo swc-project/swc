@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "I",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -48,7 +47,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -69,7 +67,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -109,7 +106,6 @@
                   "ctxt": 0
                 },
                 "value": "Symbol",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -120,7 +116,6 @@
                   "ctxt": 0
                 },
                 "value": "unscopables",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -136,6 +131,7 @@
                   "ctxt": 0
                 },
                 "value": "x",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -158,13 +154,11 @@
                         "ctxt": 0
                       },
                       "value": "T",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnn": {
@@ -189,7 +183,6 @@
                     "ctxt": 0
                   },
                   "value": "U",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -210,7 +203,6 @@
           "ctxt": 0
         },
         "value": "foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -231,6 +223,7 @@
               "ctxt": 0
             },
             "value": "p1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -253,13 +246,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -278,6 +269,7 @@
               "ctxt": 0
             },
             "value": "p2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -300,7 +292,6 @@
                     "ctxt": 0
                   },
                   "value": "I",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -326,7 +317,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -346,7 +336,6 @@
                           "ctxt": 0
                         },
                         "value": "U",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -354,8 +343,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -391,7 +379,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -412,7 +399,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -442,7 +428,6 @@
               "ctxt": 0
             },
             "value": "U",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null
@@ -471,7 +456,6 @@
             "ctxt": 0
           },
           "value": "foo",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -526,7 +510,6 @@
                           "ctxt": 0
                         },
                         "value": "Symbol",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -537,7 +520,6 @@
                           "ctxt": 0
                         },
                         "value": "unscopables",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -559,8 +541,8 @@
                           "ctxt": 0
                         },
                         "value": "s",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       }
                     ],
                     "body": {
@@ -578,7 +560,6 @@
                           "ctxt": 0
                         },
                         "value": "s",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -589,7 +570,6 @@
                           "ctxt": 0
                         },
                         "value": "length",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false

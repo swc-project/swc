@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "A",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -123,7 +121,6 @@
             "ctxt": 0
           },
           "value": "B",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -149,7 +146,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -170,8 +166,8 @@
                       "ctxt": 0
                     },
                     "value": "_arg",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   }
                 }
               ],
@@ -226,7 +222,6 @@
             "ctxt": 0
           },
           "value": "C",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -252,7 +247,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -316,7 +310,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -337,8 +330,8 @@
                       "ctxt": 0
                     },
                     "value": "_arg",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   }
                 }
               ],
@@ -393,7 +386,6 @@
             "ctxt": 0
           },
           "value": "D",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -440,7 +432,6 @@
               "ctxt": 0
             },
             "value": "Object",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -451,7 +442,6 @@
               "ctxt": 0
             },
             "value": "defineProperty",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -474,7 +464,6 @@
                   "ctxt": 0
                 },
                 "value": "D",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -485,7 +474,6 @@
                   "ctxt": 0
                 },
                 "value": "prototype",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -528,7 +516,6 @@
                       "ctxt": 0
                     },
                     "value": "get",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "params": [],
@@ -594,7 +581,6 @@
             "ctxt": 0
           },
           "value": "E",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -641,7 +627,6 @@
               "ctxt": 0
             },
             "value": "Object",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -652,7 +637,6 @@
               "ctxt": 0
             },
             "value": "defineProperty",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -675,7 +659,6 @@
                   "ctxt": 0
                 },
                 "value": "E",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -686,7 +669,6 @@
                   "ctxt": 0
                 },
                 "value": "prototype",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -729,7 +711,6 @@
                       "ctxt": 0
                     },
                     "value": "set",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "params": [
@@ -749,8 +730,8 @@
                           "ctxt": 0
                         },
                         "value": "_arg",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       }
                     }
                   ],
@@ -798,7 +779,6 @@
             "ctxt": 0
           },
           "value": "F",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -845,7 +825,6 @@
               "ctxt": 0
             },
             "value": "Object",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -856,7 +835,6 @@
               "ctxt": 0
             },
             "value": "defineProperty",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -879,7 +857,6 @@
                   "ctxt": 0
                 },
                 "value": "F",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -890,7 +867,6 @@
                   "ctxt": 0
                 },
                 "value": "prototype",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -933,7 +909,6 @@
                       "ctxt": 0
                     },
                     "value": "get",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "params": [],
@@ -985,7 +960,6 @@
                       "ctxt": 0
                     },
                     "value": "set",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "params": [
@@ -1005,8 +979,8 @@
                           "ctxt": 0
                         },
                         "value": "_arg",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       }
                     }
                   ],

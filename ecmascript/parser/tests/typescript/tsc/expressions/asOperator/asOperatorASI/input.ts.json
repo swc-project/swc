@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -43,7 +42,6 @@
           "ctxt": 0
         },
         "value": "as",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -76,8 +74,8 @@
                 "ctxt": 0
               },
               "value": "args",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
@@ -144,8 +142,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -182,7 +180,6 @@
             "ctxt": 0
           },
           "value": "as",
-          "typeAnnotation": null,
           "optional": false
         },
         "expressions": [],
@@ -253,8 +250,8 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -291,7 +288,6 @@
             "ctxt": 0
           },
           "value": "as",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -305,7 +301,6 @@
                 "ctxt": 0
               },
               "value": "Foo",
-              "typeAnnotation": null,
               "optional": false
             }
           }

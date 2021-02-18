@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "Foo",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "constructor",
-              "typeAnnotation": null,
               "optional": false
             },
             "params": [],
@@ -99,7 +97,6 @@
                           "ctxt": 0
                         },
                         "value": "foo",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -140,7 +137,6 @@
                 "ctxt": 0
               },
               "value": "slicey",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -197,7 +193,6 @@
                             "ctxt": 0
                           },
                           "value": "foo",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -239,7 +234,6 @@
                                 "ctxt": 0
                               },
                               "value": "foo",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -252,7 +246,6 @@
                               "ctxt": 0
                             },
                             "value": "slice",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -290,7 +283,6 @@
                 "ctxt": 0
               },
               "value": "m",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -339,7 +331,6 @@
                           "ctxt": 0
                         },
                         "value": "foo",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -376,7 +367,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -433,7 +423,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -487,7 +476,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -554,7 +542,6 @@
                                 "ctxt": 0
                               },
                               "value": "x",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -567,7 +554,6 @@
                               "ctxt": 0
                             },
                             "value": "toString",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false

@@ -35,7 +35,6 @@
               "ctxt": 0
             },
             "value": "console",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -46,7 +45,6 @@
               "ctxt": 0
             },
             "value": "log",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

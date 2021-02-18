@@ -29,7 +29,6 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -74,7 +73,6 @@
               "ctxt": 0
             },
             "value": "type",
-            "typeAnnotation": null,
             "optional": false
           }
         }

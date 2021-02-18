@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -62,7 +63,6 @@
                         "ctxt": 0
                       },
                       "value": "foo",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -90,8 +90,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -123,6 +122,7 @@
               "ctxt": 0
             },
             "value": "y",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -154,7 +154,6 @@
                         "ctxt": 0
                       },
                       "value": "foo",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -196,7 +195,6 @@
                         "ctxt": 0
                       },
                       "value": "bar",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -224,8 +222,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -242,7 +239,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -268,7 +264,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -294,7 +289,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -326,7 +320,6 @@
           "ctxt": 0
         },
         "value": "Derived1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -352,7 +345,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -378,7 +370,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -402,7 +393,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -420,7 +410,6 @@
           "ctxt": 0
         },
         "value": "Derived2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -446,7 +435,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -472,7 +460,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -496,7 +483,6 @@
           "ctxt": 0
         },
         "value": "Derived1",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,

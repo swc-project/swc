@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "test",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -52,7 +51,6 @@
                     "ctxt": 0
                   },
                   "value": "method",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -80,7 +78,6 @@
                     "ctxt": 0
                   },
                   "value": "nested",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -106,7 +103,6 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -162,7 +158,6 @@
                         "ctxt": 0
                       },
                       "value": "method",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -249,7 +244,6 @@
                         "ctxt": 0
                       },
                       "value": "nested",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -287,7 +281,6 @@
                                 "ctxt": 0
                               },
                               "value": "p",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false,
@@ -398,7 +391,6 @@
                 "ctxt": 0
               },
               "value": "method",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -417,7 +409,6 @@
                 "ctxt": 0
               },
               "value": "p",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -450,7 +441,6 @@
             "ctxt": 0
           },
           "value": "test",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -492,7 +482,6 @@
             "ctxt": 0
           },
           "value": "test",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -516,7 +505,6 @@
                       "ctxt": 0
                     },
                     "value": "method",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -544,7 +532,6 @@
                       "ctxt": 0
                     },
                     "value": "nested",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -565,7 +552,6 @@
                             "ctxt": 0
                           },
                           "value": "p",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -615,7 +601,6 @@
             "ctxt": 0
           },
           "value": "test",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -639,7 +624,6 @@
                       "ctxt": 0
                     },
                     "value": "method",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -667,7 +651,6 @@
                       "ctxt": 0
                     },
                     "value": "nested",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -688,7 +671,6 @@
                             "ctxt": 0
                           },
                           "value": "p",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -738,7 +720,6 @@
             "ctxt": 0
           },
           "value": "test",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -762,7 +743,6 @@
                       "ctxt": 0
                     },
                     "value": "method",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -790,7 +770,6 @@
                       "ctxt": 0
                     },
                     "value": "nested",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -811,7 +790,6 @@
                             "ctxt": 0
                           },
                           "value": "p",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {

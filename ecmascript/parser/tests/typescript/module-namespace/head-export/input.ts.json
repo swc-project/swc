@@ -30,7 +30,6 @@
             "ctxt": 0
           },
           "value": "X",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -50,7 +49,6 @@
               "ctxt": 0
             },
             "value": "Y",
-            "typeAnnotation": null,
             "optional": false
           },
           "body": {
@@ -89,7 +87,6 @@
             "ctxt": 0
           },
           "value": "X",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {

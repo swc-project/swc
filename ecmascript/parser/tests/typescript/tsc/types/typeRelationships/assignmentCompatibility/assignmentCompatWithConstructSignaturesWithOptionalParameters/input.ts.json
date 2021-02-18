@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -51,7 +50,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -112,7 +110,6 @@
                 "ctxt": 0
               },
               "value": "a2",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -142,6 +139,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
+                    "optional": true,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -158,8 +156,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "optional": true
+                    }
                   }
                 ],
                 "typeParams": null,
@@ -201,7 +198,6 @@
                 "ctxt": 0
               },
               "value": "a3",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -231,6 +227,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -247,8 +244,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 ],
                 "typeParams": null,
@@ -290,7 +286,6 @@
                 "ctxt": 0
               },
               "value": "a4",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -320,6 +315,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -336,8 +332,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "optional": false
+                    }
                   },
                   {
                     "type": "Identifier",
@@ -347,6 +342,7 @@
                       "ctxt": 0
                     },
                     "value": "y",
+                    "optional": true,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -363,8 +359,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "optional": true
+                    }
                   }
                 ],
                 "typeParams": null,
@@ -406,7 +401,6 @@
                 "ctxt": 0
               },
               "value": "a5",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -436,6 +430,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
+                    "optional": true,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -452,8 +447,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "optional": true
+                    }
                   },
                   {
                     "type": "Identifier",
@@ -463,6 +457,7 @@
                       "ctxt": 0
                     },
                     "value": "y",
+                    "optional": true,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -479,8 +474,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "optional": true
+                    }
                   }
                 ],
                 "typeParams": null,
@@ -522,7 +516,6 @@
                 "ctxt": 0
               },
               "value": "a6",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -552,6 +545,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -568,8 +562,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "optional": false
+                    }
                   },
                   {
                     "type": "Identifier",
@@ -579,6 +572,7 @@
                       "ctxt": 0
                     },
                     "value": "y",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -595,8 +589,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 ],
                 "typeParams": null,
@@ -650,6 +643,7 @@
               "ctxt": 0
             },
             "value": "b",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -672,13 +666,11 @@
                     "ctxt": 0
                   },
                   "value": "Base",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -710,6 +702,7 @@
               "ctxt": 0
             },
             "value": "a",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -745,8 +738,7 @@
                 },
                 "isAbstract": false
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -776,8 +768,8 @@
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -794,7 +786,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -805,7 +796,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -835,8 +825,8 @@
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -853,7 +843,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -864,7 +853,6 @@
               "ctxt": 0
             },
             "value": "a2",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -894,8 +882,8 @@
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -912,7 +900,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -923,7 +910,6 @@
               "ctxt": 0
             },
             "value": "a3",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -953,8 +939,8 @@
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -971,7 +957,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -982,7 +967,6 @@
               "ctxt": 0
             },
             "value": "a4",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1012,8 +996,8 @@
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -1030,7 +1014,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1041,7 +1024,6 @@
               "ctxt": 0
             },
             "value": "a5",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1071,8 +1053,8 @@
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -1089,7 +1071,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1100,7 +1081,6 @@
               "ctxt": 0
             },
             "value": "a6",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1132,6 +1112,7 @@
               "ctxt": 0
             },
             "value": "a2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1155,6 +1136,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
+                    "optional": true,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -1171,8 +1153,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "optional": true
+                    }
                   }
                 ],
                 "typeParams": null,
@@ -1195,8 +1176,7 @@
                 },
                 "isAbstract": false
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -1226,8 +1206,8 @@
             "ctxt": 0
           },
           "value": "a2",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -1244,7 +1224,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1255,7 +1234,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1285,8 +1263,8 @@
             "ctxt": 0
           },
           "value": "a2",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -1303,7 +1281,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1314,7 +1291,6 @@
               "ctxt": 0
             },
             "value": "a2",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1344,8 +1320,8 @@
             "ctxt": 0
           },
           "value": "a2",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -1362,7 +1338,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1373,7 +1348,6 @@
               "ctxt": 0
             },
             "value": "a3",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1403,8 +1377,8 @@
             "ctxt": 0
           },
           "value": "a2",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -1421,7 +1395,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1432,7 +1405,6 @@
               "ctxt": 0
             },
             "value": "a4",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1462,8 +1434,8 @@
             "ctxt": 0
           },
           "value": "a2",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -1480,7 +1452,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1491,7 +1462,6 @@
               "ctxt": 0
             },
             "value": "a5",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1521,8 +1491,8 @@
             "ctxt": 0
           },
           "value": "a2",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -1539,7 +1509,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1550,7 +1519,6 @@
               "ctxt": 0
             },
             "value": "a6",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1582,6 +1550,7 @@
               "ctxt": 0
             },
             "value": "a3",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1605,6 +1574,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -1621,8 +1591,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 ],
                 "typeParams": null,
@@ -1645,8 +1614,7 @@
                 },
                 "isAbstract": false
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -1676,8 +1644,8 @@
             "ctxt": 0
           },
           "value": "a3",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -1694,7 +1662,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1705,7 +1672,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1735,8 +1701,8 @@
             "ctxt": 0
           },
           "value": "a3",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -1753,7 +1719,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1764,7 +1729,6 @@
               "ctxt": 0
             },
             "value": "a2",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1794,8 +1758,8 @@
             "ctxt": 0
           },
           "value": "a3",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -1812,7 +1776,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1823,7 +1786,6 @@
               "ctxt": 0
             },
             "value": "a3",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1853,8 +1815,8 @@
             "ctxt": 0
           },
           "value": "a3",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -1871,7 +1833,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1882,7 +1843,6 @@
               "ctxt": 0
             },
             "value": "a4",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1912,8 +1872,8 @@
             "ctxt": 0
           },
           "value": "a3",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -1930,7 +1890,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1941,7 +1900,6 @@
               "ctxt": 0
             },
             "value": "a5",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1971,8 +1929,8 @@
             "ctxt": 0
           },
           "value": "a3",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -1989,7 +1947,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2000,7 +1957,6 @@
               "ctxt": 0
             },
             "value": "a6",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2032,6 +1988,7 @@
               "ctxt": 0
             },
             "value": "a4",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2055,6 +2012,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -2071,8 +2029,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "optional": false
+                    }
                   },
                   {
                     "type": "Identifier",
@@ -2082,6 +2039,7 @@
                       "ctxt": 0
                     },
                     "value": "y",
+                    "optional": true,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -2098,8 +2056,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "optional": true
+                    }
                   }
                 ],
                 "typeParams": null,
@@ -2122,8 +2079,7 @@
                 },
                 "isAbstract": false
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -2153,8 +2109,8 @@
             "ctxt": 0
           },
           "value": "a4",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -2171,7 +2127,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2182,7 +2137,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2212,8 +2166,8 @@
             "ctxt": 0
           },
           "value": "a4",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -2230,7 +2184,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2241,7 +2194,6 @@
               "ctxt": 0
             },
             "value": "a2",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2271,8 +2223,8 @@
             "ctxt": 0
           },
           "value": "a4",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -2289,7 +2241,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2300,7 +2251,6 @@
               "ctxt": 0
             },
             "value": "a3",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2330,8 +2280,8 @@
             "ctxt": 0
           },
           "value": "a4",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -2348,7 +2298,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2359,7 +2308,6 @@
               "ctxt": 0
             },
             "value": "a4",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2389,8 +2337,8 @@
             "ctxt": 0
           },
           "value": "a4",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -2407,7 +2355,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2418,7 +2365,6 @@
               "ctxt": 0
             },
             "value": "a5",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2448,8 +2394,8 @@
             "ctxt": 0
           },
           "value": "a4",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -2466,7 +2412,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2477,7 +2422,6 @@
               "ctxt": 0
             },
             "value": "a6",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2509,6 +2453,7 @@
               "ctxt": 0
             },
             "value": "a5",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2532,6 +2477,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
+                    "optional": true,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -2548,8 +2494,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "optional": true
+                    }
                   },
                   {
                     "type": "Identifier",
@@ -2559,6 +2504,7 @@
                       "ctxt": 0
                     },
                     "value": "y",
+                    "optional": true,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -2575,8 +2521,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "optional": true
+                    }
                   }
                 ],
                 "typeParams": null,
@@ -2599,8 +2544,7 @@
                 },
                 "isAbstract": false
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -2630,8 +2574,8 @@
             "ctxt": 0
           },
           "value": "a5",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -2648,7 +2592,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2659,7 +2602,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2689,8 +2631,8 @@
             "ctxt": 0
           },
           "value": "a5",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -2707,7 +2649,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2718,7 +2659,6 @@
               "ctxt": 0
             },
             "value": "a2",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2748,8 +2688,8 @@
             "ctxt": 0
           },
           "value": "a5",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -2766,7 +2706,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2777,7 +2716,6 @@
               "ctxt": 0
             },
             "value": "a3",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2807,8 +2745,8 @@
             "ctxt": 0
           },
           "value": "a5",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -2825,7 +2763,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2836,7 +2773,6 @@
               "ctxt": 0
             },
             "value": "a4",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2866,8 +2802,8 @@
             "ctxt": 0
           },
           "value": "a5",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -2884,7 +2820,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2895,7 +2830,6 @@
               "ctxt": 0
             },
             "value": "a5",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2925,8 +2859,8 @@
             "ctxt": 0
           },
           "value": "a5",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "MemberExpression",
@@ -2943,7 +2877,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2954,7 +2887,6 @@
               "ctxt": 0
             },
             "value": "a6",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

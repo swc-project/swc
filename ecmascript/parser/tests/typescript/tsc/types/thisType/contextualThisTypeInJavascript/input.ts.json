@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "obj",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -52,7 +52,6 @@
                     "ctxt": 0
                   },
                   "value": "prop",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -75,7 +74,6 @@
                     "ctxt": 0
                   },
                   "value": "method",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "params": [],
@@ -139,7 +137,6 @@
                             "ctxt": 0
                           },
                           "value": "prop",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -175,7 +172,6 @@
                             "ctxt": 0
                           },
                           "value": "method",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -211,7 +207,6 @@
                             "ctxt": 0
                           },
                           "value": "unknown",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false

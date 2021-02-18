@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -90,7 +88,6 @@
           "ctxt": 0
         },
         "value": "B",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -116,7 +113,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -148,7 +144,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": true,
@@ -166,7 +161,6 @@
           "ctxt": 0
         },
         "value": "AA",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -192,7 +186,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -238,7 +231,6 @@
               "ctxt": 0
             },
             "value": "bar",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -278,7 +270,6 @@
           "ctxt": 0
         },
         "value": "BB",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -304,7 +295,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -342,7 +332,6 @@
               "ctxt": 0
             },
             "value": "bar",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -382,7 +371,6 @@
           "ctxt": 0
         },
         "value": "AA",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": true,
@@ -400,7 +388,6 @@
           "ctxt": 0
         },
         "value": "CC",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -419,7 +406,6 @@
           "ctxt": 0
         },
         "value": "BB",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -437,7 +423,6 @@
           "ctxt": 0
         },
         "value": "DD",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -463,7 +448,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -503,7 +487,6 @@
           "ctxt": 0
         },
         "value": "BB",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,

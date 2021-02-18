@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -47,8 +48,7 @@
                 },
                 "kind": "void"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -80,6 +80,7 @@
               "ctxt": 0
             },
             "value": "y",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -96,8 +97,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -129,6 +129,7 @@
               "ctxt": 0
             },
             "value": "z",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -145,8 +146,7 @@
                 },
                 "kind": "void"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -176,8 +176,8 @@
             "ctxt": 0
           },
           "value": "y",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -187,7 +187,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -215,8 +214,8 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -226,7 +225,6 @@
             "ctxt": 0
           },
           "value": "y",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -254,8 +252,8 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -265,7 +263,6 @@
             "ctxt": 0
           },
           "value": "z",
-          "typeAnnotation": null,
           "optional": false
         }
       }

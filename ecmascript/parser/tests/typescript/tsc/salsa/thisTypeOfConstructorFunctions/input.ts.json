@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Cp",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -37,8 +36,8 @@
               "ctxt": 0
             },
             "value": "t",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -94,7 +93,6 @@
                     "ctxt": 0
                   },
                   "value": "dit",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -147,7 +145,6 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -160,7 +157,6 @@
                   "ctxt": 0
                 },
                 "value": "t",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -203,7 +199,6 @@
                     "ctxt": 0
                   },
                   "value": "m3",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -268,7 +263,6 @@
               "ctxt": 0
             },
             "value": "Cp",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -279,7 +273,6 @@
               "ctxt": 0
             },
             "value": "prototype",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -302,7 +295,6 @@
                   "ctxt": 0
                 },
                 "value": "m4",
-                "typeAnnotation": null,
                 "optional": false
               },
               "params": [],
@@ -358,7 +350,6 @@
                             "ctxt": 0
                           },
                           "value": "z",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -386,7 +377,6 @@
                             "ctxt": 0
                           },
                           "value": "y",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -430,7 +420,6 @@
           "ctxt": 0
         },
         "value": "Cpp",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -451,8 +440,8 @@
               "ctxt": 0
             },
             "value": "t",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -508,7 +497,6 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -521,7 +509,6 @@
                   "ctxt": 0
                 },
                 "value": "t",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -570,7 +557,6 @@
                 "ctxt": 0
               },
               "value": "Cpp",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -581,7 +567,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -594,7 +579,6 @@
               "ctxt": 0
             },
             "value": "m2",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -655,7 +639,6 @@
                         "ctxt": 0
                       },
                       "value": "z",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -683,7 +666,6 @@
                         "ctxt": 0
                       },
                       "value": "y",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -740,8 +722,8 @@
               "ctxt": 0
             },
             "value": "cp",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -758,7 +740,6 @@
                 "ctxt": 0
               },
               "value": "Cp",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -806,8 +787,8 @@
               "ctxt": 0
             },
             "value": "cpp",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -824,7 +805,6 @@
                 "ctxt": 0
               },
               "value": "Cpp",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -869,7 +849,6 @@
             "ctxt": 0
           },
           "value": "cp",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -880,7 +859,6 @@
             "ctxt": 0
           },
           "value": "dit",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -911,8 +889,8 @@
               "ctxt": 0
             },
             "value": "cppn",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -936,7 +914,6 @@
                   "ctxt": 0
                 },
                 "value": "cpp",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -947,7 +924,6 @@
                   "ctxt": 0
                 },
                 "value": "m2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -984,8 +960,8 @@
               "ctxt": 0
             },
             "value": "cpn",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -1009,7 +985,6 @@
                   "ctxt": 0
                 },
                 "value": "cp",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -1020,7 +995,6 @@
                   "ctxt": 0
                 },
                 "value": "m3",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -1057,8 +1031,8 @@
               "ctxt": 0
             },
             "value": "cpn",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -1082,7 +1056,6 @@
                   "ctxt": 0
                 },
                 "value": "cp",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -1093,7 +1066,6 @@
                   "ctxt": 0
                 },
                 "value": "m4",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false

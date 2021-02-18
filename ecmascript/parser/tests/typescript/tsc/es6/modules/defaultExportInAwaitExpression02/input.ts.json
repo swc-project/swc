@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -49,7 +49,6 @@
                 "ctxt": 0
               },
               "value": "Promise",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -71,8 +70,8 @@
                         "ctxt": 0
                       },
                       "value": "resolve",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     {
                       "type": "Identifier",
@@ -82,8 +81,8 @@
                         "ctxt": 0
                       },
                       "value": "reject",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     }
                   ],
                   "body": {
@@ -116,7 +115,6 @@
                               "ctxt": 0
                             },
                             "value": "resolve",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "arguments": [
@@ -166,7 +164,6 @@
           "ctxt": 0
         },
         "value": "x",
-        "typeAnnotation": null,
         "optional": false
       }
     },
@@ -193,7 +190,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -279,8 +275,8 @@
                           "ctxt": 0
                         },
                         "value": "value",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "AwaitExpression",
@@ -297,7 +293,6 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },

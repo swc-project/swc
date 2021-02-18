@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -90,7 +88,6 @@
           "ctxt": 0
         },
         "value": "Baz",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -116,7 +113,6 @@
               "ctxt": 0
             },
             "value": "z",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -164,7 +160,6 @@
           "ctxt": 0
         },
         "value": "g",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -240,7 +235,6 @@
                           "ctxt": 0
                         },
                         "value": "Baz",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "arguments": null,
@@ -279,7 +273,6 @@
               "ctxt": 0
             },
             "value": "IterableIterator",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {
@@ -305,7 +298,6 @@
                     "ctxt": 0
                   },
                   "value": "Foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null

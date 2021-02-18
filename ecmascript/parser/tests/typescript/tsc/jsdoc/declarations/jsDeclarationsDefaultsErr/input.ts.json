@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Cls",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -80,7 +78,6 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -130,7 +127,6 @@
           "ctxt": 0
         },
         "value": "Cls",
-        "typeAnnotation": null,
         "optional": false
       }
     },
@@ -151,7 +147,6 @@
             "ctxt": 0
           },
           "value": "C",
-          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -201,8 +196,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -240,7 +235,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": {
@@ -251,7 +245,6 @@
               "ctxt": 0
             },
             "value": "default",
-            "typeAnnotation": null,
             "optional": false
           }
         }

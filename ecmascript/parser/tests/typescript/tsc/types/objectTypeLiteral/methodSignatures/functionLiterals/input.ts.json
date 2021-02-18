@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "b",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -62,7 +63,6 @@
                         "ctxt": 0
                       },
                       "value": "func1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -76,6 +76,7 @@
                           "ctxt": 0
                         },
                         "value": "x",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -92,8 +93,7 @@
                             },
                             "kind": "number"
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     ],
                     "typeAnn": {
@@ -131,7 +131,6 @@
                         "ctxt": 0
                       },
                       "value": "func2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -161,6 +160,7 @@
                               "ctxt": 0
                             },
                             "value": "x",
+                            "optional": false,
                             "typeAnnotation": {
                               "type": "TsTypeAnnotation",
                               "span": {
@@ -177,8 +177,7 @@
                                 },
                                 "kind": "number"
                               }
-                            },
-                            "optional": false
+                            }
                           }
                         ],
                         "typeParams": null,
@@ -219,7 +218,6 @@
                         "ctxt": 0
                       },
                       "value": "func3",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -257,6 +255,7 @@
                                   "ctxt": 0
                                 },
                                 "value": "x",
+                                "optional": false,
                                 "typeAnnotation": {
                                   "type": "TsTypeAnnotation",
                                   "span": {
@@ -273,8 +272,7 @@
                                     },
                                     "kind": "number"
                                   }
-                                },
-                                "optional": false
+                                }
                               }
                             ],
                             "typeAnnotation": {
@@ -303,8 +301,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -341,7 +338,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -352,7 +348,6 @@
               "ctxt": 0
             },
             "value": "func1",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -372,7 +367,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -383,7 +377,6 @@
               "ctxt": 0
             },
             "value": "func2",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -420,7 +413,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -431,7 +423,6 @@
               "ctxt": 0
             },
             "value": "func1",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -451,7 +442,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -462,7 +452,6 @@
               "ctxt": 0
             },
             "value": "func3",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -499,7 +488,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -510,7 +498,6 @@
               "ctxt": 0
             },
             "value": "func2",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -530,7 +517,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -541,7 +527,6 @@
               "ctxt": 0
             },
             "value": "func1",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -578,7 +563,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -589,7 +573,6 @@
               "ctxt": 0
             },
             "value": "func2",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -609,7 +592,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -620,7 +602,6 @@
               "ctxt": 0
             },
             "value": "func3",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -657,7 +638,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -668,7 +648,6 @@
               "ctxt": 0
             },
             "value": "func3",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -688,7 +667,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -699,7 +677,6 @@
               "ctxt": 0
             },
             "value": "func1",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -736,7 +713,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -747,7 +723,6 @@
               "ctxt": 0
             },
             "value": "func3",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -767,7 +742,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -778,7 +752,6 @@
               "ctxt": 0
             },
             "value": "func2",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -810,6 +783,7 @@
               "ctxt": 0
             },
             "value": "c",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -841,7 +815,6 @@
                         "ctxt": 0
                       },
                       "value": "func4",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -855,6 +828,7 @@
                           "ctxt": 0
                         },
                         "value": "x",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -871,8 +845,7 @@
                             },
                             "kind": "number"
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     ],
                     "typeAnn": {
@@ -910,7 +883,6 @@
                         "ctxt": 0
                       },
                       "value": "func4",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -924,6 +896,7 @@
                           "ctxt": 0
                         },
                         "value": "s",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -940,8 +913,7 @@
                             },
                             "kind": "string"
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     ],
                     "typeAnn": {
@@ -979,7 +951,6 @@
                         "ctxt": 0
                       },
                       "value": "func5",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -1017,6 +988,7 @@
                                   "ctxt": 0
                                 },
                                 "value": "x",
+                                "optional": false,
                                 "typeAnnotation": {
                                   "type": "TsTypeAnnotation",
                                   "span": {
@@ -1033,8 +1005,7 @@
                                     },
                                     "kind": "number"
                                   }
-                                },
-                                "optional": false
+                                }
                               }
                             ],
                             "typeAnnotation": {
@@ -1072,6 +1043,7 @@
                                   "ctxt": 0
                                 },
                                 "value": "s",
+                                "optional": false,
                                 "typeAnnotation": {
                                   "type": "TsTypeAnnotation",
                                   "span": {
@@ -1088,8 +1060,7 @@
                                     },
                                     "kind": "string"
                                   }
-                                },
-                                "optional": false
+                                }
                               }
                             ],
                             "typeAnnotation": {
@@ -1118,8 +1089,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -1156,7 +1126,6 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1167,7 +1136,6 @@
               "ctxt": 0
             },
             "value": "func4",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1187,7 +1155,6 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1198,7 +1165,6 @@
               "ctxt": 0
             },
             "value": "func5",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1235,7 +1201,6 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1246,7 +1211,6 @@
               "ctxt": 0
             },
             "value": "func5",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1266,7 +1230,6 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1277,7 +1240,6 @@
               "ctxt": 0
             },
             "value": "func4",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1309,6 +1271,7 @@
               "ctxt": 0
             },
             "value": "b2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1340,7 +1303,6 @@
                         "ctxt": 0
                       },
                       "value": "func1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -1354,6 +1316,7 @@
                           "ctxt": 0
                         },
                         "value": "x",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -1376,13 +1339,11 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     ],
                     "typeAnn": {
@@ -1425,7 +1386,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "constraint": null,
@@ -1450,7 +1410,6 @@
                         "ctxt": 0
                       },
                       "value": "func2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -1480,6 +1439,7 @@
                               "ctxt": 0
                             },
                             "value": "x",
+                            "optional": false,
                             "typeAnnotation": {
                               "type": "TsTypeAnnotation",
                               "span": {
@@ -1502,13 +1462,11 @@
                                     "ctxt": 0
                                   },
                                   "value": "T",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "typeParams": null
                               }
-                            },
-                            "optional": false
+                            }
                           }
                         ],
                         "typeParams": {
@@ -1534,7 +1492,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "constraint": null,
@@ -1579,7 +1536,6 @@
                         "ctxt": 0
                       },
                       "value": "func3",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -1617,6 +1573,7 @@
                                   "ctxt": 0
                                 },
                                 "value": "x",
+                                "optional": false,
                                 "typeAnnotation": {
                                   "type": "TsTypeAnnotation",
                                   "span": {
@@ -1639,13 +1596,11 @@
                                         "ctxt": 0
                                       },
                                       "value": "T",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "typeParams": null
                                   }
-                                },
-                                "optional": false
+                                }
                               }
                             ],
                             "typeAnnotation": {
@@ -1688,7 +1643,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "T",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "constraint": null,
@@ -1704,8 +1658,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -1742,7 +1695,6 @@
               "ctxt": 0
             },
             "value": "b2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1753,7 +1705,6 @@
               "ctxt": 0
             },
             "value": "func1",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1773,7 +1724,6 @@
               "ctxt": 0
             },
             "value": "b2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1784,7 +1734,6 @@
               "ctxt": 0
             },
             "value": "func2",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1821,7 +1770,6 @@
               "ctxt": 0
             },
             "value": "b2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1832,7 +1780,6 @@
               "ctxt": 0
             },
             "value": "func1",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1852,7 +1799,6 @@
               "ctxt": 0
             },
             "value": "b2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1863,7 +1809,6 @@
               "ctxt": 0
             },
             "value": "func3",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1900,7 +1845,6 @@
               "ctxt": 0
             },
             "value": "b2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1911,7 +1855,6 @@
               "ctxt": 0
             },
             "value": "func2",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1931,7 +1874,6 @@
               "ctxt": 0
             },
             "value": "b2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1942,7 +1884,6 @@
               "ctxt": 0
             },
             "value": "func1",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1979,7 +1920,6 @@
               "ctxt": 0
             },
             "value": "b2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1990,7 +1930,6 @@
               "ctxt": 0
             },
             "value": "func2",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2010,7 +1949,6 @@
               "ctxt": 0
             },
             "value": "b2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2021,7 +1959,6 @@
               "ctxt": 0
             },
             "value": "func3",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2058,7 +1995,6 @@
               "ctxt": 0
             },
             "value": "b2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2069,7 +2005,6 @@
               "ctxt": 0
             },
             "value": "func3",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2089,7 +2024,6 @@
               "ctxt": 0
             },
             "value": "b2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2100,7 +2034,6 @@
               "ctxt": 0
             },
             "value": "func1",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2137,7 +2070,6 @@
               "ctxt": 0
             },
             "value": "b2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2148,7 +2080,6 @@
               "ctxt": 0
             },
             "value": "func3",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2168,7 +2099,6 @@
               "ctxt": 0
             },
             "value": "b2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2179,7 +2109,6 @@
               "ctxt": 0
             },
             "value": "func2",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2211,6 +2140,7 @@
               "ctxt": 0
             },
             "value": "c2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2242,7 +2172,6 @@
                         "ctxt": 0
                       },
                       "value": "func4",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -2256,6 +2185,7 @@
                           "ctxt": 0
                         },
                         "value": "x",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -2278,13 +2208,11 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     ],
                     "typeAnn": {
@@ -2327,7 +2255,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "constraint": null,
@@ -2352,7 +2279,6 @@
                         "ctxt": 0
                       },
                       "value": "func4",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -2366,6 +2292,7 @@
                           "ctxt": 0
                         },
                         "value": "s",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -2388,13 +2315,11 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     ],
                     "typeAnn": {
@@ -2437,7 +2362,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "constraint": null,
@@ -2462,7 +2386,6 @@
                         "ctxt": 0
                       },
                       "value": "func5",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -2500,6 +2423,7 @@
                                   "ctxt": 0
                                 },
                                 "value": "x",
+                                "optional": false,
                                 "typeAnnotation": {
                                   "type": "TsTypeAnnotation",
                                   "span": {
@@ -2522,13 +2446,11 @@
                                         "ctxt": 0
                                       },
                                       "value": "T",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "typeParams": null
                                   }
-                                },
-                                "optional": false
+                                }
                               }
                             ],
                             "typeAnnotation": {
@@ -2571,7 +2493,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "T",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "constraint": null,
@@ -2596,6 +2517,7 @@
                                   "ctxt": 0
                                 },
                                 "value": "s",
+                                "optional": false,
                                 "typeAnnotation": {
                                   "type": "TsTypeAnnotation",
                                   "span": {
@@ -2618,13 +2540,11 @@
                                         "ctxt": 0
                                       },
                                       "value": "T",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "typeParams": null
                                   }
-                                },
-                                "optional": false
+                                }
                               }
                             ],
                             "typeAnnotation": {
@@ -2667,7 +2587,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "T",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "constraint": null,
@@ -2683,8 +2602,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -2721,7 +2639,6 @@
               "ctxt": 0
             },
             "value": "c2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2732,7 +2649,6 @@
               "ctxt": 0
             },
             "value": "func4",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2752,7 +2668,6 @@
               "ctxt": 0
             },
             "value": "c2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2763,7 +2678,6 @@
               "ctxt": 0
             },
             "value": "func5",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2800,7 +2714,6 @@
               "ctxt": 0
             },
             "value": "c2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2811,7 +2724,6 @@
               "ctxt": 0
             },
             "value": "func5",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2831,7 +2743,6 @@
               "ctxt": 0
             },
             "value": "c2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2842,7 +2753,6 @@
               "ctxt": 0
             },
             "value": "func4",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

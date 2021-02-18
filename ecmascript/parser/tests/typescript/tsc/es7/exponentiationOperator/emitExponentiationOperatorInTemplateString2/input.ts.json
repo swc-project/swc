@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "t1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -72,8 +72,8 @@
               "ctxt": 0
             },
             "value": "t2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -113,8 +113,8 @@
               "ctxt": 0
             },
             "value": "s",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -152,7 +152,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -163,7 +162,6 @@
                 "ctxt": 0
               },
               "value": "t2",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -277,7 +275,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -296,7 +293,6 @@
                   "ctxt": 0
                 },
                 "value": "t2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -307,7 +303,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -422,7 +417,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -441,7 +435,6 @@
                   "ctxt": 0
                 },
                 "value": "t2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -452,7 +445,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -575,7 +567,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -586,7 +577,6 @@
                   "ctxt": 0
                 },
                 "value": "t2",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -598,7 +588,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -720,7 +709,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -739,7 +727,6 @@
                     "ctxt": 0
                   },
                   "value": "t2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -750,7 +737,6 @@
                     "ctxt": 0
                   },
                   "value": "t2",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -763,7 +749,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -892,7 +877,6 @@
                     "ctxt": 0
                   },
                   "value": "t1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -911,7 +895,6 @@
                       "ctxt": 0
                     },
                     "value": "t2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -922,7 +905,6 @@
                       "ctxt": 0
                     },
                     "value": "t1",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -1071,7 +1053,6 @@
                       "ctxt": 0
                     },
                     "value": "t1",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -1090,7 +1071,6 @@
                         "ctxt": 0
                       },
                       "value": "t2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "right": {
@@ -1101,7 +1081,6 @@
                         "ctxt": 0
                       },
                       "value": "t1",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -1219,7 +1198,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -1230,7 +1208,6 @@
                 "ctxt": 0
               },
               "value": "t2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1250,7 +1227,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -1261,7 +1237,6 @@
                 "ctxt": 0
               },
               "value": "t2",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -1412,7 +1387,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -1431,7 +1405,6 @@
                   "ctxt": 0
                 },
                 "value": "t2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -1442,7 +1415,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1463,7 +1435,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -1482,7 +1453,6 @@
                   "ctxt": 0
                 },
                 "value": "t2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -1493,7 +1463,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1645,7 +1614,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -1664,7 +1632,6 @@
                   "ctxt": 0
                 },
                 "value": "t2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -1675,7 +1642,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1696,7 +1662,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -1715,7 +1680,6 @@
                   "ctxt": 0
                 },
                 "value": "t2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -1726,7 +1690,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1886,7 +1849,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -1897,7 +1859,6 @@
                   "ctxt": 0
                 },
                 "value": "t2",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -1909,7 +1870,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1937,7 +1897,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -1948,7 +1907,6 @@
                   "ctxt": 0
                 },
                 "value": "t2",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -1960,7 +1918,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -2119,7 +2076,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -2138,7 +2094,6 @@
                     "ctxt": 0
                   },
                   "value": "t2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -2149,7 +2104,6 @@
                     "ctxt": 0
                   },
                   "value": "t2",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -2162,7 +2116,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -2190,7 +2143,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -2209,7 +2161,6 @@
                     "ctxt": 0
                   },
                   "value": "t2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -2220,7 +2171,6 @@
                     "ctxt": 0
                   },
                   "value": "t2",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -2233,7 +2183,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -2399,7 +2348,6 @@
                     "ctxt": 0
                   },
                   "value": "t1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -2418,7 +2366,6 @@
                       "ctxt": 0
                     },
                     "value": "t2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -2429,7 +2376,6 @@
                       "ctxt": 0
                     },
                     "value": "t1",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -2467,7 +2413,6 @@
                     "ctxt": 0
                   },
                   "value": "t1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -2486,7 +2431,6 @@
                       "ctxt": 0
                     },
                     "value": "t2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -2497,7 +2441,6 @@
                       "ctxt": 0
                     },
                     "value": "t1",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -2651,7 +2594,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -2662,7 +2604,6 @@
                 "ctxt": 0
               },
               "value": "t2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -2682,7 +2623,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -2693,7 +2633,6 @@
                 "ctxt": 0
               },
               "value": "t2",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -2844,7 +2783,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -2863,7 +2801,6 @@
                   "ctxt": 0
                 },
                 "value": "t2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -2874,7 +2811,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -2895,7 +2831,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -2914,7 +2849,6 @@
                   "ctxt": 0
                 },
                 "value": "t2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -2925,7 +2859,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -3077,7 +3010,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -3096,7 +3028,6 @@
                   "ctxt": 0
                 },
                 "value": "t2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -3107,7 +3038,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -3128,7 +3058,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -3147,7 +3076,6 @@
                   "ctxt": 0
                 },
                 "value": "t2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -3158,7 +3086,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -3318,7 +3245,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -3329,7 +3255,6 @@
                   "ctxt": 0
                 },
                 "value": "t2",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -3341,7 +3266,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -3369,7 +3293,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -3380,7 +3303,6 @@
                   "ctxt": 0
                 },
                 "value": "t2",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -3392,7 +3314,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -3551,7 +3472,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -3570,7 +3490,6 @@
                     "ctxt": 0
                   },
                   "value": "t2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -3581,7 +3500,6 @@
                     "ctxt": 0
                   },
                   "value": "t2",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -3594,7 +3512,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -3622,7 +3539,6 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -3641,7 +3557,6 @@
                     "ctxt": 0
                   },
                   "value": "t2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -3652,7 +3567,6 @@
                     "ctxt": 0
                   },
                   "value": "t2",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -3665,7 +3579,6 @@
                 "ctxt": 0
               },
               "value": "t1",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -3831,7 +3744,6 @@
                     "ctxt": 0
                   },
                   "value": "t1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -3850,7 +3762,6 @@
                       "ctxt": 0
                     },
                     "value": "t2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -3861,7 +3772,6 @@
                       "ctxt": 0
                     },
                     "value": "t1",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -3899,7 +3809,6 @@
                     "ctxt": 0
                   },
                   "value": "t1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -3918,7 +3827,6 @@
                       "ctxt": 0
                     },
                     "value": "t2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -3929,7 +3837,6 @@
                       "ctxt": 0
                     },
                     "value": "t1",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }

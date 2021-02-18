@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "I",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -63,8 +62,8 @@
                     "ctxt": 0
                   },
                   "value": "args",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
@@ -167,6 +166,7 @@
               "ctxt": 0
             },
             "value": "tag",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -189,13 +189,11 @@
                     "ctxt": 0
                   },
                   "value": "I",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -224,7 +222,6 @@
             "ctxt": 0
           },
           "value": "tag",
-          "typeAnnotation": null,
           "optional": false
         },
         "expressions": [],

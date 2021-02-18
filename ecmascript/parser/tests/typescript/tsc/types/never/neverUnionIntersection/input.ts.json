@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "T01",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -71,7 +70,6 @@
           "ctxt": 0
         },
         "value": "T02",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -120,7 +118,6 @@
           "ctxt": 0
         },
         "value": "T03",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -178,7 +175,6 @@
           "ctxt": 0
         },
         "value": "T04",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -236,7 +232,6 @@
           "ctxt": 0
         },
         "value": "T05",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -285,7 +280,6 @@
           "ctxt": 0
         },
         "value": "T06",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -334,7 +328,6 @@
           "ctxt": 0
         },
         "value": "T07",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -383,7 +376,6 @@
           "ctxt": 0
         },
         "value": "T08",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -432,7 +424,6 @@
           "ctxt": 0
         },
         "value": "T09",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -481,7 +472,6 @@
           "ctxt": 0
         },
         "value": "T10",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -530,7 +520,6 @@
           "ctxt": 0
         },
         "value": "T11",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -566,7 +555,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false,
@@ -622,7 +610,6 @@
           "ctxt": 0
         },
         "value": "T12",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -658,7 +645,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false,

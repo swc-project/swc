@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "JSX",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "IntrinsicElements",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -79,7 +77,6 @@
                       "ctxt": 0
                     },
                     "value": "foundFirst",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -117,7 +114,6 @@
                               "ctxt": 0
                             },
                             "value": "x",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -222,7 +218,6 @@
           "ctxt": 0
         },
         "value": "foundFirst",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -249,7 +244,6 @@
           "ctxt": 0
         },
         "value": "Other",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -283,7 +277,6 @@
           "ctxt": 0
         },
         "value": "Dotted",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -311,7 +304,6 @@
                   "ctxt": 0
                 },
                 "value": "Name",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -357,8 +349,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -377,7 +369,6 @@
                   "ctxt": 0
                 },
                 "value": "foundFirst",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -401,7 +392,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -455,8 +445,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -475,7 +465,6 @@
                   "ctxt": 0
                 },
                 "value": "string_named",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -519,8 +508,8 @@
               "ctxt": 0
             },
             "value": "d",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -539,7 +528,6 @@
                   "ctxt": 0
                 },
                 "value": "Other",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -583,8 +571,8 @@
               "ctxt": 0
             },
             "value": "e",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -605,7 +593,6 @@
                     "ctxt": 0
                   },
                   "value": "Dotted",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -616,7 +603,6 @@
                     "ctxt": 0
                   },
                   "value": "Name",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },

@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "seq",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -50,8 +50,8 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
             "body": {
@@ -70,8 +70,8 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               ],
               "body": {
@@ -82,7 +82,6 @@
                   "ctxt": 0
                 },
                 "value": "b",
-                "typeAnnotation": null,
                 "optional": false
               },
               "async": false,
@@ -124,8 +123,8 @@
               "ctxt": 0
             },
             "value": "text1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "StringLiteral",
@@ -170,8 +169,8 @@
               "ctxt": 0
             },
             "value": "text2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "StringLiteral",
@@ -216,8 +215,8 @@
               "ctxt": 0
             },
             "value": "text3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -241,7 +240,6 @@
                   "ctxt": 0
                 },
                 "value": "seq",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -255,7 +253,6 @@
                       "ctxt": 0
                     },
                     "value": "text1",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -273,7 +270,6 @@
                     "ctxt": 0
                   },
                   "value": "text2",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }

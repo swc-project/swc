@@ -45,7 +45,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -69,7 +68,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         }
       }

@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "takeFirstTwoEntries",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -65,8 +64,8 @@
                         "ctxt": 0
                       },
                       "value": "k1",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     {
                       "type": "Identifier",
@@ -76,8 +75,8 @@
                         "ctxt": 0
                       },
                       "value": "v1",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     }
                   ],
                   "optional": false,
@@ -99,8 +98,8 @@
                         "ctxt": 0
                       },
                       "value": "k2",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     {
                       "type": "Identifier",
@@ -110,8 +109,8 @@
                         "ctxt": 0
                       },
                       "value": "v2",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     }
                   ],
                   "optional": false,
@@ -228,7 +227,6 @@
             "ctxt": 0
           },
           "value": "takeFirstTwoEntries",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -249,7 +247,6 @@
                   "ctxt": 0
                 },
                 "value": "Map",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [

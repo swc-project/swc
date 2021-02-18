@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "autoToken",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -55,8 +56,7 @@
                   "kind": "number"
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "NewExpression",
@@ -73,7 +73,6 @@
                 "ctxt": 0
               },
               "value": "Array",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [

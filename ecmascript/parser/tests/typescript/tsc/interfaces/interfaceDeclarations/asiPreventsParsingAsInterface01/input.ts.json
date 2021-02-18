@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "interface",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -47,8 +48,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -68,6 +68,7 @@
               "ctxt": 0
             },
             "value": "I",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -84,8 +85,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -107,7 +107,6 @@
           "ctxt": 0
         },
         "value": "interface",
-        "typeAnnotation": null,
         "optional": false
       }
     },
@@ -126,7 +125,6 @@
           "ctxt": 0
         },
         "value": "I",
-        "typeAnnotation": null,
         "optional": false
       }
     },

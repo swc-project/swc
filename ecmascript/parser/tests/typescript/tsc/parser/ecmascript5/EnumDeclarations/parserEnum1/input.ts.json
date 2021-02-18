@@ -30,7 +30,6 @@
             "ctxt": 0
           },
           "value": "SignatureFlags",
-          "typeAnnotation": null,
           "optional": false
         },
         "members": [
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "None",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -77,7 +75,6 @@
                 "ctxt": 0
               },
               "value": "IsIndexer",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -105,7 +102,6 @@
                 "ctxt": 0
               },
               "value": "IsStringIndexer",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -151,7 +147,6 @@
                 "ctxt": 0
               },
               "value": "IsNumberIndexer",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {

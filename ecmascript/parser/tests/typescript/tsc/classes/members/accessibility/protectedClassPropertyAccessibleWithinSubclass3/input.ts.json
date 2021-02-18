@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -88,7 +86,6 @@
               "ctxt": 0
             },
             "value": "method",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -137,7 +134,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -173,7 +169,6 @@
           "ctxt": 0
         },
         "value": "Derived",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -199,7 +194,6 @@
               "ctxt": 0
             },
             "value": "method1",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -248,7 +242,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -284,7 +277,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -312,7 +304,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,

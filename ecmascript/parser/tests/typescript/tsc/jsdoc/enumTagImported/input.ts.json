@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "test",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "StringLiteral",
@@ -77,8 +77,8 @@
               "ctxt": 0
             },
             "value": "tost",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "StringLiteral",
@@ -121,7 +121,6 @@
               "ctxt": 0
             },
             "value": "TestEnum",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -169,8 +168,8 @@
               "ctxt": 0
             },
             "value": "tist",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -187,7 +186,6 @@
                 "ctxt": 0
               },
               "value": "TestEnum",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -198,7 +196,6 @@
                 "ctxt": 0
               },
               "value": "ADD",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -239,8 +236,8 @@
                 "ctxt": 0
               },
               "value": "TestEnum",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "ObjectExpression",
@@ -260,7 +257,6 @@
                       "ctxt": 0
                     },
                     "value": "ADD",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -288,7 +284,6 @@
                       "ctxt": 0
                     },
                     "value": "REMOVE",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {

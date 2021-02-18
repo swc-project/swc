@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "funcExp",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -62,8 +62,8 @@
                     "ctxt": 0
                   },
                   "value": "rest",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "typeAnnotation": null
               }
@@ -111,8 +111,8 @@
               "ctxt": 0
             },
             "value": "funcExp1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -130,6 +130,7 @@
                   "ctxt": 0
                 },
                 "value": "X",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -146,8 +147,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               },
               {
                 "type": "RestElement",
@@ -169,8 +169,8 @@
                     "ctxt": 0
                   },
                   "value": "rest",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "typeAnnotation": null
               }
@@ -218,8 +218,8 @@
               "ctxt": 0
             },
             "value": "funcExp2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -253,8 +253,8 @@
                       "ctxt": 0
                     },
                     "value": "rest",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "typeAnnotation": null
                 }
@@ -309,8 +309,8 @@
               "ctxt": 0
             },
             "value": "funcExp3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -358,8 +358,8 @@
                           "ctxt": 0
                         },
                         "value": "rest",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "typeAnnotation": null
                     }

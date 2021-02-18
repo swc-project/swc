@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "JSX",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -80,7 +78,6 @@
                 "ctxt": 0
               },
               "value": "IntrinsicElements",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -111,7 +108,6 @@
                 "ctxt": 0
               },
               "value": "ElementAttributesProperty",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -141,7 +137,6 @@
                       "ctxt": 0
                     },
                     "value": "props",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -169,7 +164,6 @@
                 "ctxt": 0
               },
               "value": "IntrinsicAttributes",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -199,7 +193,6 @@
                       "ctxt": 0
                     },
                     "value": "ref",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -241,7 +234,6 @@
           "ctxt": 0
         },
         "value": "Component",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -267,7 +259,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
@@ -287,6 +278,7 @@
                   "ctxt": 0
                 },
                 "value": "props",
+                "optional": true,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -309,13 +301,11 @@
                         "ctxt": 0
                       },
                       "value": "P",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
                   }
-                },
-                "optional": true
+                }
               }
             },
             {
@@ -334,6 +324,7 @@
                   "ctxt": 0
                 },
                 "value": "context",
+                "optional": true,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -350,8 +341,7 @@
                     },
                     "kind": "any"
                   }
-                },
-                "optional": true
+                }
               }
             }
           ],
@@ -374,7 +364,6 @@
               "ctxt": 0
             },
             "value": "setState",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -395,6 +384,7 @@
                     "ctxt": 0
                   },
                   "value": "f",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -418,6 +408,7 @@
                             "ctxt": 0
                           },
                           "value": "prevState",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -440,13 +431,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "S",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -456,6 +445,7 @@
                             "ctxt": 0
                           },
                           "value": "props",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -478,13 +468,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "P",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -510,15 +498,13 @@
                               "ctxt": 0
                             },
                             "value": "S",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
                         }
                       }
                     }
-                  },
-                  "optional": false
+                  }
                 }
               },
               {
@@ -537,6 +523,7 @@
                     "ctxt": 0
                   },
                   "value": "callback",
+                  "optional": true,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -571,8 +558,7 @@
                         }
                       }
                     }
-                  },
-                  "optional": true
+                  }
                 }
               }
             ],
@@ -625,7 +611,6 @@
               "ctxt": 0
             },
             "value": "setState",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -646,6 +631,7 @@
                     "ctxt": 0
                   },
                   "value": "state",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -668,13 +654,11 @@
                           "ctxt": 0
                         },
                         "value": "S",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
                     }
-                  },
-                  "optional": false
+                  }
                 }
               },
               {
@@ -693,6 +677,7 @@
                     "ctxt": 0
                   },
                   "value": "callback",
+                  "optional": true,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -727,8 +712,7 @@
                         }
                       }
                     }
-                  },
-                  "optional": true
+                  }
                 }
               }
             ],
@@ -781,7 +765,6 @@
               "ctxt": 0
             },
             "value": "forceUpdate",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -802,6 +785,7 @@
                     "ctxt": 0
                   },
                   "value": "callBack",
+                  "optional": true,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -836,8 +820,7 @@
                         }
                       }
                     }
-                  },
-                  "optional": true
+                  }
                 }
               }
             ],
@@ -890,7 +873,6 @@
               "ctxt": 0
             },
             "value": "render",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -929,7 +911,6 @@
                       "ctxt": 0
                     },
                     "value": "JSX",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -940,7 +921,6 @@
                       "ctxt": 0
                     },
                     "value": "Element",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -969,7 +949,6 @@
               "ctxt": 0
             },
             "value": "props",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -995,7 +974,6 @@
                   "ctxt": 0
                 },
                 "value": "P",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -1026,7 +1004,6 @@
               "ctxt": 0
             },
             "value": "state",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -1052,7 +1029,6 @@
                   "ctxt": 0
                 },
                 "value": "S",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -1083,7 +1059,6 @@
               "ctxt": 0
             },
             "value": "context",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -1140,7 +1115,6 @@
                 "ctxt": 0
               },
               "value": "P",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -1161,7 +1135,6 @@
                 "ctxt": 0
               },
               "value": "S",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -1187,7 +1160,6 @@
           "ctxt": 0
         },
         "value": "ComponentClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1214,7 +1186,6 @@
                 "ctxt": 0
               },
               "value": "P",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -1247,6 +1218,7 @@
                   "ctxt": 0
                 },
                 "value": "props",
+                "optional": true,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1269,13 +1241,11 @@
                         "ctxt": 0
                       },
                       "value": "P",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
                   }
-                },
-                "optional": true
+                }
               },
               {
                 "type": "Identifier",
@@ -1285,6 +1255,7 @@
                   "ctxt": 0
                 },
                 "value": "context",
+                "optional": true,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1301,8 +1272,7 @@
                     },
                     "kind": "any"
                   }
-                },
-                "optional": true
+                }
               }
             ],
             "typeAnnotation": {
@@ -1327,7 +1297,6 @@
                     "ctxt": 0
                   },
                   "value": "Component",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -1353,7 +1322,6 @@
                           "ctxt": 0
                         },
                         "value": "P",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1393,7 +1361,6 @@
           "ctxt": 0
         },
         "value": "TestMod",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -1419,7 +1386,6 @@
                 "ctxt": 0
               },
               "value": "TestClass",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -1440,7 +1406,6 @@
                     "ctxt": 0
                   },
                   "value": "ComponentClass",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": {
@@ -1475,7 +1440,6 @@
                               "ctxt": 0
                             },
                             "value": "reqd",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -1542,6 +1506,7 @@
                     "ctxt": 0
                   },
                   "value": "Test",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -1564,13 +1529,11 @@
                           "ctxt": 0
                         },
                         "value": "TestClass",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -1605,8 +1568,8 @@
               "ctxt": 0
             },
             "value": "T",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -1623,7 +1586,6 @@
                 "ctxt": 0
               },
               "value": "TestMod",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1634,7 +1596,6 @@
                 "ctxt": 0
               },
               "value": "Test",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1668,8 +1629,8 @@
               "ctxt": 0
             },
             "value": "t1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1688,7 +1649,6 @@
                   "ctxt": 0
                 },
                 "value": "T",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1732,8 +1692,8 @@
               "ctxt": 0
             },
             "value": "t2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1754,7 +1714,6 @@
                     "ctxt": 0
                   },
                   "value": "TestMod",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -1765,7 +1724,6 @@
                     "ctxt": 0
                   },
                   "value": "Test",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },

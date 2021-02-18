@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "removeClass",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -44,6 +43,7 @@
                 "ctxt": 0
               },
               "value": "node",
+              "optional": false,
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -66,13 +66,11 @@
                       "ctxt": 0
                     },
                     "value": "HTMLElement",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
                 }
-              },
-              "optional": false
+              }
             }
           },
           {
@@ -91,6 +89,7 @@
                 "ctxt": 0
               },
               "value": "className",
+              "optional": false,
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -107,8 +106,7 @@
                   },
                   "kind": "string"
                 }
-              },
-              "optional": false
+              }
             }
           }
         ],
@@ -156,7 +154,6 @@
                       "ctxt": 0
                     },
                     "value": "node",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -167,7 +164,6 @@
                       "ctxt": 0
                     },
                     "value": "className",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -201,7 +197,6 @@
                           "ctxt": 0
                         },
                         "value": "node",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -212,7 +207,6 @@
                           "ctxt": 0
                         },
                         "value": "className",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -225,7 +219,6 @@
                         "ctxt": 0
                       },
                       "value": "replace",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -248,7 +241,6 @@
                             "ctxt": 0
                           },
                           "value": "_classNameRegexp",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "arguments": [
@@ -262,7 +254,6 @@
                                 "ctxt": 0
                               },
                               "value": "className",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           }
@@ -292,8 +283,8 @@
                                 "ctxt": 0
                               },
                               "value": "everything",
-                              "typeAnnotation": null,
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             }
                           },
                           {
@@ -312,8 +303,8 @@
                                 "ctxt": 0
                               },
                               "value": "leftDelimiter",
-                              "typeAnnotation": null,
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             }
                           },
                           {
@@ -332,8 +323,8 @@
                                 "ctxt": 0
                               },
                               "value": "name",
-                              "typeAnnotation": null,
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             }
                           },
                           {
@@ -352,8 +343,8 @@
                                 "ctxt": 0
                               },
                               "value": "rightDelimiter",
-                              "typeAnnotation": null,
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             }
                           }
                         ],
@@ -416,7 +407,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "leftDelimiter",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "property": {
@@ -427,7 +417,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "length",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -447,7 +436,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "rightDelimiter",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "property": {
@@ -458,7 +446,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "length",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false

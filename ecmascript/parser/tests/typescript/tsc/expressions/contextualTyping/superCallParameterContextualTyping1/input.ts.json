@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
@@ -64,6 +62,7 @@
                   "ctxt": 0
                 },
                 "value": "map",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -87,6 +86,7 @@
                           "ctxt": 0
                         },
                         "value": "value",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -109,13 +109,11 @@
                                 "ctxt": 0
                               },
                               "value": "T1",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     ],
                     "typeParams": null,
@@ -141,15 +139,13 @@
                             "ctxt": 0
                           },
                           "value": "T2",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
                     }
                   }
-                },
-                "optional": false
+                }
               }
             }
           ],
@@ -191,7 +187,6 @@
                 "ctxt": 0
               },
               "value": "T1",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -212,7 +207,6 @@
                 "ctxt": 0
               },
               "value": "T2",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -233,7 +227,6 @@
           "ctxt": 0
         },
         "value": "B",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -259,7 +252,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -312,8 +304,8 @@
                               "ctxt": 0
                             },
                             "value": "value",
-                            "typeAnnotation": null,
-                            "optional": false
+                            "optional": false,
+                            "typeAnnotation": null
                           }
                         ],
                         "body": {
@@ -331,7 +323,6 @@
                               "ctxt": 0
                             },
                             "value": "String",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "arguments": [
@@ -359,7 +350,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "value",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "property": {
@@ -370,7 +360,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "toExponential",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false
@@ -406,7 +395,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,

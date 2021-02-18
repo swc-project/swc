@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "staticProp",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -94,7 +92,6 @@
                   "ctxt": 0
                 },
                 "value": "C",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -105,7 +102,6 @@
                   "ctxt": 0
                 },
                 "value": "staticProp",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -191,7 +187,6 @@
                   "ctxt": 0
                 },
                 "value": "C",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -202,7 +197,6 @@
                   "ctxt": 0
                 },
                 "value": "staticProp",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -226,6 +220,7 @@
                     "ctxt": 0
                   },
                   "value": "x",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -242,8 +237,7 @@
                       },
                       "kind": "string"
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -286,8 +280,8 @@
                           "ctxt": 0
                         },
                         "value": "y",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "Identifier",
@@ -297,7 +291,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "definite": false
@@ -346,7 +339,6 @@
                   "ctxt": 0
                 },
                 "value": "C",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -357,7 +349,6 @@
                   "ctxt": 0
                 },
                 "value": "staticProp",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false

@@ -30,7 +30,6 @@
             "ctxt": 0
           },
           "value": "SignatureFlags",
-          "typeAnnotation": null,
           "optional": false
         },
         "members": []

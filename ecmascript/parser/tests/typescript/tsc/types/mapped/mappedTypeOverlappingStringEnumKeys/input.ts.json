@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "TerrestrialAnimalTypes",
-        "typeAnnotation": null,
         "optional": false
       },
       "members": [
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "CAT",
-            "typeAnnotation": null,
             "optional": false
           },
           "init": {
@@ -75,7 +73,6 @@
               "ctxt": 0
             },
             "value": "DOG",
-            "typeAnnotation": null,
             "optional": false
           },
           "init": {
@@ -120,7 +117,6 @@
           "ctxt": 0
         },
         "value": "AlienAnimalTypes",
-        "typeAnnotation": null,
         "optional": false
       },
       "members": [
@@ -139,7 +135,6 @@
               "ctxt": 0
             },
             "value": "CAT",
-            "typeAnnotation": null,
             "optional": false
           },
           "init": {
@@ -183,7 +178,6 @@
           "ctxt": 0
         },
         "value": "AnimalTypes",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -210,7 +204,6 @@
                 "ctxt": 0
               },
               "value": "TerrestrialAnimalTypes",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -230,7 +223,6 @@
                 "ctxt": 0
               },
               "value": "AlienAnimalTypes",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -253,7 +245,6 @@
           "ctxt": 0
         },
         "value": "TerrestrialCat",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -283,7 +274,6 @@
                 "ctxt": 0
               },
               "value": "type",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -314,7 +304,6 @@
                       "ctxt": 0
                     },
                     "value": "TerrestrialAnimalTypes",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -325,7 +314,6 @@
                       "ctxt": 0
                     },
                     "value": "CAT",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -350,7 +338,6 @@
                 "ctxt": 0
               },
               "value": "address",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -394,7 +381,6 @@
           "ctxt": 0
         },
         "value": "AlienCat",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -424,7 +410,6 @@
                 "ctxt": 0
               },
               "value": "type",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -455,7 +440,6 @@
                       "ctxt": 0
                     },
                     "value": "AlienAnimalTypes",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -466,7 +450,6 @@
                       "ctxt": 0
                     },
                     "value": "CAT",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -491,7 +474,6 @@
                 "ctxt": 0
               },
               "value": "planet",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -536,7 +518,6 @@
           "ctxt": 0
         },
         "value": "Cats",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -563,7 +544,6 @@
                 "ctxt": 0
               },
               "value": "TerrestrialCat",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -583,7 +563,6 @@
                 "ctxt": 0
               },
               "value": "AlienCat",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -607,7 +586,6 @@
           "ctxt": 0
         },
         "value": "CatMap",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -634,7 +612,6 @@
               "ctxt": 0
             },
             "value": "V",
-            "typeAnnotation": null,
             "optional": false
           },
           "constraint": {
@@ -652,7 +629,6 @@
                 "ctxt": 0
               },
               "value": "AnimalTypes",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -683,7 +659,6 @@
                 "ctxt": 0
               },
               "value": "Extract",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": {
@@ -709,7 +684,6 @@
                       "ctxt": 0
                     },
                     "value": "Cats",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -738,7 +712,6 @@
                           "ctxt": 0
                         },
                         "value": "type",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -767,7 +740,6 @@
                               "ctxt": 0
                             },
                             "value": "V",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -808,6 +780,7 @@
               "ctxt": 0
             },
             "value": "catMap",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -830,13 +803,11 @@
                     "ctxt": 0
                   },
                   "value": "CatMap",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ObjectExpression",
@@ -856,7 +827,6 @@
                     "ctxt": 0
                   },
                   "value": "cat",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -887,7 +857,6 @@
                                 "ctxt": 0
                               },
                               "value": "type",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -905,7 +874,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "TerrestrialAnimalTypes",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -916,7 +884,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "CAT",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -932,7 +899,6 @@
                                 "ctxt": 0
                               },
                               "value": "address",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -973,7 +939,6 @@
                                 "ctxt": 0
                               },
                               "value": "type",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -991,7 +956,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "AlienAnimalTypes",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -1002,7 +966,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "CAT",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -1018,7 +981,6 @@
                                 "ctxt": 0
                               },
                               "value": "planet",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -1052,7 +1014,6 @@
                     "ctxt": 0
                   },
                   "value": "dog",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {

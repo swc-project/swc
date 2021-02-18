@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "MyClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "t",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -88,7 +86,6 @@
               "ctxt": 0
             },
             "value": "fn",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -123,7 +120,6 @@
                       "ctxt": 0
                     },
                     "value": "ContainingThis",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null,
@@ -161,8 +157,8 @@
                           "ctxt": 0
                         },
                         "value": "t",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ObjectExpression",
@@ -182,7 +178,6 @@
                                 "ctxt": 0
                               },
                               "value": "x",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -204,7 +199,6 @@
                                 "ctxt": 0
                               },
                               "value": "y",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -230,7 +224,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "t",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -267,6 +260,7 @@
                           "ctxt": 0
                         },
                         "value": "t",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -298,7 +292,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "x",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false,
@@ -327,7 +320,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "ContainingThis",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "typeParams": null
@@ -351,7 +343,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "y",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false,
@@ -379,8 +370,7 @@
                               }
                             ]
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -432,8 +422,8 @@
               "ctxt": 0
             },
             "value": "obj",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -453,7 +443,6 @@
                     "ctxt": 0
                   },
                   "value": "f",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "params": [],
@@ -501,7 +490,6 @@
                             "ctxt": 0
                           },
                           "value": "spaaace",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -545,6 +533,7 @@
               "ctxt": 0
             },
             "value": "obj",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -576,7 +565,6 @@
                         "ctxt": 0
                       },
                       "value": "f",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -622,8 +610,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false

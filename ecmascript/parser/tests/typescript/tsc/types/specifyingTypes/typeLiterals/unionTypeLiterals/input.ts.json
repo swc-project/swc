@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "simpleUnion",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -66,8 +67,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -99,6 +99,7 @@
               "ctxt": 0
             },
             "value": "unionOfUnion",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -143,8 +144,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -176,6 +176,7 @@
               "ctxt": 0
             },
             "value": "arrayOfUnions",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -227,8 +228,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -260,6 +260,7 @@
               "ctxt": 0
             },
             "value": "arrayOfUnions",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -282,7 +283,6 @@
                     "ctxt": 0
                   },
                   "value": "Array",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -324,8 +324,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -357,6 +356,7 @@
               "ctxt": 0
             },
             "value": "unionOfFunctionType",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -444,8 +444,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -477,6 +476,7 @@
               "ctxt": 0
             },
             "value": "unionOfFunctionType",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -568,8 +568,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -601,6 +600,7 @@
               "ctxt": 0
             },
             "value": "unionOfFunctionType",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -654,8 +654,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -687,6 +686,7 @@
               "ctxt": 0
             },
             "value": "unionOfConstructorType",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -776,8 +776,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -809,6 +808,7 @@
               "ctxt": 0
             },
             "value": "unionOfConstructorType",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -900,8 +900,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -933,6 +932,7 @@
               "ctxt": 0
             },
             "value": "unionOfConstructorType",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -987,8 +987,7 @@
                 },
                 "isAbstract": false
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false

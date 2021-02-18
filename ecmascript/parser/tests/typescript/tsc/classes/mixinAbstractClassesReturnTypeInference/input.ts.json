@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "Mixin1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -51,7 +50,6 @@
                 "ctxt": 0
               },
               "value": "mixinMethod",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -89,7 +87,6 @@
           "ctxt": 0
         },
         "value": "AbstractBase",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -115,7 +112,6 @@
               "ctxt": 0
             },
             "value": "abstractBaseMethod",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -171,7 +167,6 @@
           "ctxt": 0
         },
         "value": "Mixin2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -192,6 +187,7 @@
               "ctxt": 0
             },
             "value": "baseClass",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -214,13 +210,11 @@
                     "ctxt": 0
                   },
                   "value": "TBase",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -248,7 +242,6 @@
                 "ctxt": 0
               },
               "value": "MixinClass",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -274,7 +267,6 @@
                     "ctxt": 0
                   },
                   "value": "mixinMethod",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "function": {
@@ -336,7 +328,6 @@
                     "ctxt": 0
                   },
                   "value": "staticMixinMethod",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "function": {
@@ -392,7 +383,6 @@
                 "ctxt": 0
               },
               "value": "baseClass",
-              "typeAnnotation": null,
               "optional": false
             },
             "isAbstract": true,
@@ -414,7 +404,6 @@
                     "ctxt": 0
                   },
                   "value": "Mixin1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -436,7 +425,6 @@
                 "ctxt": 0
               },
               "value": "MixinClass",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -467,7 +455,6 @@
                 "ctxt": 0
               },
               "value": "TBase",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -498,8 +485,8 @@
                       "ctxt": 0
                     },
                     "value": "args",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
@@ -564,7 +551,6 @@
           "ctxt": 0
         },
         "value": "DerivedFromAbstract2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -590,7 +576,6 @@
               "ctxt": 0
             },
             "value": "abstractBaseMethod",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -637,7 +622,6 @@
             "ctxt": 0
           },
           "value": "Mixin2",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -651,7 +635,6 @@
                 "ctxt": 0
               },
               "value": "AbstractBase",
-              "typeAnnotation": null,
               "optional": false
             }
           }

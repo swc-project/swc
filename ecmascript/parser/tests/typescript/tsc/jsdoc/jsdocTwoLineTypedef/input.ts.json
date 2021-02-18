@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "LoadCallback",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,

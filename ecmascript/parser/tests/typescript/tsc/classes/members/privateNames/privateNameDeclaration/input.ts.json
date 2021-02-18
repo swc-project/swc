@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -102,7 +100,6 @@
                 "ctxt": 0
               },
               "value": "bar",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -140,7 +137,6 @@
               "ctxt": 0
             },
             "value": "baz",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -186,7 +182,6 @@
               "ctxt": 0
             },
             "value": "qux",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -224,7 +219,6 @@
               "ctxt": 0
             },
             "value": "quux",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {

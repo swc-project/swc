@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Test",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -65,7 +64,6 @@
               "ctxt": 0
             },
             "value": "Test",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -93,7 +91,6 @@
               "ctxt": 0
             },
             "value": "Test",
-            "typeAnnotation": null,
             "optional": false
           }
         }

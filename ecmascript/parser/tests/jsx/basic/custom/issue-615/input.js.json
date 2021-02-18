@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -51,7 +51,6 @@
                   "ctxt": 0
                 },
                 "value": "Test",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -75,7 +74,6 @@
                       "ctxt": 0
                     },
                     "value": "attrib",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {

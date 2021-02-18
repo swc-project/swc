@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "foo",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -84,8 +85,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "FunctionExpression",
@@ -97,7 +97,6 @@
                 "ctxt": 0
               },
               "value": "bar",
-              "typeAnnotation": null,
               "optional": false
             },
             "params": [],
@@ -140,8 +139,8 @@
                           "ctxt": 0
                         },
                         "value": "intermediate",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "CallExpression",
@@ -158,7 +157,6 @@
                             "ctxt": 0
                           },
                           "value": "bar",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "arguments": [],
@@ -191,8 +189,8 @@
                         "ctxt": 0
                       },
                       "value": "intermediate",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "right": {
                       "type": "ArrayExpression",
@@ -248,7 +246,6 @@
                             "ctxt": 0
                           },
                           "value": "undefined",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       }

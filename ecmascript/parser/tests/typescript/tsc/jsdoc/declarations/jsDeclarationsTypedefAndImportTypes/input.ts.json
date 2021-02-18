@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Conn",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -73,7 +71,6 @@
               "ctxt": 0
             },
             "value": "item",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -111,7 +108,6 @@
               "ctxt": 0
             },
             "value": "method",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -179,7 +175,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -190,7 +185,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -203,7 +197,6 @@
             "ctxt": 0
           },
           "value": "Conn",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -218,7 +211,6 @@
           "ctxt": 0
         },
         "value": "Wrap",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -244,7 +236,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
@@ -264,8 +255,8 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             }
           ],
@@ -315,7 +306,6 @@
                         "ctxt": 0
                       },
                       "value": "connItem",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -335,7 +325,6 @@
                         "ctxt": 0
                       },
                       "value": "c",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -346,7 +335,6 @@
                         "ctxt": 0
                       },
                       "value": "item",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -391,7 +379,6 @@
                         "ctxt": 0
                       },
                       "value": "another",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -454,7 +441,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -465,7 +451,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -486,7 +471,6 @@
                 "ctxt": 0
               },
               "value": "Wrap",
-              "typeAnnotation": null,
               "optional": false
             }
           ]

@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "LinkedList",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -48,7 +47,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -79,7 +77,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -108,7 +105,6 @@
                     "ctxt": 0
                   },
                   "value": "next",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false,
@@ -137,7 +133,6 @@
                         "ctxt": 0
                       },
                       "value": "LinkedList",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -163,7 +158,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -194,7 +188,6 @@
           "ctxt": 0
         },
         "value": "Entity",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -224,7 +217,6 @@
                 "ctxt": 0
               },
               "value": "name",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -268,7 +260,6 @@
           "ctxt": 0
         },
         "value": "Product",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -289,7 +280,6 @@
               "ctxt": 0
             },
             "value": "Entity",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": null
@@ -319,7 +309,6 @@
                 "ctxt": 0
               },
               "value": "price",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -373,6 +362,7 @@
               "ctxt": 0
             },
             "value": "entityList",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -395,7 +385,6 @@
                     "ctxt": 0
                   },
                   "value": "LinkedList",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -421,7 +410,6 @@
                           "ctxt": 0
                         },
                         "value": "Entity",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -429,8 +417,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -462,8 +449,8 @@
               "ctxt": 0
             },
             "value": "s",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -480,7 +467,6 @@
                 "ctxt": 0
               },
               "value": "entityList",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -491,7 +477,6 @@
                 "ctxt": 0
               },
               "value": "name",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -525,8 +510,8 @@
               "ctxt": 0
             },
             "value": "s",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -550,7 +535,6 @@
                   "ctxt": 0
                 },
                 "value": "entityList",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -561,7 +545,6 @@
                   "ctxt": 0
                 },
                 "value": "next",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -574,7 +557,6 @@
                 "ctxt": 0
               },
               "value": "name",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -608,8 +590,8 @@
               "ctxt": 0
             },
             "value": "s",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -640,7 +622,6 @@
                     "ctxt": 0
                   },
                   "value": "entityList",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -651,7 +632,6 @@
                     "ctxt": 0
                   },
                   "value": "next",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -664,7 +644,6 @@
                   "ctxt": 0
                 },
                 "value": "next",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -677,7 +656,6 @@
                 "ctxt": 0
               },
               "value": "name",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -711,8 +689,8 @@
               "ctxt": 0
             },
             "value": "s",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -750,7 +728,6 @@
                       "ctxt": 0
                     },
                     "value": "entityList",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -761,7 +738,6 @@
                       "ctxt": 0
                     },
                     "value": "next",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -774,7 +750,6 @@
                     "ctxt": 0
                   },
                   "value": "next",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -787,7 +762,6 @@
                   "ctxt": 0
                 },
                 "value": "next",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -800,7 +774,6 @@
                 "ctxt": 0
               },
               "value": "name",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -834,6 +807,7 @@
               "ctxt": 0
             },
             "value": "productList",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -856,7 +830,6 @@
                     "ctxt": 0
                   },
                   "value": "LinkedList",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -882,7 +855,6 @@
                           "ctxt": 0
                         },
                         "value": "Product",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -890,8 +862,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -921,8 +892,8 @@
             "ctxt": 0
           },
           "value": "entityList",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -932,7 +903,6 @@
             "ctxt": 0
           },
           "value": "productList",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -960,8 +930,8 @@
             "ctxt": 0
           },
           "value": "productList",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -971,7 +941,6 @@
             "ctxt": 0
           },
           "value": "entityList",
-          "typeAnnotation": null,
           "optional": false
         }
       }

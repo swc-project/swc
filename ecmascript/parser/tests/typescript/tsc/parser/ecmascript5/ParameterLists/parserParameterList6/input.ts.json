@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
@@ -62,6 +60,7 @@
                   "ctxt": 0
                 },
                 "value": "C",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -85,8 +84,8 @@
                           "ctxt": 0
                         },
                         "value": "A",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       }
                     ],
                     "typeParams": null,
@@ -108,8 +107,7 @@
                       }
                     }
                   }
-                },
-                "optional": false
+                }
               }
             }
           ],

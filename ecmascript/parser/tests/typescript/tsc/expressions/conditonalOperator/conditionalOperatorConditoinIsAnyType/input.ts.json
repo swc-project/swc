@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "condAny",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -47,8 +48,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -80,6 +80,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -96,8 +97,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -129,6 +129,7 @@
               "ctxt": 0
             },
             "value": "exprAny1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -145,8 +146,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -178,6 +178,7 @@
               "ctxt": 0
             },
             "value": "exprBoolean1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -194,8 +195,7 @@
                 },
                 "kind": "boolean"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -227,6 +227,7 @@
               "ctxt": 0
             },
             "value": "exprNumber1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -243,8 +244,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -276,6 +276,7 @@
               "ctxt": 0
             },
             "value": "exprString1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -292,8 +293,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -325,6 +325,7 @@
               "ctxt": 0
             },
             "value": "exprIsObject1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -347,13 +348,11 @@
                     "ctxt": 0
                   },
                   "value": "Object",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -385,6 +384,7 @@
               "ctxt": 0
             },
             "value": "exprAny2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -401,8 +401,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -434,6 +433,7 @@
               "ctxt": 0
             },
             "value": "exprBoolean2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -450,8 +450,7 @@
                 },
                 "kind": "boolean"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -483,6 +482,7 @@
               "ctxt": 0
             },
             "value": "exprNumber2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -499,8 +499,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -532,6 +531,7 @@
               "ctxt": 0
             },
             "value": "exprString2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -548,8 +548,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -581,6 +580,7 @@
               "ctxt": 0
             },
             "value": "exprIsObject2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -603,13 +603,11 @@
                     "ctxt": 0
                   },
                   "value": "Object",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -638,7 +636,6 @@
             "ctxt": 0
           },
           "value": "condAny",
-          "typeAnnotation": null,
           "optional": false
         },
         "consequent": {
@@ -649,7 +646,6 @@
             "ctxt": 0
           },
           "value": "exprAny1",
-          "typeAnnotation": null,
           "optional": false
         },
         "alternate": {
@@ -660,7 +656,6 @@
             "ctxt": 0
           },
           "value": "exprAny2",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -687,7 +682,6 @@
             "ctxt": 0
           },
           "value": "condAny",
-          "typeAnnotation": null,
           "optional": false
         },
         "consequent": {
@@ -698,7 +692,6 @@
             "ctxt": 0
           },
           "value": "exprBoolean1",
-          "typeAnnotation": null,
           "optional": false
         },
         "alternate": {
@@ -709,7 +702,6 @@
             "ctxt": 0
           },
           "value": "exprBoolean2",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -736,7 +728,6 @@
             "ctxt": 0
           },
           "value": "condAny",
-          "typeAnnotation": null,
           "optional": false
         },
         "consequent": {
@@ -747,7 +738,6 @@
             "ctxt": 0
           },
           "value": "exprNumber1",
-          "typeAnnotation": null,
           "optional": false
         },
         "alternate": {
@@ -758,7 +748,6 @@
             "ctxt": 0
           },
           "value": "exprNumber2",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -785,7 +774,6 @@
             "ctxt": 0
           },
           "value": "condAny",
-          "typeAnnotation": null,
           "optional": false
         },
         "consequent": {
@@ -796,7 +784,6 @@
             "ctxt": 0
           },
           "value": "exprString1",
-          "typeAnnotation": null,
           "optional": false
         },
         "alternate": {
@@ -807,7 +794,6 @@
             "ctxt": 0
           },
           "value": "exprString2",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -834,7 +820,6 @@
             "ctxt": 0
           },
           "value": "condAny",
-          "typeAnnotation": null,
           "optional": false
         },
         "consequent": {
@@ -845,7 +830,6 @@
             "ctxt": 0
           },
           "value": "exprIsObject1",
-          "typeAnnotation": null,
           "optional": false
         },
         "alternate": {
@@ -856,7 +840,6 @@
             "ctxt": 0
           },
           "value": "exprIsObject2",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -883,7 +866,6 @@
             "ctxt": 0
           },
           "value": "condAny",
-          "typeAnnotation": null,
           "optional": false
         },
         "consequent": {
@@ -894,7 +876,6 @@
             "ctxt": 0
           },
           "value": "exprString1",
-          "typeAnnotation": null,
           "optional": false
         },
         "alternate": {
@@ -905,7 +886,6 @@
             "ctxt": 0
           },
           "value": "exprBoolean1",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -940,7 +920,6 @@
             "ctxt": 0
           },
           "value": "exprAny1",
-          "typeAnnotation": null,
           "optional": false
         },
         "alternate": {
@@ -951,7 +930,6 @@
             "ctxt": 0
           },
           "value": "exprAny2",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -986,7 +964,6 @@
             "ctxt": 0
           },
           "value": "exprBoolean1",
-          "typeAnnotation": null,
           "optional": false
         },
         "alternate": {
@@ -997,7 +974,6 @@
             "ctxt": 0
           },
           "value": "exprBoolean2",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1024,7 +1000,6 @@
             "ctxt": 0
           },
           "value": "undefined",
-          "typeAnnotation": null,
           "optional": false
         },
         "consequent": {
@@ -1035,7 +1010,6 @@
             "ctxt": 0
           },
           "value": "exprNumber1",
-          "typeAnnotation": null,
           "optional": false
         },
         "alternate": {
@@ -1046,7 +1020,6 @@
             "ctxt": 0
           },
           "value": "exprNumber2",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1094,7 +1067,6 @@
                   "ctxt": 0
                 },
                 "value": "undefined",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1108,7 +1080,6 @@
             "ctxt": 0
           },
           "value": "exprString1",
-          "typeAnnotation": null,
           "optional": false
         },
         "alternate": {
@@ -1119,7 +1090,6 @@
             "ctxt": 0
           },
           "value": "exprString2",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1167,7 +1137,6 @@
                   "ctxt": 0
                 },
                 "value": "undefined",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1181,7 +1150,6 @@
             "ctxt": 0
           },
           "value": "exprIsObject1",
-          "typeAnnotation": null,
           "optional": false
         },
         "alternate": {
@@ -1192,7 +1160,6 @@
             "ctxt": 0
           },
           "value": "exprIsObject2",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1219,7 +1186,6 @@
             "ctxt": 0
           },
           "value": "undefined",
-          "typeAnnotation": null,
           "optional": false
         },
         "consequent": {
@@ -1230,7 +1196,6 @@
             "ctxt": 0
           },
           "value": "exprString1",
-          "typeAnnotation": null,
           "optional": false
         },
         "alternate": {
@@ -1241,7 +1206,6 @@
             "ctxt": 0
           },
           "value": "exprBoolean1",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1282,7 +1246,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1293,7 +1256,6 @@
                 "ctxt": 0
               },
               "value": "doSomeThing",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1309,7 +1271,6 @@
             "ctxt": 0
           },
           "value": "exprAny1",
-          "typeAnnotation": null,
           "optional": false
         },
         "alternate": {
@@ -1320,7 +1281,6 @@
             "ctxt": 0
           },
           "value": "exprAny2",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1354,7 +1314,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "arguments": [
@@ -1386,7 +1345,6 @@
             "ctxt": 0
           },
           "value": "exprBoolean1",
-          "typeAnnotation": null,
           "optional": false
         },
         "alternate": {
@@ -1397,7 +1355,6 @@
             "ctxt": 0
           },
           "value": "exprBoolean2",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1431,7 +1388,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "arguments": [
@@ -1445,7 +1401,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1460,7 +1415,6 @@
             "ctxt": 0
           },
           "value": "exprNumber1",
-          "typeAnnotation": null,
           "optional": false
         },
         "alternate": {
@@ -1471,7 +1425,6 @@
             "ctxt": 0
           },
           "value": "exprNumber2",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1505,7 +1458,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "arguments": [
@@ -1537,7 +1489,6 @@
             "ctxt": 0
           },
           "value": "exprString1",
-          "typeAnnotation": null,
           "optional": false
         },
         "alternate": {
@@ -1548,7 +1499,6 @@
             "ctxt": 0
           },
           "value": "exprString2",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1589,7 +1539,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1600,7 +1549,6 @@
                 "ctxt": 0
               },
               "value": "doSomeThing",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1616,7 +1564,6 @@
             "ctxt": 0
           },
           "value": "exprIsObject1",
-          "typeAnnotation": null,
           "optional": false
         },
         "alternate": {
@@ -1627,7 +1574,6 @@
             "ctxt": 0
           },
           "value": "exprIsObject2",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1668,7 +1614,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1679,7 +1624,6 @@
                 "ctxt": 0
               },
               "value": "doSomeThing",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1695,7 +1639,6 @@
             "ctxt": 0
           },
           "value": "exprString1",
-          "typeAnnotation": null,
           "optional": false
         },
         "alternate": {
@@ -1706,7 +1649,6 @@
             "ctxt": 0
           },
           "value": "exprBoolean1",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1736,8 +1678,8 @@
               "ctxt": 0
             },
             "value": "resultIsAny1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -1754,7 +1696,6 @@
                 "ctxt": 0
               },
               "value": "condAny",
-              "typeAnnotation": null,
               "optional": false
             },
             "consequent": {
@@ -1765,7 +1706,6 @@
                 "ctxt": 0
               },
               "value": "exprAny1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -1776,7 +1716,6 @@
                 "ctxt": 0
               },
               "value": "exprAny2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1809,8 +1748,8 @@
               "ctxt": 0
             },
             "value": "resultIsBoolean1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -1827,7 +1766,6 @@
                 "ctxt": 0
               },
               "value": "condAny",
-              "typeAnnotation": null,
               "optional": false
             },
             "consequent": {
@@ -1838,7 +1776,6 @@
                 "ctxt": 0
               },
               "value": "exprBoolean1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -1849,7 +1786,6 @@
                 "ctxt": 0
               },
               "value": "exprBoolean2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1882,8 +1818,8 @@
               "ctxt": 0
             },
             "value": "resultIsNumber1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -1900,7 +1836,6 @@
                 "ctxt": 0
               },
               "value": "condAny",
-              "typeAnnotation": null,
               "optional": false
             },
             "consequent": {
@@ -1911,7 +1846,6 @@
                 "ctxt": 0
               },
               "value": "exprNumber1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -1922,7 +1856,6 @@
                 "ctxt": 0
               },
               "value": "exprNumber2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1955,8 +1888,8 @@
               "ctxt": 0
             },
             "value": "resultIsString1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -1973,7 +1906,6 @@
                 "ctxt": 0
               },
               "value": "condAny",
-              "typeAnnotation": null,
               "optional": false
             },
             "consequent": {
@@ -1984,7 +1916,6 @@
                 "ctxt": 0
               },
               "value": "exprString1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -1995,7 +1926,6 @@
                 "ctxt": 0
               },
               "value": "exprString2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -2028,8 +1958,8 @@
               "ctxt": 0
             },
             "value": "resultIsObject1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -2046,7 +1976,6 @@
                 "ctxt": 0
               },
               "value": "condAny",
-              "typeAnnotation": null,
               "optional": false
             },
             "consequent": {
@@ -2057,7 +1986,6 @@
                 "ctxt": 0
               },
               "value": "exprIsObject1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -2068,7 +1996,6 @@
                 "ctxt": 0
               },
               "value": "exprIsObject2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -2101,8 +2028,8 @@
               "ctxt": 0
             },
             "value": "resultIsStringOrBoolean1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -2119,7 +2046,6 @@
                 "ctxt": 0
               },
               "value": "condAny",
-              "typeAnnotation": null,
               "optional": false
             },
             "consequent": {
@@ -2130,7 +2056,6 @@
                 "ctxt": 0
               },
               "value": "exprString1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -2141,7 +2066,6 @@
                 "ctxt": 0
               },
               "value": "exprBoolean1",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -2174,8 +2098,8 @@
               "ctxt": 0
             },
             "value": "resultIsAny2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -2200,7 +2124,6 @@
                 "ctxt": 0
               },
               "value": "exprAny1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -2211,7 +2134,6 @@
                 "ctxt": 0
               },
               "value": "exprAny2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -2244,8 +2166,8 @@
               "ctxt": 0
             },
             "value": "resultIsBoolean2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -2270,7 +2192,6 @@
                 "ctxt": 0
               },
               "value": "exprBoolean1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -2281,7 +2202,6 @@
                 "ctxt": 0
               },
               "value": "exprBoolean2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -2314,8 +2234,8 @@
               "ctxt": 0
             },
             "value": "resultIsNumber2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -2332,7 +2252,6 @@
                 "ctxt": 0
               },
               "value": "undefined",
-              "typeAnnotation": null,
               "optional": false
             },
             "consequent": {
@@ -2343,7 +2262,6 @@
                 "ctxt": 0
               },
               "value": "exprNumber1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -2354,7 +2272,6 @@
                 "ctxt": 0
               },
               "value": "exprNumber2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -2387,8 +2304,8 @@
               "ctxt": 0
             },
             "value": "resultIsString2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -2426,7 +2343,6 @@
                       "ctxt": 0
                     },
                     "value": "undefined",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -2440,7 +2356,6 @@
                 "ctxt": 0
               },
               "value": "exprString1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -2451,7 +2366,6 @@
                 "ctxt": 0
               },
               "value": "exprString2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -2484,8 +2398,8 @@
               "ctxt": 0
             },
             "value": "resultIsObject2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -2523,7 +2437,6 @@
                       "ctxt": 0
                     },
                     "value": "undefined",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -2537,7 +2450,6 @@
                 "ctxt": 0
               },
               "value": "exprIsObject1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -2548,7 +2460,6 @@
                 "ctxt": 0
               },
               "value": "exprIsObject2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -2581,8 +2492,8 @@
               "ctxt": 0
             },
             "value": "resultIsStringOrBoolean2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -2607,7 +2518,6 @@
                 "ctxt": 0
               },
               "value": "exprString1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -2618,7 +2528,6 @@
                 "ctxt": 0
               },
               "value": "exprBoolean1",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -2651,8 +2560,8 @@
               "ctxt": 0
             },
             "value": "resultIsStringOrBoolean3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -2669,7 +2578,6 @@
                 "ctxt": 0
               },
               "value": "undefined",
-              "typeAnnotation": null,
               "optional": false
             },
             "consequent": {
@@ -2680,7 +2588,6 @@
                 "ctxt": 0
               },
               "value": "exprString1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -2691,7 +2598,6 @@
                 "ctxt": 0
               },
               "value": "exprBoolean1",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -2724,8 +2630,8 @@
               "ctxt": 0
             },
             "value": "resultIsStringOrBoolean4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -2763,7 +2669,6 @@
                       "ctxt": 0
                     },
                     "value": "undefined",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -2777,7 +2682,6 @@
                 "ctxt": 0
               },
               "value": "exprString1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -2788,7 +2692,6 @@
                 "ctxt": 0
               },
               "value": "exprBoolean1",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -2821,8 +2724,8 @@
               "ctxt": 0
             },
             "value": "resultIsAny3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -2853,7 +2756,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -2864,7 +2766,6 @@
                     "ctxt": 0
                   },
                   "value": "doSomeThing",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -2880,7 +2781,6 @@
                 "ctxt": 0
               },
               "value": "exprAny1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -2891,7 +2791,6 @@
                 "ctxt": 0
               },
               "value": "exprAny2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -2924,8 +2823,8 @@
               "ctxt": 0
             },
             "value": "resultIsBoolean3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -2949,7 +2848,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -2981,7 +2879,6 @@
                 "ctxt": 0
               },
               "value": "exprBoolean1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -2992,7 +2889,6 @@
                 "ctxt": 0
               },
               "value": "exprBoolean2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -3025,8 +2921,8 @@
               "ctxt": 0
             },
             "value": "resultIsNumber3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -3050,7 +2946,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -3064,7 +2959,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -3079,7 +2973,6 @@
                 "ctxt": 0
               },
               "value": "exprNumber1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -3090,7 +2983,6 @@
                 "ctxt": 0
               },
               "value": "exprNumber2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -3123,8 +3015,8 @@
               "ctxt": 0
             },
             "value": "resultIsString3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -3148,7 +3040,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -3180,7 +3071,6 @@
                 "ctxt": 0
               },
               "value": "exprString1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -3191,7 +3081,6 @@
                 "ctxt": 0
               },
               "value": "exprString2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -3224,8 +3113,8 @@
               "ctxt": 0
             },
             "value": "resultIsObject3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -3256,7 +3145,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -3267,7 +3155,6 @@
                     "ctxt": 0
                   },
                   "value": "doSomeThing",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -3283,7 +3170,6 @@
                 "ctxt": 0
               },
               "value": "exprIsObject1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -3294,7 +3180,6 @@
                 "ctxt": 0
               },
               "value": "exprIsObject2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -3327,8 +3212,8 @@
               "ctxt": 0
             },
             "value": "resultIsStringOrBoolean5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ConditionalExpression",
@@ -3359,7 +3244,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -3370,7 +3254,6 @@
                     "ctxt": 0
                   },
                   "value": "doSomeThing",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -3386,7 +3269,6 @@
                 "ctxt": 0
               },
               "value": "exprString1",
-              "typeAnnotation": null,
               "optional": false
             },
             "alternate": {
@@ -3397,7 +3279,6 @@
                 "ctxt": 0
               },
               "value": "exprBoolean1",
-              "typeAnnotation": null,
               "optional": false
             }
           },

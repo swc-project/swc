@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "f1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -37,6 +36,7 @@
               "ctxt": 0
             },
             "value": "obj",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -67,7 +67,6 @@
                       "ctxt": 0
                     },
                     "value": "P",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": {
@@ -85,7 +84,6 @@
                         "ctxt": 0
                       },
                       "value": "K",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -109,14 +107,12 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
                 }
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -135,6 +131,7 @@
               "ctxt": 0
             },
             "value": "k",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -157,13 +154,11 @@
                     "ctxt": 0
                   },
                   "value": "K",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -206,8 +201,8 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "BinaryExpression",
@@ -225,7 +220,6 @@
                       "ctxt": 0
                     },
                     "value": "k",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -236,7 +230,6 @@
                       "ctxt": 0
                     },
                     "value": "obj",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -269,6 +262,7 @@
                     "ctxt": 0
                   },
                   "value": "k1",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -291,13 +285,11 @@
                           "ctxt": 0
                         },
                         "value": "K",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -319,8 +311,8 @@
                 "ctxt": 0
               },
               "value": "k1",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "right": {
               "type": "Identifier",
@@ -330,7 +322,6 @@
                 "ctxt": 0
               },
               "value": "obj",
-              "typeAnnotation": null,
               "optional": false
             },
             "body": {
@@ -366,8 +357,8 @@
                           "ctxt": 0
                         },
                         "value": "x1",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "MemberExpression",
@@ -384,7 +375,6 @@
                             "ctxt": 0
                           },
                           "value": "obj",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -395,7 +385,6 @@
                             "ctxt": 0
                           },
                           "value": "k1",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": true
@@ -439,8 +428,8 @@
                       "ctxt": 0
                     },
                     "value": "k2",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": null,
                   "definite": false
@@ -455,7 +444,6 @@
                 "ctxt": 0
               },
               "value": "obj",
-              "typeAnnotation": null,
               "optional": false
             },
             "body": {
@@ -491,8 +479,8 @@
                           "ctxt": 0
                         },
                         "value": "x2",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "MemberExpression",
@@ -509,7 +497,6 @@
                             "ctxt": 0
                           },
                           "value": "obj",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -520,7 +507,6 @@
                             "ctxt": 0
                           },
                           "value": "k2",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": true
@@ -559,7 +545,6 @@
                 "ctxt": 0
               },
               "value": "K",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -588,7 +573,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -608,7 +592,6 @@
           "ctxt": 0
         },
         "value": "f2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -629,6 +612,7 @@
               "ctxt": 0
             },
             "value": "obj",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -659,7 +643,6 @@
                       "ctxt": 0
                     },
                     "value": "P",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": {
@@ -685,7 +668,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -718,7 +700,6 @@
                         "ctxt": 0
                       },
                       "value": "T",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -738,15 +719,13 @@
                         "ctxt": 0
                       },
                       "value": "P",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
                   }
                 }
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -765,6 +744,7 @@
               "ctxt": 0
             },
             "value": "k",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -795,14 +775,12 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
                 }
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -845,8 +823,8 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "BinaryExpression",
@@ -864,7 +842,6 @@
                       "ctxt": 0
                     },
                     "value": "k",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -875,7 +852,6 @@
                       "ctxt": 0
                     },
                     "value": "obj",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -908,6 +884,7 @@
                     "ctxt": 0
                   },
                   "value": "k1",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -938,14 +915,12 @@
                             "ctxt": 0
                           },
                           "value": "T",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -967,8 +942,8 @@
                 "ctxt": 0
               },
               "value": "k1",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "right": {
               "type": "Identifier",
@@ -978,7 +953,6 @@
                 "ctxt": 0
               },
               "value": "obj",
-              "typeAnnotation": null,
               "optional": false
             },
             "body": {
@@ -1014,8 +988,8 @@
                           "ctxt": 0
                         },
                         "value": "x1",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "MemberExpression",
@@ -1032,7 +1006,6 @@
                             "ctxt": 0
                           },
                           "value": "obj",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -1043,7 +1016,6 @@
                             "ctxt": 0
                           },
                           "value": "k1",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": true
@@ -1087,8 +1059,8 @@
                       "ctxt": 0
                     },
                     "value": "k2",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": null,
                   "definite": false
@@ -1103,7 +1075,6 @@
                 "ctxt": 0
               },
               "value": "obj",
-              "typeAnnotation": null,
               "optional": false
             },
             "body": {
@@ -1139,8 +1110,8 @@
                           "ctxt": 0
                         },
                         "value": "x2",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "MemberExpression",
@@ -1157,7 +1128,6 @@
                             "ctxt": 0
                           },
                           "value": "obj",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -1168,7 +1138,6 @@
                             "ctxt": 0
                           },
                           "value": "k2",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": true
@@ -1207,7 +1176,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -1227,7 +1195,6 @@
           "ctxt": 0
         },
         "value": "f3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1248,6 +1215,7 @@
               "ctxt": 0
             },
             "value": "obj",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1278,7 +1246,6 @@
                       "ctxt": 0
                     },
                     "value": "P",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": {
@@ -1296,7 +1263,6 @@
                         "ctxt": 0
                       },
                       "value": "K",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -1328,7 +1294,6 @@
                         "ctxt": 0
                       },
                       "value": "T",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -1348,15 +1313,13 @@
                         "ctxt": 0
                       },
                       "value": "P",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
                   }
                 }
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -1375,6 +1338,7 @@
               "ctxt": 0
             },
             "value": "k",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1397,13 +1361,11 @@
                     "ctxt": 0
                   },
                   "value": "K",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -1446,8 +1408,8 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "BinaryExpression",
@@ -1465,7 +1427,6 @@
                       "ctxt": 0
                     },
                     "value": "k",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -1476,7 +1437,6 @@
                       "ctxt": 0
                     },
                     "value": "obj",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -1509,6 +1469,7 @@
                     "ctxt": 0
                   },
                   "value": "k1",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -1531,13 +1492,11 @@
                           "ctxt": 0
                         },
                         "value": "K",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -1559,8 +1518,8 @@
                 "ctxt": 0
               },
               "value": "k1",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "right": {
               "type": "Identifier",
@@ -1570,7 +1529,6 @@
                 "ctxt": 0
               },
               "value": "obj",
-              "typeAnnotation": null,
               "optional": false
             },
             "body": {
@@ -1606,8 +1564,8 @@
                           "ctxt": 0
                         },
                         "value": "x1",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "MemberExpression",
@@ -1624,7 +1582,6 @@
                             "ctxt": 0
                           },
                           "value": "obj",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -1635,7 +1592,6 @@
                             "ctxt": 0
                           },
                           "value": "k1",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": true
@@ -1679,8 +1635,8 @@
                       "ctxt": 0
                     },
                     "value": "k2",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": null,
                   "definite": false
@@ -1695,7 +1651,6 @@
                 "ctxt": 0
               },
               "value": "obj",
-              "typeAnnotation": null,
               "optional": false
             },
             "body": {
@@ -1731,8 +1686,8 @@
                           "ctxt": 0
                         },
                         "value": "x2",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "MemberExpression",
@@ -1749,7 +1704,6 @@
                             "ctxt": 0
                           },
                           "value": "obj",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -1760,7 +1714,6 @@
                             "ctxt": 0
                           },
                           "value": "k2",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": true
@@ -1799,7 +1752,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -1820,7 +1772,6 @@
                 "ctxt": 0
               },
               "value": "K",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -1846,7 +1797,6 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null

@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "Point",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -66,6 +65,7 @@
                       "ctxt": 0
                     },
                     "value": "Origin",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -97,7 +97,6 @@
                                 "ctxt": 0
                               },
                               "value": "x",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false,
@@ -139,7 +138,6 @@
                                 "ctxt": 0
                               },
                               "value": "y",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false,
@@ -167,8 +165,7 @@
                           }
                         ]
                       }
-                    },
-                    "optional": false
+                    }
                   },
                   "init": null,
                   "definite": false
@@ -189,7 +186,6 @@
           "ctxt": 0
         },
         "value": "Point",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -233,7 +229,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -256,7 +251,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -304,6 +298,7 @@
               "ctxt": 0
             },
             "value": "cl",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -335,7 +330,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -377,7 +371,6 @@
                         "ctxt": 0
                       },
                       "value": "y",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -405,8 +398,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -438,8 +430,8 @@
               "ctxt": 0
             },
             "value": "cl",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -456,7 +448,6 @@
                 "ctxt": 0
               },
               "value": "Point",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -491,8 +482,8 @@
               "ctxt": 0
             },
             "value": "cl",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -509,7 +500,6 @@
                 "ctxt": 0
               },
               "value": "Point",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -520,7 +510,6 @@
                 "ctxt": 0
               },
               "value": "Origin",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false

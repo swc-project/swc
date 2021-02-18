@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "Item",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -51,7 +50,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -90,7 +88,6 @@
           "ctxt": 0
         },
         "value": "getItems",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -134,7 +131,6 @@
                 "ctxt": 0
               },
               "value": "Item",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -157,7 +153,6 @@
           "ctxt": 0
         },
         "value": "getItems",
-        "typeAnnotation": null,
         "optional": false
       }
     },
@@ -186,8 +181,8 @@
               "ctxt": 0
             },
             "value": "items",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -211,7 +206,6 @@
                   "ctxt": 0
                 },
                 "value": "require",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -272,7 +266,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -283,7 +276,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -296,7 +288,6 @@
             "ctxt": 0
           },
           "value": "items",
-          "typeAnnotation": null,
           "optional": false
         }
       }

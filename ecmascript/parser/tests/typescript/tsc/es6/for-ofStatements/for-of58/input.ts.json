@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "X",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -50,7 +49,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -108,7 +106,6 @@
           "ctxt": 0
         },
         "value": "Y",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -136,7 +133,6 @@
                 "ctxt": 0
               },
               "value": "y",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -203,6 +199,7 @@
               "ctxt": 0
             },
             "value": "arr",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -240,7 +237,6 @@
                           "ctxt": 0
                         },
                         "value": "X",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -268,7 +264,6 @@
                           "ctxt": 0
                         },
                         "value": "Y",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -276,8 +271,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -317,8 +311,8 @@
                 "ctxt": 0
               },
               "value": "item",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": null,
             "definite": false
@@ -333,7 +327,6 @@
           "ctxt": 0
         },
         "value": "arr",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -366,7 +359,6 @@
                   "ctxt": 0
                 },
                 "value": "item",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -377,7 +369,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -405,7 +396,6 @@
                   "ctxt": 0
                 },
                 "value": "item",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -416,7 +406,6 @@
                   "ctxt": 0
                 },
                 "value": "y",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false

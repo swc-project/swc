@@ -39,8 +39,8 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               {
                 "type": "AssignmentPattern",
@@ -57,8 +57,8 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "right": {
                   "type": "Identifier",
@@ -68,7 +68,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeAnnotation": null
@@ -136,8 +135,8 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               {
                 "type": "AssignmentPattern",
@@ -154,8 +153,8 @@
                     "ctxt": 0
                   },
                   "value": "d",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "right": {
                   "type": "Identifier",
@@ -165,7 +164,6 @@
                     "ctxt": 0
                   },
                   "value": "c",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeAnnotation": null
@@ -185,8 +183,8 @@
                     "ctxt": 0
                   },
                   "value": "e",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "right": {
                   "type": "Identifier",
@@ -196,7 +194,6 @@
                     "ctxt": 0
                   },
                   "value": "e",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeAnnotation": null
@@ -264,8 +261,8 @@
                   "ctxt": 0
                 },
                 "value": "f",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               {
                 "type": "AssignmentPattern",
@@ -282,8 +279,8 @@
                     "ctxt": 0
                   },
                   "value": "g",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "right": {
                   "type": "Identifier",
@@ -293,7 +290,6 @@
                     "ctxt": 0
                   },
                   "value": "f",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeAnnotation": null
@@ -313,8 +309,8 @@
                     "ctxt": 0
                   },
                   "value": "h",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "right": {
                   "type": "Identifier",
@@ -324,7 +320,6 @@
                     "ctxt": 0
                   },
                   "value": "i",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeAnnotation": null
@@ -344,8 +339,8 @@
                     "ctxt": 0
                   },
                   "value": "i",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "right": {
                   "type": "Identifier",
@@ -355,7 +350,6 @@
                     "ctxt": 0
                   },
                   "value": "f",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeAnnotation": null
@@ -439,8 +433,8 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     {
                       "type": "AssignmentPattern",
@@ -457,8 +451,8 @@
                           "ctxt": 0
                         },
                         "value": "b",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "right": {
                         "type": "Identifier",
@@ -468,7 +462,6 @@
                           "ctxt": 0
                         },
                         "value": "a",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeAnnotation": null
@@ -579,8 +572,8 @@
                         "ctxt": 0
                       },
                       "value": "c",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     {
                       "type": "AssignmentPattern",
@@ -597,8 +590,8 @@
                           "ctxt": 0
                         },
                         "value": "d",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "right": {
                         "type": "Identifier",
@@ -608,7 +601,6 @@
                           "ctxt": 0
                         },
                         "value": "c",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeAnnotation": null
@@ -628,8 +620,8 @@
                           "ctxt": 0
                         },
                         "value": "e",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "right": {
                         "type": "Identifier",
@@ -639,7 +631,6 @@
                           "ctxt": 0
                         },
                         "value": "e",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeAnnotation": null
@@ -750,8 +741,8 @@
                         "ctxt": 0
                       },
                       "value": "f",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     {
                       "type": "AssignmentPattern",
@@ -768,8 +759,8 @@
                           "ctxt": 0
                         },
                         "value": "g",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "right": {
                         "type": "Identifier",
@@ -779,7 +770,6 @@
                           "ctxt": 0
                         },
                         "value": "f",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeAnnotation": null
@@ -799,8 +789,8 @@
                           "ctxt": 0
                         },
                         "value": "h",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "right": {
                         "type": "Identifier",
@@ -810,7 +800,6 @@
                           "ctxt": 0
                         },
                         "value": "i",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeAnnotation": null
@@ -830,8 +819,8 @@
                           "ctxt": 0
                         },
                         "value": "i",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "right": {
                         "type": "Identifier",
@@ -841,7 +830,6 @@
                           "ctxt": 0
                         },
                         "value": "f",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeAnnotation": null

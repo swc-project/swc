@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -76,7 +76,6 @@
               "ctxt": 0
             },
             "value": "Object",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -87,7 +86,6 @@
               "ctxt": 0
             },
             "value": "defineProperty",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -103,7 +101,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -144,7 +141,6 @@
                       "ctxt": 0
                     },
                     "value": "value",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -172,7 +168,6 @@
                       "ctxt": 0
                     },
                     "value": "writable",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -221,7 +216,6 @@
               "ctxt": 0
             },
             "value": "Object",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -232,7 +226,6 @@
               "ctxt": 0
             },
             "value": "defineProperty",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -248,7 +241,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -289,7 +281,6 @@
                       "ctxt": 0
                     },
                     "value": "value",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -343,7 +334,6 @@
               "ctxt": 0
             },
             "value": "Object",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -354,7 +344,6 @@
               "ctxt": 0
             },
             "value": "defineProperty",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -370,7 +359,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -411,7 +399,6 @@
                       "ctxt": 0
                     },
                     "value": "value",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -439,7 +426,6 @@
                       "ctxt": 0
                     },
                     "value": "writable",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -488,7 +474,6 @@
               "ctxt": 0
             },
             "value": "Object",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -499,7 +484,6 @@
               "ctxt": 0
             },
             "value": "defineProperty",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -515,7 +499,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -556,7 +539,6 @@
                       "ctxt": 0
                     },
                     "value": "get",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "params": [],
@@ -608,7 +590,6 @@
                       "ctxt": 0
                     },
                     "value": "set",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "params": [
@@ -628,8 +609,8 @@
                           "ctxt": 0
                         },
                         "value": "_",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       }
                     }
                   ],
@@ -689,7 +670,6 @@
               "ctxt": 0
             },
             "value": "Object",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -700,7 +680,6 @@
               "ctxt": 0
             },
             "value": "defineProperty",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -716,7 +695,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -757,7 +735,6 @@
                       "ctxt": 0
                     },
                     "value": "get",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "params": [],
@@ -835,7 +812,6 @@
               "ctxt": 0
             },
             "value": "Object",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -846,7 +822,6 @@
               "ctxt": 0
             },
             "value": "defineProperty",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -862,7 +837,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -903,7 +877,6 @@
                       "ctxt": 0
                     },
                     "value": "set",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "params": [
@@ -923,8 +896,8 @@
                           "ctxt": 0
                         },
                         "value": "str",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       }
                     }
                   ],
@@ -980,7 +953,6 @@
                                 "ctxt": 0
                               },
                               "value": "zip",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -1000,7 +972,6 @@
                                 "ctxt": 0
                               },
                               "value": "Number",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "arguments": [
@@ -1014,7 +985,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "str",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 }
                               }
@@ -1047,7 +1017,6 @@
           "ctxt": 0
         },
         "value": "takeName",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1068,8 +1037,8 @@
               "ctxt": 0
             },
             "value": "named",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -1109,7 +1078,6 @@
                   "ctxt": 0
                 },
                 "value": "named",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -1120,7 +1088,6 @@
                   "ctxt": 0
                 },
                 "value": "name",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -1155,7 +1122,6 @@
             "ctxt": 0
           },
           "value": "takeName",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -1169,7 +1135,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -1202,8 +1167,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -1220,7 +1185,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1231,7 +1195,6 @@
                 "ctxt": 0
               },
               "value": "zip",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1265,8 +1228,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -1283,7 +1246,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1294,7 +1256,6 @@
                 "ctxt": 0
               },
               "value": "houseNumber",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1328,8 +1289,8 @@
               "ctxt": 0
             },
             "value": "returnExemplar",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -1347,7 +1308,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "async": false,
@@ -1384,8 +1344,8 @@
               "ctxt": 0
             },
             "value": "needsExemplar",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -1410,8 +1370,8 @@
                     "ctxt": 0
                   },
                   "value": "_",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "right": {
                   "type": "Identifier",
@@ -1421,7 +1381,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeAnnotation": null
@@ -1479,8 +1438,8 @@
               "ctxt": 0
             },
             "value": "expected",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ParenthesisExpression",
@@ -1520,7 +1479,6 @@
           "ctxt": 0
         },
         "value": "match",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1541,8 +1499,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         },
         {
@@ -1561,8 +1519,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -1608,7 +1566,6 @@
             "ctxt": 0
           },
           "value": "match",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -1630,7 +1587,6 @@
                   "ctxt": 0
                 },
                 "value": "expected",
-                "typeAnnotation": null,
                 "optional": false
               },
               "async": false,
@@ -1664,8 +1620,8 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "right": {
                     "type": "Identifier",
@@ -1675,7 +1631,6 @@
                       "ctxt": 0
                     },
                     "value": "expected",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeAnnotation": null
@@ -1739,7 +1694,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1750,7 +1704,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1763,7 +1716,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -1785,7 +1737,6 @@
           "ctxt": 0
         },
         "value": "x",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -1833,7 +1784,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1844,7 +1794,6 @@
             "ctxt": 0
           },
           "value": "name",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -1872,7 +1821,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1883,7 +1831,6 @@
             "ctxt": 0
           },
           "value": "middleInit",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -1911,7 +1858,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1922,7 +1868,6 @@
             "ctxt": 0
           },
           "value": "lastName",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -1950,7 +1895,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1961,7 +1905,6 @@
             "ctxt": 0
           },
           "value": "zip",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -1989,7 +1932,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -2000,7 +1942,6 @@
             "ctxt": 0
           },
           "value": "houseNumber",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -2028,7 +1969,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -2039,7 +1979,6 @@
             "ctxt": 0
           },
           "value": "zipStr",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -2075,7 +2014,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2086,7 +2024,6 @@
               "ctxt": 0
             },
             "value": "name",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2137,7 +2074,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2148,7 +2084,6 @@
               "ctxt": 0
             },
             "value": "zip",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2194,7 +2129,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2205,7 +2139,6 @@
               "ctxt": 0
             },
             "value": "zipStr",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2256,7 +2189,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2267,7 +2199,6 @@
               "ctxt": 0
             },
             "value": "lastName",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2318,7 +2249,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2329,7 +2259,6 @@
               "ctxt": 0
             },
             "value": "houseNumber",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2375,7 +2304,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2386,7 +2314,6 @@
               "ctxt": 0
             },
             "value": "zipStr",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2432,7 +2359,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2443,7 +2369,6 @@
               "ctxt": 0
             },
             "value": "middleInit",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

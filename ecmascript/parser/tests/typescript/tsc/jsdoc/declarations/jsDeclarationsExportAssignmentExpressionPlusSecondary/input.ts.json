@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "Strings",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -52,7 +52,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -80,7 +79,6 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -134,7 +132,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -145,7 +142,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -168,7 +164,6 @@
                   "ctxt": 0
                 },
                 "value": "thing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -196,7 +191,6 @@
                   "ctxt": 0
                 },
                 "value": "also",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -224,7 +218,6 @@
                   "ctxt": 0
                 },
                 "value": "desc",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -245,7 +238,6 @@
                         "ctxt": 0
                       },
                       "value": "item",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "value": {
@@ -307,7 +299,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -318,7 +309,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -331,7 +321,6 @@
               "ctxt": 0
             },
             "value": "Strings",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -344,7 +333,6 @@
             "ctxt": 0
           },
           "value": "Strings",
-          "typeAnnotation": null,
           "optional": false
         }
       }

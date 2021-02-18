@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Foonly",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -60,8 +59,8 @@
                     "ctxt": 0
                   },
                   "value": "self",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ThisExpression",
@@ -105,7 +104,6 @@
                     "ctxt": 0
                   },
                   "value": "self",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -116,7 +114,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -162,7 +159,6 @@
                     "ctxt": 0
                   },
                   "value": "self",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -173,7 +169,6 @@
                     "ctxt": 0
                   },
                   "value": "m",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -225,7 +220,6 @@
                               "ctxt": 0
                             },
                             "value": "console",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -236,7 +230,6 @@
                               "ctxt": 0
                             },
                             "value": "log",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -259,7 +252,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "self",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -270,7 +262,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "x",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -333,7 +324,6 @@
                 "ctxt": 0
               },
               "value": "Foonly",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -344,7 +334,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -357,7 +346,6 @@
               "ctxt": 0
             },
             "value": "mreal",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -405,8 +393,8 @@
                         "ctxt": 0
                       },
                       "value": "self",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "init": {
                       "type": "ThisExpression",
@@ -450,7 +438,6 @@
                         "ctxt": 0
                       },
                       "value": "self",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -461,7 +448,6 @@
                         "ctxt": 0
                       },
                       "value": "y",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -511,8 +497,8 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -529,7 +515,6 @@
                 "ctxt": 0
               },
               "value": "Foonly",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -561,7 +546,6 @@
             "ctxt": 0
           },
           "value": "foo",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -572,7 +556,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -600,7 +583,6 @@
             "ctxt": 0
           },
           "value": "foo",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -611,7 +593,6 @@
             "ctxt": 0
           },
           "value": "y",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -646,7 +627,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -657,7 +637,6 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "My",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -35,7 +34,6 @@
           "ctxt": 0
         },
         "value": "Set",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,

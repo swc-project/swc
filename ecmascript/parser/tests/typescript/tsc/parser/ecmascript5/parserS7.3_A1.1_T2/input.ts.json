@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -70,7 +70,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -113,7 +112,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -156,7 +154,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }

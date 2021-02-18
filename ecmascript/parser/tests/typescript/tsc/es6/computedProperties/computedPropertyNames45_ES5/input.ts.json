@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -74,7 +72,6 @@
           "ctxt": 0
         },
         "value": "Foo2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -100,7 +97,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -130,7 +126,6 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -162,7 +157,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -240,7 +234,6 @@
                         "ctxt": 0
                       },
                       "value": "Foo",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": null,
@@ -277,7 +270,6 @@
           "ctxt": 0
         },
         "value": "D",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -299,6 +291,7 @@
                 "ctxt": 0
               },
               "value": "s",
+              "optional": false,
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -315,8 +308,7 @@
                   },
                   "kind": "string"
                 }
-              },
-              "optional": false
+              }
             }
           ],
           "typeAnnotation": {
@@ -341,7 +333,6 @@
                   "ctxt": 0
                 },
                 "value": "Foo2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -401,6 +392,7 @@
                     "ctxt": 0
                   },
                   "value": "p",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -423,13 +415,11 @@
                           "ctxt": 0
                         },
                         "value": "Foo",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -468,7 +458,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,

@@ -29,7 +29,6 @@
               "ctxt": 0
             },
             "value": "val",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -68,7 +67,6 @@
                 "ctxt": 0
               },
               "value": "type",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": {

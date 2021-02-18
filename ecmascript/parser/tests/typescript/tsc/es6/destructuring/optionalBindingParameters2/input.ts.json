@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -52,7 +51,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -72,7 +70,6 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -92,7 +89,6 @@
                     "ctxt": 0
                   },
                   "value": "z",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -130,7 +126,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -172,7 +167,6 @@
                         "ctxt": 0
                       },
                       "value": "y",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -214,7 +208,6 @@
                         "ctxt": 0
                       },
                       "value": "z",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -288,7 +281,6 @@
             "ctxt": 0
           },
           "value": "foo",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -312,7 +304,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -340,7 +331,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -363,7 +353,6 @@
                       "ctxt": 0
                     },
                     "value": "z",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -405,7 +394,6 @@
             "ctxt": 0
           },
           "value": "foo",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -429,7 +417,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -452,7 +439,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -475,7 +461,6 @@
                       "ctxt": 0
                     },
                     "value": "z",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {

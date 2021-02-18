@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "takeObject",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -37,6 +36,7 @@
               "ctxt": 0
             },
             "value": "o",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -53,8 +53,7 @@
                 },
                 "kind": "object"
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -88,7 +87,6 @@
           "ctxt": 0
         },
         "value": "returnObject",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -172,6 +170,7 @@
               "ctxt": 0
             },
             "value": "nonPrimitive",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -188,8 +187,7 @@
                 },
                 "kind": "object"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -221,6 +219,7 @@
               "ctxt": 0
             },
             "value": "primitive",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -237,8 +236,7 @@
                 },
                 "kind": "boolean"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -267,7 +265,6 @@
             "ctxt": 0
           },
           "value": "takeObject",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -281,7 +278,6 @@
                 "ctxt": 0
               },
               "value": "nonPrimitive",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -312,8 +308,8 @@
             "ctxt": 0
           },
           "value": "nonPrimitive",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "CallExpression",
@@ -330,7 +326,6 @@
               "ctxt": 0
             },
             "value": "returnObject",
-            "typeAnnotation": null,
             "optional": false
           },
           "arguments": [],
@@ -360,7 +355,6 @@
             "ctxt": 0
           },
           "value": "takeObject",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -374,7 +368,6 @@
                 "ctxt": 0
               },
               "value": "primitive",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -405,8 +398,8 @@
             "ctxt": 0
           },
           "value": "primitive",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "CallExpression",
@@ -423,7 +416,6 @@
               "ctxt": 0
             },
             "value": "returnObject",
-            "typeAnnotation": null,
             "optional": false
           },
           "arguments": [],
@@ -441,7 +433,6 @@
           "ctxt": 0
         },
         "value": "returnError",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -485,8 +476,8 @@
                     "ctxt": 0
                   },
                   "value": "ret",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "NumericLiteral",
@@ -516,7 +507,6 @@
                 "ctxt": 0
               },
               "value": "ret",
-              "typeAnnotation": null,
               "optional": false
             }
           }

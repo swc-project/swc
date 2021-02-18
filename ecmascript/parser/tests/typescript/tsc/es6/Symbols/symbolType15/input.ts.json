@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "sym",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -47,8 +48,7 @@
                 },
                 "kind": "symbol"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -80,6 +80,7 @@
               "ctxt": 0
             },
             "value": "symObj",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -102,13 +103,11 @@
                     "ctxt": 0
                   },
                   "value": "Symbol",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -138,8 +137,8 @@
             "ctxt": 0
           },
           "value": "symObj",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -149,7 +148,6 @@
             "ctxt": 0
           },
           "value": "sym",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -177,8 +175,8 @@
             "ctxt": 0
           },
           "value": "sym",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "Identifier",
@@ -188,7 +186,6 @@
             "ctxt": 0
           },
           "value": "symObj",
-          "typeAnnotation": null,
           "optional": false
         }
       }

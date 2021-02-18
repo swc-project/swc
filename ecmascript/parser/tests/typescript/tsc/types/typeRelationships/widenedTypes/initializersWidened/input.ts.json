@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "x1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NullLiteral",
@@ -71,8 +71,8 @@
               "ctxt": 0
             },
             "value": "y1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "Identifier",
@@ -82,7 +82,6 @@
               "ctxt": 0
             },
             "value": "undefined",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false
@@ -114,8 +113,8 @@
               "ctxt": 0
             },
             "value": "z1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -164,6 +163,7 @@
               "ctxt": 0
             },
             "value": "x2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -180,8 +180,7 @@
                 },
                 "kind": "null"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -213,6 +212,7 @@
               "ctxt": 0
             },
             "value": "y2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -229,8 +229,7 @@
                 },
                 "kind": "undefined"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -262,6 +261,7 @@
               "ctxt": 0
             },
             "value": "x3",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -278,8 +278,7 @@
                 },
                 "kind": "null"
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "NullLiteral",
@@ -318,6 +317,7 @@
               "ctxt": 0
             },
             "value": "y3",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -334,8 +334,7 @@
                 },
                 "kind": "undefined"
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "Identifier",
@@ -345,7 +344,6 @@
               "ctxt": 0
             },
             "value": "undefined",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false
@@ -377,6 +375,7 @@
               "ctxt": 0
             },
             "value": "z3",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -393,8 +392,7 @@
                 },
                 "kind": "undefined"
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "UnaryExpression",
@@ -443,8 +441,8 @@
               "ctxt": 0
             },
             "value": "x4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -500,8 +498,8 @@
               "ctxt": 0
             },
             "value": "y4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -519,7 +517,6 @@
                 "ctxt": 0
               },
               "value": "undefined",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -530,7 +527,6 @@
                 "ctxt": 0
               },
               "value": "undefined",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -563,8 +559,8 @@
               "ctxt": 0
             },
             "value": "z4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -640,8 +636,8 @@
               "ctxt": 0
             },
             "value": "x5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -667,7 +663,6 @@
                 "ctxt": 0
               },
               "value": "x2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -700,8 +695,8 @@
               "ctxt": 0
             },
             "value": "y5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -719,7 +714,6 @@
                 "ctxt": 0
               },
               "value": "undefined",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -730,7 +724,6 @@
                 "ctxt": 0
               },
               "value": "y2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -763,8 +756,8 @@
               "ctxt": 0
             },
             "value": "z5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -800,7 +793,6 @@
                 "ctxt": 0
               },
               "value": "y2",
-              "typeAnnotation": null,
               "optional": false
             }
           },

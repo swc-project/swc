@@ -30,7 +30,6 @@
             "ctxt": 0
           },
           "value": "AppType",
-          "typeAnnotation": null,
           "optional": false
         },
         "members": [
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "HeaderDetail",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -82,7 +80,6 @@
                 "ctxt": 0
               },
               "value": "HeaderMultiDetail",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -115,7 +112,6 @@
                 "ctxt": 0
               },
               "value": "AdvancedList",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -148,7 +144,6 @@
                 "ctxt": 0
               },
               "value": "Standard",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -181,7 +176,6 @@
                 "ctxt": 0
               },
               "value": "Relationship",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -214,7 +208,6 @@
                 "ctxt": 0
               },
               "value": "Report",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -247,7 +240,6 @@
                 "ctxt": 0
               },
               "value": "Composite",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -280,7 +272,6 @@
                 "ctxt": 0
               },
               "value": "ListOnly",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -313,7 +304,6 @@
                 "ctxt": 0
               },
               "value": "ModuleSettings",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -358,7 +348,6 @@
             "ctxt": 0
           },
           "value": "AppStyle",
-          "typeAnnotation": null,
           "optional": false
         },
         "members": [
@@ -377,7 +366,6 @@
                 "ctxt": 0
               },
               "value": "Tree",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": null
@@ -397,7 +385,6 @@
                 "ctxt": 0
               },
               "value": "TreeEntity",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": null
@@ -417,7 +404,6 @@
                 "ctxt": 0
               },
               "value": "Standard",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": null
@@ -437,7 +423,6 @@
                 "ctxt": 0
               },
               "value": "MiniApp",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": null
@@ -457,7 +442,6 @@
                 "ctxt": 0
               },
               "value": "PivotTable",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": null
@@ -490,6 +474,7 @@
               "ctxt": 0
             },
             "value": "appTypeStylesWithError",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -512,7 +497,6 @@
                     "ctxt": 0
                   },
                   "value": "Map",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -538,7 +522,6 @@
                           "ctxt": 0
                         },
                         "value": "AppType",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -558,7 +541,6 @@
                           "ctxt": 0
                         },
                         "value": "Array",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": {
@@ -584,7 +566,6 @@
                                 "ctxt": 0
                               },
                               "value": "AppStyle",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
@@ -595,8 +576,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "NewExpression",
@@ -613,7 +593,6 @@
                 "ctxt": 0
               },
               "value": "Map",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -654,7 +633,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "AppType",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -665,7 +643,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "Standard",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -698,7 +675,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "AppStyle",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "property": {
@@ -709,7 +685,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "Standard",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "computed": false
@@ -732,7 +707,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "AppStyle",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "property": {
@@ -743,7 +717,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "MiniApp",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "computed": false
@@ -782,7 +755,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "AppType",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -793,7 +765,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "Relationship",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -826,7 +797,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "AppStyle",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "property": {
@@ -837,7 +807,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "Standard",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "computed": false
@@ -860,7 +829,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "AppStyle",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "property": {
@@ -871,7 +839,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "Tree",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "computed": false
@@ -894,7 +861,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "AppStyle",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "property": {
@@ -905,7 +871,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "TreeEntity",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "computed": false
@@ -944,7 +909,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "AppType",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -955,7 +919,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "AdvancedList",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -988,7 +951,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "AppStyle",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "property": {
@@ -999,7 +961,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "Standard",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "computed": false
@@ -1022,7 +983,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "AppStyle",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "property": {
@@ -1033,7 +993,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "MiniApp",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "computed": false
@@ -1065,7 +1024,6 @@
           "ctxt": 0
         },
         "value": "foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -1098,8 +1056,8 @@
                 "ctxt": 0
               },
               "value": "args",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
@@ -1130,7 +1088,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -1172,7 +1129,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -1209,7 +1165,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -1242,6 +1197,7 @@
               "ctxt": 0
             },
             "value": "b1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1280,7 +1236,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -1309,8 +1264,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "CallExpression",
@@ -1327,7 +1281,6 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -1351,7 +1304,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -1387,7 +1339,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -1435,6 +1386,7 @@
               "ctxt": 0
             },
             "value": "b2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1467,8 +1419,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "CallExpression",
@@ -1485,7 +1436,6 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [

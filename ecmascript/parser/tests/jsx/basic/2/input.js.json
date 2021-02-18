@@ -32,7 +32,6 @@
                 "ctxt": 0
               },
               "value": "n",
-              "typeAnnotation": null,
               "optional": false
             },
             "name": {
@@ -43,7 +42,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -70,7 +68,6 @@
                     "ctxt": 0
                   },
                   "value": "n",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "name": {
@@ -81,7 +78,6 @@
                     "ctxt": 0
                   },
                   "value": "v",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },

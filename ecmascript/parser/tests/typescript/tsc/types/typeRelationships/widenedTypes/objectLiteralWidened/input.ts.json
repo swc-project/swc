@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "x1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -52,7 +52,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -74,7 +73,6 @@
                     "ctxt": 0
                   },
                   "value": "bar",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -85,7 +83,6 @@
                     "ctxt": 0
                   },
                   "value": "undefined",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -120,8 +117,8 @@
               "ctxt": 0
             },
             "value": "y1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -141,7 +138,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -163,7 +159,6 @@
                     "ctxt": 0
                   },
                   "value": "bar",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -184,7 +179,6 @@
                           "ctxt": 0
                         },
                         "value": "baz",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -206,7 +200,6 @@
                           "ctxt": 0
                         },
                         "value": "boo",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -217,7 +210,6 @@
                           "ctxt": 0
                         },
                         "value": "undefined",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -255,6 +247,7 @@
               "ctxt": 0
             },
             "value": "u",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -271,8 +264,7 @@
                 },
                 "kind": "undefined"
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "Identifier",
@@ -282,7 +274,6 @@
               "ctxt": 0
             },
             "value": "undefined",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false
@@ -314,6 +305,7 @@
               "ctxt": 0
             },
             "value": "n",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -330,8 +322,7 @@
                 },
                 "kind": "null"
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "NullLiteral",
@@ -370,8 +361,8 @@
               "ctxt": 0
             },
             "value": "x2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -391,7 +382,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -402,7 +392,6 @@
                     "ctxt": 0
                   },
                   "value": "n",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -416,7 +405,6 @@
                     "ctxt": 0
                   },
                   "value": "bar",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -427,7 +415,6 @@
                     "ctxt": 0
                   },
                   "value": "u",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -462,8 +449,8 @@
               "ctxt": 0
             },
             "value": "y2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -483,7 +470,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -494,7 +480,6 @@
                     "ctxt": 0
                   },
                   "value": "n",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -508,7 +493,6 @@
                     "ctxt": 0
                   },
                   "value": "bar",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -529,7 +513,6 @@
                           "ctxt": 0
                         },
                         "value": "baz",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -540,7 +523,6 @@
                           "ctxt": 0
                         },
                         "value": "n",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -554,7 +536,6 @@
                           "ctxt": 0
                         },
                         "value": "boo",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -565,7 +546,6 @@
                           "ctxt": 0
                         },
                         "value": "u",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }

@@ -77,7 +77,6 @@
               "ctxt": 0
             },
             "value": "Test",
-            "typeAnnotation": null,
             "optional": false
           }
         }

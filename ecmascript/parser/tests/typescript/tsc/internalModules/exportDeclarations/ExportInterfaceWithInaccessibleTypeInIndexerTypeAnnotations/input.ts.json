@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "Point",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -79,7 +77,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -121,7 +118,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -172,7 +168,6 @@
                   "ctxt": 0
                 },
                 "value": "points",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -197,6 +192,7 @@
                           "ctxt": 0
                         },
                         "value": "idx",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -213,8 +209,7 @@
                             },
                             "kind": "number"
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     ],
                     "typeAnnotation": {
@@ -239,7 +234,6 @@
                             "ctxt": 0
                           },
                           "value": "Point",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -263,6 +257,7 @@
                           "ctxt": 0
                         },
                         "value": "idx",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -279,8 +274,7 @@
                             },
                             "kind": "string"
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     ],
                     "typeAnnotation": {
@@ -305,7 +299,6 @@
                             "ctxt": 0
                           },
                           "value": "Point",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null

@@ -38,8 +38,8 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "NumericLiteral",
@@ -87,8 +87,8 @@
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "NumericLiteral",
@@ -136,8 +136,8 @@
                 "ctxt": 0
               },
               "value": "c",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "NumericLiteral",
@@ -176,7 +176,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -196,7 +195,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -216,7 +214,6 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -262,7 +259,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -308,7 +304,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -328,7 +323,6 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -374,7 +368,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -394,7 +387,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -440,7 +432,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": {
@@ -451,7 +442,6 @@
               "ctxt": 0
             },
             "value": "aa",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -496,7 +486,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": {
@@ -507,7 +496,6 @@
               "ctxt": 0
             },
             "value": "bb",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -552,7 +540,6 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -598,7 +585,6 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": {
@@ -609,7 +595,6 @@
               "ctxt": 0
             },
             "value": "cc",
-            "typeAnnotation": null,
             "optional": false
           }
         }

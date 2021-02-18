@@ -28,7 +28,6 @@
             "ctxt": 0
           },
           "value": "foo",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -49,7 +48,6 @@
                   "ctxt": 0
                 },
                 "value": "import",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -90,7 +88,6 @@
                             "ctxt": 0
                           },
                           "value": "assert",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -111,7 +108,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "type",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "value": {

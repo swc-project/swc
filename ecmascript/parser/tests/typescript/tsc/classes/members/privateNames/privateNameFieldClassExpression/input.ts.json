@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "B",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -78,7 +76,6 @@
                     "ctxt": 0
                   },
                   "value": "constructor",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "params": [],
@@ -119,7 +116,6 @@
                               "ctxt": 0
                             },
                             "value": "console",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -130,7 +126,6 @@
                               "ctxt": 0
                             },
                             "value": "log",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -177,7 +172,6 @@
                     "ctxt": 0
                   },
                   "value": "test",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -239,7 +233,6 @@
                 "ctxt": 0
               },
               "value": "foo2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -253,7 +246,6 @@
                 "ctxt": 0
               },
               "value": "Foo",
-              "typeAnnotation": null,
               "optional": false
             },
             "span": {
@@ -278,7 +270,6 @@
                     "ctxt": 0
                   },
                   "value": "otherClass",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {

@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "_sym",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -49,7 +49,6 @@
                 "ctxt": 0
               },
               "value": "Symbol",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -94,7 +93,6 @@
             "ctxt": 0
           },
           "value": "MyClass",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -120,7 +118,6 @@
                 "ctxt": 0
               },
               "value": "constructor",
-              "typeAnnotation": null,
               "optional": false
             },
             "params": [],
@@ -170,7 +167,6 @@
                           "ctxt": 0
                         },
                         "value": "_sym",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": true
@@ -211,7 +207,6 @@
                 "ctxt": 0
               },
               "value": "method",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -268,7 +263,6 @@
                             "ctxt": 0
                           },
                           "value": "_sym",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": true
@@ -314,8 +308,8 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "init": {
                           "type": "MemberExpression",
@@ -340,7 +334,6 @@
                               "ctxt": 0
                             },
                             "value": "_sym",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": true

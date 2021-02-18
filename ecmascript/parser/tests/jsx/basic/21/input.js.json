@@ -30,7 +30,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -54,7 +53,6 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -88,7 +86,6 @@
                 "ctxt": 0
               },
               "value": "children",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -107,7 +104,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -126,7 +122,6 @@
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -146,7 +141,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           }
         }

@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "oct1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -72,8 +72,8 @@
               "ctxt": 0
             },
             "value": "oct2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -113,8 +113,8 @@
               "ctxt": 0
             },
             "value": "oct3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -154,8 +154,8 @@
               "ctxt": 0
             },
             "value": "oct4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -195,8 +195,8 @@
               "ctxt": 0
             },
             "value": "obj1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -242,7 +242,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -265,7 +264,6 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -276,7 +274,6 @@
                     "ctxt": 0
                   },
                   "value": "oct1",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -288,7 +285,6 @@
                   "ctxt": 0
                 },
                 "value": "oct1",
-                "typeAnnotation": null,
                 "optional": false
               },
               {
@@ -343,8 +339,8 @@
               "ctxt": 0
             },
             "value": "obj2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -390,7 +386,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -413,7 +408,6 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -424,7 +418,6 @@
                     "ctxt": 0
                   },
                   "value": "oct2",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -436,7 +429,6 @@
                   "ctxt": 0
                 },
                 "value": "oct2",
-                "typeAnnotation": null,
                 "optional": false
               },
               {
@@ -488,7 +480,6 @@
             "ctxt": 0
           },
           "value": "obj1",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -525,7 +516,6 @@
             "ctxt": 0
           },
           "value": "obj1",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -567,7 +557,6 @@
             "ctxt": 0
           },
           "value": "obj1",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -609,7 +598,6 @@
             "ctxt": 0
           },
           "value": "obj1",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -646,7 +634,6 @@
             "ctxt": 0
           },
           "value": "obj1",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -688,7 +675,6 @@
             "ctxt": 0
           },
           "value": "obj1",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -730,7 +716,6 @@
             "ctxt": 0
           },
           "value": "obj1",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -772,7 +757,6 @@
             "ctxt": 0
           },
           "value": "obj1",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -814,7 +798,6 @@
             "ctxt": 0
           },
           "value": "obj2",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -851,7 +834,6 @@
             "ctxt": 0
           },
           "value": "obj2",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -893,7 +875,6 @@
             "ctxt": 0
           },
           "value": "obj2",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -935,7 +916,6 @@
             "ctxt": 0
           },
           "value": "obj2",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -972,7 +952,6 @@
             "ctxt": 0
           },
           "value": "obj2",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1014,7 +993,6 @@
             "ctxt": 0
           },
           "value": "obj2",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1056,7 +1034,6 @@
             "ctxt": 0
           },
           "value": "obj2",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1098,7 +1075,6 @@
             "ctxt": 0
           },
           "value": "obj2",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1135,7 +1111,6 @@
             "ctxt": 0
           },
           "value": "obj2",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1177,7 +1152,6 @@
             "ctxt": 0
           },
           "value": "obj2",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
