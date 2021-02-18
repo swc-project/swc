@@ -687,12 +687,38 @@ where
                         }
 
                         if line.starts_with("@jsxFrag") {
+                            if self.runtime == Runtime::Automatic {
+                                HANDLER.with(|handler| {
+                                    handler
+                                        .struct_span_err(
+                                            module.span,
+                                            "pragma and pragmaFrag cannot be set when runtime is \
+                                             automatic",
+                                        )
+                                        .emit()
+                                });
+                            }
+
                             let src = line.replace("@jsxFrag", "").trim().to_string();
                             self.pragma_frag = ExprOrSpread {
                                 expr: parse_classic_option(&self.cm, "module-jsx-pragma-frag", src),
                                 spread: None,
                             };
                         } else {
+                            if self.runtime == Runtime::Automatic {
+                                if self.runtime == Runtime::Automatic {
+                                    HANDLER.with(|handler| {
+                                        handler
+                                            .struct_span_err(
+                                                module.span,
+                                                "pragma and pragmaFrag cannot be set when runtime \
+                                                 is automatic",
+                                            )
+                                            .emit()
+                                    });
+                                }
+                            }
+
                             let src = line.replace("@jsx", "").trim().to_string();
 
                             self.pragma = ExprOrSuper::Expr(parse_classic_option(
