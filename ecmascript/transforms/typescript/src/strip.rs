@@ -164,7 +164,6 @@ impl Strip {
                 } else {
                     match &mut **prop {
                         Expr::Ident(i) => {
-                            i.type_ann = None;
                             i.optional = false;
                         }
                         _ => {}
@@ -415,7 +414,7 @@ impl Strip {
                         params: vec![Param {
                             span: id.span,
                             decorators: vec![],
-                            pat: Pat::Ident(id.clone()),
+                            pat: Pat::Ident(id.clone().into()),
                         }],
                         body: Some(BlockStmt {
                             span: DUMMY_SP,
@@ -488,7 +487,7 @@ impl Strip {
                     op: op!("||"),
                     right: Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(Pat::Ident(id.clone()).into()),
+                        left: PatOrExpr::Pat(Pat::Ident(id.clone().into()).into()),
                         op: op!("="),
                         right: Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
@@ -523,7 +522,7 @@ impl Strip {
 
         let var = VarDeclarator {
             span: module_name.span,
-            name: Pat::Ident(module_name.clone()),
+            name: Pat::Ident(module_name.clone().into()),
             init: None,
             definite: false,
         };
@@ -578,7 +577,7 @@ impl Strip {
                                             PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
                                                 span: DUMMY_SP,
                                                 obj: private_name.clone().as_obj(),
-                                                prop: Box::new(Expr::Ident(name.clone())),
+                                                prop: Box::new(Expr::Ident(name.id.clone())),
                                                 computed: false,
                                             })));
 
@@ -662,7 +661,7 @@ impl Strip {
                         .map(|id| {
                             //
                             let mut prop = id.clone();
-                            prop.span.ctxt = SyntaxContext::empty();
+                            prop.id.span.ctxt = SyntaxContext::empty();
                             Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),
