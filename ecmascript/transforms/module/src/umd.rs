@@ -560,12 +560,12 @@ impl Fold for Umd {
                 Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(quote_ident!("global")),
+                    pat: Pat::Ident(quote_ident!("global").into()),
                 },
                 Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(quote_ident!("factory")),
+                    pat: Pat::Ident(quote_ident!("factory").into()),
                 },
             ],
             body: Some(BlockStmt {
@@ -634,7 +634,7 @@ impl Fold for Umd {
                                         kind: VarDeclKind::Var,
                                         decls: vec![VarDeclarator {
                                             span: DUMMY_SP,
-                                            name: Pat::Ident(quote_ident!("mod")),
+                                            name: Pat::Ident(quote_ident!("mod").into()),
                                             init: Some(Box::new(Expr::Object(ObjectLit {
                                                 span: DUMMY_SP,
                                                 props: vec![PropOrSpread::Prop(Box::new(
