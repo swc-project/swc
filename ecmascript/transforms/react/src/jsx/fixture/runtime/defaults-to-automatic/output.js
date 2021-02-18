@@ -1,5 +1,5 @@
-var _reactJsxRuntime = require("react/jsx-runtime");
-
-var x = /*#__PURE__*/_reactJsxRuntime.jsx("div", {
-  children: /*#__PURE__*/_reactJsxRuntime.jsx("span", {})
+import { jsx as _jsx } from "react/jsx-runtime";
+var x = _jsx("div", {
+    children: _jsx("span", {
+    })
 });
