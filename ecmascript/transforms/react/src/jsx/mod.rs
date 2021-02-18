@@ -237,22 +237,6 @@ where
                     .collect::<Vec<_>>();
 
                 if !children.is_empty() {
-                    if props_obj.props.is_empty() {
-                        return Expr::Call(CallExpr {
-                            span,
-                            callee: jsx.as_callee(),
-                            args: vec![
-                                fragment.as_arg(),
-                                ArrayLit {
-                                    span: DUMMY_SP,
-                                    elems: children,
-                                }
-                                .as_arg(),
-                            ],
-                            type_args: None,
-                        });
-                    }
-
                     props_obj
                         .props
                         .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
