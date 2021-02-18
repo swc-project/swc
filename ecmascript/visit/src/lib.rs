@@ -1051,7 +1051,7 @@ define!({
         Delete,
     }
     pub enum Pat {
-        Ident(Ident),
+        Ident(BindingIdent),
         Array(ArrayPat),
         Rest(RestPat),
         Object(ObjectPat),
