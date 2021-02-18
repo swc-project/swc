@@ -440,7 +440,7 @@ impl Fold for Umd {
                     kind: VarDeclKind::Var,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(exported_names.clone()),
+                        name: Pat::Ident(exported_names.clone().into()),
                         init: Some(Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: exports

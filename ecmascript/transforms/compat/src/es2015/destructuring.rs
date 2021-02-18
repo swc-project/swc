@@ -757,7 +757,7 @@ impl Fold for AssignFolder {
                                             exprs.push(Box::new(Expr::Assign(AssignExpr {
                                                 span,
                                                 left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                                    prop_ident.clone(),
+                                                    prop_ident.clone().into(),
                                                 ))),
                                                 op: op!("="),
                                                 right: Box::new(make_ref_prop_expr(
@@ -960,7 +960,7 @@ fn make_ref_ident_for_array(
     if aliased {
         decls.push(VarDeclarator {
             span,
-            name: Pat::Ident(ref_ident.clone()),
+            name: Pat::Ident(ref_ident.clone().into()),
             init: init.map(|v| {
                 if c.loose
                     || match *v {

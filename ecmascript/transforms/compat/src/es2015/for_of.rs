@@ -241,7 +241,7 @@ impl Actual {
         let normal_completion_ident = Ident::new("_iteratorNormalCompletion".into(), var_span);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(normal_completion_ident.clone()),
+            name: Pat::Ident(normal_completion_ident.clone().into()),
             init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
                 span: DUMMY_SP,
                 value: true,
@@ -251,7 +251,7 @@ impl Actual {
         let error_flag_ident = Ident::new("_didIteratorError".into(), var_span);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(error_flag_ident.clone()),
+            name: Pat::Ident(error_flag_ident.clone().into()),
             init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
                 span: DUMMY_SP,
                 value: false,
@@ -261,7 +261,7 @@ impl Actual {
         let error_ident = Ident::new("_iteratorError".into(), var_span);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(error_ident.clone()),
+            name: Pat::Ident(error_ident.clone().into()),
             init: Some(Box::new(Expr::Ident(Ident::new(
                 js_word!("undefined"),
                 DUMMY_SP,
@@ -278,7 +278,7 @@ impl Actual {
                 decls: vec![
                     VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(iterator.clone()),
+                        name: Pat::Ident(iterator.clone().into()),
                         init: Some(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: right
@@ -291,7 +291,7 @@ impl Actual {
                     },
                     VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(step.clone()),
+                        name: Pat::Ident(step.clone().into()),
                         init: None,
                         definite: false,
                     },
@@ -304,7 +304,7 @@ impl Actual {
                 arg: {
                     let step_expr = Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(step))),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(step.into()))),
                         op: op!("="),
                         // `_iterator.next()`
                         right: Box::new(Expr::Call(CallExpr {
@@ -318,7 +318,9 @@ impl Actual {
 
                     let iteration_normal_completion = Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(normal_completion_ident.clone()))),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                            normal_completion_ident.clone().into(),
+                        ))),
                         op: op!("="),
                         right: Box::new(step_expr.make_member(quote_ident!("done"))),
                     }));
@@ -330,7 +332,7 @@ impl Actual {
             // `_iteratorNormalCompletion = true`
             update: Some(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(normal_completion_ident.clone()))),
+                left: PatOrExpr::Pat(Box::new(Pat::Ident(normal_completion_ident.clone().into()))),
                 op: op!("="),
                 right: Box::new(Expr::Lit(Lit::Bool(Bool {
                     span: DUMMY_SP,
