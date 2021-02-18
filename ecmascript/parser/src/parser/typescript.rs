@@ -1177,17 +1177,17 @@ impl<I: Tokens> Parser<I> {
         expect!(self, '[');
 
         let ident_start = cur_pos!(self);
-        let mut id = self.parse_ident_name()?;
+        let mut id = self.parse_ident_name().map(BindingIdent::from)?;
         let type_ann_start = cur_pos!(self);
 
         if eat!(self, ',') {
-            self.emit_err(id.span, SyntaxError::TS1096);
+            self.emit_err(id.id.span, SyntaxError::TS1096);
         } else {
             expect!(self, ':');
         }
 
         let type_ann = self.parse_ts_type_ann(/* eat_colon */ false, type_ann_start)?;
-        id.span = span!(self, ident_start);
+        id.id.span = span!(self, ident_start);
         id.type_ann = Some(type_ann);
 
         expect!(self, ']');
