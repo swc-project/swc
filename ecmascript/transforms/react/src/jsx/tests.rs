@@ -45,8 +45,8 @@ fn true_by_default() -> bool {
 }
 
 fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
-    if options.babel_8_breaking && options.options.runtime.is_none() {
-        options.options.runtime = Some(Runtime::Automatic);
+    if !options.babel_8_breaking && options.options.runtime.is_none() {
+        options.options.runtime = Some(Runtime::Classic);
     }
 
     options.options.use_builtins |= options.use_builtins;
