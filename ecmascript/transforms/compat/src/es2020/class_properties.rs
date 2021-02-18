@@ -332,7 +332,7 @@ impl ClassProperties {
                             // Handle computed property
                             vars.push(VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(ident.clone()),
+                                name: Pat::Ident(ident.clone().into()),
                                 init: Some(expr),
                                 definite: false,
                             });
@@ -408,7 +408,7 @@ impl ClassProperties {
                                     // Handle computed property
                                     vars.push(VarDeclarator {
                                         span: DUMMY_SP,
-                                        name: Pat::Ident(ident.clone()),
+                                        name: Pat::Ident(ident.clone().into()),
                                         init: Some(prop.key),
                                         definite: false,
                                     });
@@ -590,7 +590,7 @@ impl ClassProperties {
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
                             definite: false,
-                            name: Pat::Ident(ident.clone()),
+                            name: Pat::Ident(ident.clone().into()),
                             init: Some(extra_init),
                         }],
                     })));
@@ -618,22 +618,16 @@ impl ClassProperties {
                         c.params = c.params.move_map(|mut param| match &mut param {
                             ParamOrTsParamProp::TsParamProp(p) => match &p.param {
                                 TsParamPropParam::Ident(i) => {
-                                    typescript_constructor_properties.push(store(&Ident {
-                                        type_ann: None,
-                                        ..i.clone()
-                                    }));
+                                    typescript_constructor_properties.push(store(&i.id));
                                     ParamOrTsParamProp::Param(Param {
                                         span: p.span,
                                         decorators: take(&mut p.decorators),
-                                        pat: Pat::Ident(i.clone()),
+                                        pat: Pat::Ident(i.clone().into()),
                                     })
                                 }
                                 TsParamPropParam::Assign(pat) => match &*pat.left {
                                     Pat::Ident(i) => {
-                                        typescript_constructor_properties.push(store(&Ident {
-                                            type_ann: None,
-                                            ..i.clone()
-                                        }));
+                                        typescript_constructor_properties.push(store(&i.id));
                                         ParamOrTsParamProp::Param(Param {
                                             span: p.span,
                                             decorators: take(&mut p.decorators),

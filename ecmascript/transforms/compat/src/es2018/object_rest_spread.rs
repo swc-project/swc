@@ -338,7 +338,7 @@ impl Fold for RestFolder {
                         // println!("Var: var_ident = init",);
                         self.push_var_if_not_empty(VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(var_ident.clone()),
+                            name: Pat::Ident(var_ident.clone().into()),
                             init: Some(init),
                             definite: false,
                         });
@@ -560,7 +560,7 @@ impl RestFolder {
         if let Some(e1) = decl.init {
             if let Expr::Ident(ref i1) = *e1 {
                 if let Pat::Ident(ref i2) = decl.name {
-                    if *i1 == *i2 {
+                    if *i1 == i2.id {
                         return;
                     }
                 }
@@ -580,7 +580,7 @@ impl RestFolder {
         if let Some(e1) = decl.init {
             if let Expr::Ident(ref i1) = *e1 {
                 if let Pat::Ident(ref i2) = decl.name {
-                    if *i1 == *i2 {
+                    if *i1 == i2.id {
                         return;
                     }
                 }
@@ -638,7 +638,7 @@ impl RestFolder {
                                         },
                                     );
                                     index += 1;
-                                    Some(Pat::Ident(var_ident.clone()))
+                                    Some(Pat::Ident(var_ident.clone().into()))
                                 }
                                 _ => elem,
                             })
@@ -668,7 +668,7 @@ impl RestFolder {
                             decorators: Default::default(),
                             pat: Pat::Assign(AssignPat {
                                 span,
-                                left: Box::new(Pat::Ident(var_ident)),
+                                left: Box::new(Pat::Ident(var_ident.into())),
                                 right,
                                 ..n
                             }),
@@ -688,7 +688,7 @@ impl RestFolder {
                         Param {
                             span: DUMMY_SP,
                             decorators: Default::default(),
-                            pat: Pat::Ident(var_ident),
+                            pat: Pat::Ident(var_ident.into()),
                         }
                     }
                 }
@@ -856,7 +856,7 @@ impl RestFolder {
                                 *index += 1;
                                 self.vars.push(VarDeclarator {
                                     span: DUMMY_SP,
-                                    name: Pat::Ident(ident.clone()),
+                                    name: Pat::Ident(ident.clone().into()),
                                     init: Some(c.expr),
                                     definite: false,
                                 });
