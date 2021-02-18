@@ -1297,7 +1297,7 @@ define!({
         pub param: TsParamPropParam,
     }
     pub enum TsParamPropParam {
-        Ident(Ident),
+        Ident(BindingIdent),
         Assign(AssignPat),
     }
     pub struct TsQualifiedName {
