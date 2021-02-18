@@ -1,5 +1,6 @@
 #![allow(clippy::vec_box)]
 #![allow(missing_copy_implementations)]
+use crate::BindingIdent;
 use crate::{
     class::Decorator,
     expr::Expr,
