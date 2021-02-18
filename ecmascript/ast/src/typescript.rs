@@ -399,8 +399,8 @@ pub struct TsThisType {
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsFnParam {
-    #[tag("Identifier")]
-    Ident(Ident),
+    #[tag("BindingIdentifier")]
+    Ident(BindingIdent),
 
     #[tag("ArrayPattern")]
     Array(ArrayPat),

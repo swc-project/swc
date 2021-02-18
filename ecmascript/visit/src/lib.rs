@@ -1410,7 +1410,7 @@ define!({
         pub span: Span,
     }
     pub enum TsFnParam {
-        Ident(Ident),
+        Ident(BindingIdent),
         Array(ArrayPat),
         Rest(RestPat),
         Object(ObjectPat),
