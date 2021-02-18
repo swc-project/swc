@@ -264,7 +264,7 @@ impl Classes {
             let params = vec![Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(super_ident.clone()),
+                pat: Pat::Ident(super_ident.clone().into()),
             }];
 
             let super_class = class.super_class.clone().unwrap();
@@ -505,7 +505,7 @@ impl Classes {
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(this.clone()),
+                                name: Pat::Ident(this.clone().into()),
                                 init: None,
                                 definite: false,
                             }],
@@ -646,7 +646,7 @@ impl Classes {
                     kind: VarDeclKind::Var,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this")),
+                        name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this").into()),
                         init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                         definite: false,
                     }],
@@ -787,7 +787,9 @@ impl Classes {
                         kind: VarDeclKind::Var,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this")),
+                            name: Pat::Ident(
+                                quote_ident!(DUMMY_SP.apply_mark(mark), "_this").into(),
+                            ),
                             init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                             definite: false,
                         }],
