@@ -100,7 +100,7 @@ impl VisitMut for KeywordRenamer {
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         match n {
             Pat::Ident(n) => {
-                if let Some(renamed) = self.renamed(&n) {
+                if let Some(renamed) = self.renamed(&n.id) {
                     *n = renamed.into();
                 }
 

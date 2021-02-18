@@ -53,7 +53,7 @@ pub(crate) trait ExprExt: Into<Expr> {
 
         VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(Ident::new(lhs.0, DUMMY_SP.with_ctxt(lhs.1))),
+            name: Pat::Ident(Ident::new(lhs.0, DUMMY_SP.with_ctxt(lhs.1)).into()),
             init: Some(Box::new(init)),
             definite: false,
         }
@@ -152,7 +152,7 @@ impl MapWithMut for ObjectPatProp {
 
 impl MapWithMut for PatOrExpr {
     fn dummy() -> Self {
-        PatOrExpr::Pat(Box::new(Pat::Ident(Ident::dummy())))
+        PatOrExpr::Pat(Box::new(Pat::Ident(Ident::dummy().into())))
     }
 }
 
