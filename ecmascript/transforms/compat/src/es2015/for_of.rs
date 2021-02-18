@@ -113,7 +113,7 @@ impl Actual {
             let mut decls = Vec::with_capacity(2);
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(i.clone()),
+                name: Pat::Ident(i.clone().into()),
                 init: Some(Box::new(Expr::Lit(Lit::Num(Number {
                     span: DUMMY_SP,
                     value: 0f64,
@@ -124,7 +124,7 @@ impl Actual {
             if aliased {
                 decls.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(arr.clone()),
+                    name: Pat::Ident(arr.clone().into()),
                     init: Some(right),
                     definite: false,
                 });

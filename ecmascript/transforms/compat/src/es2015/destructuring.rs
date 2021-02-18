@@ -377,7 +377,7 @@ impl AssignFolder {
 
                                     let var_decl = VarDeclarator {
                                         span: prop_span,
-                                        name: Pat::Ident(key.clone()),
+                                        name: Pat::Ident(key.clone().into()),
                                         init: Some(Box::new(make_cond_expr(ref_ident, value))),
                                         definite: false,
                                     };
@@ -386,7 +386,7 @@ impl AssignFolder {
                                 None => {
                                     let var_decl = VarDeclarator {
                                         span: prop_span,
-                                        name: Pat::Ident(key.clone()),
+                                        name: Pat::Ident(key.clone().into()),
                                         init: Some(Box::new(make_ref_prop_expr(
                                             &ref_ident,
                                             Box::new(key.clone().into()),
