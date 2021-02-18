@@ -510,7 +510,7 @@ impl VisitMut for Inlining<'_> {
                 PatFoldingMode::Param => {
                     self.declare(
                         i.to_id(),
-                        Some(Cow::Owned(Expr::Ident(i.clone()))),
+                        Some(Cow::Owned(Expr::Ident(i.id.clone().into()))),
                         false,
                         VarType::Param,
                     );
@@ -518,7 +518,7 @@ impl VisitMut for Inlining<'_> {
                 PatFoldingMode::CatchParam => {
                     self.declare(
                         i.to_id(),
-                        Some(Cow::Owned(Expr::Ident(i.clone()))),
+                        Some(Cow::Owned(Expr::Ident(i.id.clone().into()))),
                         false,
                         VarType::Var(VarDeclKind::Var),
                     );
@@ -647,7 +647,9 @@ impl VisitMut for Inlining<'_> {
 
                             log::trace!("Trying to optimize variable declaration: {:?}", id);
 
-                            if self.scope.is_inline_prevented(&Expr::Ident(name.clone()))
+                            if self
+                                .scope
+                                .is_inline_prevented(&Expr::Ident(name.id.clone().into()))
                                 || !self
                                     .scope
                                     .has_same_this(&id, node.init.as_ref().map(|v| &**v))
@@ -691,7 +693,10 @@ impl VisitMut for Inlining<'_> {
                                 Some(e) if e.is_lit() || e.is_ident() => Some(e),
                                 Some(e) => {
                                     let e = *e;
-                                    if self.scope.is_inline_prevented(&Expr::Ident(name.clone())) {
+                                    if self
+                                        .scope
+                                        .is_inline_prevented(&Expr::Ident(name.id.clone()))
+                                    {
                                         node.init = Some(Box::new(e));
                                         return;
                                     }
