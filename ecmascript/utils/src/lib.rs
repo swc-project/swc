@@ -237,7 +237,7 @@ pub trait StmtExt {
                 .into_iter()
                 .map(|i| VarDeclarator {
                     span: i.span,
-                    name: Pat::Ident(i),
+                    name: Pat::Ident(i.into()),
                     init: None,
                     definite: false,
                 })
@@ -285,7 +285,7 @@ impl Visit for Hoister {
         p.visit_children_with(self);
 
         match *p {
-            Pat::Ident(ref i) => self.vars.push(i.clone()),
+            Pat::Ident(ref i) => self.vars.push(i.id.clone()),
             _ => {}
         }
     }
@@ -1389,7 +1389,7 @@ pub fn default_constructor(has_super: bool) -> Constructor {
                 pat: Pat::Rest(RestPat {
                     span: DUMMY_SP,
                     dot3_token: DUMMY_SP,
-                    arg: Box::new(Pat::Ident(quote_ident!(span, "args"))),
+                    arg: Box::new(Pat::Ident(quote_ident!(span, "args").into())),
                     type_ann: Default::default(),
                 }),
             })]
