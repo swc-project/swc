@@ -211,7 +211,7 @@ fn unexprt_as_var(modules: &mut Modules, dep_export_ctxt: SyntaxContext) {
                                 {
                                     decls.push(VarDeclarator {
                                         span: n.span,
-                                        name: Pat::Ident(exported),
+                                        name: Pat::Ident(exported.into()),
                                         init: Some(Box::new(Expr::Ident(n.orig.clone()))),
                                         definite: true,
                                     })
@@ -223,10 +223,13 @@ fn unexprt_as_var(modules: &mut Modules, dep_export_ctxt: SyntaxContext) {
 
                                     decls.push(VarDeclarator {
                                         span: n.span,
-                                        name: Pat::Ident(Ident::new(
-                                            n.orig.sym.clone(),
-                                            n.orig.span.with_ctxt(dep_export_ctxt),
-                                        )),
+                                        name: Pat::Ident(
+                                            Ident::new(
+                                                n.orig.sym.clone(),
+                                                n.orig.span.with_ctxt(dep_export_ctxt),
+                                            )
+                                            .into(),
+                                        ),
                                         init: Some(Box::new(Expr::Ident(n.orig.clone()))),
                                         definite: false,
                                     })

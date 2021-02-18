@@ -124,12 +124,12 @@ where
 
                                         let var_decl = VarDeclarator {
                                             span: DUMMY_SP,
-                                            name: Pat::Ident(local_var.clone()),
+                                            name: Pat::Ident(local_var.clone().into()),
                                             init: Some(Box::new(Expr::Member(MemberExpr {
                                                 span: DUMMY_SP,
                                                 obj: module_var_name.clone().as_obj(),
                                                 prop: {
-                                                    let mut prop = i.clone();
+                                                    let mut prop = i.id.clone();
                                                     prop.span.ctxt = SyntaxContext::empty();
 
                                                     Box::new(Expr::Ident(prop))
@@ -225,7 +225,7 @@ where
             decls: vec![VarDeclarator {
                 span: DUMMY_SP,
                 definite: false,
-                name: Pat::Ident(module_var_name.into_ident()),
+                name: Pat::Ident(module_var_name.into_ident().into()),
                 init: Some(Box::new(module_expr)),
             }],
         };
