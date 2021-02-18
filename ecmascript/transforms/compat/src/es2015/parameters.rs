@@ -143,7 +143,7 @@ impl Params {
                                 // a1 = new Array(_len - $i)
                                 VarDeclarator {
                                     span,
-                                    name: Pat::Ident(arg.clone()),
+                                    name: Pat::Ident(arg.clone().into()),
                                     init: Some(Box::new(Expr::New(NewExpr {
                                         span,
                                         callee: Box::new(quote_ident!("Array").into()),
@@ -158,7 +158,7 @@ impl Params {
                                 // _key = 0
                                 VarDeclarator {
                                     span,
-                                    name: Pat::Ident(idx_ident.clone()),
+                                    name: Pat::Ident(idx_ident.clone().into()),
                                     init: Some(Box::new(Expr::Lit(Lit::Num(Number {
                                         span,
                                         value: i as f64,

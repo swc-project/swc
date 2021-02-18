@@ -1561,7 +1561,7 @@ impl Fold for CatchParamHandler<'_> {
             None => return node,
             Some(Pat::Ident(i)) => match &node {
                 Expr::Ident(r) => {
-                    if r.sym == i.sym && i.span.ctxt() == r.span.ctxt() {
+                    if r.sym == i.id.sym && i.id.span.ctxt() == r.span.ctxt() {
                         return self.safe_param.clone();
                     }
                 }
