@@ -556,7 +556,7 @@ impl Strip {
 
                                         match &decl.name {
                                             Pat::Ident(name) => {
-                                                delayed_vars.push(name.clone());
+                                                delayed_vars.push(name.id.clone());
                                                 init_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                                                     span: DUMMY_SP,
                                                     kind: v.kind,
@@ -661,7 +661,7 @@ impl Strip {
                         .map(|id| {
                             //
                             let mut prop = id.clone();
-                            prop.id.span.ctxt = SyntaxContext::empty();
+                            prop.span.ctxt = SyntaxContext::empty();
                             Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),
@@ -686,7 +686,7 @@ impl Strip {
                 params: vec![Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(private_name.clone()),
+                    pat: Pat::Ident(private_name.clone().into()),
                 }],
                 decorators: Default::default(),
                 span: DUMMY_SP,
@@ -708,7 +708,7 @@ impl Strip {
             right: Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(module_name.clone()))),
+                left: PatOrExpr::Pat(Box::new(Pat::Ident(module_name.clone().into()))),
                 right: Box::new(Expr::Object(ObjectLit {
                     span: DUMMY_SP,
                     props: Default::default(),
@@ -880,10 +880,10 @@ impl VisitMut for Strip {
                         AssignExpr {
                             span: DUMMY_SP,
                             left: PatOrExpr::Expr(Box::new(
-                                ThisExpr { span: DUMMY_SP }.make_member(ident.clone()),
+                                ThisExpr { span: DUMMY_SP }.make_member(ident.id.clone()),
                             )),
                             op: op!("="),
-                            right: Box::new(Expr::Ident(ident)),
+                            right: Box::new(Expr::Ident(ident.id)),
                         }
                         .into_stmt(),
                     );
@@ -1044,7 +1044,7 @@ impl VisitMut for Strip {
                         declare: false,
                         decls: vec![VarDeclarator {
                             span: e.span,
-                            name: Pat::Ident(e.id.clone()),
+                            name: Pat::Ident(e.id.clone().into()),
                             definite: false,
                             init: None,
                         }],
@@ -1117,8 +1117,12 @@ impl VisitMut for Strip {
         params.visit_mut_children_with(self);
 
         params.retain(|param| match param.pat {
-            Pat::Ident(Ident {
-                sym: js_word!("this"),
+            Pat::Ident(BindingIdent {
+                id:
+                    Ident {
+                        sym: js_word!("this"),
+                        ..
+                    },
                 ..
             }) => false,
             _ => true,
@@ -1240,7 +1244,7 @@ impl VisitMut for Strip {
                             declare: false,
                             decls: vec![VarDeclarator {
                                 span: e.span,
-                                name: Pat::Ident(e.id.clone()),
+                                name: Pat::Ident(e.id.clone().into()),
                                 definite: false,
                                 init: None,
                             }],
@@ -1262,7 +1266,7 @@ impl VisitMut for Strip {
                             declare: false,
                             decls: vec![VarDeclarator {
                                 span: e.span,
-                                name: Pat::Ident(e.id.clone()),
+                                name: Pat::Ident(e.id.clone().into()),
                                 definite: false,
                                 init: None,
                             }],
@@ -1303,7 +1307,7 @@ impl VisitMut for Strip {
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(import.id),
+                                name: Pat::Ident(import.id.into()),
                                 init: Some(Box::new(module_ref_to_expr(import.module_ref))),
                                 definite: false,
                             }],
@@ -1392,9 +1396,9 @@ fn create_prop_pat(obj: &Ident, pat: Pat) -> Pat {
         Pat::Invalid(_) => pat,
 
         Pat::Ident(i) => Pat::Expr(Box::new(Expr::Member(MemberExpr {
-            span: i.span,
+            span: i.id.span,
             obj: obj.clone().as_obj(),
-            prop: Box::new(Expr::Ident(i)),
+            prop: Box::new(Expr::Ident(i.id)),
             computed: false,
         }))),
         Pat::Array(p) => Pat::Array(ArrayPat {
