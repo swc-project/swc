@@ -89,7 +89,7 @@ pub struct TsParamProp {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsParamPropParam {
     #[tag("BindingIdentifier")]
-    Ident(BindingIdentifier),
+    Ident(BindingIdent),
 
     #[tag("AssignmentPattern")]
     Assign(AssignPat),
