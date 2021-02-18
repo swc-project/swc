@@ -71,7 +71,7 @@ macro_rules! impl_for_for_stmt {
                     let left = VarDeclOrPat::VarDecl(VarDecl {
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(ref_ident.clone()),
+                            name: Pat::Ident(ref_ident.clone().into()),
                             init: None,
                             definite: false,
                         }],
@@ -104,7 +104,7 @@ macro_rules! impl_for_for_stmt {
                     }
                     _ => {
                         let left_ident = make_ref_ident_for_for_stmt();
-                        let left = VarDeclOrPat::Pat(Pat::Ident(left_ident.clone()));
+                        let left = VarDeclOrPat::Pat(Pat::Ident(left_ident.clone().into()));
                         // Unpack variables
                         let stmt = AssignExpr {
                             span: DUMMY_SP,
@@ -266,7 +266,7 @@ impl AssignFolder {
                 if aliased {
                     decls.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(ident.clone()),
+                        name: Pat::Ident(ident.clone().into()),
                         init: decl.init,
                         definite: false,
                     });
@@ -283,7 +283,7 @@ impl AssignFolder {
                 //
                 decls.push(VarDeclarator {
                     span,
-                    name: Pat::Ident(ident.clone()),
+                    name: Pat::Ident(ident.clone().into()),
                     init: Some(Box::new(Expr::Cond(CondExpr {
                         span: DUMMY_SP,
                         test: Box::new(Expr::Bin(BinExpr {
