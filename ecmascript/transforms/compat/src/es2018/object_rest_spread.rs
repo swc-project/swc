@@ -46,7 +46,7 @@ macro_rules! impl_for_for_stmt {
                     let left = VarDeclOrPat::VarDecl(VarDecl {
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(ref_ident.clone()),
+                            name: Pat::Ident(ref_ident.clone().into()),
                             init: None,
                             definite: false,
                         }],
@@ -115,7 +115,7 @@ macro_rules! impl_for_for_stmt {
                         kind: VarDeclKind::Var,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(var_ident.clone()),
+                            name: Pat::Ident(var_ident.clone().into()),
                             init: None,
                             definite: false,
                         }],
@@ -178,14 +178,14 @@ impl Fold for RestFolder {
                 // println!("Var: var_ident = None");
                 self.mutable_vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(var_ident.clone()),
+                    name: Pat::Ident(var_ident.clone().into()),
                     init: None,
                     definite: false,
                 });
                 // println!("Expr: var_ident = right");
                 self.exprs.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Pat(Box::new(Pat::Ident(var_ident.clone()))),
+                    left: PatOrExpr::Pat(Box::new(Pat::Ident(var_ident.clone().into()))),
                     op: op!("="),
                     right,
                 })));
@@ -284,7 +284,7 @@ impl Fold for RestFolder {
             //            }
 
             let (var_ident, _) = match decl.name {
-                Pat::Ident(ref i) => (i.clone(), false),
+                Pat::Ident(ref i) => (i.id.clone(), false),
 
                 _ => match decl.init {
                     Some(ref e) => alias_if_required(e, "_ref"),
