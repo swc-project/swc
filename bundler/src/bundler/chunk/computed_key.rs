@@ -104,11 +104,13 @@ where
                             let decl = &var.decls[0];
                             match &decl.name {
                                 Pat::Ident(i) => {
-                                    if i.sym == js_word!("default") {
+                                    if i.id.sym == js_word!("default") {
                                         return Some(Stmt::Decl(Decl::Var(var)));
                                     }
 
-                                    if let Some(remapped) = ctx.transitive_remap.get(&i.span.ctxt) {
+                                    if let Some(remapped) =
+                                        ctx.transitive_remap.get(&i.id.span.ctxt)
+                                    {
                                         // Create
                                         //
                                         // const local = mod.local;
@@ -116,8 +118,8 @@ where
                                         //
 
                                         let local_var = Ident::new(
-                                            i.sym.clone(),
-                                            i.span.with_ctxt(info.local_ctxt()),
+                                            i.id.sym.clone(),
+                                            i.id.span.with_ctxt(info.local_ctxt()),
                                         );
 
                                         let var_decl = VarDeclarator {

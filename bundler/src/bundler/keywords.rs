@@ -78,7 +78,7 @@ impl VisitMut for KeywordRenamer {
                                 key: PropName::Ident(pat.key.take()),
                                 value: Box::new(Pat::Assign(AssignPat {
                                     span: pat.span,
-                                    left: Box::new(Pat::Ident(renamed)),
+                                    left: Box::new(Pat::Ident(renamed.into())),
                                     right: default.take(),
                                     type_ann: None,
                                 })),
@@ -87,7 +87,7 @@ impl VisitMut for KeywordRenamer {
                         None => {
                             *n = ObjectPatProp::KeyValue(KeyValuePatProp {
                                 key: PropName::Ident(pat.key.take()),
-                                value: Box::new(Pat::Ident(renamed)),
+                                value: Box::new(Pat::Ident(renamed.into())),
                             })
                         }
                     }
