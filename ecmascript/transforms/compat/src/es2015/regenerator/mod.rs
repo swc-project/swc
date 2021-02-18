@@ -144,7 +144,7 @@ impl Fold for Regenerator {
 
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(marked.clone()),
+            name: Pat::Ident(marked.clone().into()),
             init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: self
@@ -313,7 +313,7 @@ impl Regenerator {
         self.outer_fn_vars
             .extend(hoister.vars.into_iter().map(|id| VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(id),
+                name: Pat::Ident(id.into()),
                 init: None,
                 definite: false,
             }));
@@ -321,7 +321,7 @@ impl Regenerator {
             .extend(hoister.arguments.into_iter().map(|id| {
                 VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(id.clone()),
+                    name: Pat::Ident(id.clone().into()),
                     init: Some(Box::new(
                         Ident {
                             sym: js_word!("arguments"),
@@ -434,7 +434,7 @@ impl Regenerator {
                                                 params: vec![Param {
                                                     span: DUMMY_SP,
                                                     decorators: Default::default(),
-                                                    pat: Pat::Ident(ctx.clone()),
+                                                    pat: Pat::Ident(ctx.clone().into()),
                                                 }],
                                                 decorators: Default::default(),
                                                 span: DUMMY_SP,
