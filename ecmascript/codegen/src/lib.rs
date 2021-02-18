@@ -1430,33 +1430,30 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
+    fn emit_binding_ident(&mut self, ident: &BindingIdent) -> Result {
+        emit!(ident.id);
+
+        if let Some(ty) = &ident.type_ann {
+            punct!(":");
+            formatting_space!();
+            emit!(ty);
+        }
+
+        // Call emitList directly since it could be an array of
+        // TypeParameterDeclarations _or_ type arguments
+
+        // emitList(node, node.typeArguments, ListFormat::TypeParameters);
+    }
+
+    #[emitter]
     fn emit_ident(&mut self, ident: &Ident) -> Result {
         // TODO: Use write_symbol when ident is a symbol.
         self.emit_leading_comments_of_pos(ident.span.lo())?;
 
-        let symbol: Option<String> = None;
-        if let Some(sym) = symbol {
-            //            self.wr.write_symbol(
-            //     &get_text_of_node(, &ident, /* includeTrivia */ false),
-            //     sym,
-            // )?;
-            unimplemented!()
-        } else {
-            // TODO: span
-            self.wr.write_symbol(ident.span, &ident.sym)?;
-            if ident.optional {
-                punct!("?");
-            }
-
-            if let Some(ty) = &ident.type_ann {
-                punct!(":");
-                formatting_space!();
-                emit!(ty);
-            }
-
-            // self.wr
-            //     .write(get_text_of_node(&self.cm, &ident, /* includeTrivia */
-            // false).as_bytes())?;
+        // TODO: span
+        self.wr.write_symbol(ident.span, &ident.sym)?;
+        if ident.optional {
+            punct!("?");
         }
 
         // Call emitList directly since it could be an array of
