@@ -537,15 +537,12 @@ where
                     props.push(PropOrSpread::Prop(Box::new(self.attr_to_prop(attr))))
                 }
                 JSXAttrOrSpread::SpreadElement(spread) => {
+                    if attr_cnt == 1 {
+                        return spread.expr;
+                    }
                     // babel does some optimizations
                     match *spread.expr {
-                        Expr::Object(obj) => {
-                            if attr_cnt == 1 {
-                                return Box::new(Expr::Object(obj));
-                            } else {
-                                props.extend(obj.props)
-                            }
-                        }
+                        Expr::Object(obj) => props.extend(obj.props),
                         _ => props.push(PropOrSpread::Spread(spread)),
                     }
                 }
