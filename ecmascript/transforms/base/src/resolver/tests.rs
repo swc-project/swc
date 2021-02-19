@@ -2022,6 +2022,38 @@ to_ts!(
 );
 
 to_ts!(
+    type_parameter_used_as_type_parameter_contrain_2,
+    "
+    var f3 = <T, U extends T>(x: T, y: U): T => {
+        x = y;
+        return y;
+    }
+    ",
+    "
+    var f3 = <T__6, U__6 extends T__6>(x__6: T__6, y__6: U__6)=>{
+        x__6 = y__6;
+        return y__6;
+    };
+    "
+);
+
+to_ts!(
+    type_parameter_used_as_type_parameter_contrain_3,
+    "
+    var f4 = <U extends T, T>(x: T, y: U): T => {
+        x = y;
+        return y;
+    }
+    ",
+    "
+    var f4 = <U__7 extends T__7, T__7>(x__7: T__7, y__7: U__7)=>{
+        x__7 = y__7;
+        return y__7;
+    };
+    "
+);
+
+to_ts!(
     generic_call_type_argument_inference,
     "
     class C<T, U> {
