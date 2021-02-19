@@ -1082,7 +1082,7 @@ fn issue_281_02() {
                 try {
                 } catch (e1) {
                     o = null;
-                    break e1
+                    break e
                 }
             }
         }",
