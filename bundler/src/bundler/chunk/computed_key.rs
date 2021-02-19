@@ -240,15 +240,15 @@ where
         module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))));
         module_items.extend(extra_exports);
 
-        print_hygiene(
-            "wrap",
-            &self.cm,
-            &Module {
-                span: DUMMY_SP,
-                body: module_items.clone(),
-                shebang: None,
-            },
-        );
+        // print_hygiene(
+        //     "wrap",
+        //     &self.cm,
+        //     &Module {
+        //         span: DUMMY_SP,
+        //         body: module_items.clone(),
+        //         shebang: None,
+        //     },
+        // );
 
         Ok(Modules::from(
             id,
