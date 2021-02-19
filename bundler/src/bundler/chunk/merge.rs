@@ -156,23 +156,27 @@ where
                 .merge_deps(ctx, false, module, plan, &dep_info, false)
                 .context("failed to merge dependencies")?;
 
-            // Required to handle edge cases liek https://github.com/denoland/deno/issues/8530
-            for specifier in specifiers {
-                match specifier {
-                    Specifier::Specific { local, alias } => {
-                        let i = alias.clone().unwrap_or_else(|| local.clone());
+            // This code is currently not required because wrapped es modules store their
+            // content on the top scope.
+            //
+            //
+            // // Required to handle edge cases liek https://github.com/denoland/deno/issues/8530
+            // for specifier in specifiers {
+            //     match specifier {
+            //         Specifier::Specific { local, alias } => {
+            //             let i = alias.clone().unwrap_or_else(|| local.clone());
 
-                        let from = esm_id.clone().into_ident().make_member(i.clone());
+            //             let from = esm_id.clone().into_ident().make_member(i.clone());
 
-                        module.append(
-                            dep_id,
-                            from.assign_to(i.with_ctxt(src.export_ctxt))
-                                .into_module_item(injected_ctxt, "namespace_with_normal"),
-                        );
-                    }
-                    Specifier::Namespace { .. } => continue,
-                }
-            }
+            //             module.append(
+            //                 dep_id,
+            //                 from.assign_to(i.with_ctxt(src.export_ctxt))
+            //                     .into_module_item(injected_ctxt,
+            // "namespace_with_normal"),             );
+            //         }
+            //         Specifier::Namespace { .. } => continue,
+            //     }
+            // }
 
             self.handle_import_deps(ctx, &dep_info, &mut module, false);
 
