@@ -583,6 +583,8 @@ impl<'a> VisitMut for Hygiene<'a> {
         folder.ident_type = IdentType::Ref;
 
         c.body.visit_mut_with(&mut folder);
+
+        folder.apply_ops(c)
     }
 
     fn visit_mut_constructor(&mut self, c: &mut Constructor) {

@@ -5044,8 +5044,8 @@ var ia = Bn((re1)=>{
                     }while (h !== null)
                 }
                 bs(t);
-            } catch (P) {
-                n = P, U === t && t !== null && (U = t = t.return);
+            } catch (P2) {
+                n = P2, U === t && t !== null && (U = t = t.return);
                 continue;
             }
             break;
@@ -5137,7 +5137,7 @@ var ia = Bn((re1)=>{
                     u = d.anchorNode, i = d.anchorOffset, s = d.focusNode, d = d.focusOffset;
                     try {
                         u.nodeType, s.nodeType;
-                    } catch (P) {
+                    } catch (P2) {
                         u = null;
                         break e;
                     }
@@ -5167,9 +5167,9 @@ var ia = Bn((re1)=>{
             }, ur = !1, jt = null, Yr = !1, g1 = r;
             do try {
                 fc();
-            } catch (P) {
+            } catch (P2) {
                 if (g1 === null) throw Error(v(330));
-                Qe(g1, P), g1 = g1.nextEffect;
+                Qe(g1, P2), g1 = g1.nextEffect;
             }
             while (g1 !== null)
             jt = null, g1 = r;
@@ -5206,9 +5206,9 @@ var ia = Bn((re1)=>{
                     }
                     g1 = g1.nextEffect;
                 }
-            } catch (P) {
+            } catch (P2) {
                 if (g1 === null) throw Error(v(330));
-                Qe(g1, P), g1 = g1.nextEffect;
+                Qe(g1, P2), g1 = g1.nextEffect;
             }
             while (g1 !== null)
             if (m = oi, p = Nu(), f = m.focusedElem, o = m.selectionRange, p !== f && f && f.ownerDocument && Cu(f.ownerDocument.documentElement, f)) {
@@ -5240,9 +5240,9 @@ var ia = Bn((re1)=>{
                     }
                     g1 = g1.nextEffect;
                 }
-            } catch (P) {
+            } catch (P2) {
                 if (g1 === null) throw Error(v(330));
-                Qe(g1, P), g1 = g1.nextEffect;
+                Qe(g1, P2), g1 = g1.nextEffect;
             }
             while (g1 !== null)
             g1 = null, Hf(), x = l;
@@ -5251,7 +5251,7 @@ var ia = Bn((re1)=>{
         else for(g1 = r; g1 !== null;)n = g1.nextEffect, g1.nextEffect = null, g1.flags & 8 && (w = g1, w.sibling = null, w.stateNode = null), g1 = n;
         if (r = e.pendingLanes, r === 0 && (ge2 = null), r === 1 ? e === to ? Rt++ : (Rt = 0, to = e) : Rt = 0, t = t.stateNode, nn && typeof nn.onCommitFiberRoot == "function") try {
             nn.onCommitFiberRoot(ci, t, void 0, (t.current.flags & 64) == 64);
-        } catch (P) {
+        } catch (P2) {
         }
         if (se(e, $()), Wr) throw Wr = !1, e = $i, $i = null, e;
         return (x & 8) != 0 || me1(), null;
