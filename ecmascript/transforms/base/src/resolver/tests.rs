@@ -990,7 +990,7 @@ removeAttribute('id')}
 function se(t, e, n, r) {
     try {
         return O.apply(n, f.querySelectorAll(c)), n;
-    } catch (e) {
+    } catch (e1) {
         S(t, !0);
     } finally{
         s === N && e.removeAttribute('id');
@@ -1148,24 +1148,38 @@ identical!(
     }"
 );
 
-identical!(
+to!(
     issue_788_1,
     "window.addEventListener('message', (e) => {
-    try {
-        console.log(e.data);
-    } catch(e) {
-        console.log(e);
-    }
-});"
+        try {
+            console.log(e.data);
+        } catch(e) {
+            console.log(e);
+        }
+    });",
+    "window.addEventListener('message', (e) => {
+        try {
+            console.log(e.data);
+        } catch(e1) {
+            console.log(e1);
+        }
+    });"
 );
 
-identical!(
+to!(
     issue_788_2,
     "window.addEventListener('message', function(e) {
     try {
         console.log(e.data);
     } catch(e) {
         console.log(e);
+    }
+});",
+    "window.addEventListener('message', function(e) {
+    try {
+        console.log(e.data);
+    } catch(e1) {
+        console.log(e1);
     }
 });"
 );
@@ -2151,5 +2165,25 @@ to_ts!(
             d2
         ];
     });
+    "
+);
+
+to!(
+    issue_1402,
+    "
+    var e = 1;
+    try {
+        throw 2;
+    } catch (e) {
+        console.log(e);
+    }
+    ",
+    "
+    var e = 1;
+    try {
+        throw 2;
+    } catch (e1) {
+        console.log(e1);
+    }
     "
 );

@@ -1080,7 +1080,7 @@ fn issue_281_02() {
         "function foo(e) {
             e: {
                 try {
-                } catch (e) {
+                } catch (e1) {
                     o = null;
                     break e
                 }
