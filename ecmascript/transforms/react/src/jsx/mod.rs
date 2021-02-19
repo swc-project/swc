@@ -250,7 +250,7 @@ where
                                 Expr::Ident(Ident { sym, .. }) => *sym != *"_jsx",
                                 _ => true,
                             },
-                            e => true,
+                            _ => true,
                         } =>
                     {
                         props_obj
@@ -978,32 +978,6 @@ where
             }
         }
     }
-}
-
-fn attr_to_prop(a: JSXAttr) -> Prop {
-    let key = to_prop_name(a.name);
-    let value = a
-        .value
-        .map(|v| match v {
-            JSXAttrValue::JSXExprContainer(JSXExprContainer {
-                expr: JSXExpr::Expr(e),
-                ..
-            }) => e,
-            JSXAttrValue::JSXElement(e) => Box::new(Expr::JSXElement(e)),
-            JSXAttrValue::JSXFragment(e) => Box::new(Expr::JSXFragment(e)),
-            JSXAttrValue::Lit(lit) => Box::new(lit.into()),
-            JSXAttrValue::JSXExprContainer(JSXExprContainer {
-                span: _,
-                expr: JSXExpr::JSXEmptyExpr(_),
-            }) => unreachable!("attr_to_prop(JSXEmptyExpr)"),
-        })
-        .unwrap_or_else(|| {
-            Box::new(Expr::Lit(Lit::Bool(Bool {
-                span: key.span(),
-                value: true,
-            })))
-        });
-    Prop::KeyValue(KeyValueProp { key, value })
 }
 
 fn to_prop_name(n: JSXAttrName) -> PropName {
