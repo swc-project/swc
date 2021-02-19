@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -63,7 +62,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -74,7 +72,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -94,7 +91,6 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "arguments": [],

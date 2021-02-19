@@ -30,7 +30,6 @@
             "ctxt": 0
           },
           "value": "eval",
-          "typeAnnotation": null,
           "optional": false
         }
       }

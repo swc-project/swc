@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "TypeScript",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -51,7 +50,6 @@
                   "ctxt": 0
                 },
                 "value": "TypeCollectionContext",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -77,7 +75,6 @@
                       "ctxt": 0
                     },
                     "value": "script",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -110,7 +107,6 @@
                           "ctxt": 0
                         },
                         "value": "Script",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -141,7 +137,6 @@
                       "ctxt": 0
                     },
                     "value": "constructor",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "params": [
@@ -163,6 +158,7 @@
                           "ctxt": 0
                         },
                         "value": "scopeChain",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -185,13 +181,11 @@
                                 "ctxt": 0
                               },
                               "value": "ScopeChain",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     },
                     {
@@ -212,6 +206,7 @@
                           "ctxt": 0
                         },
                         "value": "checker",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -234,13 +229,11 @@
                                 "ctxt": 0
                               },
                               "value": "TypeChecker",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     }
                   ],
@@ -281,7 +274,6 @@
                   "ctxt": 0
                 },
                 "value": "MemberScopeContext",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -307,7 +299,6 @@
                       "ctxt": 0
                     },
                     "value": "type",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -340,7 +331,6 @@
                           "ctxt": 0
                         },
                         "value": "Type",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -371,7 +361,6 @@
                       "ctxt": 0
                     },
                     "value": "ast",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -404,7 +393,6 @@
                           "ctxt": 0
                         },
                         "value": "AST",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -435,7 +423,6 @@
                       "ctxt": 0
                     },
                     "value": "scope",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": null,
@@ -461,7 +448,6 @@
                           "ctxt": 0
                         },
                         "value": "SymbolScope",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -492,7 +478,6 @@
                       "ctxt": 0
                     },
                     "value": "options",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -510,7 +495,6 @@
                         "ctxt": 0
                       },
                       "value": "AstWalkOptions",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -542,7 +526,6 @@
                       "ctxt": 0
                     },
                     "value": "constructor",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "params": [
@@ -564,6 +547,7 @@
                           "ctxt": 0
                         },
                         "value": "flow",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -586,13 +570,11 @@
                                 "ctxt": 0
                               },
                               "value": "TypeFlow",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     },
                     {
@@ -613,6 +595,7 @@
                           "ctxt": 0
                         },
                         "value": "pos",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -629,8 +612,7 @@
                             },
                             "kind": "number"
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     },
                     {
@@ -651,6 +633,7 @@
                           "ctxt": 0
                         },
                         "value": "matchFlag",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -673,13 +656,11 @@
                                 "ctxt": 0
                               },
                               "value": "ASTFlags",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     }
                   ],
@@ -720,7 +701,6 @@
                   "ctxt": 0
                 },
                 "value": "EnclosingScopeContext",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -746,7 +726,6 @@
                       "ctxt": 0
                     },
                     "value": "scopeGetter",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -795,7 +774,6 @@
                               "ctxt": 0
                             },
                             "value": "SymbolScope",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -828,7 +806,6 @@
                       "ctxt": 0
                     },
                     "value": "objectLiteralScopeGetter",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -877,7 +854,6 @@
                               "ctxt": 0
                             },
                             "value": "SymbolScope",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -910,7 +886,6 @@
                       "ctxt": 0
                     },
                     "value": "scopeStartAST",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -943,7 +918,6 @@
                           "ctxt": 0
                         },
                         "value": "AST",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -974,7 +948,6 @@
                       "ctxt": 0
                     },
                     "value": "skipNextFuncDeclForClass",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1012,7 +985,6 @@
                       "ctxt": 0
                     },
                     "value": "deepestModuleDecl",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1045,7 +1017,6 @@
                           "ctxt": 0
                         },
                         "value": "ModuleDeclaration",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1076,7 +1047,6 @@
                       "ctxt": 0
                     },
                     "value": "enclosingClassDecl",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1109,7 +1079,6 @@
                           "ctxt": 0
                         },
                         "value": "TypeDeclaration",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1140,7 +1109,6 @@
                       "ctxt": 0
                     },
                     "value": "enclosingObjectLit",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1173,7 +1141,6 @@
                           "ctxt": 0
                         },
                         "value": "UnaryExpression",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1204,7 +1171,6 @@
                       "ctxt": 0
                     },
                     "value": "publicsOnly",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1242,7 +1208,6 @@
                       "ctxt": 0
                     },
                     "value": "useFullAst",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1280,7 +1245,6 @@
                       "ctxt": 0
                     },
                     "value": "scriptFragment",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": null,
@@ -1306,7 +1270,6 @@
                           "ctxt": 0
                         },
                         "value": "Script",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1337,7 +1300,6 @@
                       "ctxt": 0
                     },
                     "value": "constructor",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "params": [
@@ -1359,6 +1321,7 @@
                           "ctxt": 0
                         },
                         "value": "logger",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -1381,13 +1344,11 @@
                                 "ctxt": 0
                               },
                               "value": "ILogger",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     },
                     {
@@ -1408,6 +1369,7 @@
                           "ctxt": 0
                         },
                         "value": "script",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -1430,13 +1392,11 @@
                                 "ctxt": 0
                               },
                               "value": "Script",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     },
                     {
@@ -1457,6 +1417,7 @@
                           "ctxt": 0
                         },
                         "value": "text",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -1479,13 +1440,11 @@
                                 "ctxt": 0
                               },
                               "value": "ISourceText",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     },
                     {
@@ -1506,6 +1465,7 @@
                           "ctxt": 0
                         },
                         "value": "pos",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -1522,8 +1482,7 @@
                             },
                             "kind": "number"
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     },
                     {
@@ -1544,6 +1503,7 @@
                           "ctxt": 0
                         },
                         "value": "isMemberCompletion",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -1560,8 +1520,7 @@
                             },
                             "kind": "boolean"
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     }
                   ],
@@ -1592,7 +1551,6 @@
                       "ctxt": 0
                     },
                     "value": "getScope",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "function": {
@@ -1648,7 +1606,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "scopeGetter",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -1684,7 +1641,6 @@
                             "ctxt": 0
                           },
                           "value": "SymbolScope",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -1712,7 +1668,6 @@
                       "ctxt": 0
                     },
                     "value": "getObjectLiteralScope",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "function": {
@@ -1768,7 +1723,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "objectLiteralScopeGetter",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -1804,7 +1758,6 @@
                             "ctxt": 0
                           },
                           "value": "SymbolScope",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -1832,7 +1785,6 @@
                       "ctxt": 0
                     },
                     "value": "getScopeAST",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "function": {
@@ -1881,7 +1833,6 @@
                                 "ctxt": 0
                               },
                               "value": "scopeStartAST",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -1915,7 +1866,6 @@
                       "ctxt": 0
                     },
                     "value": "getScopePosition",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "function": {
@@ -1971,7 +1921,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "scopeStartAST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -1984,7 +1933,6 @@
                                 "ctxt": 0
                               },
                               "value": "minChar",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -2018,7 +1966,6 @@
                       "ctxt": 0
                     },
                     "value": "getScriptFragmentStartAST",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "function": {
@@ -2067,7 +2014,6 @@
                                 "ctxt": 0
                               },
                               "value": "scopeStartAST",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -2100,7 +2046,6 @@
                             "ctxt": 0
                           },
                           "value": "AST",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -2128,7 +2073,6 @@
                       "ctxt": 0
                     },
                     "value": "getScriptFragmentPosition",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "function": {
@@ -2191,7 +2135,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "getScriptFragmentStartAST",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -2207,7 +2150,6 @@
                                 "ctxt": 0
                               },
                               "value": "minChar",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -2257,7 +2199,6 @@
                       "ctxt": 0
                     },
                     "value": "getScriptFragment",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "function": {
@@ -2314,7 +2255,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "scriptFragment",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -2361,8 +2301,8 @@
                                         "ctxt": 0
                                       },
                                       "value": "ast",
-                                      "typeAnnotation": null,
-                                      "optional": false
+                                      "optional": false,
+                                      "typeAnnotation": null
                                     },
                                     "init": {
                                       "type": "CallExpression",
@@ -2394,7 +2334,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "getScriptFragmentStartAST",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "computed": false
@@ -2431,8 +2370,8 @@
                                         "ctxt": 0
                                       },
                                       "value": "minChar",
-                                      "typeAnnotation": null,
-                                      "optional": false
+                                      "optional": false,
+                                      "typeAnnotation": null
                                     },
                                     "init": {
                                       "type": "MemberExpression",
@@ -2449,7 +2388,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "ast",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "property": {
@@ -2460,7 +2398,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "minChar",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -2494,8 +2431,8 @@
                                         "ctxt": 0
                                       },
                                       "value": "limChar",
-                                      "typeAnnotation": null,
-                                      "optional": false
+                                      "optional": false,
+                                      "typeAnnotation": null
                                     },
                                     "init": {
                                       "type": "ParenthesisExpression",
@@ -2534,7 +2471,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "isMemberCompletion",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           },
                                           "computed": false
@@ -2562,7 +2498,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "pos",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           },
                                           "computed": false
@@ -2598,7 +2533,6 @@
                                                 "ctxt": 0
                                               },
                                               "value": "pos",
-                                              "typeAnnotation": null,
                                               "optional": false
                                             },
                                             "computed": false
@@ -2657,7 +2591,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "scriptFragment",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "computed": false
@@ -2691,7 +2624,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "TypeScript",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "property": {
@@ -2702,7 +2634,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "quickParse",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "computed": false
@@ -2733,7 +2664,6 @@
                                                 "ctxt": 0
                                               },
                                               "value": "logger",
-                                              "typeAnnotation": null,
                                               "optional": false
                                             },
                                             "computed": false
@@ -2749,7 +2679,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "ast",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           }
                                         },
@@ -2778,7 +2707,6 @@
                                                 "ctxt": 0
                                               },
                                               "value": "text",
-                                              "typeAnnotation": null,
                                               "optional": false
                                             },
                                             "computed": false
@@ -2794,7 +2722,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "minChar",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           }
                                         },
@@ -2808,7 +2735,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "limChar",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           }
                                         },
@@ -2834,7 +2760,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "Script",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "computed": false
@@ -2875,7 +2800,6 @@
                                 "ctxt": 0
                               },
                               "value": "scriptFragment",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -2908,7 +2832,6 @@
                             "ctxt": 0
                           },
                           "value": "Script",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -2946,7 +2869,6 @@
                   "ctxt": 0
                 },
                 "value": "preFindMemberScope",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -2967,6 +2889,7 @@
                       "ctxt": 0
                     },
                     "value": "ast",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -2989,13 +2912,11 @@
                             "ctxt": 0
                           },
                           "value": "AST",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -3014,6 +2935,7 @@
                       "ctxt": 0
                     },
                     "value": "parent",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -3036,13 +2958,11 @@
                             "ctxt": 0
                           },
                           "value": "AST",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -3061,6 +2981,7 @@
                       "ctxt": 0
                     },
                     "value": "walker",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -3083,13 +3004,11 @@
                             "ctxt": 0
                           },
                           "value": "IAstWalker",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 }
               ],
@@ -3132,6 +3051,7 @@
                             "ctxt": 0
                           },
                           "value": "memScope",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -3154,13 +3074,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "MemberScopeContext",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         "init": {
                           "type": "MemberExpression",
@@ -3177,7 +3095,6 @@
                               "ctxt": 0
                             },
                             "value": "walker",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -3188,7 +3105,6 @@
                               "ctxt": 0
                             },
                             "value": "state",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -3227,7 +3143,6 @@
                             "ctxt": 0
                           },
                           "value": "hasFlag",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "arguments": [
@@ -3248,7 +3163,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "ast",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -3259,7 +3173,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "flags",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -3282,7 +3195,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "memScope",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -3293,7 +3205,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "matchFlag",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -3347,7 +3258,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "memScope",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -3358,7 +3268,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "pos",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -3404,7 +3313,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "memScope",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -3415,7 +3323,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "pos",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -3435,7 +3342,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "ast",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -3446,7 +3352,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "limChar",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -3494,7 +3399,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "memScope",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -3505,7 +3409,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "ast",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -3518,7 +3421,6 @@
                                 "ctxt": 0
                               },
                               "value": "ast",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           }
@@ -3568,7 +3470,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "ast",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "property": {
@@ -3579,7 +3480,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "type",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false
@@ -3624,7 +3524,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "memScope",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "property": {
@@ -3635,7 +3534,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "pos",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false
@@ -3696,7 +3594,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "memScope",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "property": {
@@ -3707,7 +3604,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "flow",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -3720,7 +3616,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "inScopeTypeCheck",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "computed": false
@@ -3736,7 +3631,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "ast",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       }
                                     },
@@ -3757,7 +3651,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "memScope",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "property": {
@@ -3768,7 +3661,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "scope",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "computed": false
@@ -3812,7 +3704,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "memScope",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -3823,7 +3714,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "type",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -3843,7 +3733,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "ast",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -3854,7 +3743,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "type",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -3897,7 +3785,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "memScope",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -3908,7 +3795,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "options",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -3921,7 +3807,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "stopWalk",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -3949,7 +3834,6 @@
                         "ctxt": 0
                       },
                       "value": "ast",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -3978,7 +3862,6 @@
                   "ctxt": 0
                 },
                 "value": "pushTypeCollectionScope",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -3999,6 +3882,7 @@
                       "ctxt": 0
                     },
                     "value": "container",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -4021,13 +3905,11 @@
                             "ctxt": 0
                           },
                           "value": "Symbol",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -4046,6 +3928,7 @@
                       "ctxt": 0
                     },
                     "value": "valueMembers",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -4068,13 +3951,11 @@
                             "ctxt": 0
                           },
                           "value": "ScopedMembers",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -4093,6 +3974,7 @@
                       "ctxt": 0
                     },
                     "value": "ambientValueMembers",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -4115,13 +3997,11 @@
                             "ctxt": 0
                           },
                           "value": "ScopedMembers",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -4140,6 +4020,7 @@
                       "ctxt": 0
                     },
                     "value": "enclosedTypes",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -4162,13 +4043,11 @@
                             "ctxt": 0
                           },
                           "value": "ScopedMembers",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -4187,6 +4066,7 @@
                       "ctxt": 0
                     },
                     "value": "ambientEnclosedTypes",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -4209,13 +4089,11 @@
                             "ctxt": 0
                           },
                           "value": "ScopedMembers",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -4234,6 +4112,7 @@
                       "ctxt": 0
                     },
                     "value": "context",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -4256,13 +4135,11 @@
                             "ctxt": 0
                           },
                           "value": "TypeCollectionContext",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -4281,6 +4158,7 @@
                       "ctxt": 0
                     },
                     "value": "thisType",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -4303,13 +4181,11 @@
                             "ctxt": 0
                           },
                           "value": "Type",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -4328,6 +4204,7 @@
                       "ctxt": 0
                     },
                     "value": "classType",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -4350,13 +4227,11 @@
                             "ctxt": 0
                           },
                           "value": "Type",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -4375,6 +4250,7 @@
                       "ctxt": 0
                     },
                     "value": "moduleDecl",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -4397,13 +4273,11 @@
                             "ctxt": 0
                           },
                           "value": "ModuleDeclaration",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 }
               ],
@@ -4446,8 +4320,8 @@
                             "ctxt": 0
                           },
                           "value": "builder",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "init": {
                           "type": "NewExpression",
@@ -4464,7 +4338,6 @@
                               "ctxt": 0
                             },
                             "value": "SymbolScopeBuilder",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "arguments": [
@@ -4478,7 +4351,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "valueMembers",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             },
@@ -4492,7 +4364,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "ambientValueMembers",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             },
@@ -4506,7 +4377,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "enclosedTypes",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             },
@@ -4520,7 +4390,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "ambientEnclosedTypes",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             },
@@ -4545,7 +4414,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "container",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             }
@@ -4581,6 +4449,7 @@
                             "ctxt": 0
                           },
                           "value": "chain",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -4603,13 +4472,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "ScopeChain",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         "init": {
                           "type": "NewExpression",
@@ -4626,7 +4493,6 @@
                               "ctxt": 0
                             },
                             "value": "ScopeChain",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "arguments": [
@@ -4640,7 +4506,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "container",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             },
@@ -4661,7 +4526,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "context",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -4672,7 +4536,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "scopeChain",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -4688,7 +4551,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "builder",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             }
@@ -4729,7 +4591,6 @@
                             "ctxt": 0
                           },
                           "value": "chain",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -4740,7 +4601,6 @@
                             "ctxt": 0
                           },
                           "value": "thisType",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -4753,7 +4613,6 @@
                           "ctxt": 0
                         },
                         "value": "thisType",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -4788,7 +4647,6 @@
                             "ctxt": 0
                           },
                           "value": "chain",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -4799,7 +4657,6 @@
                             "ctxt": 0
                           },
                           "value": "classType",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -4812,7 +4669,6 @@
                           "ctxt": 0
                         },
                         "value": "classType",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -4847,7 +4703,6 @@
                             "ctxt": 0
                           },
                           "value": "chain",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -4858,7 +4713,6 @@
                             "ctxt": 0
                           },
                           "value": "moduleDecl",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -4871,7 +4725,6 @@
                           "ctxt": 0
                         },
                         "value": "moduleDecl",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -4906,7 +4759,6 @@
                             "ctxt": 0
                           },
                           "value": "context",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -4917,7 +4769,6 @@
                             "ctxt": 0
                           },
                           "value": "scopeChain",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -4930,7 +4781,6 @@
                           "ctxt": 0
                         },
                         "value": "chain",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -4960,7 +4810,6 @@
                   "ctxt": 0
                 },
                 "value": "popTypeCollectionScope",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -4981,6 +4830,7 @@
                       "ctxt": 0
                     },
                     "value": "context",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -5003,13 +4853,11 @@
                             "ctxt": 0
                           },
                           "value": "TypeCollectionContext",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 }
               ],
@@ -5057,7 +4905,6 @@
                             "ctxt": 0
                           },
                           "value": "context",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -5068,7 +4915,6 @@
                             "ctxt": 0
                           },
                           "value": "scopeChain",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -5095,7 +4941,6 @@
                               "ctxt": 0
                             },
                             "value": "context",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -5106,7 +4951,6 @@
                               "ctxt": 0
                             },
                             "value": "scopeChain",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -5119,7 +4963,6 @@
                             "ctxt": 0
                           },
                           "value": "previous",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -5151,7 +4994,6 @@
                   "ctxt": 0
                 },
                 "value": "preFindEnclosingScope",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -5172,6 +5014,7 @@
                       "ctxt": 0
                     },
                     "value": "ast",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -5194,13 +5037,11 @@
                             "ctxt": 0
                           },
                           "value": "AST",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -5219,6 +5060,7 @@
                       "ctxt": 0
                     },
                     "value": "parent",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -5241,13 +5083,11 @@
                             "ctxt": 0
                           },
                           "value": "AST",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -5266,6 +5106,7 @@
                       "ctxt": 0
                     },
                     "value": "walker",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -5288,13 +5129,11 @@
                             "ctxt": 0
                           },
                           "value": "IAstWalker",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 }
               ],
@@ -5337,6 +5176,7 @@
                             "ctxt": 0
                           },
                           "value": "context",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -5359,13 +5199,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "EnclosingScopeContext",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         "init": {
                           "type": "MemberExpression",
@@ -5382,7 +5220,6 @@
                               "ctxt": 0
                             },
                             "value": "walker",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -5393,7 +5230,6 @@
                               "ctxt": 0
                             },
                             "value": "state",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -5427,8 +5263,8 @@
                             "ctxt": 0
                           },
                           "value": "minChar",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "init": {
                           "type": "MemberExpression",
@@ -5445,7 +5281,6 @@
                               "ctxt": 0
                             },
                             "value": "ast",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -5456,7 +5291,6 @@
                               "ctxt": 0
                             },
                             "value": "minChar",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -5490,8 +5324,8 @@
                             "ctxt": 0
                           },
                           "value": "limChar",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "init": {
                           "type": "MemberExpression",
@@ -5508,7 +5342,6 @@
                               "ctxt": 0
                             },
                             "value": "ast",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -5519,7 +5352,6 @@
                               "ctxt": 0
                             },
                             "value": "limChar",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -5566,7 +5398,6 @@
                               "ctxt": 0
                             },
                             "value": "ast",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -5577,7 +5408,6 @@
                               "ctxt": 0
                             },
                             "value": "nodeType",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -5597,7 +5427,6 @@
                               "ctxt": 0
                             },
                             "value": "NodeType",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -5608,7 +5437,6 @@
                               "ctxt": 0
                             },
                             "value": "Script",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -5637,7 +5465,6 @@
                               "ctxt": 0
                             },
                             "value": "context",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -5648,7 +5475,6 @@
                               "ctxt": 0
                             },
                             "value": "pos",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -5661,7 +5487,6 @@
                             "ctxt": 0
                           },
                           "value": "limChar",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       }
@@ -5689,8 +5514,8 @@
                             "ctxt": 0
                           },
                           "value": "limChar",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "right": {
                           "type": "MemberExpression",
@@ -5707,7 +5532,6 @@
                               "ctxt": 0
                             },
                             "value": "context",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -5718,7 +5542,6 @@
                               "ctxt": 0
                             },
                             "value": "pos",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -5765,7 +5588,6 @@
                               "ctxt": 0
                             },
                             "value": "minChar",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "right": {
@@ -5783,7 +5605,6 @@
                                 "ctxt": 0
                               },
                               "value": "context",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "property": {
@@ -5794,7 +5615,6 @@
                                 "ctxt": 0
                               },
                               "value": "pos",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -5824,7 +5644,6 @@
                               "ctxt": 0
                             },
                             "value": "limChar",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "right": {
@@ -5842,7 +5661,6 @@
                                 "ctxt": 0
                               },
                               "value": "context",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "property": {
@@ -5853,7 +5671,6 @@
                                 "ctxt": 0
                               },
                               "value": "pos",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -5891,7 +5708,6 @@
                                 "ctxt": 0
                               },
                               "value": "ast",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "property": {
@@ -5902,7 +5718,6 @@
                                 "ctxt": 0
                               },
                               "value": "nodeType",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -5930,7 +5745,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "NodeType",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -5941,7 +5755,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "Script",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -5972,8 +5785,8 @@
                                           "ctxt": 0
                                         },
                                         "value": "script",
-                                        "typeAnnotation": null,
-                                        "optional": false
+                                        "optional": false,
+                                        "typeAnnotation": null
                                       },
                                       "init": {
                                         "type": "TsTypeAssertion",
@@ -5990,7 +5803,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "ast",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "typeAnnotation": {
@@ -6008,7 +5820,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "Script",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           },
                                           "typeParams": null
@@ -6048,7 +5859,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "context",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "property": {
@@ -6059,7 +5869,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "scopeGetter",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -6119,7 +5928,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "script",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "property": {
@@ -6130,7 +5938,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "bod",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "computed": false
@@ -6174,7 +5981,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "script",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "property": {
@@ -6185,7 +5991,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "bod",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "computed": false
@@ -6198,7 +6003,6 @@
                                                     "ctxt": 0
                                                   },
                                                   "value": "enclosingScope",
-                                                  "typeAnnotation": null,
                                                   "optional": false
                                                 },
                                                 "computed": false
@@ -6244,7 +6048,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "context",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "property": {
@@ -6255,7 +6058,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "scopeStartAST",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -6268,7 +6070,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "script",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     }
                                   }
@@ -6306,7 +6107,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "NodeType",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -6317,7 +6117,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "ClassDeclaration",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -6353,7 +6152,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "context",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "property": {
@@ -6364,7 +6162,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "scopeGetter",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -6439,7 +6236,6 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "ast",
-                                                        "typeAnnotation": null,
                                                         "optional": false
                                                       },
                                                       "property": {
@@ -6450,7 +6246,6 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "type",
-                                                        "typeAnnotation": null,
                                                         "optional": false
                                                       },
                                                       "computed": false
@@ -6501,7 +6296,6 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "ast",
-                                                            "typeAnnotation": null,
                                                             "optional": false
                                                           },
                                                           "property": {
@@ -6512,7 +6306,6 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "type",
-                                                            "typeAnnotation": null,
                                                             "optional": false
                                                           },
                                                           "computed": false
@@ -6525,7 +6318,6 @@
                                                             "ctxt": 0
                                                           },
                                                           "value": "instanceType",
-                                                          "typeAnnotation": null,
                                                           "optional": false
                                                         },
                                                         "computed": false
@@ -6538,7 +6330,6 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "containedScope",
-                                                        "typeAnnotation": null,
                                                         "optional": false
                                                       },
                                                       "computed": false
@@ -6591,7 +6382,6 @@
                                                         "ctxt": 0
                                                       },
                                                       "value": "ast",
-                                                      "typeAnnotation": null,
                                                       "optional": false
                                                     },
                                                     "property": {
@@ -6602,7 +6392,6 @@
                                                         "ctxt": 0
                                                       },
                                                       "value": "type",
-                                                      "typeAnnotation": null,
                                                       "optional": false
                                                     },
                                                     "computed": false
@@ -6615,7 +6404,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "instanceType",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "computed": false
@@ -6628,7 +6416,6 @@
                                                     "ctxt": 0
                                                   },
                                                   "value": "containedScope",
-                                                  "typeAnnotation": null,
                                                   "optional": false
                                                 },
                                                 "computed": false
@@ -6674,7 +6461,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "context",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "property": {
@@ -6685,7 +6471,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "scopeStartAST",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -6698,7 +6483,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "ast",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     }
                                   }
@@ -6733,7 +6517,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "context",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "property": {
@@ -6744,7 +6527,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "enclosingClassDecl",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -6764,7 +6546,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "ast",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "typeAnnotation": {
@@ -6782,7 +6563,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "TypeDeclaration",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "typeParams": null
@@ -6823,7 +6603,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "NodeType",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -6834,7 +6613,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "ObjectLit",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -6865,8 +6643,8 @@
                                           "ctxt": 0
                                         },
                                         "value": "objectLit",
-                                        "typeAnnotation": null,
-                                        "optional": false
+                                        "optional": false,
+                                        "typeAnnotation": null
                                       },
                                       "init": {
                                         "type": "TsTypeAssertion",
@@ -6883,7 +6661,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "ast",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "typeAnnotation": {
@@ -6901,7 +6678,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "UnaryExpression",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           },
                                           "typeParams": null
@@ -6933,7 +6709,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "objectLit",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "property": {
@@ -6944,7 +6719,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "targetType",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "computed": false
@@ -6987,7 +6761,6 @@
                                                 "ctxt": 0
                                               },
                                               "value": "context",
-                                              "typeAnnotation": null,
                                               "optional": false
                                             },
                                             "property": {
@@ -6998,7 +6771,6 @@
                                                 "ctxt": 0
                                               },
                                               "value": "scopeGetter",
-                                              "typeAnnotation": null,
                                               "optional": false
                                             },
                                             "computed": false
@@ -7050,7 +6822,6 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "objectLit",
-                                                        "typeAnnotation": null,
                                                         "optional": false
                                                       },
                                                       "property": {
@@ -7061,7 +6832,6 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "targetType",
-                                                        "typeAnnotation": null,
                                                         "optional": false
                                                       },
                                                       "computed": false
@@ -7074,7 +6844,6 @@
                                                         "ctxt": 0
                                                       },
                                                       "value": "containedScope",
-                                                      "typeAnnotation": null,
                                                       "optional": false
                                                     },
                                                     "computed": false
@@ -7119,7 +6888,6 @@
                                                 "ctxt": 0
                                               },
                                               "value": "context",
-                                              "typeAnnotation": null,
                                               "optional": false
                                             },
                                             "property": {
@@ -7130,7 +6898,6 @@
                                                 "ctxt": 0
                                               },
                                               "value": "objectLiteralScopeGetter",
-                                              "typeAnnotation": null,
                                               "optional": false
                                             },
                                             "computed": false
@@ -7182,7 +6949,6 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "objectLit",
-                                                        "typeAnnotation": null,
                                                         "optional": false
                                                       },
                                                       "property": {
@@ -7193,7 +6959,6 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "targetType",
-                                                        "typeAnnotation": null,
                                                         "optional": false
                                                       },
                                                       "computed": false
@@ -7206,7 +6971,6 @@
                                                         "ctxt": 0
                                                       },
                                                       "value": "memberScope",
-                                                      "typeAnnotation": null,
                                                       "optional": false
                                                     },
                                                     "computed": false
@@ -7251,7 +7015,6 @@
                                                 "ctxt": 0
                                               },
                                               "value": "context",
-                                              "typeAnnotation": null,
                                               "optional": false
                                             },
                                             "property": {
@@ -7262,7 +7025,6 @@
                                                 "ctxt": 0
                                               },
                                               "value": "enclosingObjectLit",
-                                              "typeAnnotation": null,
                                               "optional": false
                                             },
                                             "computed": false
@@ -7275,7 +7037,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "objectLit",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           }
                                         }
@@ -7317,7 +7078,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "NodeType",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -7328,7 +7088,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "ModuleDeclaration",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -7364,7 +7123,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "context",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "property": {
@@ -7375,7 +7133,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "deepestModuleDecl",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -7395,7 +7152,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "ast",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "typeAnnotation": {
@@ -7413,7 +7169,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "ModuleDeclaration",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "typeParams": null
@@ -7451,7 +7206,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "context",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "property": {
@@ -7462,7 +7216,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "scopeGetter",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -7522,7 +7275,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "ast",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "property": {
@@ -7533,7 +7285,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "type",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "computed": false
@@ -7577,7 +7328,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "ast",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "property": {
@@ -7588,7 +7338,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "type",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "computed": false
@@ -7601,7 +7350,6 @@
                                                     "ctxt": 0
                                                   },
                                                   "value": "containedScope",
-                                                  "typeAnnotation": null,
                                                   "optional": false
                                                 },
                                                 "computed": false
@@ -7647,7 +7395,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "context",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "property": {
@@ -7658,7 +7405,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "scopeStartAST",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -7671,7 +7417,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "ast",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     }
                                   }
@@ -7709,7 +7454,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "NodeType",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -7720,7 +7464,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "InterfaceDeclaration",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -7756,7 +7499,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "context",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "property": {
@@ -7767,7 +7509,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "scopeGetter",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -7834,7 +7575,6 @@
                                                         "ctxt": 0
                                                       },
                                                       "value": "ast",
-                                                      "typeAnnotation": null,
                                                       "optional": false
                                                     },
                                                     "property": {
@@ -7845,7 +7585,6 @@
                                                         "ctxt": 0
                                                       },
                                                       "value": "type",
-                                                      "typeAnnotation": null,
                                                       "optional": false
                                                     },
                                                     "computed": false
@@ -7890,7 +7629,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "ast",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "property": {
@@ -7901,7 +7639,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "type",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "computed": false
@@ -7914,7 +7651,6 @@
                                                     "ctxt": 0
                                                   },
                                                   "value": "containedScope",
-                                                  "typeAnnotation": null,
                                                   "optional": false
                                                 },
                                                 "computed": false
@@ -7960,7 +7696,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "context",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "property": {
@@ -7971,7 +7706,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "scopeStartAST",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -7984,7 +7718,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "ast",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     }
                                   }
@@ -8022,7 +7755,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "NodeType",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -8033,7 +7765,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "FuncDecl",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -8072,8 +7803,8 @@
                                               "ctxt": 0
                                             },
                                             "value": "funcDecl",
-                                            "typeAnnotation": null,
-                                            "optional": false
+                                            "optional": false,
+                                            "typeAnnotation": null
                                           },
                                           "init": {
                                             "type": "TsTypeAssertion",
@@ -8090,7 +7821,6 @@
                                                 "ctxt": 0
                                               },
                                               "value": "ast",
-                                              "typeAnnotation": null,
                                               "optional": false
                                             },
                                             "typeAnnotation": {
@@ -8108,7 +7838,6 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "FuncDecl",
-                                                "typeAnnotation": null,
                                                 "optional": false
                                               },
                                               "typeParams": null
@@ -8140,7 +7869,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "context",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "property": {
@@ -8151,7 +7879,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "skipNextFuncDeclForClass",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "computed": false
@@ -8194,7 +7921,6 @@
                                                     "ctxt": 0
                                                   },
                                                   "value": "context",
-                                                  "typeAnnotation": null,
                                                   "optional": false
                                                 },
                                                 "property": {
@@ -8205,7 +7931,6 @@
                                                     "ctxt": 0
                                                   },
                                                   "value": "skipNextFuncDeclForClass",
-                                                  "typeAnnotation": null,
                                                   "optional": false
                                                 },
                                                 "computed": false
@@ -8261,7 +7986,6 @@
                                                     "ctxt": 0
                                                   },
                                                   "value": "context",
-                                                  "typeAnnotation": null,
                                                   "optional": false
                                                 },
                                                 "property": {
@@ -8272,7 +7996,6 @@
                                                     "ctxt": 0
                                                   },
                                                   "value": "scopeGetter",
-                                                  "typeAnnotation": null,
                                                   "optional": false
                                                 },
                                                 "computed": false
@@ -8325,7 +8048,6 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "funcDecl",
-                                                            "typeAnnotation": null,
                                                             "optional": false
                                                           },
                                                           "property": {
@@ -8336,7 +8058,6 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "isConstructor",
-                                                            "typeAnnotation": null,
                                                             "optional": false
                                                           },
                                                           "computed": false
@@ -8356,7 +8077,6 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "hasFlag",
-                                                            "typeAnnotation": null,
                                                             "optional": false
                                                           },
                                                           "arguments": [
@@ -8377,7 +8097,6 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "funcDecl",
-                                                                  "typeAnnotation": null,
                                                                   "optional": false
                                                                 },
                                                                 "property": {
@@ -8388,7 +8107,6 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "fncFlags",
-                                                                  "typeAnnotation": null,
                                                                   "optional": false
                                                                 },
                                                                 "computed": false
@@ -8411,7 +8129,6 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "FncFlags",
-                                                                  "typeAnnotation": null,
                                                                   "optional": false
                                                                 },
                                                                 "property": {
@@ -8422,7 +8139,6 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "ClassMethod",
-                                                                  "typeAnnotation": null,
                                                                   "optional": false
                                                                 },
                                                                 "computed": false
@@ -8470,7 +8186,6 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "ast",
-                                                                  "typeAnnotation": null,
                                                                   "optional": false
                                                                 },
                                                                 "property": {
@@ -8481,7 +8196,6 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "type",
-                                                                  "typeAnnotation": null,
                                                                   "optional": false
                                                                 },
                                                                 "computed": false
@@ -8508,7 +8222,6 @@
                                                                       "ctxt": 0
                                                                     },
                                                                     "value": "ast",
-                                                                    "typeAnnotation": null,
                                                                     "optional": false
                                                                   },
                                                                   "property": {
@@ -8519,7 +8232,6 @@
                                                                       "ctxt": 0
                                                                     },
                                                                     "value": "type",
-                                                                    "typeAnnotation": null,
                                                                     "optional": false
                                                                   },
                                                                   "computed": false
@@ -8532,7 +8244,6 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "enclosingType",
-                                                                  "typeAnnotation": null,
                                                                   "optional": false
                                                                 },
                                                                 "computed": false
@@ -8582,7 +8293,6 @@
                                                                             "ctxt": 0
                                                                           },
                                                                           "value": "ast",
-                                                                          "typeAnnotation": null,
                                                                           "optional": false
                                                                         },
                                                                         "property": {
@@ -8593,7 +8303,6 @@
                                                                             "ctxt": 0
                                                                           },
                                                                           "value": "type",
-                                                                          "typeAnnotation": null,
                                                                           "optional": false
                                                                         },
                                                                         "computed": false
@@ -8606,7 +8315,6 @@
                                                                           "ctxt": 0
                                                                         },
                                                                         "value": "enclosingType",
-                                                                        "typeAnnotation": null,
                                                                         "optional": false
                                                                       },
                                                                       "computed": false
@@ -8619,7 +8327,6 @@
                                                                         "ctxt": 0
                                                                       },
                                                                       "value": "constructorScope",
-                                                                      "typeAnnotation": null,
                                                                       "optional": false
                                                                     },
                                                                     "computed": false
@@ -8655,7 +8362,6 @@
                                                             "ctxt": 0
                                                           },
                                                           "value": "funcDecl",
-                                                          "typeAnnotation": null,
                                                           "optional": false
                                                         },
                                                         "property": {
@@ -8666,7 +8372,6 @@
                                                             "ctxt": 0
                                                           },
                                                           "value": "scopeType",
-                                                          "typeAnnotation": null,
                                                           "optional": false
                                                         },
                                                         "computed": false
@@ -8708,7 +8413,6 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "funcDecl",
-                                                                  "typeAnnotation": null,
                                                                   "optional": false
                                                                 },
                                                                 "property": {
@@ -8719,7 +8423,6 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "scopeType",
-                                                                  "typeAnnotation": null,
                                                                   "optional": false
                                                                 },
                                                                 "computed": false
@@ -8732,7 +8435,6 @@
                                                                   "ctxt": 0
                                                                 },
                                                                 "value": "containedScope",
-                                                                "typeAnnotation": null,
                                                                 "optional": false
                                                               },
                                                               "computed": false
@@ -8764,7 +8466,6 @@
                                                             "ctxt": 0
                                                           },
                                                           "value": "funcDecl",
-                                                          "typeAnnotation": null,
                                                           "optional": false
                                                         },
                                                         "property": {
@@ -8775,7 +8476,6 @@
                                                             "ctxt": 0
                                                           },
                                                           "value": "type",
-                                                          "typeAnnotation": null,
                                                           "optional": false
                                                         },
                                                         "computed": false
@@ -8817,7 +8517,6 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "funcDecl",
-                                                                  "typeAnnotation": null,
                                                                   "optional": false
                                                                 },
                                                                 "property": {
@@ -8828,7 +8527,6 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "type",
-                                                                  "typeAnnotation": null,
                                                                   "optional": false
                                                                 },
                                                                 "computed": false
@@ -8841,7 +8539,6 @@
                                                                   "ctxt": 0
                                                                 },
                                                                 "value": "containedScope",
-                                                                "typeAnnotation": null,
                                                                 "optional": false
                                                               },
                                                               "computed": false
@@ -8906,7 +8603,6 @@
                                                     "ctxt": 0
                                                   },
                                                   "value": "context",
-                                                  "typeAnnotation": null,
                                                   "optional": false
                                                 },
                                                 "property": {
@@ -8917,7 +8613,6 @@
                                                     "ctxt": 0
                                                   },
                                                   "value": "scopeStartAST",
-                                                  "typeAnnotation": null,
                                                   "optional": false
                                                 },
                                                 "computed": false
@@ -8930,7 +8625,6 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "ast",
-                                                "typeAnnotation": null,
                                                 "optional": false
                                               }
                                             }
@@ -8990,7 +8684,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "walker",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -9001,7 +8694,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "options",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -9014,7 +8706,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "goChildren",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -9077,7 +8768,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "walker",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -9088,7 +8778,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "options",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -9101,7 +8790,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "goChildren",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -9135,7 +8823,6 @@
                         "ctxt": 0
                       },
                       "value": "ast",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -9164,7 +8851,6 @@
                   "ctxt": 0
                 },
                 "value": "findEnclosingScopeAt",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -9185,6 +8871,7 @@
                       "ctxt": 0
                     },
                     "value": "logger",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -9207,13 +8894,11 @@
                             "ctxt": 0
                           },
                           "value": "ILogger",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -9232,6 +8917,7 @@
                       "ctxt": 0
                     },
                     "value": "script",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -9254,13 +8940,11 @@
                             "ctxt": 0
                           },
                           "value": "Script",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -9279,6 +8963,7 @@
                       "ctxt": 0
                     },
                     "value": "text",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -9301,13 +8986,11 @@
                             "ctxt": 0
                           },
                           "value": "ISourceText",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -9326,6 +9009,7 @@
                       "ctxt": 0
                     },
                     "value": "pos",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -9342,8 +9026,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -9362,6 +9045,7 @@
                       "ctxt": 0
                     },
                     "value": "isMemberCompletion",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -9378,8 +9062,7 @@
                         },
                         "kind": "boolean"
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 }
               ],
@@ -9422,8 +9105,8 @@
                             "ctxt": 0
                           },
                           "value": "context",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "init": {
                           "type": "NewExpression",
@@ -9440,7 +9123,6 @@
                               "ctxt": 0
                             },
                             "value": "EnclosingScopeContext",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "arguments": [
@@ -9454,7 +9136,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "logger",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             },
@@ -9468,7 +9149,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "script",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             },
@@ -9482,7 +9162,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "text",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             },
@@ -9496,7 +9175,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "pos",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             },
@@ -9510,7 +9188,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "isMemberCompletion",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             }
@@ -9564,7 +9241,6 @@
                                 "ctxt": 0
                               },
                               "value": "TypeScript",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "property": {
@@ -9575,7 +9251,6 @@
                                 "ctxt": 0
                               },
                               "value": "getAstWalkerFactory",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -9591,7 +9266,6 @@
                             "ctxt": 0
                           },
                           "value": "walk",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -9607,7 +9281,6 @@
                               "ctxt": 0
                             },
                             "value": "script",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         },
@@ -9621,7 +9294,6 @@
                               "ctxt": 0
                             },
                             "value": "preFindEnclosingScope",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         },
@@ -9657,7 +9329,6 @@
                               "ctxt": 0
                             },
                             "value": "context",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }
@@ -9695,7 +9366,6 @@
                             "ctxt": 0
                           },
                           "value": "context",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -9706,7 +9376,6 @@
                             "ctxt": 0
                           },
                           "value": "scopeStartAST",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -9753,7 +9422,6 @@
                         "ctxt": 0
                       },
                       "value": "context",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -9784,7 +9452,6 @@
                       "ctxt": 0
                     },
                     "value": "EnclosingScopeContext",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null

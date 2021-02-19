@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "fieldFunc",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -109,7 +107,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -164,7 +161,6 @@
                 "ctxt": 0
               },
               "value": "fieldFunc2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -188,8 +184,8 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               },
               {
@@ -220,8 +216,8 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "typeAnnotation": null
                 }
@@ -272,7 +268,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -310,7 +305,6 @@
               "ctxt": 0
             },
             "value": "test",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -373,7 +367,6 @@
                             "ctxt": 0
                           },
                           "value": "fieldFunc",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -408,8 +401,8 @@
                           "ctxt": 0
                         },
                         "value": "func",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "MemberExpression",
@@ -441,7 +434,6 @@
                               "ctxt": 0
                             },
                             "value": "fieldFunc",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         },
@@ -473,7 +465,6 @@
                         "ctxt": 0
                       },
                       "value": "func",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -524,7 +515,6 @@
                             "ctxt": 0
                           },
                           "value": "fieldFunc",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -559,8 +549,8 @@
                           "ctxt": 0
                         },
                         "value": "arr",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ArrayExpression",
@@ -644,7 +634,6 @@
                             "ctxt": 0
                           },
                           "value": "fieldFunc2",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -677,7 +666,6 @@
                             "ctxt": 0
                           },
                           "value": "arr",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -722,8 +710,8 @@
                           "ctxt": 0
                         },
                         "value": "b",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "NewExpression",
@@ -762,7 +750,6 @@
                                 "ctxt": 0
                               },
                               "value": "fieldFunc2",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           },
@@ -795,7 +782,6 @@
                                 "ctxt": 0
                               },
                               "value": "arr",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           },
@@ -843,8 +829,8 @@
                           "ctxt": 0
                         },
                         "value": "str",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "TaggedTemplateExpression",
@@ -883,7 +869,6 @@
                                 "ctxt": 0
                               },
                               "value": "fieldFunc2",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           },
@@ -1079,7 +1064,6 @@
                               "ctxt": 0
                             },
                             "value": "getInstance",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -1102,7 +1086,6 @@
                             "ctxt": 0
                           },
                           "value": "fieldFunc2",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -1272,7 +1255,6 @@
               "ctxt": 0
             },
             "value": "getInstance",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1313,7 +1295,6 @@
                         "ctxt": 0
                       },
                       "value": "A",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],

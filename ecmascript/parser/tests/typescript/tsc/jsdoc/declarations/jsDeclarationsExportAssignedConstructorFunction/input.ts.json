@@ -43,7 +43,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -54,7 +53,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -67,7 +65,6 @@
               "ctxt": 0
             },
             "value": "MyClass",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -128,7 +125,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -197,7 +193,6 @@
                   "ctxt": 0
                 },
                 "value": "module",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -208,7 +203,6 @@
                   "ctxt": 0
                 },
                 "value": "exports",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -221,7 +215,6 @@
                 "ctxt": 0
               },
               "value": "MyClass",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -234,7 +227,6 @@
               "ctxt": 0
             },
             "value": "prototype",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -257,7 +249,6 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {

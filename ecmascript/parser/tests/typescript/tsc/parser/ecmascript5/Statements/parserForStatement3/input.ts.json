@@ -21,8 +21,8 @@
           "ctxt": 0
         },
         "value": "d",
-        "typeAnnotation": null,
-        "optional": false
+        "optional": false,
+        "typeAnnotation": null
       },
       "right": {
         "type": "SequenceExpression",
@@ -62,7 +62,6 @@
                     "ctxt": 0
                   },
                   "value": "_",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -73,7 +72,6 @@
                     "ctxt": 0
                   },
                   "value": "jh",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -86,7 +84,6 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": true
@@ -121,7 +118,6 @@
                       "ctxt": 0
                     },
                     "value": "_",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -132,7 +128,6 @@
                       "ctxt": 0
                     },
                     "value": "jh",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -145,7 +140,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": true
@@ -169,7 +163,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           }
         ]

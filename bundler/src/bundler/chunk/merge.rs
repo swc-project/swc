@@ -644,7 +644,7 @@ where
 
                     let var_decl = &mut var.decls[0];
                     match &var_decl.name {
-                        Pat::Ident(i) if id == *i => {}
+                        Pat::Ident(i) if id == i.id => {}
                         _ => continue,
                     }
 
@@ -1321,10 +1321,13 @@ where
                         ModuleDecl::ExportDefaultDecl(ref mut export) => match &mut export.decl {
                             DefaultDecl::Class(expr) => {
                                 let expr = expr.take();
-                                let export_name = Pat::Ident(Ident::new(
-                                    js_word!("default"),
-                                    export.span.with_ctxt(info.export_ctxt()),
-                                ));
+                                let export_name = Pat::Ident(
+                                    Ident::new(
+                                        js_word!("default"),
+                                        export.span.with_ctxt(info.export_ctxt()),
+                                    )
+                                    .into(),
+                                );
 
                                 let (init, s) = match expr.ident {
                                     Some(name) => {
@@ -1423,10 +1426,13 @@ where
                             vars.push(
                                 VarDeclarator {
                                     span: DUMMY_SP,
-                                    name: Pat::Ident(Ident::new(
-                                        js_word!("default"),
-                                        DUMMY_SP.with_ctxt(info.export_ctxt()),
-                                    )),
+                                    name: Pat::Ident(
+                                        Ident::new(
+                                            js_word!("default"),
+                                            DUMMY_SP.with_ctxt(info.export_ctxt()),
+                                        )
+                                        .into(),
+                                    ),
                                     init: Some(export.expr.take()),
                                     definite: false,
                                 }
@@ -1641,7 +1647,7 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                             declare: false,
                             decls: vec![VarDeclarator {
                                 span: n.span,
-                                name: Pat::Ident(self.inline_ident.clone()),
+                                name: Pat::Ident(self.inline_ident.clone().into()),
                                 init: Some(Box::new(Expr::Object(ObjectLit {
                                     span: n.span,
                                     props: key_value_props

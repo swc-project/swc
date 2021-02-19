@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "ENUM",
-        "typeAnnotation": null,
         "optional": false
       },
       "members": []
@@ -53,7 +52,6 @@
           "ctxt": 0
         },
         "value": "ENUM1",
-        "typeAnnotation": null,
         "optional": false
       },
       "members": [
@@ -72,7 +70,6 @@
               "ctxt": 0
             },
             "value": "A",
-            "typeAnnotation": null,
             "optional": false
           },
           "init": null
@@ -92,7 +89,6 @@
               "ctxt": 0
             },
             "value": "B",
-            "typeAnnotation": null,
             "optional": false
           },
           "init": null
@@ -155,8 +151,8 @@
               "ctxt": 0
             },
             "value": "ResultIsString1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -174,7 +170,6 @@
                 "ctxt": 0
               },
               "value": "ENUM",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -207,8 +202,8 @@
               "ctxt": 0
             },
             "value": "ResultIsString2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -226,7 +221,6 @@
                 "ctxt": 0
               },
               "value": "ENUM1",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -259,8 +253,8 @@
               "ctxt": 0
             },
             "value": "ResultIsString3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -285,7 +279,6 @@
                   "ctxt": 0
                 },
                 "value": "ENUM1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -334,8 +327,8 @@
               "ctxt": 0
             },
             "value": "ResultIsString4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -375,7 +368,6 @@
                       "ctxt": 0
                     },
                     "value": "ENUM",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -404,7 +396,6 @@
                       "ctxt": 0
                     },
                     "value": "ENUM1",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -455,8 +446,8 @@
               "ctxt": 0
             },
             "value": "ResultIsString5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -482,7 +473,6 @@
                   "ctxt": 0
                 },
                 "value": "ENUM",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -516,8 +506,8 @@
               "ctxt": 0
             },
             "value": "ResultIsString6",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -573,7 +563,6 @@
                           "ctxt": 0
                         },
                         "value": "ENUM",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -602,7 +591,6 @@
                           "ctxt": 0
                         },
                         "value": "ENUM1",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -613,7 +601,6 @@
                           "ctxt": 0
                         },
                         "value": "B",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -650,7 +637,6 @@
             "ctxt": 0
           },
           "value": "ENUM",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -678,7 +664,6 @@
             "ctxt": 0
           },
           "value": "ENUM1",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -713,7 +698,6 @@
               "ctxt": 0
             },
             "value": "ENUM1",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -765,7 +749,6 @@
                 "ctxt": 0
               },
               "value": "ENUM",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -777,7 +760,6 @@
               "ctxt": 0
             },
             "value": "ENUM1",
-            "typeAnnotation": null,
             "optional": false
           }
         ]
@@ -800,7 +782,6 @@
           "ctxt": 0
         },
         "value": "z",
-        "typeAnnotation": null,
         "optional": false
       },
       "members": []
@@ -828,7 +809,6 @@
           "ctxt": 0
         },
         "value": "z",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -854,7 +834,6 @@
               "ctxt": 0
             },
             "value": "ENUM",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -875,7 +854,6 @@
           "ctxt": 0
         },
         "value": "z",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -901,7 +879,6 @@
               "ctxt": 0
             },
             "value": "ENUM1",
-            "typeAnnotation": null,
             "optional": false
           }
         }

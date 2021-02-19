@@ -38,8 +38,8 @@
                 "ctxt": 0
               },
               "value": "test",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "ArrowFunctionExpression",
@@ -57,6 +57,7 @@
                     "ctxt": 0
                   },
                   "value": "str",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -92,8 +93,7 @@
                         }
                       ]
                     }
-                  },
-                  "optional": false
+                  }
                 }
               ],
               "body": {
@@ -134,7 +134,6 @@
                             "ctxt": 0
                           },
                           "value": "str",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "right": {
@@ -145,7 +144,6 @@
                             "ctxt": 0
                           },
                           "value": "undefined",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -157,7 +155,6 @@
                           "ctxt": 0
                         },
                         "value": "undefined",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "alternate": {
@@ -168,7 +165,6 @@
                           "ctxt": 0
                         },
                         "value": "str",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }

@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "ANY",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -47,8 +48,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -80,8 +80,8 @@
               "ctxt": 0
             },
             "value": "ANY1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -113,6 +113,7 @@
               "ctxt": 0
             },
             "value": "ANY2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -137,8 +138,7 @@
                   "kind": "any"
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -213,6 +213,7 @@
               "ctxt": 0
             },
             "value": "obj",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -247,8 +248,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -280,8 +280,8 @@
               "ctxt": 0
             },
             "value": "obj1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -301,7 +301,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -329,7 +328,6 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -371,7 +369,6 @@
           "ctxt": 0
         },
         "value": "foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -415,8 +412,8 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": null,
                 "definite": false
@@ -438,7 +435,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -475,7 +471,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -501,7 +496,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -547,7 +541,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -591,8 +584,8 @@
                           "ctxt": 0
                         },
                         "value": "a",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": null,
                       "definite": false
@@ -614,7 +607,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -655,7 +647,6 @@
           "ctxt": 0
         },
         "value": "M",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -698,6 +689,7 @@
                       "ctxt": 0
                     },
                     "value": "n",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -714,8 +706,7 @@
                         },
                         "kind": "any"
                       }
-                    },
-                    "optional": false
+                    }
                   },
                   "init": null,
                   "definite": false
@@ -751,8 +742,8 @@
               "ctxt": 0
             },
             "value": "objA",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -769,7 +760,6 @@
                 "ctxt": 0
               },
               "value": "A",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -804,8 +794,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -823,7 +813,6 @@
                 "ctxt": 0
               },
               "value": "ANY1",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -856,8 +845,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -875,7 +864,6 @@
                 "ctxt": 0
               },
               "value": "ANY2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -908,8 +896,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -927,7 +915,6 @@
                 "ctxt": 0
               },
               "value": "A",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -960,8 +947,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -979,7 +966,6 @@
                 "ctxt": 0
               },
               "value": "M",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1012,8 +998,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -1031,7 +1017,6 @@
                 "ctxt": 0
               },
               "value": "obj",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1064,8 +1049,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean6",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -1083,7 +1068,6 @@
                 "ctxt": 0
               },
               "value": "obj1",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1116,8 +1100,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean7",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -1135,7 +1119,6 @@
                 "ctxt": 0
               },
               "value": "undefined",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1168,8 +1151,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean8",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -1217,8 +1200,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean9",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -1243,7 +1226,6 @@
                   "ctxt": 0
                 },
                 "value": "ANY2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -1287,8 +1269,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean10",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -1313,7 +1295,6 @@
                   "ctxt": 0
                 },
                 "value": "obj1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -1324,7 +1305,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -1359,8 +1339,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean11",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -1385,7 +1365,6 @@
                   "ctxt": 0
                 },
                 "value": "obj1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -1396,7 +1375,6 @@
                   "ctxt": 0
                 },
                 "value": "y",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -1431,8 +1409,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean12",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -1457,7 +1435,6 @@
                   "ctxt": 0
                 },
                 "value": "objA",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -1468,7 +1445,6 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -1503,8 +1479,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean13",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -1529,7 +1505,6 @@
                   "ctxt": 0
                 },
                 "value": "M",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -1540,7 +1515,6 @@
                   "ctxt": 0
                 },
                 "value": "n",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -1575,8 +1549,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean14",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -1601,7 +1575,6 @@
                   "ctxt": 0
                 },
                 "value": "foo",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -1637,8 +1610,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean15",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -1670,7 +1643,6 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -1681,7 +1653,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -1719,8 +1690,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean16",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -1753,7 +1724,6 @@
                     "ctxt": 0
                   },
                   "value": "ANY",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -1764,7 +1734,6 @@
                     "ctxt": 0
                   },
                   "value": "ANY1",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -1799,8 +1768,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean17",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -1841,7 +1810,6 @@
                     "ctxt": 0
                   },
                   "value": "undefined",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -1876,8 +1844,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean18",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -1950,8 +1918,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean19",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -1984,7 +1952,6 @@
                     "ctxt": 0
                   },
                   "value": "undefined",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -1995,7 +1962,6 @@
                     "ctxt": 0
                   },
                   "value": "undefined",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -2030,8 +1996,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean20",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -2057,7 +2023,6 @@
                   "ctxt": 0
                 },
                 "value": "ANY",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -2091,8 +2056,8 @@
               "ctxt": 0
             },
             "value": "ResultIsBoolean21",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -2141,7 +2106,6 @@
                         "ctxt": 0
                       },
                       "value": "ANY",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "right": {
@@ -2152,7 +2116,6 @@
                         "ctxt": 0
                       },
                       "value": "ANY1",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -2187,7 +2150,6 @@
             "ctxt": 0
           },
           "value": "ANY",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -2215,7 +2177,6 @@
             "ctxt": 0
           },
           "value": "ANY1",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -2250,7 +2211,6 @@
               "ctxt": 0
             },
             "value": "ANY2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2297,7 +2257,6 @@
                 "ctxt": 0
               },
               "value": "ANY",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -2309,7 +2268,6 @@
               "ctxt": 0
             },
             "value": "ANY1",
-            "typeAnnotation": null,
             "optional": false
           }
         ]
@@ -2345,7 +2303,6 @@
               "ctxt": 0
             },
             "value": "objA",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2356,7 +2313,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2393,7 +2349,6 @@
               "ctxt": 0
             },
             "value": "M",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2404,7 +2359,6 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

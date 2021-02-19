@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "N",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -59,8 +58,8 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "NumericLiteral",

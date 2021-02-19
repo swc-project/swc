@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "C",
-          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -48,7 +47,6 @@
                 "ctxt": 0
               },
               "value": "s",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": {
@@ -86,7 +84,6 @@
                 "ctxt": 0
               },
               "value": "p",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": {
@@ -124,7 +121,6 @@
                 "ctxt": 0
               },
               "value": "method",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {

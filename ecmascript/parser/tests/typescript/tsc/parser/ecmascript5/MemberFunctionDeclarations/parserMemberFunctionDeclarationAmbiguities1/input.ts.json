@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "public",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -88,7 +86,6 @@
               "ctxt": 0
             },
             "value": "static",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -134,7 +131,6 @@
               "ctxt": 0
             },
             "value": "public",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -180,7 +176,6 @@
               "ctxt": 0
             },
             "value": "static",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -226,7 +221,6 @@
               "ctxt": 0
             },
             "value": "public",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -272,7 +266,6 @@
               "ctxt": 0
             },
             "value": "static",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -318,7 +311,6 @@
               "ctxt": 0
             },
             "value": "public",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -364,7 +356,6 @@
               "ctxt": 0
             },
             "value": "static",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {

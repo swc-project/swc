@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "g",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -51,7 +50,6 @@
           "ctxt": 0
         },
         "value": "noop",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -94,7 +92,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -115,6 +112,7 @@
               "ctxt": 0
             },
             "value": "value",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -137,13 +135,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -179,7 +175,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -215,7 +210,6 @@
           "ctxt": 0
         },
         "value": "g2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -259,8 +253,8 @@
                     "ctxt": 0
                   },
                   "value": "value",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "YieldExpression",
@@ -293,7 +287,6 @@
           "ctxt": 0
         },
         "value": "g3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -337,6 +330,7 @@
                     "ctxt": 0
                   },
                   "value": "value",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -353,8 +347,7 @@
                       },
                       "kind": "string"
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": {
                   "type": "YieldExpression",
@@ -387,7 +380,6 @@
           "ctxt": 0
         },
         "value": "g4",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -464,7 +456,6 @@
                       "ctxt": 0
                     },
                     "value": "noop",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [],
@@ -503,7 +494,6 @@
                       "ctxt": 0
                     },
                     "value": "noop",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [],
@@ -534,7 +524,6 @@
                       "ctxt": 0
                     },
                     "value": "noop",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [],
@@ -624,7 +613,6 @@
                             "ctxt": 0
                           },
                           "value": "noop",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "arguments": [],
@@ -648,7 +636,6 @@
                       "ctxt": 0
                     },
                     "value": "noop",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [],
@@ -754,7 +741,6 @@
           "ctxt": 0
         },
         "value": "g5",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -795,7 +781,6 @@
                   "ctxt": 0
                 },
                 "value": "f",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -833,7 +818,6 @@
           "ctxt": 0
         },
         "value": "g6",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -874,7 +858,6 @@
                   "ctxt": 0
                 },
                 "value": "f",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [

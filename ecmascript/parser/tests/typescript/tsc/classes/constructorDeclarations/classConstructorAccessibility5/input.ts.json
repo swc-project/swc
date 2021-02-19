@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -75,7 +73,6 @@
           "ctxt": 0
         },
         "value": "Derived",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -101,7 +98,6 @@
               "ctxt": 0
             },
             "value": "make",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -142,7 +138,6 @@
                         "ctxt": 0
                       },
                       "value": "Base",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -171,7 +166,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -189,7 +183,6 @@
           "ctxt": 0
         },
         "value": "Unrelated",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -215,7 +208,6 @@
               "ctxt": 0
             },
             "value": "fake",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -256,7 +248,6 @@
                         "ctxt": 0
                       },
                       "value": "Base",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],

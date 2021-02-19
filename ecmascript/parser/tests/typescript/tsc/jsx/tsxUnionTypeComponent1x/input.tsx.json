@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "React",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -64,7 +63,6 @@
           "ctxt": 0
         },
         "value": "ComponentProps",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -94,7 +92,6 @@
                 "ctxt": 0
               },
               "value": "AnyComponent",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -133,7 +130,6 @@
                           "ctxt": 0
                         },
                         "value": "React",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "right": {
@@ -144,7 +140,6 @@
                           "ctxt": 0
                         },
                         "value": "StatelessComponent",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -185,7 +180,6 @@
                           "ctxt": 0
                         },
                         "value": "React",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "right": {
@@ -196,7 +190,6 @@
                           "ctxt": 0
                         },
                         "value": "ComponentClass",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -238,7 +231,6 @@
           "ctxt": 0
         },
         "value": "MyComponent",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -264,7 +256,6 @@
               "ctxt": 0
             },
             "value": "render",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -323,7 +314,6 @@
                                 "ctxt": 0
                               },
                               "value": "AnyComponent",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": null
@@ -355,7 +345,6 @@
                             "ctxt": 0
                           },
                           "value": "props",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -395,7 +384,6 @@
                             "ctxt": 0
                           },
                           "value": "AnyComponent",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "span": {
@@ -441,7 +429,6 @@
             "ctxt": 0
           },
           "value": "React",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -452,7 +439,6 @@
             "ctxt": 0
           },
           "value": "Component",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -482,7 +468,6 @@
                 "ctxt": 0
               },
               "value": "ComponentProps",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -524,7 +509,6 @@
               "ctxt": 0
             },
             "value": "MyComponent",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -548,7 +532,6 @@
                   "ctxt": 0
                 },
                 "value": "AnyComponent",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -583,7 +566,6 @@
                           "ctxt": 0
                         },
                         "value": "button",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "span": {
@@ -622,7 +604,6 @@
                           "ctxt": 0
                         },
                         "value": "button",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -652,7 +633,6 @@
           "ctxt": 0
         },
         "value": "MyButtonComponent",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -678,7 +658,6 @@
             "ctxt": 0
           },
           "value": "React",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -689,7 +668,6 @@
             "ctxt": 0
           },
           "value": "Component",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -750,7 +728,6 @@
               "ctxt": 0
             },
             "value": "MyComponent",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -774,7 +751,6 @@
                   "ctxt": 0
                 },
                 "value": "AnyComponent",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -792,7 +768,6 @@
                     "ctxt": 0
                   },
                   "value": "MyButtonComponent",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }

@@ -253,7 +253,7 @@ impl Visit for SideEffectVisitor<'_> {
 
         match p {
             Pat::Ident(ref i) => {
-                if self.included.contains(&i.to_id()) || self.is_exported(&i.sym) {
+                if self.included.contains(&i.to_id()) || self.is_exported(&i.id.sym) {
                     self.found = true;
                 }
             }

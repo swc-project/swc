@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -88,7 +86,6 @@
               "ctxt": 0
             },
             "value": "staticMethod",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -129,7 +126,6 @@
                         "ctxt": 0
                       },
                       "value": "Base",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -140,7 +136,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -168,7 +163,6 @@
                         "ctxt": 0
                       },
                       "value": "Derived1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -179,7 +173,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -207,7 +200,6 @@
                         "ctxt": 0
                       },
                       "value": "Derived2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -218,7 +210,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -246,7 +237,6 @@
                         "ctxt": 0
                       },
                       "value": "Derived3",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -257,7 +247,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -293,7 +282,6 @@
           "ctxt": 0
         },
         "value": "Derived1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -319,7 +307,6 @@
               "ctxt": 0
             },
             "value": "staticMethod1",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -360,7 +347,6 @@
                         "ctxt": 0
                       },
                       "value": "Base",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -371,7 +357,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -399,7 +384,6 @@
                         "ctxt": 0
                       },
                       "value": "Derived1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -410,7 +394,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -438,7 +421,6 @@
                         "ctxt": 0
                       },
                       "value": "Derived2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -449,7 +431,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -477,7 +458,6 @@
                         "ctxt": 0
                       },
                       "value": "Derived3",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -488,7 +468,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -516,7 +495,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -534,7 +512,6 @@
           "ctxt": 0
         },
         "value": "Derived2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -560,7 +537,6 @@
               "ctxt": 0
             },
             "value": "staticMethod2",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -601,7 +577,6 @@
                         "ctxt": 0
                       },
                       "value": "Base",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -612,7 +587,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -640,7 +614,6 @@
                         "ctxt": 0
                       },
                       "value": "Derived1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -651,7 +624,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -679,7 +651,6 @@
                         "ctxt": 0
                       },
                       "value": "Derived2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -690,7 +661,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -718,7 +688,6 @@
                         "ctxt": 0
                       },
                       "value": "Derived3",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -729,7 +698,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -757,7 +725,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -775,7 +742,6 @@
           "ctxt": 0
         },
         "value": "Derived3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -801,7 +767,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -847,7 +812,6 @@
               "ctxt": 0
             },
             "value": "staticMethod3",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -888,7 +852,6 @@
                         "ctxt": 0
                       },
                       "value": "Base",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -899,7 +862,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -927,7 +889,6 @@
                         "ctxt": 0
                       },
                       "value": "Derived1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -938,7 +899,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -966,7 +926,6 @@
                         "ctxt": 0
                       },
                       "value": "Derived2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -977,7 +936,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -1005,7 +963,6 @@
                         "ctxt": 0
                       },
                       "value": "Derived3",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -1016,7 +973,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -1044,7 +1000,6 @@
           "ctxt": 0
         },
         "value": "Derived1",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -1074,7 +1029,6 @@
             "ctxt": 0
           },
           "value": "Base",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1085,7 +1039,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -1113,7 +1066,6 @@
             "ctxt": 0
           },
           "value": "Derived1",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1124,7 +1076,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -1152,7 +1103,6 @@
             "ctxt": 0
           },
           "value": "Derived2",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1163,7 +1113,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -1191,7 +1140,6 @@
             "ctxt": 0
           },
           "value": "Derived3",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1202,7 +1150,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false

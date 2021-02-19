@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "Sig",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -46,6 +45,7 @@
                   "ctxt": 0
                 },
                 "value": "index",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -62,8 +62,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -103,7 +102,6 @@
           "ctxt": 0
         },
         "value": "B",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,

@@ -28,7 +28,6 @@
           "ctxt": 0
         },
         "value": "doTheThing",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -49,8 +48,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -93,7 +92,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -126,7 +124,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -151,7 +148,6 @@
           "ctxt": 0
         },
         "value": "ExportedThing",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -177,7 +173,6 @@
               "ctxt": 0
             },
             "value": "z",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -242,7 +237,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -253,7 +247,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -274,7 +267,6 @@
                 "ctxt": 0
               },
               "value": "doTheThing",
-              "typeAnnotation": null,
               "optional": false
             },
             {
@@ -285,7 +277,6 @@
                 "ctxt": 0
               },
               "value": "ExportedThing",
-              "typeAnnotation": null,
               "optional": false
             }
           ]
@@ -302,7 +293,6 @@
           "ctxt": 0
         },
         "value": "LocalThing",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -328,7 +318,6 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {

@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Installer",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -73,7 +72,6 @@
                     "ctxt": 0
                   },
                   "value": "arg",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -127,7 +125,6 @@
                     "ctxt": 0
                   },
                   "value": "unknown",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -180,7 +177,6 @@
                     "ctxt": 0
                   },
                   "value": "twice",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -193,7 +189,6 @@
                   "ctxt": 0
                 },
                 "value": "undefined",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -236,7 +231,6 @@
                     "ctxt": 0
                   },
                   "value": "twice",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -295,7 +289,6 @@
                     "ctxt": 0
                   },
                   "value": "twices",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -349,7 +342,6 @@
                     "ctxt": 0
                   },
                   "value": "twices",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -408,7 +400,6 @@
                 "ctxt": 0
               },
               "value": "Installer",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -419,7 +410,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -432,7 +422,6 @@
               "ctxt": 0
             },
             "value": "first",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -493,7 +482,6 @@
                         "ctxt": 0
                       },
                       "value": "arg",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -552,7 +540,6 @@
                         "ctxt": 0
                       },
                       "value": "unknown",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -611,7 +598,6 @@
                         "ctxt": 0
                       },
                       "value": "newProperty",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -665,7 +651,6 @@
                         "ctxt": 0
                       },
                       "value": "twice",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -678,7 +663,6 @@
                       "ctxt": 0
                     },
                     "value": "undefined",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -721,7 +705,6 @@
                         "ctxt": 0
                       },
                       "value": "twice",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -788,7 +771,6 @@
                 "ctxt": 0
               },
               "value": "Installer",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -799,7 +781,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -812,7 +793,6 @@
               "ctxt": 0
             },
             "value": "second",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -873,7 +853,6 @@
                         "ctxt": 0
                       },
                       "value": "arg",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -927,7 +906,6 @@
                         "ctxt": 0
                       },
                       "value": "unknown",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -981,7 +959,6 @@
                         "ctxt": 0
                       },
                       "value": "newProperty",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -1035,7 +1012,6 @@
                         "ctxt": 0
                       },
                       "value": "twice",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -1088,7 +1064,6 @@
                         "ctxt": 0
                       },
                       "value": "twice",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -1148,7 +1123,6 @@
                           "ctxt": 0
                         },
                         "value": "twices",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -1161,7 +1135,6 @@
                         "ctxt": 0
                       },
                       "value": "push",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -1221,7 +1194,6 @@
                         "ctxt": 0
                       },
                       "value": "twices",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -1287,7 +1259,6 @@
                                 "ctxt": 0
                               },
                               "value": "twices",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -1300,7 +1271,6 @@
                               "ctxt": 0
                             },
                             "value": "push",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false

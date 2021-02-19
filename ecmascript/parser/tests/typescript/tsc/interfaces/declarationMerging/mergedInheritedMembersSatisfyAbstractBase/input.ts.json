@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "BaseClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "bar",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -90,7 +88,6 @@
           "ctxt": 0
         },
         "value": "Broken",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -109,7 +106,6 @@
           "ctxt": 0
         },
         "value": "BaseClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -132,7 +128,6 @@
           "ctxt": 0
         },
         "value": "IGetters",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -162,7 +157,6 @@
                 "ctxt": 0
               },
               "value": "bar",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -206,7 +200,6 @@
           "ctxt": 0
         },
         "value": "Broken",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -227,7 +220,6 @@
               "ctxt": 0
             },
             "value": "IGetters",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": null
@@ -272,7 +264,6 @@
               "ctxt": 0
             },
             "value": "Broken",
-            "typeAnnotation": null,
             "optional": false
           },
           "arguments": [],
@@ -286,7 +277,6 @@
             "ctxt": 0
           },
           "value": "bar",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -302,7 +292,6 @@
           "ctxt": 0
         },
         "value": "IncorrectlyExtends",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -321,7 +310,6 @@
           "ctxt": 0
         },
         "value": "BaseClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -344,7 +332,6 @@
           "ctxt": 0
         },
         "value": "IncorrectGetters",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -374,7 +361,6 @@
                 "ctxt": 0
               },
               "value": "bar",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -418,7 +404,6 @@
           "ctxt": 0
         },
         "value": "IncorrectlyExtends",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -439,7 +424,6 @@
               "ctxt": 0
             },
             "value": "IncorrectGetters",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": null

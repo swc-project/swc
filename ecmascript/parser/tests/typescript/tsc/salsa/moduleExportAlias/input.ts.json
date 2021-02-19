@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "b",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -71,7 +70,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -82,7 +80,6 @@
             "ctxt": 0
           },
           "value": "func1",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -110,7 +107,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -121,7 +117,6 @@
             "ctxt": 0
           },
           "value": "func2",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -149,7 +144,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -160,7 +154,6 @@
             "ctxt": 0
           },
           "value": "func3",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -188,7 +181,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -199,7 +191,6 @@
             "ctxt": 0
           },
           "value": "func4",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -227,7 +218,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -238,7 +228,6 @@
             "ctxt": 0
           },
           "value": "func5",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -266,7 +255,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -277,7 +265,6 @@
             "ctxt": 0
           },
           "value": "func6",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -305,7 +292,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -316,7 +302,6 @@
             "ctxt": 0
           },
           "value": "func7",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -344,7 +329,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -355,7 +339,6 @@
             "ctxt": 0
           },
           "value": "func8",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -383,7 +366,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -394,7 +376,6 @@
             "ctxt": 0
           },
           "value": "func9",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -422,7 +403,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -433,7 +413,6 @@
             "ctxt": 0
           },
           "value": "func10",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -461,7 +440,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -472,7 +450,6 @@
             "ctxt": 0
           },
           "value": "func11",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -500,7 +477,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -511,7 +487,6 @@
             "ctxt": 0
           },
           "value": "func12",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -539,7 +514,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -550,7 +524,6 @@
             "ctxt": 0
           },
           "value": "func13",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -578,7 +551,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -589,7 +561,6 @@
             "ctxt": 0
           },
           "value": "func14",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -617,7 +588,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -628,7 +598,6 @@
             "ctxt": 0
           },
           "value": "func15",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -656,7 +625,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -667,7 +635,6 @@
             "ctxt": 0
           },
           "value": "func16",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -695,7 +662,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -706,7 +672,6 @@
             "ctxt": 0
           },
           "value": "func17",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -734,7 +699,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -745,7 +709,6 @@
             "ctxt": 0
           },
           "value": "func18",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -773,7 +736,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -784,7 +746,6 @@
             "ctxt": 0
           },
           "value": "func19",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -812,7 +773,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -823,7 +783,6 @@
             "ctxt": 0
           },
           "value": "func20",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -854,8 +813,8 @@
               "ctxt": 0
             },
             "value": "exportsAlias",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "Identifier",
@@ -865,7 +824,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false
@@ -902,7 +860,6 @@
               "ctxt": 0
             },
             "value": "exportsAlias",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -913,7 +870,6 @@
               "ctxt": 0
             },
             "value": "func1",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -974,7 +930,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -985,7 +940,6 @@
               "ctxt": 0
             },
             "value": "func2",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1041,8 +995,8 @@
               "ctxt": 0
             },
             "value": "moduleExportsAlias",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -1059,7 +1013,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1070,7 +1023,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1109,7 +1061,6 @@
               "ctxt": 0
             },
             "value": "moduleExportsAlias",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1120,7 +1071,6 @@
               "ctxt": 0
             },
             "value": "func3",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1188,7 +1138,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1199,7 +1148,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1212,7 +1160,6 @@
               "ctxt": 0
             },
             "value": "func4",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1268,8 +1215,8 @@
               "ctxt": 0
             },
             "value": "multipleDeclarationAlias1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "AssignmentExpression",
@@ -1287,8 +1234,8 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "right": {
               "type": "MemberExpression",
@@ -1305,7 +1252,6 @@
                   "ctxt": 0
                 },
                 "value": "module",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -1316,7 +1262,6 @@
                   "ctxt": 0
                 },
                 "value": "exports",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -1356,7 +1301,6 @@
               "ctxt": 0
             },
             "value": "multipleDeclarationAlias1",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1367,7 +1311,6 @@
               "ctxt": 0
             },
             "value": "func5",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1423,8 +1366,8 @@
               "ctxt": 0
             },
             "value": "multipleDeclarationAlias2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "AssignmentExpression",
@@ -1449,7 +1392,6 @@
                   "ctxt": 0
                 },
                 "value": "module",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -1460,7 +1402,6 @@
                   "ctxt": 0
                 },
                 "value": "exports",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -1473,7 +1414,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1511,7 +1451,6 @@
               "ctxt": 0
             },
             "value": "multipleDeclarationAlias2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1522,7 +1461,6 @@
               "ctxt": 0
             },
             "value": "func6",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1578,8 +1516,8 @@
               "ctxt": 0
             },
             "value": "someOtherVariable",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -1611,8 +1549,8 @@
               "ctxt": 0
             },
             "value": "multipleDeclarationAlias3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "AssignmentExpression",
@@ -1630,8 +1568,8 @@
                 "ctxt": 0
               },
               "value": "someOtherVariable",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "right": {
               "type": "Identifier",
@@ -1641,7 +1579,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1679,7 +1616,6 @@
               "ctxt": 0
             },
             "value": "multipleDeclarationAlias3",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1690,7 +1626,6 @@
               "ctxt": 0
             },
             "value": "func7",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1746,8 +1681,8 @@
               "ctxt": 0
             },
             "value": "multipleDeclarationAlias4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "AssignmentExpression",
@@ -1765,8 +1700,8 @@
                 "ctxt": 0
               },
               "value": "someOtherVariable",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "right": {
               "type": "MemberExpression",
@@ -1783,7 +1718,6 @@
                   "ctxt": 0
                 },
                 "value": "module",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -1794,7 +1728,6 @@
                   "ctxt": 0
                 },
                 "value": "exports",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -1834,7 +1767,6 @@
               "ctxt": 0
             },
             "value": "multipleDeclarationAlias4",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1845,7 +1777,6 @@
               "ctxt": 0
             },
             "value": "func8",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1901,8 +1832,8 @@
               "ctxt": 0
             },
             "value": "multipleDeclarationAlias5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "AssignmentExpression",
@@ -1927,7 +1858,6 @@
                   "ctxt": 0
                 },
                 "value": "module",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -1938,7 +1868,6 @@
                   "ctxt": 0
                 },
                 "value": "exports",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -1959,8 +1888,8 @@
                   "ctxt": 0
                 },
                 "value": "exports",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "ObjectExpression",
@@ -2007,7 +1936,6 @@
               "ctxt": 0
             },
             "value": "multipleDeclarationAlias5",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2018,7 +1946,6 @@
               "ctxt": 0
             },
             "value": "func9",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2074,8 +2001,8 @@
               "ctxt": 0
             },
             "value": "multipleDeclarationAlias6",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "AssignmentExpression",
@@ -2093,8 +2020,8 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "right": {
               "type": "AssignmentExpression",
@@ -2119,7 +2046,6 @@
                     "ctxt": 0
                   },
                   "value": "module",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -2130,7 +2056,6 @@
                     "ctxt": 0
                   },
                   "value": "exports",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -2180,7 +2105,6 @@
               "ctxt": 0
             },
             "value": "multipleDeclarationAlias6",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2191,7 +2115,6 @@
               "ctxt": 0
             },
             "value": "func10",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2245,8 +2168,8 @@
             "ctxt": 0
           },
           "value": "exports",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "AssignmentExpression",
@@ -2271,7 +2194,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -2282,7 +2204,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -2303,8 +2224,8 @@
                 "ctxt": 0
               },
               "value": "someOtherVariable",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "right": {
               "type": "ObjectExpression",
@@ -2349,7 +2270,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2360,7 +2280,6 @@
               "ctxt": 0
             },
             "value": "func11",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2428,7 +2347,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -2439,7 +2357,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -2452,7 +2369,6 @@
               "ctxt": 0
             },
             "value": "func12",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2506,8 +2422,8 @@
             "ctxt": 0
           },
           "value": "exports",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "AssignmentExpression",
@@ -2532,7 +2448,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -2543,7 +2458,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -2564,8 +2478,8 @@
                 "ctxt": 0
               },
               "value": "someOtherVariable",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "right": {
               "type": "ObjectExpression",
@@ -2610,7 +2524,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2621,7 +2534,6 @@
               "ctxt": 0
             },
             "value": "func11",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2689,7 +2601,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -2700,7 +2611,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -2713,7 +2623,6 @@
               "ctxt": 0
             },
             "value": "func12",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2767,8 +2676,8 @@
             "ctxt": 0
           },
           "value": "exports",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "AssignmentExpression",
@@ -2793,7 +2702,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -2804,7 +2712,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -2851,7 +2758,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2862,7 +2768,6 @@
               "ctxt": 0
             },
             "value": "func13",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2930,7 +2835,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -2941,7 +2845,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -2954,7 +2857,6 @@
               "ctxt": 0
             },
             "value": "func14",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3008,8 +2910,8 @@
             "ctxt": 0
           },
           "value": "exports",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "AssignmentExpression",
@@ -3034,7 +2936,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -3045,7 +2946,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -3092,7 +2992,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3103,7 +3002,6 @@
               "ctxt": 0
             },
             "value": "func15",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3171,7 +3069,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -3182,7 +3079,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -3195,7 +3091,6 @@
               "ctxt": 0
             },
             "value": "func16",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3256,7 +3151,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3267,7 +3161,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3288,8 +3181,8 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "right": {
             "type": "ObjectExpression",
@@ -3333,7 +3226,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3344,7 +3236,6 @@
               "ctxt": 0
             },
             "value": "func17",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3412,7 +3303,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -3423,7 +3313,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -3436,7 +3325,6 @@
               "ctxt": 0
             },
             "value": "func18",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3497,7 +3385,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3508,7 +3395,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3554,7 +3440,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3565,7 +3450,6 @@
               "ctxt": 0
             },
             "value": "func19",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3633,7 +3517,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -3644,7 +3527,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -3657,7 +3539,6 @@
               "ctxt": 0
             },
             "value": "func20",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

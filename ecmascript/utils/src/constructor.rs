@@ -89,7 +89,7 @@ impl<'a> Fold for Injector<'a> {
                         kind: VarDeclKind::Var,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(ident),
+                            name: Pat::Ident(ident.into()),
                             init: None,
                             definite: false,
                         }],
@@ -141,7 +141,7 @@ impl VisitMut for ExprInjector<'_> {
                     exprs: iter::once(Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                            self.injected_tmp.as_ref().cloned().unwrap(),
+                            self.injected_tmp.as_ref().cloned().unwrap().into(),
                         ))),
                         op: op!("="),
                         right: Box::new(e),

@@ -18,7 +18,6 @@ use std::{
     collections::HashMap,
     hint::black_box,
     path::{Path, PathBuf},
-    process::{Command, Stdio},
 };
 use swc_atoms::js_word;
 use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord};
@@ -31,32 +30,12 @@ use test::Bencher;
 
 #[bench]
 fn three_js(b: &mut Bencher) {
-    let dir = clone("https://github.com/mrdoob/three.js.git", "r123");
-
+    let dir = PathBuf::new()
+        .join("..")
+        .join("integration-tests")
+        .join("three-js")
+        .join("repo");
     run_bench(b, &dir.join("src").join("Three.js"));
-}
-
-fn clone(git_url: &str, tag: &str) -> PathBuf {
-    let dir = PathBuf::from(env!("OUT_DIR"))
-        .join(format!("bench-{}", git_url.split("/").last().unwrap()));
-    if dir.exists() {
-        return dir;
-    }
-    let mut c = Command::new("git");
-    let status = c
-        .arg("clone")
-        .arg(git_url)
-        .arg("-b")
-        .arg(tag)
-        .arg(&dir)
-        .stderr(Stdio::inherit())
-        .stdout(Stdio::inherit())
-        .status()
-        .expect("git clone failed");
-
-    assert!(status.success());
-
-    dir
 }
 
 fn run_bench(b: &mut Bencher, entry: &Path) {

@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "C",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ClassExpression",
@@ -59,7 +59,6 @@
                     "ctxt": 0
                   },
                   "value": "c",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -108,7 +107,6 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -157,7 +155,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "value": {
@@ -226,8 +223,8 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -244,7 +241,6 @@
                 "ctxt": 0
               },
               "value": "C",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -276,7 +272,6 @@
             "ctxt": 0
           },
           "value": "c",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -287,7 +282,6 @@
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -315,7 +309,6 @@
             "ctxt": 0
           },
           "value": "c",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -326,7 +319,6 @@
             "ctxt": 0
           },
           "value": "b",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -354,7 +346,6 @@
             "ctxt": 0
           },
           "value": "c",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -365,7 +356,6 @@
             "ctxt": 0
           },
           "value": "c",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false

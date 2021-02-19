@@ -114,8 +114,8 @@ impl Fold for DisplayName {
             Pat::Ident(ref ident) => {
                 let init = decl.init.fold_with(&mut Folder {
                     name: Some(Box::new(Expr::Lit(Lit::Str(Str {
-                        span: ident.span,
-                        value: ident.sym.clone(),
+                        span: ident.id.span,
+                        value: ident.id.sym.clone(),
                         has_escape: false,
                         kind: StrKind::Normal {
                             contains_quote: false,

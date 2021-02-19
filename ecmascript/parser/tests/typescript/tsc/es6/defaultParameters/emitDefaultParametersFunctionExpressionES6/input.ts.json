@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "lambda1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -57,8 +57,8 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "right": {
                   "type": "StringLiteral",
@@ -120,8 +120,8 @@
               "ctxt": 0
             },
             "value": "lambda2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -139,6 +139,7 @@
                   "ctxt": 0
                 },
                 "value": "x",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -155,8 +156,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               },
               {
                 "type": "AssignmentPattern",
@@ -173,8 +173,8 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "right": {
                   "type": "StringLiteral",
@@ -236,8 +236,8 @@
               "ctxt": 0
             },
             "value": "lambda3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -255,6 +255,7 @@
                   "ctxt": 0
                 },
                 "value": "x",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -271,8 +272,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               },
               {
                 "type": "AssignmentPattern",
@@ -289,8 +289,8 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "right": {
                   "type": "StringLiteral",
@@ -328,8 +328,8 @@
                     "ctxt": 0
                   },
                   "value": "rest",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "typeAnnotation": null
               }
@@ -377,8 +377,8 @@
               "ctxt": 0
             },
             "value": "lambda4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -403,8 +403,8 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "right": {
                   "type": "StringLiteral",
@@ -442,8 +442,8 @@
                     "ctxt": 0
                   },
                   "value": "rest",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "typeAnnotation": null
               }
@@ -491,8 +491,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -521,8 +521,8 @@
                       "ctxt": 0
                     },
                     "value": "str",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "right": {
                     "type": "StringLiteral",
@@ -569,8 +569,8 @@
                       "ctxt": 0
                     },
                     "value": "rest",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "typeAnnotation": null
                 }
@@ -625,8 +625,8 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -669,8 +669,8 @@
                           "ctxt": 0
                         },
                         "value": "num",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "right": {
                         "type": "NumericLiteral",
@@ -707,8 +707,8 @@
                           "ctxt": 0
                         },
                         "value": "boo",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "right": {
                         "type": "BooleanLiteral",
@@ -750,8 +750,8 @@
                           "ctxt": 0
                         },
                         "value": "rest",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "typeAnnotation": null
                     }
@@ -810,8 +810,8 @@
               "ctxt": 0
             },
             "value": "z",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -847,6 +847,7 @@
                         "ctxt": 0
                       },
                       "value": "num",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -863,8 +864,7 @@
                           },
                           "kind": "number"
                         }
-                      },
-                      "optional": false
+                      }
                     }
                   },
                   {
@@ -890,8 +890,8 @@
                           "ctxt": 0
                         },
                         "value": "boo",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "right": {
                         "type": "BooleanLiteral",
@@ -933,8 +933,8 @@
                           "ctxt": 0
                         },
                         "value": "rest",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "typeAnnotation": null
                     }

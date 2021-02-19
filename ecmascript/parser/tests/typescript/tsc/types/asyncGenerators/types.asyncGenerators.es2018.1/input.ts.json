@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "inferReturnType1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -51,7 +50,6 @@
           "ctxt": 0
         },
         "value": "inferReturnType2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -105,7 +103,6 @@
           "ctxt": 0
         },
         "value": "inferReturnType3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -167,7 +164,6 @@
           "ctxt": 0
         },
         "value": "inferReturnType4",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -222,7 +218,6 @@
                       "ctxt": 0
                     },
                     "value": "Promise",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -233,7 +228,6 @@
                       "ctxt": 0
                     },
                     "value": "resolve",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -274,7 +268,6 @@
           "ctxt": 0
         },
         "value": "inferReturnType5",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -355,7 +348,6 @@
                       "ctxt": 0
                     },
                     "value": "Promise",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -366,7 +358,6 @@
                       "ctxt": 0
                     },
                     "value": "resolve",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -407,7 +398,6 @@
           "ctxt": 0
         },
         "value": "inferReturnType6",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -494,7 +484,6 @@
           "ctxt": 0
         },
         "value": "inferReturnType7",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -559,7 +548,6 @@
                             "ctxt": 0
                           },
                           "value": "Promise",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -570,7 +558,6 @@
                             "ctxt": 0
                           },
                           "value": "resolve",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -614,7 +601,6 @@
           "ctxt": 0
         },
         "value": "inferReturnType8",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -751,6 +737,7 @@
               "ctxt": 0
             },
             "value": "assignability1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -789,7 +776,6 @@
                         "ctxt": 0
                       },
                       "value": "AsyncIterableIterator",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -814,8 +800,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "FunctionExpression",
@@ -897,6 +882,7 @@
               "ctxt": 0
             },
             "value": "assignability2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -935,7 +921,6 @@
                         "ctxt": 0
                       },
                       "value": "AsyncIterableIterator",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -960,8 +945,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "FunctionExpression",
@@ -1017,7 +1001,6 @@
                             "ctxt": 0
                           },
                           "value": "Promise",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -1028,7 +1011,6 @@
                             "ctxt": 0
                           },
                           "value": "resolve",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1088,6 +1070,7 @@
               "ctxt": 0
             },
             "value": "assignability3",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1126,7 +1109,6 @@
                         "ctxt": 0
                       },
                       "value": "AsyncIterableIterator",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -1151,8 +1133,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "FunctionExpression",
@@ -1259,6 +1240,7 @@
               "ctxt": 0
             },
             "value": "assignability4",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1297,7 +1279,6 @@
                         "ctxt": 0
                       },
                       "value": "AsyncIterableIterator",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -1322,8 +1303,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "FunctionExpression",
@@ -1389,7 +1369,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "Promise",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -1400,7 +1379,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "resolve",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -1463,6 +1441,7 @@
               "ctxt": 0
             },
             "value": "assignability5",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1501,7 +1480,6 @@
                         "ctxt": 0
                       },
                       "value": "AsyncIterableIterator",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -1526,8 +1504,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "FunctionExpression",
@@ -1669,6 +1646,7 @@
               "ctxt": 0
             },
             "value": "assignability6",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1707,7 +1685,6 @@
                         "ctxt": 0
                       },
                       "value": "AsyncIterable",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -1732,8 +1709,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "FunctionExpression",
@@ -1815,6 +1791,7 @@
               "ctxt": 0
             },
             "value": "assignability7",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1853,7 +1830,6 @@
                         "ctxt": 0
                       },
                       "value": "AsyncIterable",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -1878,8 +1854,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "FunctionExpression",
@@ -1935,7 +1910,6 @@
                             "ctxt": 0
                           },
                           "value": "Promise",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -1946,7 +1920,6 @@
                             "ctxt": 0
                           },
                           "value": "resolve",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -2006,6 +1979,7 @@
               "ctxt": 0
             },
             "value": "assignability8",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2044,7 +2018,6 @@
                         "ctxt": 0
                       },
                       "value": "AsyncIterable",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -2069,8 +2042,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "FunctionExpression",
@@ -2177,6 +2149,7 @@
               "ctxt": 0
             },
             "value": "assignability9",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2215,7 +2188,6 @@
                         "ctxt": 0
                       },
                       "value": "AsyncIterable",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -2240,8 +2212,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "FunctionExpression",
@@ -2307,7 +2278,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "Promise",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -2318,7 +2288,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "resolve",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -2381,6 +2350,7 @@
               "ctxt": 0
             },
             "value": "assignability10",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2419,7 +2389,6 @@
                         "ctxt": 0
                       },
                       "value": "AsyncIterable",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -2444,8 +2413,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "FunctionExpression",
@@ -2587,6 +2555,7 @@
               "ctxt": 0
             },
             "value": "assignability11",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2625,7 +2594,6 @@
                         "ctxt": 0
                       },
                       "value": "AsyncIterator",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -2650,8 +2618,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "FunctionExpression",
@@ -2733,6 +2700,7 @@
               "ctxt": 0
             },
             "value": "assignability12",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2771,7 +2739,6 @@
                         "ctxt": 0
                       },
                       "value": "AsyncIterator",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -2796,8 +2763,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "FunctionExpression",
@@ -2853,7 +2819,6 @@
                             "ctxt": 0
                           },
                           "value": "Promise",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -2864,7 +2829,6 @@
                             "ctxt": 0
                           },
                           "value": "resolve",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -2924,6 +2888,7 @@
               "ctxt": 0
             },
             "value": "assignability13",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2962,7 +2927,6 @@
                         "ctxt": 0
                       },
                       "value": "AsyncIterator",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -2987,8 +2951,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "FunctionExpression",
@@ -3095,6 +3058,7 @@
               "ctxt": 0
             },
             "value": "assignability14",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -3133,7 +3097,6 @@
                         "ctxt": 0
                       },
                       "value": "AsyncIterator",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -3158,8 +3121,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "FunctionExpression",
@@ -3225,7 +3187,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "Promise",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -3236,7 +3197,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "resolve",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -3299,6 +3259,7 @@
               "ctxt": 0
             },
             "value": "assignability15",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -3337,7 +3298,6 @@
                         "ctxt": 0
                       },
                       "value": "AsyncIterator",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -3362,8 +3322,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "FunctionExpression",
@@ -3490,7 +3449,6 @@
           "ctxt": 0
         },
         "value": "explicitReturnType1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -3562,7 +3520,6 @@
               "ctxt": 0
             },
             "value": "AsyncIterableIterator",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {
@@ -3597,7 +3554,6 @@
           "ctxt": 0
         },
         "value": "explicitReturnType2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -3652,7 +3608,6 @@
                       "ctxt": 0
                     },
                     "value": "Promise",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -3663,7 +3618,6 @@
                       "ctxt": 0
                     },
                     "value": "resolve",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -3714,7 +3668,6 @@
               "ctxt": 0
             },
             "value": "AsyncIterableIterator",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {
@@ -3749,7 +3702,6 @@
           "ctxt": 0
         },
         "value": "explicitReturnType3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -3846,7 +3798,6 @@
               "ctxt": 0
             },
             "value": "AsyncIterableIterator",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {
@@ -3881,7 +3832,6 @@
           "ctxt": 0
         },
         "value": "explicitReturnType4",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -3946,7 +3896,6 @@
                             "ctxt": 0
                           },
                           "value": "Promise",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -3957,7 +3906,6 @@
                             "ctxt": 0
                           },
                           "value": "resolve",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -4011,7 +3959,6 @@
               "ctxt": 0
             },
             "value": "AsyncIterableIterator",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {
@@ -4046,7 +3993,6 @@
           "ctxt": 0
         },
         "value": "explicitReturnType5",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -4178,7 +4124,6 @@
               "ctxt": 0
             },
             "value": "AsyncIterableIterator",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {
@@ -4213,7 +4158,6 @@
           "ctxt": 0
         },
         "value": "explicitReturnType6",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -4285,7 +4229,6 @@
               "ctxt": 0
             },
             "value": "AsyncIterable",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {
@@ -4320,7 +4263,6 @@
           "ctxt": 0
         },
         "value": "explicitReturnType7",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -4375,7 +4317,6 @@
                       "ctxt": 0
                     },
                     "value": "Promise",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -4386,7 +4327,6 @@
                       "ctxt": 0
                     },
                     "value": "resolve",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -4437,7 +4377,6 @@
               "ctxt": 0
             },
             "value": "AsyncIterable",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {
@@ -4472,7 +4411,6 @@
           "ctxt": 0
         },
         "value": "explicitReturnType8",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -4569,7 +4507,6 @@
               "ctxt": 0
             },
             "value": "AsyncIterable",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {
@@ -4604,7 +4541,6 @@
           "ctxt": 0
         },
         "value": "explicitReturnType9",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -4669,7 +4605,6 @@
                             "ctxt": 0
                           },
                           "value": "Promise",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -4680,7 +4615,6 @@
                             "ctxt": 0
                           },
                           "value": "resolve",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -4734,7 +4668,6 @@
               "ctxt": 0
             },
             "value": "AsyncIterable",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {
@@ -4769,7 +4702,6 @@
           "ctxt": 0
         },
         "value": "explicitReturnType10",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -4901,7 +4833,6 @@
               "ctxt": 0
             },
             "value": "AsyncIterable",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {
@@ -4936,7 +4867,6 @@
           "ctxt": 0
         },
         "value": "explicitReturnType11",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -5008,7 +4938,6 @@
               "ctxt": 0
             },
             "value": "AsyncIterator",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {
@@ -5043,7 +4972,6 @@
           "ctxt": 0
         },
         "value": "explicitReturnType12",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -5098,7 +5026,6 @@
                       "ctxt": 0
                     },
                     "value": "Promise",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -5109,7 +5036,6 @@
                       "ctxt": 0
                     },
                     "value": "resolve",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -5160,7 +5086,6 @@
               "ctxt": 0
             },
             "value": "AsyncIterator",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {
@@ -5195,7 +5120,6 @@
           "ctxt": 0
         },
         "value": "explicitReturnType13",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -5292,7 +5216,6 @@
               "ctxt": 0
             },
             "value": "AsyncIterator",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {
@@ -5327,7 +5250,6 @@
           "ctxt": 0
         },
         "value": "explicitReturnType14",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -5392,7 +5314,6 @@
                             "ctxt": 0
                           },
                           "value": "Promise",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -5403,7 +5324,6 @@
                             "ctxt": 0
                           },
                           "value": "resolve",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -5457,7 +5377,6 @@
               "ctxt": 0
             },
             "value": "AsyncIterator",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {
@@ -5492,7 +5411,6 @@
           "ctxt": 0
         },
         "value": "explicitReturnType15",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -5624,7 +5542,6 @@
               "ctxt": 0
             },
             "value": "AsyncIterator",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {
@@ -5659,7 +5576,6 @@
           "ctxt": 0
         },
         "value": "explicitReturnType16",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -5737,7 +5653,6 @@
           "ctxt": 0
         },
         "value": "awaitedType1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -5781,8 +5696,8 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "AwaitExpression",
@@ -5822,7 +5737,6 @@
           "ctxt": 0
         },
         "value": "awaitedType2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -5866,8 +5780,8 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "AwaitExpression",
@@ -5898,7 +5812,6 @@
                           "ctxt": 0
                         },
                         "value": "Promise",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -5909,7 +5822,6 @@
                           "ctxt": 0
                         },
                         "value": "resolve",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -5952,7 +5864,6 @@
           "ctxt": 0
         },
         "value": "nextType1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -5996,8 +5907,8 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "YieldExpression",
@@ -6049,7 +5960,6 @@
                   "ctxt": 0
                 },
                 "value": "next",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false,
@@ -6075,8 +5985,8 @@
                       "ctxt": 0
                     },
                     "value": "args",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
@@ -6150,7 +6060,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "PromiseLike",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "typeParams": {

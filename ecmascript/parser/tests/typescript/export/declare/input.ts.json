@@ -38,6 +38,7 @@
                 "ctxt": 0
               },
               "value": "x",
+              "optional": false,
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -54,8 +55,7 @@
                   },
                   "kind": "number"
                 }
-              },
-              "optional": false
+              }
             },
             "init": null,
             "definite": false
@@ -80,7 +80,6 @@
             "ctxt": 0
           },
           "value": "f",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": true,
@@ -131,7 +130,6 @@
             "ctxt": 0
           },
           "value": "C",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": true,
@@ -171,7 +169,6 @@
             "ctxt": 0
           },
           "value": "I",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": true,
@@ -211,7 +208,6 @@
             "ctxt": 0
           },
           "value": "T",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeParams": null,
@@ -250,7 +246,6 @@
             "ctxt": 0
           },
           "value": "M",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -288,7 +283,6 @@
             "ctxt": 0
           },
           "value": "N",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {

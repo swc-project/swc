@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "FancyError",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
@@ -62,8 +60,8 @@
                   "ctxt": 0
                 },
                 "value": "status",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             }
           ],
@@ -116,7 +114,6 @@
                               "ctxt": 0
                             },
                             "value": "status",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         ],
@@ -216,7 +213,6 @@
           "ctxt": 0
         },
         "value": "Error",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -254,7 +250,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -265,7 +260,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -286,7 +280,6 @@
                 "ctxt": 0
               },
               "value": "FancyError",
-              "typeAnnotation": null,
               "optional": false
             }
           ]
@@ -318,8 +311,8 @@
               "ctxt": 0
             },
             "value": "errors",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -336,7 +329,6 @@
                 "ctxt": 0
               },
               "value": "require",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -394,7 +386,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -405,7 +396,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -426,7 +416,6 @@
                 "ctxt": 0
               },
               "value": "errors",
-              "typeAnnotation": null,
               "optional": false
             }
           ]

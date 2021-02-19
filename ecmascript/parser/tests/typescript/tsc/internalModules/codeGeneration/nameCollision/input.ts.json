@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -59,8 +58,8 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "NumericLiteral",
@@ -100,8 +99,8 @@
                     "ctxt": 0
                   },
                   "value": "_A",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "StringLiteral",
@@ -141,7 +140,6 @@
           "ctxt": 0
         },
         "value": "B",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -177,8 +175,8 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "NumericLiteral",
@@ -213,7 +211,6 @@
           "ctxt": 0
         },
         "value": "B",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -234,7 +231,6 @@
                 "ctxt": 0
               },
               "value": "B",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -260,7 +256,6 @@
                     "ctxt": 0
                   },
                   "value": "name",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null,
@@ -318,7 +313,6 @@
           "ctxt": 0
         },
         "value": "X",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -354,8 +348,8 @@
                     "ctxt": 0
                   },
                   "value": "X",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "NumericLiteral",
@@ -394,7 +388,6 @@
                   "ctxt": 0
                 },
                 "value": "Y",
-                "typeAnnotation": null,
                 "optional": false
               },
               "body": {
@@ -430,8 +423,8 @@
                             "ctxt": 0
                           },
                           "value": "Y",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "init": {
                           "type": "NumericLiteral",
@@ -470,7 +463,6 @@
                           "ctxt": 0
                         },
                         "value": "Z",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "body": {
@@ -506,8 +498,8 @@
                                     "ctxt": 0
                                   },
                                   "value": "X",
-                                  "typeAnnotation": null,
-                                  "optional": false
+                                  "optional": false,
+                                  "typeAnnotation": null
                                 },
                                 "init": {
                                   "type": "NumericLiteral",
@@ -547,8 +539,8 @@
                                     "ctxt": 0
                                   },
                                   "value": "Y",
-                                  "typeAnnotation": null,
-                                  "optional": false
+                                  "optional": false,
+                                  "typeAnnotation": null
                                 },
                                 "init": {
                                   "type": "NumericLiteral",
@@ -588,8 +580,8 @@
                                     "ctxt": 0
                                   },
                                   "value": "Z",
-                                  "typeAnnotation": null,
-                                  "optional": false
+                                  "optional": false,
+                                  "typeAnnotation": null
                                 },
                                 "init": {
                                   "type": "NumericLiteral",
@@ -632,7 +624,6 @@
           "ctxt": 0
         },
         "value": "Y",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -652,7 +643,6 @@
             "ctxt": 0
           },
           "value": "Y",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -687,7 +677,6 @@
                     "ctxt": 0
                   },
                   "value": "Y",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "members": [
@@ -706,7 +695,6 @@
                         "ctxt": 0
                       },
                       "value": "Red",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "init": null
@@ -726,7 +714,6 @@
                         "ctxt": 0
                       },
                       "value": "Blue",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "init": null
@@ -755,7 +742,6 @@
           "ctxt": 0
         },
         "value": "D",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -788,7 +774,6 @@
                   "ctxt": 0
                 },
                 "value": "D",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -818,7 +803,6 @@
                         "ctxt": 0
                       },
                       "value": "id",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -880,8 +864,8 @@
                       "ctxt": 0
                     },
                     "value": "E",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "StringLiteral",

@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "f1",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -51,8 +50,8 @@
                   "ctxt": 0
                 },
                 "value": "d",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "NumericLiteral",
@@ -105,7 +104,6 @@
             "ctxt": 0
           },
           "value": "f2",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -138,8 +136,8 @@
                   "ctxt": 0
                 },
                 "value": "arg",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "typeAnnotation": null
             }
@@ -183,7 +181,6 @@
             "ctxt": 0
           },
           "value": "f3",
-          "typeAnnotation": null,
           "optional": false
         },
         "params": [
@@ -210,8 +207,8 @@
                   "ctxt": 0
                 },
                 "value": "d",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "NumericLiteral",

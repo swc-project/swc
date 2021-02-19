@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "a",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -66,8 +67,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -99,6 +99,7 @@
               "ctxt": 0
             },
             "value": "b",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -134,8 +135,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -167,6 +167,7 @@
               "ctxt": 0
             },
             "value": "c",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -202,8 +203,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -241,7 +241,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "right": {
@@ -252,7 +251,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -264,7 +262,6 @@
             "ctxt": 0
           },
           "value": "c",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -300,7 +297,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "right": {
@@ -311,7 +307,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -323,7 +318,6 @@
             "ctxt": 0
           },
           "value": "c",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -351,7 +345,6 @@
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -370,7 +363,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "right": {
@@ -381,7 +373,6 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -418,7 +409,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "right": {
@@ -429,7 +419,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -441,7 +430,6 @@
             "ctxt": 0
           },
           "value": "c",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -469,7 +457,6 @@
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -495,7 +482,6 @@
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -506,7 +492,6 @@
                 "ctxt": 0
               },
               "value": "c",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -551,7 +536,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -562,7 +546,6 @@
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -575,7 +558,6 @@
             "ctxt": 0
           },
           "value": "c",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -618,7 +600,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -629,7 +610,6 @@
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -642,7 +622,6 @@
             "ctxt": 0
           },
           "value": "c",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -670,7 +649,6 @@
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -696,7 +674,6 @@
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -707,7 +684,6 @@
                 "ctxt": 0
               },
               "value": "c",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -737,7 +713,6 @@
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -763,7 +738,6 @@
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -774,7 +748,6 @@
                 "ctxt": 0
               },
               "value": "c",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -819,7 +792,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -830,7 +802,6 @@
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -843,7 +814,6 @@
             "ctxt": 0
           },
           "value": "c",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -886,7 +856,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -897,7 +866,6 @@
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -910,7 +878,6 @@
             "ctxt": 0
           },
           "value": "c",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -938,7 +905,6 @@
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -964,7 +930,6 @@
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -975,7 +940,6 @@
                 "ctxt": 0
               },
               "value": "c",
-              "typeAnnotation": null,
               "optional": false
             }
           }

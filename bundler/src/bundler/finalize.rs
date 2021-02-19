@@ -287,7 +287,7 @@ where
                             ))));
                             let var = VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(default_var),
+                                name: Pat::Ident(default_var.into()),
                                 init: Some(export.expr),
                                 definite: false,
                             };

@@ -29,7 +29,6 @@
               "ctxt": 0
             },
             "value": "React",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -61,7 +60,6 @@
           "ctxt": 0
         },
         "value": "App",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -105,8 +103,8 @@
                     "ctxt": 0
                   },
                   "value": "isLoading",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "BooleanLiteral",
@@ -152,7 +150,6 @@
                       "ctxt": 0
                     },
                     "value": "div",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "span": {
@@ -192,7 +189,6 @@
                           "ctxt": 0
                         },
                         "value": "h1",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "span": {
@@ -231,7 +227,6 @@
                           "ctxt": 0
                         },
                         "value": "h1",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -268,7 +263,6 @@
                           "ctxt": 0
                         },
                         "value": "isLoading",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "consequent": {
@@ -295,7 +289,6 @@
                                 "ctxt": 0
                               },
                               "value": "div",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "span": {
@@ -334,7 +327,6 @@
                                 "ctxt": 0
                               },
                               "value": "div",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           }
@@ -364,7 +356,6 @@
                                 "ctxt": 0
                               },
                               "value": "div",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "span": {
@@ -403,7 +394,6 @@
                                 "ctxt": 0
                               },
                               "value": "div",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           }
@@ -437,7 +427,6 @@
                       "ctxt": 0
                     },
                     "value": "div",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -466,7 +455,6 @@
           "ctxt": 0
         },
         "value": "App",
-        "typeAnnotation": null,
         "optional": false
       }
     }

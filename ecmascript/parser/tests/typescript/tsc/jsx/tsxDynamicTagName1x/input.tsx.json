@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "CustomTag",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "StringLiteral",
@@ -76,7 +76,6 @@
               "ctxt": 0
             },
             "value": "CustomTag",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -115,7 +114,6 @@
               "ctxt": 0
             },
             "value": "CustomTag",
-            "typeAnnotation": null,
             "optional": false
           }
         }

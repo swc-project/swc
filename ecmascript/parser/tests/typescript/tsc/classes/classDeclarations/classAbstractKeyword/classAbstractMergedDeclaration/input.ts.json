@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "CM",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -50,7 +49,6 @@
           "ctxt": 0
         },
         "value": "CM",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -80,7 +78,6 @@
           "ctxt": 0
         },
         "value": "MC",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -103,7 +100,6 @@
           "ctxt": 0
         },
         "value": "MC",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -130,7 +126,6 @@
           "ctxt": 0
         },
         "value": "CI",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -162,7 +157,6 @@
           "ctxt": 0
         },
         "value": "CI",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -193,7 +187,6 @@
           "ctxt": 0
         },
         "value": "IC",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -219,7 +212,6 @@
           "ctxt": 0
         },
         "value": "IC",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -246,7 +238,6 @@
           "ctxt": 0
         },
         "value": "CC1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -273,7 +264,6 @@
           "ctxt": 0
         },
         "value": "CC1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -300,7 +290,6 @@
           "ctxt": 0
         },
         "value": "CC2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -327,7 +316,6 @@
           "ctxt": 0
         },
         "value": "CC2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -354,7 +342,6 @@
           "ctxt": 0
         },
         "value": "DCI",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -386,7 +373,6 @@
           "ctxt": 0
         },
         "value": "DCI",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -417,7 +403,6 @@
           "ctxt": 0
         },
         "value": "DIC",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -443,7 +428,6 @@
           "ctxt": 0
         },
         "value": "DIC",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -470,7 +454,6 @@
           "ctxt": 0
         },
         "value": "DCC1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -497,7 +480,6 @@
           "ctxt": 0
         },
         "value": "DCC1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -524,7 +506,6 @@
           "ctxt": 0
         },
         "value": "DCC2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -551,7 +532,6 @@
           "ctxt": 0
         },
         "value": "DCC2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -590,7 +570,6 @@
             "ctxt": 0
           },
           "value": "CM",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": null,
@@ -619,7 +598,6 @@
             "ctxt": 0
           },
           "value": "MC",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": null,
@@ -648,7 +626,6 @@
             "ctxt": 0
           },
           "value": "CI",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": null,
@@ -677,7 +654,6 @@
             "ctxt": 0
           },
           "value": "IC",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": null,
@@ -706,7 +682,6 @@
             "ctxt": 0
           },
           "value": "CC1",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": null,
@@ -735,7 +710,6 @@
             "ctxt": 0
           },
           "value": "CC2",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": null,
@@ -764,7 +738,6 @@
             "ctxt": 0
           },
           "value": "DCI",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": null,
@@ -793,7 +766,6 @@
             "ctxt": 0
           },
           "value": "DIC",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": null,
@@ -822,7 +794,6 @@
             "ctxt": 0
           },
           "value": "DCC1",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": null,
@@ -851,7 +822,6 @@
             "ctxt": 0
           },
           "value": "DCC2",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": null,

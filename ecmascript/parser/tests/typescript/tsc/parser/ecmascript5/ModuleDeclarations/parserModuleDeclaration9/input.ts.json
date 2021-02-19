@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "a",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -43,7 +42,6 @@
             "ctxt": 0
           },
           "value": "number",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -63,7 +61,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "body": {

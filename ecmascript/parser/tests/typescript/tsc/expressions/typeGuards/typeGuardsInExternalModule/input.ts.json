@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "num",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -47,8 +48,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -80,6 +80,7 @@
               "ctxt": 0
             },
             "value": "var1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -115,8 +116,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -154,7 +154,6 @@
               "ctxt": 0
             },
             "value": "var1",
-            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -204,8 +203,8 @@
                   "ctxt": 0
                 },
                 "value": "num",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "MemberExpression",
@@ -222,7 +221,6 @@
                     "ctxt": 0
                   },
                   "value": "var1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -233,7 +231,6 @@
                     "ctxt": 0
                   },
                   "value": "length",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -273,8 +270,8 @@
                   "ctxt": 0
                 },
                 "value": "num",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "Identifier",
@@ -284,7 +281,6 @@
                   "ctxt": 0
                 },
                 "value": "var1",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -317,6 +313,7 @@
               "ctxt": 0
             },
             "value": "strOrNum",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -352,8 +349,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -392,6 +388,7 @@
                 "ctxt": 0
               },
               "value": "var2",
+              "optional": false,
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -427,8 +424,7 @@
                     }
                   ]
                 }
-              },
-              "optional": false
+              }
             },
             "init": null,
             "definite": false
@@ -467,7 +463,6 @@
               "ctxt": 0
             },
             "value": "var2",
-            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -517,8 +512,8 @@
                   "ctxt": 0
                 },
                 "value": "strOrNum",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "Identifier",
@@ -528,7 +523,6 @@
                   "ctxt": 0
                 },
                 "value": "var2",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -566,8 +560,8 @@
                   "ctxt": 0
                 },
                 "value": "strOrNum",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "Identifier",
@@ -577,7 +571,6 @@
                   "ctxt": 0
                 },
                 "value": "var2",
-                "typeAnnotation": null,
                 "optional": false
               }
             }

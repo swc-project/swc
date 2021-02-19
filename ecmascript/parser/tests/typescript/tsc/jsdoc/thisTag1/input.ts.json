@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -37,8 +36,8 @@
               "ctxt": 0
             },
             "value": "s",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -94,7 +93,6 @@
                     "ctxt": 0
                   },
                   "value": "n",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -114,7 +112,6 @@
                     "ctxt": 0
                   },
                   "value": "s",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -125,7 +122,6 @@
                     "ctxt": 0
                   },
                   "value": "length",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -164,8 +160,8 @@
               "ctxt": 0
             },
             "value": "o",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -183,7 +179,6 @@
                   "ctxt": 0
                 },
                 "value": "f",
-                "typeAnnotation": null,
                 "optional": false
               },
               {
@@ -196,7 +191,6 @@
                     "ctxt": 0
                   },
                   "value": "n",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -244,7 +238,6 @@
               "ctxt": 0
             },
             "value": "o",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -255,7 +248,6 @@
               "ctxt": 0
             },
             "value": "f",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

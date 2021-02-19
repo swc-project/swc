@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Write",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "dummy",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -68,7 +66,6 @@
                   "ctxt": 0
                 },
                 "value": "Write",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -101,7 +98,6 @@
           "ctxt": 0
         },
         "value": "Col",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -127,7 +123,6 @@
               "ctxt": 0
             },
             "value": "dummy",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -169,7 +164,6 @@
                         "ctxt": 0
                       },
                       "value": "Col",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -195,7 +189,6 @@
                               "ctxt": 0
                             },
                             "value": "s",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -215,7 +208,6 @@
                               "ctxt": 0
                             },
                             "value": "a",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -247,7 +239,6 @@
                         "ctxt": 0
                       },
                       "value": "s",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -276,7 +267,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -321,7 +311,6 @@
                 "ctxt": 0
               },
               "value": "s",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -342,7 +331,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -363,7 +351,6 @@
           "ctxt": 0
         },
         "value": "Table",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -389,7 +376,6 @@
               "ctxt": 0
             },
             "value": "dummy",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -431,7 +417,6 @@
                         "ctxt": 0
                       },
                       "value": "Table",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -457,7 +442,6 @@
                               "ctxt": 0
                             },
                             "value": "Req",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -477,7 +461,6 @@
                               "ctxt": 0
                             },
                             "value": "Def",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -509,7 +492,6 @@
                         "ctxt": 0
                       },
                       "value": "Req",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -538,7 +520,6 @@
                         "ctxt": 0
                       },
                       "value": "Def",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -583,7 +564,6 @@
                 "ctxt": 0
               },
               "value": "Req",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -604,7 +584,6 @@
                 "ctxt": 0
               },
               "value": "Def",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -631,7 +610,6 @@
           "ctxt": 0
         },
         "value": "MakeTable",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -657,7 +635,6 @@
                 "ctxt": 0
               },
               "value": "T1",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -686,7 +663,6 @@
                 "ctxt": 0
               },
               "value": "T2",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -733,7 +709,6 @@
                   "ctxt": 0
                 },
                 "value": "P",
-                "typeAnnotation": null,
                 "optional": false
               },
               "constraint": {
@@ -759,7 +734,6 @@
                       "ctxt": 0
                     },
                     "value": "T1",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -784,7 +758,6 @@
                   "ctxt": 0
                 },
                 "value": "Col",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": {
@@ -810,7 +783,6 @@
                         "ctxt": 0
                       },
                       "value": "Write",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -838,7 +810,6 @@
                           "ctxt": 0
                         },
                         "value": "T1",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -858,7 +829,6 @@
                           "ctxt": 0
                         },
                         "value": "P",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -891,7 +861,6 @@
                   "ctxt": 0
                 },
                 "value": "P",
-                "typeAnnotation": null,
                 "optional": false
               },
               "constraint": {
@@ -917,7 +886,6 @@
                       "ctxt": 0
                     },
                     "value": "T2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -942,7 +910,6 @@
                   "ctxt": 0
                 },
                 "value": "Col",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": {
@@ -968,7 +935,6 @@
                         "ctxt": 0
                       },
                       "value": "Write",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -996,7 +962,6 @@
                           "ctxt": 0
                         },
                         "value": "T2",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1016,7 +981,6 @@
                           "ctxt": 0
                         },
                         "value": "P",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1039,7 +1003,6 @@
           "ctxt": 0
         },
         "value": "ConflictTarget",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -1065,7 +1028,6 @@
               "ctxt": 0
             },
             "value": "tableColumns",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1086,6 +1048,7 @@
                     "ctxt": 0
                   },
                   "value": "cols",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -1130,7 +1093,6 @@
                                 "ctxt": 0
                               },
                               "value": "Cols",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
@@ -1138,8 +1100,7 @@
                         }
                       }
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -1175,7 +1136,6 @@
                       "ctxt": 0
                     },
                     "value": "Cols",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -1205,7 +1165,6 @@
                     "ctxt": 0
                   },
                   "value": "ConflictTarget",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -1231,7 +1190,6 @@
                           "ctxt": 0
                         },
                         "value": "Cols",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1262,7 +1220,6 @@
               "ctxt": 0
             },
             "value": "dummy",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -1304,7 +1261,6 @@
                         "ctxt": 0
                       },
                       "value": "ConflictTarget",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -1330,7 +1286,6 @@
                               "ctxt": 0
                             },
                             "value": "Cols",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -1362,7 +1317,6 @@
                         "ctxt": 0
                       },
                       "value": "Cols",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -1407,7 +1361,6 @@
                 "ctxt": 0
               },
               "value": "Cols",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -1443,6 +1396,7 @@
               "ctxt": 0
             },
             "value": "bookTable",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1465,7 +1419,6 @@
                     "ctxt": 0
                   },
                   "value": "Table",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -1491,7 +1444,6 @@
                           "ctxt": 0
                         },
                         "value": "BookReq",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1511,7 +1463,6 @@
                           "ctxt": 0
                         },
                         "value": "BookDef",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1519,8 +1470,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "TsAsExpression",
@@ -1566,7 +1516,6 @@
           "ctxt": 0
         },
         "value": "BookReq",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1596,7 +1545,6 @@
                 "ctxt": 0
               },
               "value": "title",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -1638,7 +1586,6 @@
                 "ctxt": 0
               },
               "value": "serial",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -1682,7 +1629,6 @@
           "ctxt": 0
         },
         "value": "BookDef",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1712,7 +1658,6 @@
                 "ctxt": 0
               },
               "value": "author",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -1754,7 +1699,6 @@
                 "ctxt": 0
               },
               "value": "numPages",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -1812,7 +1756,6 @@
           "ctxt": 0
         },
         "value": "insertOnConflictDoNothing",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1833,6 +1776,7 @@
               "ctxt": 0
             },
             "value": "_table",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1855,7 +1799,6 @@
                     "ctxt": 0
                   },
                   "value": "Table",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -1881,7 +1824,6 @@
                           "ctxt": 0
                         },
                         "value": "Req",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1901,7 +1843,6 @@
                           "ctxt": 0
                         },
                         "value": "Def",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1909,8 +1850,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -1929,6 +1869,7 @@
               "ctxt": 0
             },
             "value": "_conflictTarget",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1951,7 +1892,6 @@
                     "ctxt": 0
                   },
                   "value": "ConflictTarget",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -1985,7 +1925,6 @@
                               "ctxt": 0
                             },
                             "value": "Req",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -2005,7 +1944,6 @@
                               "ctxt": 0
                             },
                             "value": "Def",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -2015,8 +1953,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -2056,7 +1993,6 @@
                   "ctxt": 0
                 },
                 "value": "Error",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -2090,7 +2026,6 @@
                 "ctxt": 0
               },
               "value": "Req",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -2119,7 +2054,6 @@
                 "ctxt": 0
               },
               "value": "Def",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -2163,7 +2097,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -2204,7 +2137,6 @@
                   "ctxt": 0
                 },
                 "value": "insertOnConflictDoNothing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -2218,7 +2150,6 @@
                       "ctxt": 0
                     },
                     "value": "bookTable",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -2246,7 +2177,6 @@
                           "ctxt": 0
                         },
                         "value": "ConflictTarget",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -2257,7 +2187,6 @@
                           "ctxt": 0
                         },
                         "value": "tableColumns",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false

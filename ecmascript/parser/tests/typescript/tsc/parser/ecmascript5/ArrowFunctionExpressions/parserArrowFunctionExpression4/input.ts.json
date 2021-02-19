@@ -29,8 +29,8 @@
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "ParenthesisExpression",
@@ -77,7 +77,6 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
                 "optional": false
               }
             ]

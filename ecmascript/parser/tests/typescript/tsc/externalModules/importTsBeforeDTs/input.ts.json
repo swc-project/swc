@@ -38,6 +38,7 @@
                 "ctxt": 0
               },
               "value": "x",
+              "optional": false,
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -54,8 +55,7 @@
                   },
                   "kind": "number"
                 }
-              },
-              "optional": false
+              }
             },
             "init": {
               "type": "NumericLiteral",
@@ -103,6 +103,7 @@
                 "ctxt": 0
               },
               "value": "y",
+              "optional": false,
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -119,8 +120,7 @@
                   },
                   "kind": "number"
                 }
-              },
-              "optional": false
+              }
             },
             "init": {
               "type": "NumericLiteral",
@@ -153,7 +153,6 @@
           "ctxt": 0
         },
         "value": "foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -204,8 +203,8 @@
               "ctxt": 0
             },
             "value": "z1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -230,7 +229,6 @@
                   "ctxt": 0
                 },
                 "value": "foo",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -241,7 +239,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -285,8 +282,8 @@
               "ctxt": 0
             },
             "value": "z2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -311,7 +308,6 @@
                   "ctxt": 0
                 },
                 "value": "foo",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -322,7 +318,6 @@
                   "ctxt": 0
                 },
                 "value": "y",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false

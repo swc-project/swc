@@ -44,7 +44,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -90,7 +89,6 @@
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -111,7 +109,6 @@
           "ctxt": 0
         },
         "value": "a",
-        "typeAnnotation": null,
         "optional": false
       }
     },
@@ -145,7 +142,6 @@
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -166,7 +162,6 @@
           "ctxt": 0
         },
         "value": "a",
-        "typeAnnotation": null,
         "optional": false
       }
     }

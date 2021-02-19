@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "randBool",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -59,7 +58,6 @@
           "ctxt": 0
         },
         "value": "takeReturnString",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -80,6 +78,7 @@
               "ctxt": 0
             },
             "value": "str",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -96,8 +95,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -139,7 +137,6 @@
           "ctxt": 0
         },
         "value": "takeReturnHello",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -160,6 +157,7 @@
               "ctxt": 0
             },
             "value": "str",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -189,8 +187,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -245,7 +242,6 @@
           "ctxt": 0
         },
         "value": "takeReturnHelloWorld",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -266,6 +262,7 @@
               "ctxt": 0
             },
             "value": "str",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -327,8 +324,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -415,7 +411,6 @@
           "ctxt": 0
         },
         "value": "fun1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -436,6 +431,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -458,13 +454,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -483,6 +477,7 @@
               "ctxt": 0
             },
             "value": "y",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -505,13 +500,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -558,7 +551,6 @@
                     "ctxt": 0
                   },
                   "value": "randBool",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [],
@@ -572,7 +564,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "alternate": {
@@ -583,7 +574,6 @@
                   "ctxt": 0
                 },
                 "value": "y",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -615,7 +605,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -635,7 +624,6 @@
           "ctxt": 0
         },
         "value": "fun2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -656,6 +644,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -678,13 +667,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -703,6 +690,7 @@
               "ctxt": 0
             },
             "value": "y",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -725,13 +713,11 @@
                     "ctxt": 0
                   },
                   "value": "U",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -778,7 +764,6 @@
                     "ctxt": 0
                   },
                   "value": "randBool",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [],
@@ -792,7 +777,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "alternate": {
@@ -803,7 +787,6 @@
                   "ctxt": 0
                 },
                 "value": "y",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -835,7 +818,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -856,7 +838,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -876,7 +857,6 @@
           "ctxt": 0
         },
         "value": "fun3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -909,8 +889,8 @@
                 "ctxt": 0
               },
               "value": "args",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
@@ -941,7 +921,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -987,7 +966,6 @@
                   "ctxt": 0
                 },
                 "value": "args",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -1013,7 +991,6 @@
                       "ctxt": 0
                     },
                     "value": "randBool",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [],
@@ -1050,7 +1027,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -1080,7 +1056,6 @@
               "ctxt": 0
             },
             "value": "T",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null
@@ -1104,7 +1079,6 @@
           "ctxt": 0
         },
         "value": "n1",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -1147,8 +1121,8 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "CallExpression",
@@ -1165,7 +1139,6 @@
                         "ctxt": 0
                       },
                       "value": "fun1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -1243,8 +1216,8 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "CallExpression",
@@ -1261,7 +1234,6 @@
                         "ctxt": 0
                       },
                       "value": "fun1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -1339,8 +1311,8 @@
                       "ctxt": 0
                     },
                     "value": "c",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "CallExpression",
@@ -1357,7 +1329,6 @@
                         "ctxt": 0
                       },
                       "value": "fun2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -1435,8 +1406,8 @@
                       "ctxt": 0
                     },
                     "value": "d",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "CallExpression",
@@ -1453,7 +1424,6 @@
                         "ctxt": 0
                       },
                       "value": "fun2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -1531,8 +1501,8 @@
                       "ctxt": 0
                     },
                     "value": "e",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "CallExpression",
@@ -1549,7 +1519,6 @@
                         "ctxt": 0
                       },
                       "value": "fun3",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -1652,8 +1621,8 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -1670,7 +1639,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnString",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -1684,7 +1652,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -1716,8 +1683,8 @@
                   "ctxt": 0
                 },
                 "value": "b",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -1734,7 +1701,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnString",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -1748,7 +1714,6 @@
                         "ctxt": 0
                       },
                       "value": "b",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -1780,8 +1745,8 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -1798,7 +1763,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnString",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -1812,7 +1776,6 @@
                         "ctxt": 0
                       },
                       "value": "c",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -1844,8 +1807,8 @@
                   "ctxt": 0
                 },
                 "value": "d",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -1862,7 +1825,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnString",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -1876,7 +1838,6 @@
                         "ctxt": 0
                       },
                       "value": "d",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -1908,8 +1869,8 @@
                   "ctxt": 0
                 },
                 "value": "e",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -1926,7 +1887,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnString",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -1940,7 +1900,6 @@
                         "ctxt": 0
                       },
                       "value": "e",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -1972,8 +1931,8 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -1990,7 +1949,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHello",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -2004,7 +1962,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -2036,8 +1993,8 @@
                   "ctxt": 0
                 },
                 "value": "b",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -2054,7 +2011,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHello",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -2068,7 +2024,6 @@
                         "ctxt": 0
                       },
                       "value": "b",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -2100,8 +2055,8 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -2118,7 +2073,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHello",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -2132,7 +2086,6 @@
                         "ctxt": 0
                       },
                       "value": "c",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -2164,8 +2117,8 @@
                   "ctxt": 0
                 },
                 "value": "d",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -2182,7 +2135,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHello",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -2196,7 +2148,6 @@
                         "ctxt": 0
                       },
                       "value": "d",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -2228,8 +2179,8 @@
                   "ctxt": 0
                 },
                 "value": "e",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -2246,7 +2197,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHello",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -2260,7 +2210,6 @@
                         "ctxt": 0
                       },
                       "value": "e",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -2292,8 +2241,8 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -2310,7 +2259,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHelloWorld",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -2324,7 +2272,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -2356,8 +2303,8 @@
                   "ctxt": 0
                 },
                 "value": "b",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -2374,7 +2321,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHelloWorld",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -2388,7 +2334,6 @@
                         "ctxt": 0
                       },
                       "value": "b",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -2420,8 +2365,8 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -2438,7 +2383,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHelloWorld",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -2452,7 +2396,6 @@
                         "ctxt": 0
                       },
                       "value": "c",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -2484,8 +2427,8 @@
                   "ctxt": 0
                 },
                 "value": "d",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -2502,7 +2445,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHelloWorld",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -2516,7 +2458,6 @@
                         "ctxt": 0
                       },
                       "value": "d",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -2548,8 +2489,8 @@
                   "ctxt": 0
                 },
                 "value": "e",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -2566,7 +2507,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHelloWorld",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -2580,7 +2520,6 @@
                         "ctxt": 0
                       },
                       "value": "e",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -2609,7 +2548,6 @@
           "ctxt": 0
         },
         "value": "n2",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -2652,8 +2590,8 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "CallExpression",
@@ -2670,7 +2608,6 @@
                         "ctxt": 0
                       },
                       "value": "fun1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -2779,8 +2716,8 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "CallExpression",
@@ -2797,7 +2734,6 @@
                         "ctxt": 0
                       },
                       "value": "fun1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -2906,8 +2842,8 @@
                       "ctxt": 0
                     },
                     "value": "c",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "CallExpression",
@@ -2924,7 +2860,6 @@
                         "ctxt": 0
                       },
                       "value": "fun2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -3055,8 +2990,8 @@
                       "ctxt": 0
                     },
                     "value": "d",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "CallExpression",
@@ -3073,7 +3008,6 @@
                         "ctxt": 0
                       },
                       "value": "fun2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -3204,8 +3138,8 @@
                       "ctxt": 0
                     },
                     "value": "e",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "CallExpression",
@@ -3222,7 +3156,6 @@
                         "ctxt": 0
                       },
                       "value": "fun3",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -3322,8 +3255,8 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -3340,7 +3273,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnString",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -3354,7 +3286,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -3386,8 +3317,8 @@
                   "ctxt": 0
                 },
                 "value": "b",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -3404,7 +3335,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnString",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -3418,7 +3348,6 @@
                         "ctxt": 0
                       },
                       "value": "b",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -3450,8 +3379,8 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -3468,7 +3397,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnString",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -3482,7 +3410,6 @@
                         "ctxt": 0
                       },
                       "value": "c",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -3514,8 +3441,8 @@
                   "ctxt": 0
                 },
                 "value": "d",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -3532,7 +3459,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnString",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -3546,7 +3472,6 @@
                         "ctxt": 0
                       },
                       "value": "d",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -3578,8 +3503,8 @@
                   "ctxt": 0
                 },
                 "value": "e",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -3596,7 +3521,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnString",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -3610,7 +3534,6 @@
                         "ctxt": 0
                       },
                       "value": "e",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -3642,8 +3565,8 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -3660,7 +3583,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHello",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -3674,7 +3596,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -3706,8 +3627,8 @@
                   "ctxt": 0
                 },
                 "value": "b",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -3724,7 +3645,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHello",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -3738,7 +3658,6 @@
                         "ctxt": 0
                       },
                       "value": "b",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -3770,8 +3689,8 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -3788,7 +3707,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHello",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -3802,7 +3720,6 @@
                         "ctxt": 0
                       },
                       "value": "c",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -3834,8 +3751,8 @@
                   "ctxt": 0
                 },
                 "value": "d",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -3852,7 +3769,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHello",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -3866,7 +3782,6 @@
                         "ctxt": 0
                       },
                       "value": "d",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -3898,8 +3813,8 @@
                   "ctxt": 0
                 },
                 "value": "e",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -3916,7 +3831,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHello",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -3930,7 +3844,6 @@
                         "ctxt": 0
                       },
                       "value": "e",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -3962,8 +3875,8 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -3980,7 +3893,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHelloWorld",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -3994,7 +3906,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -4026,8 +3937,8 @@
                   "ctxt": 0
                 },
                 "value": "b",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -4044,7 +3955,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHelloWorld",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -4058,7 +3968,6 @@
                         "ctxt": 0
                       },
                       "value": "b",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -4090,8 +3999,8 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -4108,7 +4017,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHelloWorld",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -4122,7 +4030,6 @@
                         "ctxt": 0
                       },
                       "value": "c",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -4154,8 +4061,8 @@
                   "ctxt": 0
                 },
                 "value": "d",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -4172,7 +4079,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHelloWorld",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -4186,7 +4092,6 @@
                         "ctxt": 0
                       },
                       "value": "d",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -4218,8 +4123,8 @@
                   "ctxt": 0
                 },
                 "value": "e",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -4236,7 +4141,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHelloWorld",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -4250,7 +4154,6 @@
                         "ctxt": 0
                       },
                       "value": "e",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -4279,7 +4182,6 @@
           "ctxt": 0
         },
         "value": "n3",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -4322,8 +4224,8 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "CallExpression",
@@ -4340,7 +4242,6 @@
                         "ctxt": 0
                       },
                       "value": "fun2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -4471,8 +4372,8 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "CallExpression",
@@ -4489,7 +4390,6 @@
                         "ctxt": 0
                       },
                       "value": "fun2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -4620,8 +4520,8 @@
                       "ctxt": 0
                     },
                     "value": "c",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "CallExpression",
@@ -4638,7 +4538,6 @@
                         "ctxt": 0
                       },
                       "value": "fun2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -4769,8 +4668,8 @@
                       "ctxt": 0
                     },
                     "value": "d",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "CallExpression",
@@ -4787,7 +4686,6 @@
                         "ctxt": 0
                       },
                       "value": "fun2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -4918,8 +4816,8 @@
                       "ctxt": 0
                     },
                     "value": "e",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "CallExpression",
@@ -4936,7 +4834,6 @@
                         "ctxt": 0
                       },
                       "value": "fun3",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -5068,8 +4965,8 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -5086,7 +4983,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnString",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -5100,7 +4996,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -5132,8 +5027,8 @@
                   "ctxt": 0
                 },
                 "value": "b",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -5150,7 +5045,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnString",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -5164,7 +5058,6 @@
                         "ctxt": 0
                       },
                       "value": "b",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -5196,8 +5089,8 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -5214,7 +5107,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnString",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -5228,7 +5120,6 @@
                         "ctxt": 0
                       },
                       "value": "c",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -5260,8 +5151,8 @@
                   "ctxt": 0
                 },
                 "value": "d",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -5278,7 +5169,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnString",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -5292,7 +5182,6 @@
                         "ctxt": 0
                       },
                       "value": "d",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -5324,8 +5213,8 @@
                   "ctxt": 0
                 },
                 "value": "e",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -5342,7 +5231,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnString",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -5356,7 +5244,6 @@
                         "ctxt": 0
                       },
                       "value": "e",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -5388,8 +5275,8 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -5406,7 +5293,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHello",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -5420,7 +5306,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -5452,8 +5337,8 @@
                   "ctxt": 0
                 },
                 "value": "b",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -5470,7 +5355,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHello",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -5484,7 +5368,6 @@
                         "ctxt": 0
                       },
                       "value": "b",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -5516,8 +5399,8 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -5534,7 +5417,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHello",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -5548,7 +5430,6 @@
                         "ctxt": 0
                       },
                       "value": "c",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -5580,8 +5461,8 @@
                   "ctxt": 0
                 },
                 "value": "d",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -5598,7 +5479,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHello",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -5612,7 +5492,6 @@
                         "ctxt": 0
                       },
                       "value": "d",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -5644,8 +5523,8 @@
                   "ctxt": 0
                 },
                 "value": "e",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -5662,7 +5541,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHello",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -5676,7 +5554,6 @@
                         "ctxt": 0
                       },
                       "value": "e",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -5708,8 +5585,8 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -5726,7 +5603,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHelloWorld",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -5740,7 +5616,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -5772,8 +5647,8 @@
                   "ctxt": 0
                 },
                 "value": "b",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -5790,7 +5665,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHelloWorld",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -5804,7 +5678,6 @@
                         "ctxt": 0
                       },
                       "value": "b",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -5836,8 +5709,8 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -5854,7 +5727,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHelloWorld",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -5868,7 +5740,6 @@
                         "ctxt": 0
                       },
                       "value": "c",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -5900,8 +5771,8 @@
                   "ctxt": 0
                 },
                 "value": "d",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -5918,7 +5789,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHelloWorld",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -5932,7 +5802,6 @@
                         "ctxt": 0
                       },
                       "value": "d",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -5964,8 +5833,8 @@
                   "ctxt": 0
                 },
                 "value": "e",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "CallExpression",
@@ -5982,7 +5851,6 @@
                     "ctxt": 0
                   },
                   "value": "takeReturnHelloWorld",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -5996,7 +5864,6 @@
                         "ctxt": 0
                       },
                       "value": "e",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }

@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "strOrBool",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -66,8 +67,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -128,7 +128,6 @@
                     "ctxt": 0
                   },
                   "value": "strOrBool",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -163,7 +162,6 @@
                   "ctxt": 0
                 },
                 "value": "strOrBool",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -193,7 +191,6 @@
                 "ctxt": 0
               },
               "value": "strOrBool",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -246,6 +243,7 @@
                     "ctxt": 0
                   },
                   "value": "label",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -262,8 +260,7 @@
                       },
                       "kind": "string"
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -303,7 +300,6 @@
                             "ctxt": 0
                           },
                           "value": "strOrBool",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -331,7 +327,6 @@
                       "ctxt": 0
                     },
                     "value": "strOrBool",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -378,6 +373,7 @@
                     "ctxt": 0
                   },
                   "value": "bool",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -394,8 +390,7 @@
                       },
                       "kind": "boolean"
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -435,7 +430,6 @@
                             "ctxt": 0
                           },
                           "value": "strOrBool",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -463,7 +457,6 @@
                       "ctxt": 0
                     },
                     "value": "strOrBool",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -505,6 +498,7 @@
                     "ctxt": 0
                   },
                   "value": "label2",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -521,8 +515,7 @@
                       },
                       "kind": "string"
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -562,7 +555,6 @@
                             "ctxt": 0
                           },
                           "value": "strOrBool",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -590,7 +582,6 @@
                       "ctxt": 0
                     },
                     "value": "strOrBool",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -637,6 +628,7 @@
                     "ctxt": 0
                   },
                   "value": "bool2",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -653,8 +645,7 @@
                       },
                       "kind": "boolean"
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -694,7 +685,6 @@
                             "ctxt": 0
                           },
                           "value": "strOrBool",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -722,7 +712,6 @@
                       "ctxt": 0
                     },
                     "value": "strOrBool",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -797,7 +786,6 @@
                     "ctxt": 0
                   },
                   "value": "strOrBool",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -832,7 +820,6 @@
                   "ctxt": 0
                 },
                 "value": "strOrBool",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -862,7 +849,6 @@
                 "ctxt": 0
               },
               "value": "strOrBool",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -915,6 +901,7 @@
                     "ctxt": 0
                   },
                   "value": "label",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -931,8 +918,7 @@
                       },
                       "kind": "string"
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -972,7 +958,6 @@
                             "ctxt": 0
                           },
                           "value": "strOrBool",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -1000,7 +985,6 @@
                       "ctxt": 0
                     },
                     "value": "strOrBool",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -1047,6 +1031,7 @@
                     "ctxt": 0
                   },
                   "value": "bool",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -1063,8 +1048,7 @@
                       },
                       "kind": "boolean"
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -1104,7 +1088,6 @@
                             "ctxt": 0
                           },
                           "value": "strOrBool",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -1132,7 +1115,6 @@
                       "ctxt": 0
                     },
                     "value": "strOrBool",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -1174,6 +1156,7 @@
                     "ctxt": 0
                   },
                   "value": "label2",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -1190,8 +1173,7 @@
                       },
                       "kind": "string"
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -1231,7 +1213,6 @@
                             "ctxt": 0
                           },
                           "value": "strOrBool",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -1259,7 +1240,6 @@
                       "ctxt": 0
                     },
                     "value": "strOrBool",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -1306,6 +1286,7 @@
                     "ctxt": 0
                   },
                   "value": "bool2",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -1322,8 +1303,7 @@
                       },
                       "kind": "boolean"
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -1363,7 +1343,6 @@
                             "ctxt": 0
                           },
                           "value": "strOrBool",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -1391,7 +1370,6 @@
                       "ctxt": 0
                     },
                     "value": "strOrBool",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {

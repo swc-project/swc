@@ -30,7 +30,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -54,7 +53,6 @@
                   "ctxt": 0
                 },
                 "value": "b",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -79,7 +77,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "consequent": {
@@ -99,7 +96,6 @@
                           "ctxt": 0
                         },
                         "value": "c",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "span": {
@@ -131,7 +127,6 @@
                           "ctxt": 0
                         },
                         "value": "d",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "span": {

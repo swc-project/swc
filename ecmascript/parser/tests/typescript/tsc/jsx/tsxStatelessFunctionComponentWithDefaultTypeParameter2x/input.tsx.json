@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "React",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -64,7 +63,6 @@
           "ctxt": 0
         },
         "value": "MyComponentProp",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -94,7 +92,6 @@
                 "ctxt": 0
               },
               "value": "values",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -133,7 +130,6 @@
           "ctxt": 0
         },
         "value": "MyComponent1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -154,6 +150,7 @@
               "ctxt": 0
             },
             "value": "attr",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -176,13 +173,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -224,7 +219,6 @@
                     "ctxt": 0
                   },
                   "value": "div",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "span": {
@@ -263,7 +257,6 @@
                     "ctxt": 0
                   },
                   "value": "div",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -296,7 +289,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -314,7 +306,6 @@
                   "ctxt": 0
                 },
                 "value": "MyComponentProp",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -350,8 +341,8 @@
               "ctxt": 0
             },
             "value": "i1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -370,7 +361,6 @@
                   "ctxt": 0
                 },
                 "value": "MyComponent1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -394,7 +384,6 @@
                       "ctxt": 0
                     },
                     "value": "values",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {

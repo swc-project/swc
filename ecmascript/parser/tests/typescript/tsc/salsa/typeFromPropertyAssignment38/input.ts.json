@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "F",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -71,7 +70,6 @@
               "ctxt": 0
             },
             "value": "F",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -126,8 +124,8 @@
               "ctxt": 0
             },
             "value": "f",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -187,7 +185,6 @@
               "ctxt": 0
             },
             "value": "f",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {

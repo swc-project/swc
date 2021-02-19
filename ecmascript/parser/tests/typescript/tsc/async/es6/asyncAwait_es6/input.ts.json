@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "MyPromise",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -48,7 +47,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -71,7 +69,6 @@
             "ctxt": 0
           },
           "value": "Promise",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeParams": {
@@ -97,7 +94,6 @@
                   "ctxt": 0
                 },
                 "value": "T",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -131,6 +127,7 @@
               "ctxt": 0
             },
             "value": "MyPromise",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -153,12 +150,10 @@
                     "ctxt": 0
                   },
                   "value": "Promise",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -190,6 +185,7 @@
               "ctxt": 0
             },
             "value": "p",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -212,7 +208,6 @@
                     "ctxt": 0
                   },
                   "value": "Promise",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -235,8 +230,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -268,6 +262,7 @@
               "ctxt": 0
             },
             "value": "mp",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -290,7 +285,6 @@
                     "ctxt": 0
                   },
                   "value": "MyPromise",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -313,8 +307,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -331,7 +324,6 @@
           "ctxt": 0
         },
         "value": "f0",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -366,7 +358,6 @@
           "ctxt": 0
         },
         "value": "f1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -411,7 +402,6 @@
               "ctxt": 0
             },
             "value": "Promise",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {
@@ -446,7 +436,6 @@
           "ctxt": 0
         },
         "value": "f3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -491,7 +480,6 @@
               "ctxt": 0
             },
             "value": "MyPromise",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {
@@ -541,8 +529,8 @@
               "ctxt": 0
             },
             "value": "f4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -597,8 +585,8 @@
               "ctxt": 0
             },
             "value": "f5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -644,7 +632,6 @@
                     "ctxt": 0
                   },
                   "value": "Promise",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -698,8 +685,8 @@
               "ctxt": 0
             },
             "value": "f6",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -745,7 +732,6 @@
                     "ctxt": 0
                   },
                   "value": "MyPromise",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -799,8 +785,8 @@
               "ctxt": 0
             },
             "value": "f7",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -853,8 +839,8 @@
               "ctxt": 0
             },
             "value": "f8",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -898,7 +884,6 @@
                     "ctxt": 0
                   },
                   "value": "Promise",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -952,8 +937,8 @@
               "ctxt": 0
             },
             "value": "f9",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -997,7 +982,6 @@
                     "ctxt": 0
                   },
                   "value": "MyPromise",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -1051,8 +1035,8 @@
               "ctxt": 0
             },
             "value": "f10",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -1070,7 +1054,6 @@
                 "ctxt": 0
               },
               "value": "p",
-              "typeAnnotation": null,
               "optional": false
             },
             "async": true,
@@ -1107,8 +1090,8 @@
               "ctxt": 0
             },
             "value": "f11",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -1126,7 +1109,6 @@
                 "ctxt": 0
               },
               "value": "mp",
-              "typeAnnotation": null,
               "optional": false
             },
             "async": true,
@@ -1163,8 +1145,8 @@
               "ctxt": 0
             },
             "value": "f12",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -1182,7 +1164,6 @@
                 "ctxt": 0
               },
               "value": "mp",
-              "typeAnnotation": null,
               "optional": false
             },
             "async": true,
@@ -1210,7 +1191,6 @@
                     "ctxt": 0
                   },
                   "value": "Promise",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -1264,8 +1244,8 @@
               "ctxt": 0
             },
             "value": "f13",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -1283,7 +1263,6 @@
                 "ctxt": 0
               },
               "value": "p",
-              "typeAnnotation": null,
               "optional": false
             },
             "async": true,
@@ -1311,7 +1290,6 @@
                     "ctxt": 0
                   },
                   "value": "MyPromise",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -1365,8 +1343,8 @@
               "ctxt": 0
             },
             "value": "o",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -1386,7 +1364,6 @@
                     "ctxt": 0
                   },
                   "value": "m1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "params": [],
@@ -1420,7 +1397,6 @@
                     "ctxt": 0
                   },
                   "value": "m2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "params": [],
@@ -1464,7 +1440,6 @@
                         "ctxt": 0
                       },
                       "value": "Promise",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -1499,7 +1474,6 @@
                     "ctxt": 0
                   },
                   "value": "m3",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "params": [],
@@ -1543,7 +1517,6 @@
                         "ctxt": 0
                       },
                       "value": "MyPromise",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -1584,7 +1557,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1610,7 +1582,6 @@
               "ctxt": 0
             },
             "value": "m1",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1656,7 +1627,6 @@
               "ctxt": 0
             },
             "value": "m2",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1701,7 +1671,6 @@
                     "ctxt": 0
                   },
                   "value": "Promise",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -1747,7 +1716,6 @@
               "ctxt": 0
             },
             "value": "m3",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1792,7 +1760,6 @@
                     "ctxt": 0
                   },
                   "value": "MyPromise",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -1838,7 +1805,6 @@
               "ctxt": 0
             },
             "value": "m4",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1884,7 +1850,6 @@
               "ctxt": 0
             },
             "value": "m5",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1929,7 +1894,6 @@
                     "ctxt": 0
                   },
                   "value": "Promise",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -1975,7 +1939,6 @@
               "ctxt": 0
             },
             "value": "m6",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -2020,7 +1983,6 @@
                     "ctxt": 0
                   },
                   "value": "MyPromise",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -2075,7 +2037,6 @@
           "ctxt": 0
         },
         "value": "M",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -2103,7 +2064,6 @@
                   "ctxt": 0
                 },
                 "value": "f1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -2142,7 +2102,6 @@
           "ctxt": 0
         },
         "value": "f14",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -2176,7 +2135,6 @@
                 "ctxt": 0
               },
               "value": "block",
-              "typeAnnotation": null,
               "optional": false
             },
             "body": {
@@ -2227,7 +2185,6 @@
                       "ctxt": 0
                     },
                     "value": "block",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }

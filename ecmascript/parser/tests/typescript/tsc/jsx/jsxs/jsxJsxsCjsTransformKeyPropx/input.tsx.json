@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "props",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -52,7 +52,6 @@
                     "ctxt": 0
                   },
                   "value": "answer",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -96,8 +95,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -116,7 +115,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -140,7 +138,6 @@
                       "ctxt": 0
                     },
                     "value": "key",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -173,7 +170,6 @@
                       "ctxt": 0
                     },
                     "value": "props",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -208,7 +204,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -242,8 +237,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -262,7 +257,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -286,7 +280,6 @@
                       "ctxt": 0
                     },
                     "value": "props",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -305,7 +298,6 @@
                       "ctxt": 0
                     },
                     "value": "key",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -354,7 +346,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               }
             }

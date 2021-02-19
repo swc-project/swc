@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "Thing",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -58,7 +57,6 @@
             "ctxt": 0
           },
           "value": "OtherThing",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -99,7 +97,6 @@
               "ctxt": 0
             },
             "value": "Thing",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -119,7 +116,6 @@
               "ctxt": 0
             },
             "value": "OtherThing",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": {
@@ -130,7 +126,6 @@
               "ctxt": 0
             },
             "value": "default",
-            "typeAnnotation": null,
             "optional": false
           }
         }

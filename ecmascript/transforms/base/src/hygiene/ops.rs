@@ -232,11 +232,11 @@ impl<'a> VisitMut for Operator<'a> {
                             value: match p.value.take() {
                                 Some(default_expr) => Box::new(Pat::Assign(AssignPat {
                                     span: p.span,
-                                    left: Box::new(Pat::Ident(renamed)),
+                                    left: Box::new(Pat::Ident(renamed.into())),
                                     right: default_expr,
                                     type_ann: None,
                                 })),
-                                None => Box::new(Pat::Ident(renamed)),
+                                None => Box::new(Pat::Ident(renamed.into())),
                             },
                         }
                         .into();
@@ -258,7 +258,6 @@ impl<'a> VisitMut for Operator<'a> {
                             key: PropName::Ident(Ident {
                                 // clear mark
                                 span: i.span.with_ctxt(SyntaxContext::empty()),
-                                type_ann: None,
                                 ..i.clone()
                             }),
                             value: Box::new(Expr::Ident(renamed)),

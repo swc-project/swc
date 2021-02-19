@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "NoBase",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -79,8 +77,8 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "init": {
                       "type": "MemberExpression",
@@ -105,7 +103,6 @@
                           "ctxt": 0
                         },
                         "value": "prototype",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -139,8 +136,8 @@
                         "ctxt": 0
                       },
                       "value": "b",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "init": {
                       "type": "CallExpression",
@@ -172,7 +169,6 @@
                             "ctxt": 0
                           },
                           "value": "hasOwnProperty",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -222,7 +218,6 @@
               "ctxt": 0
             },
             "value": "fn",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -266,8 +261,8 @@
                           "ctxt": 0
                         },
                         "value": "a",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "MemberExpression",
@@ -292,7 +287,6 @@
                             "ctxt": 0
                           },
                           "value": "prototype",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -326,8 +320,8 @@
                           "ctxt": 0
                         },
                         "value": "b",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "CallExpression",
@@ -359,7 +353,6 @@
                               "ctxt": 0
                             },
                             "value": "hasOwnProperty",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -417,7 +410,6 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -443,7 +435,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -474,7 +465,6 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -507,7 +497,6 @@
                   "ctxt": 0
                 },
                 "value": "hasOwnProperty",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -559,7 +548,6 @@
               "ctxt": 0
             },
             "value": "static1",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -615,7 +603,6 @@
                           "ctxt": 0
                         },
                         "value": "hasOwnProperty",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -670,7 +657,6 @@
               "ctxt": 0
             },
             "value": "static2",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -726,7 +712,6 @@
                           "ctxt": 0
                         },
                         "value": "hasOwnProperty",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -803,7 +788,6 @@
               "ctxt": 0
             },
             "value": "static2",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -824,8 +808,8 @@
                     "ctxt": 0
                   },
                   "value": "n",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -880,7 +864,6 @@
                           "ctxt": 0
                         },
                         "value": "hasOwnProperty",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -937,7 +920,6 @@
           "ctxt": 0
         },
         "value": "SomeBase",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -963,7 +945,6 @@
               "ctxt": 0
             },
             "value": "privateFunc",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1009,7 +990,6 @@
               "ctxt": 0
             },
             "value": "privateMember",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -1047,7 +1027,6 @@
               "ctxt": 0
             },
             "value": "publicFunc",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1093,7 +1072,6 @@
               "ctxt": 0
             },
             "value": "publicMember",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -1131,7 +1109,6 @@
               "ctxt": 0
             },
             "value": "privateStaticFunc",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1177,7 +1154,6 @@
               "ctxt": 0
             },
             "value": "privateStaticMember",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -1215,7 +1191,6 @@
               "ctxt": 0
             },
             "value": "publicStaticFunc",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1261,7 +1236,6 @@
               "ctxt": 0
             },
             "value": "publicStaticMember",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -1301,7 +1275,6 @@
           "ctxt": 0
         },
         "value": "SomeDerived1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1327,7 +1300,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -1403,7 +1375,6 @@
                         "ctxt": 0
                       },
                       "value": "publicMember",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -1439,7 +1410,6 @@
               "ctxt": 0
             },
             "value": "fn",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1483,8 +1453,8 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "MemberExpression",
@@ -1509,7 +1479,6 @@
                             "ctxt": 0
                           },
                           "value": "publicMember",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1546,7 +1515,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1590,8 +1558,8 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "MemberExpression",
@@ -1616,7 +1584,6 @@
                             "ctxt": 0
                           },
                           "value": "publicMember",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1640,7 +1607,6 @@
                       "ctxt": 0
                     },
                     "value": "undefined",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -1672,7 +1638,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1693,8 +1658,8 @@
                     "ctxt": 0
                   },
                   "value": "n",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -1735,8 +1700,8 @@
                         "ctxt": 0
                       },
                       "value": "n",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -1761,7 +1726,6 @@
                           "ctxt": 0
                         },
                         "value": "publicMember",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -1796,7 +1760,6 @@
               "ctxt": 0
             },
             "value": "fn2",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1825,7 +1788,6 @@
                       "ctxt": 0
                     },
                     "value": "inner",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "declare": false,
@@ -1881,7 +1843,6 @@
                                 "ctxt": 0
                               },
                               "value": "publicFunc",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -1922,8 +1883,8 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ObjectExpression",
@@ -1943,7 +1904,6 @@
                                 "ctxt": 0
                               },
                               "value": "test",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -2001,7 +1961,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "publicFunc",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "computed": false
@@ -2046,7 +2005,6 @@
           "ctxt": 0
         },
         "value": "SomeBase",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -2064,7 +2022,6 @@
           "ctxt": 0
         },
         "value": "SomeDerived2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -2090,7 +2047,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -2166,7 +2122,6 @@
                         "ctxt": 0
                       },
                       "value": "privateMember",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -2202,7 +2157,6 @@
               "ctxt": 0
             },
             "value": "fn",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -2246,8 +2200,8 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "MemberExpression",
@@ -2272,7 +2226,6 @@
                             "ctxt": 0
                           },
                           "value": "privateMember",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -2309,7 +2262,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -2353,8 +2305,8 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "MemberExpression",
@@ -2379,7 +2331,6 @@
                             "ctxt": 0
                           },
                           "value": "privateMember",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -2403,7 +2354,6 @@
                       "ctxt": 0
                     },
                     "value": "undefined",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -2435,7 +2385,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -2456,8 +2405,8 @@
                     "ctxt": 0
                   },
                   "value": "n",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -2498,8 +2447,8 @@
                         "ctxt": 0
                       },
                       "value": "n",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -2524,7 +2473,6 @@
                           "ctxt": 0
                         },
                         "value": "privateMember",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -2553,7 +2501,6 @@
           "ctxt": 0
         },
         "value": "SomeBase",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -2571,7 +2518,6 @@
           "ctxt": 0
         },
         "value": "SomeDerived3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -2597,7 +2543,6 @@
               "ctxt": 0
             },
             "value": "fn",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -2654,7 +2599,6 @@
                           "ctxt": 0
                         },
                         "value": "publicStaticMember",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -2708,7 +2652,6 @@
                           "ctxt": 0
                         },
                         "value": "privateStaticMember",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -2761,7 +2704,6 @@
                           "ctxt": 0
                         },
                         "value": "privateStaticFunc",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -2798,7 +2740,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -2855,7 +2796,6 @@
                           "ctxt": 0
                         },
                         "value": "publicStaticMember",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -2909,7 +2849,6 @@
                           "ctxt": 0
                         },
                         "value": "privateStaticMember",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -2962,7 +2901,6 @@
                           "ctxt": 0
                         },
                         "value": "privateStaticFunc",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -3021,7 +2959,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -3042,8 +2979,8 @@
                     "ctxt": 0
                   },
                   "value": "n",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -3099,7 +3036,6 @@
                           "ctxt": 0
                         },
                         "value": "publicStaticMember",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -3153,7 +3089,6 @@
                           "ctxt": 0
                         },
                         "value": "privateStaticMember",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -3206,7 +3141,6 @@
                           "ctxt": 0
                         },
                         "value": "privateStaticFunc",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -3237,7 +3171,6 @@
           "ctxt": 0
         },
         "value": "SomeBase",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -3270,8 +3203,8 @@
               "ctxt": 0
             },
             "value": "obj",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -3291,7 +3224,6 @@
                     "ctxt": 0
                   },
                   "value": "n",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -3317,7 +3249,6 @@
                       "ctxt": 0
                     },
                     "value": "wat",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -3333,7 +3264,6 @@
                     "ctxt": 0
                   },
                   "value": "p",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -3366,7 +3296,6 @@
                         "ctxt": 0
                       },
                       "value": "foo",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false

@@ -105,13 +105,13 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                 } else {
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(var.clone()),
+                        name: Pat::Ident(var.clone().into()),
                         init: None,
                         definite: false,
                     });
                     AssignExpr {
                         span: obj.span(),
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(var.clone()))),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(var.clone().into()))),
                         op: op!("="),
                         right: obj,
                     }
@@ -122,7 +122,7 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                 if !prefix {
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(old_var.clone()),
+                        name: Pat::Ident(old_var.clone().into()),
                         init: None,
                         definite: false,
                     });
@@ -140,7 +140,7 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                     } else {
                         Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(old_var.clone()))),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(old_var.clone().into()))),
                             op: op!("="),
                             right: left,
                         }))
@@ -254,13 +254,13 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                 } else {
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(var.clone()),
+                        name: Pat::Ident(var.clone().into()),
                         init: None,
                         definite: false,
                     });
                     AssignExpr {
                         span: obj.span(),
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(var.clone()))),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(var.clone().into()))),
                         op: op!("="),
                         right: obj,
                     }
@@ -512,7 +512,7 @@ impl<'a> FieldAccessFolder<'a> {
                             aliased = true;
                             self.vars.push(VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(var.clone()),
+                                name: Pat::Ident(var.clone().into()),
                                 init: None,
                                 definite: false,
                             });
@@ -531,7 +531,9 @@ impl<'a> FieldAccessFolder<'a> {
                                     if aliased {
                                         AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Pat(Box::new(Pat::Ident(var.clone()))),
+                                            left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                                var.clone().into(),
+                                            ))),
                                             op: op!("="),
                                             right: obj,
                                         }

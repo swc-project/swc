@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "label1",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -56,8 +55,8 @@
                   "ctxt": 0
                 },
                 "value": "i",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "init": {
                 "type": "NumericLiteral",
@@ -88,7 +87,6 @@
               "ctxt": 0
             },
             "value": "i",
-            "typeAnnotation": null,
             "optional": false
           },
           "right": {
@@ -118,7 +116,6 @@
               "ctxt": 0
             },
             "value": "i",
-            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -145,7 +142,6 @@
                   "ctxt": 0
                 },
                 "value": "label1",
-                "typeAnnotation": null,
                 "optional": false
               }
             }

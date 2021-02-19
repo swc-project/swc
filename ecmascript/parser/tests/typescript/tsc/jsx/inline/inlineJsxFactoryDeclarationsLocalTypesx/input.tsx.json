@@ -30,7 +30,6 @@
             "ctxt": 0
           },
           "value": "dom",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -58,7 +57,6 @@
                   "ctxt": 0
                 },
                 "value": "JSX",
-                "typeAnnotation": null,
                 "optional": false
               },
               "body": {
@@ -84,7 +82,6 @@
                         "ctxt": 0
                       },
                       "value": "IntrinsicElements",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "declare": false,
@@ -109,6 +106,7 @@
                                 "ctxt": 0
                               },
                               "value": "e",
+                              "optional": false,
                               "typeAnnotation": {
                                 "type": "TsTypeAnnotation",
                                 "span": {
@@ -125,8 +123,7 @@
                                   },
                                   "kind": "string"
                                 }
-                              },
-                              "optional": false
+                              }
                             }
                           ],
                           "typeAnnotation": {
@@ -171,7 +168,6 @@
                         "ctxt": 0
                       },
                       "value": "Element",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "declare": false,
@@ -201,7 +197,6 @@
                               "ctxt": 0
                             },
                             "value": "__domBrand",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -243,7 +238,6 @@
                               "ctxt": 0
                             },
                             "value": "props",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -281,7 +275,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "children",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false,
@@ -317,7 +310,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "Element",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "typeParams": null
@@ -349,7 +341,6 @@
                         "ctxt": 0
                       },
                       "value": "ElementClass",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "declare": false,
@@ -370,7 +361,6 @@
                             "ctxt": 0
                           },
                           "value": "Element",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeArguments": null
@@ -400,7 +390,6 @@
                               "ctxt": 0
                             },
                             "value": "render",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -428,7 +417,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "Element",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
@@ -454,7 +442,6 @@
                         "ctxt": 0
                       },
                       "value": "ElementAttributesProperty",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "declare": false,
@@ -484,7 +471,6 @@
                               "ctxt": 0
                             },
                             "value": "props",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -528,7 +514,6 @@
                         "ctxt": 0
                       },
                       "value": "ElementChildrenAttribute",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "declare": false,
@@ -558,7 +543,6 @@
                               "ctxt": 0
                             },
                             "value": "children",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -611,7 +595,6 @@
             "ctxt": 0
           },
           "value": "dom",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -652,7 +635,6 @@
                     "ctxt": 0
                   },
                   "value": "dom",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -663,7 +645,6 @@
                     "ctxt": 0
                   },
                   "value": "JSX",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -675,7 +656,6 @@
                   "ctxt": 0
                 },
                 "value": "Element",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -708,7 +688,6 @@
             "ctxt": 0
           },
           "value": "predom",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -736,7 +715,6 @@
                   "ctxt": 0
                 },
                 "value": "JSX",
-                "typeAnnotation": null,
                 "optional": false
               },
               "body": {
@@ -762,7 +740,6 @@
                         "ctxt": 0
                       },
                       "value": "IntrinsicElements",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "declare": false,
@@ -787,6 +764,7 @@
                                 "ctxt": 0
                               },
                               "value": "e",
+                              "optional": false,
                               "typeAnnotation": {
                                 "type": "TsTypeAnnotation",
                                 "span": {
@@ -803,8 +781,7 @@
                                   },
                                   "kind": "string"
                                 }
-                              },
-                              "optional": false
+                              }
                             }
                           ],
                           "typeAnnotation": {
@@ -849,7 +826,6 @@
                         "ctxt": 0
                       },
                       "value": "Element",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "declare": false,
@@ -879,7 +855,6 @@
                               "ctxt": 0
                             },
                             "value": "__predomBrand",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -921,7 +896,6 @@
                               "ctxt": 0
                             },
                             "value": "props",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -959,7 +933,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "children",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false,
@@ -995,7 +968,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "Element",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "typeParams": null
@@ -1027,7 +999,6 @@
                         "ctxt": 0
                       },
                       "value": "ElementClass",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "declare": false,
@@ -1048,7 +1019,6 @@
                             "ctxt": 0
                           },
                           "value": "Element",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeArguments": null
@@ -1078,7 +1048,6 @@
                               "ctxt": 0
                             },
                             "value": "render",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -1106,7 +1075,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "Element",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
@@ -1132,7 +1100,6 @@
                         "ctxt": 0
                       },
                       "value": "ElementAttributesProperty",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "declare": false,
@@ -1162,7 +1129,6 @@
                               "ctxt": 0
                             },
                             "value": "props",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -1206,7 +1172,6 @@
                         "ctxt": 0
                       },
                       "value": "ElementChildrenAttribute",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "declare": false,
@@ -1236,7 +1201,6 @@
                               "ctxt": 0
                             },
                             "value": "children",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -1289,7 +1253,6 @@
             "ctxt": 0
           },
           "value": "predom",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -1330,7 +1293,6 @@
                     "ctxt": 0
                   },
                   "value": "predom",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -1341,7 +1303,6 @@
                     "ctxt": 0
                   },
                   "value": "JSX",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -1353,7 +1314,6 @@
                   "ctxt": 0
                 },
                 "value": "Element",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -1385,7 +1345,6 @@
               "ctxt": 0
             },
             "value": "predom",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -1440,8 +1399,8 @@
                 "ctxt": 0
               },
               "value": "MySFC",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "ArrowFunctionExpression",
@@ -1459,6 +1418,7 @@
                     "ctxt": 0
                   },
                   "value": "props",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -1490,7 +1450,6 @@
                               "ctxt": 0
                             },
                             "value": "x",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -1532,7 +1491,6 @@
                               "ctxt": 0
                             },
                             "value": "y",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -1574,7 +1532,6 @@
                               "ctxt": 0
                             },
                             "value": "children",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -1614,7 +1571,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "predom",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "right": {
@@ -1625,7 +1581,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "JSX",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     }
                                   },
@@ -1637,7 +1592,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "Element",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   }
                                 },
@@ -1649,8 +1603,7 @@
                         }
                       ]
                     }
-                  },
-                  "optional": false
+                  }
                 }
               ],
               "body": {
@@ -1670,7 +1623,6 @@
                       "ctxt": 0
                     },
                     "value": "p",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "span": {
@@ -1705,7 +1657,6 @@
                           "ctxt": 0
                         },
                         "value": "props",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -1716,7 +1667,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -1754,7 +1704,6 @@
                           "ctxt": 0
                         },
                         "value": "props",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -1765,7 +1714,6 @@
                           "ctxt": 0
                         },
                         "value": "y",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -1811,7 +1759,6 @@
                             "ctxt": 0
                           },
                           "value": "props",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -1822,7 +1769,6 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1842,7 +1788,6 @@
                             "ctxt": 0
                           },
                           "value": "props",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -1853,7 +1798,6 @@
                             "ctxt": 0
                           },
                           "value": "y",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1897,7 +1841,6 @@
                             "ctxt": 0
                           },
                           "value": "props",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1910,7 +1853,6 @@
                           "ctxt": 0
                         },
                         "value": "children",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -1932,7 +1874,6 @@
                       "ctxt": 0
                     },
                     "value": "p",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -1964,7 +1905,6 @@
             "ctxt": 0
           },
           "value": "MyClass",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -1990,7 +1930,6 @@
                 "ctxt": 0
               },
               "value": "__predomBrand",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": null,
@@ -2036,7 +1975,6 @@
                 "ctxt": 0
               },
               "value": "constructor",
-              "typeAnnotation": null,
               "optional": false
             },
             "params": [
@@ -2058,6 +1996,7 @@
                     "ctxt": 0
                   },
                   "value": "props",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -2089,7 +2028,6 @@
                               "ctxt": 0
                             },
                             "value": "x",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -2131,7 +2069,6 @@
                               "ctxt": 0
                             },
                             "value": "y",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -2173,7 +2110,6 @@
                               "ctxt": 0
                             },
                             "value": "children",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -2213,7 +2149,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "predom",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "right": {
@@ -2224,7 +2159,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "JSX",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     }
                                   },
@@ -2236,7 +2170,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "Element",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   }
                                 },
@@ -2248,8 +2181,7 @@
                         }
                       ]
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -2280,7 +2212,6 @@
                 "ctxt": 0
               },
               "value": "render",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -2323,7 +2254,6 @@
                             "ctxt": 0
                           },
                           "value": "p",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "span": {
@@ -2383,7 +2313,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "props",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -2396,7 +2325,6 @@
                                 "ctxt": 0
                               },
                               "value": "x",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -2449,7 +2377,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "props",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -2462,7 +2389,6 @@
                                 "ctxt": 0
                               },
                               "value": "y",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -2523,7 +2449,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "props",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -2536,7 +2461,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "x",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -2571,7 +2495,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "props",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -2584,7 +2507,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "y",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -2638,7 +2560,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "props",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -2651,7 +2572,6 @@
                                 "ctxt": 0
                               },
                               "value": "children",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -2683,7 +2603,6 @@
                             "ctxt": 0
                           },
                           "value": "p",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       }
@@ -2727,7 +2646,6 @@
                     "ctxt": 0
                   },
                   "value": "predom",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -2738,7 +2656,6 @@
                     "ctxt": 0
                   },
                   "value": "JSX",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -2750,7 +2667,6 @@
                   "ctxt": 0
                 },
                 "value": "Element",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -2791,8 +2707,8 @@
                 "ctxt": 0
               },
               "value": "tree",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "JSXElement",
@@ -2811,7 +2727,6 @@
                     "ctxt": 0
                   },
                   "value": "MySFC",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "span": {
@@ -2835,7 +2750,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "value": {
@@ -2871,7 +2785,6 @@
                         "ctxt": 0
                       },
                       "value": "y",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "value": {
@@ -2914,7 +2827,6 @@
                         "ctxt": 0
                       },
                       "value": "MyClass",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "span": {
@@ -2938,7 +2850,6 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -2974,7 +2885,6 @@
                             "ctxt": 0
                           },
                           "value": "y",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -3019,7 +2929,6 @@
                         "ctxt": 0
                       },
                       "value": "MyClass",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "span": {
@@ -3043,7 +2952,6 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -3079,7 +2987,6 @@
                             "ctxt": 0
                           },
                           "value": "y",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -3123,7 +3030,6 @@
                     "ctxt": 0
                   },
                   "value": "MySFC",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -3157,7 +3063,6 @@
               "ctxt": 0
             },
             "value": "h",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -3185,7 +3090,6 @@
               "ctxt": 0
             },
             "value": "h",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -3214,7 +3118,6 @@
               "ctxt": 0
             },
             "value": "dom",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -3260,7 +3163,6 @@
               "ctxt": 0
             },
             "value": "prerendered",
-            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -3279,7 +3181,6 @@
               "ctxt": 0
             },
             "value": "MySFC",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -3299,7 +3200,6 @@
               "ctxt": 0
             },
             "value": "MyClass",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -3319,7 +3219,6 @@
               "ctxt": 0
             },
             "value": "tree",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -3367,8 +3266,8 @@
               "ctxt": 0
             },
             "value": "elem",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "Identifier",
@@ -3378,7 +3277,6 @@
               "ctxt": 0
             },
             "value": "prerendered",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false
@@ -3408,8 +3306,8 @@
             "ctxt": 0
           },
           "value": "elem",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "JSXElement",
@@ -3428,7 +3326,6 @@
                 "ctxt": 0
               },
               "value": "h",
-              "typeAnnotation": null,
               "optional": false
             },
             "span": {
@@ -3456,7 +3353,6 @@
                 "ctxt": 0
               },
               "value": "h",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -3488,8 +3384,8 @@
               "ctxt": 0
             },
             "value": "DOMSFC",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -3507,6 +3403,7 @@
                   "ctxt": 0
                 },
                 "value": "props",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -3538,7 +3435,6 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false,
@@ -3580,7 +3476,6 @@
                             "ctxt": 0
                           },
                           "value": "y",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false,
@@ -3622,7 +3517,6 @@
                             "ctxt": 0
                           },
                           "value": "children",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false,
@@ -3662,7 +3556,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "dom",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "right": {
@@ -3673,7 +3566,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "JSX",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   }
                                 },
@@ -3685,7 +3577,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "Element",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 }
                               },
@@ -3697,8 +3588,7 @@
                       }
                     ]
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "body": {
@@ -3718,7 +3608,6 @@
                     "ctxt": 0
                   },
                   "value": "p",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "span": {
@@ -3753,7 +3642,6 @@
                         "ctxt": 0
                       },
                       "value": "props",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -3764,7 +3652,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -3802,7 +3689,6 @@
                         "ctxt": 0
                       },
                       "value": "props",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -3813,7 +3699,6 @@
                         "ctxt": 0
                       },
                       "value": "y",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -3859,7 +3744,6 @@
                           "ctxt": 0
                         },
                         "value": "props",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -3870,7 +3754,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -3890,7 +3773,6 @@
                           "ctxt": 0
                         },
                         "value": "props",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -3901,7 +3783,6 @@
                           "ctxt": 0
                         },
                         "value": "y",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -3930,7 +3811,6 @@
                         "ctxt": 0
                       },
                       "value": "props",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -3941,7 +3821,6 @@
                         "ctxt": 0
                       },
                       "value": "children",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -3963,7 +3842,6 @@
                     "ctxt": 0
                   },
                   "value": "p",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -3987,7 +3865,6 @@
           "ctxt": 0
         },
         "value": "DOMClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -4013,7 +3890,6 @@
               "ctxt": 0
             },
             "value": "__domBrand",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -4059,7 +3935,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
@@ -4081,6 +3956,7 @@
                   "ctxt": 0
                 },
                 "value": "props",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -4112,7 +3988,6 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false,
@@ -4154,7 +4029,6 @@
                             "ctxt": 0
                           },
                           "value": "y",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false,
@@ -4196,7 +4070,6 @@
                             "ctxt": 0
                           },
                           "value": "children",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false,
@@ -4236,7 +4109,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "dom",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "right": {
@@ -4247,7 +4119,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "JSX",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   }
                                 },
@@ -4259,7 +4130,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "Element",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 }
                               },
@@ -4271,8 +4141,7 @@
                       }
                     ]
                   }
-                },
-                "optional": false
+                }
               }
             }
           ],
@@ -4303,7 +4172,6 @@
               "ctxt": 0
             },
             "value": "render",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -4346,7 +4214,6 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "span": {
@@ -4396,7 +4263,6 @@
                                 "ctxt": 0
                               },
                               "value": "props",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -4409,7 +4275,6 @@
                               "ctxt": 0
                             },
                             "value": "x",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -4462,7 +4327,6 @@
                                 "ctxt": 0
                               },
                               "value": "props",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -4475,7 +4339,6 @@
                               "ctxt": 0
                             },
                             "value": "y",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -4536,7 +4399,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "props",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -4549,7 +4411,6 @@
                                 "ctxt": 0
                               },
                               "value": "x",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -4584,7 +4445,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "props",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -4597,7 +4457,6 @@
                                 "ctxt": 0
                               },
                               "value": "y",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -4641,7 +4500,6 @@
                                 "ctxt": 0
                               },
                               "value": "props",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -4654,7 +4512,6 @@
                               "ctxt": 0
                             },
                             "value": "children",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -4676,7 +4533,6 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -4720,7 +4576,6 @@
                   "ctxt": 0
                 },
                 "value": "dom",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -4731,7 +4586,6 @@
                   "ctxt": 0
                 },
                 "value": "JSX",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -4743,7 +4597,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -4776,8 +4629,8 @@
               "ctxt": 0
             },
             "value": "_tree",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -4796,7 +4649,6 @@
                   "ctxt": 0
                 },
                 "value": "DOMSFC",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -4820,7 +4672,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -4856,7 +4707,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -4899,7 +4749,6 @@
                       "ctxt": 0
                     },
                     "value": "DOMClass",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "span": {
@@ -4923,7 +4772,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -4959,7 +4807,6 @@
                           "ctxt": 0
                         },
                         "value": "y",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -5004,7 +4851,6 @@
                       "ctxt": 0
                     },
                     "value": "DOMClass",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "span": {
@@ -5028,7 +4874,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -5064,7 +4909,6 @@
                           "ctxt": 0
                         },
                         "value": "y",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -5108,7 +4952,6 @@
                   "ctxt": 0
                 },
                 "value": "DOMSFC",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -5142,8 +4985,8 @@
               "ctxt": 0
             },
             "value": "_brokenTree",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -5162,7 +5005,6 @@
                   "ctxt": 0
                 },
                 "value": "MySFC",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -5186,7 +5028,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -5222,7 +5063,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -5265,7 +5105,6 @@
                       "ctxt": 0
                     },
                     "value": "MyClass",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "span": {
@@ -5289,7 +5128,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -5325,7 +5163,6 @@
                           "ctxt": 0
                         },
                         "value": "y",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -5370,7 +5207,6 @@
                       "ctxt": 0
                     },
                     "value": "MyClass",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "span": {
@@ -5394,7 +5230,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -5430,7 +5265,6 @@
                           "ctxt": 0
                         },
                         "value": "y",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -5474,7 +5308,6 @@
                   "ctxt": 0
                 },
                 "value": "MySFC",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -5508,8 +5341,8 @@
               "ctxt": 0
             },
             "value": "_brokenTree2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -5528,7 +5361,6 @@
                   "ctxt": 0
                 },
                 "value": "DOMSFC",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -5552,7 +5384,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -5588,7 +5419,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -5629,7 +5459,6 @@
                     "ctxt": 0
                   },
                   "value": "tree",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -5648,7 +5477,6 @@
                     "ctxt": 0
                   },
                   "value": "tree",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -5668,7 +5496,6 @@
                   "ctxt": 0
                 },
                 "value": "DOMSFC",
-                "typeAnnotation": null,
                 "optional": false
               }
             }

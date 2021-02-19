@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "Mixin",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -51,7 +50,6 @@
                 "ctxt": 0
               },
               "value": "mixinMethod",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -89,7 +87,6 @@
           "ctxt": 0
         },
         "value": "Mixin",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -110,6 +107,7 @@
               "ctxt": 0
             },
             "value": "baseClass",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -132,13 +130,11 @@
                     "ctxt": 0
                   },
                   "value": "TBaseClass",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -166,7 +162,6 @@
                 "ctxt": 0
               },
               "value": "MixinClass",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -192,7 +187,6 @@
                     "ctxt": 0
                   },
                   "value": "mixinMethod",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "function": {
@@ -232,7 +226,6 @@
                 "ctxt": 0
               },
               "value": "baseClass",
-              "typeAnnotation": null,
               "optional": false
             },
             "isAbstract": true,
@@ -254,7 +247,6 @@
                     "ctxt": 0
                   },
                   "value": "Mixin",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -276,7 +268,6 @@
                 "ctxt": 0
               },
               "value": "MixinClass",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -307,7 +298,6 @@
                 "ctxt": 0
               },
               "value": "TBaseClass",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -338,8 +328,8 @@
                       "ctxt": 0
                     },
                     "value": "args",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
@@ -414,7 +404,6 @@
                   "ctxt": 0
                 },
                 "value": "TBaseClass",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -454,8 +443,8 @@
                         "ctxt": 0
                       },
                       "value": "args",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
@@ -499,7 +488,6 @@
                         "ctxt": 0
                       },
                       "value": "Mixin",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -522,7 +510,6 @@
           "ctxt": 0
         },
         "value": "ConcreteBase",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -548,7 +535,6 @@
               "ctxt": 0
             },
             "value": "baseMethod",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -596,7 +582,6 @@
           "ctxt": 0
         },
         "value": "AbstractBase",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -622,7 +607,6 @@
               "ctxt": 0
             },
             "value": "abstractBaseMethod",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -678,7 +662,6 @@
           "ctxt": 0
         },
         "value": "DerivedFromConcrete",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -704,7 +687,6 @@
             "ctxt": 0
           },
           "value": "Mixin",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -718,7 +700,6 @@
                 "ctxt": 0
               },
               "value": "ConcreteBase",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -755,8 +736,8 @@
               "ctxt": 0
             },
             "value": "wasConcrete",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -773,7 +754,6 @@
                 "ctxt": 0
               },
               "value": "DerivedFromConcrete",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -812,7 +792,6 @@
               "ctxt": 0
             },
             "value": "wasConcrete",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -823,7 +802,6 @@
               "ctxt": 0
             },
             "value": "baseMethod",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -861,7 +839,6 @@
               "ctxt": 0
             },
             "value": "wasConcrete",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -872,7 +849,6 @@
               "ctxt": 0
             },
             "value": "mixinMethod",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -891,7 +867,6 @@
           "ctxt": 0
         },
         "value": "DerivedFromAbstract",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -917,7 +892,6 @@
               "ctxt": 0
             },
             "value": "abstractBaseMethod",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -964,7 +938,6 @@
             "ctxt": 0
           },
           "value": "Mixin",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -978,7 +951,6 @@
                 "ctxt": 0
               },
               "value": "AbstractBase",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -1015,8 +987,8 @@
               "ctxt": 0
             },
             "value": "wasAbstract",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -1033,7 +1005,6 @@
                 "ctxt": 0
               },
               "value": "DerivedFromAbstract",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -1072,7 +1043,6 @@
               "ctxt": 0
             },
             "value": "wasAbstract",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1083,7 +1053,6 @@
               "ctxt": 0
             },
             "value": "abstractBaseMethod",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1121,7 +1090,6 @@
               "ctxt": 0
             },
             "value": "wasAbstract",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1132,7 +1100,6 @@
               "ctxt": 0
             },
             "value": "mixinMethod",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

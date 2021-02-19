@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "foo1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -105,7 +104,6 @@
               "ctxt": 0
             },
             "value": "foo1",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -116,7 +114,6 @@
               "ctxt": 0
             },
             "value": "toFixed",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -147,7 +144,6 @@
           "ctxt": 0
         },
         "value": "foo2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -244,7 +240,6 @@
               "ctxt": 0
             },
             "value": "foo2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -255,7 +250,6 @@
               "ctxt": 0
             },
             "value": "join",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -286,7 +280,6 @@
           "ctxt": 0
         },
         "value": "foo3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -380,7 +373,6 @@
               "ctxt": 0
             },
             "value": "foo3",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -391,7 +383,6 @@
               "ctxt": 0
             },
             "value": "trim",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -422,7 +413,6 @@
           "ctxt": 0
         },
         "value": "foo4",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -466,7 +456,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -525,7 +514,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false,
@@ -586,7 +574,6 @@
               "ctxt": 0
             },
             "value": "foo4",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -597,7 +584,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

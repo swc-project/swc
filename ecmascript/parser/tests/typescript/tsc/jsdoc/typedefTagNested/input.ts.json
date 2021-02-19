@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "ex",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -64,8 +64,8 @@
               "ctxt": 0
             },
             "value": "app",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -85,7 +85,6 @@
                     "ctxt": 0
                   },
                   "value": "name",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -113,7 +112,6 @@
                     "ctxt": 0
                   },
                   "value": "icons",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -134,7 +132,6 @@
                           "ctxt": 0
                         },
                         "value": "image32",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -162,7 +159,6 @@
                           "ctxt": 0
                         },
                         "value": "image64",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -214,8 +210,8 @@
               "ctxt": 0
             },
             "value": "intercessor",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -255,8 +251,8 @@
               "ctxt": 0
             },
             "value": "mistake",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -288,8 +284,8 @@
               "ctxt": 0
             },
             "value": "sala",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -309,7 +305,6 @@
                     "ctxt": 0
                   },
                   "value": "name",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -337,7 +332,6 @@
                     "ctxt": 0
                   },
                   "value": "not",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -360,7 +354,6 @@
                     "ctxt": 0
                   },
                   "value": "nested",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -406,7 +399,6 @@
             "ctxt": 0
           },
           "value": "sala",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -417,7 +409,6 @@
             "ctxt": 0
           },
           "value": "name",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -445,7 +436,6 @@
             "ctxt": 0
           },
           "value": "sala",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -456,7 +446,6 @@
             "ctxt": 0
           },
           "value": "not",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -484,7 +473,6 @@
             "ctxt": 0
           },
           "value": "sala",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -495,7 +483,6 @@
             "ctxt": 0
           },
           "value": "nested",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false

@@ -71,7 +71,7 @@ macro_rules! impl_for_for_stmt {
                     let left = VarDeclOrPat::VarDecl(VarDecl {
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(ref_ident.clone()),
+                            name: Pat::Ident(ref_ident.clone().into()),
                             init: None,
                             definite: false,
                         }],
@@ -104,7 +104,7 @@ macro_rules! impl_for_for_stmt {
                     }
                     _ => {
                         let left_ident = make_ref_ident_for_for_stmt();
-                        let left = VarDeclOrPat::Pat(Pat::Ident(left_ident.clone()));
+                        let left = VarDeclOrPat::Pat(Pat::Ident(left_ident.clone().into()));
                         // Unpack variables
                         let stmt = AssignExpr {
                             span: DUMMY_SP,
@@ -266,7 +266,7 @@ impl AssignFolder {
                 if aliased {
                     decls.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(ident.clone()),
+                        name: Pat::Ident(ident.clone().into()),
                         init: decl.init,
                         definite: false,
                     });
@@ -283,7 +283,7 @@ impl AssignFolder {
                 //
                 decls.push(VarDeclarator {
                     span,
-                    name: Pat::Ident(ident.clone()),
+                    name: Pat::Ident(ident.clone().into()),
                     init: Some(Box::new(Expr::Cond(CondExpr {
                         span: DUMMY_SP,
                         test: Box::new(Expr::Bin(BinExpr {
@@ -377,7 +377,7 @@ impl AssignFolder {
 
                                     let var_decl = VarDeclarator {
                                         span: prop_span,
-                                        name: Pat::Ident(key.clone()),
+                                        name: Pat::Ident(key.clone().into()),
                                         init: Some(Box::new(make_cond_expr(ref_ident, value))),
                                         definite: false,
                                     };
@@ -386,7 +386,7 @@ impl AssignFolder {
                                 None => {
                                     let var_decl = VarDeclarator {
                                         span: prop_span,
-                                        name: Pat::Ident(key.clone()),
+                                        name: Pat::Ident(key.clone().into()),
                                         init: Some(Box::new(make_ref_prop_expr(
                                             &ref_ident,
                                             Box::new(key.clone().into()),
@@ -431,7 +431,7 @@ impl AssignFolder {
                     let tmp_ident = private_ident!(span, "tmp");
                     decls.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(tmp_ident.clone()),
+                        name: Pat::Ident(tmp_ident.clone().into()),
                         init,
                         definite: false,
                     });
@@ -486,7 +486,7 @@ impl Destructuring {
                     params.push(Param {
                         span: DUMMY_SP,
                         decorators: Default::default(),
-                        pat: Pat::Ident(ref_ident.clone()),
+                        pat: Pat::Ident(ref_ident.clone().into()),
                     });
                     decls.push(VarDeclarator {
                         span,
@@ -635,7 +635,7 @@ impl Fold for AssignFolder {
                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             op: op!("="),
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone()))),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone().into()))),
                             right,
                         })));
 
@@ -656,7 +656,7 @@ impl Fold for AssignFolder {
                                     exprs.push(Box::new(Expr::Assign(AssignExpr {
                                         span: DUMMY_SP,
                                         left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                            assign_ref_ident.clone(),
+                                            assign_ref_ident.clone().into(),
                                         ))),
                                         op: op!("="),
                                         right: Box::new(
@@ -721,7 +721,7 @@ impl Fold for AssignFolder {
 
                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                             span,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone()))),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone().into()))),
                             op: op!("="),
                             right,
                         })));
@@ -757,7 +757,7 @@ impl Fold for AssignFolder {
                                             exprs.push(Box::new(Expr::Assign(AssignExpr {
                                                 span,
                                                 left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                                    prop_ident.clone(),
+                                                    prop_ident.clone().into(),
                                                 ))),
                                                 op: op!("="),
                                                 right: Box::new(make_ref_prop_expr(
@@ -770,7 +770,7 @@ impl Fold for AssignFolder {
                                             exprs.push(Box::new(Expr::Assign(AssignExpr {
                                                 span,
                                                 left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                                    key.clone(),
+                                                    key.clone().into(),
                                                 ))),
                                                 op: op!("="),
                                                 right: Box::new(make_cond_expr(prop_ident, value)),
@@ -780,7 +780,7 @@ impl Fold for AssignFolder {
                                             exprs.push(Box::new(Expr::Assign(AssignExpr {
                                                 span,
                                                 left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                                    key.clone(),
+                                                    key.clone().into(),
                                                 ))),
                                                 op: op!("="),
                                                 right: Box::new(make_ref_prop_expr(
@@ -960,7 +960,7 @@ fn make_ref_ident_for_array(
     if aliased {
         decls.push(VarDeclarator {
             span,
-            name: Pat::Ident(ref_ident.clone()),
+            name: Pat::Ident(ref_ident.clone().into()),
             init: init.map(|v| {
                 if c.loose
                     || match *v {

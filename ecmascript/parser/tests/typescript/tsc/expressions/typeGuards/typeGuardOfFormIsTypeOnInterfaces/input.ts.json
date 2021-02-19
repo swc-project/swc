@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "C1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -65,7 +64,6 @@
                     "ctxt": 0
                   },
                   "value": "C1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -89,7 +87,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -118,7 +115,6 @@
                     "ctxt": 0
                   },
                   "value": "C1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -142,7 +138,6 @@
                 "ctxt": 0
               },
               "value": "p1",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -186,7 +181,6 @@
           "ctxt": 0
         },
         "value": "C2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -230,7 +224,6 @@
                     "ctxt": 0
                   },
                   "value": "C2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -254,7 +247,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -283,7 +275,6 @@
                     "ctxt": 0
                   },
                   "value": "C2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -307,7 +298,6 @@
                 "ctxt": 0
               },
               "value": "p2",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -351,7 +341,6 @@
           "ctxt": 0
         },
         "value": "D1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -372,7 +361,6 @@
               "ctxt": 0
             },
             "value": "C1",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": null
@@ -402,7 +390,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -431,7 +418,6 @@
                     "ctxt": 0
                   },
                   "value": "D1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -455,7 +441,6 @@
                 "ctxt": 0
               },
               "value": "p3",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -509,6 +494,7 @@
               "ctxt": 0
             },
             "value": "str",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -525,8 +511,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -558,6 +543,7 @@
               "ctxt": 0
             },
             "value": "num",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -574,8 +560,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -607,6 +592,7 @@
               "ctxt": 0
             },
             "value": "strOrNum",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -642,8 +628,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -660,7 +645,6 @@
           "ctxt": 0
         },
         "value": "isC1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -681,6 +665,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -697,8 +682,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -761,7 +745,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -786,7 +769,6 @@
                   "ctxt": 0
                 },
                 "value": "C1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -805,7 +787,6 @@
           "ctxt": 0
         },
         "value": "isC2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -826,6 +807,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -842,8 +824,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -906,7 +887,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -931,7 +911,6 @@
                   "ctxt": 0
                 },
                 "value": "C2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -950,7 +929,6 @@
           "ctxt": 0
         },
         "value": "isD1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -971,6 +949,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -987,8 +966,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -1051,7 +1029,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -1076,7 +1053,6 @@
                   "ctxt": 0
                 },
                 "value": "D1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -1110,6 +1086,7 @@
               "ctxt": 0
             },
             "value": "c1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1132,13 +1109,11 @@
                     "ctxt": 0
                   },
                   "value": "C1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -1170,6 +1145,7 @@
               "ctxt": 0
             },
             "value": "c2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1192,13 +1168,11 @@
                     "ctxt": 0
                   },
                   "value": "C2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -1230,6 +1204,7 @@
               "ctxt": 0
             },
             "value": "d1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1252,13 +1227,11 @@
                     "ctxt": 0
                   },
                   "value": "D1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -1290,6 +1263,7 @@
               "ctxt": 0
             },
             "value": "c1Orc2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1320,7 +1294,6 @@
                         "ctxt": 0
                       },
                       "value": "C1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -1340,15 +1313,13 @@
                         "ctxt": 0
                       },
                       "value": "C2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -1378,8 +1349,8 @@
             "ctxt": 0
           },
           "value": "str",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "BinaryExpression",
@@ -1404,7 +1375,6 @@
                 "ctxt": 0
               },
               "value": "isC1",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -1418,7 +1388,6 @@
                     "ctxt": 0
                   },
                   "value": "c1Orc2",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -1440,7 +1409,6 @@
                 "ctxt": 0
               },
               "value": "c1Orc2",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1451,7 +1419,6 @@
                 "ctxt": 0
               },
               "value": "p1",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1482,8 +1449,8 @@
             "ctxt": 0
           },
           "value": "num",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "BinaryExpression",
@@ -1508,7 +1475,6 @@
                 "ctxt": 0
               },
               "value": "isC2",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -1522,7 +1488,6 @@
                     "ctxt": 0
                   },
                   "value": "c1Orc2",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -1544,7 +1509,6 @@
                 "ctxt": 0
               },
               "value": "c1Orc2",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1555,7 +1519,6 @@
                 "ctxt": 0
               },
               "value": "p2",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1586,8 +1549,8 @@
             "ctxt": 0
           },
           "value": "str",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "BinaryExpression",
@@ -1612,7 +1575,6 @@
                 "ctxt": 0
               },
               "value": "isD1",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -1626,7 +1588,6 @@
                     "ctxt": 0
                   },
                   "value": "c1Orc2",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -1648,7 +1609,6 @@
                 "ctxt": 0
               },
               "value": "c1Orc2",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1659,7 +1619,6 @@
                 "ctxt": 0
               },
               "value": "p1",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1690,8 +1649,8 @@
             "ctxt": 0
           },
           "value": "num",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "BinaryExpression",
@@ -1716,7 +1675,6 @@
                 "ctxt": 0
               },
               "value": "isD1",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -1730,7 +1688,6 @@
                     "ctxt": 0
                   },
                   "value": "c1Orc2",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -1752,7 +1709,6 @@
                 "ctxt": 0
               },
               "value": "c1Orc2",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1763,7 +1719,6 @@
                 "ctxt": 0
               },
               "value": "p3",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1796,6 +1751,7 @@
               "ctxt": 0
             },
             "value": "c2Ord1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1826,7 +1782,6 @@
                         "ctxt": 0
                       },
                       "value": "C2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -1846,15 +1801,13 @@
                         "ctxt": 0
                       },
                       "value": "D1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -1884,8 +1837,8 @@
             "ctxt": 0
           },
           "value": "num",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "BinaryExpression",
@@ -1910,7 +1863,6 @@
                 "ctxt": 0
               },
               "value": "isC2",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -1924,7 +1876,6 @@
                     "ctxt": 0
                   },
                   "value": "c2Ord1",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -1946,7 +1897,6 @@
                 "ctxt": 0
               },
               "value": "c2Ord1",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1957,7 +1907,6 @@
                 "ctxt": 0
               },
               "value": "p2",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1988,8 +1937,8 @@
             "ctxt": 0
           },
           "value": "num",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "BinaryExpression",
@@ -2014,7 +1963,6 @@
                 "ctxt": 0
               },
               "value": "isD1",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -2028,7 +1976,6 @@
                     "ctxt": 0
                   },
                   "value": "c2Ord1",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -2050,7 +1997,6 @@
                 "ctxt": 0
               },
               "value": "c2Ord1",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -2061,7 +2007,6 @@
                 "ctxt": 0
               },
               "value": "p3",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -2092,8 +2037,8 @@
             "ctxt": 0
           },
           "value": "str",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "BinaryExpression",
@@ -2118,7 +2063,6 @@
                 "ctxt": 0
               },
               "value": "isD1",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -2132,7 +2076,6 @@
                     "ctxt": 0
                   },
                   "value": "c2Ord1",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -2154,7 +2097,6 @@
                 "ctxt": 0
               },
               "value": "c2Ord1",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -2165,7 +2107,6 @@
                 "ctxt": 0
               },
               "value": "p1",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -2198,6 +2139,7 @@
               "ctxt": 0
             },
             "value": "r2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2228,7 +2170,6 @@
                         "ctxt": 0
                       },
                       "value": "C2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -2248,15 +2189,13 @@
                         "ctxt": 0
                       },
                       "value": "D1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "BinaryExpression",
@@ -2281,7 +2220,6 @@
                   "ctxt": 0
                 },
                 "value": "isC1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -2295,7 +2233,6 @@
                       "ctxt": 0
                     },
                     "value": "c2Ord1",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -2310,7 +2247,6 @@
                 "ctxt": 0
               },
               "value": "c2Ord1",
-              "typeAnnotation": null,
               "optional": false
             }
           },

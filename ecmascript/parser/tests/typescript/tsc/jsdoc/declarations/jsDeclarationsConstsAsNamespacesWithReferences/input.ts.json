@@ -38,8 +38,8 @@
                 "ctxt": 0
               },
               "value": "colors",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "ObjectExpression",
@@ -59,7 +59,6 @@
                       "ctxt": 0
                     },
                     "value": "royalBlue",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -116,8 +115,8 @@
                 "ctxt": 0
               },
               "value": "brandColors",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "ObjectExpression",
@@ -137,7 +136,6 @@
                       "ctxt": 0
                     },
                     "value": "purple",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -155,7 +153,6 @@
                         "ctxt": 0
                       },
                       "value": "colors",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -166,7 +163,6 @@
                         "ctxt": 0
                       },
                       "value": "royalBlue",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false

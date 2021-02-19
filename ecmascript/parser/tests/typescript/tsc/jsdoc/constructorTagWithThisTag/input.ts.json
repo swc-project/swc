@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -73,7 +72,6 @@
                     "ctxt": 0
                   },
                   "value": "e",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -109,7 +107,6 @@
                       "ctxt": 0
                     },
                     "value": "m",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false

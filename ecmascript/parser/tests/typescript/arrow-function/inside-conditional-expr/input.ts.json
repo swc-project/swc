@@ -28,7 +28,6 @@
             "ctxt": 0
           },
           "value": "referrer",
-          "typeAnnotation": null,
           "optional": false
         },
         "consequent": {
@@ -65,8 +64,8 @@
                     "ctxt": 0
                   },
                   "value": "specifier",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               ],
               "optional": false,
@@ -81,7 +80,6 @@
               "ctxt": 0
             },
             "value": "specifier",
-            "typeAnnotation": null,
             "optional": false
           },
           "async": false,

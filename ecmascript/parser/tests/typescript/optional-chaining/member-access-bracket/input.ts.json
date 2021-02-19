@@ -40,7 +40,6 @@
               "ctxt": 0
             },
             "value": "obj",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -51,7 +50,6 @@
               "ctxt": 0
             },
             "value": "expr",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": true
@@ -111,7 +109,6 @@
                   "ctxt": 0
                 },
                 "value": "obj",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -122,7 +119,6 @@
                   "ctxt": 0
                 },
                 "value": "expr",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": true
@@ -136,7 +132,6 @@
               "ctxt": 0
             },
             "value": "other",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": true
@@ -177,7 +172,6 @@
               "ctxt": 0
             },
             "value": "obj",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -246,7 +240,6 @@
                   "ctxt": 0
                 },
                 "value": "obj",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -315,7 +308,6 @@
                 "ctxt": 0
               },
               "value": "obj",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -326,7 +318,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -339,7 +330,6 @@
               "ctxt": 0
             },
             "value": "expr",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": true
@@ -387,7 +377,6 @@
                 "ctxt": 0
               },
               "value": "obj",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -398,7 +387,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false

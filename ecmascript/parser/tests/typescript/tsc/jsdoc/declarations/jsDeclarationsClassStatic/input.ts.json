@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Handler",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "OPTIONS",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -106,7 +104,6 @@
               "ctxt": 0
             },
             "value": "process",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -174,7 +171,6 @@
               "ctxt": 0
             },
             "value": "Handler",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -185,7 +181,6 @@
               "ctxt": 0
             },
             "value": "statische",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -241,8 +236,8 @@
               "ctxt": 0
             },
             "value": "Strings",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -262,7 +257,6 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -290,7 +284,6 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -344,7 +337,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -355,7 +347,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -368,7 +359,6 @@
             "ctxt": 0
           },
           "value": "Handler",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -410,7 +400,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -421,7 +410,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -434,7 +422,6 @@
               "ctxt": 0
             },
             "value": "Strings",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -447,7 +434,6 @@
             "ctxt": 0
           },
           "value": "Strings",
-          "typeAnnotation": null,
           "optional": false
         }
       }

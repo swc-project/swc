@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "React",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -74,8 +73,8 @@
               "ctxt": 0
             },
             "value": "Tag",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -93,6 +92,7 @@
                   "ctxt": 0
                 },
                 "value": "x",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -109,8 +109,7 @@
                     },
                     "members": []
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "body": {
@@ -130,7 +129,6 @@
                     "ctxt": 0
                   },
                   "value": "div",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "span": {
@@ -158,7 +156,6 @@
                     "ctxt": 0
                   },
                   "value": "div",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -197,8 +194,8 @@
               "ctxt": 0
             },
             "value": "k1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -217,7 +214,6 @@
                   "ctxt": 0
                 },
                 "value": "Tag",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -261,8 +257,8 @@
               "ctxt": 0
             },
             "value": "k2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -281,7 +277,6 @@
                   "ctxt": 0
                 },
                 "value": "Tag",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -309,7 +304,6 @@
                   "ctxt": 0
                 },
                 "value": "Tag",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -343,8 +337,8 @@
               "ctxt": 0
             },
             "value": "k3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -363,7 +357,6 @@
                   "ctxt": 0
                 },
                 "value": "Tag",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -387,7 +380,6 @@
                       "ctxt": 0
                     },
                     "value": "children",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -414,7 +406,6 @@
                             "ctxt": 0
                           },
                           "value": "div",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "span": {
@@ -442,7 +433,6 @@
                             "ctxt": 0
                           },
                           "value": "div",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       }
@@ -485,8 +475,8 @@
               "ctxt": 0
             },
             "value": "k4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -505,7 +495,6 @@
                   "ctxt": 0
                 },
                 "value": "Tag",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -529,7 +518,6 @@
                       "ctxt": 0
                     },
                     "value": "key",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -569,7 +557,6 @@
                       "ctxt": 0
                     },
                     "value": "div",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "span": {
@@ -597,7 +584,6 @@
                       "ctxt": 0
                     },
                     "value": "div",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -618,7 +604,6 @@
                   "ctxt": 0
                 },
                 "value": "Tag",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -652,8 +637,8 @@
               "ctxt": 0
             },
             "value": "k5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -672,7 +657,6 @@
                   "ctxt": 0
                 },
                 "value": "Tag",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -696,7 +680,6 @@
                       "ctxt": 0
                     },
                     "value": "key",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -736,7 +719,6 @@
                       "ctxt": 0
                     },
                     "value": "div",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "span": {
@@ -764,7 +746,6 @@
                       "ctxt": 0
                     },
                     "value": "div",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -786,7 +767,6 @@
                       "ctxt": 0
                     },
                     "value": "div",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "span": {
@@ -814,7 +794,6 @@
                       "ctxt": 0
                     },
                     "value": "div",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -835,7 +814,6 @@
                   "ctxt": 0
                 },
                 "value": "Tag",
-                "typeAnnotation": null,
                 "optional": false
               }
             }

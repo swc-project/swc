@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -82,7 +80,6 @@
           "ctxt": 0
         },
         "value": "Derived",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -108,7 +105,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -172,7 +168,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -193,8 +188,8 @@
                     "ctxt": 0
                   },
                   "value": "value",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -241,7 +236,6 @@
                           "ctxt": 0
                         },
                         "value": "console",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -252,7 +246,6 @@
                           "ctxt": 0
                         },
                         "value": "log",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -276,7 +269,6 @@
                                 "ctxt": 0
                               },
                               "value": "value",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           ],
@@ -384,7 +376,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -417,8 +408,8 @@
               "ctxt": 0
             },
             "value": "obj",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -435,7 +426,6 @@
                 "ctxt": 0
               },
               "value": "Derived",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -474,7 +464,6 @@
               "ctxt": 0
             },
             "value": "console",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -485,7 +474,6 @@
               "ctxt": 0
             },
             "value": "log",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -508,7 +496,6 @@
                   "ctxt": 0
                 },
                 "value": "obj",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -519,7 +506,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false

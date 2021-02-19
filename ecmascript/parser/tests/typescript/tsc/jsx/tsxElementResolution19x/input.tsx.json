@@ -56,7 +56,6 @@
           "ctxt": 0
         },
         "value": "JSX",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -82,7 +81,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -118,7 +116,6 @@
             "ctxt": 0
           },
           "value": "MyClass",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -159,7 +156,6 @@
               "ctxt": 0
             },
             "value": "React",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -204,7 +200,6 @@
               "ctxt": 0
             },
             "value": "MyClass",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -251,7 +246,6 @@
               "ctxt": 0
             },
             "value": "MyClass",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {

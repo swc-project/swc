@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "N",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -53,7 +52,6 @@
           "ctxt": 0
         },
         "value": "M",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -73,7 +71,6 @@
             "ctxt": 0
           },
           "value": "N",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -93,7 +90,6 @@
               "ctxt": 0
             },
             "value": "O",
-            "typeAnnotation": null,
             "optional": false
           },
           "body": {
@@ -125,7 +121,6 @@
           "ctxt": 0
         },
         "value": "M",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {

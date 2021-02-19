@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "await",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,

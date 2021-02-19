@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "K",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "priv",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -72,7 +70,6 @@
               "ctxt": 0
             },
             "value": "prot",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -102,7 +99,6 @@
               "ctxt": 0
             },
             "value": "privateMethod",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -148,7 +144,6 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -202,7 +197,6 @@
                                 "ctxt": 0
                               },
                               "value": "priv",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -213,8 +207,8 @@
                                 "ctxt": 0
                               },
                               "value": "a",
-                              "typeAnnotation": null,
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             }
                           },
                           {
@@ -227,7 +221,6 @@
                                 "ctxt": 0
                               },
                               "value": "prot",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -238,8 +231,8 @@
                                 "ctxt": 0
                               },
                               "value": "b",
-                              "typeAnnotation": null,
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             }
                           }
                         ],
@@ -298,7 +291,6 @@
                                 "ctxt": 0
                               },
                               "value": "priv",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": null
@@ -318,7 +310,6 @@
                                 "ctxt": 0
                               },
                               "value": "prot",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": null
@@ -342,7 +333,6 @@
                             "ctxt": 0
                           },
                           "value": "K",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "arguments": [],
@@ -382,7 +372,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -408,7 +397,6 @@
               "ctxt": 0
             },
             "value": "m2",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -462,7 +450,6 @@
                                 "ctxt": 0
                               },
                               "value": "priv",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -473,8 +460,8 @@
                                 "ctxt": 0
                               },
                               "value": "a",
-                              "typeAnnotation": null,
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             }
                           }
                         ],
@@ -528,7 +515,6 @@
                                 "ctxt": 0
                               },
                               "value": "prot",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -539,8 +525,8 @@
                                 "ctxt": 0
                               },
                               "value": "b",
-                              "typeAnnotation": null,
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             }
                           }
                         ],
@@ -581,7 +567,6 @@
           "ctxt": 0
         },
         "value": "K",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -614,8 +599,8 @@
               "ctxt": 0
             },
             "value": "k",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -632,7 +617,6 @@
                 "ctxt": 0
               },
               "value": "K",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -682,7 +666,6 @@
                     "ctxt": 0
                   },
                   "value": "priv",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -699,7 +682,6 @@
               "ctxt": 0
             },
             "value": "k",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false
@@ -746,7 +728,6 @@
                     "ctxt": 0
                   },
                   "value": "prot",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -763,7 +744,6 @@
               "ctxt": 0
             },
             "value": "k",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false
@@ -810,7 +790,6 @@
                     "ctxt": 0
                   },
                   "value": "privateMethod",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -827,7 +806,6 @@
               "ctxt": 0
             },
             "value": "k",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false
@@ -869,7 +847,6 @@
                     "ctxt": 0
                   },
                   "value": "priv",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -880,8 +857,8 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               },
               {
@@ -894,7 +871,6 @@
                     "ctxt": 0
                   },
                   "value": "prot",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -905,8 +881,8 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               },
               {
@@ -919,7 +895,6 @@
                     "ctxt": 0
                   },
                   "value": "privateMethod",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -930,8 +905,8 @@
                     "ctxt": 0
                   },
                   "value": "pm",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -946,7 +921,6 @@
               "ctxt": 0
             },
             "value": "k",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false
@@ -963,7 +937,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -999,7 +972,6 @@
                     "ctxt": 0
                   },
                   "value": "priv",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -1019,7 +991,6 @@
                     "ctxt": 0
                   },
                   "value": "prot",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -1039,7 +1010,6 @@
                     "ctxt": 0
                   },
                   "value": "privateMethod",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -1068,7 +1038,6 @@
                     "ctxt": 0
                   },
                   "value": "K",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null

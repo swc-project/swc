@@ -104,7 +104,7 @@ impl Fold for Legacy {
                     declare: false,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(c.ident),
+                        name: Pat::Ident(c.ident.into()),
                         init: Some(expr),
                         definite: false,
                     }],
@@ -193,7 +193,7 @@ impl Fold for Legacy {
                     declare: false,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(export_ident),
+                        name: Pat::Ident(export_ident.into()),
                         init: Some(expr),
                         definite: false,
                     }],
@@ -285,7 +285,7 @@ impl Legacy {
 
         self.uninitialized_vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(cls_ident.clone()),
+            name: Pat::Ident(cls_ident.clone().into()),
             init: None,
             definite: false,
         });
@@ -325,7 +325,7 @@ impl Legacy {
                     if aliased {
                         self.uninitialized_vars.push(VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(i.clone()),
+                            name: Pat::Ident(i.clone().into()),
                             init: None,
                             definite: false,
                         });
@@ -354,7 +354,7 @@ impl Legacy {
                         dec_inits.push(Box::new(Expr::Assign(AssignExpr {
                             span: dec.span,
                             op: op!("="),
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone()))),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone().into()))),
                             right,
                         })));
                     }
@@ -368,7 +368,7 @@ impl Legacy {
                         if aliased {
                             self.initialized_vars.push(VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(name.clone()),
+                                name: Pat::Ident(name.clone().into()),
                                 init: Some(e.expr.clone()),
                                 definite: Default::default(),
                             })
@@ -466,7 +466,7 @@ impl Legacy {
                 if !p.is_static {
                     self.uninitialized_vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(descriptor.clone()),
+                        name: Pat::Ident(descriptor.clone().into()),
                         init: None,
                         definite: false,
                     });
@@ -480,7 +480,7 @@ impl Legacy {
                     if aliased {
                         self.initialized_vars.push(VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(i.clone()),
+                            name: Pat::Ident(i.clone().into()),
                             init: Some(dec.expr),
                             definite: false,
                         });
@@ -505,7 +505,7 @@ impl Legacy {
                 if p.is_static {
                     self.uninitialized_vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(init.clone()),
+                        name: Pat::Ident(init.clone().into()),
                         init: None,
                         definite: false,
                     });
@@ -584,7 +584,7 @@ impl Legacy {
                         exprs: vec![
                             Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(init.clone()))),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(init.clone().into()))),
                                 op: op!("="),
                                 // Object.getOwnPropertyDescriptor(_class, "enumconfwrite")
                                 right: Box::new(Expr::Call(CallExpr {
@@ -598,7 +598,7 @@ impl Legacy {
                             // _init = _init ? _init.value : void 0
                             Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(init.clone()))),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(init.clone().into()))),
                                 op: op!("="),
                                 right: Box::new(Expr::Cond(CondExpr {
                                     span: DUMMY_SP,
@@ -656,7 +656,7 @@ impl Legacy {
                     extra_exprs.push(Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(descriptor.clone()))),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(descriptor.clone().into()))),
                         right: call_expr,
                     })));
                 } else {
@@ -747,7 +747,7 @@ impl Legacy {
         let cls_assign = Box::new(Expr::Assign(AssignExpr {
             span: DUMMY_SP,
             op: op!("="),
-            left: PatOrExpr::Pat(Box::new(Pat::Ident(cls_ident.clone()))),
+            left: PatOrExpr::Pat(Box::new(Pat::Ident(cls_ident.clone().into()))),
             right: Box::new(Expr::Class(ClassExpr {
                 ident: c.ident.clone(),
                 class: Class {
@@ -796,7 +796,7 @@ impl Legacy {
             if aliased {
                 self.initialized_vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(i.clone()),
+                    name: Pat::Ident(i.clone().into()),
                     init: Some(dec.expr),
                     definite: false,
                 });
@@ -812,7 +812,7 @@ impl Legacy {
             // _class = dec(_class = funciton() {}) || _class
             let class_expr = Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(class_ident.clone()))),
+                left: PatOrExpr::Pat(Box::new(Pat::Ident(class_ident.clone().into()))),
                 op: op!("="),
                 right: Box::new(Expr::Bin(BinExpr {
                     span: DUMMY_SP,

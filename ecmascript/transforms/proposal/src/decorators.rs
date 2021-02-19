@@ -111,7 +111,7 @@ impl Fold for Decorators {
                     declare: false,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(ident),
+                        name: Pat::Ident(ident.into()),
                         definite: false,
                         init: Some(decorate_call),
                     }],
@@ -188,7 +188,7 @@ impl Fold for Decorators {
                         declare: false,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(ident.clone()),
+                            name: Pat::Ident(ident.clone().into()),
                             init: Some(decorate_call),
                             definite: false,
                         }],
@@ -295,7 +295,7 @@ impl Decorators {
                             pat: Pat::Rest(RestPat {
                                 span: DUMMY_SP,
                                 dot3_token: DUMMY_SP,
-                                arg: Box::new(Pat::Ident(quote_ident!("args"))),
+                                arg: Box::new(Pat::Ident(quote_ident!("args").into())),
                                 type_ann: Default::default(),
                             }),
                         })]
@@ -548,8 +548,8 @@ impl Decorators {
                     function: Function {
                         span: DUMMY_SP,
 
-                        params: iter::once(Pat::Ident(initialize))
-                            .chain(super_class_ident.map(Pat::Ident))
+                        params: iter::once(Pat::Ident(initialize.into()))
+                            .chain(super_class_ident.map(BindingIdent::from).map(Pat::Ident))
                             .map(|pat| Param {
                                 span: DUMMY_SP,
                                 decorators: vec![],

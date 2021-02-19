@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "S",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -97,7 +96,6 @@
           "ctxt": 0
         },
         "value": "T",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -131,7 +129,6 @@
                   "ctxt": 0
                 },
                 "value": "S",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -152,7 +149,6 @@
                 "ctxt": 0
               },
               "value": "S",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -185,6 +181,7 @@
               "ctxt": 0
             },
             "value": "s",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -207,13 +204,11 @@
                     "ctxt": 0
                   },
                   "value": "S",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -245,6 +240,7 @@
               "ctxt": 0
             },
             "value": "t",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -267,13 +263,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -305,6 +299,7 @@
               "ctxt": 0
             },
             "value": "str",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -321,8 +316,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -352,8 +346,8 @@
             "ctxt": 0
           },
           "value": "s",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "TsTypeAssertion",
@@ -370,7 +364,6 @@
               "ctxt": 0
             },
             "value": "t",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -388,7 +381,6 @@
                 "ctxt": 0
               },
               "value": "S",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -419,8 +411,8 @@
             "ctxt": 0
           },
           "value": "s",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "TsAsExpression",
@@ -437,7 +429,6 @@
               "ctxt": 0
             },
             "value": "t",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -455,7 +446,6 @@
                 "ctxt": 0
               },
               "value": "S",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -486,8 +476,8 @@
             "ctxt": 0
           },
           "value": "s",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "TsTypeAssertion",
@@ -504,7 +494,6 @@
               "ctxt": 0
             },
             "value": "str",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -522,7 +511,6 @@
                 "ctxt": 0
               },
               "value": "S",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -553,8 +541,8 @@
             "ctxt": 0
           },
           "value": "s",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "TsAsExpression",
@@ -571,7 +559,6 @@
               "ctxt": 0
             },
             "value": "str",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -589,7 +576,6 @@
                 "ctxt": 0
               },
               "value": "S",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -620,8 +606,8 @@
             "ctxt": 0
           },
           "value": "t",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "TsTypeAssertion",
@@ -638,7 +624,6 @@
               "ctxt": 0
             },
             "value": "s",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -656,7 +641,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -687,8 +671,8 @@
             "ctxt": 0
           },
           "value": "t",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "TsAsExpression",
@@ -705,7 +689,6 @@
               "ctxt": 0
             },
             "value": "s",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -723,7 +706,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -754,8 +736,8 @@
             "ctxt": 0
           },
           "value": "t",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "TsTypeAssertion",
@@ -772,7 +754,6 @@
               "ctxt": 0
             },
             "value": "str",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -790,7 +771,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -821,8 +801,8 @@
             "ctxt": 0
           },
           "value": "t",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "TsAsExpression",
@@ -839,7 +819,6 @@
               "ctxt": 0
             },
             "value": "str",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -857,7 +836,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -888,8 +866,8 @@
             "ctxt": 0
           },
           "value": "str",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "TsTypeAssertion",
@@ -906,7 +884,6 @@
               "ctxt": 0
             },
             "value": "s",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -944,8 +921,8 @@
             "ctxt": 0
           },
           "value": "str",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "TsAsExpression",
@@ -962,7 +939,6 @@
               "ctxt": 0
             },
             "value": "s",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -1000,8 +976,8 @@
             "ctxt": 0
           },
           "value": "str",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "TsTypeAssertion",
@@ -1018,7 +994,6 @@
               "ctxt": 0
             },
             "value": "t",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -1056,8 +1031,8 @@
             "ctxt": 0
           },
           "value": "str",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "TsAsExpression",
@@ -1074,7 +1049,6 @@
               "ctxt": 0
             },
             "value": "t",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {

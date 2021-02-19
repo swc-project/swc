@@ -83,7 +83,7 @@ impl Fold for NullishCoalescing {
                 if aliased {
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(l.clone()),
+                        name: Pat::Ident(l.clone().into()),
                         init: None,
                         definite: false,
                     });
@@ -93,7 +93,7 @@ impl Fold for NullishCoalescing {
                     Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(l.clone()))),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(l.clone().into()))),
                         right: left,
                     })
                 } else {
@@ -110,7 +110,7 @@ impl Fold for NullishCoalescing {
                         if aliased {
                             self.vars.push(VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(alias.clone()),
+                                name: Pat::Ident(alias.clone().into()),
                                 init: None,
                                 definite: false,
                             });
@@ -120,7 +120,7 @@ impl Fold for NullishCoalescing {
                             Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(alias.clone()))),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(alias.clone().into()))),
                                 right: left.take(),
                             })
                         } else {
@@ -130,7 +130,7 @@ impl Fold for NullishCoalescing {
                         return Expr::Assign(AssignExpr {
                             span: assign.span,
                             op: op!("="),
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(alias.clone()))),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(alias.clone().into()))),
                             right: Box::new(make_cond(
                                 assign.span,
                                 &alias,
@@ -147,8 +147,8 @@ impl Fold for NullishCoalescing {
                                 left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone()))),
                                 right: Box::new(make_cond(
                                     assign.span,
-                                    &i,
-                                    Expr::Ident(i.clone()),
+                                    &i.id,
+                                    Expr::Ident(i.id.clone()),
                                     assign.right.take(),
                                 )),
                             });

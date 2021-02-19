@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "JSX",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -85,7 +83,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -105,7 +102,6 @@
             "ctxt": 0
           },
           "value": "B",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -125,7 +121,6 @@
               "ctxt": 0
             },
             "value": "C",
-            "typeAnnotation": null,
             "optional": false
           },
           "body": {
@@ -161,6 +156,7 @@
                         "ctxt": 0
                       },
                       "value": "D",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -177,8 +173,7 @@
                           },
                           "kind": "any"
                         }
-                      },
-                      "optional": false
+                      }
                     },
                     "init": null,
                     "definite": false
@@ -220,7 +215,6 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -231,7 +225,6 @@
                     "ctxt": 0
                   },
                   "value": "B",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -243,7 +236,6 @@
                   "ctxt": 0
                 },
                 "value": "C",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -255,7 +247,6 @@
                 "ctxt": 0
               },
               "value": "D",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -301,7 +292,6 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -312,7 +302,6 @@
                     "ctxt": 0
                   },
                   "value": "B",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -324,7 +313,6 @@
                   "ctxt": 0
                 },
                 "value": "C",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -336,7 +324,6 @@
                 "ctxt": 0
               },
               "value": "D",
-              "typeAnnotation": null,
               "optional": false
             }
           }

@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "MyClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -56,7 +55,6 @@
                   "ctxt": 0
                 },
                 "value": "Bar",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -86,7 +84,6 @@
                         "ctxt": 0
                       },
                       "value": "doer",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -116,6 +113,7 @@
                               "ctxt": 0
                             },
                             "value": "x",
+                            "optional": false,
                             "typeAnnotation": {
                               "type": "TsTypeAnnotation",
                               "span": {
@@ -132,8 +130,7 @@
                                 },
                                 "kind": "string"
                               }
-                            },
-                            "optional": false
+                            }
                           }
                         ],
                         "typeParams": null,
@@ -175,7 +172,6 @@
           "ctxt": 0
         },
         "value": "MyClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -201,7 +197,6 @@
               "ctxt": 0
             },
             "value": "field",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -247,7 +242,6 @@
               "ctxt": 0
             },
             "value": "Bar",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -274,6 +268,7 @@
                     "ctxt": 0
                   },
                   "value": "x",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -290,8 +285,7 @@
                       },
                       "kind": "string"
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 {
                   "type": "Identifier",
@@ -301,6 +295,7 @@
                     "ctxt": 0
                   },
                   "value": "y",
+                  "optional": true,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -317,8 +312,7 @@
                       },
                       "kind": "number"
                     }
-                  },
-                  "optional": true
+                  }
                 }
               ],
               "typeParams": null,
@@ -366,7 +360,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
@@ -386,6 +379,7 @@
                   "ctxt": 0
                 },
                 "value": "x",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -410,7 +404,6 @@
                           "ctxt": 0
                         },
                         "value": "MyClass",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "right": {
@@ -421,14 +414,12 @@
                           "ctxt": 0
                         },
                         "value": "Bar",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
                     "typeParams": null
                   }
-                },
-                "optional": false
+                }
               }
             }
           ],
@@ -460,7 +451,6 @@
           "ctxt": 0
         },
         "value": "global",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -496,6 +486,7 @@
                     "ctxt": 0
                   },
                   "value": "Foo",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -518,12 +509,10 @@
                           "ctxt": 0
                         },
                         "value": "MyClass",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -548,7 +537,6 @@
           "ctxt": 0
         },
         "value": "MyClass",
-        "typeAnnotation": null,
         "optional": false
       }
     },
@@ -577,8 +565,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ParenthesisExpression",
@@ -602,7 +590,6 @@
                   "ctxt": 0
                 },
                 "value": "undefined",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -634,8 +621,8 @@
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "NewExpression",
@@ -652,7 +639,6 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "arguments": [
@@ -676,7 +662,6 @@
                         "ctxt": 0
                       },
                       "value": "doer",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "value": {
@@ -694,7 +679,6 @@
                           "ctxt": 0
                         },
                         "value": "Foo",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -705,7 +689,6 @@
                           "ctxt": 0
                         },
                         "value": "Bar",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -744,8 +727,8 @@
               "ctxt": 0
             },
             "value": "q",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ParenthesisExpression",
@@ -772,7 +755,6 @@
                       "ctxt": 0
                     },
                     "value": "doer",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -791,8 +773,8 @@
                           "ctxt": 0
                         },
                         "value": "q",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       }
                     ],
                     "body": {
@@ -803,7 +785,6 @@
                         "ctxt": 0
                       },
                       "value": "q",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "async": false,
@@ -844,8 +825,8 @@
               "ctxt": 0
             },
             "value": "r",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ParenthesisExpression",
@@ -870,8 +851,8 @@
                     "ctxt": 0
                   },
                   "value": "r",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               ],
               "body": {
@@ -882,7 +863,6 @@
                   "ctxt": 0
                 },
                 "value": "r",
-                "typeAnnotation": null,
                 "optional": false
               },
               "async": false,

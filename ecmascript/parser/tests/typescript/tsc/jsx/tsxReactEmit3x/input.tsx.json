@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "JSX",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -93,6 +91,7 @@
               "ctxt": 0
             },
             "value": "React",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -109,8 +108,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -142,8 +140,8 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -163,8 +161,8 @@
               "ctxt": 0
             },
             "value": "Bar",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -184,8 +182,8 @@
               "ctxt": 0
             },
             "value": "baz",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -216,7 +214,6 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -256,7 +253,6 @@
                   "ctxt": 0
                 },
                 "value": "Bar",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -295,7 +291,6 @@
                   "ctxt": 0
                 },
                 "value": "Bar",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -327,7 +322,6 @@
                   "ctxt": 0
                 },
                 "value": "Bar",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -369,7 +363,6 @@
                   "ctxt": 0
                 },
                 "value": "Bar",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -401,7 +394,6 @@
                   "ctxt": 0
                 },
                 "value": "Bar",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -432,7 +424,6 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           }
         }

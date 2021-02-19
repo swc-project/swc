@@ -144,7 +144,7 @@ impl Fold for ActualFolder {
                         self.vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             definite: false,
-                            name: Pat::Ident(ident.clone()),
+                            name: Pat::Ident(ident.clone().into()),
                             // Initialized by paren exprssion.
                             init: None,
                         });
@@ -152,7 +152,7 @@ impl Fold for ActualFolder {
                         let this = Box::new(Expr::Ident(ident.clone()));
                         let callee = Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ident))),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ident.into()))),
                             op: op!("="),
                             right: expr,
                         });

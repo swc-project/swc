@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "Validator",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -44,7 +44,6 @@
                 "ctxt": 0
               },
               "value": "VFunc",
-              "typeAnnotation": null,
               "optional": false
             },
             "params": [],
@@ -100,7 +99,6 @@
                           "ctxt": 0
                         },
                         "value": "flags",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -169,7 +167,6 @@
                 "ctxt": 0
               },
               "value": "Validator",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -180,7 +177,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -193,7 +189,6 @@
               "ctxt": 0
             },
             "value": "num",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -234,8 +229,8 @@
               "ctxt": 0
             },
             "value": "validateRegExpFlags",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -257,8 +252,8 @@
                     "ctxt": 0
                   },
                   "value": "state",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -298,7 +293,6 @@
                         "ctxt": 0
                       },
                       "value": "state",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -309,7 +303,6 @@
                         "ctxt": 0
                       },
                       "value": "flags",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false

@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "array",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -120,8 +121,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -249,7 +249,6 @@
                             "ctxt": 0
                           },
                           "value": "Symbol",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "arguments": [],
@@ -306,8 +305,8 @@
                     "ctxt": 0
                   },
                   "value": "num",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 {
                   "type": "Identifier",
@@ -317,8 +316,8 @@
                     "ctxt": 0
                   },
                   "value": "strBoolSym",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               ],
               "optional": false,
@@ -337,7 +336,6 @@
           "ctxt": 0
         },
         "value": "array",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -363,7 +361,6 @@
                 "ctxt": 0
               },
               "value": "num",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -382,7 +379,6 @@
                 "ctxt": 0
               },
               "value": "strBoolSym",
-              "typeAnnotation": null,
               "optional": false
             }
           }

@@ -158,7 +158,7 @@ impl Scope {
             params: vec![Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(key_ident.clone()),
+                pat: Pat::Ident(key_ident.clone().into()),
             }],
             body: Some(BlockStmt {
                 span: DUMMY_SP,
@@ -522,7 +522,7 @@ impl Scope {
                             entry,
                             Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(arg.clone()))),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(arg.clone().into()))),
                                 op: op!("="),
                                 right: Box::new(Expr::Bin(BinExpr {
                                     span: DUMMY_SP,
@@ -635,7 +635,7 @@ impl Scope {
                 match expr.left {
                     PatOrExpr::Pat(pat) if pat.is_ident() => {
                         let i = pat.ident().unwrap();
-                        let entry = entry!(i);
+                        let entry = entry!(i.id);
 
                         match entry {
                             Entry::Occupied(entry) => {

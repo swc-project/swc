@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -50,7 +49,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -95,7 +93,6 @@
           "ctxt": 0
         },
         "value": "B",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -123,7 +120,6 @@
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -168,7 +164,6 @@
           "ctxt": 0
         },
         "value": "T01",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -210,7 +205,6 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -230,7 +224,6 @@
                     "ctxt": 0
                   },
                   "value": "B",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -256,7 +249,6 @@
           "ctxt": 0
         },
         "value": "T02",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -282,7 +274,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -328,7 +319,6 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -348,7 +338,6 @@
                     "ctxt": 0
                   },
                   "value": "B",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -374,7 +363,6 @@
           "ctxt": 0
         },
         "value": "T03",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -400,7 +388,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -446,7 +433,6 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -466,7 +452,6 @@
                     "ctxt": 0
                   },
                   "value": "U",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -492,7 +477,6 @@
           "ctxt": 0
         },
         "value": "T04",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -518,7 +502,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -539,7 +522,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -585,7 +567,6 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -605,7 +586,6 @@
                     "ctxt": 0
                   },
                   "value": "U",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -631,7 +611,6 @@
           "ctxt": 0
         },
         "value": "T05",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -650,7 +629,6 @@
             "ctxt": 0
           },
           "value": "T02",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeParams": {
@@ -676,7 +654,6 @@
                   "ctxt": 0
                 },
                 "value": "A",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -701,7 +678,6 @@
           "ctxt": 0
         },
         "value": "T06",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -720,7 +696,6 @@
             "ctxt": 0
           },
           "value": "T03",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeParams": {
@@ -746,7 +721,6 @@
                   "ctxt": 0
                 },
                 "value": "B",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -771,7 +745,6 @@
           "ctxt": 0
         },
         "value": "T07",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -790,7 +763,6 @@
             "ctxt": 0
           },
           "value": "T04",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeParams": {
@@ -816,7 +788,6 @@
                   "ctxt": 0
                 },
                 "value": "A",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -836,7 +807,6 @@
                   "ctxt": 0
                 },
                 "value": "B",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -861,7 +831,6 @@
           "ctxt": 0
         },
         "value": "Example1",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -887,7 +856,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -916,7 +884,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -970,7 +937,6 @@
                     "ctxt": 0
                   },
                   "value": "Record",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -996,7 +962,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1028,7 +993,6 @@
                     "ctxt": 0
                   },
                   "value": "Record",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -1054,7 +1018,6 @@
                           "ctxt": 0
                         },
                         "value": "U",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1092,7 +1055,6 @@
           "ctxt": 0
         },
         "value": "Result1",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -1111,7 +1073,6 @@
             "ctxt": 0
           },
           "value": "Example1",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeParams": {
@@ -1186,7 +1147,6 @@
           "ctxt": 0
         },
         "value": "Result2",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -1228,7 +1188,6 @@
                     "ctxt": 0
                   },
                   "value": "Record",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -1288,7 +1247,6 @@
                     "ctxt": 0
                   },
                   "value": "Record",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -1354,7 +1312,6 @@
           "ctxt": 0
         },
         "value": "Example3",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -1380,7 +1337,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -1426,7 +1382,6 @@
                 "ctxt": 0
               },
               "value": "Record",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": {
@@ -1452,7 +1407,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -1488,7 +1442,6 @@
           "ctxt": 0
         },
         "value": "Result3",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -1507,7 +1460,6 @@
             "ctxt": 0
           },
           "value": "Example3",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeParams": {
@@ -1592,7 +1544,6 @@
           "ctxt": 0
         },
         "value": "Example4",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -1618,7 +1569,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -1647,7 +1597,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -1693,7 +1642,6 @@
                   "ctxt": 0
                 },
                 "value": "Record",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": {
@@ -1719,7 +1667,6 @@
                         "ctxt": 0
                       },
                       "value": "T",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -1751,7 +1698,6 @@
                   "ctxt": 0
                 },
                 "value": "Record",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": {
@@ -1777,7 +1723,6 @@
                         "ctxt": 0
                       },
                       "value": "U",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -1814,7 +1759,6 @@
           "ctxt": 0
         },
         "value": "Result4",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -1841,7 +1785,6 @@
               "ctxt": 0
             },
             "value": "Example4",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {
@@ -1917,7 +1860,6 @@
           "ctxt": 0
         },
         "value": "Example5",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -1943,7 +1885,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -1964,7 +1905,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -2010,7 +1950,6 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -2030,7 +1969,6 @@
                     "ctxt": 0
                   },
                   "value": "U",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -2056,7 +1994,6 @@
           "ctxt": 0
         },
         "value": "Result5",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -2075,7 +2012,6 @@
             "ctxt": 0
           },
           "value": "Example5",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeParams": {
@@ -2101,7 +2037,6 @@
                   "ctxt": 0
                 },
                 "value": "Record",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": {
@@ -2161,7 +2096,6 @@
                   "ctxt": 0
                 },
                 "value": "Record",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": {

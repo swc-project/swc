@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "TemplateLiteral",
@@ -82,7 +82,6 @@
                           "ctxt": 0
                         },
                         "value": "hi",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -105,7 +104,6 @@
                           "ctxt": 0
                         },
                         "value": "hello",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {

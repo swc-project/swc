@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "someValue",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -47,8 +48,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "StringLiteral",
@@ -93,6 +93,7 @@
               "ctxt": 0
             },
             "value": "strLength",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -109,8 +110,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "MemberExpression",
@@ -141,7 +141,6 @@
                     "ctxt": 0
                   },
                   "value": "someValue",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeAnnotation": {
@@ -163,7 +162,6 @@
                 "ctxt": 0
               },
               "value": "length",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false

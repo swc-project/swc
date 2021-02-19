@@ -30,7 +30,6 @@
             "ctxt": 0
           },
           "value": "CompilerDiagnostics",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -73,8 +72,8 @@
                         "ctxt": 0
                       },
                       "value": "debug",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "init": {
                       "type": "BooleanLiteral",
@@ -112,7 +111,6 @@
                     "ctxt": 0
                   },
                   "value": "IDiagnosticWriter",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "declare": false,
@@ -142,7 +140,6 @@
                           "ctxt": 0
                         },
                         "value": "Alert",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -156,6 +153,7 @@
                             "ctxt": 0
                           },
                           "value": "output",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -172,8 +170,7 @@
                               },
                               "kind": "string"
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -231,6 +228,7 @@
                         "ctxt": 0
                       },
                       "value": "diagnosticWriter",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -253,13 +251,11 @@
                               "ctxt": 0
                             },
                             "value": "IDiagnosticWriter",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
                         }
-                      },
-                      "optional": false
+                      }
                     },
                     "init": {
                       "type": "NullLiteral",
@@ -306,6 +302,7 @@
                         "ctxt": 0
                       },
                       "value": "analysisPass",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -322,8 +319,7 @@
                           },
                           "kind": "number"
                         }
-                      },
-                      "optional": false
+                      }
                     },
                     "init": {
                       "type": "NumericLiteral",
@@ -356,7 +352,6 @@
                     "ctxt": 0
                   },
                   "value": "Alert",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "declare": false,
@@ -377,6 +372,7 @@
                         "ctxt": 0
                       },
                       "value": "output",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -393,8 +389,7 @@
                           },
                           "kind": "string"
                         }
-                      },
-                      "optional": false
+                      }
                     }
                   }
                 ],
@@ -427,7 +422,6 @@
                           "ctxt": 0
                         },
                         "value": "diagnosticWriter",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "consequent": {
@@ -467,7 +461,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "diagnosticWriter",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -478,7 +471,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "Alert",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -494,7 +486,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "output",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   }
                                 }
@@ -531,7 +522,6 @@
                     "ctxt": 0
                   },
                   "value": "debugPrint",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "declare": false,
@@ -552,6 +542,7 @@
                         "ctxt": 0
                       },
                       "value": "s",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -568,8 +559,7 @@
                           },
                           "kind": "string"
                         }
-                      },
-                      "optional": false
+                      }
                     }
                   }
                 ],
@@ -602,7 +592,6 @@
                           "ctxt": 0
                         },
                         "value": "debug",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "consequent": {
@@ -635,7 +624,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "Alert",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "arguments": [
@@ -649,7 +637,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "s",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   }
                                 }
@@ -686,7 +673,6 @@
                     "ctxt": 0
                   },
                   "value": "assert",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "declare": false,
@@ -707,6 +693,7 @@
                         "ctxt": 0
                       },
                       "value": "condition",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -723,8 +710,7 @@
                           },
                           "kind": "boolean"
                         }
-                      },
-                      "optional": false
+                      }
                     }
                   },
                   {
@@ -743,6 +729,7 @@
                         "ctxt": 0
                       },
                       "value": "s",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -759,8 +746,7 @@
                           },
                           "kind": "string"
                         }
-                      },
-                      "optional": false
+                      }
                     }
                   }
                 ],
@@ -793,7 +779,6 @@
                           "ctxt": 0
                         },
                         "value": "debug",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "consequent": {
@@ -827,7 +812,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "condition",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             },
@@ -861,7 +845,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "Alert",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "arguments": [
@@ -875,7 +858,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "s",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         }
                                       }

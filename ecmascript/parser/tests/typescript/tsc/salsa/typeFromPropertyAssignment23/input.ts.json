@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "B",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -92,7 +90,6 @@
                         "ctxt": 0
                       },
                       "value": "n",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -128,7 +125,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -176,7 +172,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -195,7 +190,6 @@
           "ctxt": 0
         },
         "value": "B",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -240,7 +234,6 @@
                 "ctxt": 0
               },
               "value": "C",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -251,7 +244,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -264,7 +256,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -305,7 +296,6 @@
           "ctxt": 0
         },
         "value": "D",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -324,7 +314,6 @@
           "ctxt": 0
         },
         "value": "B",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -369,7 +358,6 @@
                 "ctxt": 0
               },
               "value": "D",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -380,7 +368,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -393,7 +380,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -452,7 +438,6 @@
                         "ctxt": 0
                       },
                       "value": "n",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -492,7 +477,6 @@
           "ctxt": 0
         },
         "value": "Module",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -546,7 +530,6 @@
                 "ctxt": 0
               },
               "value": "Module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -557,7 +540,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -570,7 +552,6 @@
               "ctxt": 0
             },
             "value": "identifier",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -583,7 +564,6 @@
             "ctxt": 0
           },
           "value": "undefined",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -625,7 +605,6 @@
                 "ctxt": 0
               },
               "value": "Module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -636,7 +615,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -649,7 +627,6 @@
               "ctxt": 0
             },
             "value": "size",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -674,7 +651,6 @@
           "ctxt": 0
         },
         "value": "NormalModule",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -700,7 +676,6 @@
               "ctxt": 0
             },
             "value": "identifier",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -769,7 +744,6 @@
               "ctxt": 0
             },
             "value": "size",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -827,7 +801,6 @@
           "ctxt": 0
         },
         "value": "Module",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,

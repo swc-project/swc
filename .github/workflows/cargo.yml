@@ -39,6 +39,7 @@ jobs:
     name: test
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         crate:
           - ast_node

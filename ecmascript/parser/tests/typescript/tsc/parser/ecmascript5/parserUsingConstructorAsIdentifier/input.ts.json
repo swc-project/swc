@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "define",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -37,8 +36,8 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         },
         {
@@ -57,8 +56,8 @@
               "ctxt": 0
             },
             "value": "instanceMembers",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         },
         {
@@ -77,8 +76,8 @@
               "ctxt": 0
             },
             "value": "staticMembers",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -119,8 +118,8 @@
                   "ctxt": 0
                 },
                 "value": "constructor",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "BinaryExpression",
@@ -138,7 +137,6 @@
                     "ctxt": 0
                   },
                   "value": "constructor",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -204,7 +202,6 @@
                       "ctxt": 0
                     },
                     "value": "PluginUtilities",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -215,7 +212,6 @@
                       "ctxt": 0
                     },
                     "value": "Utilities",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -228,7 +224,6 @@
                     "ctxt": 0
                   },
                   "value": "markSupportedForProcessing",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -244,7 +239,6 @@
                       "ctxt": 0
                     },
                     "value": "constructor",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -267,7 +261,6 @@
                 "ctxt": 0
               },
               "value": "instanceMembers",
-              "typeAnnotation": null,
               "optional": false
             },
             "consequent": {
@@ -300,7 +293,6 @@
                         "ctxt": 0
                       },
                       "value": "initializeProperties",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -321,7 +313,6 @@
                               "ctxt": 0
                             },
                             "value": "constructor",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -332,7 +323,6 @@
                               "ctxt": 0
                             },
                             "value": "prototype",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -348,7 +338,6 @@
                             "ctxt": 0
                           },
                           "value": "instanceMembers",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       }
@@ -375,7 +364,6 @@
                 "ctxt": 0
               },
               "value": "staticMembers",
-              "typeAnnotation": null,
               "optional": false
             },
             "consequent": {
@@ -408,7 +396,6 @@
                         "ctxt": 0
                       },
                       "value": "initializeProperties",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -422,7 +409,6 @@
                             "ctxt": 0
                           },
                           "value": "constructor",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -436,7 +422,6 @@
                             "ctxt": 0
                           },
                           "value": "staticMembers",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       }
@@ -463,7 +448,6 @@
                 "ctxt": 0
               },
               "value": "constructor",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -484,7 +468,6 @@
           "ctxt": 0
         },
         "value": "derive",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -505,8 +488,8 @@
               "ctxt": 0
             },
             "value": "baseClass",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         },
         {
@@ -525,8 +508,8 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         },
         {
@@ -545,8 +528,8 @@
               "ctxt": 0
             },
             "value": "instanceMembers",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         },
         {
@@ -565,8 +548,8 @@
               "ctxt": 0
             },
             "value": "staticMembers",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -599,7 +582,6 @@
                 "ctxt": 0
               },
               "value": "baseClass",
-              "typeAnnotation": null,
               "optional": false
             },
             "consequent": {
@@ -633,8 +615,8 @@
                         "ctxt": 0
                       },
                       "value": "constructor",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "right": {
                       "type": "BinaryExpression",
@@ -652,7 +634,6 @@
                           "ctxt": 0
                         },
                         "value": "constructor",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "right": {
@@ -707,8 +688,8 @@
                           "ctxt": 0
                         },
                         "value": "basePrototype",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "MemberExpression",
@@ -725,7 +706,6 @@
                             "ctxt": 0
                           },
                           "value": "baseClass",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -736,7 +716,6 @@
                             "ctxt": 0
                           },
                           "value": "prototype",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -775,7 +754,6 @@
                           "ctxt": 0
                         },
                         "value": "constructor",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -786,7 +764,6 @@
                           "ctxt": 0
                         },
                         "value": "prototype",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -813,7 +790,6 @@
                             "ctxt": 0
                           },
                           "value": "Object",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -824,7 +800,6 @@
                             "ctxt": 0
                           },
                           "value": "create",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -840,7 +815,6 @@
                               "ctxt": 0
                             },
                             "value": "basePrototype",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }
@@ -885,7 +859,6 @@
                             "ctxt": 0
                           },
                           "value": "PluginUtilities",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -896,7 +869,6 @@
                             "ctxt": 0
                           },
                           "value": "Utilities",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -909,7 +881,6 @@
                           "ctxt": 0
                         },
                         "value": "markSupportedForProcessing",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -925,7 +896,6 @@
                             "ctxt": 0
                           },
                           "value": "constructor",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       }
@@ -962,7 +932,6 @@
                           "ctxt": 0
                         },
                         "value": "Object",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -973,7 +942,6 @@
                           "ctxt": 0
                         },
                         "value": "defineProperty",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -996,7 +964,6 @@
                               "ctxt": 0
                             },
                             "value": "constructor",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -1007,7 +974,6 @@
                               "ctxt": 0
                             },
                             "value": "prototype",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -1050,7 +1016,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "value",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "value": {
@@ -1061,7 +1026,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "constructor",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             },
@@ -1075,7 +1039,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "writable",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "value": {
@@ -1098,7 +1061,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "configurable",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "value": {
@@ -1121,7 +1083,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "enumerable",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "value": {
@@ -1156,7 +1117,6 @@
                       "ctxt": 0
                     },
                     "value": "instanceMembers",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "consequent": {
@@ -1189,7 +1149,6 @@
                               "ctxt": 0
                             },
                             "value": "initializeProperties",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "arguments": [
@@ -1210,7 +1169,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "constructor",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -1221,7 +1179,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "prototype",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -1237,7 +1194,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "instanceMembers",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             }
@@ -1264,7 +1220,6 @@
                       "ctxt": 0
                     },
                     "value": "staticMembers",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "consequent": {
@@ -1297,7 +1252,6 @@
                               "ctxt": 0
                             },
                             "value": "initializeProperties",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "arguments": [
@@ -1311,7 +1265,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "constructor",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             },
@@ -1325,7 +1278,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "staticMembers",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             }
@@ -1352,7 +1304,6 @@
                       "ctxt": 0
                     },
                     "value": "constructor",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -1388,7 +1339,6 @@
                         "ctxt": 0
                       },
                       "value": "define",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -1402,7 +1352,6 @@
                             "ctxt": 0
                           },
                           "value": "constructor",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -1416,7 +1365,6 @@
                             "ctxt": 0
                           },
                           "value": "instanceMembers",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -1430,7 +1378,6 @@
                             "ctxt": 0
                           },
                           "value": "staticMembers",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       }
@@ -1458,7 +1405,6 @@
           "ctxt": 0
         },
         "value": "mix",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1479,8 +1425,8 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -1521,8 +1467,8 @@
                   "ctxt": 0
                 },
                 "value": "constructor",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "BinaryExpression",
@@ -1540,7 +1486,6 @@
                     "ctxt": 0
                   },
                   "value": "constructor",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -1595,8 +1540,8 @@
                     "ctxt": 0
                   },
                   "value": "i",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": null,
                 "definite": false
@@ -1616,8 +1561,8 @@
                     "ctxt": 0
                   },
                   "value": "len",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": null,
                 "definite": false
@@ -1655,8 +1600,8 @@
                       "ctxt": 0
                     },
                     "value": "i",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -1684,8 +1629,8 @@
                       "ctxt": 0
                     },
                     "value": "len",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "right": {
                     "type": "MemberExpression",
@@ -1702,7 +1647,6 @@
                         "ctxt": 0
                       },
                       "value": "arguments",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -1713,7 +1657,6 @@
                         "ctxt": 0
                       },
                       "value": "length",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -1737,7 +1680,6 @@
                   "ctxt": 0
                 },
                 "value": "i",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -1748,7 +1690,6 @@
                   "ctxt": 0
                 },
                 "value": "len",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -1769,7 +1710,6 @@
                   "ctxt": 0
                 },
                 "value": "i",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -1803,7 +1743,6 @@
                         "ctxt": 0
                       },
                       "value": "initializeProperties",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -1824,7 +1763,6 @@
                               "ctxt": 0
                             },
                             "value": "constructor",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -1835,7 +1773,6 @@
                               "ctxt": 0
                             },
                             "value": "prototype",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -1858,7 +1795,6 @@
                               "ctxt": 0
                             },
                             "value": "arguments",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -1869,7 +1805,6 @@
                               "ctxt": 0
                             },
                             "value": "i",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": true
@@ -1897,7 +1832,6 @@
                 "ctxt": 0
               },
               "value": "constructor",
-              "typeAnnotation": null,
               "optional": false
             }
           }

@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "Foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -51,7 +50,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -93,7 +91,6 @@
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -135,7 +132,6 @@
                 "ctxt": 0
               },
               "value": "c",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -196,8 +192,8 @@
                 "ctxt": 0
               },
               "value": "obj",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "ObjectExpression",
@@ -217,7 +213,6 @@
                       "ctxt": 0
                     },
                     "value": "m",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "params": [],
@@ -260,8 +255,8 @@
                                 "ctxt": 0
                               },
                               "value": "dis",
-                              "typeAnnotation": null,
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             },
                             "init": {
                               "type": "TsAsExpression",
@@ -310,7 +305,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "Foo",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "typeParams": null
@@ -366,7 +360,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "dis",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -377,7 +370,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "a",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -414,7 +406,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "dis",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -425,7 +416,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "b",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -463,7 +453,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "dis",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -474,7 +463,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "c",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -540,7 +528,6 @@
                               "ctxt": 0
                             },
                             "value": "Foo",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null

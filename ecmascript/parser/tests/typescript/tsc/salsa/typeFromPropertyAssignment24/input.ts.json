@@ -43,7 +43,6 @@
                 "ctxt": 0
               },
               "value": "Outer",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -54,7 +53,6 @@
                 "ctxt": 0
               },
               "value": "Inner",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -67,7 +65,6 @@
               "ctxt": 0
             },
             "value": "Message",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -123,8 +120,8 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -148,7 +145,6 @@
                   "ctxt": 0
                 },
                 "value": "Outer",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -159,7 +155,6 @@
                   "ctxt": 0
                 },
                 "value": "Inner",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -193,7 +188,6 @@
             "ctxt": 0
           },
           "value": "y",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -204,7 +198,6 @@
             "ctxt": 0
           },
           "value": "name",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -235,8 +228,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -265,7 +258,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -276,7 +268,6 @@
             "ctxt": 0
           },
           "value": "name",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -307,8 +298,8 @@
               "ctxt": 0
             },
             "value": "Outer",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -353,7 +344,6 @@
               "ctxt": 0
             },
             "value": "Outer",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -364,7 +354,6 @@
               "ctxt": 0
             },
             "value": "Inner",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -394,7 +383,6 @@
                   "ctxt": 0
                 },
                 "value": "name",
-                "typeAnnotation": null,
                 "optional": false
               },
               "function": {

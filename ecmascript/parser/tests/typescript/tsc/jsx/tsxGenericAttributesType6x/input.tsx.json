@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "React",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -59,7 +58,6 @@
           "ctxt": 0
         },
         "value": "B1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -85,7 +83,6 @@
               "ctxt": 0
             },
             "value": "render",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -128,7 +125,6 @@
                           "ctxt": 0
                         },
                         "value": "div",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "span": {
@@ -167,7 +163,6 @@
                           "ctxt": 0
                         },
                         "value": "div",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -202,7 +197,6 @@
             "ctxt": 0
           },
           "value": "React",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -213,7 +207,6 @@
             "ctxt": 0
           },
           "value": "Component",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -242,7 +235,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -269,7 +261,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -321,7 +312,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -375,7 +365,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -403,7 +392,6 @@
           "ctxt": 0
         },
         "value": "B",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -429,7 +417,6 @@
               "ctxt": 0
             },
             "value": "props",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -455,7 +442,6 @@
                   "ctxt": 0
                 },
                 "value": "U",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -486,7 +472,6 @@
               "ctxt": 0
             },
             "value": "render",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -529,7 +514,6 @@
                           "ctxt": 0
                         },
                         "value": "B1",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "span": {
@@ -568,7 +552,6 @@
                                 "ctxt": 0
                               },
                               "value": "props",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -589,7 +572,6 @@
                               "ctxt": 0
                             },
                             "value": "x",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "value": {
@@ -644,7 +626,6 @@
             "ctxt": 0
           },
           "value": "React",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -655,7 +636,6 @@
             "ctxt": 0
           },
           "value": "Component",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -684,7 +664,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -715,7 +694,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null

@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "maybeBind",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -37,6 +36,7 @@
               "ctxt": 0
             },
             "value": "obj",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -59,13 +59,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -84,6 +82,7 @@
               "ctxt": 0
             },
             "value": "fn",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -122,6 +121,7 @@
                             "ctxt": 0
                           },
                           "value": "this",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -144,13 +144,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         {
                           "type": "RestElement",
@@ -172,8 +170,8 @@
                               "ctxt": 0
                             },
                             "value": "args",
-                            "typeAnnotation": null,
-                            "optional": false
+                            "optional": false,
+                            "typeAnnotation": null
                           },
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
@@ -197,7 +195,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "A",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
@@ -228,7 +225,6 @@
                               "ctxt": 0
                             },
                             "value": "R",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -247,8 +243,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -307,7 +302,6 @@
                       "ctxt": 0
                     },
                     "value": "fn",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -318,7 +312,6 @@
                       "ctxt": 0
                     },
                     "value": "bind",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -335,7 +328,6 @@
                       "ctxt": 0
                     },
                     "value": "obj",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -370,7 +362,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -391,7 +382,6 @@
                 "ctxt": 0
               },
               "value": "A",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -428,7 +418,6 @@
                 "ctxt": 0
               },
               "value": "R",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -486,8 +475,8 @@
                         "ctxt": 0
                       },
                       "value": "args",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
@@ -511,7 +500,6 @@
                             "ctxt": 0
                           },
                           "value": "A",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -542,7 +530,6 @@
                         "ctxt": 0
                       },
                       "value": "R",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null

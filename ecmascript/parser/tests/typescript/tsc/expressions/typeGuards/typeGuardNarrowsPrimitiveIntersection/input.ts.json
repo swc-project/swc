@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "Tag",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -50,7 +49,6 @@
                 "ctxt": 0
               },
               "value": "__tag",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -89,7 +87,6 @@
           "ctxt": 0
         },
         "value": "isNonBlank",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -110,6 +107,7 @@
               "ctxt": 0
             },
             "value": "value",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -126,8 +124,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -164,7 +161,6 @@
               "ctxt": 0
             },
             "value": "value",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -213,7 +209,6 @@
                         "ctxt": 0
                       },
                       "value": "Tag",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -235,7 +230,6 @@
           "ctxt": 0
         },
         "value": "doThis",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -256,6 +250,7 @@
               "ctxt": 0
             },
             "value": "value",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -295,15 +290,13 @@
                         "ctxt": 0
                       },
                       "value": "Tag",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -345,7 +338,6 @@
           "ctxt": 0
         },
         "value": "doThat",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -366,6 +358,7 @@
               "ctxt": 0
             },
             "value": "value",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -382,8 +375,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -440,6 +432,7 @@
               "ctxt": 0
             },
             "value": "value",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -456,8 +449,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -486,7 +478,6 @@
             "ctxt": 0
           },
           "value": "isNonBlank",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -500,7 +491,6 @@
                 "ctxt": 0
               },
               "value": "value",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -537,7 +527,6 @@
                   "ctxt": 0
                 },
                 "value": "doThis",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -551,7 +540,6 @@
                       "ctxt": 0
                     },
                     "value": "value",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -591,7 +579,6 @@
                   "ctxt": 0
                 },
                 "value": "doThat",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -605,7 +592,6 @@
                       "ctxt": 0
                     },
                     "value": "value",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -633,7 +619,6 @@
           "ctxt": 0
         },
         "value": "Tag2",
-        "typeAnnotation": null,
         "optional": false
       },
       "members": []
@@ -648,7 +633,6 @@
           "ctxt": 0
         },
         "value": "isNonBlank2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -669,6 +653,7 @@
               "ctxt": 0
             },
             "value": "value",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -685,8 +670,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -723,7 +707,6 @@
               "ctxt": 0
             },
             "value": "value",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -772,7 +755,6 @@
                         "ctxt": 0
                       },
                       "value": "Tag2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -794,7 +776,6 @@
           "ctxt": 0
         },
         "value": "doThis2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -815,6 +796,7 @@
               "ctxt": 0
             },
             "value": "value",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -854,15 +836,13 @@
                         "ctxt": 0
                       },
                       "value": "Tag2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -904,7 +884,6 @@
           "ctxt": 0
         },
         "value": "doThat2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -925,6 +904,7 @@
               "ctxt": 0
             },
             "value": "value",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -941,8 +921,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -996,7 +975,6 @@
             "ctxt": 0
           },
           "value": "isNonBlank2",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -1010,7 +988,6 @@
                 "ctxt": 0
               },
               "value": "value",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -1047,7 +1024,6 @@
                   "ctxt": 0
                 },
                 "value": "doThis2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -1061,7 +1037,6 @@
                       "ctxt": 0
                     },
                     "value": "value",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -1101,7 +1076,6 @@
                   "ctxt": 0
                 },
                 "value": "doThat2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -1115,7 +1089,6 @@
                       "ctxt": 0
                     },
                     "value": "value",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }

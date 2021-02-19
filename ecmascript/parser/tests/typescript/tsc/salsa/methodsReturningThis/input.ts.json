@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Class",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -78,7 +77,6 @@
                 "ctxt": 0
               },
               "value": "Class",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -89,7 +87,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -102,7 +99,6 @@
               "ctxt": 0
             },
             "value": "containsError",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -155,7 +151,6 @@
                       "ctxt": 0
                     },
                     "value": "notPresent",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -207,7 +202,6 @@
                 "ctxt": 0
               },
               "value": "Class",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -218,7 +212,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -231,7 +224,6 @@
               "ctxt": 0
             },
             "value": "m1",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -256,8 +248,8 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             },
             {
@@ -276,8 +268,8 @@
                   "ctxt": 0
                 },
                 "value": "b",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             },
             {
@@ -296,8 +288,8 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             },
             {
@@ -316,8 +308,8 @@
                   "ctxt": 0
                 },
                 "value": "d",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             },
             {
@@ -336,8 +328,8 @@
                   "ctxt": 0
                 },
                 "value": "tx",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             },
             {
@@ -356,8 +348,8 @@
                   "ctxt": 0
                 },
                 "value": "ty",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             }
           ],
@@ -437,7 +429,6 @@
                 "ctxt": 0
               },
               "value": "Class",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -448,7 +439,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -461,7 +451,6 @@
               "ctxt": 0
             },
             "value": "m2",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -486,8 +475,8 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             },
             {
@@ -506,8 +495,8 @@
                   "ctxt": 0
                 },
                 "value": "y",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             }
           ],
@@ -587,7 +576,6 @@
                 "ctxt": 0
               },
               "value": "Class",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -598,7 +586,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -611,7 +598,6 @@
               "ctxt": 0
             },
             "value": "m3",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -636,8 +622,8 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             },
             {
@@ -656,8 +642,8 @@
                   "ctxt": 0
                 },
                 "value": "y",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             }
           ],
@@ -737,7 +723,6 @@
                 "ctxt": 0
               },
               "value": "Class",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -748,7 +733,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -761,7 +745,6 @@
               "ctxt": 0
             },
             "value": "m4",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -786,8 +769,8 @@
                   "ctxt": 0
                 },
                 "value": "angle",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             }
           ],
@@ -867,7 +850,6 @@
                 "ctxt": 0
               },
               "value": "Class",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -878,7 +860,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -891,7 +872,6 @@
               "ctxt": 0
             },
             "value": "m5",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -916,8 +896,8 @@
                   "ctxt": 0
                 },
                 "value": "matrix",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             }
           ],
@@ -997,7 +977,6 @@
                 "ctxt": 0
               },
               "value": "Class",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1008,7 +987,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1021,7 +999,6 @@
               "ctxt": 0
             },
             "value": "m6",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1046,8 +1023,8 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             },
             {
@@ -1066,8 +1043,8 @@
                   "ctxt": 0
                 },
                 "value": "y",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             },
             {
@@ -1086,8 +1063,8 @@
                   "ctxt": 0
                 },
                 "value": "pivotX",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             },
             {
@@ -1106,8 +1083,8 @@
                   "ctxt": 0
                 },
                 "value": "pivotY",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             },
             {
@@ -1126,8 +1103,8 @@
                   "ctxt": 0
                 },
                 "value": "scaleX",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             },
             {
@@ -1146,8 +1123,8 @@
                   "ctxt": 0
                 },
                 "value": "scaleY",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             },
             {
@@ -1166,8 +1143,8 @@
                   "ctxt": 0
                 },
                 "value": "rotation",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             },
             {
@@ -1186,8 +1163,8 @@
                   "ctxt": 0
                 },
                 "value": "skewX",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             },
             {
@@ -1206,8 +1183,8 @@
                   "ctxt": 0
                 },
                 "value": "skewY",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             }
           ],
@@ -1287,7 +1264,6 @@
                 "ctxt": 0
               },
               "value": "Class",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1298,7 +1274,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1311,7 +1286,6 @@
               "ctxt": 0
             },
             "value": "m7",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1336,8 +1310,8 @@
                   "ctxt": 0
                 },
                 "value": "matrix",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             }
           ],
@@ -1417,7 +1391,6 @@
                 "ctxt": 0
               },
               "value": "Class",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1428,7 +1401,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1441,7 +1413,6 @@
               "ctxt": 0
             },
             "value": "m8",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1526,7 +1497,6 @@
                 "ctxt": 0
               },
               "value": "Class",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1537,7 +1507,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1550,7 +1519,6 @@
               "ctxt": 0
             },
             "value": "m9",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

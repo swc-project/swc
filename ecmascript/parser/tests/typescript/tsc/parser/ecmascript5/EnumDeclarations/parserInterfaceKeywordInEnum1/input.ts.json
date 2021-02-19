@@ -45,7 +45,6 @@
           "ctxt": 0
         },
         "value": "Bar",
-        "typeAnnotation": null,
         "optional": false
       },
       "members": [
@@ -64,7 +63,6 @@
               "ctxt": 0
             },
             "value": "interface",
-            "typeAnnotation": null,
             "optional": false
           },
           "init": null

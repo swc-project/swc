@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "abc",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -60,8 +61,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "StringLiteral",
@@ -106,6 +106,7 @@
               "ctxt": 0
             },
             "value": "xyz",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -135,8 +136,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "StringLiteral",
@@ -181,6 +181,7 @@
               "ctxt": 0
             },
             "value": "abcOrXyz",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -242,8 +243,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "BinaryExpression",
@@ -261,7 +261,6 @@
                 "ctxt": 0
               },
               "value": "abc",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -272,7 +271,6 @@
                 "ctxt": 0
               },
               "value": "xyz",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -305,6 +303,7 @@
               "ctxt": 0
             },
             "value": "abcOrXyzOrNumber",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -375,8 +374,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "BinaryExpression",
@@ -394,7 +392,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyz",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -436,8 +433,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -469,7 +466,6 @@
                 "ctxt": 0
               },
               "value": "abc",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -502,8 +498,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -521,7 +517,6 @@
                 "ctxt": 0
               },
               "value": "abc",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -568,8 +563,8 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -596,7 +591,6 @@
                 "ctxt": 0
               },
               "value": "abc",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -629,8 +623,8 @@
               "ctxt": 0
             },
             "value": "d",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -648,7 +642,6 @@
                 "ctxt": 0
               },
               "value": "abc",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -690,8 +683,8 @@
               "ctxt": 0
             },
             "value": "e",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -709,7 +702,6 @@
                 "ctxt": 0
               },
               "value": "xyz",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -720,7 +712,6 @@
                 "ctxt": 0
               },
               "value": "abc",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -753,8 +744,8 @@
               "ctxt": 0
             },
             "value": "f",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -772,7 +763,6 @@
                 "ctxt": 0
               },
               "value": "abc",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -783,7 +773,6 @@
                 "ctxt": 0
               },
               "value": "xyz",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -816,8 +805,8 @@
               "ctxt": 0
             },
             "value": "g",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -844,7 +833,6 @@
                 "ctxt": 0
               },
               "value": "abc",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -877,8 +865,8 @@
               "ctxt": 0
             },
             "value": "h",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -896,7 +884,6 @@
                 "ctxt": 0
               },
               "value": "abc",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -938,8 +925,8 @@
               "ctxt": 0
             },
             "value": "i",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -965,7 +952,6 @@
                   "ctxt": 0
                 },
                 "value": "abc",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -976,7 +962,6 @@
                   "ctxt": 0
                 },
                 "value": "abcOrXyz",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -988,7 +973,6 @@
                 "ctxt": 0
               },
               "value": "xyz",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1021,8 +1005,8 @@
               "ctxt": 0
             },
             "value": "j",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -1040,7 +1024,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyz",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -1051,7 +1034,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyz",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1084,8 +1066,8 @@
               "ctxt": 0
             },
             "value": "k",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -1103,7 +1085,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyz",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1136,8 +1117,8 @@
               "ctxt": 0
             },
             "value": "l",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -1155,7 +1136,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyz",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1188,8 +1168,8 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -1207,7 +1187,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyzOrNumber",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -1254,8 +1233,8 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -1287,7 +1266,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyzOrNumber",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1320,8 +1298,8 @@
               "ctxt": 0
             },
             "value": "o",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -1339,7 +1317,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyzOrNumber",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -1350,7 +1327,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyz",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1383,8 +1359,8 @@
               "ctxt": 0
             },
             "value": "p",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -1402,7 +1378,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyz",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -1413,7 +1388,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyzOrNumber",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1446,8 +1420,8 @@
               "ctxt": 0
             },
             "value": "q",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -1465,7 +1439,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyzOrNumber",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1498,8 +1471,8 @@
               "ctxt": 0
             },
             "value": "r",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UnaryExpression",
@@ -1517,7 +1490,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyzOrNumber",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1550,8 +1522,8 @@
               "ctxt": 0
             },
             "value": "s",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -1569,7 +1541,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyzOrNumber",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -1580,7 +1551,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyzOrNumber",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1613,8 +1583,8 @@
               "ctxt": 0
             },
             "value": "t",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -1632,7 +1602,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyzOrNumber",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -1643,7 +1612,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyz",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1676,8 +1644,8 @@
               "ctxt": 0
             },
             "value": "u",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -1695,7 +1663,6 @@
                 "ctxt": 0
               },
               "value": "abc",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -1706,7 +1673,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyz",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1739,8 +1705,8 @@
               "ctxt": 0
             },
             "value": "v",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -1758,7 +1724,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyz",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -1769,7 +1734,6 @@
                 "ctxt": 0
               },
               "value": "abcOrXyzOrNumber",
-              "typeAnnotation": null,
               "optional": false
             }
           },

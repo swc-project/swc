@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Parent",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -90,7 +88,6 @@
           "ctxt": 0
         },
         "value": "Foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -116,7 +113,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -160,8 +156,8 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ArrowFunctionExpression",
@@ -201,7 +197,6 @@
                                 "ctxt": 0
                               },
                               "value": "foo",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -240,7 +235,6 @@
           "ctxt": 0
         },
         "value": "Parent",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,

@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -50,8 +50,8 @@
                   "ctxt": 0
                 },
                 "value": "s",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               {
                 "type": "Identifier",
@@ -61,8 +61,8 @@
                   "ctxt": 0
                 },
                 "value": "id",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
             "body": {
@@ -80,7 +80,6 @@
                   "ctxt": 0
                 },
                 "value": "id",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -94,7 +93,6 @@
                       "ctxt": 0
                     },
                     "value": "s",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }

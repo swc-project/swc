@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "Clazz",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "method",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -125,7 +123,6 @@
                 "ctxt": 0
               },
               "value": "Clazz",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -136,7 +133,6 @@
                 "ctxt": 0
               },
               "value": "method",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -149,7 +145,6 @@
               "ctxt": 0
             },
             "value": "prop",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

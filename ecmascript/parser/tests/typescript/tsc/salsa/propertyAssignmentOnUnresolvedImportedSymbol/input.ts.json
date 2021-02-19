@@ -29,7 +29,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -89,7 +88,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -100,7 +98,6 @@
                   "ctxt": 0
                 },
                 "value": "bar",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false

@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "target",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -39,7 +38,6 @@
             "ctxt": 0
           },
           "value": "target",
-          "typeAnnotation": null,
           "optional": false
         }
       }

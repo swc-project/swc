@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "normal",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -37,8 +36,8 @@
               "ctxt": 0
             },
             "value": "notSpecial",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -71,7 +70,6 @@
                 "ctxt": 0
               },
               "value": "notSpecial",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -104,7 +102,6 @@
             "ctxt": 0
           },
           "value": "normal",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -134,7 +131,6 @@
           "ctxt": 0
         },
         "value": "foo1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -155,8 +151,8 @@
               "ctxt": 0
             },
             "value": "opts1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -196,7 +192,6 @@
                   "ctxt": 0
                 },
                 "value": "opts1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -207,7 +202,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -242,7 +236,6 @@
             "ctxt": 0
           },
           "value": "foo1",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -266,7 +259,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -301,7 +293,6 @@
           "ctxt": 0
         },
         "value": "foo2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -322,8 +313,8 @@
               "ctxt": 0
             },
             "value": "opts2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -370,7 +361,6 @@
                     "ctxt": 0
                   },
                   "value": "opts2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -392,7 +382,6 @@
                   "ctxt": 0
                 },
                 "value": "anotherX",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -427,7 +416,6 @@
             "ctxt": 0
           },
           "value": "foo2",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -461,7 +449,6 @@
                             "ctxt": 0
                           },
                           "value": "anotherX",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -499,7 +486,6 @@
           "ctxt": 0
         },
         "value": "foo3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -520,8 +506,8 @@
               "ctxt": 0
             },
             "value": "opts3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -561,7 +547,6 @@
                   "ctxt": 0
                 },
                 "value": "opts3",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -572,7 +557,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -607,7 +591,6 @@
             "ctxt": 0
           },
           "value": "foo3",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -631,7 +614,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -666,7 +648,6 @@
           "ctxt": 0
         },
         "value": "foo4",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -687,8 +668,8 @@
               "ctxt": 0
             },
             "value": "opts4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -735,7 +716,6 @@
                     "ctxt": 0
                   },
                   "value": "opts4",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -757,7 +737,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -792,7 +771,6 @@
             "ctxt": 0
           },
           "value": "foo4",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -826,7 +804,6 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -864,7 +841,6 @@
           "ctxt": 0
         },
         "value": "foo5",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -885,8 +861,8 @@
               "ctxt": 0
             },
             "value": "opts5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -954,7 +930,6 @@
                           "ctxt": 0
                         },
                         "value": "opts5",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -976,7 +951,6 @@
                         "ctxt": 0
                       },
                       "value": "what",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -989,7 +963,6 @@
                       "ctxt": 0
                     },
                     "value": "bad",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -1013,7 +986,6 @@
                   "ctxt": 0
                 },
                 "value": "idea",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -1048,7 +1020,6 @@
                     "ctxt": 0
                   },
                   "value": "opts5",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -1070,7 +1041,6 @@
                   "ctxt": 0
                 },
                 "value": "unnest",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -1105,7 +1075,6 @@
             "ctxt": 0
           },
           "value": "foo5",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -1139,7 +1108,6 @@
                             "ctxt": 0
                           },
                           "value": "help",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -1167,7 +1135,6 @@
                             "ctxt": 0
                           },
                           "value": "what",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -1188,7 +1155,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "a",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "value": {
@@ -1216,7 +1182,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "bad",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "value": {
@@ -1247,7 +1212,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "idea",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           },
                                           "value": {
@@ -1275,7 +1239,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "oh",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           },
                                           "value": {
@@ -1307,7 +1270,6 @@
                             "ctxt": 0
                           },
                           "value": "unnest",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {

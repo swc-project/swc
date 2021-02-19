@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -74,8 +75,7 @@
                 },
                 "isAbstract": false
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -107,8 +107,8 @@
               "ctxt": 0
             },
             "value": "r",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -125,7 +125,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -168,8 +167,8 @@
               "ctxt": 0
             },
             "value": "r2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -186,7 +185,6 @@
                 "ctxt": 0
               },
               "value": "r",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -221,8 +219,8 @@
               "ctxt": 0
             },
             "value": "r2b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -239,7 +237,6 @@
                 "ctxt": 0
               },
               "value": "r",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -274,6 +271,7 @@
               "ctxt": 0
             },
             "value": "x2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -326,8 +324,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -359,8 +356,8 @@
               "ctxt": 0
             },
             "value": "r3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -377,7 +374,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -420,8 +416,8 @@
               "ctxt": 0
             },
             "value": "r4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -438,7 +434,6 @@
                 "ctxt": 0
               },
               "value": "r3",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -473,8 +468,8 @@
               "ctxt": 0
             },
             "value": "r4b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -491,7 +486,6 @@
                 "ctxt": 0
               },
               "value": "r3",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -526,6 +520,7 @@
               "ctxt": 0
             },
             "value": "x3",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -548,7 +543,6 @@
                     "ctxt": 0
                   },
                   "value": "Array",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -590,8 +584,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -623,8 +616,8 @@
               "ctxt": 0
             },
             "value": "r5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -641,7 +634,6 @@
                 "ctxt": 0
               },
               "value": "x2",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -684,8 +676,8 @@
               "ctxt": 0
             },
             "value": "r6",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -702,7 +694,6 @@
                 "ctxt": 0
               },
               "value": "r5",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -737,8 +728,8 @@
               "ctxt": 0
             },
             "value": "r6b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -755,7 +746,6 @@
                 "ctxt": 0
               },
               "value": "r5",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],

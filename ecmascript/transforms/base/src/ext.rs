@@ -96,6 +96,12 @@ impl MapWithMut for Ident {
     }
 }
 
+impl MapWithMut for BindingIdent {
+    fn dummy() -> Self {
+        Ident::dummy().into()
+    }
+}
+
 impl MapWithMut for ObjectPatProp {
     fn dummy() -> Self {
         ObjectPatProp::Assign(AssignPatProp {
@@ -108,7 +114,7 @@ impl MapWithMut for ObjectPatProp {
 
 impl MapWithMut for PatOrExpr {
     fn dummy() -> Self {
-        PatOrExpr::Pat(Box::new(Pat::Ident(Ident::dummy())))
+        PatOrExpr::Pat(Box::new(Pat::Ident(BindingIdent::dummy())))
     }
 }
 
@@ -287,7 +293,7 @@ pub trait PatOrExprExt: AsOptExpr {
                 _ => None,
             },
             PatOrExpr::Pat(p) => match &**p {
-                Pat::Ident(i) => Some(i),
+                Pat::Ident(i) => Some(&i.id),
                 _ => None,
             },
         }
@@ -296,7 +302,7 @@ pub trait PatOrExprExt: AsOptExpr {
     fn as_ident_mut(&mut self) -> Option<&mut Ident> {
         match self.as_mut() {
             PatOrExpr::Pat(p) => match **p {
-                Pat::Ident(ref mut i) => Some(i),
+                Pat::Ident(ref mut i) => Some(&mut i.id),
                 Pat::Expr(ref mut e) => match e.deref_mut() {
                     Expr::Ident(i) => Some(i),
                     _ => None,
@@ -337,12 +343,12 @@ impl PatOrExprExt for PatOrExpr {
     fn normalize_ident(self) -> Self {
         match self {
             PatOrExpr::Expr(expr) => match *expr {
-                Expr::Ident(i) => PatOrExpr::Pat(Box::new(Pat::Ident(i))),
+                Expr::Ident(i) => PatOrExpr::Pat(Box::new(Pat::Ident(i.into()))),
                 _ => PatOrExpr::Expr(expr),
             },
             PatOrExpr::Pat(pat) => match *pat {
                 Pat::Expr(expr) => match *expr {
-                    Expr::Ident(i) => PatOrExpr::Pat(Box::new(Pat::Ident(i))),
+                    Expr::Ident(i) => PatOrExpr::Pat(Box::new(Pat::Ident(i.into()))),
                     _ => PatOrExpr::Expr(expr),
                 },
                 _ => PatOrExpr::Pat(pat),

@@ -6,7 +6,7 @@ use swc_atoms::js_word;
 use swc_common::Spanned;
 
 impl<'a, I: Tokens> Parser<I> {
-    pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<Option<Ident>> {
+    pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<Option<BindingIdent>> {
         trace_cur!(self, parse_opt_binding_ident);
 
         if is!(self, BindingIdent) || (self.input.syntax().typescript() && is!(self, "this")) {
@@ -19,7 +19,7 @@ impl<'a, I: Tokens> Parser<I> {
     /// babel: `parseBindingIdentifier`
     ///
     /// spec: `BindingIdentifier`
-    pub(super) fn parse_binding_ident(&mut self) -> PResult<Ident> {
+    pub(super) fn parse_binding_ident(&mut self) -> PResult<BindingIdent> {
         trace_cur!(self, parse_binding_ident);
 
         // "yield" and "await" is **lexically** accepted.
@@ -34,7 +34,7 @@ impl<'a, I: Tokens> Parser<I> {
             self.emit_err(ident.span, SyntaxError::ExpectedIdent);
         }
 
-        Ok(ident)
+        Ok(ident.into())
     }
 
     pub(super) fn parse_binding_pat_or_ident(&mut self) -> PResult<Pat> {
@@ -161,8 +161,12 @@ impl<'a, I: Tokens> Parser<I> {
         if self.input.syntax().typescript() {
             if eat!(self, '?') {
                 match pat {
-                    Pat::Ident(Ident {
-                        ref mut optional, ..
+                    Pat::Ident(BindingIdent {
+                        id:
+                            Ident {
+                                ref mut optional, ..
+                            },
+                        ..
                     })
                     | Pat::Array(ArrayPat {
                         ref mut optional, ..
@@ -195,9 +199,9 @@ impl<'a, I: Tokens> Parser<I> {
                     ref mut span,
                     ..
                 })
-                | Pat::Ident(Ident {
+                | Pat::Ident(BindingIdent {
                     ref mut type_ann,
-                    ref mut span,
+                    id: Ident { ref mut span, .. },
                     ..
                 })
                 | Pat::Object(ObjectPat {
@@ -812,7 +816,7 @@ mod tests {
             span,
             dot3_token: span,
             type_ann: None,
-            arg: Box::new(Pat::Ident(ident("tail"))),
+            arg: Box::new(Pat::Ident(ident("tail").into())),
         }))
     }
 
@@ -824,17 +828,17 @@ mod tests {
                 span,
                 optional: false,
                 elems: vec![
-                    Some(Pat::Ident(ident("a"))),
+                    Some(Pat::Ident(ident("a").into())),
                     Some(Pat::Array(ArrayPat {
                         span,
                         optional: false,
-                        elems: vec![Some(Pat::Ident(ident("b")))],
+                        elems: vec![Some(Pat::Ident(ident("b").into()))],
                         type_ann: None
                     })),
                     Some(Pat::Array(ArrayPat {
                         span,
                         optional: false,
-                        elems: vec![Some(Pat::Ident(ident("c")))],
+                        elems: vec![Some(Pat::Ident(ident("c").into()))],
                         type_ann: None
                     }))
                 ],
@@ -852,17 +856,17 @@ mod tests {
                 optional: false,
                 elems: vec![
                     None,
-                    Some(Pat::Ident(ident("a"))),
+                    Some(Pat::Ident(ident("a").into())),
                     Some(Pat::Array(ArrayPat {
                         span,
                         optional: false,
-                        elems: vec![Some(Pat::Ident(ident("b")))],
+                        elems: vec![Some(Pat::Ident(ident("b").into()))],
                         type_ann: None
                     })),
                     Some(Pat::Array(ArrayPat {
                         span,
                         optional: false,
-                        elems: vec![Some(Pat::Ident(ident("c")))],
+                        elems: vec![Some(Pat::Ident(ident("c").into()))],
                         type_ann: None
                     }))
                 ],
@@ -879,18 +883,18 @@ mod tests {
                 span,
                 optional: false,
                 elems: vec![
-                    Some(Pat::Ident(ident("a"))),
+                    Some(Pat::Ident(ident("a").into())),
                     None,
                     Some(Pat::Array(ArrayPat {
                         span,
                         optional: false,
-                        elems: vec![Some(Pat::Ident(ident("b")))],
+                        elems: vec![Some(Pat::Ident(ident("b").into()))],
                         type_ann: None
                     })),
                     Some(Pat::Array(ArrayPat {
                         span,
                         optional: false,
-                        elems: vec![Some(Pat::Ident(ident("c")))],
+                        elems: vec![Some(Pat::Ident(ident("c").into()))],
                         type_ann: None
                     }))
                 ],
@@ -924,7 +928,7 @@ mod tests {
                     Some(Pat::Assign(AssignPat {
                         type_ann: None,
                         span,
-                        left: Box::new(Pat::Ident(ident("a"))),
+                        left: Box::new(Pat::Ident(ident("a").into())),
                         right: Box::new(Expr::Lit(Lit::Num(Number { span, value: 1.0 })))
                     }))
                 ],
@@ -986,7 +990,7 @@ mod tests {
                     span,
                     dot3_token: span,
                     type_ann: None,
-                    arg: Box::new(Pat::Ident(ident("obj")))
+                    arg: Box::new(Pat::Ident(ident("obj").into()))
                 })]
             })
         );
@@ -1017,7 +1021,7 @@ mod tests {
                 value: Box::new(Expr::Assign(AssignExpr {
                     span,
                     op: AssignOp::Assign,
-                    left: PatOrExpr::Pat(Box::new(Pat::Ident(ident(assign_name)))),
+                    left: PatOrExpr::Pat(Box::new(Pat::Ident(ident(assign_name).into()))),
                     right: Box::new(expr),
                 })),
             })))

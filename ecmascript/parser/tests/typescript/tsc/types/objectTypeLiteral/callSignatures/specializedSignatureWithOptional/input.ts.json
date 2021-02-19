@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -37,6 +36,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": true,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -66,8 +66,7 @@
                   }
                 }
               }
-            },
-            "optional": true
+            }
           }
         }
       ],
@@ -109,7 +108,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -130,6 +128,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": true,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -146,8 +145,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": true
+            }
           }
         }
       ],

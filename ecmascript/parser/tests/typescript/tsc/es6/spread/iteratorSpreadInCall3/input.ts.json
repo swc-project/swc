@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -49,8 +48,8 @@
                 "ctxt": 0
               },
               "value": "s",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
@@ -110,7 +109,6 @@
           "ctxt": 0
         },
         "value": "SymbolIterator",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -136,7 +134,6 @@
               "ctxt": 0
             },
             "value": "next",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -180,7 +177,6 @@
                             "ctxt": 0
                           },
                           "value": "value",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -198,7 +194,6 @@
                               "ctxt": 0
                             },
                             "value": "Symbol",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "arguments": [],
@@ -215,7 +210,6 @@
                             "ctxt": 0
                           },
                           "value": "done",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -273,7 +267,6 @@
                   "ctxt": 0
                 },
                 "value": "Symbol",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -284,7 +277,6 @@
                   "ctxt": 0
                 },
                 "value": "iterator",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -364,7 +356,6 @@
             "ctxt": 0
           },
           "value": "foo",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -389,7 +380,6 @@
                   "ctxt": 0
                 },
                 "value": "SymbolIterator",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": null,

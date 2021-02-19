@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "I",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -44,7 +43,6 @@
                 "ctxt": 0
               },
               "value": "X",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -55,7 +53,6 @@
                 "ctxt": 0
               },
               "value": "Y",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -82,7 +79,6 @@
                     "ctxt": 0
                   },
                   "value": "Z",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null

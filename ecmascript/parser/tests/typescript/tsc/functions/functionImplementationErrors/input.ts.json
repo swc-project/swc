@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "f1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -127,8 +127,8 @@
               "ctxt": 0
             },
             "value": "f2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -140,7 +140,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "params": [],
@@ -233,8 +232,8 @@
               "ctxt": 0
             },
             "value": "f3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -327,8 +326,8 @@
               "ctxt": 0
             },
             "value": "f4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -471,7 +470,6 @@
           "ctxt": 0
         },
         "value": "f5",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -537,8 +535,8 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -555,7 +553,6 @@
           "ctxt": 0
         },
         "value": "f6",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -583,8 +580,8 @@
                 "ctxt": 0
               },
               "value": "n",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "right": {
               "type": "Identifier",
@@ -594,7 +591,6 @@
                 "ctxt": 0
               },
               "value": "m",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeAnnotation": null
@@ -640,8 +636,8 @@
                     "ctxt": 0
                   },
                   "value": "m",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "NumericLiteral",
@@ -673,7 +669,6 @@
           "ctxt": 0
         },
         "value": "f7",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -701,8 +696,8 @@
                 "ctxt": 0
               },
               "value": "n",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "right": {
               "type": "Identifier",
@@ -712,7 +707,6 @@
                 "ctxt": 0
               },
               "value": "m",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeAnnotation": null
@@ -734,8 +728,8 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
-            "optional": true
+            "optional": true,
+            "typeAnnotation": null
           }
         }
       ],
@@ -782,7 +776,6 @@
             "ctxt": 0
           },
           "value": "undefined",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -818,7 +811,6 @@
                     "ctxt": 0
                   },
                   "value": "undefined",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -847,8 +839,8 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "init": {
                       "type": "NumericLiteral",
@@ -898,7 +890,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -924,7 +915,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -956,7 +946,6 @@
           "ctxt": 0
         },
         "value": "AnotherClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -982,7 +971,6 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -1014,7 +1002,6 @@
           "ctxt": 0
         },
         "value": "Derived1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1040,7 +1027,6 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -1064,7 +1050,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -1082,7 +1067,6 @@
           "ctxt": 0
         },
         "value": "Derived2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1108,7 +1092,6 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -1132,7 +1115,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -1150,7 +1132,6 @@
           "ctxt": 0
         },
         "value": "f8",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1191,7 +1172,6 @@
                   "ctxt": 0
                 },
                 "value": "Derived1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -1220,7 +1200,6 @@
                   "ctxt": 0
                 },
                 "value": "Derived2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -1259,8 +1238,8 @@
               "ctxt": 0
             },
             "value": "f9",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -1302,7 +1281,6 @@
                         "ctxt": 0
                       },
                       "value": "Derived1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -1331,7 +1309,6 @@
                         "ctxt": 0
                       },
                       "value": "Derived2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -1374,8 +1351,8 @@
               "ctxt": 0
             },
             "value": "f10",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -1415,7 +1392,6 @@
                         "ctxt": 0
                       },
                       "value": "Derived1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -1444,7 +1420,6 @@
                         "ctxt": 0
                       },
                       "value": "Derived2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -1472,7 +1447,6 @@
           "ctxt": 0
         },
         "value": "f11",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1513,7 +1487,6 @@
                   "ctxt": 0
                 },
                 "value": "Base",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -1542,7 +1515,6 @@
                   "ctxt": 0
                 },
                 "value": "AnotherClass",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -1581,8 +1553,8 @@
               "ctxt": 0
             },
             "value": "f12",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -1624,7 +1596,6 @@
                         "ctxt": 0
                       },
                       "value": "Base",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -1653,7 +1624,6 @@
                         "ctxt": 0
                       },
                       "value": "AnotherClass",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -1696,8 +1666,8 @@
               "ctxt": 0
             },
             "value": "f13",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -1737,7 +1707,6 @@
                         "ctxt": 0
                       },
                       "value": "Base",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -1766,7 +1735,6 @@
                         "ctxt": 0
                       },
                       "value": "AnotherClass",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],

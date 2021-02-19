@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -72,8 +72,8 @@
               "ctxt": 0
             },
             "value": "one_twenty",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -91,8 +91,8 @@
                   "ctxt": 0
                 },
                 "value": "s",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
             "body": {
@@ -128,7 +128,6 @@
           "ctxt": 0
         },
         "value": "SharedClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -154,7 +153,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -196,7 +194,6 @@
                       "ctxt": 0
                     },
                     "value": "id",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -239,8 +236,8 @@
               "ctxt": 0
             },
             "value": "outside",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -258,8 +255,8 @@
                   "ctxt": 0
                 },
                 "value": "n",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
             "body": {
@@ -278,7 +275,6 @@
                   "ctxt": 0
                 },
                 "value": "n",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -325,8 +321,8 @@
               "ctxt": 0
             },
             "value": "noreturn",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -344,8 +340,8 @@
                   "ctxt": 0
                 },
                 "value": "barts",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               {
                 "type": "Identifier",
@@ -355,8 +351,8 @@
                   "ctxt": 0
                 },
                 "value": "tidus",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               {
                 "type": "Identifier",
@@ -366,8 +362,8 @@
                   "ctxt": 0
                 },
                 "value": "noctis",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
             "body": {

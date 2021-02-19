@@ -30,7 +30,6 @@
             "ctxt": 0
           },
           "value": "E1",
-          "typeAnnotation": null,
           "optional": false
         },
         "members": [
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "value1",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": null
@@ -81,7 +79,6 @@
             "ctxt": 0
           },
           "value": "E2",
-          "typeAnnotation": null,
           "optional": false
         },
         "members": [
@@ -100,7 +97,6 @@
                 "ctxt": 0
               },
               "value": "value1",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": null

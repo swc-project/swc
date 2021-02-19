@@ -28,7 +28,6 @@
             "ctxt": 0
           },
           "value": "foo1",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [],
@@ -57,7 +56,6 @@
             "ctxt": 0
           },
           "value": "foo1",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [],
@@ -86,7 +84,6 @@
             "ctxt": 0
           },
           "value": "foo1",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [],
@@ -115,7 +112,6 @@
             "ctxt": 0
           },
           "value": "static",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [],

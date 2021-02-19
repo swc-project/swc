@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -80,7 +78,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
@@ -100,6 +97,7 @@
                   "ctxt": 0
                 },
                 "value": "n",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -116,8 +114,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             }
           ],
@@ -150,7 +147,6 @@
           "ctxt": 0
         },
         "value": "v",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -201,7 +197,6 @@
           "ctxt": 0
         },
         "value": "Derived",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -227,7 +222,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
@@ -249,6 +243,7 @@
                   "ctxt": 0
                 },
                 "value": "q",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -265,8 +260,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             }
           ],
@@ -347,8 +341,8 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "init": {
                       "type": "CallExpression",
@@ -415,8 +409,8 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "init": {
                       "type": "CallExpression",
@@ -433,7 +427,6 @@
                           "ctxt": 0
                         },
                         "value": "v",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "arguments": [],
@@ -457,7 +450,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -475,7 +467,6 @@
           "ctxt": 0
         },
         "value": "OtherBase",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -502,7 +493,6 @@
           "ctxt": 0
         },
         "value": "OtherDerived",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -528,7 +518,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -565,8 +554,8 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "init": {
                       "type": "StringLiteral",
@@ -626,7 +615,6 @@
           "ctxt": 0
         },
         "value": "OtherBase",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,

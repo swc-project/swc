@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -84,7 +83,6 @@
           "ctxt": 0
         },
         "value": "foo1",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -135,8 +133,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -153,7 +151,6 @@
                 "ctxt": 0
               },
               "value": "foo1",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -164,7 +161,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -188,7 +184,6 @@
           "ctxt": 0
         },
         "value": "x",
-        "typeAnnotation": null,
         "optional": false
       }
     },
@@ -209,7 +204,6 @@
           "ctxt": 0
         },
         "value": "foo2",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -260,8 +254,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -278,7 +272,6 @@
                 "ctxt": 0
               },
               "value": "foo2",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],

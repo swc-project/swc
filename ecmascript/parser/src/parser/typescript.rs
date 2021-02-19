@@ -1177,17 +1177,17 @@ impl<I: Tokens> Parser<I> {
         expect!(self, '[');
 
         let ident_start = cur_pos!(self);
-        let mut id = self.parse_ident_name()?;
+        let mut id = self.parse_ident_name().map(BindingIdent::from)?;
         let type_ann_start = cur_pos!(self);
 
         if eat!(self, ',') {
-            self.emit_err(id.span, SyntaxError::TS1096);
+            self.emit_err(id.id.span, SyntaxError::TS1096);
         } else {
             expect!(self, ':');
         }
 
         let type_ann = self.parse_ts_type_ann(/* eat_colon */ false, type_ann_start)?;
-        id.span = span!(self, ident_start);
+        id.id.span = span!(self, ident_start);
         id.type_ann = Some(type_ann);
 
         expect!(self, ']');
@@ -1512,11 +1512,11 @@ impl<I: Tokens> Parser<I> {
                 Pat::Rest(RestPat {
                     span: span!(p, start),
                     dot3_token,
-                    arg: Box::new(Pat::Ident(ident)),
+                    arg: Box::new(Pat::Ident(ident.into())),
                     type_ann: None,
                 })
             } else {
-                Pat::Ident(ident)
+                Pat::Ident(ident.into())
             }))
         })
     }
@@ -2563,7 +2563,7 @@ mod tests {
                     declare: false,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(Ident::new("t".into(), DUMMY_SP)),
+                        name: Pat::Ident(Ident::new("t".into(), DUMMY_SP).into()),
                         init: Some(Box::new(Expr::Unary(UnaryExpr {
                             span: DUMMY_SP,
                             op: op!(unary, "-"),

@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "JSX",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -80,7 +78,6 @@
                 "ctxt": 0
               },
               "value": "IntrinsicElements",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -110,7 +107,6 @@
                       "ctxt": 0
                     },
                     "value": "div",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -154,7 +150,6 @@
                 "ctxt": 0
               },
               "value": "ElementAttributesProperty",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -184,7 +179,6 @@
                       "ctxt": 0
                     },
                     "value": "prop",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -231,7 +225,6 @@
           "ctxt": 0
         },
         "value": "IProps",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -261,7 +254,6 @@
                 "ctxt": 0
               },
               "value": "primaryText",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -298,6 +290,7 @@
                   "ctxt": 0
                 },
                 "value": "propName",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -314,8 +307,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -374,7 +366,6 @@
           "ctxt": 0
         },
         "value": "VerticalNavMenuItem",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -395,6 +386,7 @@
               "ctxt": 0
             },
             "value": "prop",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -417,13 +409,11 @@
                     "ctxt": 0
                   },
                   "value": "IProps",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -465,7 +455,6 @@
                     "ctxt": 0
                   },
                   "value": "div",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "span": {
@@ -504,7 +493,6 @@
                     "ctxt": 0
                   },
                   "value": "div",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -527,7 +515,6 @@
           "ctxt": 0
         },
         "value": "VerticalNav",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -577,7 +564,6 @@
                       "ctxt": 0
                     },
                     "value": "div",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "span": {
@@ -617,7 +603,6 @@
                           "ctxt": 0
                         },
                         "value": "VerticalNavMenuItem",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "span": {
@@ -641,7 +626,6 @@
                               "ctxt": 0
                             },
                             "value": "primaryText",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "value": {
@@ -696,7 +680,6 @@
                           "ctxt": 0
                         },
                         "value": "VerticalNavMenuItem",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "span": {
@@ -720,7 +703,6 @@
                               "ctxt": 0
                             },
                             "value": "justRandomProp",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "value": {
@@ -756,7 +738,6 @@
                               "ctxt": 0
                             },
                             "value": "primaryText",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "value": {
@@ -816,7 +797,6 @@
                           "ctxt": 0
                         },
                         "value": "VerticalNavMenuItem",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "span": {
@@ -840,7 +820,6 @@
                               "ctxt": 0
                             },
                             "value": "justRandomProp1",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "value": {
@@ -876,7 +855,6 @@
                               "ctxt": 0
                             },
                             "value": "primaryText",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "value": {
@@ -935,7 +913,6 @@
                       "ctxt": 0
                     },
                     "value": "div",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }

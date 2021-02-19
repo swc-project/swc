@@ -29,8 +29,8 @@
             "ctxt": 0
           },
           "value": "eval",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "NumericLiteral",

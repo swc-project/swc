@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "foo2",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -73,7 +72,6 @@
             "ctxt": 0
           },
           "value": "M1",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -101,7 +99,6 @@
                     "ctxt": 0
                   },
                   "value": "C1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "declare": false,
@@ -127,7 +124,6 @@
                         "ctxt": 0
                       },
                       "value": "m1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "value": null,
@@ -157,7 +153,6 @@
                                 "ctxt": 0
                               },
                               "value": "foo2",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "right": {
@@ -168,7 +163,6 @@
                                 "ctxt": 0
                               },
                               "value": "M1",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           },
@@ -180,7 +174,6 @@
                               "ctxt": 0
                             },
                             "value": "C1",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         },
@@ -212,7 +205,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "value": null,
@@ -258,7 +250,6 @@
                         "ctxt": 0
                       },
                       "value": "constructor",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "params": [],
@@ -308,7 +299,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "m1",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -342,7 +332,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "foo2",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "property": {
@@ -353,7 +342,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "M1",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false
@@ -366,7 +354,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "C1",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -421,7 +408,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "m1",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -434,7 +420,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "y",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -495,7 +480,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "m1",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -508,7 +492,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "x",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -558,7 +541,6 @@
           "ctxt": 0
         },
         "value": "foo1",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -608,7 +590,6 @@
             "ctxt": 0
           },
           "value": "M1",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -636,7 +617,6 @@
                     "ctxt": 0
                   },
                   "value": "C1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "declare": false,
@@ -662,7 +642,6 @@
                         "ctxt": 0
                       },
                       "value": "m1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "value": null,
@@ -692,7 +671,6 @@
                                 "ctxt": 0
                               },
                               "value": "foo1",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "right": {
@@ -703,7 +681,6 @@
                                 "ctxt": 0
                               },
                               "value": "M1",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           },
@@ -715,7 +692,6 @@
                               "ctxt": 0
                             },
                             "value": "C1",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         },
@@ -747,7 +723,6 @@
                         "ctxt": 0
                       },
                       "value": "y",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "value": null,
@@ -793,7 +768,6 @@
                         "ctxt": 0
                       },
                       "value": "constructor",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "params": [],
@@ -843,7 +817,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "m1",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -877,7 +850,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "foo1",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "property": {
@@ -888,7 +860,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "M1",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false
@@ -901,7 +872,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "C1",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -956,7 +926,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "m1",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -969,7 +938,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "y",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -1030,7 +998,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "m1",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -1043,7 +1010,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "x",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -1084,8 +1050,8 @@
                                   "ctxt": 0
                                 },
                                 "value": "tmp",
-                                "typeAnnotation": null,
-                                "optional": false
+                                "optional": false,
+                                "typeAnnotation": null
                               },
                               "init": {
                                 "type": "NewExpression",
@@ -1109,7 +1075,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "M1",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "property": {
@@ -1120,7 +1085,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "C1",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false
@@ -1162,7 +1126,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "tmp",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -1173,7 +1136,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "y",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -1219,7 +1181,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "tmp",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -1230,7 +1191,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "x",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false

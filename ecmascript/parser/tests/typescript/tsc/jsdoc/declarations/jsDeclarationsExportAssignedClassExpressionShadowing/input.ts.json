@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "member",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -60,7 +58,6 @@
                 "ctxt": 0
               },
               "value": "Q",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -94,7 +91,6 @@
           "ctxt": 0
         },
         "value": "Q",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -120,7 +116,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -180,7 +175,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -191,7 +185,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -206,7 +199,6 @@
               "ctxt": 0
             },
             "value": "Q",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -231,7 +223,6 @@
                   "ctxt": 0
                 },
                 "value": "constructor",
-                "typeAnnotation": null,
                 "optional": false
               },
               "params": [],
@@ -281,7 +272,6 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -301,7 +291,6 @@
                             "ctxt": 0
                           },
                           "value": "A",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "arguments": [],
@@ -360,7 +349,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -371,7 +359,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -384,7 +371,6 @@
               "ctxt": 0
             },
             "value": "Another",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -397,7 +383,6 @@
             "ctxt": 0
           },
           "value": "Q",
-          "typeAnnotation": null,
           "optional": false
         }
       }

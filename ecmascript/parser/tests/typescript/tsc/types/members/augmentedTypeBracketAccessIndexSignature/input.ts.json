@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "Foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -51,7 +50,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -79,7 +77,6 @@
           "ctxt": 0
         },
         "value": "Bar",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -109,7 +106,6 @@
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -137,7 +133,6 @@
           "ctxt": 0
         },
         "value": "Object",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -162,6 +157,7 @@
                   "ctxt": 0
                 },
                 "value": "n",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -178,8 +174,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -204,7 +199,6 @@
                     "ctxt": 0
                   },
                   "value": "Foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -235,7 +229,6 @@
           "ctxt": 0
         },
         "value": "Function",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -260,6 +253,7 @@
                   "ctxt": 0
                 },
                 "value": "n",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -276,8 +270,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -302,7 +295,6 @@
                     "ctxt": 0
                   },
                   "value": "Bar",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -343,8 +335,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -402,8 +394,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",

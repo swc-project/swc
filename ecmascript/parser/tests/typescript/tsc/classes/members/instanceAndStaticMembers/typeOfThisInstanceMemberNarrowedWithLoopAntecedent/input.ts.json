@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "State",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -58,7 +57,6 @@
                     "ctxt": 0
                   },
                   "value": "type",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false,
@@ -113,7 +111,6 @@
                     "ctxt": 0
                   },
                   "value": "data",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false,
@@ -165,7 +162,6 @@
                     "ctxt": 0
                   },
                   "value": "type",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false,
@@ -220,7 +216,6 @@
                     "ctxt": 0
                   },
                   "value": "data",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false,
@@ -261,7 +256,6 @@
           "ctxt": 0
         },
         "value": "SomeClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -287,7 +281,6 @@
               "ctxt": 0
             },
             "value": "state",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -313,7 +306,6 @@
                   "ctxt": 0
                 },
                 "value": "State",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -344,7 +336,6 @@
               "ctxt": 0
             },
             "value": "method",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -426,7 +417,6 @@
                           "ctxt": 0
                         },
                         "value": "state",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -439,7 +429,6 @@
                         "ctxt": 0
                       },
                       "value": "data",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -490,7 +479,6 @@
                             "ctxt": 0
                           },
                           "value": "state",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -503,7 +491,6 @@
                           "ctxt": 0
                         },
                         "value": "type",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -556,6 +543,7 @@
                                 "ctxt": 0
                               },
                               "value": "s",
+                              "optional": false,
                               "typeAnnotation": {
                                 "type": "TsTypeAnnotation",
                                 "span": {
@@ -572,8 +560,7 @@
                                   },
                                   "kind": "string"
                                 }
-                              },
-                              "optional": false
+                              }
                             },
                             "init": {
                               "type": "MemberExpression",
@@ -605,7 +592,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "state",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -618,7 +604,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "data",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -661,7 +646,6 @@
           "ctxt": 0
         },
         "value": "SomeClass2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -687,7 +671,6 @@
               "ctxt": 0
             },
             "value": "state",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -713,7 +696,6 @@
                   "ctxt": 0
                 },
                 "value": "State",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -744,7 +726,6 @@
               "ctxt": 0
             },
             "value": "method",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -788,8 +769,8 @@
                           "ctxt": 0
                         },
                         "value": "c",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "BooleanLiteral",
@@ -819,7 +800,6 @@
                       "ctxt": 0
                     },
                     "value": "c",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "body": {
@@ -877,7 +857,6 @@
                             "ctxt": 0
                           },
                           "value": "state",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -890,7 +869,6 @@
                           "ctxt": 0
                         },
                         "value": "type",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -955,7 +933,6 @@
                                 "ctxt": 0
                               },
                               "value": "state",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -968,7 +945,6 @@
                               "ctxt": 0
                             },
                             "value": "data",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -1003,6 +979,7 @@
                           "ctxt": 0
                         },
                         "value": "n",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -1019,8 +996,7 @@
                             },
                             "kind": "number"
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": {
                         "type": "OptionalChainingExpression",
@@ -1064,7 +1040,6 @@
                                 "ctxt": 0
                               },
                               "value": "state",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -1077,7 +1052,6 @@
                               "ctxt": 0
                             },
                             "value": "data",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false

@@ -39,8 +39,8 @@
                 "ctxt": 0
               },
               "value": "i",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": null,
             "definite": false
@@ -173,8 +173,8 @@
                             "ctxt": 0
                           },
                           "value": "j",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "init": null,
                         "definite": false
@@ -258,7 +258,6 @@
                               "ctxt": 0
                             },
                             "value": "i",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "right": {
@@ -301,7 +300,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "Error",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "arguments": [
@@ -362,7 +360,6 @@
                           "ctxt": 0
                         },
                         "value": "console",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -373,7 +370,6 @@
                           "ctxt": 0
                         },
                         "value": "log",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -389,7 +385,6 @@
                             "ctxt": 0
                           },
                           "value": "i",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       }
@@ -414,8 +409,8 @@
                   "ctxt": 0
                 },
                 "value": "err",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "body": {
                 "type": "BlockStatement",
@@ -454,7 +449,6 @@
                             "ctxt": 0
                           },
                           "value": "console",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -465,7 +459,6 @@
                             "ctxt": 0
                           },
                           "value": "log",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -498,7 +491,6 @@
                               "ctxt": 0
                             },
                             "value": "i",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         },
@@ -512,7 +504,6 @@
                               "ctxt": 0
                             },
                             "value": "err",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }

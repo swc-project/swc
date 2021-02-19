@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "t",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -68,7 +66,6 @@
                   "ctxt": 0
                 },
                 "value": "T",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -110,7 +107,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -131,7 +127,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -152,8 +147,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         },
         {
@@ -172,8 +167,8 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         },
         {
@@ -192,8 +187,8 @@
               "ctxt": 0
             },
             "value": "skipped",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -241,7 +236,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -252,7 +246,6 @@
                     "ctxt": 0
                   },
                   "value": "t",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -272,7 +265,6 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -283,7 +275,6 @@
                     "ctxt": 0
                   },
                   "value": "t",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -322,8 +313,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -340,7 +331,6 @@
                 "ctxt": 0
               },
               "value": "f",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -364,7 +354,6 @@
                           "ctxt": 0
                         },
                         "value": "t",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -400,7 +389,6 @@
                           "ctxt": 0
                         },
                         "value": "t",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -436,7 +424,6 @@
                           "ctxt": 0
                         },
                         "value": "t",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {

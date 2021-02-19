@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "g",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -37,8 +36,8 @@
               "ctxt": 0
             },
             "value": "callback",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -78,7 +77,6 @@
                   "ctxt": 0
                 },
                 "value": "callback",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -193,8 +191,8 @@
               "ctxt": 0
             },
             "value": "stringFromCharCode",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -211,7 +209,6 @@
                 "ctxt": 0
               },
               "value": "String",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -222,7 +219,6 @@
                 "ctxt": 0
               },
               "value": "fromCharCode",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false

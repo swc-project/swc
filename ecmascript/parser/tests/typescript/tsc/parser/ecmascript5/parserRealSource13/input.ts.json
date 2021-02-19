@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "TypeScript",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -43,7 +42,6 @@
             "ctxt": 0
           },
           "value": "AstWalkerWithDetailCallback",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -76,7 +74,6 @@
                     "ctxt": 0
                   },
                   "value": "AstWalkerDetailCallback",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "declare": false,
@@ -106,7 +103,6 @@
                           "ctxt": 0
                         },
                         "value": "EmptyCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -120,8 +116,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -131,6 +127,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -153,13 +150,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -197,7 +192,6 @@
                           "ctxt": 0
                         },
                         "value": "EmptyExprCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -211,8 +205,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -222,6 +216,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -244,13 +239,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -288,7 +281,6 @@
                           "ctxt": 0
                         },
                         "value": "TrueCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -302,8 +294,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -313,6 +305,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -335,13 +328,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -379,7 +370,6 @@
                           "ctxt": 0
                         },
                         "value": "FalseCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -393,8 +383,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -404,6 +394,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -426,13 +417,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -470,7 +459,6 @@
                           "ctxt": 0
                         },
                         "value": "ThisCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -484,8 +472,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -495,6 +483,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -517,13 +506,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -561,7 +548,6 @@
                           "ctxt": 0
                         },
                         "value": "SuperCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -575,8 +561,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -586,6 +572,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -608,13 +595,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -652,7 +637,6 @@
                           "ctxt": 0
                         },
                         "value": "QStringCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -666,8 +650,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -677,6 +661,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -699,13 +684,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -743,7 +726,6 @@
                           "ctxt": 0
                         },
                         "value": "RegexCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -757,8 +739,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -768,6 +750,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -790,13 +773,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -834,7 +815,6 @@
                           "ctxt": 0
                         },
                         "value": "NullCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -848,8 +828,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -859,6 +839,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -881,13 +862,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -925,7 +904,6 @@
                           "ctxt": 0
                         },
                         "value": "ArrayLitCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -939,8 +917,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -950,6 +928,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -972,13 +951,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -1016,7 +993,6 @@
                           "ctxt": 0
                         },
                         "value": "ObjectLitCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -1030,8 +1006,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -1041,6 +1017,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -1063,13 +1040,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -1107,7 +1082,6 @@
                           "ctxt": 0
                         },
                         "value": "VoidCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -1121,8 +1095,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -1132,6 +1106,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -1154,13 +1129,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -1198,7 +1171,6 @@
                           "ctxt": 0
                         },
                         "value": "CommaCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -1212,8 +1184,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -1223,6 +1195,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -1245,13 +1218,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -1289,7 +1260,6 @@
                           "ctxt": 0
                         },
                         "value": "PosCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -1303,8 +1273,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -1314,6 +1284,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -1336,13 +1307,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -1380,7 +1349,6 @@
                           "ctxt": 0
                         },
                         "value": "NegCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -1394,8 +1362,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -1405,6 +1373,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -1427,13 +1396,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -1471,7 +1438,6 @@
                           "ctxt": 0
                         },
                         "value": "DeleteCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -1485,8 +1451,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -1496,6 +1462,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -1518,13 +1485,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -1562,7 +1527,6 @@
                           "ctxt": 0
                         },
                         "value": "AwaitCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -1576,8 +1540,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -1587,6 +1551,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -1609,13 +1574,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -1653,7 +1616,6 @@
                           "ctxt": 0
                         },
                         "value": "InCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -1667,8 +1629,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -1678,6 +1640,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -1700,13 +1663,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -1744,7 +1705,6 @@
                           "ctxt": 0
                         },
                         "value": "DotCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -1758,8 +1718,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -1769,6 +1729,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -1791,13 +1752,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -1835,7 +1794,6 @@
                           "ctxt": 0
                         },
                         "value": "FromCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -1849,8 +1807,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -1860,6 +1818,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -1882,13 +1841,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -1926,7 +1883,6 @@
                           "ctxt": 0
                         },
                         "value": "IsCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -1940,8 +1896,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -1951,6 +1907,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -1973,13 +1930,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -2017,7 +1972,6 @@
                           "ctxt": 0
                         },
                         "value": "InstOfCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -2031,8 +1985,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -2042,6 +1996,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -2064,13 +2019,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -2108,7 +2061,6 @@
                           "ctxt": 0
                         },
                         "value": "TypeofCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -2122,8 +2074,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -2133,6 +2085,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -2155,13 +2108,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -2199,7 +2150,6 @@
                           "ctxt": 0
                         },
                         "value": "NumberLitCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -2213,8 +2163,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -2224,6 +2174,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -2246,13 +2197,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -2290,7 +2239,6 @@
                           "ctxt": 0
                         },
                         "value": "NameCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -2304,8 +2252,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -2315,6 +2263,7 @@
                             "ctxt": 0
                           },
                           "value": "identifierAst",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -2337,13 +2286,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "Identifier",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -2381,7 +2328,6 @@
                           "ctxt": 0
                         },
                         "value": "TypeRefCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -2395,8 +2341,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -2406,6 +2352,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -2428,13 +2375,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -2472,7 +2417,6 @@
                           "ctxt": 0
                         },
                         "value": "IndexCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -2486,8 +2430,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -2497,6 +2441,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -2519,13 +2464,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -2563,7 +2506,6 @@
                           "ctxt": 0
                         },
                         "value": "CallCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -2577,8 +2519,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -2588,6 +2530,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -2610,13 +2553,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -2654,7 +2595,6 @@
                           "ctxt": 0
                         },
                         "value": "NewCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -2668,8 +2608,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -2679,6 +2619,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -2701,13 +2642,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -2745,7 +2684,6 @@
                           "ctxt": 0
                         },
                         "value": "AsgCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -2759,8 +2697,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -2770,6 +2708,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -2792,13 +2731,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -2836,7 +2773,6 @@
                           "ctxt": 0
                         },
                         "value": "AsgAddCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -2850,8 +2786,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -2861,6 +2797,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -2883,13 +2820,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -2927,7 +2862,6 @@
                           "ctxt": 0
                         },
                         "value": "AsgSubCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -2941,8 +2875,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -2952,6 +2886,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -2974,13 +2909,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -3018,7 +2951,6 @@
                           "ctxt": 0
                         },
                         "value": "AsgDivCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -3032,8 +2964,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -3043,6 +2975,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -3065,13 +2998,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -3109,7 +3040,6 @@
                           "ctxt": 0
                         },
                         "value": "AsgMulCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -3123,8 +3053,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -3134,6 +3064,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -3156,13 +3087,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -3200,7 +3129,6 @@
                           "ctxt": 0
                         },
                         "value": "AsgModCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -3214,8 +3142,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -3225,6 +3153,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -3247,13 +3176,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -3291,7 +3218,6 @@
                           "ctxt": 0
                         },
                         "value": "AsgAndCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -3305,8 +3231,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -3316,6 +3242,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -3338,13 +3265,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -3382,7 +3307,6 @@
                           "ctxt": 0
                         },
                         "value": "AsgXorCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -3396,8 +3320,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -3407,6 +3331,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -3429,13 +3354,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -3473,7 +3396,6 @@
                           "ctxt": 0
                         },
                         "value": "AsgOrCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -3487,8 +3409,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -3498,6 +3420,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -3520,13 +3443,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -3564,7 +3485,6 @@
                           "ctxt": 0
                         },
                         "value": "AsgLshCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -3578,8 +3498,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -3589,6 +3509,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -3611,13 +3532,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -3655,7 +3574,6 @@
                           "ctxt": 0
                         },
                         "value": "AsgRshCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -3669,8 +3587,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -3680,6 +3598,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -3702,13 +3621,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -3746,7 +3663,6 @@
                           "ctxt": 0
                         },
                         "value": "AsgRs2Callback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -3760,8 +3676,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -3771,6 +3687,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -3793,13 +3710,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -3837,7 +3752,6 @@
                           "ctxt": 0
                         },
                         "value": "QMarkCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -3851,8 +3765,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -3862,6 +3776,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -3884,13 +3799,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -3928,7 +3841,6 @@
                           "ctxt": 0
                         },
                         "value": "LogOrCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -3942,8 +3854,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -3953,6 +3865,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -3975,13 +3888,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -4019,7 +3930,6 @@
                           "ctxt": 0
                         },
                         "value": "LogAndCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -4033,8 +3943,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -4044,6 +3954,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -4066,13 +3977,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -4110,7 +4019,6 @@
                           "ctxt": 0
                         },
                         "value": "OrCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -4124,8 +4032,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -4135,6 +4043,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -4157,13 +4066,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -4201,7 +4108,6 @@
                           "ctxt": 0
                         },
                         "value": "XorCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -4215,8 +4121,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -4226,6 +4132,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -4248,13 +4155,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -4292,7 +4197,6 @@
                           "ctxt": 0
                         },
                         "value": "AndCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -4306,8 +4210,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -4317,6 +4221,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -4339,13 +4244,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -4383,7 +4286,6 @@
                           "ctxt": 0
                         },
                         "value": "EqCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -4397,8 +4299,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -4408,6 +4310,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -4430,13 +4333,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -4474,7 +4375,6 @@
                           "ctxt": 0
                         },
                         "value": "NeCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -4488,8 +4388,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -4499,6 +4399,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -4521,13 +4422,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -4565,7 +4464,6 @@
                           "ctxt": 0
                         },
                         "value": "EqvCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -4579,8 +4477,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -4590,6 +4488,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -4612,13 +4511,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -4656,7 +4553,6 @@
                           "ctxt": 0
                         },
                         "value": "NEqvCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -4670,8 +4566,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -4681,6 +4577,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -4703,13 +4600,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -4747,7 +4642,6 @@
                           "ctxt": 0
                         },
                         "value": "LtCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -4761,8 +4655,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -4772,6 +4666,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -4794,13 +4689,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -4838,7 +4731,6 @@
                           "ctxt": 0
                         },
                         "value": "LeCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -4852,8 +4744,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -4863,6 +4755,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -4885,13 +4778,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -4929,7 +4820,6 @@
                           "ctxt": 0
                         },
                         "value": "GtCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -4943,8 +4833,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -4954,6 +4844,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -4976,13 +4867,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -5020,7 +4909,6 @@
                           "ctxt": 0
                         },
                         "value": "GeCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -5034,8 +4922,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -5045,6 +4933,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -5067,13 +4956,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -5111,7 +4998,6 @@
                           "ctxt": 0
                         },
                         "value": "AddCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -5125,8 +5011,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -5136,6 +5022,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -5158,13 +5045,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -5202,7 +5087,6 @@
                           "ctxt": 0
                         },
                         "value": "SubCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -5216,8 +5100,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -5227,6 +5111,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -5249,13 +5134,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -5293,7 +5176,6 @@
                           "ctxt": 0
                         },
                         "value": "MulCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -5307,8 +5189,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -5318,6 +5200,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -5340,13 +5223,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -5384,7 +5265,6 @@
                           "ctxt": 0
                         },
                         "value": "DivCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -5398,8 +5278,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -5409,6 +5289,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -5431,13 +5312,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -5475,7 +5354,6 @@
                           "ctxt": 0
                         },
                         "value": "ModCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -5489,8 +5367,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -5500,6 +5378,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -5522,13 +5401,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -5566,7 +5443,6 @@
                           "ctxt": 0
                         },
                         "value": "LshCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -5580,8 +5456,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -5591,6 +5467,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -5613,13 +5490,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -5657,7 +5532,6 @@
                           "ctxt": 0
                         },
                         "value": "RshCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -5671,8 +5545,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -5682,6 +5556,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -5704,13 +5579,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -5748,7 +5621,6 @@
                           "ctxt": 0
                         },
                         "value": "Rs2Callback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -5762,8 +5634,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -5773,6 +5645,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -5795,13 +5668,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -5839,7 +5710,6 @@
                           "ctxt": 0
                         },
                         "value": "NotCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -5853,8 +5723,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -5864,6 +5734,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -5886,13 +5757,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -5930,7 +5799,6 @@
                           "ctxt": 0
                         },
                         "value": "LogNotCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -5944,8 +5812,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -5955,6 +5823,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -5977,13 +5846,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -6021,7 +5888,6 @@
                           "ctxt": 0
                         },
                         "value": "IncPreCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -6035,8 +5901,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -6046,6 +5912,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -6068,13 +5935,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -6112,7 +5977,6 @@
                           "ctxt": 0
                         },
                         "value": "DecPreCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -6126,8 +5990,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -6137,6 +6001,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -6159,13 +6024,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -6203,7 +6066,6 @@
                           "ctxt": 0
                         },
                         "value": "IncPostCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -6217,8 +6079,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -6228,6 +6090,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -6250,13 +6113,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -6294,7 +6155,6 @@
                           "ctxt": 0
                         },
                         "value": "DecPostCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -6308,8 +6168,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -6319,6 +6179,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -6341,13 +6202,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -6385,7 +6244,6 @@
                           "ctxt": 0
                         },
                         "value": "TypeAssertionCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -6399,8 +6257,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -6410,6 +6268,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -6432,13 +6291,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -6476,7 +6333,6 @@
                           "ctxt": 0
                         },
                         "value": "FuncDeclCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -6490,8 +6346,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -6501,6 +6357,7 @@
                             "ctxt": 0
                           },
                           "value": "funcDecl",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -6523,13 +6380,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "FuncDecl",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -6567,7 +6422,6 @@
                           "ctxt": 0
                         },
                         "value": "MemberCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -6581,8 +6435,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -6592,6 +6446,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -6614,13 +6469,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -6658,7 +6511,6 @@
                           "ctxt": 0
                         },
                         "value": "VarDeclCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -6672,8 +6524,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -6683,6 +6535,7 @@
                             "ctxt": 0
                           },
                           "value": "varDecl",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -6705,13 +6558,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "VarDecl",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -6749,7 +6600,6 @@
                           "ctxt": 0
                         },
                         "value": "ArgDeclCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -6763,8 +6613,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -6774,6 +6624,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -6796,13 +6647,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -6840,7 +6689,6 @@
                           "ctxt": 0
                         },
                         "value": "ReturnCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -6854,8 +6702,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -6865,6 +6713,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -6887,13 +6736,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -6931,7 +6778,6 @@
                           "ctxt": 0
                         },
                         "value": "BreakCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -6945,8 +6791,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -6956,6 +6802,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -6978,13 +6825,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -7022,7 +6867,6 @@
                           "ctxt": 0
                         },
                         "value": "ContinueCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -7036,8 +6880,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -7047,6 +6891,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -7069,13 +6914,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -7113,7 +6956,6 @@
                           "ctxt": 0
                         },
                         "value": "ThrowCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -7127,8 +6969,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -7138,6 +6980,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -7160,13 +7003,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -7204,7 +7045,6 @@
                           "ctxt": 0
                         },
                         "value": "ForCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -7218,8 +7058,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -7229,6 +7069,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -7251,13 +7092,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -7295,7 +7134,6 @@
                           "ctxt": 0
                         },
                         "value": "ForInCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -7309,8 +7147,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -7320,6 +7158,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -7342,13 +7181,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -7386,7 +7223,6 @@
                           "ctxt": 0
                         },
                         "value": "IfCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -7400,8 +7236,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -7411,6 +7247,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -7433,13 +7270,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -7477,7 +7312,6 @@
                           "ctxt": 0
                         },
                         "value": "WhileCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -7491,8 +7325,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -7502,6 +7336,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -7524,13 +7359,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -7568,7 +7401,6 @@
                           "ctxt": 0
                         },
                         "value": "DoWhileCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -7582,8 +7414,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -7593,6 +7425,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -7615,13 +7448,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -7659,7 +7490,6 @@
                           "ctxt": 0
                         },
                         "value": "BlockCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -7673,8 +7503,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -7684,6 +7514,7 @@
                             "ctxt": 0
                           },
                           "value": "block",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -7706,13 +7537,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "Block",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -7750,7 +7579,6 @@
                           "ctxt": 0
                         },
                         "value": "CaseCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -7764,8 +7592,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -7775,6 +7603,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -7797,13 +7626,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -7841,7 +7668,6 @@
                           "ctxt": 0
                         },
                         "value": "SwitchCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -7855,8 +7681,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -7866,6 +7692,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -7888,13 +7715,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -7932,7 +7757,6 @@
                           "ctxt": 0
                         },
                         "value": "TryCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -7946,8 +7770,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -7957,6 +7781,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -7979,13 +7804,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -8023,7 +7846,6 @@
                           "ctxt": 0
                         },
                         "value": "TryCatchCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -8037,8 +7859,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -8048,6 +7870,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -8070,13 +7893,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -8114,7 +7935,6 @@
                           "ctxt": 0
                         },
                         "value": "TryFinallyCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -8128,8 +7948,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -8139,6 +7959,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -8161,13 +7982,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -8205,7 +8024,6 @@
                           "ctxt": 0
                         },
                         "value": "FinallyCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -8219,8 +8037,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -8230,6 +8048,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -8252,13 +8071,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -8296,7 +8113,6 @@
                           "ctxt": 0
                         },
                         "value": "CatchCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -8310,8 +8126,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -8321,6 +8137,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -8343,13 +8160,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -8387,7 +8202,6 @@
                           "ctxt": 0
                         },
                         "value": "ListCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -8401,8 +8215,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -8412,6 +8226,7 @@
                             "ctxt": 0
                           },
                           "value": "astList",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -8434,13 +8249,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "ASTList",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -8478,7 +8291,6 @@
                           "ctxt": 0
                         },
                         "value": "ScriptCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -8492,8 +8304,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -8503,6 +8315,7 @@
                             "ctxt": 0
                           },
                           "value": "script",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -8525,13 +8338,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "Script",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -8569,7 +8380,6 @@
                           "ctxt": 0
                         },
                         "value": "ClassDeclarationCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -8583,8 +8393,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -8594,6 +8404,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -8616,13 +8427,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -8660,7 +8469,6 @@
                           "ctxt": 0
                         },
                         "value": "InterfaceDeclarationCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -8674,8 +8482,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -8685,6 +8493,7 @@
                             "ctxt": 0
                           },
                           "value": "interfaceDecl",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -8707,13 +8516,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "InterfaceDeclaration",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -8751,7 +8558,6 @@
                           "ctxt": 0
                         },
                         "value": "ModuleDeclarationCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -8765,8 +8571,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -8776,6 +8582,7 @@
                             "ctxt": 0
                           },
                           "value": "moduleDecl",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -8798,13 +8605,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "ModuleDeclaration",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -8842,7 +8647,6 @@
                           "ctxt": 0
                         },
                         "value": "ImportDeclarationCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -8856,8 +8660,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -8867,6 +8671,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -8889,13 +8694,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -8933,7 +8736,6 @@
                           "ctxt": 0
                         },
                         "value": "WithCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -8947,8 +8749,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -8958,6 +8760,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -8980,13 +8783,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -9024,7 +8825,6 @@
                           "ctxt": 0
                         },
                         "value": "LabelCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -9038,8 +8838,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -9049,6 +8849,7 @@
                             "ctxt": 0
                           },
                           "value": "labelAST",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -9071,13 +8872,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -9115,7 +8914,6 @@
                           "ctxt": 0
                         },
                         "value": "LabeledStatementCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -9129,8 +8927,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -9140,6 +8938,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -9162,13 +8961,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -9206,7 +9003,6 @@
                           "ctxt": 0
                         },
                         "value": "EBStartCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -9220,8 +9016,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -9231,6 +9027,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -9253,13 +9050,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -9297,7 +9092,6 @@
                           "ctxt": 0
                         },
                         "value": "GotoEBCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -9311,8 +9105,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -9322,6 +9116,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -9344,13 +9139,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -9388,7 +9181,6 @@
                           "ctxt": 0
                         },
                         "value": "EndCodeCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -9402,8 +9194,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -9413,6 +9205,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -9435,13 +9228,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -9479,7 +9270,6 @@
                           "ctxt": 0
                         },
                         "value": "ErrorCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -9493,8 +9283,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -9504,6 +9294,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -9526,13 +9317,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -9570,7 +9359,6 @@
                           "ctxt": 0
                         },
                         "value": "CommentCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -9584,8 +9372,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -9595,6 +9383,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -9617,13 +9406,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -9661,7 +9448,6 @@
                           "ctxt": 0
                         },
                         "value": "DebuggerCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -9675,8 +9461,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -9686,6 +9472,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -9708,13 +9495,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -9752,7 +9537,6 @@
                           "ctxt": 0
                         },
                         "value": "DefaultCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -9766,8 +9550,8 @@
                             "ctxt": 0
                           },
                           "value": "pre",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         {
                           "type": "Identifier",
@@ -9777,6 +9561,7 @@
                             "ctxt": 0
                           },
                           "value": "ast",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -9799,13 +9584,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "AST",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeAnn": {
@@ -9848,7 +9631,6 @@
                     "ctxt": 0
                   },
                   "value": "walk",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "declare": false,
@@ -9869,6 +9651,7 @@
                         "ctxt": 0
                       },
                       "value": "script",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -9891,13 +9674,11 @@
                               "ctxt": 0
                             },
                             "value": "Script",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
                         }
-                      },
-                      "optional": false
+                      }
                     }
                   },
                   {
@@ -9916,6 +9697,7 @@
                         "ctxt": 0
                       },
                       "value": "callback",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -9938,13 +9720,11 @@
                               "ctxt": 0
                             },
                             "value": "AstWalkerDetailCallback",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
                         }
-                      },
-                      "optional": false
+                      }
                     }
                   }
                 ],
@@ -9987,8 +9767,8 @@
                               "ctxt": 0
                             },
                             "value": "pre",
-                            "typeAnnotation": null,
-                            "optional": false
+                            "optional": false,
+                            "typeAnnotation": null
                           },
                           "init": {
                             "type": "ArrowFunctionExpression",
@@ -10006,6 +9786,7 @@
                                   "ctxt": 0
                                 },
                                 "value": "cur",
+                                "optional": false,
                                 "typeAnnotation": {
                                   "type": "TsTypeAnnotation",
                                   "span": {
@@ -10028,13 +9809,11 @@
                                         "ctxt": 0
                                       },
                                       "value": "AST",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "typeParams": null
                                   }
-                                },
-                                "optional": false
+                                }
                               },
                               {
                                 "type": "Identifier",
@@ -10044,6 +9823,7 @@
                                   "ctxt": 0
                                 },
                                 "value": "parent",
+                                "optional": false,
                                 "typeAnnotation": {
                                   "type": "TsTypeAnnotation",
                                   "span": {
@@ -10066,13 +9846,11 @@
                                         "ctxt": 0
                                       },
                                       "value": "AST",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "typeParams": null
                                   }
-                                },
-                                "optional": false
+                                }
                               }
                             ],
                             "body": {
@@ -10120,7 +9898,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "walker",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "property": {
@@ -10131,7 +9908,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "options",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "computed": false
@@ -10144,7 +9920,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "goChildren",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -10164,7 +9939,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "AstWalkerCallback",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "arguments": [
@@ -10190,7 +9964,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "cur",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           }
                                         },
@@ -10204,7 +9977,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "callback",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           }
                                         }
@@ -10228,7 +10000,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "cur",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   }
                                 }
@@ -10268,8 +10039,8 @@
                               "ctxt": 0
                             },
                             "value": "post",
-                            "typeAnnotation": null,
-                            "optional": false
+                            "optional": false,
+                            "typeAnnotation": null
                           },
                           "init": {
                             "type": "ArrowFunctionExpression",
@@ -10287,6 +10058,7 @@
                                   "ctxt": 0
                                 },
                                 "value": "cur",
+                                "optional": false,
                                 "typeAnnotation": {
                                   "type": "TsTypeAnnotation",
                                   "span": {
@@ -10309,13 +10081,11 @@
                                         "ctxt": 0
                                       },
                                       "value": "AST",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "typeParams": null
                                   }
-                                },
-                                "optional": false
+                                }
                               },
                               {
                                 "type": "Identifier",
@@ -10325,6 +10095,7 @@
                                   "ctxt": 0
                                 },
                                 "value": "parent",
+                                "optional": false,
                                 "typeAnnotation": {
                                   "type": "TsTypeAnnotation",
                                   "span": {
@@ -10347,13 +10118,11 @@
                                         "ctxt": 0
                                       },
                                       "value": "AST",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "typeParams": null
                                   }
-                                },
-                                "optional": false
+                                }
                               }
                             ],
                             "body": {
@@ -10386,7 +10155,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "AstWalkerCallback",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "arguments": [
@@ -10412,7 +10180,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "cur",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         }
                                       },
@@ -10426,7 +10193,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "callback",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         }
                                       }
@@ -10449,7 +10215,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "cur",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   }
                                 }
@@ -10489,8 +10254,8 @@
                               "ctxt": 0
                             },
                             "value": "walker",
-                            "typeAnnotation": null,
-                            "optional": false
+                            "optional": false,
+                            "typeAnnotation": null
                           },
                           "init": {
                             "type": "CallExpression",
@@ -10528,7 +10293,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "TypeScript",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "property": {
@@ -10539,7 +10303,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "getAstWalkerFactory",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false
@@ -10555,7 +10318,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "getWalker",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -10571,7 +10333,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "pre",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 }
                               },
@@ -10585,7 +10346,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "post",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 }
                               }
@@ -10625,7 +10385,6 @@
                               "ctxt": 0
                             },
                             "value": "walker",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -10636,7 +10395,6 @@
                               "ctxt": 0
                             },
                             "value": "walk",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -10652,7 +10410,6 @@
                                 "ctxt": 0
                               },
                               "value": "script",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           },
@@ -10705,7 +10462,6 @@
                   "ctxt": 0
                 },
                 "value": "AstWalkerCallback",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -10726,6 +10482,7 @@
                       "ctxt": 0
                     },
                     "value": "pre",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -10742,8 +10499,7 @@
                         },
                         "kind": "boolean"
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -10762,6 +10518,7 @@
                       "ctxt": 0
                     },
                     "value": "ast",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -10784,13 +10541,11 @@
                             "ctxt": 0
                           },
                           "value": "AST",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 },
                 {
@@ -10809,6 +10564,7 @@
                       "ctxt": 0
                     },
                     "value": "callback",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -10831,13 +10587,11 @@
                             "ctxt": 0
                           },
                           "value": "AstWalkerDetailCallback",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 }
               ],
@@ -10880,8 +10634,8 @@
                             "ctxt": 0
                           },
                           "value": "nodeType",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "init": {
                           "type": "MemberExpression",
@@ -10898,7 +10652,6 @@
                               "ctxt": 0
                             },
                             "value": "ast",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -10909,7 +10662,6 @@
                               "ctxt": 0
                             },
                             "value": "nodeType",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -10943,8 +10695,8 @@
                             "ctxt": 0
                           },
                           "value": "callbackString",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "init": {
                           "type": "BinaryExpression",
@@ -10990,7 +10742,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "NodeType",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "typeAnnotation": {
@@ -11012,7 +10763,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "_map",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -11025,7 +10775,6 @@
                                 "ctxt": 0
                               },
                               "value": "nodeType",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": true
@@ -11071,7 +10820,6 @@
                           "ctxt": 0
                         },
                         "value": "callback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -11082,7 +10830,6 @@
                           "ctxt": 0
                         },
                         "value": "callbackString",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": true
@@ -11124,7 +10871,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "callback",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -11135,7 +10881,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "callbackString",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": true
@@ -11151,7 +10896,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "pre",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 }
                               },
@@ -11165,7 +10909,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "ast",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 }
                               }
@@ -11199,7 +10942,6 @@
                           "ctxt": 0
                         },
                         "value": "callback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -11210,7 +10952,6 @@
                           "ctxt": 0
                         },
                         "value": "DefaultCallback",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -11252,7 +10993,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "callback",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -11263,7 +11003,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "DefaultCallback",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -11279,7 +11018,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "pre",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 }
                               },
@@ -11293,7 +11031,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "ast",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 }
                               }

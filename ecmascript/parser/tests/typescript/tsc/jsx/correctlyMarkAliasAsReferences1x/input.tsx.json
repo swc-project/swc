@@ -54,7 +54,6 @@
               "ctxt": 0
             },
             "value": "cx",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -99,7 +98,6 @@
               "ctxt": 0
             },
             "value": "React",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -146,8 +144,8 @@
               "ctxt": 0
             },
             "value": "buttonProps",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -179,8 +177,8 @@
               "ctxt": 0
             },
             "value": "k",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -199,7 +197,6 @@
                   "ctxt": 0
                 },
                 "value": "button",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -223,7 +220,6 @@
                       "ctxt": 0
                     },
                     "value": "buttonProps",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -259,7 +255,6 @@
                       "ctxt": 0
                     },
                     "value": "span",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "span": {
@@ -283,7 +278,6 @@
                           "ctxt": 0
                         },
                         "value": "className",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -308,7 +302,6 @@
                               "ctxt": 0
                             },
                             "value": "cx",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "arguments": [
@@ -349,7 +342,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "class2",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "value": {
@@ -403,7 +395,6 @@
                   "ctxt": 0
                 },
                 "value": "button",
-                "typeAnnotation": null,
                 "optional": false
               }
             }

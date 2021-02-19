@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "ClassTypeParam",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "Base",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -76,7 +74,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -109,7 +106,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -154,7 +150,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -180,7 +175,6 @@
                       "ctxt": 0
                     },
                     "value": "a2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -210,6 +204,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -232,13 +227,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -264,7 +257,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -290,7 +282,6 @@
                       "ctxt": 0
                     },
                     "value": "a3",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -320,6 +311,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -342,13 +334,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -374,7 +364,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -400,7 +389,6 @@
                       "ctxt": 0
                     },
                     "value": "a4",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -430,6 +418,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -452,13 +441,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -468,6 +455,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -490,13 +478,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -522,7 +508,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -548,7 +533,6 @@
                       "ctxt": 0
                     },
                     "value": "a5",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -578,6 +562,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -600,13 +585,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -616,6 +599,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -638,13 +622,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -670,7 +652,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -698,7 +679,6 @@
                 "ctxt": 0
               },
               "value": "I1",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -725,7 +705,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -749,7 +728,6 @@
                     "ctxt": 0
                   },
                   "value": "Base",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": {
@@ -775,7 +753,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -808,7 +785,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -853,7 +829,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -881,7 +856,6 @@
                 "ctxt": 0
               },
               "value": "I2",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -908,7 +882,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -932,7 +905,6 @@
                     "ctxt": 0
                   },
                   "value": "Base",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": {
@@ -958,7 +930,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -991,7 +962,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -1021,6 +991,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -1043,13 +1014,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -1075,7 +1044,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -1103,7 +1071,6 @@
                 "ctxt": 0
               },
               "value": "I3",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -1130,7 +1097,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -1154,7 +1120,6 @@
                     "ctxt": 0
                   },
                   "value": "Base",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": {
@@ -1180,7 +1145,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1213,7 +1177,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -1243,6 +1206,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -1265,13 +1229,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -1297,7 +1259,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -1325,7 +1286,6 @@
                 "ctxt": 0
               },
               "value": "I4",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -1352,7 +1312,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -1376,7 +1335,6 @@
                     "ctxt": 0
                   },
                   "value": "Base",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": {
@@ -1402,7 +1360,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1435,7 +1392,6 @@
                       "ctxt": 0
                     },
                     "value": "a2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -1480,7 +1436,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -1508,7 +1463,6 @@
                 "ctxt": 0
               },
               "value": "I5",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -1535,7 +1489,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -1559,7 +1512,6 @@
                     "ctxt": 0
                   },
                   "value": "Base",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": {
@@ -1585,7 +1537,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1618,7 +1569,6 @@
                       "ctxt": 0
                     },
                     "value": "a2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -1648,6 +1598,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -1670,13 +1621,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -1702,7 +1651,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -1730,7 +1678,6 @@
                 "ctxt": 0
               },
               "value": "I6",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -1757,7 +1704,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -1781,7 +1727,6 @@
                     "ctxt": 0
                   },
                   "value": "Base",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": {
@@ -1807,7 +1752,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1840,7 +1784,6 @@
                       "ctxt": 0
                     },
                     "value": "a2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -1870,6 +1813,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -1892,13 +1836,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -1924,7 +1866,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -1952,7 +1893,6 @@
                 "ctxt": 0
               },
               "value": "I7",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -1979,7 +1919,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -2003,7 +1942,6 @@
                     "ctxt": 0
                   },
                   "value": "Base",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": {
@@ -2029,7 +1967,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -2062,7 +1999,6 @@
                       "ctxt": 0
                     },
                     "value": "a3",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -2107,7 +2043,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -2135,7 +2070,6 @@
                 "ctxt": 0
               },
               "value": "I8",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -2162,7 +2096,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -2186,7 +2119,6 @@
                     "ctxt": 0
                   },
                   "value": "Base",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": {
@@ -2212,7 +2144,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -2245,7 +2176,6 @@
                       "ctxt": 0
                     },
                     "value": "a3",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -2275,6 +2205,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -2297,13 +2228,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -2329,7 +2258,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -2357,7 +2285,6 @@
                 "ctxt": 0
               },
               "value": "I9",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -2384,7 +2311,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -2408,7 +2334,6 @@
                     "ctxt": 0
                   },
                   "value": "Base",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": {
@@ -2434,7 +2359,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -2467,7 +2391,6 @@
                       "ctxt": 0
                     },
                     "value": "a3",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -2497,6 +2420,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -2519,13 +2443,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -2551,7 +2473,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -2579,7 +2500,6 @@
                 "ctxt": 0
               },
               "value": "I10",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -2606,7 +2526,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -2630,7 +2549,6 @@
                     "ctxt": 0
                   },
                   "value": "Base",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": {
@@ -2656,7 +2574,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -2689,7 +2606,6 @@
                       "ctxt": 0
                     },
                     "value": "a3",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -2719,6 +2635,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -2741,13 +2658,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -2757,6 +2672,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -2779,13 +2695,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -2811,7 +2725,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -2839,7 +2752,6 @@
                 "ctxt": 0
               },
               "value": "I11",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -2866,7 +2778,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -2890,7 +2801,6 @@
                     "ctxt": 0
                   },
                   "value": "Base",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": {
@@ -2916,7 +2826,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -2949,7 +2858,6 @@
                       "ctxt": 0
                     },
                     "value": "a4",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -2994,7 +2902,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -3022,7 +2929,6 @@
                 "ctxt": 0
               },
               "value": "I12",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -3049,7 +2955,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -3073,7 +2978,6 @@
                     "ctxt": 0
                   },
                   "value": "Base",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": {
@@ -3099,7 +3003,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -3132,7 +3035,6 @@
                       "ctxt": 0
                     },
                     "value": "a4",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -3162,6 +3064,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -3184,13 +3087,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -3200,6 +3101,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -3222,13 +3124,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -3254,7 +3154,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -3282,7 +3181,6 @@
                 "ctxt": 0
               },
               "value": "I13",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -3309,7 +3207,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -3333,7 +3230,6 @@
                     "ctxt": 0
                   },
                   "value": "Base",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": {
@@ -3359,7 +3255,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -3392,7 +3287,6 @@
                       "ctxt": 0
                     },
                     "value": "a4",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -3422,6 +3316,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -3444,13 +3339,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -3476,7 +3369,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -3504,7 +3396,6 @@
                 "ctxt": 0
               },
               "value": "I14",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -3531,7 +3422,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -3555,7 +3445,6 @@
                     "ctxt": 0
                   },
                   "value": "Base",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": {
@@ -3581,7 +3470,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -3614,7 +3502,6 @@
                       "ctxt": 0
                     },
                     "value": "a4",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -3644,6 +3531,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -3666,13 +3554,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -3682,6 +3568,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -3704,13 +3591,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -3736,7 +3621,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -3764,7 +3648,6 @@
                 "ctxt": 0
               },
               "value": "I15",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -3791,7 +3674,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -3815,7 +3697,6 @@
                     "ctxt": 0
                   },
                   "value": "Base",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": {
@@ -3841,7 +3722,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -3874,7 +3754,6 @@
                       "ctxt": 0
                     },
                     "value": "a5",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -3919,7 +3798,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -3947,7 +3825,6 @@
                 "ctxt": 0
               },
               "value": "I16",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -3974,7 +3851,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -3998,7 +3874,6 @@
                     "ctxt": 0
                   },
                   "value": "Base",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": {
@@ -4024,7 +3899,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -4057,7 +3931,6 @@
                       "ctxt": 0
                     },
                     "value": "a5",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -4087,6 +3960,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -4109,13 +3983,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -4125,6 +3997,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -4147,13 +4020,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -4179,7 +4050,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -4207,7 +4077,6 @@
                 "ctxt": 0
               },
               "value": "I17",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -4234,7 +4103,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -4258,7 +4126,6 @@
                     "ctxt": 0
                   },
                   "value": "Base",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": {
@@ -4284,7 +4151,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -4317,7 +4183,6 @@
                       "ctxt": 0
                     },
                     "value": "a5",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -4347,6 +4212,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -4369,13 +4235,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -4401,7 +4265,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -4429,7 +4292,6 @@
                 "ctxt": 0
               },
               "value": "I18",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -4456,7 +4318,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -4480,7 +4341,6 @@
                     "ctxt": 0
                   },
                   "value": "Base",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": {
@@ -4506,7 +4366,6 @@
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -4539,7 +4398,6 @@
                       "ctxt": 0
                     },
                     "value": "a5",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -4569,6 +4427,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -4591,13 +4450,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -4607,6 +4464,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -4629,13 +4487,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -4661,7 +4517,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -4694,7 +4549,6 @@
           "ctxt": 0
         },
         "value": "GenericSignaturesInvalid",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -4720,7 +4574,6 @@
                 "ctxt": 0
               },
               "value": "Base2",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -4750,7 +4603,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -4795,7 +4647,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -4825,7 +4676,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -4851,7 +4701,6 @@
                       "ctxt": 0
                     },
                     "value": "a2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -4881,6 +4730,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -4903,13 +4753,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": {
@@ -4935,7 +4783,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -4965,7 +4812,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -4991,7 +4837,6 @@
                       "ctxt": 0
                     },
                     "value": "a3",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -5021,6 +4866,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -5043,13 +4889,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": {
@@ -5075,7 +4919,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -5105,7 +4948,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -5131,7 +4973,6 @@
                       "ctxt": 0
                     },
                     "value": "a4",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -5161,6 +5002,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -5183,13 +5025,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -5199,6 +5039,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -5221,13 +5062,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": {
@@ -5253,7 +5092,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -5283,7 +5121,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -5309,7 +5146,6 @@
                       "ctxt": 0
                     },
                     "value": "a5",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -5339,6 +5175,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -5361,13 +5198,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -5377,6 +5212,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -5399,13 +5235,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": {
@@ -5431,7 +5265,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -5461,7 +5294,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -5489,7 +5321,6 @@
                 "ctxt": 0
               },
               "value": "I1",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -5516,7 +5347,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -5540,7 +5370,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -5570,7 +5399,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -5615,7 +5443,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -5643,7 +5470,6 @@
                 "ctxt": 0
               },
               "value": "I2",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -5670,7 +5496,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -5694,7 +5519,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -5724,7 +5548,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -5754,6 +5577,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -5776,13 +5600,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -5808,7 +5630,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -5836,7 +5657,6 @@
                 "ctxt": 0
               },
               "value": "I3",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -5863,7 +5683,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -5887,7 +5706,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -5917,7 +5735,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -5947,6 +5764,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -5969,13 +5787,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -6001,7 +5817,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -6029,7 +5844,6 @@
                 "ctxt": 0
               },
               "value": "I4",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -6056,7 +5870,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -6080,7 +5893,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -6110,7 +5922,6 @@
                       "ctxt": 0
                     },
                     "value": "a2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -6155,7 +5966,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -6183,7 +5993,6 @@
                 "ctxt": 0
               },
               "value": "I5",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -6210,7 +6019,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -6234,7 +6042,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -6264,7 +6071,6 @@
                       "ctxt": 0
                     },
                     "value": "a2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -6294,6 +6100,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -6316,13 +6123,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -6348,7 +6153,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -6376,7 +6180,6 @@
                 "ctxt": 0
               },
               "value": "I6",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -6403,7 +6206,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -6427,7 +6229,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -6457,7 +6258,6 @@
                       "ctxt": 0
                     },
                     "value": "a2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -6487,6 +6287,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -6509,13 +6310,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -6541,7 +6340,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -6569,7 +6367,6 @@
                 "ctxt": 0
               },
               "value": "I7",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -6596,7 +6393,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -6620,7 +6416,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -6650,7 +6445,6 @@
                       "ctxt": 0
                     },
                     "value": "a3",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -6695,7 +6489,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -6723,7 +6516,6 @@
                 "ctxt": 0
               },
               "value": "I8",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -6750,7 +6542,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -6774,7 +6565,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -6804,7 +6594,6 @@
                       "ctxt": 0
                     },
                     "value": "a3",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -6834,6 +6623,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -6856,13 +6646,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -6888,7 +6676,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -6916,7 +6703,6 @@
                 "ctxt": 0
               },
               "value": "I9",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -6943,7 +6729,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -6967,7 +6752,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -6997,7 +6781,6 @@
                       "ctxt": 0
                     },
                     "value": "a3",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -7027,6 +6810,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -7049,13 +6833,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -7081,7 +6863,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -7109,7 +6890,6 @@
                 "ctxt": 0
               },
               "value": "I10",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -7136,7 +6916,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -7160,7 +6939,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -7190,7 +6968,6 @@
                       "ctxt": 0
                     },
                     "value": "a3",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -7220,6 +6997,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -7242,13 +7020,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -7258,6 +7034,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -7280,13 +7057,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -7312,7 +7087,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -7340,7 +7114,6 @@
                 "ctxt": 0
               },
               "value": "I11",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -7367,7 +7140,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -7391,7 +7163,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -7421,7 +7192,6 @@
                       "ctxt": 0
                     },
                     "value": "a4",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -7466,7 +7236,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -7494,7 +7263,6 @@
                 "ctxt": 0
               },
               "value": "I12",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -7521,7 +7289,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -7545,7 +7312,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -7575,7 +7341,6 @@
                       "ctxt": 0
                     },
                     "value": "a4",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -7605,6 +7370,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -7627,13 +7393,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -7643,6 +7407,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -7665,13 +7430,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -7697,7 +7460,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -7725,7 +7487,6 @@
                 "ctxt": 0
               },
               "value": "I13",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -7752,7 +7513,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -7776,7 +7536,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -7806,7 +7565,6 @@
                       "ctxt": 0
                     },
                     "value": "a4",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -7836,6 +7594,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -7858,13 +7617,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -7890,7 +7647,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -7918,7 +7674,6 @@
                 "ctxt": 0
               },
               "value": "I14",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -7945,7 +7700,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -7969,7 +7723,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -7999,7 +7752,6 @@
                       "ctxt": 0
                     },
                     "value": "a4",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -8029,6 +7781,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -8051,13 +7804,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -8067,6 +7818,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -8089,13 +7841,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -8121,7 +7871,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -8149,7 +7898,6 @@
                 "ctxt": 0
               },
               "value": "I15",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -8176,7 +7924,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -8200,7 +7947,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -8230,7 +7976,6 @@
                       "ctxt": 0
                     },
                     "value": "a5",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -8275,7 +8020,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -8303,7 +8047,6 @@
                 "ctxt": 0
               },
               "value": "I16",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -8330,7 +8073,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -8354,7 +8096,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -8384,7 +8125,6 @@
                       "ctxt": 0
                     },
                     "value": "a5",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -8414,6 +8154,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -8436,13 +8177,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -8452,6 +8191,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -8474,13 +8214,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -8506,7 +8244,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -8534,7 +8271,6 @@
                 "ctxt": 0
               },
               "value": "I17",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -8561,7 +8297,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -8585,7 +8320,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -8615,7 +8349,6 @@
                       "ctxt": 0
                     },
                     "value": "a5",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -8645,6 +8378,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -8667,13 +8401,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -8699,7 +8431,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -8727,7 +8458,6 @@
                 "ctxt": 0
               },
               "value": "I18",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -8754,7 +8484,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -8778,7 +8507,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -8808,7 +8536,6 @@
                       "ctxt": 0
                     },
                     "value": "a5",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -8838,6 +8565,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -8860,13 +8588,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -8876,6 +8602,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -8898,13 +8625,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -8930,7 +8655,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -8963,7 +8687,6 @@
           "ctxt": 0
         },
         "value": "GenericSignaturesValid",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -8989,7 +8712,6 @@
                 "ctxt": 0
               },
               "value": "Base2",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -9019,7 +8741,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -9064,7 +8785,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -9094,7 +8814,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -9120,7 +8839,6 @@
                       "ctxt": 0
                     },
                     "value": "a2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -9150,6 +8868,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -9172,13 +8891,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": {
@@ -9204,7 +8921,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -9234,7 +8950,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -9260,7 +8975,6 @@
                       "ctxt": 0
                     },
                     "value": "a3",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -9290,6 +9004,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -9312,13 +9027,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": {
@@ -9344,7 +9057,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -9374,7 +9086,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -9400,7 +9111,6 @@
                       "ctxt": 0
                     },
                     "value": "a4",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -9430,6 +9140,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -9452,13 +9163,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -9468,6 +9177,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -9490,13 +9200,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": {
@@ -9522,7 +9230,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -9552,7 +9259,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -9578,7 +9284,6 @@
                       "ctxt": 0
                     },
                     "value": "a5",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -9608,6 +9313,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -9630,13 +9336,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -9646,6 +9350,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -9668,13 +9373,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": {
@@ -9700,7 +9403,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -9730,7 +9432,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -9758,7 +9459,6 @@
                 "ctxt": 0
               },
               "value": "I1",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -9779,7 +9479,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -9809,7 +9508,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -9854,7 +9552,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -9884,7 +9581,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -9912,7 +9608,6 @@
                 "ctxt": 0
               },
               "value": "I2",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -9933,7 +9628,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -9963,7 +9657,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -9993,6 +9686,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -10015,13 +9709,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": {
@@ -10047,7 +9739,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -10077,7 +9768,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -10105,7 +9795,6 @@
                 "ctxt": 0
               },
               "value": "I3",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -10126,7 +9815,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -10156,7 +9844,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -10186,6 +9873,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -10208,13 +9896,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": {
@@ -10240,7 +9926,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -10270,7 +9955,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -10298,7 +9982,6 @@
                 "ctxt": 0
               },
               "value": "I4",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -10319,7 +10002,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -10349,7 +10031,6 @@
                       "ctxt": 0
                     },
                     "value": "a2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -10394,7 +10075,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -10424,7 +10104,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -10452,7 +10131,6 @@
                 "ctxt": 0
               },
               "value": "I5",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -10473,7 +10151,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -10503,7 +10180,6 @@
                       "ctxt": 0
                     },
                     "value": "a2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -10533,6 +10209,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -10555,13 +10232,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": {
@@ -10587,7 +10262,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -10617,7 +10291,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -10645,7 +10318,6 @@
                 "ctxt": 0
               },
               "value": "I6",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -10666,7 +10338,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -10696,7 +10367,6 @@
                       "ctxt": 0
                     },
                     "value": "a2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -10726,6 +10396,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -10748,13 +10419,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": {
@@ -10780,7 +10449,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -10810,7 +10478,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -10838,7 +10505,6 @@
                 "ctxt": 0
               },
               "value": "I7",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -10859,7 +10525,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -10889,7 +10554,6 @@
                       "ctxt": 0
                     },
                     "value": "a3",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -10934,7 +10598,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -10964,7 +10627,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -10992,7 +10654,6 @@
                 "ctxt": 0
               },
               "value": "I8",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -11013,7 +10674,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -11043,7 +10703,6 @@
                       "ctxt": 0
                     },
                     "value": "a3",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -11073,6 +10732,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -11095,13 +10755,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": {
@@ -11127,7 +10785,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -11157,7 +10814,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -11185,7 +10841,6 @@
                 "ctxt": 0
               },
               "value": "I9",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -11206,7 +10861,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -11236,7 +10890,6 @@
                       "ctxt": 0
                     },
                     "value": "a3",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -11266,6 +10919,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -11288,13 +10942,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": {
@@ -11320,7 +10972,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -11350,7 +11001,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -11378,7 +11028,6 @@
                 "ctxt": 0
               },
               "value": "I10",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -11399,7 +11048,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -11429,7 +11077,6 @@
                       "ctxt": 0
                     },
                     "value": "a3",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -11459,6 +11106,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -11481,13 +11129,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -11497,6 +11143,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -11519,13 +11166,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": {
@@ -11551,7 +11196,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -11581,7 +11225,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -11609,7 +11252,6 @@
                 "ctxt": 0
               },
               "value": "I11",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -11630,7 +11272,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -11660,7 +11301,6 @@
                       "ctxt": 0
                     },
                     "value": "a4",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -11705,7 +11345,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -11735,7 +11374,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -11763,7 +11401,6 @@
                 "ctxt": 0
               },
               "value": "I12",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -11784,7 +11421,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -11814,7 +11450,6 @@
                       "ctxt": 0
                     },
                     "value": "a4",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -11844,6 +11479,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -11866,13 +11502,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -11882,6 +11516,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -11904,13 +11539,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": {
@@ -11936,7 +11569,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -11966,7 +11598,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -11994,7 +11625,6 @@
                 "ctxt": 0
               },
               "value": "I13",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -12015,7 +11645,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -12045,7 +11674,6 @@
                       "ctxt": 0
                     },
                     "value": "a4",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -12075,6 +11703,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -12097,13 +11726,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": {
@@ -12129,7 +11756,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -12159,7 +11785,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -12187,7 +11812,6 @@
                 "ctxt": 0
               },
               "value": "I14",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -12208,7 +11832,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -12238,7 +11861,6 @@
                       "ctxt": 0
                     },
                     "value": "a4",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -12268,6 +11890,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -12290,13 +11913,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -12306,6 +11927,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -12328,13 +11950,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": {
@@ -12360,7 +11980,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -12390,7 +12009,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -12418,7 +12036,6 @@
                 "ctxt": 0
               },
               "value": "I15",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -12439,7 +12056,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -12469,7 +12085,6 @@
                       "ctxt": 0
                     },
                     "value": "a5",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -12514,7 +12129,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -12544,7 +12158,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -12572,7 +12185,6 @@
                 "ctxt": 0
               },
               "value": "I16",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -12593,7 +12205,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -12623,7 +12234,6 @@
                       "ctxt": 0
                     },
                     "value": "a5",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -12653,6 +12263,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -12675,13 +12286,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -12691,6 +12300,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": true,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -12713,13 +12323,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": true
+                          }
                         }
                       ],
                       "typeParams": {
@@ -12745,7 +12353,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -12775,7 +12382,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -12803,7 +12409,6 @@
                 "ctxt": 0
               },
               "value": "I17",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -12824,7 +12429,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -12854,7 +12458,6 @@
                       "ctxt": 0
                     },
                     "value": "a5",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -12884,6 +12487,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -12906,13 +12510,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": {
@@ -12938,7 +12540,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -12968,7 +12569,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -12996,7 +12596,6 @@
                 "ctxt": 0
               },
               "value": "I18",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -13017,7 +12616,6 @@
                     "ctxt": 0
                   },
                   "value": "Base2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -13047,7 +12645,6 @@
                       "ctxt": 0
                     },
                     "value": "a5",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -13077,6 +12674,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -13099,13 +12697,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -13115,6 +12711,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -13137,13 +12734,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": {
@@ -13169,7 +12764,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -13199,7 +12793,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null

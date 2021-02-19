@@ -272,7 +272,7 @@ impl Fold for Umd {
                                 kind: VarDeclKind::Var,
                                 decls: vec![VarDeclarator {
                                     span: DUMMY_SP,
-                                    name: Pat::Ident(ident.clone()),
+                                    name: Pat::Ident(ident.clone().into()),
                                     init: Some(expr.expr.fold_with(self)),
                                     definite: false,
                                 }],
@@ -425,7 +425,7 @@ impl Fold for Umd {
             factory_params.push(Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(exports_ident.clone()),
+                pat: Pat::Ident(exports_ident.clone().into()),
             });
             factory_args.push(quote_ident!("exports").as_arg());
             global_factory_args.push(member_expr!(DUMMY_SP, mod.exports).as_arg());
@@ -440,7 +440,7 @@ impl Fold for Umd {
                     kind: VarDeclKind::Var,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(exported_names.clone()),
+                        name: Pat::Ident(exported_names.clone().into()),
                         init: Some(Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: exports
@@ -501,7 +501,7 @@ impl Fold for Umd {
             factory_params.push(Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(ident.clone()),
+                pat: Pat::Ident(ident.clone().into()),
             });
             factory_args.push(make_require_call(self.root_mark, src.clone()).as_arg());
             global_factory_args.push(quote_ident!("global").make_member(global_ident).as_arg());
@@ -529,7 +529,9 @@ impl Fold for Umd {
                             import_stmts.push(
                                 AssignExpr {
                                     span: DUMMY_SP,
-                                    left: PatOrExpr::Pat(Box::new(Pat::Ident(ident.clone()))),
+                                    left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                        ident.clone().into(),
+                                    ))),
                                     op: op!("="),
                                     right,
                                 }
@@ -558,12 +560,12 @@ impl Fold for Umd {
                 Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(quote_ident!("global")),
+                    pat: Pat::Ident(quote_ident!("global").into()),
                 },
                 Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(quote_ident!("factory")),
+                    pat: Pat::Ident(quote_ident!("factory").into()),
                 },
             ],
             body: Some(BlockStmt {
@@ -632,7 +634,7 @@ impl Fold for Umd {
                                         kind: VarDeclKind::Var,
                                         decls: vec![VarDeclarator {
                                             span: DUMMY_SP,
-                                            name: Pat::Ident(quote_ident!("mod")),
+                                            name: Pat::Ident(quote_ident!("mod").into()),
                                             init: Some(Box::new(Expr::Object(ObjectLit {
                                                 span: DUMMY_SP,
                                                 props: vec![PropOrSpread::Prop(Box::new(

@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "PromiseAlias",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -48,7 +47,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -71,7 +69,6 @@
             "ctxt": 0
           },
           "value": "Promise",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeParams": {
@@ -97,7 +94,6 @@
                   "ctxt": 0
                 },
                 "value": "T",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -116,7 +112,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -161,7 +156,6 @@
               "ctxt": 0
             },
             "value": "PromiseAlias",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": {

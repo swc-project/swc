@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "await",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",

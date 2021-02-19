@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -51,7 +50,6 @@
                 "ctxt": 0
               },
               "value": "mNumber",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -89,7 +87,6 @@
           "ctxt": 0
         },
         "value": "B",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -115,7 +112,6 @@
               "ctxt": 0
             },
             "value": "mNumber",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -181,7 +177,6 @@
           "ctxt": 0
         },
         "value": "B2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -207,7 +202,6 @@
               "ctxt": 0
             },
             "value": "mNumber",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -278,7 +272,6 @@
           "ctxt": 0
         },
         "value": "B3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,

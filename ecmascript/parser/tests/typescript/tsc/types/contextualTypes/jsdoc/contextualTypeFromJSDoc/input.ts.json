@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "arr",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -89,7 +89,6 @@
                                 "ctxt": 0
                               },
                               "value": "x",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -155,7 +154,6 @@
                                 "ctxt": 0
                               },
                               "value": "y",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -190,7 +188,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -271,7 +268,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "x",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "value": {
@@ -337,7 +333,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "y",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "value": {
@@ -376,7 +371,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -402,7 +396,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -423,8 +416,8 @@
                     "ctxt": 0
                   },
                   "value": "value",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -469,7 +462,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -550,7 +542,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "x",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "value": {
@@ -616,7 +607,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "y",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "value": {

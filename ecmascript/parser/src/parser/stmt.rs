@@ -601,7 +601,7 @@ impl<'a, I: Tokens> Parser<I> {
                 // self.emit_err(ty.span(), SyntaxError::TS1196);
 
                 match &mut pat {
-                    Pat::Ident(Ident { type_ann, .. })
+                    Pat::Ident(BindingIdent { type_ann, .. })
                     | Pat::Array(ArrayPat { type_ann, .. })
                     | Pat::Rest(RestPat { type_ann, .. })
                     | Pat::Object(ObjectPat { type_ann, .. })
@@ -746,7 +746,7 @@ impl<'a, I: Tokens> Parser<I> {
                 | Pat::Assign(AssignPat {
                     ref mut type_ann, ..
                 })
-                | Pat::Ident(Ident {
+                | Pat::Ident(BindingIdent {
                     ref mut type_ann, ..
                 })
                 | Pat::Object(ObjectPat {
@@ -1220,7 +1220,7 @@ mod tests {
                         props: vec![ObjectPatProp::Rest(RestPat {
                             span,
                             dot3_token: span,
-                            arg: Box::new(Pat::Ident(Ident::new("a34".into(), span))),
+                            arg: Box::new(Pat::Ident(Ident::new("a34".into(), span).into())),
                             type_ann: None
                         })],
                         type_ann: None,
@@ -1260,7 +1260,7 @@ mod tests {
                     decls: vec![VarDeclarator {
                         span,
                         init: None,
-                        name: Pat::Ident(Ident::new("a".into(), span)),
+                        name: Pat::Ident(Ident::new("a".into(), span).into()),
                         definite: false,
                     }],
                     declare: false,
@@ -1741,7 +1741,11 @@ export default function waitUntil(callback, options = {}) {
                             span,
                             type_ann: None,
                             optional: false,
-                            elems: vec![None, None, Some(Pat::Ident(Ident::new("t".into(), span)))]
+                            elems: vec![
+                                None,
+                                None,
+                                Some(Pat::Ident(Ident::new("t".into(), span).into()))
+                            ]
                         }),
                         init: Some(Box::new(Expr::Ident(Ident::new(
                             "simple_array".into(),

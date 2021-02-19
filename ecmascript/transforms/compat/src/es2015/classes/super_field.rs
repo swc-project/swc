@@ -281,7 +281,7 @@ impl<'a> SuperCalleeFolder<'a> {
             // Memoize
             self.vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(ref_ident.clone()),
+                name: Pat::Ident(ref_ident.clone().into()),
                 init: None,
                 definite: false,
             });
@@ -289,7 +289,7 @@ impl<'a> SuperCalleeFolder<'a> {
             if is_update {
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(update_ident.clone()),
+                    name: Pat::Ident(update_ident.clone().into()),
                     init: None,
                     definite: false,
                 });
@@ -320,7 +320,7 @@ impl<'a> SuperCalleeFolder<'a> {
             op!("=") => prop_arg.as_arg(),
             _ => AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone()))),
+                left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone().into()))),
                 op: op!("="),
                 right: prop,
             }
@@ -339,7 +339,7 @@ impl<'a> SuperCalleeFolder<'a> {
                     Box::new(
                         AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(update_ident.clone()))),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(update_ident.clone().into()))),
                             op: op!("="),
                             right: Box::new(Expr::Unary(UnaryExpr {
                                 span: DUMMY_SP,

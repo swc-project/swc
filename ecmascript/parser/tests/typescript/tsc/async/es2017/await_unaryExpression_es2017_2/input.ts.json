@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "bar1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -86,7 +85,6 @@
           "ctxt": 0
         },
         "value": "bar2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -156,7 +154,6 @@
           "ctxt": 0
         },
         "value": "bar3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,

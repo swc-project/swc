@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "JSX",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -80,7 +78,6 @@
                 "ctxt": 0
               },
               "value": "IntrinsicElements",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -140,7 +137,6 @@
                 "ctxt": 0
               },
               "value": "MyElement",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -201,7 +197,6 @@
                 "ctxt": 0
               },
               "value": "MyElement",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -238,7 +233,6 @@
           "ctxt": 0
         },
         "value": "s1",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -281,7 +275,6 @@
           "ctxt": 0
         },
         "value": "s2",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -333,7 +326,6 @@
                 "ctxt": 0
               },
               "value": "s1",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -344,7 +336,6 @@
                 "ctxt": 0
               },
               "value": "MyElement",
-              "typeAnnotation": null,
               "optional": false
             }
           },

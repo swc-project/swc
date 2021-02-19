@@ -104,11 +104,13 @@ where
                             let decl = &var.decls[0];
                             match &decl.name {
                                 Pat::Ident(i) => {
-                                    if i.sym == js_word!("default") {
+                                    if i.id.sym == js_word!("default") {
                                         return Some(Stmt::Decl(Decl::Var(var)));
                                     }
 
-                                    if let Some(remapped) = ctx.transitive_remap.get(&i.span.ctxt) {
+                                    if let Some(remapped) =
+                                        ctx.transitive_remap.get(&i.id.span.ctxt)
+                                    {
                                         // Create
                                         //
                                         // const local = mod.local;
@@ -116,18 +118,18 @@ where
                                         //
 
                                         let local_var = Ident::new(
-                                            i.sym.clone(),
-                                            i.span.with_ctxt(info.local_ctxt()),
+                                            i.id.sym.clone(),
+                                            i.id.span.with_ctxt(info.local_ctxt()),
                                         );
 
                                         let var_decl = VarDeclarator {
                                             span: DUMMY_SP,
-                                            name: Pat::Ident(local_var.clone()),
+                                            name: Pat::Ident(local_var.clone().into()),
                                             init: Some(Box::new(Expr::Member(MemberExpr {
                                                 span: DUMMY_SP,
                                                 obj: module_var_name.clone().as_obj(),
                                                 prop: {
-                                                    let mut prop = i.clone();
+                                                    let mut prop = i.id.clone();
                                                     prop.span.ctxt = SyntaxContext::empty();
 
                                                     Box::new(Expr::Ident(prop))
@@ -223,7 +225,7 @@ where
             decls: vec![VarDeclarator {
                 span: DUMMY_SP,
                 definite: false,
-                name: Pat::Ident(module_var_name.into_ident()),
+                name: Pat::Ident(module_var_name.into_ident().into()),
                 init: Some(Box::new(module_expr)),
             }],
         };

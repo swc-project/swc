@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "isString1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -37,6 +36,7 @@
               "ctxt": 0
             },
             "value": "a",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -53,8 +53,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -73,6 +72,7 @@
               "ctxt": 0
             },
             "value": "b",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -95,13 +95,11 @@
                     "ctxt": 0
                   },
                   "value": "Object",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -138,7 +136,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -171,7 +168,6 @@
           "ctxt": 0
         },
         "value": "isString2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -192,6 +188,7 @@
               "ctxt": 0
             },
             "value": "a",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -214,13 +211,11 @@
                     "ctxt": 0
                   },
                   "value": "Object",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -257,7 +252,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -302,7 +296,6 @@
             "ctxt": 0
           },
           "value": "isString1",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -361,7 +354,6 @@
                 "ctxt": 0
               },
               "value": "isString2",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -424,8 +416,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -450,7 +442,6 @@
                   "ctxt": 0
                 },
                 "value": "isString1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -501,7 +492,6 @@
                   "ctxt": 0
                 },
                 "value": "isString2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -540,7 +530,6 @@
           "ctxt": 0
         },
         "value": "isString3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -561,6 +550,7 @@
               "ctxt": 0
             },
             "value": "a",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -577,8 +567,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -597,6 +586,7 @@
               "ctxt": 0
             },
             "value": "b",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -613,8 +603,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -633,6 +622,7 @@
               "ctxt": 0
             },
             "value": "c",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -655,13 +645,11 @@
                     "ctxt": 0
                   },
                   "value": "Object",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -701,7 +689,6 @@
                   "ctxt": 0
                 },
                 "value": "isString1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -727,7 +714,6 @@
                       "ctxt": 0
                     },
                     "value": "c",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -763,7 +749,6 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {

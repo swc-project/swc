@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -50,6 +50,7 @@
                   "ctxt": 0
                 },
                 "value": "p",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -66,8 +67,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "body": {
@@ -85,7 +85,6 @@
                   "ctxt": 0
                 },
                 "value": "p",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -96,7 +95,6 @@
                   "ctxt": 0
                 },
                 "value": "length",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -135,8 +133,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -154,6 +152,7 @@
                   "ctxt": 0
                 },
                 "value": "p",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -170,8 +169,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "body": {
@@ -204,7 +202,6 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -215,7 +212,6 @@
                         "ctxt": 0
                       },
                       "value": "length",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -257,8 +253,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -276,8 +272,8 @@
                   "ctxt": 0
                 },
                 "value": "j",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
             "body": {
@@ -341,8 +337,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -360,8 +356,8 @@
                   "ctxt": 0
                 },
                 "value": "j",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
             "body": {
@@ -425,6 +421,7 @@
               "ctxt": 0
             },
             "value": "c",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -441,8 +438,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -474,8 +470,8 @@
               "ctxt": 0
             },
             "value": "d",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -493,8 +489,8 @@
                   "ctxt": 0
                 },
                 "value": "n",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
             "body": {
@@ -513,8 +509,8 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "Identifier",
@@ -524,7 +520,6 @@
                   "ctxt": 0
                 },
                 "value": "n",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -562,8 +557,8 @@
               "ctxt": 0
             },
             "value": "d",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -581,8 +576,8 @@
                   "ctxt": 0
                 },
                 "value": "n",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
             "body": {
@@ -601,8 +596,8 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "right": {
                 "type": "Identifier",
@@ -612,7 +607,6 @@
                   "ctxt": 0
                 },
                 "value": "n",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -650,6 +644,7 @@
               "ctxt": 0
             },
             "value": "d",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -673,6 +668,7 @@
                       "ctxt": 0
                     },
                     "value": "n",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -689,8 +685,7 @@
                         },
                         "kind": "any"
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 ],
                 "typeParams": null,
@@ -712,8 +707,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -745,8 +739,8 @@
               "ctxt": 0
             },
             "value": "p1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -772,8 +766,8 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   }
                 ],
                 "optional": false,
@@ -823,8 +817,8 @@
               "ctxt": 0
             },
             "value": "p2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -862,8 +856,8 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "typeAnnotation": null
                   }
@@ -915,8 +909,8 @@
               "ctxt": 0
             },
             "value": "p3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -943,8 +937,8 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   }
                 ],
                 "optional": false,
@@ -994,8 +988,8 @@
               "ctxt": 0
             },
             "value": "p4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -1034,8 +1028,8 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "typeAnnotation": null
                   }
@@ -1087,8 +1081,8 @@
               "ctxt": 0
             },
             "value": "p5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -1121,8 +1115,8 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -1183,8 +1177,8 @@
               "ctxt": 0
             },
             "value": "p6",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -1217,7 +1211,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "value": null
@@ -1270,8 +1263,8 @@
               "ctxt": 0
             },
             "value": "p7",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -1299,7 +1292,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "value": {
@@ -1325,7 +1317,6 @@
                               "ctxt": 0
                             },
                             "value": "b",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "value": null
@@ -1383,8 +1374,8 @@
               "ctxt": 0
             },
             "value": "p8",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -1417,7 +1408,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "value": {
@@ -1478,8 +1468,8 @@
               "ctxt": 0
             },
             "value": "p9",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -1507,7 +1497,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "value": {
@@ -1540,7 +1529,6 @@
                                 "ctxt": 0
                               },
                               "value": "b",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -1575,7 +1563,6 @@
                                 "ctxt": 0
                               },
                               "value": "b",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -1641,8 +1628,8 @@
               "ctxt": 0
             },
             "value": "p10",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -1683,7 +1670,6 @@
                             "ctxt": 0
                           },
                           "value": "value",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": null
@@ -1703,7 +1689,6 @@
                             "ctxt": 0
                           },
                           "value": "done",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": null
@@ -1745,7 +1730,6 @@
           "ctxt": 0
         },
         "value": "MyClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1771,7 +1755,6 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -1790,8 +1773,8 @@
                   "ctxt": 0
                 },
                 "value": "n",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
             "body": {
@@ -1810,7 +1793,6 @@
                   "ctxt": 0
                 },
                 "value": "n",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -1854,7 +1836,6 @@
               "ctxt": 0
             },
             "value": "p",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -1873,8 +1854,8 @@
                   "ctxt": 0
                 },
                 "value": "n",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
             "body": {
@@ -1893,7 +1874,6 @@
                   "ctxt": 0
                 },
                 "value": "n",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -1936,7 +1916,6 @@
               "ctxt": 0
             },
             "value": "fn",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1980,8 +1959,8 @@
                           "ctxt": 0
                         },
                         "value": "m",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ArrowFunctionExpression",
@@ -1999,8 +1978,8 @@
                               "ctxt": 0
                             },
                             "value": "n",
-                            "typeAnnotation": null,
-                            "optional": false
+                            "optional": false,
+                            "typeAnnotation": null
                           }
                         ],
                         "body": {
@@ -2019,7 +1998,6 @@
                               "ctxt": 0
                             },
                             "value": "n",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "right": {
@@ -2066,8 +2044,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ArrowFunctionExpression",
@@ -2085,8 +2063,8 @@
                               "ctxt": 0
                             },
                             "value": "n",
-                            "typeAnnotation": null,
-                            "optional": false
+                            "optional": false,
+                            "typeAnnotation": null
                           }
                         ],
                         "body": {
@@ -2105,7 +2083,6 @@
                               "ctxt": 0
                             },
                             "value": "n",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "right": {
@@ -2171,8 +2148,8 @@
               "ctxt": 0
             },
             "value": "arrrr",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -2198,6 +2175,7 @@
                     "ctxt": 0
                   },
                   "value": "m",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -2214,8 +2192,7 @@
                       },
                       "kind": "number"
                     }
-                  },
-                  "optional": false
+                  }
                 }
               ],
               "body": {
@@ -2242,6 +2219,7 @@
                         "ctxt": 0
                       },
                       "value": "n",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -2258,8 +2236,7 @@
                           },
                           "kind": "number"
                         }
-                      },
-                      "optional": false
+                      }
                     }
                   ],
                   "body": {
@@ -2278,7 +2255,6 @@
                         "ctxt": 0
                       },
                       "value": "m",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "right": {
@@ -2289,7 +2265,6 @@
                         "ctxt": 0
                       },
                       "value": "n",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   },
@@ -2342,8 +2317,8 @@
               "ctxt": 0
             },
             "value": "e",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -2381,7 +2356,6 @@
                       "ctxt": 0
                     },
                     "value": "arrrr",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [],
@@ -2451,6 +2425,7 @@
               "ctxt": 0
             },
             "value": "e",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2467,8 +2442,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -2485,7 +2459,6 @@
           "ctxt": 0
         },
         "value": "someFn",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -2529,8 +2502,8 @@
                     "ctxt": 0
                   },
                   "value": "arr",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ArrowFunctionExpression",
@@ -2548,6 +2521,7 @@
                         "ctxt": 0
                       },
                       "value": "n",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -2564,8 +2538,7 @@
                           },
                           "kind": "number"
                         }
-                      },
-                      "optional": false
+                      }
                     }
                   ],
                   "body": {
@@ -2584,6 +2557,7 @@
                           "ctxt": 0
                         },
                         "value": "p",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -2600,8 +2574,7 @@
                             },
                             "kind": "number"
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     ],
                     "body": {
@@ -2620,7 +2593,6 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "right": {
@@ -2631,7 +2603,6 @@
                           "ctxt": 0
                         },
                         "value": "n",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -2692,7 +2663,6 @@
                         "ctxt": 0
                       },
                       "value": "arr",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -2735,7 +2705,6 @@
                     "ctxt": 0
                   },
                   "value": "toExponential",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -2761,7 +2730,6 @@
           "ctxt": 0
         },
         "value": "someOtherFn",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -2805,8 +2773,8 @@
                     "ctxt": 0
                   },
                   "value": "arr",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ArrowFunctionExpression",
@@ -2824,6 +2792,7 @@
                         "ctxt": 0
                       },
                       "value": "n",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -2840,8 +2809,7 @@
                           },
                           "kind": "number"
                         }
-                      },
-                      "optional": false
+                      }
                     }
                   ],
                   "body": {
@@ -2874,7 +2842,6 @@
                         "ctxt": 0
                       },
                       "value": "n",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   },
@@ -2923,7 +2890,6 @@
                       "ctxt": 0
                     },
                     "value": "arr",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [
@@ -2950,7 +2916,6 @@
                     "ctxt": 0
                   },
                   "value": "charAt",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -2989,7 +2954,6 @@
           "ctxt": 0
         },
         "value": "outerFn",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -3018,7 +2982,6 @@
                 "ctxt": 0
               },
               "value": "innerFn",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -3062,8 +3025,8 @@
                           "ctxt": 0
                         },
                         "value": "arrowFn",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ArrowFunctionExpression",
@@ -3116,8 +3079,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "CallExpression",
@@ -3134,7 +3097,6 @@
                             "ctxt": 0
                           },
                           "value": "arrowFn",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "arguments": [],
@@ -3169,6 +3131,7 @@
                           "ctxt": 0
                         },
                         "value": "p",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -3185,8 +3148,7 @@
                             },
                             "kind": "void"
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -3232,8 +3194,8 @@
               "ctxt": 0
             },
             "value": "f",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -3251,6 +3213,7 @@
                   "ctxt": 0
                 },
                 "value": "n",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -3267,8 +3230,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "body": {
@@ -3289,7 +3251,6 @@
                       "ctxt": 0
                     },
                     "value": "fn",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "declare": false,
@@ -3310,6 +3271,7 @@
                           "ctxt": 0
                         },
                         "value": "x",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -3326,8 +3288,7 @@
                             },
                             "kind": "number"
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     }
                   ],
@@ -3376,7 +3337,6 @@
                                 "ctxt": 0
                               },
                               "value": "n",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "right": {
@@ -3387,7 +3347,6 @@
                                 "ctxt": 0
                               },
                               "value": "x",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           },
@@ -3426,7 +3385,6 @@
                         "ctxt": 0
                       },
                       "value": "fn",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [
@@ -3482,8 +3440,8 @@
               "ctxt": 0
             },
             "value": "g",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -3507,7 +3465,6 @@
                   "ctxt": 0
                 },
                 "value": "f",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -3563,6 +3520,7 @@
               "ctxt": 0
             },
             "value": "g",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -3579,8 +3537,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -3597,7 +3554,6 @@
           "ctxt": 0
         },
         "value": "someOuterFn",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -3641,8 +3597,8 @@
                     "ctxt": 0
                   },
                   "value": "arr",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ArrowFunctionExpression",
@@ -3660,6 +3616,7 @@
                         "ctxt": 0
                       },
                       "value": "n",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -3676,8 +3633,7 @@
                           },
                           "kind": "string"
                         }
-                      },
-                      "optional": false
+                      }
                     }
                   ],
                   "body": {
@@ -3698,7 +3654,6 @@
                             "ctxt": 0
                           },
                           "value": "innerFn",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "declare": false,
@@ -3747,7 +3702,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "n",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "property": {
@@ -3758,7 +3712,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "length",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false
@@ -3791,7 +3744,6 @@
                             "ctxt": 0
                           },
                           "value": "innerFn",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       }
@@ -3821,7 +3773,6 @@
                 "ctxt": 0
               },
               "value": "arr",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -3857,8 +3808,8 @@
               "ctxt": 0
             },
             "value": "h",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -3896,7 +3847,6 @@
                       "ctxt": 0
                     },
                     "value": "someOuterFn",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [],
@@ -3962,7 +3912,6 @@
               "ctxt": 0
             },
             "value": "h",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3973,7 +3922,6 @@
               "ctxt": 0
             },
             "value": "toExponential",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3992,7 +3940,6 @@
           "ctxt": 0
         },
         "value": "tryCatchFn",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -4051,8 +3998,8 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ArrowFunctionExpression",
@@ -4096,8 +4043,8 @@
                   "ctxt": 0
                 },
                 "value": "e",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "body": {
                 "type": "BlockStatement",
@@ -4132,8 +4079,8 @@
                             "ctxt": 0
                           },
                           "value": "t",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "init": {
                           "type": "ArrowFunctionExpression",
@@ -4159,7 +4106,6 @@
                                 "ctxt": 0
                               },
                               "value": "e",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "right": {
@@ -4216,8 +4162,8 @@
                           "ctxt": 0
                         },
                         "value": "m",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ArrowFunctionExpression",

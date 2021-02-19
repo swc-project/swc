@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -51,7 +50,6 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -95,7 +93,6 @@
           "ctxt": 0
         },
         "value": "Derived",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -116,7 +113,6 @@
               "ctxt": 0
             },
             "value": "Base",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": null
@@ -146,7 +142,6 @@
                 "ctxt": 0
               },
               "value": "bar",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -192,7 +187,6 @@
           "ctxt": 0
         },
         "value": "NotOptional",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -218,7 +212,6 @@
                 "ctxt": 0
               },
               "value": "A",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -248,7 +241,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -277,7 +269,6 @@
                           "ctxt": 0
                         },
                         "value": "Base",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -301,7 +292,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -330,7 +320,6 @@
                           "ctxt": 0
                         },
                         "value": "Base",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -356,7 +345,6 @@
                 "ctxt": 0
               },
               "value": "B",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -377,7 +365,6 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -407,7 +394,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -436,7 +422,6 @@
                           "ctxt": 0
                         },
                         "value": "Derived",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -460,7 +445,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -504,7 +488,6 @@
                 "ctxt": 0
               },
               "value": "A2",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -561,7 +544,6 @@
                           "ctxt": 0
                         },
                         "value": "Base",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -612,7 +594,6 @@
                           "ctxt": 0
                         },
                         "value": "Base",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -638,7 +619,6 @@
                 "ctxt": 0
               },
               "value": "B2",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -659,7 +639,6 @@
                     "ctxt": 0
                   },
                   "value": "A2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -716,7 +695,6 @@
                           "ctxt": 0
                         },
                         "value": "Derived",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -782,7 +760,6 @@
                 "ctxt": 0
               },
               "value": "A3",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -844,7 +821,6 @@
                           "ctxt": 0
                         },
                         "value": "Base",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -900,7 +876,6 @@
                           "ctxt": 0
                         },
                         "value": "Base",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -926,7 +901,6 @@
                 "ctxt": 0
               },
               "value": "B3",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -947,7 +921,6 @@
                     "ctxt": 0
                   },
                   "value": "A3",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -1009,7 +982,6 @@
                           "ctxt": 0
                         },
                         "value": "Derived",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1085,7 +1057,6 @@
           "ctxt": 0
         },
         "value": "Optional",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -1111,7 +1082,6 @@
                 "ctxt": 0
               },
               "value": "A",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -1141,7 +1111,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -1170,7 +1139,6 @@
                           "ctxt": 0
                         },
                         "value": "Base",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1194,7 +1162,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -1223,7 +1190,6 @@
                           "ctxt": 0
                         },
                         "value": "Base",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1249,7 +1215,6 @@
                 "ctxt": 0
               },
               "value": "B",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -1270,7 +1235,6 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -1300,7 +1264,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -1329,7 +1292,6 @@
                           "ctxt": 0
                         },
                         "value": "Derived",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1353,7 +1315,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -1397,7 +1358,6 @@
                 "ctxt": 0
               },
               "value": "A2",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -1454,7 +1414,6 @@
                           "ctxt": 0
                         },
                         "value": "Base",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1505,7 +1464,6 @@
                           "ctxt": 0
                         },
                         "value": "Base",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1531,7 +1489,6 @@
                 "ctxt": 0
               },
               "value": "B2",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -1552,7 +1509,6 @@
                     "ctxt": 0
                   },
                   "value": "A2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -1609,7 +1565,6 @@
                           "ctxt": 0
                         },
                         "value": "Derived",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1675,7 +1630,6 @@
                 "ctxt": 0
               },
               "value": "A3",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -1737,7 +1691,6 @@
                           "ctxt": 0
                         },
                         "value": "Base",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1793,7 +1746,6 @@
                           "ctxt": 0
                         },
                         "value": "Base",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1819,7 +1771,6 @@
                 "ctxt": 0
               },
               "value": "B3",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -1840,7 +1791,6 @@
                     "ctxt": 0
                   },
                   "value": "A3",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -1902,7 +1852,6 @@
                           "ctxt": 0
                         },
                         "value": "Derived",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null

@@ -32,7 +32,6 @@
           "ctxt": 0
         },
         "value": "b",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {

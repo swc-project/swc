@@ -9,8 +9,6 @@ struct TsHygiene {
 
 impl VisitMut for TsHygiene {
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        i.type_ann.visit_mut_with(self);
-
         if SyntaxContext::empty().apply_mark(self.top_level_mark) == i.span.ctxt {
             println!("ts_hygiene: {} is top-level", i.sym);
             return;
@@ -2020,6 +2018,38 @@ to_ts!(
         x__7 = y__7;
         return y__7;
     };    
+    "
+);
+
+to_ts!(
+    type_parameter_used_as_type_parameter_contrain_2,
+    "
+    var f3 = <T, U extends T>(x: T, y: U): T => {
+        x = y;
+        return y;
+    }
+    ",
+    "
+    var f3 = <T__2, U__2 extends T__2>(x__2: T__2, y__2: U__2)=>{
+        x__2 = y__2;
+        return y__2;
+    };
+    "
+);
+
+to_ts!(
+    type_parameter_used_as_type_parameter_contrain_3,
+    "
+    var f4 = <U extends T, T>(x: T, y: U): T => {
+        x = y;
+        return y;
+    }
+    ",
+    "
+    var f4 = <U__2 extends T__2, T__2>(x__2: T__2, y__2: U__2)=>{
+        x__2 = y__2;
+        return y__2;
+    };
     "
 );
 

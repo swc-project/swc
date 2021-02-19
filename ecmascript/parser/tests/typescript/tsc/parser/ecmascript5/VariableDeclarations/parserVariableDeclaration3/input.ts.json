@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "runTests",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -60,8 +59,8 @@
                     "ctxt": 0
                   },
                   "value": "outfile",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "NewExpression",
@@ -92,7 +91,6 @@
                           "ctxt": 0
                         },
                         "value": "Harness",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -103,7 +101,6 @@
                           "ctxt": 0
                         },
                         "value": "Compiler",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -116,7 +113,6 @@
                         "ctxt": 0
                       },
                       "value": "WriterAggregator",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -141,8 +137,8 @@
                     "ctxt": 0
                   },
                   "value": "outerr",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "NewExpression",
@@ -173,7 +169,6 @@
                           "ctxt": 0
                         },
                         "value": "Harness",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -184,7 +179,6 @@
                           "ctxt": 0
                         },
                         "value": "Compiler",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -197,7 +191,6 @@
                         "ctxt": 0
                       },
                       "value": "WriterAggregator",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -222,8 +215,8 @@
                     "ctxt": 0
                   },
                   "value": "compiler",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "TsTypeAssertion",
@@ -254,7 +247,6 @@
                           "ctxt": 0
                         },
                         "value": "TypeScript",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -265,7 +257,6 @@
                           "ctxt": 0
                         },
                         "value": "TypeScriptCompiler",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -281,7 +272,6 @@
                             "ctxt": 0
                           },
                           "value": "outerr",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       }
@@ -305,7 +295,6 @@
                           "ctxt": 0
                         },
                         "value": "TypeScript",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "right": {
@@ -316,7 +305,6 @@
                           "ctxt": 0
                         },
                         "value": "TypeScriptCompiler",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -340,8 +328,8 @@
                     "ctxt": 0
                   },
                   "value": "code",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": null,
                 "definite": false

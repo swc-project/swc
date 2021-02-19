@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "React",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -64,7 +63,6 @@
           "ctxt": 0
         },
         "value": "PoisonedProp",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -94,7 +92,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -136,7 +133,6 @@
                 "ctxt": 0
               },
               "value": "y",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -183,7 +179,6 @@
           "ctxt": 0
         },
         "value": "Poisoned",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -209,7 +204,6 @@
               "ctxt": 0
             },
             "value": "render",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -252,7 +246,6 @@
                           "ctxt": 0
                         },
                         "value": "div",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "span": {
@@ -291,7 +284,6 @@
                           "ctxt": 0
                         },
                         "value": "div",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -326,7 +318,6 @@
             "ctxt": 0
           },
           "value": "React",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -337,7 +328,6 @@
             "ctxt": 0
           },
           "value": "Component",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -367,7 +357,6 @@
                 "ctxt": 0
               },
               "value": "PoisonedProp",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -410,8 +399,8 @@
               "ctxt": 0
             },
             "value": "obj",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -431,7 +420,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -459,7 +447,6 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -503,8 +490,8 @@
               "ctxt": 0
             },
             "value": "p",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -523,7 +510,6 @@
                   "ctxt": 0
                 },
                 "value": "Poisoned",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -547,7 +533,6 @@
                       "ctxt": 0
                     },
                     "value": "obj",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -572,7 +557,6 @@
           "ctxt": 0
         },
         "value": "EmptyProp",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -598,7 +582,6 @@
               "ctxt": 0
             },
             "value": "render",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -641,7 +624,6 @@
                           "ctxt": 0
                         },
                         "value": "div",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "span": {
@@ -680,7 +662,6 @@
                           "ctxt": 0
                         },
                         "value": "div",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -714,7 +695,6 @@
               "ctxt": 0
             },
             "value": "greeting",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -761,7 +741,6 @@
             "ctxt": 0
           },
           "value": "React",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -772,7 +751,6 @@
             "ctxt": 0
           },
           "value": "Component",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -834,8 +812,8 @@
               "ctxt": 0
             },
             "value": "o",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -855,7 +833,6 @@
                     "ctxt": 0
                   },
                   "value": "prop1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -899,8 +876,8 @@
               "ctxt": 0
             },
             "value": "e",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -919,7 +896,6 @@
                   "ctxt": 0
                 },
                 "value": "EmptyProp",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -943,7 +919,6 @@
                       "ctxt": 0
                     },
                     "value": "o",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }

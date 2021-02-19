@@ -39,8 +39,8 @@
                 "ctxt": 0
               },
               "value": "v",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": null,
             "definite": false
@@ -79,7 +79,6 @@
                 "ctxt": 0
               },
               "value": "v",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -116,8 +115,8 @@
                       "ctxt": 0
                     },
                     "value": "v",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": null,
                   "definite": false
@@ -166,8 +165,8 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "Identifier",
@@ -177,7 +176,6 @@
                           "ctxt": 0
                         },
                         "value": "v",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "definite": false
@@ -208,7 +206,6 @@
                         "ctxt": 0
                       },
                       "value": "v",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }

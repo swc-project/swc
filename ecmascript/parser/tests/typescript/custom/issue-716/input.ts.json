@@ -36,7 +36,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -47,7 +46,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -62,7 +60,6 @@
               "ctxt": 0
             },
             "value": "test",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -143,7 +140,6 @@
                                 "ctxt": 0
                               },
                               "value": "test",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "body": {
@@ -169,7 +165,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "test",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "consequent": {
@@ -195,7 +190,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "test",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "consequent": {
@@ -221,7 +215,6 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "test",
-                                                "typeAnnotation": null,
                                                 "optional": false
                                               },
                                               "consequent": {
@@ -247,7 +240,6 @@
                                                         "ctxt": 0
                                                       },
                                                       "value": "test",
-                                                      "typeAnnotation": null,
                                                       "optional": false
                                                     },
                                                     "consequent": {
@@ -273,7 +265,6 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "test",
-                                                            "typeAnnotation": null,
                                                             "optional": false
                                                           },
                                                           "body": {
@@ -299,7 +290,6 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "test",
-                                                                  "typeAnnotation": null,
                                                                   "optional": false
                                                                 },
                                                                 "consequent": {
@@ -325,7 +315,6 @@
                                                                           "ctxt": 0
                                                                         },
                                                                         "value": "asdf",
-                                                                        "typeAnnotation": null,
                                                                         "optional": false
                                                                       },
                                                                       "consequent": {
@@ -351,7 +340,6 @@
                                                                                 "ctxt": 0
                                                                               },
                                                                               "value": "asdf",
-                                                                              "typeAnnotation": null,
                                                                               "optional": false
                                                                             },
                                                                             "consequent": {
@@ -385,8 +373,8 @@
                                                                                         "ctxt": 0
                                                                                       },
                                                                                       "value": "test",
-                                                                                      "typeAnnotation": null,
-                                                                                      "optional": false
+                                                                                      "optional": false,
+                                                                                      "typeAnnotation": null
                                                                                     },
                                                                                     "right": {
                                                                                       "type": "BinaryExpression",
@@ -449,7 +437,6 @@
                                                                                                   "ctxt": 0
                                                                                                 },
                                                                                                 "value": "test",
-                                                                                                "typeAnnotation": null,
                                                                                                 "optional": false
                                                                                               }
                                                                                             }
@@ -484,7 +471,6 @@
                                                                                               "ctxt": 0
                                                                                             },
                                                                                             "value": "test",
-                                                                                            "typeAnnotation": null,
                                                                                             "optional": false
                                                                                           }
                                                                                         }

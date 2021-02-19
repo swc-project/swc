@@ -42,7 +42,6 @@
                 "ctxt": 0
               },
               "value": "import",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -74,7 +73,6 @@
               "ctxt": 0
             },
             "value": "from",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

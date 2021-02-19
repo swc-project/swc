@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "config",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -62,7 +63,6 @@
                         "ctxt": 0
                       },
                       "value": "fix",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -90,8 +90,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -113,7 +112,6 @@
           "ctxt": 0
         },
         "value": "config",
-        "typeAnnotation": null,
         "optional": false
       }
     },
@@ -127,7 +125,6 @@
           "ctxt": 0
         },
         "value": "demo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -148,8 +145,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -189,7 +186,6 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -200,7 +196,6 @@
                   "ctxt": 0
                 },
                 "value": "fix",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false

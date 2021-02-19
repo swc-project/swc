@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -90,7 +88,6 @@
           "ctxt": 0
         },
         "value": "Derived",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -116,7 +113,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -141,7 +137,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -159,7 +154,6 @@
           "ctxt": 0
         },
         "value": "Base2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -185,7 +179,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -211,7 +204,6 @@
                   "ctxt": 0
                 },
                 "value": "T",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -253,7 +245,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -274,7 +265,6 @@
           "ctxt": 0
         },
         "value": "Derived2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -300,7 +290,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -337,8 +326,8 @@
                         "ctxt": 0
                       },
                       "value": "r2",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "init": {
                       "type": "ArrowFunctionExpression",
@@ -389,7 +378,6 @@
           "ctxt": 0
         },
         "value": "Base2",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -416,7 +404,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -447,7 +434,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -466,7 +452,6 @@
           "ctxt": 0
         },
         "value": "Derived3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -492,7 +477,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -529,8 +513,8 @@
                         "ctxt": 0
                       },
                       "value": "r",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "init": {
                       "type": "FunctionExpression",
@@ -601,7 +585,6 @@
           "ctxt": 0
         },
         "value": "Base2",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -628,7 +611,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -659,7 +641,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -678,7 +659,6 @@
           "ctxt": 0
         },
         "value": "Derived4",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -704,7 +684,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -741,8 +720,8 @@
                         "ctxt": 0
                       },
                       "value": "r",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "init": {
                       "type": "CallExpression",
@@ -780,7 +759,6 @@
           "ctxt": 0
         },
         "value": "Base2",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -807,7 +785,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -838,7 +815,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null

@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "I",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -51,7 +50,6 @@
                 "ctxt": 0
               },
               "value": "protected",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -77,7 +75,6 @@
                 "ctxt": 0
               },
               "value": "p",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,

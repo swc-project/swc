@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "M",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -51,7 +50,6 @@
                   "ctxt": 0
                 },
                 "value": "A",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -91,7 +89,6 @@
                   "ctxt": 0
                 },
                 "value": "A",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": null,
@@ -118,7 +115,6 @@
           "ctxt": 0
         },
         "value": "myA",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -131,7 +127,6 @@
             "ctxt": 0
           },
           "value": "M",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -142,7 +137,6 @@
             "ctxt": 0
           },
           "value": "A",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -169,7 +163,6 @@
             "ctxt": 0
           },
           "value": "myA",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": null,

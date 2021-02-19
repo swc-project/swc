@@ -47,7 +47,6 @@
                 "ctxt": 0
               },
               "value": "Component",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -83,7 +82,6 @@
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -104,7 +102,6 @@
                       "ctxt": 0
                     },
                     "value": "U",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -141,7 +138,6 @@
               "ctxt": 0
             },
             "value": "React",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -186,7 +182,6 @@
               "ctxt": 0
             },
             "value": "Button",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -226,7 +221,6 @@
             "ctxt": 0
           },
           "value": "App",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -252,7 +246,6 @@
                 "ctxt": 0
               },
               "value": "render",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -295,7 +288,6 @@
                             "ctxt": 0
                           },
                           "value": "Button",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "span": {
@@ -340,7 +332,6 @@
               "ctxt": 0
             },
             "value": "React",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -351,7 +342,6 @@
               "ctxt": 0
             },
             "value": "Component",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -412,7 +402,6 @@
               "ctxt": 0
             },
             "value": "React",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -451,7 +440,6 @@
             "ctxt": 0
           },
           "value": "Button",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -477,7 +465,6 @@
                 "ctxt": 0
               },
               "value": "render",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -520,7 +507,6 @@
                             "ctxt": 0
                           },
                           "value": "button",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "span": {
@@ -559,7 +545,6 @@
                             "ctxt": 0
                           },
                           "value": "button",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       }
@@ -594,7 +579,6 @@
               "ctxt": 0
             },
             "value": "React",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -605,7 +589,6 @@
               "ctxt": 0
             },
             "value": "Component",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

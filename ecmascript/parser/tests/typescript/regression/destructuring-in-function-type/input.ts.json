@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "MyType",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -57,7 +56,6 @@
                     "ctxt": 0
                   },
                   "value": "theme",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null

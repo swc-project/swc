@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -90,7 +88,6 @@
           "ctxt": 0
         },
         "value": "Bar",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -116,7 +113,6 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -156,7 +152,6 @@
           "ctxt": 0
         },
         "value": "Foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -174,7 +169,6 @@
           "ctxt": 0
         },
         "value": "Baz",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -200,7 +194,6 @@
               "ctxt": 0
             },
             "value": "z",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -263,6 +256,7 @@
               "ctxt": 0
             },
             "value": "g3",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -301,7 +295,6 @@
                         "ctxt": 0
                       },
                       "value": "Iterable",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -327,7 +320,6 @@
                               "ctxt": 0
                             },
                             "value": "Foo",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -337,8 +329,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "FunctionExpression",
@@ -405,7 +396,6 @@
                           "ctxt": 0
                         },
                         "value": "Bar",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "arguments": null,
@@ -443,7 +433,6 @@
                           "ctxt": 0
                         },
                         "value": "Baz",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "arguments": null,
@@ -491,7 +480,6 @@
                                 "ctxt": 0
                               },
                               "value": "Bar",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "arguments": null,
@@ -542,7 +530,6 @@
                                 "ctxt": 0
                               },
                               "value": "Baz",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "arguments": null,

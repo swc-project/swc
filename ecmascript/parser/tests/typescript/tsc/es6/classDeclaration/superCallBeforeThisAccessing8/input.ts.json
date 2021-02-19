@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
@@ -62,8 +60,8 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             }
           ],
@@ -96,7 +94,6 @@
           "ctxt": 0
         },
         "value": "D",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -122,7 +119,6 @@
               "ctxt": 0
             },
             "value": "_t",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -152,7 +148,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -189,8 +184,8 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "init": {
                       "type": "ObjectExpression",
@@ -210,7 +205,6 @@
                               "ctxt": 0
                             },
                             "value": "k",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "value": {
@@ -239,7 +233,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "undefined",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 }
                               }
@@ -257,7 +250,6 @@
                               "ctxt": 0
                             },
                             "value": "j",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "value": {
@@ -283,7 +275,6 @@
                                 "ctxt": 0
                               },
                               "value": "_t",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -309,7 +300,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,

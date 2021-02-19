@@ -29,7 +29,6 @@
               "ctxt": 0
             },
             "value": "React",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -68,7 +67,6 @@
             "ctxt": 0
           },
           "value": "MyComp",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": true,
@@ -94,7 +92,6 @@
                 "ctxt": 0
               },
               "value": "internalProp",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": null,
@@ -120,7 +117,6 @@
                     "ctxt": 0
                   },
                   "value": "P",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -152,7 +148,6 @@
               "ctxt": 0
             },
             "value": "React",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -163,7 +158,6 @@
               "ctxt": 0
             },
             "value": "Component",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -192,7 +186,6 @@
                   "ctxt": 0
                 },
                 "value": "P",
-                "typeAnnotation": null,
                 "optional": false
               },
               "constraint": null,
@@ -223,7 +216,6 @@
                   "ctxt": 0
                 },
                 "value": "P",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -264,7 +256,6 @@
             "ctxt": 0
           },
           "value": "Prop",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -294,7 +285,6 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false,
@@ -336,7 +326,6 @@
                   "ctxt": 0
                 },
                 "value": "b",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false,
@@ -389,7 +378,6 @@
               "ctxt": 0
             },
             "value": "MyComp",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -409,7 +397,6 @@
               "ctxt": 0
             },
             "value": "Prop",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -455,7 +442,6 @@
               "ctxt": 0
             },
             "value": "React",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -502,8 +488,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -522,7 +508,6 @@
                   "ctxt": 0
                 },
                 "value": "MyComp",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -546,7 +531,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -582,7 +566,6 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -625,7 +608,6 @@
                         "ctxt": 0
                       },
                       "value": "Prop",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null

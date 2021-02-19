@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "JSX",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -80,7 +78,6 @@
                 "ctxt": 0
               },
               "value": "IntrinsicElements",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -124,8 +121,8 @@
               "ctxt": 0
             },
             "value": "Div",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -164,7 +161,6 @@
               "ctxt": 0
             },
             "value": "Div",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -190,7 +186,6 @@
           "ctxt": 0
         },
         "value": "Fact",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -272,7 +267,6 @@
               "ctxt": 0
             },
             "value": "Fact",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -298,7 +292,6 @@
           "ctxt": 0
         },
         "value": "Fnum",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -381,7 +374,6 @@
               "ctxt": 0
             },
             "value": "Fnum",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -412,7 +404,6 @@
           "ctxt": 0
         },
         "value": "Obj1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -508,6 +499,7 @@
               "ctxt": 0
             },
             "value": "Obj1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -530,13 +522,11 @@
                     "ctxt": 0
                   },
                   "value": "Obj1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -567,7 +557,6 @@
               "ctxt": 0
             },
             "value": "Obj1",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -598,7 +587,6 @@
           "ctxt": 0
         },
         "value": "Obj2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -667,6 +655,7 @@
               "ctxt": 0
             },
             "value": "Obj2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -689,13 +678,11 @@
                     "ctxt": 0
                   },
                   "value": "Obj2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -726,7 +713,6 @@
               "ctxt": 0
             },
             "value": "Obj2",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -757,7 +743,6 @@
           "ctxt": 0
         },
         "value": "Obj3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -798,6 +783,7 @@
               "ctxt": 0
             },
             "value": "Obj3",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -820,13 +806,11 @@
                     "ctxt": 0
                   },
                   "value": "Obj3",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -857,7 +841,6 @@
               "ctxt": 0
             },
             "value": "Obj3",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {

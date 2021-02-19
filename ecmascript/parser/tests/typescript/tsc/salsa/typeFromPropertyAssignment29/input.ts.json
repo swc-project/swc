@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "ExpandoDecl",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -37,6 +36,7 @@
               "ctxt": 0
             },
             "value": "n",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -53,8 +53,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -101,7 +100,6 @@
                     "ctxt": 0
                   },
                   "value": "n",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -112,7 +110,6 @@
                     "ctxt": 0
                   },
                   "value": "toString",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -158,7 +155,6 @@
               "ctxt": 0
             },
             "value": "ExpandoDecl",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -169,7 +165,6 @@
               "ctxt": 0
             },
             "value": "prop",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -215,7 +210,6 @@
               "ctxt": 0
             },
             "value": "ExpandoDecl",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -226,7 +220,6 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -251,6 +244,7 @@
                   "ctxt": 0
                 },
                 "value": "n",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -267,8 +261,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             }
           ],
@@ -309,7 +302,6 @@
                       "ctxt": 0
                     },
                     "value": "n",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -357,8 +349,8 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -391,7 +383,6 @@
                     "ctxt": 0
                   },
                   "value": "ExpandoDecl",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -402,7 +393,6 @@
                     "ctxt": 0
                   },
                   "value": "prop",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -429,7 +419,6 @@
                       "ctxt": 0
                     },
                     "value": "ExpandoDecl",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -440,7 +429,6 @@
                       "ctxt": 0
                     },
                     "value": "m",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -484,7 +472,6 @@
                     "ctxt": 0
                   },
                   "value": "ExpandoDecl",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -511,7 +498,6 @@
                   "ctxt": 0
                 },
                 "value": "length",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -546,8 +532,8 @@
               "ctxt": 0
             },
             "value": "ExpandoExpr",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -569,6 +555,7 @@
                     "ctxt": 0
                   },
                   "value": "n",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -585,8 +572,7 @@
                       },
                       "kind": "number"
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -633,7 +619,6 @@
                           "ctxt": 0
                         },
                         "value": "n",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -644,7 +629,6 @@
                           "ctxt": 0
                         },
                         "value": "toString",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -694,7 +678,6 @@
               "ctxt": 0
             },
             "value": "ExpandoExpr",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -705,7 +688,6 @@
               "ctxt": 0
             },
             "value": "prop",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -728,7 +710,6 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -775,7 +756,6 @@
               "ctxt": 0
             },
             "value": "ExpandoExpr",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -786,7 +766,6 @@
               "ctxt": 0
             },
             "value": "prop",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -809,7 +788,6 @@
                   "ctxt": 0
                 },
                 "value": "y",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -861,7 +839,6 @@
               "ctxt": 0
             },
             "value": "ExpandoExpr",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -872,7 +849,6 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -897,6 +873,7 @@
                   "ctxt": 0
                 },
                 "value": "n",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -913,8 +890,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             }
           ],
@@ -955,7 +931,6 @@
                       "ctxt": 0
                     },
                     "value": "n",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -1003,8 +978,8 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -1059,7 +1034,6 @@
                           "ctxt": 0
                         },
                         "value": "ExpandoExpr",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -1070,7 +1044,6 @@
                           "ctxt": 0
                         },
                         "value": "prop",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -1083,7 +1056,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -1121,7 +1093,6 @@
                       "ctxt": 0
                     },
                     "value": "ExpandoExpr",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -1132,7 +1103,6 @@
                       "ctxt": 0
                     },
                     "value": "m",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -1176,7 +1146,6 @@
                     "ctxt": 0
                   },
                   "value": "ExpandoExpr",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -1203,7 +1172,6 @@
                   "ctxt": 0
                 },
                 "value": "length",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -1238,8 +1206,8 @@
               "ctxt": 0
             },
             "value": "ExpandoArrow",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -1257,6 +1225,7 @@
                   "ctxt": 0
                 },
                 "value": "n",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1273,8 +1242,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "body": {
@@ -1299,7 +1267,6 @@
                     "ctxt": 0
                   },
                   "value": "n",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -1310,7 +1277,6 @@
                     "ctxt": 0
                   },
                   "value": "toString",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -1357,7 +1323,6 @@
               "ctxt": 0
             },
             "value": "ExpandoArrow",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1368,7 +1333,6 @@
               "ctxt": 0
             },
             "value": "prop",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1414,7 +1378,6 @@
               "ctxt": 0
             },
             "value": "ExpandoArrow",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1425,7 +1388,6 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1450,6 +1412,7 @@
                   "ctxt": 0
                 },
                 "value": "n",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1466,8 +1429,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             }
           ],
@@ -1508,7 +1470,6 @@
                       "ctxt": 0
                     },
                     "value": "n",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -1541,7 +1502,6 @@
           "ctxt": 0
         },
         "value": "ExpandoNested",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1562,6 +1522,7 @@
               "ctxt": 0
             },
             "value": "n",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1578,8 +1539,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -1622,8 +1582,8 @@
                     "ctxt": 0
                   },
                   "value": "nested",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "FunctionExpression",
@@ -1645,6 +1605,7 @@
                           "ctxt": 0
                         },
                         "value": "m",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -1661,8 +1622,7 @@
                             },
                             "kind": "number"
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     }
                   ],
@@ -1703,7 +1663,6 @@
                               "ctxt": 0
                             },
                             "value": "n",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "right": {
@@ -1714,7 +1673,6 @@
                               "ctxt": 0
                             },
                             "value": "m",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }
@@ -1760,7 +1718,6 @@
                     "ctxt": 0
                   },
                   "value": "nested",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -1771,7 +1728,6 @@
                     "ctxt": 0
                   },
                   "value": "total",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -1792,7 +1748,6 @@
                     "ctxt": 0
                   },
                   "value": "n",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -1822,7 +1777,6 @@
                 "ctxt": 0
               },
               "value": "nested",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -1863,7 +1817,6 @@
               "ctxt": 0
             },
             "value": "ExpandoNested",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1874,7 +1827,6 @@
               "ctxt": 0
             },
             "value": "also",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1909,7 +1861,6 @@
           "ctxt": 0
         },
         "value": "ExpandoMerge",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1930,6 +1881,7 @@
               "ctxt": 0
             },
             "value": "n",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1946,8 +1898,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -1988,7 +1939,6 @@
                   "ctxt": 0
                 },
                 "value": "n",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -2039,7 +1989,6 @@
               "ctxt": 0
             },
             "value": "ExpandoMerge",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2050,7 +1999,6 @@
               "ctxt": 0
             },
             "value": "p1",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2083,7 +2031,6 @@
           "ctxt": 0
         },
         "value": "ExpandoMerge",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -2126,8 +2073,8 @@
                       "ctxt": 0
                     },
                     "value": "p2",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "NumericLiteral",
@@ -2163,7 +2110,6 @@
           "ctxt": 0
         },
         "value": "ExpandoMerge",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -2206,8 +2152,8 @@
                       "ctxt": 0
                     },
                     "value": "p3",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "NumericLiteral",
@@ -2251,8 +2197,8 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -2293,7 +2239,6 @@
                       "ctxt": 0
                     },
                     "value": "ExpandoMerge",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -2304,7 +2249,6 @@
                       "ctxt": 0
                     },
                     "value": "p1",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -2324,7 +2268,6 @@
                       "ctxt": 0
                     },
                     "value": "ExpandoMerge",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -2335,7 +2278,6 @@
                       "ctxt": 0
                     },
                     "value": "p2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -2356,7 +2298,6 @@
                     "ctxt": 0
                   },
                   "value": "ExpandoMerge",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -2367,7 +2308,6 @@
                     "ctxt": 0
                   },
                   "value": "p3",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -2388,7 +2328,6 @@
                   "ctxt": 0
                 },
                 "value": "ExpandoMerge",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -2429,7 +2368,6 @@
           "ctxt": 0
         },
         "value": "Ns",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -2450,7 +2388,6 @@
                 "ctxt": 0
               },
               "value": "ExpandoNamespace",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -2521,7 +2458,6 @@
                     "ctxt": 0
                   },
                   "value": "ExpandoNamespace",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -2532,7 +2468,6 @@
                     "ctxt": 0
                   },
                   "value": "p6",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -2565,7 +2500,6 @@
                   "ctxt": 0
                 },
                 "value": "foo",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -2599,7 +2533,6 @@
                         "ctxt": 0
                       },
                       "value": "ExpandoNamespace",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -2639,8 +2572,8 @@
               "ctxt": 0
             },
             "value": "ExpandoExpr2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -2662,6 +2595,7 @@
                     "ctxt": 0
                   },
                   "value": "n",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -2678,8 +2612,7 @@
                       },
                       "kind": "number"
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -2726,7 +2659,6 @@
                           "ctxt": 0
                         },
                         "value": "n",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -2737,7 +2669,6 @@
                           "ctxt": 0
                         },
                         "value": "toString",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -2787,7 +2718,6 @@
               "ctxt": 0
             },
             "value": "ExpandoExpr2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2798,7 +2728,6 @@
               "ctxt": 0
             },
             "value": "prop",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2844,7 +2773,6 @@
               "ctxt": 0
             },
             "value": "ExpandoExpr2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -2855,7 +2783,6 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -2880,6 +2807,7 @@
                   "ctxt": 0
                 },
                 "value": "n",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -2896,8 +2824,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             }
           ],
@@ -2938,7 +2865,6 @@
                       "ctxt": 0
                     },
                     "value": "n",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -2986,8 +2912,8 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -3020,7 +2946,6 @@
                     "ctxt": 0
                   },
                   "value": "ExpandoExpr2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -3031,7 +2956,6 @@
                     "ctxt": 0
                   },
                   "value": "prop",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -3058,7 +2982,6 @@
                       "ctxt": 0
                     },
                     "value": "ExpandoExpr2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -3069,7 +2992,6 @@
                       "ctxt": 0
                     },
                     "value": "m",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -3113,7 +3035,6 @@
                     "ctxt": 0
                   },
                   "value": "ExpandoExpr2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -3140,7 +3061,6 @@
                   "ctxt": 0
                 },
                 "value": "length",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -3160,7 +3080,6 @@
           "ctxt": 0
         },
         "value": "ExpandoClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -3186,7 +3105,6 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -3246,7 +3164,6 @@
               "ctxt": 0
             },
             "value": "ExpandoClass",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3257,7 +3174,6 @@
               "ctxt": 0
             },
             "value": "prop",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3303,7 +3219,6 @@
               "ctxt": 0
             },
             "value": "ExpandoClass",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3314,7 +3229,6 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3339,6 +3253,7 @@
                   "ctxt": 0
                 },
                 "value": "n",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -3355,8 +3270,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             }
           ],
@@ -3397,7 +3311,6 @@
                       "ctxt": 0
                     },
                     "value": "n",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -3445,8 +3358,8 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -3479,7 +3392,6 @@
                     "ctxt": 0
                   },
                   "value": "ExpandoClass",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -3490,7 +3402,6 @@
                     "ctxt": 0
                   },
                   "value": "prop",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -3517,7 +3428,6 @@
                       "ctxt": 0
                     },
                     "value": "ExpandoClass",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -3528,7 +3438,6 @@
                       "ctxt": 0
                     },
                     "value": "m",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -3572,7 +3481,6 @@
                     "ctxt": 0
                   },
                   "value": "ExpandoClass",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [],
@@ -3586,7 +3494,6 @@
                   "ctxt": 0
                 },
                 "value": "n",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -3621,8 +3528,8 @@
               "ctxt": 0
             },
             "value": "ExpandoExpr3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ClassExpression",
@@ -3649,7 +3556,6 @@
                     "ctxt": 0
                   },
                   "value": "n",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -3713,7 +3619,6 @@
               "ctxt": 0
             },
             "value": "ExpandoExpr3",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3724,7 +3629,6 @@
               "ctxt": 0
             },
             "value": "prop",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3770,7 +3674,6 @@
               "ctxt": 0
             },
             "value": "ExpandoExpr3",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -3781,7 +3684,6 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -3806,6 +3708,7 @@
                   "ctxt": 0
                 },
                 "value": "n",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -3822,8 +3725,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             }
           ],
@@ -3864,7 +3766,6 @@
                       "ctxt": 0
                     },
                     "value": "n",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -3912,8 +3813,8 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -3946,7 +3847,6 @@
                     "ctxt": 0
                   },
                   "value": "ExpandoExpr3",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -3957,7 +3857,6 @@
                     "ctxt": 0
                   },
                   "value": "prop",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -3984,7 +3883,6 @@
                       "ctxt": 0
                     },
                     "value": "ExpandoExpr3",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -3995,7 +3893,6 @@
                       "ctxt": 0
                     },
                     "value": "m",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -4039,7 +3936,6 @@
                     "ctxt": 0
                   },
                   "value": "ExpandoExpr3",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [],
@@ -4053,7 +3949,6 @@
                   "ctxt": 0
                 },
                 "value": "n",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false

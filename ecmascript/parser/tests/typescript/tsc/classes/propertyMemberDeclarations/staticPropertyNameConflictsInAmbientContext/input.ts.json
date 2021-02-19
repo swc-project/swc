@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "StaticName",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "name",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -88,7 +86,6 @@
               "ctxt": 0
             },
             "value": "name",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -136,7 +133,6 @@
           "ctxt": 0
         },
         "value": "StaticNameFn",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -162,7 +158,6 @@
               "ctxt": 0
             },
             "value": "name",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -216,7 +211,6 @@
               "ctxt": 0
             },
             "value": "name",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -272,7 +266,6 @@
           "ctxt": 0
         },
         "value": "StaticLength",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -298,7 +291,6 @@
               "ctxt": 0
             },
             "value": "length",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -344,7 +336,6 @@
               "ctxt": 0
             },
             "value": "length",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -392,7 +383,6 @@
           "ctxt": 0
         },
         "value": "StaticLengthFn",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -418,7 +408,6 @@
               "ctxt": 0
             },
             "value": "length",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -472,7 +461,6 @@
               "ctxt": 0
             },
             "value": "length",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -528,7 +516,6 @@
           "ctxt": 0
         },
         "value": "StaticPrototype",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -554,7 +541,6 @@
               "ctxt": 0
             },
             "value": "prototype",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -600,7 +586,6 @@
               "ctxt": 0
             },
             "value": "prototype",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -648,7 +633,6 @@
           "ctxt": 0
         },
         "value": "StaticPrototypeFn",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -674,7 +658,6 @@
               "ctxt": 0
             },
             "value": "prototype",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -720,7 +703,6 @@
               "ctxt": 0
             },
             "value": "prototype",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -776,7 +758,6 @@
           "ctxt": 0
         },
         "value": "StaticCaller",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -802,7 +783,6 @@
               "ctxt": 0
             },
             "value": "caller",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -848,7 +828,6 @@
               "ctxt": 0
             },
             "value": "caller",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -896,7 +875,6 @@
           "ctxt": 0
         },
         "value": "StaticCallerFn",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -922,7 +900,6 @@
               "ctxt": 0
             },
             "value": "caller",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -976,7 +953,6 @@
               "ctxt": 0
             },
             "value": "caller",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1032,7 +1008,6 @@
           "ctxt": 0
         },
         "value": "StaticArguments",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -1058,7 +1033,6 @@
               "ctxt": 0
             },
             "value": "arguments",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -1104,7 +1078,6 @@
               "ctxt": 0
             },
             "value": "arguments",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -1152,7 +1125,6 @@
           "ctxt": 0
         },
         "value": "StaticArgumentsFn",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -1178,7 +1150,6 @@
               "ctxt": 0
             },
             "value": "arguments",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -1232,7 +1203,6 @@
               "ctxt": 0
             },
             "value": "arguments",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {

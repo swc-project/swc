@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -45,7 +44,6 @@
                 "ctxt": 0
               },
               "value": "C",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -71,7 +69,6 @@
                     "ctxt": 0
                   },
                   "value": "baz",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -109,7 +106,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "function": {
@@ -155,7 +151,6 @@
                     "ctxt": 0
                   },
                   "value": "bar",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "function": {

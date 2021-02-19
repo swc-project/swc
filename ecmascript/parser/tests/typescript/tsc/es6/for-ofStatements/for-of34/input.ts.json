@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "StringIterator",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "next",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -76,7 +74,6 @@
                       "ctxt": 0
                     },
                     "value": "v",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -122,7 +119,6 @@
                   "ctxt": 0
                 },
                 "value": "Symbol",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -133,7 +129,6 @@
                   "ctxt": 0
                 },
                 "value": "iterator",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -224,8 +219,8 @@
                 "ctxt": 0
               },
               "value": "v",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": null,
             "definite": false
@@ -247,7 +242,6 @@
             "ctxt": 0
           },
           "value": "StringIterator",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": null,

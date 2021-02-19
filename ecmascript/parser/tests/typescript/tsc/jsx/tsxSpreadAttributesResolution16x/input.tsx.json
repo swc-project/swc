@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "React",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -64,7 +63,6 @@
           "ctxt": 0
         },
         "value": "ComponentProps",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -94,7 +92,6 @@
                 "ctxt": 0
               },
               "value": "property1",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -136,7 +133,6 @@
                 "ctxt": 0
               },
               "value": "property2",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -182,7 +178,6 @@
             "ctxt": 0
           },
           "value": "Component",
-          "typeAnnotation": null,
           "optional": false
         },
         "params": [
@@ -202,6 +197,7 @@
                 "ctxt": 0
               },
               "value": "props",
+              "optional": false,
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -224,13 +220,11 @@
                       "ctxt": 0
                     },
                     "value": "ComponentProps",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
                 }
-              },
-              "optional": false
+              }
             }
           }
         ],
@@ -279,7 +273,6 @@
                         "ctxt": 0
                       },
                       "value": "AnotherComponent",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "span": {
@@ -303,7 +296,6 @@
                             "ctxt": 0
                           },
                           "value": "props",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       }
@@ -339,7 +331,6 @@
           "ctxt": 0
         },
         "value": "AnotherComponentProps",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -369,7 +360,6 @@
                 "ctxt": 0
               },
               "value": "property1",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -411,7 +401,6 @@
                 "ctxt": 0
               },
               "value": "AnotherProperty1",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -453,7 +442,6 @@
                 "ctxt": 0
               },
               "value": "property2",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -492,7 +480,6 @@
           "ctxt": 0
         },
         "value": "AnotherComponent",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -528,7 +515,6 @@
                     "ctxt": 0
                   },
                   "value": "property1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null
@@ -557,7 +543,6 @@
                     "ctxt": 0
                   },
                   "value": "AnotherComponentProps",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -611,7 +596,6 @@
                       "ctxt": 0
                     },
                     "value": "span",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "span": {
@@ -639,7 +623,6 @@
                         "ctxt": 0
                       },
                       "value": "property1",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -659,7 +642,6 @@
                       "ctxt": 0
                     },
                     "value": "span",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }

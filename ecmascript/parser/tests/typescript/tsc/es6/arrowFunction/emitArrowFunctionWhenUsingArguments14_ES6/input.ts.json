@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -64,7 +63,6 @@
                     "ctxt": 0
                   },
                   "value": "Math",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -75,7 +73,6 @@
                     "ctxt": 0
                   },
                   "value": "random",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -116,8 +113,8 @@
                           "ctxt": 0
                         },
                         "value": "arguments",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "NumericLiteral",
@@ -155,7 +152,6 @@
                         "ctxt": 0
                       },
                       "value": "arguments",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "async": false,

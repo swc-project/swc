@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "method",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -83,7 +81,6 @@
                         "ctxt": 0
                       },
                       "value": "Error",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -120,7 +117,6 @@
           "ctxt": 0
         },
         "value": "B",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -146,7 +142,6 @@
               "ctxt": 0
             },
             "value": "method",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -212,7 +207,6 @@
           "ctxt": 0
         },
         "value": "B2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -238,7 +232,6 @@
               "ctxt": 0
             },
             "value": "method",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -309,7 +302,6 @@
           "ctxt": 0
         },
         "value": "B3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -351,8 +343,8 @@
               "ctxt": 0
             },
             "value": "Ns",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -397,7 +389,6 @@
               "ctxt": 0
             },
             "value": "Ns",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -408,7 +399,6 @@
               "ctxt": 0
             },
             "value": "C1",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -438,7 +428,6 @@
                   "ctxt": 0
                 },
                 "value": "method",
-                "typeAnnotation": null,
                 "optional": false
               },
               "function": {
@@ -521,8 +510,8 @@
               "ctxt": 0
             },
             "value": "C2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ClassExpression",
@@ -549,7 +538,6 @@
                     "ctxt": 0
                   },
                   "value": "method",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "function": {
@@ -634,8 +622,8 @@
               "ctxt": 0
             },
             "value": "o",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -655,7 +643,6 @@
                     "ctxt": 0
                   },
                   "value": "C3",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -683,7 +670,6 @@
                           "ctxt": 0
                         },
                         "value": "method",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "function": {
@@ -756,7 +742,6 @@
           "ctxt": 0
         },
         "value": "CC",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -782,7 +767,6 @@
               "ctxt": 0
             },
             "value": "C4",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -810,7 +794,6 @@
                     "ctxt": 0
                   },
                   "value": "method",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "function": {
@@ -909,8 +892,8 @@
               "ctxt": 0
             },
             "value": "C5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -947,7 +930,6 @@
               "ctxt": 0
             },
             "value": "Ns",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -958,7 +940,6 @@
               "ctxt": 0
             },
             "value": "C5",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -979,7 +960,6 @@
               "ctxt": 0
             },
             "value": "C5",
-            "typeAnnotation": null,
             "optional": false
           },
           "right": {
@@ -1007,7 +987,6 @@
                     "ctxt": 0
                   },
                   "value": "method",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "function": {

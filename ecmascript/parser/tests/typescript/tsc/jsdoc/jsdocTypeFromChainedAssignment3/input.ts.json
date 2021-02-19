@@ -36,7 +36,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -47,7 +46,6 @@
               "ctxt": 0
             },
             "value": "wrapSync",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -75,7 +73,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -86,7 +83,6 @@
                 "ctxt": 0
               },
               "value": "selectSeries",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -114,7 +110,6 @@
                   "ctxt": 0
                 },
                 "value": "exports",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -125,7 +120,6 @@
                   "ctxt": 0
                 },
                 "value": "selectLimit",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -153,7 +147,6 @@
                     "ctxt": 0
                   },
                   "value": "exports",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -164,7 +157,6 @@
                     "ctxt": 0
                   },
                   "value": "select",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -192,7 +184,6 @@
                       "ctxt": 0
                     },
                     "value": "exports",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -203,7 +194,6 @@
                       "ctxt": 0
                     },
                     "value": "foldr",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -231,7 +221,6 @@
                         "ctxt": 0
                       },
                       "value": "exports",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -242,7 +231,6 @@
                         "ctxt": 0
                       },
                       "value": "foldl",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -270,7 +258,6 @@
                           "ctxt": 0
                         },
                         "value": "exports",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -281,7 +268,6 @@
                           "ctxt": 0
                         },
                         "value": "inject",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -309,7 +295,6 @@
                             "ctxt": 0
                           },
                           "value": "exports",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -320,7 +305,6 @@
                             "ctxt": 0
                           },
                           "value": "forEachOfLimit",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -348,7 +332,6 @@
                               "ctxt": 0
                             },
                             "value": "exports",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "property": {
@@ -359,7 +342,6 @@
                               "ctxt": 0
                             },
                             "value": "forEachOfSeries",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -387,7 +369,6 @@
                                 "ctxt": 0
                               },
                               "value": "exports",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "property": {
@@ -398,7 +379,6 @@
                                 "ctxt": 0
                               },
                               "value": "forEachOf",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -426,7 +406,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "exports",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -437,7 +416,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "forEachLimit",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -465,7 +443,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "exports",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -476,7 +453,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "forEachSeries",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -504,7 +480,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "exports",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "property": {
@@ -515,7 +490,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "forEach",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false
@@ -543,7 +517,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "exports",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "property": {
@@ -554,7 +527,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "findSeries",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "computed": false
@@ -582,7 +554,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "exports",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "property": {
@@ -593,7 +564,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "findLimit",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -621,7 +591,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "exports",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "property": {
@@ -632,7 +601,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "find",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "computed": false
@@ -660,7 +628,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "exports",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           },
                                           "property": {
@@ -671,7 +638,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "anySeries",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           },
                                           "computed": false
@@ -699,7 +665,6 @@
                                                 "ctxt": 0
                                               },
                                               "value": "exports",
-                                              "typeAnnotation": null,
                                               "optional": false
                                             },
                                             "property": {
@@ -710,7 +675,6 @@
                                                 "ctxt": 0
                                               },
                                               "value": "anyLimit",
-                                              "typeAnnotation": null,
                                               "optional": false
                                             },
                                             "computed": false
@@ -738,7 +702,6 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "exports",
-                                                "typeAnnotation": null,
                                                 "optional": false
                                               },
                                               "property": {
@@ -749,7 +712,6 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "any",
-                                                "typeAnnotation": null,
                                                 "optional": false
                                               },
                                               "computed": false
@@ -777,7 +739,6 @@
                                                     "ctxt": 0
                                                   },
                                                   "value": "exports",
-                                                  "typeAnnotation": null,
                                                   "optional": false
                                                 },
                                                 "property": {
@@ -788,7 +749,6 @@
                                                     "ctxt": 0
                                                   },
                                                   "value": "allSeries",
-                                                  "typeAnnotation": null,
                                                   "optional": false
                                                 },
                                                 "computed": false
@@ -816,7 +776,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "exports",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "property": {
@@ -827,7 +786,6 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "allLimit",
-                                                    "typeAnnotation": null,
                                                     "optional": false
                                                   },
                                                   "computed": false
@@ -855,7 +813,6 @@
                                                         "ctxt": 0
                                                       },
                                                       "value": "exports",
-                                                      "typeAnnotation": null,
                                                       "optional": false
                                                     },
                                                     "property": {
@@ -866,7 +823,6 @@
                                                         "ctxt": 0
                                                       },
                                                       "value": "all",
-                                                      "typeAnnotation": null,
                                                       "optional": false
                                                     },
                                                     "computed": false
@@ -894,7 +850,6 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "exports",
-                                                        "typeAnnotation": null,
                                                         "optional": false
                                                       },
                                                       "property": {
@@ -905,7 +860,6 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "whilst",
-                                                        "typeAnnotation": null,
                                                         "optional": false
                                                       },
                                                       "computed": false
@@ -933,7 +887,6 @@
                                                             "ctxt": 0
                                                           },
                                                           "value": "exports",
-                                                          "typeAnnotation": null,
                                                           "optional": false
                                                         },
                                                         "property": {
@@ -944,7 +897,6 @@
                                                             "ctxt": 0
                                                           },
                                                           "value": "waterfall",
-                                                          "typeAnnotation": null,
                                                           "optional": false
                                                         },
                                                         "computed": false
@@ -972,7 +924,6 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "exports",
-                                                            "typeAnnotation": null,
                                                             "optional": false
                                                           },
                                                           "property": {
@@ -983,7 +934,6 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "until",
-                                                            "typeAnnotation": null,
                                                             "optional": false
                                                           },
                                                           "computed": false
@@ -1011,7 +961,6 @@
                                                                 "ctxt": 0
                                                               },
                                                               "value": "exports",
-                                                              "typeAnnotation": null,
                                                               "optional": false
                                                             },
                                                             "property": {
@@ -1022,7 +971,6 @@
                                                                 "ctxt": 0
                                                               },
                                                               "value": "unmemoize",
-                                                              "typeAnnotation": null,
                                                               "optional": false
                                                             },
                                                             "computed": false
@@ -1050,7 +998,6 @@
                                                                   "ctxt": 0
                                                                 },
                                                                 "value": "exports",
-                                                                "typeAnnotation": null,
                                                                 "optional": false
                                                               },
                                                               "property": {
@@ -1061,7 +1008,6 @@
                                                                   "ctxt": 0
                                                                 },
                                                                 "value": "tryEach",
-                                                                "typeAnnotation": null,
                                                                 "optional": false
                                                               },
                                                               "computed": false
@@ -1089,7 +1035,6 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "exports",
-                                                                  "typeAnnotation": null,
                                                                   "optional": false
                                                                 },
                                                                 "property": {
@@ -1100,7 +1045,6 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "transform",
-                                                                  "typeAnnotation": null,
                                                                   "optional": false
                                                                 },
                                                                 "computed": false
@@ -1128,7 +1072,6 @@
                                                                       "ctxt": 0
                                                                     },
                                                                     "value": "exports",
-                                                                    "typeAnnotation": null,
                                                                     "optional": false
                                                                   },
                                                                   "property": {
@@ -1139,7 +1082,6 @@
                                                                       "ctxt": 0
                                                                     },
                                                                     "value": "timesSeries",
-                                                                    "typeAnnotation": null,
                                                                     "optional": false
                                                                   },
                                                                   "computed": false
@@ -1167,7 +1109,6 @@
                                                                         "ctxt": 0
                                                                       },
                                                                       "value": "exports",
-                                                                      "typeAnnotation": null,
                                                                       "optional": false
                                                                     },
                                                                     "property": {
@@ -1178,7 +1119,6 @@
                                                                         "ctxt": 0
                                                                       },
                                                                       "value": "timesLimit",
-                                                                      "typeAnnotation": null,
                                                                       "optional": false
                                                                     },
                                                                     "computed": false
@@ -1206,7 +1146,6 @@
                                                                           "ctxt": 0
                                                                         },
                                                                         "value": "exports",
-                                                                        "typeAnnotation": null,
                                                                         "optional": false
                                                                       },
                                                                       "property": {
@@ -1217,7 +1156,6 @@
                                                                           "ctxt": 0
                                                                         },
                                                                         "value": "times",
-                                                                        "typeAnnotation": null,
                                                                         "optional": false
                                                                       },
                                                                       "computed": false
@@ -1245,7 +1183,6 @@
                                                                             "ctxt": 0
                                                                           },
                                                                           "value": "exports",
-                                                                          "typeAnnotation": null,
                                                                           "optional": false
                                                                         },
                                                                         "property": {
@@ -1256,7 +1193,6 @@
                                                                             "ctxt": 0
                                                                           },
                                                                           "value": "timeout",
-                                                                          "typeAnnotation": null,
                                                                           "optional": false
                                                                         },
                                                                         "computed": false
@@ -1284,7 +1220,6 @@
                                                                               "ctxt": 0
                                                                             },
                                                                             "value": "exports",
-                                                                            "typeAnnotation": null,
                                                                             "optional": false
                                                                           },
                                                                           "property": {
@@ -1295,7 +1230,6 @@
                                                                               "ctxt": 0
                                                                             },
                                                                             "value": "sortBy",
-                                                                            "typeAnnotation": null,
                                                                             "optional": false
                                                                           },
                                                                           "computed": false
@@ -1323,7 +1257,6 @@
                                                                                 "ctxt": 0
                                                                               },
                                                                               "value": "exports",
-                                                                              "typeAnnotation": null,
                                                                               "optional": false
                                                                             },
                                                                             "property": {
@@ -1334,7 +1267,6 @@
                                                                                 "ctxt": 0
                                                                               },
                                                                               "value": "someSeries",
-                                                                              "typeAnnotation": null,
                                                                               "optional": false
                                                                             },
                                                                             "computed": false
@@ -1362,7 +1294,6 @@
                                                                                   "ctxt": 0
                                                                                 },
                                                                                 "value": "exports",
-                                                                                "typeAnnotation": null,
                                                                                 "optional": false
                                                                               },
                                                                               "property": {
@@ -1373,7 +1304,6 @@
                                                                                   "ctxt": 0
                                                                                 },
                                                                                 "value": "someLimit",
-                                                                                "typeAnnotation": null,
                                                                                 "optional": false
                                                                               },
                                                                               "computed": false
@@ -1401,7 +1331,6 @@
                                                                                     "ctxt": 0
                                                                                   },
                                                                                   "value": "exports",
-                                                                                  "typeAnnotation": null,
                                                                                   "optional": false
                                                                                 },
                                                                                 "property": {
@@ -1412,7 +1341,6 @@
                                                                                     "ctxt": 0
                                                                                   },
                                                                                   "value": "some",
-                                                                                  "typeAnnotation": null,
                                                                                   "optional": false
                                                                                 },
                                                                                 "computed": false
@@ -1440,7 +1368,6 @@
                                                                                       "ctxt": 0
                                                                                     },
                                                                                     "value": "exports",
-                                                                                    "typeAnnotation": null,
                                                                                     "optional": false
                                                                                   },
                                                                                   "property": {
@@ -1451,7 +1378,6 @@
                                                                                       "ctxt": 0
                                                                                     },
                                                                                     "value": "setImmediate",
-                                                                                    "typeAnnotation": null,
                                                                                     "optional": false
                                                                                   },
                                                                                   "computed": false
@@ -1479,7 +1405,6 @@
                                                                                         "ctxt": 0
                                                                                       },
                                                                                       "value": "exports",
-                                                                                      "typeAnnotation": null,
                                                                                       "optional": false
                                                                                     },
                                                                                     "property": {
@@ -1490,7 +1415,6 @@
                                                                                         "ctxt": 0
                                                                                       },
                                                                                       "value": "series",
-                                                                                      "typeAnnotation": null,
                                                                                       "optional": false
                                                                                     },
                                                                                     "computed": false
@@ -1518,7 +1442,6 @@
                                                                                           "ctxt": 0
                                                                                         },
                                                                                         "value": "exports",
-                                                                                        "typeAnnotation": null,
                                                                                         "optional": false
                                                                                       },
                                                                                       "property": {
@@ -1529,7 +1452,6 @@
                                                                                           "ctxt": 0
                                                                                         },
                                                                                         "value": "seq",
-                                                                                        "typeAnnotation": null,
                                                                                         "optional": false
                                                                                       },
                                                                                       "computed": false
@@ -1557,7 +1479,6 @@
                                                                                             "ctxt": 0
                                                                                           },
                                                                                           "value": "exports",
-                                                                                          "typeAnnotation": null,
                                                                                           "optional": false
                                                                                         },
                                                                                         "property": {
@@ -1568,7 +1489,6 @@
                                                                                             "ctxt": 0
                                                                                           },
                                                                                           "value": "retryable",
-                                                                                          "typeAnnotation": null,
                                                                                           "optional": false
                                                                                         },
                                                                                         "computed": false
@@ -1596,7 +1516,6 @@
                                                                                               "ctxt": 0
                                                                                             },
                                                                                             "value": "exports",
-                                                                                            "typeAnnotation": null,
                                                                                             "optional": false
                                                                                           },
                                                                                           "property": {
@@ -1607,7 +1526,6 @@
                                                                                               "ctxt": 0
                                                                                             },
                                                                                             "value": "retry",
-                                                                                            "typeAnnotation": null,
                                                                                             "optional": false
                                                                                           },
                                                                                           "computed": false
@@ -1635,7 +1553,6 @@
                                                                                                 "ctxt": 0
                                                                                               },
                                                                                               "value": "exports",
-                                                                                              "typeAnnotation": null,
                                                                                               "optional": false
                                                                                             },
                                                                                             "property": {
@@ -1646,7 +1563,6 @@
                                                                                                 "ctxt": 0
                                                                                               },
                                                                                               "value": "rejectSeries",
-                                                                                              "typeAnnotation": null,
                                                                                               "optional": false
                                                                                             },
                                                                                             "computed": false
@@ -1674,7 +1590,6 @@
                                                                                                   "ctxt": 0
                                                                                                 },
                                                                                                 "value": "exports",
-                                                                                                "typeAnnotation": null,
                                                                                                 "optional": false
                                                                                               },
                                                                                               "property": {
@@ -1685,7 +1600,6 @@
                                                                                                   "ctxt": 0
                                                                                                 },
                                                                                                 "value": "rejectLimit",
-                                                                                                "typeAnnotation": null,
                                                                                                 "optional": false
                                                                                               },
                                                                                               "computed": false
@@ -1713,7 +1627,6 @@
                                                                                                     "ctxt": 0
                                                                                                   },
                                                                                                   "value": "exports",
-                                                                                                  "typeAnnotation": null,
                                                                                                   "optional": false
                                                                                                 },
                                                                                                 "property": {
@@ -1724,7 +1637,6 @@
                                                                                                     "ctxt": 0
                                                                                                   },
                                                                                                   "value": "reject",
-                                                                                                  "typeAnnotation": null,
                                                                                                   "optional": false
                                                                                                 },
                                                                                                 "computed": false
@@ -1752,7 +1664,6 @@
                                                                                                       "ctxt": 0
                                                                                                     },
                                                                                                     "value": "exports",
-                                                                                                    "typeAnnotation": null,
                                                                                                     "optional": false
                                                                                                   },
                                                                                                   "property": {
@@ -1763,7 +1674,6 @@
                                                                                                       "ctxt": 0
                                                                                                     },
                                                                                                     "value": "reflectAll",
-                                                                                                    "typeAnnotation": null,
                                                                                                     "optional": false
                                                                                                   },
                                                                                                   "computed": false
@@ -1791,7 +1701,6 @@
                                                                                                         "ctxt": 0
                                                                                                       },
                                                                                                       "value": "exports",
-                                                                                                      "typeAnnotation": null,
                                                                                                       "optional": false
                                                                                                     },
                                                                                                     "property": {
@@ -1802,7 +1711,6 @@
                                                                                                         "ctxt": 0
                                                                                                       },
                                                                                                       "value": "reflect",
-                                                                                                      "typeAnnotation": null,
                                                                                                       "optional": false
                                                                                                     },
                                                                                                     "computed": false
@@ -1830,7 +1738,6 @@
                                                                                                           "ctxt": 0
                                                                                                         },
                                                                                                         "value": "exports",
-                                                                                                        "typeAnnotation": null,
                                                                                                         "optional": false
                                                                                                       },
                                                                                                       "property": {
@@ -1841,7 +1748,6 @@
                                                                                                           "ctxt": 0
                                                                                                         },
                                                                                                         "value": "reduceRight",
-                                                                                                        "typeAnnotation": null,
                                                                                                         "optional": false
                                                                                                       },
                                                                                                       "computed": false
@@ -1869,7 +1775,6 @@
                                                                                                             "ctxt": 0
                                                                                                           },
                                                                                                           "value": "exports",
-                                                                                                          "typeAnnotation": null,
                                                                                                           "optional": false
                                                                                                         },
                                                                                                         "property": {
@@ -1880,7 +1785,6 @@
                                                                                                             "ctxt": 0
                                                                                                           },
                                                                                                           "value": "reduce",
-                                                                                                          "typeAnnotation": null,
                                                                                                           "optional": false
                                                                                                         },
                                                                                                         "computed": false
@@ -1908,7 +1812,6 @@
                                                                                                               "ctxt": 0
                                                                                                             },
                                                                                                             "value": "exports",
-                                                                                                            "typeAnnotation": null,
                                                                                                             "optional": false
                                                                                                           },
                                                                                                           "property": {
@@ -1919,7 +1822,6 @@
                                                                                                               "ctxt": 0
                                                                                                             },
                                                                                                             "value": "race",
-                                                                                                            "typeAnnotation": null,
                                                                                                             "optional": false
                                                                                                           },
                                                                                                           "computed": false
@@ -1947,7 +1849,6 @@
                                                                                                                 "ctxt": 0
                                                                                                               },
                                                                                                               "value": "exports",
-                                                                                                              "typeAnnotation": null,
                                                                                                               "optional": false
                                                                                                             },
                                                                                                             "property": {
@@ -1958,7 +1859,6 @@
                                                                                                                 "ctxt": 0
                                                                                                               },
                                                                                                               "value": "queue",
-                                                                                                              "typeAnnotation": null,
                                                                                                               "optional": false
                                                                                                             },
                                                                                                             "computed": false
@@ -1986,7 +1886,6 @@
                                                                                                                   "ctxt": 0
                                                                                                                 },
                                                                                                                 "value": "exports",
-                                                                                                                "typeAnnotation": null,
                                                                                                                 "optional": false
                                                                                                               },
                                                                                                               "property": {
@@ -1997,7 +1896,6 @@
                                                                                                                   "ctxt": 0
                                                                                                                 },
                                                                                                                 "value": "priorityQueue",
-                                                                                                                "typeAnnotation": null,
                                                                                                                 "optional": false
                                                                                                               },
                                                                                                               "computed": false
@@ -2025,7 +1923,6 @@
                                                                                                                     "ctxt": 0
                                                                                                                   },
                                                                                                                   "value": "exports",
-                                                                                                                  "typeAnnotation": null,
                                                                                                                   "optional": false
                                                                                                                 },
                                                                                                                 "property": {
@@ -2036,7 +1933,6 @@
                                                                                                                     "ctxt": 0
                                                                                                                   },
                                                                                                                   "value": "parallelLimit",
-                                                                                                                  "typeAnnotation": null,
                                                                                                                   "optional": false
                                                                                                                 },
                                                                                                                 "computed": false
@@ -2064,7 +1960,6 @@
                                                                                                                       "ctxt": 0
                                                                                                                     },
                                                                                                                     "value": "exports",
-                                                                                                                    "typeAnnotation": null,
                                                                                                                     "optional": false
                                                                                                                   },
                                                                                                                   "property": {
@@ -2075,7 +1970,6 @@
                                                                                                                       "ctxt": 0
                                                                                                                     },
                                                                                                                     "value": "parallel",
-                                                                                                                    "typeAnnotation": null,
                                                                                                                     "optional": false
                                                                                                                   },
                                                                                                                   "computed": false
@@ -2103,7 +1997,6 @@
                                                                                                                         "ctxt": 0
                                                                                                                       },
                                                                                                                       "value": "exports",
-                                                                                                                      "typeAnnotation": null,
                                                                                                                       "optional": false
                                                                                                                     },
                                                                                                                     "property": {
@@ -2114,7 +2007,6 @@
                                                                                                                         "ctxt": 0
                                                                                                                       },
                                                                                                                       "value": "nextTick",
-                                                                                                                      "typeAnnotation": null,
                                                                                                                       "optional": false
                                                                                                                     },
                                                                                                                     "computed": false
@@ -2142,7 +2034,6 @@
                                                                                                                           "ctxt": 0
                                                                                                                         },
                                                                                                                         "value": "exports",
-                                                                                                                        "typeAnnotation": null,
                                                                                                                         "optional": false
                                                                                                                       },
                                                                                                                       "property": {
@@ -2153,7 +2044,6 @@
                                                                                                                           "ctxt": 0
                                                                                                                         },
                                                                                                                         "value": "memoize",
-                                                                                                                        "typeAnnotation": null,
                                                                                                                         "optional": false
                                                                                                                       },
                                                                                                                       "computed": false
@@ -2181,7 +2071,6 @@
                                                                                                                             "ctxt": 0
                                                                                                                           },
                                                                                                                           "value": "exports",
-                                                                                                                          "typeAnnotation": null,
                                                                                                                           "optional": false
                                                                                                                         },
                                                                                                                         "property": {
@@ -2192,7 +2081,6 @@
                                                                                                                             "ctxt": 0
                                                                                                                           },
                                                                                                                           "value": "mapValuesSeries",
-                                                                                                                          "typeAnnotation": null,
                                                                                                                           "optional": false
                                                                                                                         },
                                                                                                                         "computed": false
@@ -2220,7 +2108,6 @@
                                                                                                                               "ctxt": 0
                                                                                                                             },
                                                                                                                             "value": "exports",
-                                                                                                                            "typeAnnotation": null,
                                                                                                                             "optional": false
                                                                                                                           },
                                                                                                                           "property": {
@@ -2231,7 +2118,6 @@
                                                                                                                               "ctxt": 0
                                                                                                                             },
                                                                                                                             "value": "mapValuesLimit",
-                                                                                                                            "typeAnnotation": null,
                                                                                                                             "optional": false
                                                                                                                           },
                                                                                                                           "computed": false
@@ -2259,7 +2145,6 @@
                                                                                                                                 "ctxt": 0
                                                                                                                               },
                                                                                                                               "value": "exports",
-                                                                                                                              "typeAnnotation": null,
                                                                                                                               "optional": false
                                                                                                                             },
                                                                                                                             "property": {
@@ -2270,7 +2155,6 @@
                                                                                                                                 "ctxt": 0
                                                                                                                               },
                                                                                                                               "value": "mapValues",
-                                                                                                                              "typeAnnotation": null,
                                                                                                                               "optional": false
                                                                                                                             },
                                                                                                                             "computed": false
@@ -2298,7 +2182,6 @@
                                                                                                                                   "ctxt": 0
                                                                                                                                 },
                                                                                                                                 "value": "exports",
-                                                                                                                                "typeAnnotation": null,
                                                                                                                                 "optional": false
                                                                                                                               },
                                                                                                                               "property": {
@@ -2309,7 +2192,6 @@
                                                                                                                                   "ctxt": 0
                                                                                                                                 },
                                                                                                                                 "value": "mapSeries",
-                                                                                                                                "typeAnnotation": null,
                                                                                                                                 "optional": false
                                                                                                                               },
                                                                                                                               "computed": false
@@ -2337,7 +2219,6 @@
                                                                                                                                     "ctxt": 0
                                                                                                                                   },
                                                                                                                                   "value": "exports",
-                                                                                                                                  "typeAnnotation": null,
                                                                                                                                   "optional": false
                                                                                                                                 },
                                                                                                                                 "property": {
@@ -2348,7 +2229,6 @@
                                                                                                                                     "ctxt": 0
                                                                                                                                   },
                                                                                                                                   "value": "mapLimit",
-                                                                                                                                  "typeAnnotation": null,
                                                                                                                                   "optional": false
                                                                                                                                 },
                                                                                                                                 "computed": false
@@ -2376,7 +2256,6 @@
                                                                                                                                       "ctxt": 0
                                                                                                                                     },
                                                                                                                                     "value": "exports",
-                                                                                                                                    "typeAnnotation": null,
                                                                                                                                     "optional": false
                                                                                                                                   },
                                                                                                                                   "property": {
@@ -2387,7 +2266,6 @@
                                                                                                                                       "ctxt": 0
                                                                                                                                     },
                                                                                                                                     "value": "map",
-                                                                                                                                    "typeAnnotation": null,
                                                                                                                                     "optional": false
                                                                                                                                   },
                                                                                                                                   "computed": false
@@ -2415,7 +2293,6 @@
                                                                                                                                         "ctxt": 0
                                                                                                                                       },
                                                                                                                                       "value": "exports",
-                                                                                                                                      "typeAnnotation": null,
                                                                                                                                       "optional": false
                                                                                                                                     },
                                                                                                                                     "property": {
@@ -2426,7 +2303,6 @@
                                                                                                                                         "ctxt": 0
                                                                                                                                       },
                                                                                                                                       "value": "log",
-                                                                                                                                      "typeAnnotation": null,
                                                                                                                                       "optional": false
                                                                                                                                     },
                                                                                                                                     "computed": false
@@ -2454,7 +2330,6 @@
                                                                                                                                           "ctxt": 0
                                                                                                                                         },
                                                                                                                                         "value": "exports",
-                                                                                                                                        "typeAnnotation": null,
                                                                                                                                         "optional": false
                                                                                                                                       },
                                                                                                                                       "property": {
@@ -2465,7 +2340,6 @@
                                                                                                                                           "ctxt": 0
                                                                                                                                         },
                                                                                                                                         "value": "groupBySeries",
-                                                                                                                                        "typeAnnotation": null,
                                                                                                                                         "optional": false
                                                                                                                                       },
                                                                                                                                       "computed": false
@@ -2493,7 +2367,6 @@
                                                                                                                                             "ctxt": 0
                                                                                                                                           },
                                                                                                                                           "value": "exports",
-                                                                                                                                          "typeAnnotation": null,
                                                                                                                                           "optional": false
                                                                                                                                         },
                                                                                                                                         "property": {
@@ -2504,7 +2377,6 @@
                                                                                                                                             "ctxt": 0
                                                                                                                                           },
                                                                                                                                           "value": "groupByLimit",
-                                                                                                                                          "typeAnnotation": null,
                                                                                                                                           "optional": false
                                                                                                                                         },
                                                                                                                                         "computed": false
@@ -2532,7 +2404,6 @@
                                                                                                                                               "ctxt": 0
                                                                                                                                             },
                                                                                                                                             "value": "exports",
-                                                                                                                                            "typeAnnotation": null,
                                                                                                                                             "optional": false
                                                                                                                                           },
                                                                                                                                           "property": {
@@ -2543,7 +2414,6 @@
                                                                                                                                               "ctxt": 0
                                                                                                                                             },
                                                                                                                                             "value": "groupBy",
-                                                                                                                                            "typeAnnotation": null,
                                                                                                                                             "optional": false
                                                                                                                                           },
                                                                                                                                           "computed": false
@@ -2571,7 +2441,6 @@
                                                                                                                                                 "ctxt": 0
                                                                                                                                               },
                                                                                                                                               "value": "exports",
-                                                                                                                                              "typeAnnotation": null,
                                                                                                                                               "optional": false
                                                                                                                                             },
                                                                                                                                             "property": {
@@ -2582,7 +2451,6 @@
                                                                                                                                                 "ctxt": 0
                                                                                                                                               },
                                                                                                                                               "value": "forever",
-                                                                                                                                              "typeAnnotation": null,
                                                                                                                                               "optional": false
                                                                                                                                             },
                                                                                                                                             "computed": false
@@ -2610,7 +2478,6 @@
                                                                                                                                                   "ctxt": 0
                                                                                                                                                 },
                                                                                                                                                 "value": "exports",
-                                                                                                                                                "typeAnnotation": null,
                                                                                                                                                 "optional": false
                                                                                                                                               },
                                                                                                                                               "property": {
@@ -2621,7 +2488,6 @@
                                                                                                                                                   "ctxt": 0
                                                                                                                                                 },
                                                                                                                                                 "value": "filterSeries",
-                                                                                                                                                "typeAnnotation": null,
                                                                                                                                                 "optional": false
                                                                                                                                               },
                                                                                                                                               "computed": false
@@ -2649,7 +2515,6 @@
                                                                                                                                                     "ctxt": 0
                                                                                                                                                   },
                                                                                                                                                   "value": "exports",
-                                                                                                                                                  "typeAnnotation": null,
                                                                                                                                                   "optional": false
                                                                                                                                                 },
                                                                                                                                                 "property": {
@@ -2660,7 +2525,6 @@
                                                                                                                                                     "ctxt": 0
                                                                                                                                                   },
                                                                                                                                                   "value": "filterLimit",
-                                                                                                                                                  "typeAnnotation": null,
                                                                                                                                                   "optional": false
                                                                                                                                                 },
                                                                                                                                                 "computed": false
@@ -2688,7 +2552,6 @@
                                                                                                                                                       "ctxt": 0
                                                                                                                                                     },
                                                                                                                                                     "value": "exports",
-                                                                                                                                                    "typeAnnotation": null,
                                                                                                                                                     "optional": false
                                                                                                                                                   },
                                                                                                                                                   "property": {
@@ -2699,7 +2562,6 @@
                                                                                                                                                       "ctxt": 0
                                                                                                                                                     },
                                                                                                                                                     "value": "filter",
-                                                                                                                                                    "typeAnnotation": null,
                                                                                                                                                     "optional": false
                                                                                                                                                   },
                                                                                                                                                   "computed": false
@@ -2727,7 +2589,6 @@
                                                                                                                                                         "ctxt": 0
                                                                                                                                                       },
                                                                                                                                                       "value": "exports",
-                                                                                                                                                      "typeAnnotation": null,
                                                                                                                                                       "optional": false
                                                                                                                                                     },
                                                                                                                                                     "property": {
@@ -2738,7 +2599,6 @@
                                                                                                                                                         "ctxt": 0
                                                                                                                                                       },
                                                                                                                                                       "value": "everySeries",
-                                                                                                                                                      "typeAnnotation": null,
                                                                                                                                                       "optional": false
                                                                                                                                                     },
                                                                                                                                                     "computed": false
@@ -2766,7 +2626,6 @@
                                                                                                                                                           "ctxt": 0
                                                                                                                                                         },
                                                                                                                                                         "value": "exports",
-                                                                                                                                                        "typeAnnotation": null,
                                                                                                                                                         "optional": false
                                                                                                                                                       },
                                                                                                                                                       "property": {
@@ -2777,7 +2636,6 @@
                                                                                                                                                           "ctxt": 0
                                                                                                                                                         },
                                                                                                                                                         "value": "everyLimit",
-                                                                                                                                                        "typeAnnotation": null,
                                                                                                                                                         "optional": false
                                                                                                                                                       },
                                                                                                                                                       "computed": false
@@ -2805,7 +2663,6 @@
                                                                                                                                                             "ctxt": 0
                                                                                                                                                           },
                                                                                                                                                           "value": "exports",
-                                                                                                                                                          "typeAnnotation": null,
                                                                                                                                                           "optional": false
                                                                                                                                                         },
                                                                                                                                                         "property": {
@@ -2816,7 +2673,6 @@
                                                                                                                                                             "ctxt": 0
                                                                                                                                                           },
                                                                                                                                                           "value": "every",
-                                                                                                                                                          "typeAnnotation": null,
                                                                                                                                                           "optional": false
                                                                                                                                                         },
                                                                                                                                                         "computed": false
@@ -2844,7 +2700,6 @@
                                                                                                                                                               "ctxt": 0
                                                                                                                                                             },
                                                                                                                                                             "value": "exports",
-                                                                                                                                                            "typeAnnotation": null,
                                                                                                                                                             "optional": false
                                                                                                                                                           },
                                                                                                                                                           "property": {
@@ -2855,7 +2710,6 @@
                                                                                                                                                               "ctxt": 0
                                                                                                                                                             },
                                                                                                                                                             "value": "ensureAsync",
-                                                                                                                                                            "typeAnnotation": null,
                                                                                                                                                             "optional": false
                                                                                                                                                           },
                                                                                                                                                           "computed": false
@@ -2883,7 +2737,6 @@
                                                                                                                                                                 "ctxt": 0
                                                                                                                                                               },
                                                                                                                                                               "value": "exports",
-                                                                                                                                                              "typeAnnotation": null,
                                                                                                                                                               "optional": false
                                                                                                                                                             },
                                                                                                                                                             "property": {
@@ -2894,7 +2747,6 @@
                                                                                                                                                                 "ctxt": 0
                                                                                                                                                               },
                                                                                                                                                               "value": "eachSeries",
-                                                                                                                                                              "typeAnnotation": null,
                                                                                                                                                               "optional": false
                                                                                                                                                             },
                                                                                                                                                             "computed": false
@@ -2922,7 +2774,6 @@
                                                                                                                                                                   "ctxt": 0
                                                                                                                                                                 },
                                                                                                                                                                 "value": "exports",
-                                                                                                                                                                "typeAnnotation": null,
                                                                                                                                                                 "optional": false
                                                                                                                                                               },
                                                                                                                                                               "property": {
@@ -2933,7 +2784,6 @@
                                                                                                                                                                   "ctxt": 0
                                                                                                                                                                 },
                                                                                                                                                                 "value": "eachOfSeries",
-                                                                                                                                                                "typeAnnotation": null,
                                                                                                                                                                 "optional": false
                                                                                                                                                               },
                                                                                                                                                               "computed": false
@@ -2961,7 +2811,6 @@
                                                                                                                                                                     "ctxt": 0
                                                                                                                                                                   },
                                                                                                                                                                   "value": "exports",
-                                                                                                                                                                  "typeAnnotation": null,
                                                                                                                                                                   "optional": false
                                                                                                                                                                 },
                                                                                                                                                                 "property": {
@@ -2972,7 +2821,6 @@
                                                                                                                                                                     "ctxt": 0
                                                                                                                                                                   },
                                                                                                                                                                   "value": "eachOfLimit",
-                                                                                                                                                                  "typeAnnotation": null,
                                                                                                                                                                   "optional": false
                                                                                                                                                                 },
                                                                                                                                                                 "computed": false
@@ -3000,7 +2848,6 @@
                                                                                                                                                                       "ctxt": 0
                                                                                                                                                                     },
                                                                                                                                                                     "value": "exports",
-                                                                                                                                                                    "typeAnnotation": null,
                                                                                                                                                                     "optional": false
                                                                                                                                                                   },
                                                                                                                                                                   "property": {
@@ -3011,7 +2858,6 @@
                                                                                                                                                                       "ctxt": 0
                                                                                                                                                                     },
                                                                                                                                                                     "value": "eachOf",
-                                                                                                                                                                    "typeAnnotation": null,
                                                                                                                                                                     "optional": false
                                                                                                                                                                   },
                                                                                                                                                                   "computed": false
@@ -3039,7 +2885,6 @@
                                                                                                                                                                         "ctxt": 0
                                                                                                                                                                       },
                                                                                                                                                                       "value": "exports",
-                                                                                                                                                                      "typeAnnotation": null,
                                                                                                                                                                       "optional": false
                                                                                                                                                                     },
                                                                                                                                                                     "property": {
@@ -3050,7 +2895,6 @@
                                                                                                                                                                         "ctxt": 0
                                                                                                                                                                       },
                                                                                                                                                                       "value": "eachLimit",
-                                                                                                                                                                      "typeAnnotation": null,
                                                                                                                                                                       "optional": false
                                                                                                                                                                     },
                                                                                                                                                                     "computed": false
@@ -3078,7 +2922,6 @@
                                                                                                                                                                           "ctxt": 0
                                                                                                                                                                         },
                                                                                                                                                                         "value": "exports",
-                                                                                                                                                                        "typeAnnotation": null,
                                                                                                                                                                         "optional": false
                                                                                                                                                                       },
                                                                                                                                                                       "property": {
@@ -3089,7 +2932,6 @@
                                                                                                                                                                           "ctxt": 0
                                                                                                                                                                         },
                                                                                                                                                                         "value": "each",
-                                                                                                                                                                        "typeAnnotation": null,
                                                                                                                                                                         "optional": false
                                                                                                                                                                       },
                                                                                                                                                                       "computed": false
@@ -3117,7 +2959,6 @@
                                                                                                                                                                             "ctxt": 0
                                                                                                                                                                           },
                                                                                                                                                                           "value": "exports",
-                                                                                                                                                                          "typeAnnotation": null,
                                                                                                                                                                           "optional": false
                                                                                                                                                                         },
                                                                                                                                                                         "property": {
@@ -3128,7 +2969,6 @@
                                                                                                                                                                             "ctxt": 0
                                                                                                                                                                           },
                                                                                                                                                                           "value": "during",
-                                                                                                                                                                          "typeAnnotation": null,
                                                                                                                                                                           "optional": false
                                                                                                                                                                         },
                                                                                                                                                                         "computed": false
@@ -3156,7 +2996,6 @@
                                                                                                                                                                               "ctxt": 0
                                                                                                                                                                             },
                                                                                                                                                                             "value": "exports",
-                                                                                                                                                                            "typeAnnotation": null,
                                                                                                                                                                             "optional": false
                                                                                                                                                                           },
                                                                                                                                                                           "property": {
@@ -3167,7 +3006,6 @@
                                                                                                                                                                               "ctxt": 0
                                                                                                                                                                             },
                                                                                                                                                                             "value": "doWhilst",
-                                                                                                                                                                            "typeAnnotation": null,
                                                                                                                                                                             "optional": false
                                                                                                                                                                           },
                                                                                                                                                                           "computed": false
@@ -3195,7 +3033,6 @@
                                                                                                                                                                                 "ctxt": 0
                                                                                                                                                                               },
                                                                                                                                                                               "value": "exports",
-                                                                                                                                                                              "typeAnnotation": null,
                                                                                                                                                                               "optional": false
                                                                                                                                                                             },
                                                                                                                                                                             "property": {
@@ -3206,7 +3043,6 @@
                                                                                                                                                                                 "ctxt": 0
                                                                                                                                                                               },
                                                                                                                                                                               "value": "doUntil",
-                                                                                                                                                                              "typeAnnotation": null,
                                                                                                                                                                               "optional": false
                                                                                                                                                                             },
                                                                                                                                                                             "computed": false
@@ -3234,7 +3070,6 @@
                                                                                                                                                                                   "ctxt": 0
                                                                                                                                                                                 },
                                                                                                                                                                                 "value": "exports",
-                                                                                                                                                                                "typeAnnotation": null,
                                                                                                                                                                                 "optional": false
                                                                                                                                                                               },
                                                                                                                                                                               "property": {
@@ -3245,7 +3080,6 @@
                                                                                                                                                                                   "ctxt": 0
                                                                                                                                                                                 },
                                                                                                                                                                                 "value": "doDuring",
-                                                                                                                                                                                "typeAnnotation": null,
                                                                                                                                                                                 "optional": false
                                                                                                                                                                               },
                                                                                                                                                                               "computed": false
@@ -3273,7 +3107,6 @@
                                                                                                                                                                                     "ctxt": 0
                                                                                                                                                                                   },
                                                                                                                                                                                   "value": "exports",
-                                                                                                                                                                                  "typeAnnotation": null,
                                                                                                                                                                                   "optional": false
                                                                                                                                                                                 },
                                                                                                                                                                                 "property": {
@@ -3284,7 +3117,6 @@
                                                                                                                                                                                     "ctxt": 0
                                                                                                                                                                                   },
                                                                                                                                                                                   "value": "dir",
-                                                                                                                                                                                  "typeAnnotation": null,
                                                                                                                                                                                   "optional": false
                                                                                                                                                                                 },
                                                                                                                                                                                 "computed": false
@@ -3312,7 +3144,6 @@
                                                                                                                                                                                       "ctxt": 0
                                                                                                                                                                                     },
                                                                                                                                                                                     "value": "exports",
-                                                                                                                                                                                    "typeAnnotation": null,
                                                                                                                                                                                     "optional": false
                                                                                                                                                                                   },
                                                                                                                                                                                   "property": {
@@ -3323,7 +3154,6 @@
                                                                                                                                                                                       "ctxt": 0
                                                                                                                                                                                     },
                                                                                                                                                                                     "value": "detectSeries",
-                                                                                                                                                                                    "typeAnnotation": null,
                                                                                                                                                                                     "optional": false
                                                                                                                                                                                   },
                                                                                                                                                                                   "computed": false
@@ -3351,7 +3181,6 @@
                                                                                                                                                                                         "ctxt": 0
                                                                                                                                                                                       },
                                                                                                                                                                                       "value": "exports",
-                                                                                                                                                                                      "typeAnnotation": null,
                                                                                                                                                                                       "optional": false
                                                                                                                                                                                     },
                                                                                                                                                                                     "property": {
@@ -3362,7 +3191,6 @@
                                                                                                                                                                                         "ctxt": 0
                                                                                                                                                                                       },
                                                                                                                                                                                       "value": "detectLimit",
-                                                                                                                                                                                      "typeAnnotation": null,
                                                                                                                                                                                       "optional": false
                                                                                                                                                                                     },
                                                                                                                                                                                     "computed": false
@@ -3390,7 +3218,6 @@
                                                                                                                                                                                           "ctxt": 0
                                                                                                                                                                                         },
                                                                                                                                                                                         "value": "exports",
-                                                                                                                                                                                        "typeAnnotation": null,
                                                                                                                                                                                         "optional": false
                                                                                                                                                                                       },
                                                                                                                                                                                       "property": {
@@ -3401,7 +3228,6 @@
                                                                                                                                                                                           "ctxt": 0
                                                                                                                                                                                         },
                                                                                                                                                                                         "value": "detect",
-                                                                                                                                                                                        "typeAnnotation": null,
                                                                                                                                                                                         "optional": false
                                                                                                                                                                                       },
                                                                                                                                                                                       "computed": false
@@ -3429,7 +3255,6 @@
                                                                                                                                                                                             "ctxt": 0
                                                                                                                                                                                           },
                                                                                                                                                                                           "value": "exports",
-                                                                                                                                                                                          "typeAnnotation": null,
                                                                                                                                                                                           "optional": false
                                                                                                                                                                                         },
                                                                                                                                                                                         "property": {
@@ -3440,7 +3265,6 @@
                                                                                                                                                                                             "ctxt": 0
                                                                                                                                                                                           },
                                                                                                                                                                                           "value": "constant",
-                                                                                                                                                                                          "typeAnnotation": null,
                                                                                                                                                                                           "optional": false
                                                                                                                                                                                         },
                                                                                                                                                                                         "computed": false
@@ -3468,7 +3292,6 @@
                                                                                                                                                                                               "ctxt": 0
                                                                                                                                                                                             },
                                                                                                                                                                                             "value": "exports",
-                                                                                                                                                                                            "typeAnnotation": null,
                                                                                                                                                                                             "optional": false
                                                                                                                                                                                           },
                                                                                                                                                                                           "property": {
@@ -3479,7 +3302,6 @@
                                                                                                                                                                                               "ctxt": 0
                                                                                                                                                                                             },
                                                                                                                                                                                             "value": "concatSeries",
-                                                                                                                                                                                            "typeAnnotation": null,
                                                                                                                                                                                             "optional": false
                                                                                                                                                                                           },
                                                                                                                                                                                           "computed": false
@@ -3507,7 +3329,6 @@
                                                                                                                                                                                                 "ctxt": 0
                                                                                                                                                                                               },
                                                                                                                                                                                               "value": "exports",
-                                                                                                                                                                                              "typeAnnotation": null,
                                                                                                                                                                                               "optional": false
                                                                                                                                                                                             },
                                                                                                                                                                                             "property": {
@@ -3518,7 +3339,6 @@
                                                                                                                                                                                                 "ctxt": 0
                                                                                                                                                                                               },
                                                                                                                                                                                               "value": "concatLimit",
-                                                                                                                                                                                              "typeAnnotation": null,
                                                                                                                                                                                               "optional": false
                                                                                                                                                                                             },
                                                                                                                                                                                             "computed": false
@@ -3546,7 +3366,6 @@
                                                                                                                                                                                                   "ctxt": 0
                                                                                                                                                                                                 },
                                                                                                                                                                                                 "value": "exports",
-                                                                                                                                                                                                "typeAnnotation": null,
                                                                                                                                                                                                 "optional": false
                                                                                                                                                                                               },
                                                                                                                                                                                               "property": {
@@ -3557,7 +3376,6 @@
                                                                                                                                                                                                   "ctxt": 0
                                                                                                                                                                                                 },
                                                                                                                                                                                                 "value": "concat",
-                                                                                                                                                                                                "typeAnnotation": null,
                                                                                                                                                                                                 "optional": false
                                                                                                                                                                                               },
                                                                                                                                                                                               "computed": false
@@ -3585,7 +3403,6 @@
                                                                                                                                                                                                     "ctxt": 0
                                                                                                                                                                                                   },
                                                                                                                                                                                                   "value": "exports",
-                                                                                                                                                                                                  "typeAnnotation": null,
                                                                                                                                                                                                   "optional": false
                                                                                                                                                                                                 },
                                                                                                                                                                                                 "property": {
@@ -3596,7 +3413,6 @@
                                                                                                                                                                                                     "ctxt": 0
                                                                                                                                                                                                   },
                                                                                                                                                                                                   "value": "compose",
-                                                                                                                                                                                                  "typeAnnotation": null,
                                                                                                                                                                                                   "optional": false
                                                                                                                                                                                                 },
                                                                                                                                                                                                 "computed": false
@@ -3624,7 +3440,6 @@
                                                                                                                                                                                                       "ctxt": 0
                                                                                                                                                                                                     },
                                                                                                                                                                                                     "value": "exports",
-                                                                                                                                                                                                    "typeAnnotation": null,
                                                                                                                                                                                                     "optional": false
                                                                                                                                                                                                   },
                                                                                                                                                                                                   "property": {
@@ -3635,7 +3450,6 @@
                                                                                                                                                                                                       "ctxt": 0
                                                                                                                                                                                                     },
                                                                                                                                                                                                     "value": "cargo",
-                                                                                                                                                                                                    "typeAnnotation": null,
                                                                                                                                                                                                     "optional": false
                                                                                                                                                                                                   },
                                                                                                                                                                                                   "computed": false
@@ -3663,7 +3477,6 @@
                                                                                                                                                                                                         "ctxt": 0
                                                                                                                                                                                                       },
                                                                                                                                                                                                       "value": "exports",
-                                                                                                                                                                                                      "typeAnnotation": null,
                                                                                                                                                                                                       "optional": false
                                                                                                                                                                                                     },
                                                                                                                                                                                                     "property": {
@@ -3674,7 +3487,6 @@
                                                                                                                                                                                                         "ctxt": 0
                                                                                                                                                                                                       },
                                                                                                                                                                                                       "value": "autoInject",
-                                                                                                                                                                                                      "typeAnnotation": null,
                                                                                                                                                                                                       "optional": false
                                                                                                                                                                                                     },
                                                                                                                                                                                                     "computed": false
@@ -3702,7 +3514,6 @@
                                                                                                                                                                                                           "ctxt": 0
                                                                                                                                                                                                         },
                                                                                                                                                                                                         "value": "exports",
-                                                                                                                                                                                                        "typeAnnotation": null,
                                                                                                                                                                                                         "optional": false
                                                                                                                                                                                                       },
                                                                                                                                                                                                       "property": {
@@ -3713,7 +3524,6 @@
                                                                                                                                                                                                           "ctxt": 0
                                                                                                                                                                                                         },
                                                                                                                                                                                                         "value": "auto",
-                                                                                                                                                                                                        "typeAnnotation": null,
                                                                                                                                                                                                         "optional": false
                                                                                                                                                                                                       },
                                                                                                                                                                                                       "computed": false
@@ -3741,7 +3551,6 @@
                                                                                                                                                                                                             "ctxt": 0
                                                                                                                                                                                                           },
                                                                                                                                                                                                           "value": "exports",
-                                                                                                                                                                                                          "typeAnnotation": null,
                                                                                                                                                                                                           "optional": false
                                                                                                                                                                                                         },
                                                                                                                                                                                                         "property": {
@@ -3752,7 +3561,6 @@
                                                                                                                                                                                                             "ctxt": 0
                                                                                                                                                                                                           },
                                                                                                                                                                                                           "value": "asyncify",
-                                                                                                                                                                                                          "typeAnnotation": null,
                                                                                                                                                                                                           "optional": false
                                                                                                                                                                                                         },
                                                                                                                                                                                                         "computed": false
@@ -3780,7 +3588,6 @@
                                                                                                                                                                                                               "ctxt": 0
                                                                                                                                                                                                             },
                                                                                                                                                                                                             "value": "exports",
-                                                                                                                                                                                                            "typeAnnotation": null,
                                                                                                                                                                                                             "optional": false
                                                                                                                                                                                                           },
                                                                                                                                                                                                           "property": {
@@ -3791,7 +3598,6 @@
                                                                                                                                                                                                               "ctxt": 0
                                                                                                                                                                                                             },
                                                                                                                                                                                                             "value": "applyEachSeries",
-                                                                                                                                                                                                            "typeAnnotation": null,
                                                                                                                                                                                                             "optional": false
                                                                                                                                                                                                           },
                                                                                                                                                                                                           "computed": false
@@ -3819,7 +3625,6 @@
                                                                                                                                                                                                                 "ctxt": 0
                                                                                                                                                                                                               },
                                                                                                                                                                                                               "value": "exports",
-                                                                                                                                                                                                              "typeAnnotation": null,
                                                                                                                                                                                                               "optional": false
                                                                                                                                                                                                             },
                                                                                                                                                                                                             "property": {
@@ -3830,7 +3635,6 @@
                                                                                                                                                                                                                 "ctxt": 0
                                                                                                                                                                                                               },
                                                                                                                                                                                                               "value": "applyEach",
-                                                                                                                                                                                                              "typeAnnotation": null,
                                                                                                                                                                                                               "optional": false
                                                                                                                                                                                                             },
                                                                                                                                                                                                             "computed": false
@@ -3858,7 +3662,6 @@
                                                                                                                                                                                                                   "ctxt": 0
                                                                                                                                                                                                                 },
                                                                                                                                                                                                                 "value": "exports",
-                                                                                                                                                                                                                "typeAnnotation": null,
                                                                                                                                                                                                                 "optional": false
                                                                                                                                                                                                               },
                                                                                                                                                                                                               "property": {
@@ -3869,7 +3672,6 @@
                                                                                                                                                                                                                   "ctxt": 0
                                                                                                                                                                                                                 },
                                                                                                                                                                                                                 "value": "apply",
-                                                                                                                                                                                                                "typeAnnotation": null,
                                                                                                                                                                                                                 "optional": false
                                                                                                                                                                                                               },
                                                                                                                                                                                                               "computed": false
@@ -3882,7 +3684,6 @@
                                                                                                                                                                                                                 "ctxt": 0
                                                                                                                                                                                                               },
                                                                                                                                                                                                               "value": "undefined",
-                                                                                                                                                                                                              "typeAnnotation": null,
                                                                                                                                                                                                               "optional": false
                                                                                                                                                                                                             }
                                                                                                                                                                                                           }

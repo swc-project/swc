@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "React",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -74,8 +73,8 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -93,6 +92,7 @@
                   "ctxt": 0
                 },
                 "value": "props",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -109,8 +109,7 @@
                     },
                     "kind": "any"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "body": {
@@ -130,7 +129,6 @@
                     "ctxt": 0
                   },
                   "value": "div",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "span": {
@@ -179,8 +177,8 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -199,7 +197,6 @@
                   "ctxt": 0
                 },
                 "value": "Foo",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -243,6 +240,7 @@
               "ctxt": 0
             },
             "value": "MainMenu",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -267,7 +265,6 @@
                       "ctxt": 0
                     },
                     "value": "React",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -278,7 +275,6 @@
                       "ctxt": 0
                     },
                     "value": "StatelessComponent",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -302,8 +298,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -321,8 +316,8 @@
                   "ctxt": 0
                 },
                 "value": "props",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
             "body": {
@@ -349,7 +344,6 @@
                       "ctxt": 0
                     },
                     "value": "div",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "span": {
@@ -389,7 +383,6 @@
                           "ctxt": 0
                         },
                         "value": "h3",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "span": {
@@ -428,7 +421,6 @@
                           "ctxt": 0
                         },
                         "value": "h3",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -459,7 +451,6 @@
                       "ctxt": 0
                     },
                     "value": "div",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -499,6 +490,7 @@
               "ctxt": 0
             },
             "value": "App",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -523,7 +515,6 @@
                       "ctxt": 0
                     },
                     "value": "React",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -534,7 +525,6 @@
                       "ctxt": 0
                     },
                     "value": "StatelessComponent",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -570,7 +560,6 @@
                               "ctxt": 0
                             },
                             "value": "children",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -585,8 +574,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -619,7 +607,6 @@
                         "ctxt": 0
                       },
                       "value": "children",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "value": null
@@ -653,7 +640,6 @@
                       "ctxt": 0
                     },
                     "value": "div",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "span": {
@@ -693,7 +679,6 @@
                           "ctxt": 0
                         },
                         "value": "MainMenu",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "span": {
@@ -734,7 +719,6 @@
                       "ctxt": 0
                     },
                     "value": "div",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }

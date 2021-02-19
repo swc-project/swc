@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -88,7 +86,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -134,7 +131,6 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -203,7 +199,6 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -224,8 +219,8 @@
                     "ctxt": 0
                   },
                   "value": "v",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -270,7 +265,6 @@
               "ctxt": 0
             },
             "value": "r",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -316,7 +310,6 @@
               "ctxt": 0
             },
             "value": "s",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -362,7 +355,6 @@
               "ctxt": 0
             },
             "value": "t",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -431,7 +423,6 @@
               "ctxt": 0
             },
             "value": "t",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -452,8 +443,8 @@
                     "ctxt": 0
                   },
                   "value": "v",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -498,7 +489,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
@@ -518,8 +508,8 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             }
           ],
@@ -552,7 +542,6 @@
           "ctxt": 0
         },
         "value": "Derived",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -571,7 +560,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -604,6 +592,7 @@
               "ctxt": 0
             },
             "value": "d",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -626,13 +615,11 @@
                     "ctxt": 0
                   },
                   "value": "Derived",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "NewExpression",
@@ -649,7 +636,6 @@
                 "ctxt": 0
               },
               "value": "Derived",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -697,8 +683,8 @@
               "ctxt": 0
             },
             "value": "r1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -715,7 +701,6 @@
                 "ctxt": 0
               },
               "value": "d",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -726,7 +711,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -760,8 +744,8 @@
               "ctxt": 0
             },
             "value": "r2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -785,7 +769,6 @@
                   "ctxt": 0
                 },
                 "value": "d",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -796,7 +779,6 @@
                   "ctxt": 0
                 },
                 "value": "b",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -833,8 +815,8 @@
               "ctxt": 0
             },
             "value": "r3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -851,7 +833,6 @@
                 "ctxt": 0
               },
               "value": "d",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -862,7 +843,6 @@
                 "ctxt": 0
               },
               "value": "c",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -901,7 +881,6 @@
               "ctxt": 0
             },
             "value": "d",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -912,7 +891,6 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -958,8 +936,8 @@
               "ctxt": 0
             },
             "value": "r4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -976,7 +954,6 @@
                 "ctxt": 0
               },
               "value": "Derived",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -987,7 +964,6 @@
                 "ctxt": 0
               },
               "value": "r",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1021,8 +997,8 @@
               "ctxt": 0
             },
             "value": "r5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -1046,7 +1022,6 @@
                   "ctxt": 0
                 },
                 "value": "Derived",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -1057,7 +1032,6 @@
                   "ctxt": 0
                 },
                 "value": "s",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -1094,8 +1068,8 @@
               "ctxt": 0
             },
             "value": "r6",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -1112,7 +1086,6 @@
                 "ctxt": 0
               },
               "value": "Derived",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1123,7 +1096,6 @@
                 "ctxt": 0
               },
               "value": "t",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1162,7 +1134,6 @@
               "ctxt": 0
             },
             "value": "Derived",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1173,7 +1144,6 @@
               "ctxt": 0
             },
             "value": "t",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1204,7 +1174,6 @@
           "ctxt": 0
         },
         "value": "Base2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1226,6 +1195,7 @@
                 "ctxt": 0
               },
               "value": "x",
+              "optional": false,
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -1242,8 +1212,7 @@
                   },
                   "kind": "string"
                 }
-              },
-              "optional": false
+              }
             }
           ],
           "typeAnnotation": {
@@ -1268,7 +1237,6 @@
                   "ctxt": 0
                 },
                 "value": "Object",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -1292,6 +1260,7 @@
                 "ctxt": 0
               },
               "value": "x",
+              "optional": false,
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -1308,8 +1277,7 @@
                   },
                   "kind": "number"
                 }
-              },
-              "optional": false
+              }
             }
           ],
           "typeAnnotation": {
@@ -1334,7 +1302,6 @@
                   "ctxt": 0
                 },
                 "value": "Date",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -1364,7 +1331,6 @@
           "ctxt": 0
         },
         "value": "Derived2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1383,7 +1349,6 @@
           "ctxt": 0
         },
         "value": "Base2",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -1416,6 +1381,7 @@
               "ctxt": 0
             },
             "value": "d2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1438,13 +1404,11 @@
                     "ctxt": 0
                   },
                   "value": "Derived2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -1476,8 +1440,8 @@
               "ctxt": 0
             },
             "value": "r7",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -1494,7 +1458,6 @@
                 "ctxt": 0
               },
               "value": "d2",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1542,8 +1505,8 @@
               "ctxt": 0
             },
             "value": "r8",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -1560,7 +1523,6 @@
                 "ctxt": 0
               },
               "value": "d2",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {

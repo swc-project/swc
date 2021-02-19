@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "array0",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -109,8 +109,8 @@
               "ctxt": 0
             },
             "value": "i0",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -155,7 +155,6 @@
               "ctxt": 0
             },
             "value": "array0",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -175,7 +174,6 @@
                 "ctxt": 0
               },
               "value": "i0",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -217,8 +215,8 @@
               "ctxt": 0
             },
             "value": "array1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -295,8 +293,8 @@
               "ctxt": 0
             },
             "value": "i1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -341,7 +339,6 @@
               "ctxt": 0
             },
             "value": "array1",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -361,7 +358,6 @@
                 "ctxt": 0
               },
               "value": "i1",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -390,7 +386,6 @@
                 "ctxt": 0
               },
               "value": "array1",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -410,7 +405,6 @@
                   "ctxt": 0
                 },
                 "value": "i1",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -453,8 +447,8 @@
               "ctxt": 0
             },
             "value": "array2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -531,8 +525,8 @@
               "ctxt": 0
             },
             "value": "i2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -577,7 +571,6 @@
               "ctxt": 0
             },
             "value": "array2",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -597,7 +590,6 @@
                 "ctxt": 0
               },
               "value": "i2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -626,7 +618,6 @@
                 "ctxt": 0
               },
               "value": "array2",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -646,7 +637,6 @@
                   "ctxt": 0
                 },
                 "value": "i2",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -689,8 +679,8 @@
               "ctxt": 0
             },
             "value": "array3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -767,8 +757,8 @@
               "ctxt": 0
             },
             "value": "j0",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -796,8 +786,8 @@
               "ctxt": 0
             },
             "value": "j1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -842,7 +832,6 @@
               "ctxt": 0
             },
             "value": "array3",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -862,7 +851,6 @@
                 "ctxt": 0
               },
               "value": "j0",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -891,7 +879,6 @@
                 "ctxt": 0
               },
               "value": "array3",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -911,7 +898,6 @@
                   "ctxt": 0
                 },
                 "value": "j1",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -940,7 +926,6 @@
                   "ctxt": 0
                 },
                 "value": "array3",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -960,7 +945,6 @@
                     "ctxt": 0
                   },
                   "value": "j0",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },

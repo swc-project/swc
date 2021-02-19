@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "number",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {

@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -84,7 +83,6 @@
           "ctxt": 0
         },
         "value": "foo1",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -132,7 +130,6 @@
             "ctxt": 0
           },
           "value": "foo1",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -143,7 +140,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false

@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "List",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "data",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -68,7 +66,6 @@
                   "ctxt": 0
                 },
                 "value": "T",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -99,7 +96,6 @@
               "ctxt": 0
             },
             "value": "next",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -125,7 +121,6 @@
                   "ctxt": 0
                 },
                 "value": "List",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": {
@@ -151,7 +146,6 @@
                         "ctxt": 0
                       },
                       "value": "List",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -177,7 +171,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -225,7 +218,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -246,7 +238,6 @@
           "ctxt": 0
         },
         "value": "DerivedList",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -272,7 +263,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -298,7 +288,6 @@
                   "ctxt": 0
                 },
                 "value": "U",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -323,7 +312,6 @@
           "ctxt": 0
         },
         "value": "List",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -350,7 +338,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -381,7 +368,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -400,7 +386,6 @@
           "ctxt": 0
         },
         "value": "MyList",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -426,7 +411,6 @@
               "ctxt": 0
             },
             "value": "data",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -452,7 +436,6 @@
                   "ctxt": 0
                 },
                 "value": "T",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -483,7 +466,6 @@
               "ctxt": 0
             },
             "value": "next",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -509,7 +491,6 @@
                   "ctxt": 0
                 },
                 "value": "MyList",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": {
@@ -535,7 +516,6 @@
                         "ctxt": 0
                       },
                       "value": "MyList",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -561,7 +541,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -609,7 +588,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -645,6 +623,7 @@
               "ctxt": 0
             },
             "value": "list",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -667,7 +646,6 @@
                     "ctxt": 0
                   },
                   "value": "List",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -690,8 +668,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -723,6 +700,7 @@
               "ctxt": 0
             },
             "value": "list2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -745,7 +723,6 @@
                     "ctxt": 0
                   },
                   "value": "List",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -768,8 +745,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -801,6 +777,7 @@
               "ctxt": 0
             },
             "value": "myList",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -823,7 +800,6 @@
                     "ctxt": 0
                   },
                   "value": "MyList",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -846,8 +822,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -879,8 +854,8 @@
               "ctxt": 0
             },
             "value": "xs",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -900,7 +875,6 @@
                     "ctxt": 0
                   },
                   "value": "list",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -914,7 +888,6 @@
                     "ctxt": 0
                   },
                   "value": "myList",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -949,8 +922,8 @@
               "ctxt": 0
             },
             "value": "ys",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -970,7 +943,6 @@
                     "ctxt": 0
                   },
                   "value": "list",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -984,7 +956,6 @@
                     "ctxt": 0
                   },
                   "value": "list2",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -1019,8 +990,8 @@
               "ctxt": 0
             },
             "value": "zs",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -1040,7 +1011,6 @@
                     "ctxt": 0
                   },
                   "value": "list",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -1086,6 +1056,7 @@
               "ctxt": 0
             },
             "value": "myDerivedList",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1108,7 +1079,6 @@
                     "ctxt": 0
                   },
                   "value": "DerivedList",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -1131,8 +1101,7 @@
                   ]
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -1164,8 +1133,8 @@
               "ctxt": 0
             },
             "value": "as",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -1185,7 +1154,6 @@
                     "ctxt": 0
                   },
                   "value": "list",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -1199,7 +1167,6 @@
                     "ctxt": 0
                   },
                   "value": "myDerivedList",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }

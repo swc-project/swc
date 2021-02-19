@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -72,8 +72,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -90,7 +90,6 @@
                 "ctxt": 0
               },
               "value": "Array",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -138,8 +137,8 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -192,8 +191,8 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -258,8 +257,8 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -276,7 +275,6 @@
                 "ctxt": 0
               },
               "value": "Array",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -329,6 +327,7 @@
               "ctxt": 0
             },
             "value": "x2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -353,8 +352,7 @@
                   "kind": "number"
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -394,6 +392,7 @@
               "ctxt": 0
             },
             "value": "x2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -418,8 +417,7 @@
                   "kind": "number"
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "NewExpression",
@@ -436,7 +434,6 @@
                 "ctxt": 0
               },
               "value": "Array",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -484,6 +481,7 @@
               "ctxt": 0
             },
             "value": "y2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -508,8 +506,7 @@
                   "kind": "number"
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -562,6 +559,7 @@
               "ctxt": 0
             },
             "value": "y2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -586,8 +584,7 @@
                   "kind": "number"
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -652,6 +649,7 @@
               "ctxt": 0
             },
             "value": "y2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -676,8 +674,7 @@
                   "kind": "number"
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "NewExpression",
@@ -694,7 +691,6 @@
                 "ctxt": 0
               },
               "value": "Array",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],

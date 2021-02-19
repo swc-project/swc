@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "ConstructSignature",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -44,7 +43,6 @@
                 "ctxt": 0
               },
               "value": "foo1",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": true,
@@ -65,6 +63,7 @@
                     "ctxt": 0
                   },
                   "value": "cb",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -88,6 +87,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -104,8 +104,7 @@
                               },
                               "kind": "number"
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -128,8 +127,7 @@
                       },
                       "isAbstract": false
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -165,7 +163,6 @@
                     "ctxt": 0
                   },
                   "value": "cb",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -181,7 +178,6 @@
                 "ctxt": 0
               },
               "value": "foo1",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": true,
@@ -202,6 +198,7 @@
                     "ctxt": 0
                   },
                   "value": "cb",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -218,8 +215,7 @@
                       },
                       "kind": "any"
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -276,6 +272,7 @@
                     "ctxt": 0
                   },
                   "value": "rarg1",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -299,6 +296,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -315,8 +313,7 @@
                               },
                               "kind": "number"
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -339,8 +336,7 @@
                       },
                       "isAbstract": false
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -372,8 +368,8 @@
                     "ctxt": 0
                   },
                   "value": "r",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "CallExpression",
@@ -390,7 +386,6 @@
                       "ctxt": 0
                     },
                     "value": "foo1",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [
@@ -404,7 +399,6 @@
                           "ctxt": 0
                         },
                         "value": "rarg1",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -440,6 +434,7 @@
                     "ctxt": 0
                   },
                   "value": "rarg2",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -463,6 +458,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -485,13 +481,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": {
@@ -517,7 +511,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -544,8 +537,7 @@
                       },
                       "isAbstract": false
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -577,8 +569,8 @@
                     "ctxt": 0
                   },
                   "value": "r2",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "CallExpression",
@@ -595,7 +587,6 @@
                       "ctxt": 0
                     },
                     "value": "foo1",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [
@@ -609,7 +600,6 @@
                           "ctxt": 0
                         },
                         "value": "rarg2",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -630,7 +620,6 @@
                 "ctxt": 0
               },
               "value": "foo2",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": true,
@@ -651,6 +640,7 @@
                     "ctxt": 0
                   },
                   "value": "cb",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -674,6 +664,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -690,8 +681,7 @@
                               },
                               "kind": "number"
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -701,6 +691,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -717,8 +708,7 @@
                               },
                               "kind": "number"
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -741,8 +731,7 @@
                       },
                       "isAbstract": false
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -778,7 +767,6 @@
                     "ctxt": 0
                   },
                   "value": "cb",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -794,7 +782,6 @@
                 "ctxt": 0
               },
               "value": "foo2",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": true,
@@ -815,6 +802,7 @@
                     "ctxt": 0
                   },
                   "value": "cb",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -831,8 +819,7 @@
                       },
                       "kind": "any"
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -889,6 +876,7 @@
                     "ctxt": 0
                   },
                   "value": "r3arg1",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -912,6 +900,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -928,8 +917,7 @@
                               },
                               "kind": "number"
                             }
-                          },
-                          "optional": false
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -939,6 +927,7 @@
                             "ctxt": 0
                           },
                           "value": "y",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -955,8 +944,7 @@
                               },
                               "kind": "number"
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": null,
@@ -979,8 +967,7 @@
                       },
                       "isAbstract": false
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -1012,8 +999,8 @@
                     "ctxt": 0
                   },
                   "value": "r3",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "CallExpression",
@@ -1030,7 +1017,6 @@
                       "ctxt": 0
                     },
                     "value": "foo2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [
@@ -1044,7 +1030,6 @@
                           "ctxt": 0
                         },
                         "value": "r3arg1",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -1080,6 +1065,7 @@
                     "ctxt": 0
                   },
                   "value": "r4arg1",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -1103,6 +1089,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -1125,13 +1112,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "T",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       ],
                       "typeParams": {
@@ -1157,7 +1142,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -1184,8 +1168,7 @@
                       },
                       "isAbstract": false
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -1217,8 +1200,8 @@
                     "ctxt": 0
                   },
                   "value": "r4",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "CallExpression",
@@ -1235,7 +1218,6 @@
                       "ctxt": 0
                     },
                     "value": "foo2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [
@@ -1249,7 +1231,6 @@
                           "ctxt": 0
                         },
                         "value": "r4arg1",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }

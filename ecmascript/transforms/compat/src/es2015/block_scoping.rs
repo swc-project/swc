@@ -138,7 +138,7 @@ impl BlockScoping {
                     let ident = private_ident!("_this");
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(ident.clone()),
+                        name: Pat::Ident(ident.clone().into()),
                         init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                         definite: false,
                     });
@@ -193,7 +193,7 @@ impl BlockScoping {
 
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(var_name.clone()),
+                    name: Pat::Ident(var_name.clone().into()),
                     init: Some(Box::new(
                         FnExpr {
                             ident: None,
@@ -208,10 +208,10 @@ impl BlockScoping {
                                         Param {
                                             span: DUMMY_SP,
                                             decorators: Default::default(),
-                                            pat: Pat::Ident(Ident::new(
-                                                i.0.clone(),
-                                                DUMMY_SP.with_ctxt(ctxt),
-                                            )),
+                                            pat: Pat::Ident(
+                                                Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(ctxt))
+                                                    .into(),
+                                            ),
                                         }
                                     })
                                     .collect(),
@@ -253,7 +253,7 @@ impl BlockScoping {
                             declare: false,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(ret.clone()),
+                                name: Pat::Ident(ret.clone().into()),
                                 init: Some(Box::new(call.into())),
                                 definite: false,
                             }],
@@ -865,10 +865,9 @@ impl MutationHandler<'_> {
         for (id, ctxt) in &*self.map {
             exprs.push(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(Ident::new(
-                    id.0.clone(),
-                    DUMMY_SP.with_ctxt(id.1),
-                )))),
+                left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                    Ident::new(id.0.clone(), DUMMY_SP.with_ctxt(id.1)).into(),
+                ))),
                 op: op!("="),
                 right: Box::new(Expr::Ident(Ident::new(
                     id.0.clone(),

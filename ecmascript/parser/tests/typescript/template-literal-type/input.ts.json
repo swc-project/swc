@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "MyAlias",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -99,7 +98,6 @@
           "ctxt": 0
         },
         "value": "OtherAlias",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -242,7 +240,6 @@
           "ctxt": 0
         },
         "value": "MultiLine",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -319,7 +316,6 @@
           "ctxt": 0
         },
         "value": "WithTypes",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -443,7 +439,6 @@
           "ctxt": 0
         },
         "value": "WithTypes2",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -477,7 +472,6 @@
                   "ctxt": 0
                 },
                 "value": "MyAlias",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null

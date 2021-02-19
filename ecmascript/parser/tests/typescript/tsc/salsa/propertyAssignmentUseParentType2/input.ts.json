@@ -38,8 +38,8 @@
                 "ctxt": 0
               },
               "value": "inlined",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "ArrowFunctionExpression",
@@ -98,7 +98,6 @@
               "ctxt": 0
             },
             "value": "inlined",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -109,7 +108,6 @@
               "ctxt": 0
             },
             "value": "nuo",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -157,8 +155,8 @@
                 "ctxt": 0
               },
               "value": "duplicated",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "ArrowFunctionExpression",
@@ -217,7 +215,6 @@
               "ctxt": 0
             },
             "value": "duplicated",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -228,7 +225,6 @@
               "ctxt": 0
             },
             "value": "nuo",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -276,8 +272,8 @@
                 "ctxt": 0
               },
               "value": "conflictingDuplicated",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "ArrowFunctionExpression",
@@ -336,7 +332,6 @@
               "ctxt": 0
             },
             "value": "conflictingDuplicated",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -347,7 +342,6 @@
               "ctxt": 0
             },
             "value": "nuo",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

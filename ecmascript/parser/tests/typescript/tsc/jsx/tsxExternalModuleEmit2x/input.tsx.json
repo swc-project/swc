@@ -62,6 +62,7 @@
                     "ctxt": 0
                   },
                   "value": "y",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -78,8 +79,7 @@
                       },
                       "kind": "any"
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -101,7 +101,6 @@
                 "ctxt": 0
               },
               "value": "y",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -131,7 +130,6 @@
               "ctxt": 0
             },
             "value": "Main",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -178,8 +176,8 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -199,8 +197,8 @@
               "ctxt": 0
             },
             "value": "React",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -231,7 +229,6 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -255,7 +252,6 @@
                   "ctxt": 0
                 },
                 "value": "handler",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -273,7 +269,6 @@
                     "ctxt": 0
                   },
                   "value": "Main",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -298,7 +293,6 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -328,7 +322,6 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -352,7 +345,6 @@
                   "ctxt": 0
                 },
                 "value": "Main",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -376,7 +368,6 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           }
         }

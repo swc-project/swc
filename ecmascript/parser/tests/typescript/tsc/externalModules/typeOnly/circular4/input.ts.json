@@ -29,7 +29,6 @@
               "ctxt": 0
             },
             "value": "ns2",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -76,7 +75,6 @@
             "ctxt": 0
           },
           "value": "ns1",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -111,7 +109,6 @@
                     "ctxt": 0
                   },
                   "value": "nested",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "body": {
@@ -145,7 +142,6 @@
                             "ctxt": 0
                           },
                           "value": "T",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null,
@@ -168,7 +164,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "ns2",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "right": {
@@ -179,7 +174,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "nested",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             },
@@ -191,7 +185,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           },
@@ -230,7 +223,6 @@
               "ctxt": 0
             },
             "value": "ns1",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -277,7 +269,6 @@
             "ctxt": 0
           },
           "value": "ns2",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -312,7 +303,6 @@
                     "ctxt": 0
                   },
                   "value": "nested",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "body": {
@@ -346,7 +336,6 @@
                             "ctxt": 0
                           },
                           "value": "T",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null,
@@ -369,7 +358,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "ns1",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "right": {
@@ -380,7 +368,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "nested",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             },
@@ -392,7 +379,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             }
                           },

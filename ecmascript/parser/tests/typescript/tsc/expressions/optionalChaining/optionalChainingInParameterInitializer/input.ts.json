@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -50,7 +50,6 @@
                 "ctxt": 0
               },
               "value": "undefined",
-              "typeAnnotation": null,
               "optional": false
             },
             "async": false,
@@ -95,7 +94,6 @@
                             "ctxt": 0
                           },
                           "value": "d",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false,
@@ -184,8 +182,8 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "right": {
                   "type": "OptionalChainingExpression",
@@ -221,7 +219,6 @@
                           "ctxt": 0
                         },
                         "value": "a",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "arguments": [],
@@ -235,7 +232,6 @@
                         "ctxt": 0
                       },
                       "value": "d",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false

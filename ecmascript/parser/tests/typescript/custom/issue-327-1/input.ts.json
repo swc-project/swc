@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "fn",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrowFunctionExpression",
@@ -50,8 +50,8 @@
                   "ctxt": 0
                 },
                 "value": "foo",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
             "body": {
@@ -83,7 +83,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -94,7 +93,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -135,7 +133,6 @@
                             "ctxt": 0
                           },
                           "value": "foo",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -146,7 +143,6 @@
                             "ctxt": 0
                           },
                           "value": "bar",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -159,7 +155,6 @@
                           "ctxt": 0
                         },
                         "value": "bas",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false

@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "fn1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -67,7 +66,6 @@
           "ctxt": 0
         },
         "value": "fn2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -118,7 +116,6 @@
           "ctxt": 0
         },
         "value": "fn3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -169,7 +166,6 @@
           "ctxt": 0
         },
         "value": "fn4",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -214,7 +210,6 @@
               "ctxt": 0
             },
             "value": "Date",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null
@@ -231,7 +226,6 @@
           "ctxt": 0
         },
         "value": "fn7",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -287,7 +281,6 @@
           "ctxt": 0
         },
         "value": "I",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -317,7 +310,6 @@
                 "ctxt": 0
               },
               "value": "id",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -356,7 +348,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -382,7 +373,6 @@
               "ctxt": 0
             },
             "value": "id",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -428,7 +418,6 @@
               "ctxt": 0
             },
             "value": "dispose",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -480,7 +469,6 @@
               "ctxt": 0
             },
             "value": "I",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": null
@@ -497,7 +485,6 @@
           "ctxt": 0
         },
         "value": "D",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -523,7 +510,6 @@
               "ctxt": 0
             },
             "value": "name",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -563,7 +549,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -581,7 +566,6 @@
           "ctxt": 0
         },
         "value": "fn10",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -625,7 +609,6 @@
                       "ctxt": 0
                     },
                     "value": "id",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -668,7 +651,6 @@
               "ctxt": 0
             },
             "value": "D",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null
@@ -685,7 +667,6 @@
           "ctxt": 0
         },
         "value": "fn11",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -726,7 +707,6 @@
                   "ctxt": 0
                 },
                 "value": "C",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -760,7 +740,6 @@
               "ctxt": 0
             },
             "value": "D",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null

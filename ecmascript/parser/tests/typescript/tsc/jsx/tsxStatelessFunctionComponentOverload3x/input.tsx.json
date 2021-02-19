@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "Context",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -51,7 +50,6 @@
                 "ctxt": 0
               },
               "value": "color",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -90,7 +88,6 @@
           "ctxt": 0
         },
         "value": "ZeroThingOrTwoThing",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -129,7 +126,6 @@
                 "ctxt": 0
               },
               "value": "JSX",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -140,7 +136,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -158,7 +153,6 @@
           "ctxt": 0
         },
         "value": "ZeroThingOrTwoThing",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -179,6 +173,7 @@
               "ctxt": 0
             },
             "value": "l",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -210,7 +205,6 @@
                         "ctxt": 0
                       },
                       "value": "yy",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -252,7 +246,6 @@
                         "ctxt": 0
                       },
                       "value": "yy1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -280,8 +273,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -300,6 +292,7 @@
               "ctxt": 0
             },
             "value": "context",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -322,13 +315,11 @@
                     "ctxt": 0
                   },
                   "value": "Context",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -366,7 +357,6 @@
                 "ctxt": 0
               },
               "value": "JSX",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -377,7 +367,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -410,6 +399,7 @@
               "ctxt": 0
             },
             "value": "obj2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -426,8 +416,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -459,8 +448,8 @@
               "ctxt": 0
             },
             "value": "two1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -479,7 +468,6 @@
                   "ctxt": 0
                 },
                 "value": "ZeroThingOrTwoThing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -523,8 +511,8 @@
               "ctxt": 0
             },
             "value": "two2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -543,7 +531,6 @@
                   "ctxt": 0
                 },
                 "value": "ZeroThingOrTwoThing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -567,7 +554,6 @@
                       "ctxt": 0
                     },
                     "value": "yy",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -603,7 +589,6 @@
                       "ctxt": 0
                     },
                     "value": "yy1",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -657,8 +642,8 @@
               "ctxt": 0
             },
             "value": "two3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -677,7 +662,6 @@
                   "ctxt": 0
                 },
                 "value": "ZeroThingOrTwoThing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -701,7 +685,6 @@
                       "ctxt": 0
                     },
                     "value": "obj2",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -741,8 +724,8 @@
               "ctxt": 0
             },
             "value": "two4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -761,7 +744,6 @@
                   "ctxt": 0
                 },
                 "value": "ZeroThingOrTwoThing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -785,7 +767,6 @@
                       "ctxt": 0
                     },
                     "value": "yy",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -821,7 +802,6 @@
                       "ctxt": 0
                     },
                     "value": "obj2",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -861,8 +841,8 @@
               "ctxt": 0
             },
             "value": "two5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -881,7 +861,6 @@
                   "ctxt": 0
                 },
                 "value": "ZeroThingOrTwoThing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -905,7 +884,6 @@
                       "ctxt": 0
                     },
                     "value": "obj2",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -924,7 +902,6 @@
                       "ctxt": 0
                     },
                     "value": "yy",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -966,7 +943,6 @@
           "ctxt": 0
         },
         "value": "ThreeThing",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -987,6 +963,7 @@
               "ctxt": 0
             },
             "value": "l",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1018,7 +995,6 @@
                         "ctxt": 0
                       },
                       "value": "y1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -1046,8 +1022,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -1085,7 +1060,6 @@
                 "ctxt": 0
               },
               "value": "JSX",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -1096,7 +1070,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1114,7 +1087,6 @@
           "ctxt": 0
         },
         "value": "ThreeThing",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -1135,6 +1107,7 @@
               "ctxt": 0
             },
             "value": "l",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1166,7 +1139,6 @@
                         "ctxt": 0
                       },
                       "value": "y2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -1194,8 +1166,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -1233,7 +1204,6 @@
                 "ctxt": 0
               },
               "value": "JSX",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -1244,7 +1214,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1262,7 +1231,6 @@
           "ctxt": 0
         },
         "value": "ThreeThing",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -1283,6 +1251,7 @@
               "ctxt": 0
             },
             "value": "l",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1314,7 +1283,6 @@
                         "ctxt": 0
                       },
                       "value": "yy",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -1356,7 +1324,6 @@
                         "ctxt": 0
                       },
                       "value": "yy1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -1384,8 +1351,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -1404,6 +1370,7 @@
               "ctxt": 0
             },
             "value": "context",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1426,13 +1393,11 @@
                     "ctxt": 0
                   },
                   "value": "Context",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -1451,6 +1416,7 @@
               "ctxt": 0
             },
             "value": "updater",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1467,8 +1433,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -1506,7 +1471,6 @@
                 "ctxt": 0
               },
               "value": "JSX",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -1517,7 +1481,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -1550,8 +1513,8 @@
               "ctxt": 0
             },
             "value": "three1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1570,7 +1533,6 @@
                   "ctxt": 0
                 },
                 "value": "ThreeThing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1594,7 +1556,6 @@
                       "ctxt": 0
                     },
                     "value": "yy",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1630,7 +1591,6 @@
                       "ctxt": 0
                     },
                     "value": "yy1",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1684,8 +1644,8 @@
               "ctxt": 0
             },
             "value": "three2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1704,7 +1664,6 @@
                   "ctxt": 0
                 },
                 "value": "ThreeThing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1728,7 +1687,6 @@
                       "ctxt": 0
                     },
                     "value": "y2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1782,8 +1740,8 @@
               "ctxt": 0
             },
             "value": "three3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1802,7 +1760,6 @@
                   "ctxt": 0
                 },
                 "value": "ThreeThing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1826,7 +1783,6 @@
                       "ctxt": 0
                     },
                     "value": "obj2",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -1845,7 +1801,6 @@
                       "ctxt": 0
                     },
                     "value": "y2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {

@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "M",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "I",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -82,7 +80,6 @@
                   "ctxt": 0
                 },
                 "value": "C",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -115,7 +112,6 @@
                         "ctxt": 0
                       },
                       "value": "Symbol",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -126,7 +122,6 @@
                         "ctxt": 0
                       },
                       "value": "iterator",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -154,7 +149,6 @@
                           "ctxt": 0
                         },
                         "value": "I",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -199,7 +193,6 @@
                           "ctxt": 0
                         },
                         "value": "Symbol",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -210,7 +203,6 @@
                           "ctxt": 0
                         },
                         "value": "toPrimitive",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -234,6 +226,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -256,13 +249,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "I",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       }
                     ],
@@ -321,7 +312,6 @@
                           "ctxt": 0
                         },
                         "value": "Symbol",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -332,7 +322,6 @@
                           "ctxt": 0
                         },
                         "value": "isConcatSpreadable",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -369,7 +358,6 @@
                               "ctxt": 0
                             },
                             "value": "undefined",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }
@@ -400,7 +388,6 @@
                             "ctxt": 0
                           },
                           "value": "I",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -442,7 +429,6 @@
                           "ctxt": 0
                         },
                         "value": "Symbol",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -453,7 +439,6 @@
                           "ctxt": 0
                         },
                         "value": "toPrimitive",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -490,7 +475,6 @@
                               "ctxt": 0
                             },
                             "value": "undefined",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }
@@ -536,7 +520,6 @@
                           "ctxt": 0
                         },
                         "value": "Symbol",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -547,7 +530,6 @@
                           "ctxt": 0
                         },
                         "value": "toPrimitive",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -571,6 +553,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
+                          "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -593,13 +576,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "I",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
                             }
-                          },
-                          "optional": false
+                          }
                         }
                       }
                     ],

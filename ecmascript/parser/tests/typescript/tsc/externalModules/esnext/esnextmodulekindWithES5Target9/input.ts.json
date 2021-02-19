@@ -29,7 +29,6 @@
               "ctxt": 0
             },
             "value": "d",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -74,7 +73,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -120,7 +118,6 @@
               "ctxt": 0
             },
             "value": "M",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -165,7 +162,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -198,7 +194,6 @@
               "ctxt": 0
             },
             "value": "M",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -231,7 +226,6 @@
               "ctxt": 0
             },
             "value": "d",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -287,7 +281,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -325,7 +318,6 @@
           "ctxt": 0
         },
         "value": "d",
-        "typeAnnotation": null,
         "optional": false
       }
     }

@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "E1",
-        "typeAnnotation": null,
         "optional": false
       },
       "members": [
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "init": null
@@ -66,7 +64,6 @@
           "ctxt": 0
         },
         "value": "E2",
-        "typeAnnotation": null,
         "optional": false
       },
       "members": [
@@ -85,7 +82,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "init": null
@@ -117,8 +113,8 @@
               "ctxt": 0
             },
             "value": "o",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -160,7 +156,6 @@
                           "ctxt": 0
                         },
                         "value": "E1",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -171,7 +166,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -191,7 +185,6 @@
                           "ctxt": 0
                         },
                         "value": "E2",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -202,7 +195,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false

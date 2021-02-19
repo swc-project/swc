@@ -64,7 +64,6 @@
                 "ctxt": 0
               },
               "value": "Argument",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -94,7 +93,6 @@
                       "ctxt": 0
                     },
                     "value": "idlType",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -136,7 +134,6 @@
                       "ctxt": 0
                     },
                     "value": "default",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -185,7 +182,6 @@
             "ctxt": 0
           },
           "value": "Base",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -211,7 +207,6 @@
                 "ctxt": 0
               },
               "value": "constructor",
-              "typeAnnotation": null,
               "optional": false
             },
             "params": [],
@@ -242,7 +237,6 @@
                 "ctxt": 0
               },
               "value": "toJSON",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -286,8 +280,8 @@
                             "ctxt": 0
                           },
                           "value": "json",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "init": {
                           "type": "ObjectExpression",
@@ -307,7 +301,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "type",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "value": {
@@ -318,7 +311,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "undefined",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             },
@@ -332,7 +324,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "name",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "value": {
@@ -343,7 +334,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "undefined",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             },
@@ -357,7 +347,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "inheritance",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "value": {
@@ -368,7 +357,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "undefined",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             }
@@ -393,7 +381,6 @@
                         "ctxt": 0
                       },
                       "value": "json",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -441,7 +428,6 @@
               "ctxt": 0
             },
             "value": "Base",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -481,7 +467,6 @@
             "ctxt": 0
           },
           "value": "Argument",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -507,7 +492,6 @@
                 "ctxt": 0
               },
               "value": "parse",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -528,8 +512,8 @@
                       "ctxt": 0
                     },
                     "value": "tokeniser",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   }
                 }
               ],
@@ -584,7 +568,6 @@
                 "ctxt": 0
               },
               "value": "type",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -653,7 +636,6 @@
                 "ctxt": 0
               },
               "value": "validate",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -674,8 +656,8 @@
                       "ctxt": 0
                     },
                     "value": "defs",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   }
                 }
               ],
@@ -714,7 +696,6 @@
             "ctxt": 0
           },
           "value": "Base",
-          "typeAnnotation": null,
           "optional": false
         },
         "isAbstract": false,

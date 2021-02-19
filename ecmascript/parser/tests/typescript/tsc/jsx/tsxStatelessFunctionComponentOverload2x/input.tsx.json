@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "React",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -59,7 +58,6 @@
           "ctxt": 0
         },
         "value": "OneThing",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -98,7 +96,6 @@
                 "ctxt": 0
               },
               "value": "JSX",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -109,7 +106,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -127,7 +123,6 @@
           "ctxt": 0
         },
         "value": "OneThing",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -148,6 +143,7 @@
               "ctxt": 0
             },
             "value": "l",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -179,7 +175,6 @@
                         "ctxt": 0
                       },
                       "value": "yy",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -221,7 +216,6 @@
                         "ctxt": 0
                       },
                       "value": "yy1",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -249,8 +243,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -288,7 +281,6 @@
                 "ctxt": 0
               },
               "value": "JSX",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -299,7 +291,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -332,8 +323,8 @@
               "ctxt": 0
             },
             "value": "obj",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -353,7 +344,6 @@
                     "ctxt": 0
                   },
                   "value": "yy",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -376,7 +366,6 @@
                     "ctxt": 0
                   },
                   "value": "yy1",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -425,8 +414,8 @@
               "ctxt": 0
             },
             "value": "obj1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -446,7 +435,6 @@
                     "ctxt": 0
                   },
                   "value": "yy",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -490,8 +478,8 @@
               "ctxt": 0
             },
             "value": "obj2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -511,7 +499,6 @@
                     "ctxt": 0
                   },
                   "value": "yy",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -586,6 +573,7 @@
               "ctxt": 0
             },
             "value": "defaultObj",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -602,8 +590,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -635,8 +622,8 @@
               "ctxt": 0
             },
             "value": "c1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -655,7 +642,6 @@
                   "ctxt": 0
                 },
                 "value": "OneThing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -699,8 +685,8 @@
               "ctxt": 0
             },
             "value": "c2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -719,7 +705,6 @@
                   "ctxt": 0
                 },
                 "value": "OneThing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -743,7 +728,6 @@
                       "ctxt": 0
                     },
                     "value": "obj",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -783,8 +767,8 @@
               "ctxt": 0
             },
             "value": "c3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -803,7 +787,6 @@
                   "ctxt": 0
                 },
                 "value": "OneThing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -865,8 +848,8 @@
               "ctxt": 0
             },
             "value": "c4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -885,7 +868,6 @@
                   "ctxt": 0
                 },
                 "value": "OneThing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -909,7 +891,6 @@
                       "ctxt": 0
                     },
                     "value": "obj1",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -928,7 +909,6 @@
                       "ctxt": 0
                     },
                     "value": "obj",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -968,8 +948,8 @@
               "ctxt": 0
             },
             "value": "c5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -988,7 +968,6 @@
                   "ctxt": 0
                 },
                 "value": "OneThing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1012,7 +991,6 @@
                       "ctxt": 0
                     },
                     "value": "obj1",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -1031,7 +1009,6 @@
                       "ctxt": 0
                     },
                     "value": "yy",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1077,7 +1054,6 @@
                             "ctxt": 0
                           },
                           "value": "yy1",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -1134,8 +1110,8 @@
               "ctxt": 0
             },
             "value": "c6",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1154,7 +1130,6 @@
                   "ctxt": 0
                 },
                 "value": "OneThing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1178,7 +1153,6 @@
                       "ctxt": 0
                     },
                     "value": "obj1",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -1207,7 +1181,6 @@
                             "ctxt": 0
                           },
                           "value": "yy",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -1230,7 +1203,6 @@
                             "ctxt": 0
                           },
                           "value": "yy1",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -1287,8 +1259,8 @@
               "ctxt": 0
             },
             "value": "c7",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1307,7 +1279,6 @@
                   "ctxt": 0
                 },
                 "value": "OneThing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1331,7 +1302,6 @@
                       "ctxt": 0
                     },
                     "value": "defaultObj",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -1350,7 +1320,6 @@
                       "ctxt": 0
                     },
                     "value": "yy",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": null
@@ -1370,7 +1339,6 @@
                       "ctxt": 0
                     },
                     "value": "obj",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -1410,8 +1378,8 @@
               "ctxt": 0
             },
             "value": "c8",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1430,7 +1398,6 @@
                   "ctxt": 0
                 },
                 "value": "OneThing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1454,7 +1421,6 @@
                       "ctxt": 0
                     },
                     "value": "ignore-prop",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1511,8 +1477,8 @@
               "ctxt": 0
             },
             "value": "c9",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1531,7 +1497,6 @@
                   "ctxt": 0
                 },
                 "value": "OneThing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1620,8 +1585,8 @@
               "ctxt": 0
             },
             "value": "c10",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1640,7 +1605,6 @@
                   "ctxt": 0
                 },
                 "value": "OneThing",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1664,7 +1628,6 @@
                       "ctxt": 0
                     },
                     "value": "obj2",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -1683,7 +1646,6 @@
                       "ctxt": 0
                     },
                     "value": "yy1",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {

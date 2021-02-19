@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "EnhancedString",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -67,7 +66,6 @@
                     "ctxt": 0
                   },
                   "value": "enhancements",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false,
@@ -123,8 +121,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -222,8 +220,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -329,8 +327,8 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -423,8 +421,8 @@
               "ctxt": 0
             },
             "value": "d",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -491,7 +489,6 @@
                       "ctxt": 0
                     },
                     "value": "EnhancedString",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null

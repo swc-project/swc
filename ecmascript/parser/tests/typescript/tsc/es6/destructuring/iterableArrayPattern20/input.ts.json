@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Bar",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -74,7 +72,6 @@
           "ctxt": 0
         },
         "value": "Foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -100,7 +97,6 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -124,7 +120,6 @@
           "ctxt": 0
         },
         "value": "Bar",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -142,7 +137,6 @@
           "ctxt": 0
         },
         "value": "FooArrayIterator",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -168,7 +162,6 @@
               "ctxt": 0
             },
             "value": "next",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -212,7 +205,6 @@
                             "ctxt": 0
                           },
                           "value": "value",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -240,7 +232,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "Foo",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "arguments": null,
@@ -260,7 +251,6 @@
                             "ctxt": 0
                           },
                           "value": "done",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -318,7 +308,6 @@
                   "ctxt": 0
                 },
                 "value": "Symbol",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -329,7 +318,6 @@
                   "ctxt": 0
                 },
                 "value": "iterator",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -397,7 +385,6 @@
           "ctxt": 0
         },
         "value": "fun",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -453,8 +440,8 @@
                           "ctxt": 0
                         },
                         "value": "a",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "right": {
                         "type": "NewExpression",
@@ -471,7 +458,6 @@
                             "ctxt": 0
                           },
                           "value": "Foo",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "arguments": null,
@@ -498,8 +484,8 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "right": {
                     "type": "ArrayExpression",
@@ -526,7 +512,6 @@
                               "ctxt": 0
                             },
                             "value": "Foo",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "arguments": null,
@@ -577,7 +562,6 @@
                         "ctxt": 0
                       },
                       "value": "Bar",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -630,7 +614,6 @@
             "ctxt": 0
           },
           "value": "fun",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -655,7 +638,6 @@
                   "ctxt": 0
                 },
                 "value": "FooArrayIterator",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": null,

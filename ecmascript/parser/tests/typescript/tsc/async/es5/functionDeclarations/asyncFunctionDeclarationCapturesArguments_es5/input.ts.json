@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "method",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -71,7 +69,6 @@
                       "ctxt": 0
                     },
                     "value": "other",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "declare": false,
@@ -106,7 +103,6 @@
                       "ctxt": 0
                     },
                     "value": "fn",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "declare": false,
@@ -161,7 +157,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "other",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -172,7 +167,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "apply",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -199,7 +193,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "arguments",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 }
                               }

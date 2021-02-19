@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "Foo",
-          "typeAnnotation": null,
           "optional": false
         },
         "params": [],
@@ -73,7 +72,6 @@
                 "ctxt": 0
               },
               "value": "uhoh",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": {

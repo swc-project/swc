@@ -36,7 +36,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -47,7 +46,6 @@
               "ctxt": 0
             },
             "value": "default",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -70,7 +68,6 @@
                   "ctxt": 0
                 },
                 "value": "bar",
-                "typeAnnotation": null,
                 "optional": false
               },
               "params": [],
@@ -139,7 +136,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -190,7 +186,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -201,7 +196,6 @@
               "ctxt": 0
             },
             "value": "bar",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

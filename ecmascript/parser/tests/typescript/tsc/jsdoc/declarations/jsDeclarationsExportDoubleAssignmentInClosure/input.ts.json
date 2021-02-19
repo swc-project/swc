@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -65,7 +64,6 @@
                     "ctxt": 0
                   },
                   "value": "module",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -76,7 +74,6 @@
                     "ctxt": 0
                   },
                   "value": "exports",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -97,8 +94,8 @@
                     "ctxt": 0
                   },
                   "value": "exports",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "right": {
                   "type": "FunctionExpression",
@@ -120,8 +117,8 @@
                           "ctxt": 0
                         },
                         "value": "o",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       }
                     }
                   ],
@@ -176,7 +173,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "o",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "right": {
@@ -204,7 +200,6 @@
                                 "ctxt": 0
                               },
                               "value": "create",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "arguments": [
@@ -218,7 +213,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "base",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 }
                               }
@@ -240,7 +234,6 @@
                                 "ctxt": 0
                               },
                               "value": "defineProperties",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "arguments": [
@@ -261,7 +254,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "Object",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "arguments": [
@@ -275,7 +267,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "o",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       }
                                     }
@@ -293,7 +284,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "descriptors",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 }
                               }
@@ -337,8 +327,8 @@
                     "ctxt": 0
                   },
                   "value": "m",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "FunctionExpression",
@@ -398,7 +388,6 @@
                     "ctxt": 0
                   },
                   "value": "exports",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -409,7 +398,6 @@
                     "ctxt": 0
                   },
                   "value": "methods",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -422,7 +410,6 @@
                   "ctxt": 0
                 },
                 "value": "m",
-                "typeAnnotation": null,
                 "optional": false
               }
             }

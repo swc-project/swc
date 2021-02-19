@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Animal",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "sound",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -96,7 +94,6 @@
               "ctxt": 0
             },
             "value": "sound",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -117,6 +114,7 @@
                     "ctxt": 0
                   },
                   "value": "val",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -133,8 +131,7 @@
                       },
                       "kind": "string"
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -173,7 +170,6 @@
           "ctxt": 0
         },
         "value": "Lion",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -199,7 +195,6 @@
               "ctxt": 0
             },
             "value": "sound",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -236,7 +231,6 @@
           "ctxt": 0
         },
         "value": "Animal",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,

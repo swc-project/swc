@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Animal",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "sound",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -90,7 +88,6 @@
           "ctxt": 0
         },
         "value": "Lion",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -116,7 +113,6 @@
               "ctxt": 0
             },
             "value": "_sound",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -159,7 +155,6 @@
               "ctxt": 0
             },
             "value": "sound",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -208,7 +203,6 @@
                         "ctxt": 0
                       },
                       "value": "_sound",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -242,7 +236,6 @@
               "ctxt": 0
             },
             "value": "sound",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -263,8 +256,8 @@
                     "ctxt": 0
                   },
                   "value": "val",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -320,7 +313,6 @@
                           "ctxt": 0
                         },
                         "value": "_sound",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -333,7 +325,6 @@
                         "ctxt": 0
                       },
                       "value": "val",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -360,7 +351,6 @@
           "ctxt": 0
         },
         "value": "Animal",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,

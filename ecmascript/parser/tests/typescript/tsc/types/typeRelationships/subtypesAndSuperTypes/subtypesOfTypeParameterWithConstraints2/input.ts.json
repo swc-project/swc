@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "f1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -37,6 +36,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -59,13 +59,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -84,6 +82,7 @@
               "ctxt": 0
             },
             "value": "y",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -106,13 +105,11 @@
                     "ctxt": 0
                   },
                   "value": "U",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -155,8 +152,8 @@
                     "ctxt": 0
                   },
                   "value": "r",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -182,7 +179,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -193,7 +189,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -226,8 +221,8 @@
                     "ctxt": 0
                   },
                   "value": "r",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -253,7 +248,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -264,7 +258,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -299,7 +292,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -317,7 +309,6 @@
                   "ctxt": 0
                 },
                 "value": "U",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -339,7 +330,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -359,7 +349,6 @@
           "ctxt": 0
         },
         "value": "f2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -380,6 +369,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -402,13 +392,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -427,6 +415,7 @@
               "ctxt": 0
             },
             "value": "y",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -449,13 +438,11 @@
                     "ctxt": 0
                   },
                   "value": "U",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -474,6 +461,7 @@
               "ctxt": 0
             },
             "value": "z",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -496,13 +484,11 @@
                     "ctxt": 0
                   },
                   "value": "V",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -545,8 +531,8 @@
                     "ctxt": 0
                   },
                   "value": "r",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -572,7 +558,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -583,7 +568,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -616,8 +600,8 @@
                     "ctxt": 0
                   },
                   "value": "r",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -643,7 +627,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -654,7 +637,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -687,8 +669,8 @@
                     "ctxt": 0
                   },
                   "value": "r2",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -714,7 +696,6 @@
                       "ctxt": 0
                     },
                     "value": "z",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -725,7 +706,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -758,8 +738,8 @@
                     "ctxt": 0
                   },
                   "value": "r2",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -785,7 +765,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -796,7 +775,6 @@
                       "ctxt": 0
                     },
                     "value": "z",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -829,8 +807,8 @@
                     "ctxt": 0
                   },
                   "value": "r2a",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -856,7 +834,6 @@
                       "ctxt": 0
                     },
                     "value": "z",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -867,7 +844,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -900,8 +876,8 @@
                     "ctxt": 0
                   },
                   "value": "r2b",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -927,7 +903,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -938,7 +913,6 @@
                       "ctxt": 0
                     },
                     "value": "z",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -973,7 +947,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -991,7 +964,6 @@
                   "ctxt": 0
                 },
                 "value": "U",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -1013,7 +985,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -1031,7 +1002,6 @@
                   "ctxt": 0
                 },
                 "value": "V",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -1053,7 +1023,6 @@
                 "ctxt": 0
               },
               "value": "V",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -1073,7 +1042,6 @@
           "ctxt": 0
         },
         "value": "f3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1094,6 +1062,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1116,13 +1085,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -1141,6 +1108,7 @@
               "ctxt": 0
             },
             "value": "y",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1163,13 +1131,11 @@
                     "ctxt": 0
                   },
                   "value": "U",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -1212,8 +1178,8 @@
                     "ctxt": 0
                   },
                   "value": "r",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -1239,7 +1205,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -1250,7 +1215,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -1283,8 +1247,8 @@
                     "ctxt": 0
                   },
                   "value": "r",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -1310,7 +1274,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -1321,7 +1284,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -1354,8 +1316,8 @@
                     "ctxt": 0
                   },
                   "value": "r2",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -1381,7 +1343,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -1399,7 +1360,6 @@
                         "ctxt": 0
                       },
                       "value": "Date",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -1435,8 +1395,8 @@
                     "ctxt": 0
                   },
                   "value": "r2",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -1469,7 +1429,6 @@
                         "ctxt": 0
                       },
                       "value": "Date",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -1483,7 +1442,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -1516,8 +1474,8 @@
                     "ctxt": 0
                   },
                   "value": "r3",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -1543,7 +1501,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -1561,7 +1518,6 @@
                         "ctxt": 0
                       },
                       "value": "Date",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -1597,8 +1553,8 @@
                     "ctxt": 0
                   },
                   "value": "r3",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -1631,7 +1587,6 @@
                         "ctxt": 0
                       },
                       "value": "Date",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -1645,7 +1600,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -1680,7 +1634,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -1698,7 +1651,6 @@
                   "ctxt": 0
                 },
                 "value": "U",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -1720,7 +1672,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -1738,7 +1689,6 @@
                   "ctxt": 0
                 },
                 "value": "Date",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -1764,7 +1714,6 @@
           "ctxt": 0
         },
         "value": "I1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1794,7 +1743,6 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -1833,7 +1781,6 @@
           "ctxt": 0
         },
         "value": "C1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1859,7 +1806,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -1907,7 +1853,6 @@
           "ctxt": 0
         },
         "value": "C2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1933,7 +1878,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -1959,7 +1903,6 @@
                   "ctxt": 0
                 },
                 "value": "T",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -2001,7 +1944,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -2029,7 +1971,6 @@
           "ctxt": 0
         },
         "value": "E",
-        "typeAnnotation": null,
         "optional": false
       },
       "members": [
@@ -2048,7 +1989,6 @@
               "ctxt": 0
             },
             "value": "A",
-            "typeAnnotation": null,
             "optional": false
           },
           "init": null
@@ -2065,7 +2005,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -2107,7 +2046,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -2150,8 +2088,8 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "NumericLiteral",
@@ -2180,7 +2118,6 @@
           "ctxt": 0
         },
         "value": "c",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -2206,7 +2143,6 @@
               "ctxt": 0
             },
             "value": "baz",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -2261,7 +2197,6 @@
           "ctxt": 0
         },
         "value": "c",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -2304,8 +2239,8 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "NumericLiteral",
@@ -2334,7 +2269,6 @@
           "ctxt": 0
         },
         "value": "f4",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -2355,6 +2289,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2377,13 +2312,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -2426,8 +2359,8 @@
                     "ctxt": 0
                   },
                   "value": "r0",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -2453,7 +2386,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -2494,8 +2426,8 @@
                     "ctxt": 0
                   },
                   "value": "r0",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -2529,7 +2461,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -2562,6 +2493,7 @@
                     "ctxt": 0
                   },
                   "value": "u",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -2584,12 +2516,10 @@
                           "ctxt": 0
                         },
                         "value": "undefined",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -2621,8 +2551,8 @@
                     "ctxt": 0
                   },
                   "value": "r0b",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -2648,7 +2578,6 @@
                       "ctxt": 0
                     },
                     "value": "u",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -2659,7 +2588,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -2692,8 +2620,8 @@
                     "ctxt": 0
                   },
                   "value": "r0b",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -2719,7 +2647,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -2730,7 +2657,6 @@
                       "ctxt": 0
                     },
                     "value": "u",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -2765,7 +2691,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -2783,7 +2708,6 @@
                   "ctxt": 0
                 },
                 "value": "Number",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -2804,7 +2728,6 @@
           "ctxt": 0
         },
         "value": "f5",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -2825,6 +2748,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2847,13 +2771,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -2896,8 +2818,8 @@
                     "ctxt": 0
                   },
                   "value": "r1",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -2932,7 +2854,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -2965,8 +2886,8 @@
                     "ctxt": 0
                   },
                   "value": "r1",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -2992,7 +2913,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -3036,7 +2956,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -3054,7 +2973,6 @@
                   "ctxt": 0
                 },
                 "value": "Number",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -3075,7 +2993,6 @@
           "ctxt": 0
         },
         "value": "f6",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -3096,6 +3013,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -3118,13 +3036,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -3167,8 +3083,8 @@
                     "ctxt": 0
                   },
                   "value": "r2",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -3208,7 +3124,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -3241,8 +3156,8 @@
                     "ctxt": 0
                   },
                   "value": "r2",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -3268,7 +3183,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -3317,7 +3231,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -3335,7 +3248,6 @@
                   "ctxt": 0
                 },
                 "value": "String",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -3356,7 +3268,6 @@
           "ctxt": 0
         },
         "value": "f7",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -3377,6 +3288,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -3399,13 +3311,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -3448,8 +3358,8 @@
                     "ctxt": 0
                   },
                   "value": "r3",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -3484,7 +3394,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -3517,8 +3426,8 @@
                     "ctxt": 0
                   },
                   "value": "r3",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -3544,7 +3453,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -3588,7 +3496,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -3606,7 +3513,6 @@
                   "ctxt": 0
                 },
                 "value": "Boolean",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -3627,7 +3533,6 @@
           "ctxt": 0
         },
         "value": "f8",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -3648,6 +3553,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -3670,13 +3576,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -3719,8 +3623,8 @@
                     "ctxt": 0
                   },
                   "value": "r4",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -3753,7 +3657,6 @@
                         "ctxt": 0
                       },
                       "value": "Date",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -3767,7 +3670,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -3800,8 +3702,8 @@
                     "ctxt": 0
                   },
                   "value": "r4",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -3827,7 +3729,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -3845,7 +3746,6 @@
                         "ctxt": 0
                       },
                       "value": "Date",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -3883,7 +3783,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -3901,7 +3800,6 @@
                   "ctxt": 0
                 },
                 "value": "Date",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -3922,7 +3820,6 @@
           "ctxt": 0
         },
         "value": "f9",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -3943,6 +3840,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -3965,13 +3863,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -4014,8 +3910,8 @@
                     "ctxt": 0
                   },
                   "value": "r5",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -4051,7 +3947,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -4084,8 +3979,8 @@
                     "ctxt": 0
                   },
                   "value": "r5",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -4111,7 +4006,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -4156,7 +4050,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -4174,7 +4067,6 @@
                   "ctxt": 0
                 },
                 "value": "RegExp",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -4195,7 +4087,6 @@
           "ctxt": 0
         },
         "value": "f10",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -4216,6 +4107,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -4238,13 +4130,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -4287,8 +4177,8 @@
                     "ctxt": 0
                   },
                   "value": "r6",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -4324,7 +4214,6 @@
                             "ctxt": 0
                           },
                           "value": "foo",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -4347,7 +4236,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -4380,8 +4268,8 @@
                     "ctxt": 0
                   },
                   "value": "r6",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -4407,7 +4295,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -4428,7 +4315,6 @@
                             "ctxt": 0
                           },
                           "value": "foo",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -4475,7 +4361,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -4502,7 +4387,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -4546,7 +4430,6 @@
           "ctxt": 0
         },
         "value": "f11",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -4567,6 +4450,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -4589,13 +4473,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -4638,8 +4520,8 @@
                     "ctxt": 0
                   },
                   "value": "r7",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -4687,7 +4569,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -4720,8 +4601,8 @@
                     "ctxt": 0
                   },
                   "value": "r7",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -4747,7 +4628,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -4804,7 +4684,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -4850,7 +4729,6 @@
           "ctxt": 0
         },
         "value": "f12",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -4871,6 +4749,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -4893,13 +4772,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -4942,8 +4819,8 @@
                     "ctxt": 0
                   },
                   "value": "r8",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -4977,6 +4854,7 @@
                           "ctxt": 0
                         },
                         "value": "x",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -4999,13 +4877,11 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     ],
                     "body": {
@@ -5031,7 +4907,6 @@
                               "ctxt": 0
                             },
                             "value": "x",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }
@@ -5062,7 +4937,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "constraint": null,
@@ -5080,7 +4954,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -5113,8 +4986,8 @@
                     "ctxt": 0
                   },
                   "value": "r8b",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -5140,7 +5013,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -5159,6 +5031,7 @@
                           "ctxt": 0
                         },
                         "value": "x",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -5181,13 +5054,11 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     ],
                     "body": {
@@ -5213,7 +5084,6 @@
                               "ctxt": 0
                             },
                             "value": "x",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         }
@@ -5244,7 +5114,6 @@
                               "ctxt": 0
                             },
                             "value": "T",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "constraint": null,
@@ -5286,7 +5155,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -5305,6 +5173,7 @@
                     "ctxt": 0
                   },
                   "value": "x",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -5327,13 +5196,11 @@
                           "ctxt": 0
                         },
                         "value": "U",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
                     }
-                  },
-                  "optional": false
+                  }
                 }
               ],
               "typeParams": {
@@ -5359,7 +5226,6 @@
                         "ctxt": 0
                       },
                       "value": "U",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "constraint": null,
@@ -5389,7 +5255,6 @@
                       "ctxt": 0
                     },
                     "value": "U",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -5412,7 +5277,6 @@
           "ctxt": 0
         },
         "value": "f13",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -5433,6 +5297,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -5455,13 +5320,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -5504,6 +5367,7 @@
                     "ctxt": 0
                   },
                   "value": "i1",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -5526,13 +5390,11 @@
                           "ctxt": 0
                         },
                         "value": "I1",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -5564,8 +5426,8 @@
                     "ctxt": 0
                   },
                   "value": "r9",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -5591,7 +5453,6 @@
                       "ctxt": 0
                     },
                     "value": "i1",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -5602,7 +5463,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -5635,8 +5495,8 @@
                     "ctxt": 0
                   },
                   "value": "r9",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -5662,7 +5522,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -5673,7 +5532,6 @@
                       "ctxt": 0
                     },
                     "value": "i1",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -5708,7 +5566,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -5726,7 +5583,6 @@
                   "ctxt": 0
                 },
                 "value": "I1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -5747,7 +5603,6 @@
           "ctxt": 0
         },
         "value": "f14",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -5768,6 +5623,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -5790,13 +5646,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -5839,6 +5693,7 @@
                     "ctxt": 0
                   },
                   "value": "c1",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -5861,13 +5716,11 @@
                           "ctxt": 0
                         },
                         "value": "C1",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -5899,8 +5752,8 @@
                     "ctxt": 0
                   },
                   "value": "r10",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -5926,7 +5779,6 @@
                       "ctxt": 0
                     },
                     "value": "c1",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -5937,7 +5789,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -5970,8 +5821,8 @@
                     "ctxt": 0
                   },
                   "value": "r10",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -5997,7 +5848,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -6008,7 +5858,6 @@
                       "ctxt": 0
                     },
                     "value": "c1",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -6043,7 +5892,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -6061,7 +5909,6 @@
                   "ctxt": 0
                 },
                 "value": "C1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -6082,7 +5929,6 @@
           "ctxt": 0
         },
         "value": "f15",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -6103,6 +5949,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -6125,13 +5972,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -6174,6 +6019,7 @@
                     "ctxt": 0
                   },
                   "value": "c2",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -6196,7 +6042,6 @@
                           "ctxt": 0
                         },
                         "value": "C2",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": {
@@ -6219,8 +6064,7 @@
                         ]
                       }
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -6252,8 +6096,8 @@
                     "ctxt": 0
                   },
                   "value": "r12",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -6279,7 +6123,6 @@
                       "ctxt": 0
                     },
                     "value": "c2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -6290,7 +6133,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -6323,8 +6165,8 @@
                     "ctxt": 0
                   },
                   "value": "r12",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -6350,7 +6192,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -6361,7 +6202,6 @@
                       "ctxt": 0
                     },
                     "value": "c2",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -6396,7 +6236,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -6414,7 +6253,6 @@
                   "ctxt": 0
                 },
                 "value": "C2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": {
@@ -6453,7 +6291,6 @@
           "ctxt": 0
         },
         "value": "f16",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -6474,6 +6311,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -6496,13 +6334,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -6545,8 +6381,8 @@
                     "ctxt": 0
                   },
                   "value": "r13",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -6572,7 +6408,6 @@
                       "ctxt": 0
                     },
                     "value": "E",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -6583,7 +6418,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -6616,8 +6450,8 @@
                     "ctxt": 0
                   },
                   "value": "r13",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -6643,7 +6477,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -6654,7 +6487,6 @@
                       "ctxt": 0
                     },
                     "value": "E",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -6687,8 +6519,8 @@
                     "ctxt": 0
                   },
                   "value": "r14",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -6721,7 +6553,6 @@
                         "ctxt": 0
                       },
                       "value": "E",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -6732,7 +6563,6 @@
                         "ctxt": 0
                       },
                       "value": "A",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -6745,7 +6575,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -6778,8 +6607,8 @@
                     "ctxt": 0
                   },
                   "value": "r14",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -6805,7 +6634,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -6823,7 +6651,6 @@
                         "ctxt": 0
                       },
                       "value": "E",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -6834,7 +6661,6 @@
                         "ctxt": 0
                       },
                       "value": "A",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -6871,7 +6697,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -6889,7 +6714,6 @@
                   "ctxt": 0
                 },
                 "value": "E",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -6910,7 +6734,6 @@
           "ctxt": 0
         },
         "value": "f17",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -6931,6 +6754,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -6953,13 +6777,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -7002,6 +6824,7 @@
                     "ctxt": 0
                   },
                   "value": "af",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -7024,12 +6847,10 @@
                           "ctxt": 0
                         },
                         "value": "f",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -7061,8 +6882,8 @@
                     "ctxt": 0
                   },
                   "value": "r15",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -7088,7 +6909,6 @@
                       "ctxt": 0
                     },
                     "value": "af",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -7099,7 +6919,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -7132,8 +6951,8 @@
                     "ctxt": 0
                   },
                   "value": "r15",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -7159,7 +6978,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -7170,7 +6988,6 @@
                       "ctxt": 0
                     },
                     "value": "af",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -7205,7 +7022,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -7223,7 +7039,6 @@
                   "ctxt": 0
                 },
                 "value": "f",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -7243,7 +7058,6 @@
           "ctxt": 0
         },
         "value": "f18",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -7264,6 +7078,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -7286,13 +7101,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -7335,6 +7148,7 @@
                     "ctxt": 0
                   },
                   "value": "ac",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -7357,12 +7171,10 @@
                           "ctxt": 0
                         },
                         "value": "c",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -7394,8 +7206,8 @@
                     "ctxt": 0
                   },
                   "value": "r16",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -7421,7 +7233,6 @@
                       "ctxt": 0
                     },
                     "value": "ac",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -7432,7 +7243,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -7465,8 +7275,8 @@
                     "ctxt": 0
                   },
                   "value": "r16",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -7492,7 +7302,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -7503,7 +7312,6 @@
                       "ctxt": 0
                     },
                     "value": "ac",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -7538,7 +7346,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -7556,7 +7363,6 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -7576,7 +7382,6 @@
           "ctxt": 0
         },
         "value": "f19",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -7597,6 +7402,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -7619,13 +7425,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -7653,7 +7457,6 @@
                 "ctxt": 0
               },
               "value": "f17",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -7674,6 +7477,7 @@
                     "ctxt": 0
                   },
                   "value": "a",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -7696,13 +7500,11 @@
                           "ctxt": 0
                         },
                         "value": "U",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -7745,8 +7547,8 @@
                           "ctxt": 0
                         },
                         "value": "r17",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ConditionalExpression",
@@ -7772,7 +7574,6 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "alternate": {
@@ -7783,7 +7584,6 @@
                             "ctxt": 0
                           },
                           "value": "a",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -7816,8 +7616,8 @@
                           "ctxt": 0
                         },
                         "value": "r17",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ConditionalExpression",
@@ -7843,7 +7643,6 @@
                             "ctxt": 0
                           },
                           "value": "a",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "alternate": {
@@ -7854,7 +7653,6 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -7889,7 +7687,6 @@
                       "ctxt": 0
                     },
                     "value": "U",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": {
@@ -7907,7 +7704,6 @@
                         "ctxt": 0
                       },
                       "value": "T",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -7928,7 +7724,6 @@
                 "ctxt": 0
               },
               "value": "f18",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -7949,6 +7744,7 @@
                     "ctxt": 0
                   },
                   "value": "a",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -7971,13 +7767,11 @@
                           "ctxt": 0
                         },
                         "value": "V",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -8020,8 +7814,8 @@
                           "ctxt": 0
                         },
                         "value": "r18",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ConditionalExpression",
@@ -8047,7 +7841,6 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "alternate": {
@@ -8058,7 +7851,6 @@
                             "ctxt": 0
                           },
                           "value": "a",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -8091,8 +7883,8 @@
                           "ctxt": 0
                         },
                         "value": "r18",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ConditionalExpression",
@@ -8118,7 +7910,6 @@
                             "ctxt": 0
                           },
                           "value": "a",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "alternate": {
@@ -8129,7 +7920,6 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
                           "optional": false
                         }
                       },
@@ -8164,7 +7954,6 @@
                       "ctxt": 0
                     },
                     "value": "V",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": {
@@ -8182,7 +7971,6 @@
                         "ctxt": 0
                       },
                       "value": "U",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -8204,7 +7992,6 @@
                       "ctxt": 0
                     },
                     "value": "U",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": {
@@ -8222,7 +8009,6 @@
                         "ctxt": 0
                       },
                       "value": "T",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -8260,7 +8046,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -8280,7 +8065,6 @@
           "ctxt": 0
         },
         "value": "f20",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -8301,6 +8085,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -8323,13 +8108,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -8372,8 +8155,8 @@
                     "ctxt": 0
                   },
                   "value": "r19",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -8406,7 +8189,6 @@
                         "ctxt": 0
                       },
                       "value": "Object",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -8420,7 +8202,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -8453,8 +8234,8 @@
                     "ctxt": 0
                   },
                   "value": "r19",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -8480,7 +8261,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -8498,7 +8278,6 @@
                         "ctxt": 0
                       },
                       "value": "Object",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -8536,7 +8315,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -8554,7 +8332,6 @@
                   "ctxt": 0
                 },
                 "value": "Number",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -8575,7 +8352,6 @@
           "ctxt": 0
         },
         "value": "f21",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -8596,6 +8372,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -8618,13 +8395,11 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -8667,8 +8442,8 @@
                     "ctxt": 0
                   },
                   "value": "r20",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -8703,7 +8478,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -8736,8 +8510,8 @@
                     "ctxt": 0
                   },
                   "value": "r20",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -8763,7 +8537,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -8807,7 +8580,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -8825,7 +8597,6 @@
                   "ctxt": 0
                 },
                 "value": "Number",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null

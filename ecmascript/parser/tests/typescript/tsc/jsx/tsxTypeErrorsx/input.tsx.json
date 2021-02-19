@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "a1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -51,7 +51,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -75,7 +74,6 @@
                       "ctxt": 0
                     },
                     "value": "id",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -129,8 +127,8 @@
               "ctxt": 0
             },
             "value": "a2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -149,7 +147,6 @@
                   "ctxt": 0
                 },
                 "value": "img",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -173,7 +170,6 @@
                       "ctxt": 0
                     },
                     "value": "srce",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -227,8 +223,8 @@
               "ctxt": 0
             },
             "value": "thing",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -248,7 +244,6 @@
                     "ctxt": 0
                   },
                   "value": "oops",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -292,8 +287,8 @@
               "ctxt": 0
             },
             "value": "a3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -312,7 +307,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -336,7 +330,6 @@
                       "ctxt": 0
                     },
                     "value": "id",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -354,7 +347,6 @@
                         "ctxt": 0
                       },
                       "value": "thing",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -395,8 +387,8 @@
               "ctxt": 0
             },
             "value": "e1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -415,7 +407,6 @@
                   "ctxt": 0
                 },
                 "value": "imag",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -439,7 +430,6 @@
                       "ctxt": 0
                     },
                     "value": "src",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -478,7 +468,6 @@
           "ctxt": 0
         },
         "value": "MyClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -504,7 +493,6 @@
               "ctxt": 0
             },
             "value": "props",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -539,7 +527,6 @@
                       "ctxt": 0
                     },
                     "value": "pt",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -577,7 +564,6 @@
                               "ctxt": 0
                             },
                             "value": "x",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -619,7 +605,6 @@
                               "ctxt": 0
                             },
                             "value": "y",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false,
@@ -666,7 +651,6 @@
                       "ctxt": 0
                     },
                     "value": "name",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -708,7 +692,6 @@
                       "ctxt": 0
                     },
                     "value": "reqd",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -779,8 +762,8 @@
               "ctxt": 0
             },
             "value": "b1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -799,7 +782,6 @@
                   "ctxt": 0
                 },
                 "value": "MyClass",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -823,7 +805,6 @@
                       "ctxt": 0
                     },
                     "value": "reqd",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -880,8 +861,8 @@
               "ctxt": 0
             },
             "value": "b2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -900,7 +881,6 @@
                   "ctxt": 0
                 },
                 "value": "MyClass",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -924,7 +904,6 @@
                       "ctxt": 0
                     },
                     "value": "pt",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -952,7 +931,6 @@
                               "ctxt": 0
                             },
                             "value": "x",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "value": {
@@ -975,7 +953,6 @@
                               "ctxt": 0
                             },
                             "value": "y",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "value": {

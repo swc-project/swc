@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -43,7 +42,6 @@
           "ctxt": 0
         },
         "value": "Sub",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -69,7 +67,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
@@ -91,6 +88,7 @@
                   "ctxt": 0
                 },
                 "value": "p",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -107,8 +105,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             }
           ],
@@ -149,7 +146,6 @@
                         "ctxt": 0
                       },
                       "value": "console",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -160,7 +156,6 @@
                         "ctxt": 0
                       },
                       "value": "log",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -233,7 +228,6 @@
               "ctxt": 0
             },
             "value": "field",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -265,7 +259,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -283,7 +276,6 @@
           "ctxt": 0
         },
         "value": "Test",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -309,7 +301,6 @@
               "ctxt": 0
             },
             "value": "prop",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -355,7 +346,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
@@ -377,6 +367,7 @@
                   "ctxt": 0
                 },
                 "value": "p",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -393,8 +384,7 @@
                     },
                     "kind": "number"
                   }
-                },
-                "optional": false
+                }
               }
             }
           ],
@@ -487,7 +477,6 @@
                         "ctxt": 0
                       },
                       "value": "prop",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -517,7 +506,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,

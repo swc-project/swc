@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "React",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -64,7 +63,6 @@
           "ctxt": 0
         },
         "value": "Address",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -94,7 +92,6 @@
                 "ctxt": 0
               },
               "value": "street",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -136,7 +133,6 @@
                 "ctxt": 0
               },
               "value": "country",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -180,7 +176,6 @@
           "ctxt": 0
         },
         "value": "CanadianAddress",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -201,7 +196,6 @@
               "ctxt": 0
             },
             "value": "Address",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": null
@@ -231,7 +225,6 @@
                 "ctxt": 0
               },
               "value": "postalCode",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -275,7 +268,6 @@
           "ctxt": 0
         },
         "value": "AmericanAddress",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -296,7 +288,6 @@
               "ctxt": 0
             },
             "value": "Address",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": null
@@ -326,7 +317,6 @@
                 "ctxt": 0
               },
               "value": "zipCode",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -371,7 +361,6 @@
           "ctxt": 0
         },
         "value": "Properties",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -398,7 +387,6 @@
                 "ctxt": 0
               },
               "value": "CanadianAddress",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -418,7 +406,6 @@
                 "ctxt": 0
               },
               "value": "AmericanAddress",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -443,7 +430,6 @@
             "ctxt": 0
           },
           "value": "AddressComp",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -469,7 +455,6 @@
                 "ctxt": 0
               },
               "value": "render",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -533,7 +518,6 @@
               "ctxt": 0
             },
             "value": "React",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -544,7 +528,6 @@
               "ctxt": 0
             },
             "value": "Component",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -574,7 +557,6 @@
                   "ctxt": 0
                 },
                 "value": "Properties",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -618,8 +600,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -638,7 +620,6 @@
                   "ctxt": 0
                 },
                 "value": "AddressComp",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -662,7 +643,6 @@
                       "ctxt": 0
                     },
                     "value": "postalCode",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -695,7 +675,6 @@
                       "ctxt": 0
                     },
                     "value": "street",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -728,7 +707,6 @@
                       "ctxt": 0
                     },
                     "value": "country",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {

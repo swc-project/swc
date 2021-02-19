@@ -38,8 +38,8 @@
                 "ctxt": 0
               },
               "value": "of",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": null,
             "definite": false

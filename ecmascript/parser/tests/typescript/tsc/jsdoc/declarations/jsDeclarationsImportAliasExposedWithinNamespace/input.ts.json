@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "myTypes",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -70,7 +70,6 @@
               "ctxt": 0
             },
             "value": "myTypes",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -103,7 +102,6 @@
               "ctxt": 0
             },
             "value": "myTypes",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -151,8 +149,8 @@
               "ctxt": 0
             },
             "value": "testFnTypes",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -177,7 +175,6 @@
           "ctxt": 0
         },
         "value": "testFn",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -198,8 +195,8 @@
               "ctxt": 0
             },
             "value": "input",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -248,7 +245,6 @@
                     "ctxt": 0
                   },
                   "value": "input",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -307,7 +303,6 @@
                         "ctxt": 0
                       },
                       "value": "input",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -371,7 +366,6 @@
               "ctxt": 0
             },
             "value": "testFn",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -391,7 +385,6 @@
               "ctxt": 0
             },
             "value": "testFnTypes",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null

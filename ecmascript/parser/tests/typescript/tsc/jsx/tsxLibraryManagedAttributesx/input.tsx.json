@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "Defaultize",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -48,7 +47,6 @@
                 "ctxt": 0
               },
               "value": "TProps",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -69,7 +67,6 @@
                 "ctxt": 0
               },
               "value": "TDefaults",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -108,7 +105,6 @@
                   "ctxt": 0
                 },
                 "value": "K",
-                "typeAnnotation": null,
                 "optional": false
               },
               "constraint": {
@@ -126,7 +122,6 @@
                     "ctxt": 0
                   },
                   "value": "Extract",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -160,7 +155,6 @@
                             "ctxt": 0
                           },
                           "value": "TProps",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -189,7 +183,6 @@
                             "ctxt": 0
                           },
                           "value": "TDefaults",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -225,7 +218,6 @@
                     "ctxt": 0
                   },
                   "value": "TProps",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -245,7 +237,6 @@
                     "ctxt": 0
                   },
                   "value": "K",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -275,7 +266,6 @@
                   "ctxt": 0
                 },
                 "value": "K",
-                "typeAnnotation": null,
                 "optional": false
               },
               "constraint": {
@@ -293,7 +283,6 @@
                     "ctxt": 0
                   },
                   "value": "Exclude",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -327,7 +316,6 @@
                             "ctxt": 0
                           },
                           "value": "TProps",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -356,7 +344,6 @@
                             "ctxt": 0
                           },
                           "value": "TDefaults",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -392,7 +379,6 @@
                     "ctxt": 0
                   },
                   "value": "TProps",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -412,7 +398,6 @@
                     "ctxt": 0
                   },
                   "value": "K",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -434,7 +419,6 @@
                 "ctxt": 0
               },
               "value": "Partial",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": {
@@ -460,7 +444,6 @@
                       "ctxt": 0
                     },
                     "value": "TDefaults",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -487,7 +470,6 @@
           "ctxt": 0
         },
         "value": "InferredPropTypes",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -513,7 +495,6 @@
                 "ctxt": 0
               },
               "value": "P",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -544,7 +525,6 @@
               "ctxt": 0
             },
             "value": "K",
-            "typeAnnotation": null,
             "optional": false
           },
           "constraint": {
@@ -570,7 +550,6 @@
                   "ctxt": 0
                 },
                 "value": "P",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -610,7 +589,6 @@
                   "ctxt": 0
                 },
                 "value": "P",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -630,7 +608,6 @@
                   "ctxt": 0
                 },
                 "value": "K",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -651,7 +628,6 @@
                 "ctxt": 0
               },
               "value": "PropTypeChecker",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": {
@@ -684,7 +660,6 @@
                         "ctxt": 0
                       },
                       "value": "T",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "constraint": null,
@@ -713,7 +688,6 @@
                         "ctxt": 0
                       },
                       "value": "U",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "constraint": null,
@@ -746,7 +720,6 @@
                   "ctxt": 0
                 },
                 "value": "PropTypeChecker",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": {
@@ -772,7 +745,6 @@
                         "ctxt": 0
                       },
                       "value": "T",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -792,7 +764,6 @@
                         "ctxt": 0
                       },
                       "value": "U",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -815,7 +786,6 @@
                   "ctxt": 0
                 },
                 "value": "checkedType",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -857,6 +827,7 @@
               "ctxt": 0
             },
             "value": "checkedType",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -882,8 +853,7 @@
                   "kind": "symbol"
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -905,7 +875,6 @@
           "ctxt": 0
         },
         "value": "PropTypeChecker",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -932,7 +901,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -953,7 +921,6 @@
                 "ctxt": 0
               },
               "value": "TRequired",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -1002,6 +969,7 @@
                   "ctxt": 0
                 },
                 "value": "props",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1018,8 +986,7 @@
                     },
                     "kind": "any"
                   }
-                },
-                "optional": false
+                }
               },
               {
                 "type": "Identifier",
@@ -1029,6 +996,7 @@
                   "ctxt": 0
                 },
                 "value": "propName",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1045,8 +1013,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               },
               {
                 "type": "Identifier",
@@ -1056,6 +1023,7 @@
                   "ctxt": 0
                 },
                 "value": "componentName",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1072,8 +1040,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               },
               {
                 "type": "Identifier",
@@ -1083,6 +1050,7 @@
                   "ctxt": 0
                 },
                 "value": "location",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1099,8 +1067,7 @@
                     },
                     "kind": "any"
                   }
-                },
-                "optional": false
+                }
               },
               {
                 "type": "Identifier",
@@ -1110,6 +1077,7 @@
                   "ctxt": 0
                 },
                 "value": "propFullName",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1126,8 +1094,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnnotation": {
@@ -1165,7 +1132,6 @@
                 "ctxt": 0
               },
               "value": "isRequired",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -1194,7 +1160,6 @@
                     "ctxt": 0
                   },
                   "value": "PropTypeChecker",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -1220,7 +1185,6 @@
                           "ctxt": 0
                         },
                         "value": "U",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1264,7 +1228,6 @@
                 "ctxt": 0
               },
               "value": "checkedType",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": true,
@@ -1300,7 +1263,6 @@
                       "ctxt": 0
                     },
                     "value": "TRequired",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -1337,7 +1299,6 @@
                       "ctxt": 0
                     },
                     "value": "U",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -1365,7 +1326,6 @@
                           "ctxt": 0
                         },
                         "value": "U",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -1414,7 +1374,6 @@
           "ctxt": 0
         },
         "value": "PropTypes",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -1457,6 +1416,7 @@
                       "ctxt": 0
                     },
                     "value": "number",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -1479,7 +1439,6 @@
                             "ctxt": 0
                           },
                           "value": "PropTypeChecker",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": {
@@ -1502,8 +1461,7 @@
                           ]
                         }
                       }
-                    },
-                    "optional": false
+                    }
                   },
                   "init": null,
                   "definite": false
@@ -1543,6 +1501,7 @@
                       "ctxt": 0
                     },
                     "value": "string",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -1565,7 +1524,6 @@
                             "ctxt": 0
                           },
                           "value": "PropTypeChecker",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": {
@@ -1588,8 +1546,7 @@
                           ]
                         }
                       }
-                    },
-                    "optional": false
+                    }
                   },
                   "init": null,
                   "definite": false
@@ -1629,6 +1586,7 @@
                       "ctxt": 0
                     },
                     "value": "node",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -1651,7 +1609,6 @@
                             "ctxt": 0
                           },
                           "value": "PropTypeChecker",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": {
@@ -1677,7 +1634,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "ReactNode",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
@@ -1685,8 +1641,7 @@
                           ]
                         }
                       }
-                    },
-                    "optional": false
+                    }
                   },
                   "init": null,
                   "definite": false
@@ -1713,7 +1668,6 @@
           "ctxt": 0
         },
         "value": "ReactNode",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -1758,7 +1712,6 @@
                 "ctxt": 0
               },
               "value": "ReactComponent",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": {
@@ -1803,7 +1756,6 @@
           "ctxt": 0
         },
         "value": "ReactComponent",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -1829,7 +1781,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
@@ -1849,6 +1800,7 @@
                   "ctxt": 0
                 },
                 "value": "props",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -1871,13 +1823,11 @@
                         "ctxt": 0
                       },
                       "value": "P",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
                   }
-                },
-                "optional": false
+                }
               }
             }
           ],
@@ -1900,7 +1850,6 @@
               "ctxt": 0
             },
             "value": "props",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -1934,7 +1883,6 @@
                       "ctxt": 0
                     },
                     "value": "P",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -1954,7 +1902,6 @@
                       "ctxt": 0
                     },
                     "value": "Readonly",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": {
@@ -1989,7 +1936,6 @@
                                 "ctxt": 0
                               },
                               "value": "children",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false,
@@ -2025,7 +1971,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "ReactNode",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "typeParams": null
@@ -2067,7 +2012,6 @@
               "ctxt": 0
             },
             "value": "setState",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -2088,6 +2032,7 @@
                     "ctxt": 0
                   },
                   "value": "s",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -2110,7 +2055,6 @@
                           "ctxt": 0
                         },
                         "value": "Partial",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": {
@@ -2136,7 +2080,6 @@
                                 "ctxt": 0
                               },
                               "value": "S",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
@@ -2144,8 +2087,7 @@
                         ]
                       }
                     }
-                  },
-                  "optional": false
+                  }
                 }
               }
             ],
@@ -2181,7 +2123,6 @@
                     "ctxt": 0
                   },
                   "value": "S",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -2209,7 +2150,6 @@
               "ctxt": 0
             },
             "value": "render",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -2246,7 +2186,6 @@
                     "ctxt": 0
                   },
                   "value": "ReactNode",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -2285,7 +2224,6 @@
                 "ctxt": 0
               },
               "value": "P",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -2314,7 +2252,6 @@
                 "ctxt": 0
               },
               "value": "S",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -2350,7 +2287,6 @@
           "ctxt": 0
         },
         "value": "JSX",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -2376,7 +2312,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -2397,7 +2332,6 @@
                     "ctxt": 0
                   },
                   "value": "ReactComponent",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeArguments": null
@@ -2428,7 +2362,6 @@
                 "ctxt": 0
               },
               "value": "IntrinsicElements",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -2460,7 +2393,6 @@
                 "ctxt": 0
               },
               "value": "LibraryManagedAttributes",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": {
@@ -2486,7 +2418,6 @@
                       "ctxt": 0
                     },
                     "value": "TComponent",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -2507,7 +2438,6 @@
                       "ctxt": 0
                     },
                     "value": "TProps",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -2537,7 +2467,6 @@
                     "ctxt": 0
                   },
                   "value": "TComponent",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -2566,7 +2495,6 @@
                         "ctxt": 0
                       },
                       "value": "defaultProps",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -2602,7 +2530,6 @@
                               "ctxt": 0
                             },
                             "value": "D",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "constraint": null,
@@ -2628,7 +2555,6 @@
                         "ctxt": 0
                       },
                       "value": "propTypes",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -2664,7 +2590,6 @@
                               "ctxt": 0
                             },
                             "value": "P",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "constraint": null,
@@ -2691,7 +2616,6 @@
                     "ctxt": 0
                   },
                   "value": "Defaultize",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -2725,7 +2649,6 @@
                               "ctxt": 0
                             },
                             "value": "TProps",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -2745,7 +2668,6 @@
                               "ctxt": 0
                             },
                             "value": "InferredPropTypes",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": {
@@ -2771,7 +2693,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "P",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "typeParams": null
@@ -2796,7 +2717,6 @@
                           "ctxt": 0
                         },
                         "value": "D",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -2826,7 +2746,6 @@
                       "ctxt": 0
                     },
                     "value": "TComponent",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -2855,7 +2774,6 @@
                           "ctxt": 0
                         },
                         "value": "defaultProps",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -2891,7 +2809,6 @@
                                 "ctxt": 0
                               },
                               "value": "D",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "constraint": null,
@@ -2918,7 +2835,6 @@
                       "ctxt": 0
                     },
                     "value": "Defaultize",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": {
@@ -2944,7 +2860,6 @@
                             "ctxt": 0
                           },
                           "value": "TProps",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -2964,7 +2879,6 @@
                             "ctxt": 0
                           },
                           "value": "D",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -2994,7 +2908,6 @@
                         "ctxt": 0
                       },
                       "value": "TComponent",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -3023,7 +2936,6 @@
                             "ctxt": 0
                           },
                           "value": "propTypes",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false,
@@ -3059,7 +2971,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "P",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "constraint": null,
@@ -3094,7 +3005,6 @@
                             "ctxt": 0
                           },
                           "value": "TProps",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -3114,7 +3024,6 @@
                             "ctxt": 0
                           },
                           "value": "InferredPropTypes",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": {
@@ -3140,7 +3049,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "P",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
@@ -3165,7 +3073,6 @@
                         "ctxt": 0
                       },
                       "value": "TProps",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -3187,7 +3094,6 @@
           "ctxt": 0
         },
         "value": "Component",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -3213,7 +3119,6 @@
               "ctxt": 0
             },
             "value": "propTypes",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -3234,7 +3139,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -3252,7 +3156,6 @@
                       "ctxt": 0
                     },
                     "value": "PropTypes",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -3263,7 +3166,6 @@
                       "ctxt": 0
                     },
                     "value": "number",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -3279,7 +3181,6 @@
                     "ctxt": 0
                   },
                   "value": "bar",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -3297,7 +3198,6 @@
                       "ctxt": 0
                     },
                     "value": "PropTypes",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -3308,7 +3208,6 @@
                       "ctxt": 0
                     },
                     "value": "node",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -3324,7 +3223,6 @@
                     "ctxt": 0
                   },
                   "value": "baz",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -3349,7 +3247,6 @@
                         "ctxt": 0
                       },
                       "value": "PropTypes",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -3360,7 +3257,6 @@
                         "ctxt": 0
                       },
                       "value": "string",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -3373,7 +3269,6 @@
                       "ctxt": 0
                     },
                     "value": "isRequired",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -3407,7 +3302,6 @@
               "ctxt": 0
             },
             "value": "defaultProps",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -3428,7 +3322,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -3463,7 +3356,6 @@
           "ctxt": 0
         },
         "value": "ReactComponent",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -3496,8 +3388,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -3516,7 +3408,6 @@
                   "ctxt": 0
                 },
                 "value": "Component",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -3540,7 +3431,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -3576,7 +3466,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -3609,7 +3498,6 @@
                       "ctxt": 0
                     },
                     "value": "baz",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -3663,8 +3551,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -3683,7 +3571,6 @@
                   "ctxt": 0
                 },
                 "value": "Component",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -3707,7 +3594,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -3764,8 +3650,8 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -3784,7 +3670,6 @@
                   "ctxt": 0
                 },
                 "value": "Component",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -3808,7 +3693,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -3841,7 +3725,6 @@
                       "ctxt": 0
                     },
                     "value": "baz",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -3895,8 +3778,8 @@
               "ctxt": 0
             },
             "value": "d",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -3915,7 +3798,6 @@
                   "ctxt": 0
                 },
                 "value": "Component",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -3939,7 +3821,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -3972,7 +3853,6 @@
                       "ctxt": 0
                     },
                     "value": "baz",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -4005,7 +3885,6 @@
                       "ctxt": 0
                     },
                     "value": "bat",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -4059,8 +3938,8 @@
               "ctxt": 0
             },
             "value": "e",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -4079,7 +3958,6 @@
                   "ctxt": 0
                 },
                 "value": "Component",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -4103,7 +3981,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -4139,7 +4016,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -4174,7 +4050,6 @@
                       "ctxt": 0
                     },
                     "value": "baz",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -4228,8 +4103,8 @@
               "ctxt": 0
             },
             "value": "f",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -4248,7 +4123,6 @@
                   "ctxt": 0
                 },
                 "value": "Component",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -4272,7 +4146,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -4308,7 +4181,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -4341,7 +4213,6 @@
                       "ctxt": 0
                     },
                     "value": "baz",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -4382,7 +4253,6 @@
           "ctxt": 0
         },
         "value": "JustPropTypes",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -4408,7 +4278,6 @@
               "ctxt": 0
             },
             "value": "propTypes",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -4429,7 +4298,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -4447,7 +4315,6 @@
                       "ctxt": 0
                     },
                     "value": "PropTypes",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -4458,7 +4325,6 @@
                       "ctxt": 0
                     },
                     "value": "number",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -4474,7 +4340,6 @@
                     "ctxt": 0
                   },
                   "value": "bar",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -4499,7 +4364,6 @@
                         "ctxt": 0
                       },
                       "value": "PropTypes",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -4510,7 +4374,6 @@
                         "ctxt": 0
                       },
                       "value": "node",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -4523,7 +4386,6 @@
                       "ctxt": 0
                     },
                     "value": "isRequired",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -4551,7 +4413,6 @@
           "ctxt": 0
         },
         "value": "ReactComponent",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -4584,8 +4445,8 @@
               "ctxt": 0
             },
             "value": "g",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -4604,7 +4465,6 @@
                   "ctxt": 0
                 },
                 "value": "JustPropTypes",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -4628,7 +4488,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -4664,7 +4523,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -4718,8 +4576,8 @@
               "ctxt": 0
             },
             "value": "h",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -4738,7 +4596,6 @@
                   "ctxt": 0
                 },
                 "value": "JustPropTypes",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -4762,7 +4619,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -4816,8 +4672,8 @@
               "ctxt": 0
             },
             "value": "i",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -4836,7 +4692,6 @@
                   "ctxt": 0
                 },
                 "value": "JustPropTypes",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -4860,7 +4715,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -4895,7 +4749,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -4949,8 +4802,8 @@
               "ctxt": 0
             },
             "value": "j",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -4969,7 +4822,6 @@
                   "ctxt": 0
                 },
                 "value": "JustPropTypes",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -4993,7 +4845,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -5029,7 +4880,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -5070,7 +4920,6 @@
           "ctxt": 0
         },
         "value": "JustDefaultProps",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -5096,7 +4945,6 @@
               "ctxt": 0
             },
             "value": "defaultProps",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -5117,7 +4965,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -5152,7 +4999,6 @@
           "ctxt": 0
         },
         "value": "ReactComponent",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -5185,8 +5031,8 @@
               "ctxt": 0
             },
             "value": "k",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -5205,7 +5051,6 @@
                   "ctxt": 0
                 },
                 "value": "JustDefaultProps",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -5229,7 +5074,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -5286,8 +5130,8 @@
               "ctxt": 0
             },
             "value": "l",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -5306,7 +5150,6 @@
                   "ctxt": 0
                 },
                 "value": "JustDefaultProps",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -5330,7 +5173,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -5366,7 +5208,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -5420,8 +5261,8 @@
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -5440,7 +5281,6 @@
                   "ctxt": 0
                 },
                 "value": "JustDefaultProps",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -5464,7 +5304,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -5508,7 +5347,6 @@
           "ctxt": 0
         },
         "value": "FooProps",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -5538,7 +5376,6 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -5577,7 +5414,6 @@
           "ctxt": 0
         },
         "value": "BothWithSpecifiedGeneric",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -5603,7 +5439,6 @@
               "ctxt": 0
             },
             "value": "propTypes",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -5624,7 +5459,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -5642,7 +5476,6 @@
                       "ctxt": 0
                     },
                     "value": "PropTypes",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -5653,7 +5486,6 @@
                       "ctxt": 0
                     },
                     "value": "string",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -5669,7 +5501,6 @@
                     "ctxt": 0
                   },
                   "value": "bar",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -5687,7 +5518,6 @@
                       "ctxt": 0
                     },
                     "value": "PropTypes",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -5698,7 +5528,6 @@
                       "ctxt": 0
                     },
                     "value": "node",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -5714,7 +5543,6 @@
                     "ctxt": 0
                   },
                   "value": "baz",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -5739,7 +5567,6 @@
                         "ctxt": 0
                       },
                       "value": "PropTypes",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -5750,7 +5577,6 @@
                         "ctxt": 0
                       },
                       "value": "number",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -5763,7 +5589,6 @@
                       "ctxt": 0
                     },
                     "value": "isRequired",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -5797,7 +5622,6 @@
               "ctxt": 0
             },
             "value": "defaultProps",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -5818,7 +5642,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -5858,7 +5681,6 @@
           "ctxt": 0
         },
         "value": "ReactComponent",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -5886,7 +5708,6 @@
                 "ctxt": 0
               },
               "value": "FooProps",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -5920,8 +5741,8 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -5940,7 +5761,6 @@
                   "ctxt": 0
                 },
                 "value": "BothWithSpecifiedGeneric",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -5964,7 +5784,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -5997,7 +5816,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -6030,7 +5848,6 @@
                       "ctxt": 0
                     },
                     "value": "baz",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -6087,8 +5904,8 @@
               "ctxt": 0
             },
             "value": "o",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -6107,7 +5924,6 @@
                   "ctxt": 0
                 },
                 "value": "BothWithSpecifiedGeneric",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -6131,7 +5947,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -6185,8 +6000,8 @@
               "ctxt": 0
             },
             "value": "p",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -6205,7 +6020,6 @@
                   "ctxt": 0
                 },
                 "value": "BothWithSpecifiedGeneric",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -6229,7 +6043,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -6262,7 +6075,6 @@
                       "ctxt": 0
                     },
                     "value": "baz",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -6319,8 +6131,8 @@
               "ctxt": 0
             },
             "value": "q",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -6339,7 +6151,6 @@
                   "ctxt": 0
                 },
                 "value": "BothWithSpecifiedGeneric",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -6363,7 +6174,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -6396,7 +6206,6 @@
                       "ctxt": 0
                     },
                     "value": "baz",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -6432,7 +6241,6 @@
                       "ctxt": 0
                     },
                     "value": "bat",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -6486,8 +6294,8 @@
               "ctxt": 0
             },
             "value": "r",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -6506,7 +6314,6 @@
                   "ctxt": 0
                 },
                 "value": "BothWithSpecifiedGeneric",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -6530,7 +6337,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -6563,7 +6369,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -6598,7 +6403,6 @@
                       "ctxt": 0
                     },
                     "value": "baz",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -6655,8 +6459,8 @@
               "ctxt": 0
             },
             "value": "s",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -6675,7 +6479,6 @@
                   "ctxt": 0
                 },
                 "value": "BothWithSpecifiedGeneric",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -6699,7 +6502,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -6732,7 +6534,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -6765,7 +6566,6 @@
                       "ctxt": 0
                     },
                     "value": "baz",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -6806,7 +6606,6 @@
           "ctxt": 0
         },
         "value": "JustPropTypesWithSpecifiedGeneric",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -6832,7 +6631,6 @@
               "ctxt": 0
             },
             "value": "propTypes",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -6853,7 +6651,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -6871,7 +6668,6 @@
                       "ctxt": 0
                     },
                     "value": "PropTypes",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -6882,7 +6678,6 @@
                       "ctxt": 0
                     },
                     "value": "string",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -6898,7 +6693,6 @@
                     "ctxt": 0
                   },
                   "value": "bar",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -6923,7 +6717,6 @@
                         "ctxt": 0
                       },
                       "value": "PropTypes",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -6934,7 +6727,6 @@
                         "ctxt": 0
                       },
                       "value": "node",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -6947,7 +6739,6 @@
                       "ctxt": 0
                     },
                     "value": "isRequired",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -6975,7 +6766,6 @@
           "ctxt": 0
         },
         "value": "ReactComponent",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -7003,7 +6793,6 @@
                 "ctxt": 0
               },
               "value": "FooProps",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -7037,8 +6826,8 @@
               "ctxt": 0
             },
             "value": "t",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -7057,7 +6846,6 @@
                   "ctxt": 0
                 },
                 "value": "JustPropTypesWithSpecifiedGeneric",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -7081,7 +6869,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -7114,7 +6901,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -7168,8 +6954,8 @@
               "ctxt": 0
             },
             "value": "u",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -7188,7 +6974,6 @@
                   "ctxt": 0
                 },
                 "value": "JustPropTypesWithSpecifiedGeneric",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -7212,7 +6997,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -7269,8 +7053,8 @@
               "ctxt": 0
             },
             "value": "v",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -7289,7 +7073,6 @@
                   "ctxt": 0
                 },
                 "value": "JustPropTypesWithSpecifiedGeneric",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -7313,7 +7096,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -7348,7 +7130,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -7402,8 +7183,8 @@
               "ctxt": 0
             },
             "value": "w",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -7422,7 +7203,6 @@
                   "ctxt": 0
                 },
                 "value": "JustPropTypesWithSpecifiedGeneric",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -7446,7 +7226,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -7479,7 +7258,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -7520,7 +7298,6 @@
           "ctxt": 0
         },
         "value": "JustDefaultPropsWithSpecifiedGeneric",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -7546,7 +7323,6 @@
               "ctxt": 0
             },
             "value": "defaultProps",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -7567,7 +7343,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -7607,7 +7382,6 @@
           "ctxt": 0
         },
         "value": "ReactComponent",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -7635,7 +7409,6 @@
                 "ctxt": 0
               },
               "value": "FooProps",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -7669,8 +7442,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -7689,7 +7462,6 @@
                   "ctxt": 0
                 },
                 "value": "JustDefaultPropsWithSpecifiedGeneric",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -7713,7 +7485,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -7767,8 +7538,8 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -7787,7 +7558,6 @@
                   "ctxt": 0
                 },
                 "value": "JustDefaultPropsWithSpecifiedGeneric",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -7811,7 +7581,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -7844,7 +7613,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -7898,8 +7666,8 @@
               "ctxt": 0
             },
             "value": "z",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -7918,7 +7686,6 @@
                   "ctxt": 0
                 },
                 "value": "JustDefaultPropsWithSpecifiedGeneric",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -7942,7 +7709,6 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -7999,8 +7765,8 @@
               "ctxt": 0
             },
             "value": "aa",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -8019,7 +7785,6 @@
                   "ctxt": 0
                 },
                 "value": "JustDefaultPropsWithSpecifiedGeneric",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {

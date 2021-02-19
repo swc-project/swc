@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "Array",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -48,7 +47,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -81,7 +79,6 @@
                 "ctxt": 0
               },
               "value": "slice",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -133,6 +130,7 @@
               "ctxt": 0
             },
             "value": "t",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -186,8 +184,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -257,8 +254,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -282,7 +279,6 @@
                   "ctxt": 0
                 },
                 "value": "t",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -293,7 +289,6 @@
                   "ctxt": 0
                 },
                 "value": "slice",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -330,8 +325,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -355,7 +350,6 @@
                   "ctxt": 0
                 },
                 "value": "t",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -366,7 +360,6 @@
                   "ctxt": 0
                 },
                 "value": "slice",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -416,8 +409,8 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -441,7 +434,6 @@
                   "ctxt": 0
                 },
                 "value": "t",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -452,7 +444,6 @@
                   "ctxt": 0
                 },
                 "value": "slice",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false

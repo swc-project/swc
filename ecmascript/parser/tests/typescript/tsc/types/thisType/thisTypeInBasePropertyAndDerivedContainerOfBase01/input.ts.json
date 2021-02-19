@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "BoxOfFoo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -48,7 +47,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -66,7 +64,6 @@
                   "ctxt": 0
                 },
                 "value": "Foo",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -100,7 +97,6 @@
                 "ctxt": 0
               },
               "value": "item",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -129,7 +125,6 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -155,7 +150,6 @@
           "ctxt": 0
         },
         "value": "Foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -185,7 +179,6 @@
                 "ctxt": 0
               },
               "value": "self",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -228,7 +221,6 @@
           "ctxt": 0
         },
         "value": "Bar",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -249,7 +241,6 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": null
@@ -279,7 +270,6 @@
                 "ctxt": 0
               },
               "value": "other",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -308,7 +298,6 @@
                     "ctxt": 0
                   },
                   "value": "BoxOfFoo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {

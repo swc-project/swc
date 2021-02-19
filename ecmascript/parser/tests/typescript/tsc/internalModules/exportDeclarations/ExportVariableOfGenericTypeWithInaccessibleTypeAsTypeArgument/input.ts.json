@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -44,7 +43,6 @@
                 "ctxt": 0
               },
               "value": "B",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -70,7 +68,6 @@
                     "ctxt": 0
                   },
                   "value": "id",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": null,
@@ -140,6 +137,7 @@
                       "ctxt": 0
                     },
                     "value": "beez",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -162,7 +160,6 @@
                             "ctxt": 0
                           },
                           "value": "Array",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": {
@@ -188,7 +185,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "B",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": null
@@ -196,8 +192,7 @@
                           ]
                         }
                       }
-                    },
-                    "optional": false
+                    }
                   },
                   "init": null,
                   "definite": false
@@ -237,8 +232,8 @@
                       "ctxt": 0
                     },
                     "value": "beez2",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "NewExpression",
@@ -255,7 +250,6 @@
                         "ctxt": 0
                       },
                       "value": "Array",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],
@@ -282,7 +276,6 @@
                               "ctxt": 0
                             },
                             "value": "B",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null

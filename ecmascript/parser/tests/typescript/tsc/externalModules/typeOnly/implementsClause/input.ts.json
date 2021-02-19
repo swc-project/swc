@@ -28,7 +28,6 @@
             "ctxt": 0
           },
           "value": "Component",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -68,7 +67,6 @@
               "ctxt": 0
             },
             "value": "types",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -113,7 +111,6 @@
               "ctxt": 0
             },
             "value": "types",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
@@ -146,7 +143,6 @@
               "ctxt": 0
             },
             "value": "types",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -191,7 +187,6 @@
               "ctxt": 0
             },
             "value": "nestedNamespace",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -223,7 +218,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -256,7 +250,6 @@
                 "ctxt": 0
               },
               "value": "types",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -267,7 +260,6 @@
                 "ctxt": 0
               },
               "value": "Component",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -285,7 +277,6 @@
           "ctxt": 0
         },
         "value": "D",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -320,7 +311,6 @@
                   "ctxt": 0
                 },
                 "value": "nestedNamespace",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -331,7 +321,6 @@
                   "ctxt": 0
                 },
                 "value": "types",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -343,7 +332,6 @@
                 "ctxt": 0
               },
               "value": "Component",
-              "typeAnnotation": null,
               "optional": false
             }
           },

@@ -1,7 +1,28 @@
 use crate::typescript::TsTypeAnn;
+use serde::Deserialize;
+use serde::Serialize;
 use swc_atoms::JsWord;
+use swc_common::ast_node;
 use swc_common::EqIgnoreSpan;
-use swc_common::{ast_node, Span};
+use swc_common::Span;
+use swc_common::Spanned;
+
+/// Identifer used as a pattern.
+#[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Serialize, Deserialize)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct BindingIdent {
+    #[span]
+    #[serde(flatten)]
+    pub id: Ident,
+    #[serde(default, rename = "typeAnnotation")]
+    pub type_ann: Option<TsTypeAnn>,
+}
+
+impl From<Ident> for BindingIdent {
+    fn from(id: Ident) -> Self {
+        Self { id, type_ann: None }
+    }
+}
 
 /// Ident with span.
 #[ast_node("Identifier")]
@@ -10,8 +31,7 @@ pub struct Ident {
     pub span: Span,
     #[serde(rename = "value")]
     pub sym: JsWord,
-    #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+
     /// TypeScript only. Used in case of an optional parameter.
     #[serde(default)]
     pub optional: bool,
@@ -27,13 +47,11 @@ impl arbitrary::Arbitrary for Ident {
         }
         let sym = sym.into();
 
-        let type_ann = u.arbitrary()?;
         let optional = u.arbitrary()?;
 
         Ok(Self {
             span,
             sym,
-            type_ann,
             optional,
         })
     }
@@ -58,7 +76,6 @@ impl Ident {
         Ident {
             span,
             sym,
-            type_ann: None,
             optional: false,
         }
     }

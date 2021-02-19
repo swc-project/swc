@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "v",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -47,8 +48,7 @@
                 },
                 "members": []
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false

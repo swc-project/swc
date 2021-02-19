@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "React",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -59,7 +58,6 @@
           "ctxt": 0
         },
         "value": "RC1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -85,7 +83,6 @@
               "ctxt": 0
             },
             "value": "render",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -149,7 +146,6 @@
             "ctxt": 0
           },
           "value": "React",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -160,7 +156,6 @@
             "ctxt": 0
           },
           "value": "Component",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -199,7 +194,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false,
@@ -250,7 +244,6 @@
           "ctxt": 0
         },
         "value": "RC2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -276,7 +269,6 @@
               "ctxt": 0
             },
             "value": "render",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -339,7 +331,6 @@
               "ctxt": 0
             },
             "value": "method",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -386,7 +377,6 @@
             "ctxt": 0
           },
           "value": "React",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -397,7 +387,6 @@
             "ctxt": 0
           },
           "value": "Component",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -436,7 +425,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false,
@@ -487,7 +475,6 @@
           "ctxt": 0
         },
         "value": "RC3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -513,7 +500,6 @@
               "ctxt": 0
             },
             "value": "render",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -577,7 +563,6 @@
             "ctxt": 0
           },
           "value": "React",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -588,7 +573,6 @@
             "ctxt": 0
           },
           "value": "Component",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -635,7 +619,6 @@
           "ctxt": 0
         },
         "value": "RC4",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -661,7 +644,6 @@
               "ctxt": 0
             },
             "value": "render",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -725,7 +707,6 @@
             "ctxt": 0
           },
           "value": "React",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -736,7 +717,6 @@
             "ctxt": 0
           },
           "value": "Component",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -798,8 +778,8 @@
               "ctxt": 0
             },
             "value": "RCComp",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -817,7 +797,6 @@
                 "ctxt": 0
               },
               "value": "RC1",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -828,7 +807,6 @@
                 "ctxt": 0
               },
               "value": "RC2",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -861,8 +839,8 @@
               "ctxt": 0
             },
             "value": "EmptyRCComp",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -880,7 +858,6 @@
                 "ctxt": 0
               },
               "value": "RC3",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -891,7 +868,6 @@
                 "ctxt": 0
               },
               "value": "RC4",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -924,8 +900,8 @@
               "ctxt": 0
             },
             "value": "PartRCComp",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -943,7 +919,6 @@
                 "ctxt": 0
               },
               "value": "RC1",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -954,7 +929,6 @@
                 "ctxt": 0
               },
               "value": "RC4",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -987,8 +961,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1007,7 +981,6 @@
                   "ctxt": 0
                 },
                 "value": "RCComp",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1031,7 +1004,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": null
@@ -1072,8 +1044,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1092,7 +1064,6 @@
                   "ctxt": 0
                 },
                 "value": "PartRCComp",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1116,7 +1087,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1173,8 +1143,8 @@
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -1193,7 +1163,6 @@
                   "ctxt": 0
                 },
                 "value": "EmptyRCComp",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -1217,7 +1186,6 @@
                       "ctxt": 0
                     },
                     "value": "prop",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": null

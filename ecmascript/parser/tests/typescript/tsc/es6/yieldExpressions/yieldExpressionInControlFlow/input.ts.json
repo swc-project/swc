@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -60,8 +59,8 @@
                     "ctxt": 0
                   },
                   "value": "o",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": null,
                 "definite": false
@@ -115,8 +114,8 @@
                         "ctxt": 0
                       },
                       "value": "o",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "right": {
                       "type": "YieldExpression",
@@ -133,7 +132,6 @@
                           "ctxt": 0
                         },
                         "value": "o",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "delegate": false
@@ -160,7 +158,6 @@
           "ctxt": 0
         },
         "value": "g",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -204,8 +201,8 @@
                     "ctxt": 0
                   },
                   "value": "o",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ArrayExpression",
@@ -267,8 +264,8 @@
                         "ctxt": 0
                       },
                       "value": "o",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "right": {
                       "type": "YieldExpression",
@@ -285,7 +282,6 @@
                           "ctxt": 0
                         },
                         "value": "o",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "delegate": true

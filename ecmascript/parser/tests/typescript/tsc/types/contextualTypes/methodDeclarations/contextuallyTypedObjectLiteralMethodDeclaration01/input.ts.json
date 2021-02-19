@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -51,7 +50,6 @@
                 "ctxt": 0
               },
               "value": "numProp",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -95,7 +93,6 @@
           "ctxt": 0
         },
         "value": "B",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -125,7 +122,6 @@
                 "ctxt": 0
               },
               "value": "strProp",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -169,7 +165,6 @@
           "ctxt": 0
         },
         "value": "Foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -199,7 +194,6 @@
                 "ctxt": 0
               },
               "value": "method1",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -213,6 +207,7 @@
                   "ctxt": 0
                 },
                 "value": "arg",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -235,13 +230,11 @@
                         "ctxt": 0
                       },
                       "value": "A",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnn": {
@@ -279,7 +272,6 @@
                 "ctxt": 0
               },
               "value": "method2",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -293,6 +285,7 @@
                   "ctxt": 0
                 },
                 "value": "arg",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -315,13 +308,11 @@
                         "ctxt": 0
                       },
                       "value": "B",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnn": {
@@ -356,7 +347,6 @@
           "ctxt": 0
         },
         "value": "getFoo1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -400,7 +390,6 @@
                       "ctxt": 0
                     },
                     "value": "method1",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "params": [
@@ -420,8 +409,8 @@
                           "ctxt": 0
                         },
                         "value": "arg",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       }
                     }
                   ],
@@ -469,7 +458,6 @@
                                 "ctxt": 0
                               },
                               "value": "arg",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "property": {
@@ -480,7 +468,6 @@
                                 "ctxt": 0
                               },
                               "value": "numProp",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -513,7 +500,6 @@
                       "ctxt": 0
                     },
                     "value": "method2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "params": [
@@ -533,8 +519,8 @@
                           "ctxt": 0
                         },
                         "value": "arg",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       }
                     }
                   ],
@@ -582,7 +568,6 @@
                                 "ctxt": 0
                               },
                               "value": "arg",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "property": {
@@ -593,7 +578,6 @@
                                 "ctxt": 0
                               },
                               "value": "strProp",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -651,7 +635,6 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null
@@ -668,7 +651,6 @@
           "ctxt": 0
         },
         "value": "getFoo2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -712,7 +694,6 @@
                       "ctxt": 0
                     },
                     "value": "method1",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -731,8 +712,8 @@
                           "ctxt": 0
                         },
                         "value": "arg",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       }
                     ],
                     "body": {
@@ -773,7 +754,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "arg",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -784,7 +764,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "numProp",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -818,7 +797,6 @@
                       "ctxt": 0
                     },
                     "value": "method2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -837,8 +815,8 @@
                           "ctxt": 0
                         },
                         "value": "arg",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       }
                     ],
                     "body": {
@@ -879,7 +857,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "arg",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -890,7 +867,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "strProp",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -949,7 +925,6 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null
@@ -966,7 +941,6 @@
           "ctxt": 0
         },
         "value": "getFoo3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1010,7 +984,6 @@
                       "ctxt": 0
                     },
                     "value": "method1",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1033,8 +1006,8 @@
                             "ctxt": 0
                           },
                           "value": "arg",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         }
                       }
                     ],
@@ -1082,7 +1055,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "arg",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -1093,7 +1065,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "numProp",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -1127,7 +1098,6 @@
                       "ctxt": 0
                     },
                     "value": "method2",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -1150,8 +1120,8 @@
                             "ctxt": 0
                           },
                           "value": "arg",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         }
                       }
                     ],
@@ -1199,7 +1169,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "arg",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "property": {
@@ -1210,7 +1179,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "strProp",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -1269,7 +1237,6 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null

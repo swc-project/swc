@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -43,7 +42,6 @@
             "ctxt": 0
           },
           "value": "B",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -63,7 +61,6 @@
               "ctxt": 0
             },
             "value": "C",
-            "typeAnnotation": null,
             "optional": false
           },
           "body": {
@@ -91,7 +88,6 @@
                       "ctxt": 0
                     },
                     "value": "Point",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "declare": false,
@@ -117,7 +113,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": null,
@@ -163,7 +158,6 @@
                           "ctxt": 0
                         },
                         "value": "y",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": null,
@@ -224,7 +218,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -259,7 +252,6 @@
                   "ctxt": 0
                 },
                 "value": "B",
-                "typeAnnotation": null,
                 "optional": false
               },
               "body": {
@@ -287,7 +279,6 @@
                           "ctxt": 0
                         },
                         "value": "C",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "declare": false,
@@ -313,7 +304,6 @@
                               "ctxt": 0
                             },
                             "value": "name",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "value": null,
@@ -376,7 +366,6 @@
           "ctxt": 0
         },
         "value": "M2",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -396,7 +385,6 @@
             "ctxt": 0
           },
           "value": "X",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -424,7 +412,6 @@
                     "ctxt": 0
                   },
                   "value": "Point",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "declare": false,
@@ -450,7 +437,6 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "value": null,
@@ -496,7 +482,6 @@
                         "ctxt": 0
                       },
                       "value": "y",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "value": null,
@@ -556,7 +541,6 @@
           "ctxt": 0
         },
         "value": "M2",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -591,7 +575,6 @@
                   "ctxt": 0
                 },
                 "value": "X",
-                "typeAnnotation": null,
                 "optional": false
               },
               "body": {
@@ -634,6 +617,7 @@
                               "ctxt": 0
                             },
                             "value": "Point",
+                            "optional": false,
                             "typeAnnotation": {
                               "type": "TsTypeAnnotation",
                               "span": {
@@ -650,8 +634,7 @@
                                 },
                                 "kind": "number"
                               }
-                            },
-                            "optional": false
+                            }
                           },
                           "init": null,
                           "definite": false

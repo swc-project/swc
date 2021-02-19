@@ -29,7 +29,6 @@
             "ctxt": 0
           },
           "value": "T",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeParams": null,
@@ -68,7 +67,6 @@
             "ctxt": 0
           },
           "value": "E",
-          "typeAnnotation": null,
           "optional": false
         },
         "members": []
@@ -96,7 +94,6 @@
             "ctxt": 0
           },
           "value": "I",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,

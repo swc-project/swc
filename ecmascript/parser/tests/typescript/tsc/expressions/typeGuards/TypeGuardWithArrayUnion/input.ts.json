@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Message",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "value",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -90,7 +88,6 @@
           "ctxt": 0
         },
         "value": "saySize",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -111,6 +108,7 @@
               "ctxt": 0
             },
             "value": "message",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -141,7 +139,6 @@
                         "ctxt": 0
                       },
                       "value": "Message",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -168,7 +165,6 @@
                           "ctxt": 0
                         },
                         "value": "Message",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": null
@@ -176,8 +172,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -218,7 +213,6 @@
                   "ctxt": 0
                 },
                 "value": "message",
-                "typeAnnotation": null,
                 "optional": false
               },
               "right": {
@@ -229,7 +223,6 @@
                   "ctxt": 0
                 },
                 "value": "Array",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -263,7 +256,6 @@
                         "ctxt": 0
                       },
                       "value": "message",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -274,7 +266,6 @@
                         "ctxt": 0
                       },
                       "value": "length",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false

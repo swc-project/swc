@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "ENUM",
-        "typeAnnotation": null,
         "optional": false
       },
       "members": []
@@ -53,7 +52,6 @@
           "ctxt": 0
         },
         "value": "ENUM1",
-        "typeAnnotation": null,
         "optional": false
       },
       "members": [
@@ -72,7 +70,6 @@
               "ctxt": 0
             },
             "value": "A",
-            "typeAnnotation": null,
             "optional": false
           },
           "init": null
@@ -92,7 +89,6 @@
               "ctxt": 0
             },
             "value": "B",
-            "typeAnnotation": null,
             "optional": false
           },
           "init": null
@@ -155,8 +151,8 @@
               "ctxt": 0
             },
             "value": "ResultIsNumber1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UpdateExpression",
@@ -175,7 +171,6 @@
                 "ctxt": 0
               },
               "value": "ENUM",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -208,8 +203,8 @@
               "ctxt": 0
             },
             "value": "ResultIsNumber2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UpdateExpression",
@@ -228,7 +223,6 @@
                 "ctxt": 0
               },
               "value": "ENUM1",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -261,8 +255,8 @@
               "ctxt": 0
             },
             "value": "ResultIsNumber3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UpdateExpression",
@@ -281,7 +275,6 @@
                 "ctxt": 0
               },
               "value": "ENUM",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -314,8 +307,8 @@
               "ctxt": 0
             },
             "value": "ResultIsNumber4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UpdateExpression",
@@ -334,7 +327,6 @@
                 "ctxt": 0
               },
               "value": "ENUM1",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -367,8 +359,8 @@
               "ctxt": 0
             },
             "value": "ResultIsNumber5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UpdateExpression",
@@ -409,7 +401,6 @@
                       "ctxt": 0
                     },
                     "value": "ENUM",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -438,7 +429,6 @@
                       "ctxt": 0
                     },
                     "value": "ENUM",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -484,8 +474,8 @@
               "ctxt": 0
             },
             "value": "ResultIsNumber6",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "UpdateExpression",
@@ -526,7 +516,6 @@
                       "ctxt": 0
                     },
                     "value": "ENUM",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -555,7 +544,6 @@
                       "ctxt": 0
                     },
                     "value": "ENUM",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -600,7 +588,6 @@
             "ctxt": 0
           },
           "value": "ENUM",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -629,7 +616,6 @@
             "ctxt": 0
           },
           "value": "ENUM1",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -658,7 +644,6 @@
             "ctxt": 0
           },
           "value": "ENUM",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -687,7 +672,6 @@
             "ctxt": 0
           },
           "value": "ENUM1",
-          "typeAnnotation": null,
           "optional": false
         }
       }

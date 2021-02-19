@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "Drawable",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -51,7 +50,6 @@
                 "ctxt": 0
               },
               "value": "draw",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -94,7 +92,6 @@
           "ctxt": 0
         },
         "value": "Sizable",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -124,7 +121,6 @@
                 "ctxt": 0
               },
               "value": "size",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -162,7 +158,6 @@
           "ctxt": 0
         },
         "value": "Square",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -188,7 +183,6 @@
               "ctxt": 0
             },
             "value": "draw",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -252,7 +246,6 @@
               "ctxt": 0
             },
             "value": "size",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -318,7 +311,6 @@
           "ctxt": 0
         },
         "value": "BadSquare",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -344,7 +336,6 @@
               "ctxt": 0
             },
             "value": "size",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {

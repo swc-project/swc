@@ -279,7 +279,7 @@ impl Fold for Amd {
                                 kind: VarDeclKind::Var,
                                 decls: vec![VarDeclarator {
                                     span: DUMMY_SP,
-                                    name: Pat::Ident(ident.clone()),
+                                    name: Pat::Ident(ident.clone().into()),
                                     init: Some(expr.fold_with(self)),
                                     definite: false,
                                 }],
@@ -430,7 +430,7 @@ impl Fold for Amd {
             factory_params.push(Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(exports_ident.clone()),
+                pat: Pat::Ident(exports_ident.clone().into()),
             });
         }
 
@@ -443,7 +443,7 @@ impl Fold for Amd {
                     kind: VarDeclKind::Var,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(exported_names.clone()),
+                        name: Pat::Ident(exported_names.clone().into()),
                         init: Some(Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: exports
@@ -503,7 +503,7 @@ impl Fold for Amd {
             factory_params.push(Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(ident.clone()),
+                pat: Pat::Ident(ident.clone().into()),
             });
 
             {
@@ -526,7 +526,7 @@ impl Fold for Amd {
                         import_stmts.push(
                             AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(ident.clone()))),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(ident.clone().into()))),
                                 op: op!("="),
                                 right,
                             }
@@ -664,13 +664,13 @@ pub(super) fn handle_dynamic_import(span: Span, args: Vec<ExprOrSpread>) -> Expr
                     Param {
                         span: DUMMY_SP,
                         decorators: Default::default(),
-                        pat: Pat::Ident(quote_ident!("resolve")),
+                        pat: Pat::Ident(quote_ident!("resolve").into()),
                     },
                     // reject
                     Param {
                         span: DUMMY_SP,
                         decorators: Default::default(),
-                        pat: Pat::Ident(quote_ident!("reject")),
+                        pat: Pat::Ident(quote_ident!("reject").into()),
                     },
                 ],
 
@@ -711,7 +711,7 @@ pub(super) fn handle_dynamic_import(span: Span, args: Vec<ExprOrSpread>) -> Expr
                                             params: vec![Param {
                                                 span: DUMMY_SP,
                                                 decorators: Default::default(),
-                                                pat: Pat::Ident(quote_ident!("dep")),
+                                                pat: Pat::Ident(quote_ident!("dep").into()),
                                             }],
                                             body: Some(BlockStmt {
                                                 span: DUMMY_SP,
@@ -741,7 +741,7 @@ pub(super) fn handle_dynamic_import(span: Span, args: Vec<ExprOrSpread>) -> Expr
                                             params: vec![Param {
                                                 span: DUMMY_SP,
                                                 decorators: Default::default(),
-                                                pat: Pat::Ident(quote_ident!("err")),
+                                                pat: Pat::Ident(quote_ident!("err").into()),
                                             }],
                                             body: Some(BlockStmt {
                                                 span: DUMMY_SP,

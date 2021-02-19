@@ -45,7 +45,6 @@
                 "ctxt": 0
               },
               "value": "f",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -76,7 +75,6 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -101,7 +99,6 @@
                     "ctxt": 0
                   },
                   "value": "X",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -112,7 +109,6 @@
                     "ctxt": 0
                   },
                   "value": "Y",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -139,7 +135,6 @@
                         "ctxt": 0
                       },
                       "value": "T",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -175,7 +170,6 @@
               "ctxt": 0
             },
             "value": "C",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -200,7 +194,6 @@
                 "ctxt": 0
               },
               "value": "f",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -231,7 +224,6 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -256,7 +248,6 @@
                     "ctxt": 0
                   },
                   "value": "X",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -267,7 +258,6 @@
                     "ctxt": 0
                   },
                   "value": "Y",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -294,7 +284,6 @@
                         "ctxt": 0
                       },
                       "value": "T",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null

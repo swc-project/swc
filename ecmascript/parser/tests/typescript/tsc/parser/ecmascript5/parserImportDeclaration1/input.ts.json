@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "TypeScript",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -36,7 +35,6 @@
             "ctxt": 0
           },
           "value": "TypeScriptServices",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -47,7 +45,6 @@
             "ctxt": 0
           },
           "value": "TypeScript",
-          "typeAnnotation": null,
           "optional": false
         }
       }

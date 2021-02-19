@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "f1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -37,6 +36,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -68,7 +68,6 @@
                         "ctxt": 0
                       },
                       "value": "f",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -95,8 +94,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -115,6 +113,7 @@
               "ctxt": 0
             },
             "value": "y",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -146,7 +145,6 @@
                         "ctxt": 0
                       },
                       "value": "f",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -160,6 +158,7 @@
                           "ctxt": 0
                         },
                         "value": "x",
+                        "optional": true,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -176,8 +175,7 @@
                             },
                             "kind": "string"
                           }
-                        },
-                        "optional": true
+                        }
                       }
                     ],
                     "typeAnn": {
@@ -201,8 +199,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -245,8 +242,8 @@
                     "ctxt": 0
                   },
                   "value": "z",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -290,7 +287,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -301,7 +297,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -338,7 +333,6 @@
                     "ctxt": 0
                   },
                   "value": "z",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -349,7 +343,6 @@
                     "ctxt": 0
                   },
                   "value": "f",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -387,7 +380,6 @@
                     "ctxt": 0
                   },
                   "value": "z",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -398,7 +390,6 @@
                     "ctxt": 0
                   },
                   "value": "f",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -442,7 +433,6 @@
           "ctxt": 0
         },
         "value": "f2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -463,6 +453,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -494,7 +485,6 @@
                         "ctxt": 0
                       },
                       "value": "f",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -508,6 +498,7 @@
                           "ctxt": 0
                         },
                         "value": "x",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -543,8 +534,7 @@
                               }
                             ]
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     ],
                     "typeAnn": {
@@ -568,8 +558,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -588,6 +577,7 @@
               "ctxt": 0
             },
             "value": "y",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -619,7 +609,6 @@
                         "ctxt": 0
                       },
                       "value": "f",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -633,6 +622,7 @@
                           "ctxt": 0
                         },
                         "value": "x",
+                        "optional": true,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -649,8 +639,7 @@
                             },
                             "kind": "string"
                           }
-                        },
-                        "optional": true
+                        }
                       }
                     ],
                     "typeAnn": {
@@ -674,8 +663,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -718,8 +706,8 @@
                     "ctxt": 0
                   },
                   "value": "z",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -763,7 +751,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -774,7 +761,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -811,7 +797,6 @@
                     "ctxt": 0
                   },
                   "value": "z",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -822,7 +807,6 @@
                     "ctxt": 0
                   },
                   "value": "f",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -860,7 +844,6 @@
                     "ctxt": 0
                   },
                   "value": "z",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -871,7 +854,6 @@
                     "ctxt": 0
                   },
                   "value": "f",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -915,7 +897,6 @@
           "ctxt": 0
         },
         "value": "f3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -936,6 +917,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -970,8 +952,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -990,6 +971,7 @@
               "ctxt": 0
             },
             "value": "y",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1013,6 +995,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
+                    "optional": true,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -1029,8 +1012,7 @@
                         },
                         "kind": "string"
                       }
-                    },
-                    "optional": true
+                    }
                   }
                 ],
                 "typeParams": null,
@@ -1052,8 +1034,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -1096,8 +1077,8 @@
                     "ctxt": 0
                   },
                   "value": "f",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -1141,7 +1122,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -1152,7 +1132,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -1182,7 +1161,6 @@
                   "ctxt": 0
                 },
                 "value": "f",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -1211,7 +1189,6 @@
                   "ctxt": 0
                 },
                 "value": "f",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -1253,7 +1230,6 @@
           "ctxt": 0
         },
         "value": "f4",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1274,6 +1250,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1297,6 +1274,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -1332,8 +1310,7 @@
                           }
                         ]
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 ],
                 "typeParams": null,
@@ -1355,8 +1332,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -1375,6 +1351,7 @@
               "ctxt": 0
             },
             "value": "y",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1398,6 +1375,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
+                    "optional": true,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -1414,8 +1392,7 @@
                         },
                         "kind": "string"
                       }
-                    },
-                    "optional": true
+                    }
                   }
                 ],
                 "typeParams": null,
@@ -1437,8 +1414,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -1481,8 +1457,8 @@
                     "ctxt": 0
                   },
                   "value": "f",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -1526,7 +1502,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -1537,7 +1512,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -1567,7 +1541,6 @@
                   "ctxt": 0
                 },
                 "value": "f",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -1596,7 +1569,6 @@
                   "ctxt": 0
                 },
                 "value": "f",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -1638,7 +1610,6 @@
           "ctxt": 0
         },
         "value": "f5",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1659,6 +1630,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1682,6 +1654,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -1717,8 +1690,7 @@
                           }
                         ]
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 ],
                 "typeParams": null,
@@ -1740,8 +1712,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -1760,6 +1731,7 @@
               "ctxt": 0
             },
             "value": "y",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1783,6 +1755,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
+                    "optional": true,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -1812,8 +1785,7 @@
                           }
                         }
                       }
-                    },
-                    "optional": true
+                    }
                   }
                 ],
                 "typeParams": null,
@@ -1835,8 +1807,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -1879,8 +1850,8 @@
                     "ctxt": 0
                   },
                   "value": "f",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -1924,7 +1895,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -1935,7 +1905,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -1965,7 +1934,6 @@
                   "ctxt": 0
                 },
                 "value": "f",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -1994,7 +1962,6 @@
                   "ctxt": 0
                 },
                 "value": "f",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -2036,7 +2003,6 @@
           "ctxt": 0
         },
         "value": "f6",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -2057,6 +2023,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2080,6 +2047,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -2128,8 +2096,7 @@
                           }
                         ]
                       }
-                    },
-                    "optional": false
+                    }
                   }
                 ],
                 "typeParams": null,
@@ -2151,8 +2118,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -2171,6 +2137,7 @@
               "ctxt": 0
             },
             "value": "y",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2194,6 +2161,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
+                    "optional": true,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -2210,8 +2178,7 @@
                         },
                         "kind": "string"
                       }
-                    },
-                    "optional": true
+                    }
                   }
                 ],
                 "typeParams": null,
@@ -2233,8 +2200,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -2277,8 +2243,8 @@
                     "ctxt": 0
                   },
                   "value": "f",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -2322,7 +2288,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -2333,7 +2298,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -2363,7 +2327,6 @@
                   "ctxt": 0
                 },
                 "value": "f",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [],
@@ -2392,7 +2355,6 @@
                   "ctxt": 0
                 },
                 "value": "f",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -2440,7 +2402,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -2468,7 +2429,6 @@
                 "ctxt": 0
               },
               "value": "f",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -2512,7 +2472,6 @@
           "ctxt": 0
         },
         "value": "B",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -2540,7 +2499,6 @@
                 "ctxt": 0
               },
               "value": "f",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -2554,6 +2512,7 @@
                   "ctxt": 0
                 },
                 "value": "x",
+                "optional": true,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -2570,8 +2529,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "optional": true
+                }
               }
             ],
             "typeAnn": {
@@ -2609,7 +2567,6 @@
                 "ctxt": 0
               },
               "value": "g",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -2647,7 +2604,6 @@
           "ctxt": 0
         },
         "value": "f11",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -2668,6 +2624,7 @@
               "ctxt": 0
             },
             "value": "a",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2690,13 +2647,11 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         },
         {
@@ -2715,6 +2670,7 @@
               "ctxt": 0
             },
             "value": "b",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2737,13 +2693,11 @@
                     "ctxt": 0
                   },
                   "value": "B",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -2786,8 +2740,8 @@
                     "ctxt": 0
                   },
                   "value": "z",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ConditionalExpression",
@@ -2831,7 +2785,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "alternate": {
@@ -2842,7 +2795,6 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -2879,7 +2831,6 @@
                     "ctxt": 0
                   },
                   "value": "z",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -2890,7 +2841,6 @@
                     "ctxt": 0
                   },
                   "value": "f",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -2928,7 +2878,6 @@
                     "ctxt": 0
                   },
                   "value": "z",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -2939,7 +2888,6 @@
                     "ctxt": 0
                   },
                   "value": "f",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -2988,7 +2936,6 @@
           "ctxt": 0
         },
         "value": "ReturnVal",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -3018,7 +2965,6 @@
                 "ctxt": 0
               },
               "value": "something",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -3071,6 +3017,7 @@
               "ctxt": 0
             },
             "value": "k",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -3093,13 +3040,11 @@
                     "ctxt": 0
                   },
                   "value": "ReturnVal",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ObjectExpression",
@@ -3119,7 +3064,6 @@
                     "ctxt": 0
                   },
                   "value": "something",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "params": [],
@@ -3174,6 +3118,7 @@
               "ctxt": 0
             },
             "value": "val",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -3196,13 +3141,11 @@
                     "ctxt": 0
                   },
                   "value": "ReturnVal",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -3219,7 +3162,6 @@
           "ctxt": 0
         },
         "value": "run",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -3240,6 +3182,7 @@
               "ctxt": 0
             },
             "value": "options",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -3271,7 +3214,6 @@
                         "ctxt": 0
                       },
                       "value": "something",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -3285,6 +3227,7 @@
                           "ctxt": 0
                         },
                         "value": "b",
+                        "optional": true,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -3301,8 +3244,7 @@
                             },
                             "kind": "string"
                           }
-                        },
-                        "optional": true
+                        }
                       }
                     ],
                     "typeAnn": {
@@ -3326,8 +3268,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           }
         }
       ],
@@ -3370,8 +3311,8 @@
                     "ctxt": 0
                   },
                   "value": "something",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "BinaryExpression",
@@ -3396,7 +3337,6 @@
                         "ctxt": 0
                       },
                       "value": "options",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -3407,7 +3347,6 @@
                         "ctxt": 0
                       },
                       "value": "something",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -3427,7 +3366,6 @@
                         "ctxt": 0
                       },
                       "value": "val",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -3438,7 +3376,6 @@
                         "ctxt": 0
                       },
                       "value": "something",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -3470,7 +3407,6 @@
                   "ctxt": 0
                 },
                 "value": "something",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [

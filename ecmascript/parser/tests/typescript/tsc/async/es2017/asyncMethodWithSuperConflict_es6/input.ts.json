@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -88,7 +86,6 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -136,7 +133,6 @@
           "ctxt": 0
         },
         "value": "B",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -162,7 +158,6 @@
               "ctxt": 0
             },
             "value": "simple",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -206,8 +201,8 @@
                           "ctxt": 0
                         },
                         "value": "_super",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "NullLiteral",
@@ -246,8 +241,8 @@
                           "ctxt": 0
                         },
                         "value": "_superIndex",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "NullLiteral",
@@ -298,7 +293,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -344,7 +338,6 @@
                           "ctxt": 0
                         },
                         "value": "y",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -427,8 +420,8 @@
                           "ctxt": 0
                         },
                         "value": "a",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "MemberExpression",
@@ -453,7 +446,6 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -487,8 +479,8 @@
                           "ctxt": 0
                         },
                         "value": "b",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "MemberExpression",
@@ -553,7 +545,6 @@
               "ctxt": 0
             },
             "value": "advanced",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -597,8 +588,8 @@
                           "ctxt": 0
                         },
                         "value": "_super",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "NullLiteral",
@@ -637,8 +628,8 @@
                           "ctxt": 0
                         },
                         "value": "_superIndex",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "NullLiteral",
@@ -677,8 +668,8 @@
                           "ctxt": 0
                         },
                         "value": "f",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ArrowFunctionExpression",
@@ -743,7 +734,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -826,8 +816,8 @@
                           "ctxt": 0
                         },
                         "value": "a",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "MemberExpression",
@@ -852,7 +842,6 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -886,8 +875,8 @@
                           "ctxt": 0
                         },
                         "value": "b",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "MemberExpression",
@@ -962,7 +951,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -975,7 +963,6 @@
                         "ctxt": 0
                       },
                       "value": "f",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -1034,7 +1021,6 @@
                         "ctxt": 0
                       },
                       "value": "f",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -1079,7 +1065,6 @@
                                 "ctxt": 0
                               },
                               "value": "f",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -1105,7 +1090,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "x",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "computed": false
@@ -1131,7 +1115,6 @@
                               "ctxt": 0
                             },
                             "value": "f",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         ]
@@ -1179,7 +1162,6 @@
                                 "ctxt": 0
                               },
                               "value": "f",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -1234,7 +1216,6 @@
                               "ctxt": 0
                             },
                             "value": "f",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         ]
@@ -1264,7 +1245,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,

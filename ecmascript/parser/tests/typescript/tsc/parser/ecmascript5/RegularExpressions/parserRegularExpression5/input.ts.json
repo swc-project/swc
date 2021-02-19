@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "a",
-        "typeAnnotation": null,
         "optional": false
       },
       "consequent": {
@@ -63,7 +62,6 @@
                 "ctxt": 0
               },
               "value": "test",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -86,7 +84,6 @@
                     "ctxt": 0
                   },
                   "value": "c",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -97,7 +94,6 @@
                     "ctxt": 0
                   },
                   "value": "href",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false

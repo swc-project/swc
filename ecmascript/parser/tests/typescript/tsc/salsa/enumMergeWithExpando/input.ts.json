@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "lf",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -58,7 +57,6 @@
                   "ctxt": 0
                 },
                 "value": "Order",
-                "typeAnnotation": null,
                 "optional": false
               },
               "members": [
@@ -77,7 +75,6 @@
                       "ctxt": 0
                     },
                     "value": "ASC",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": null
@@ -97,7 +94,6 @@
                       "ctxt": 0
                     },
                     "value": "DESC",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "init": null
@@ -138,7 +134,6 @@
               "ctxt": 0
             },
             "value": "lf",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -149,7 +144,6 @@
               "ctxt": 0
             },
             "value": "Order",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -202,7 +196,6 @@
                 "ctxt": 0
               },
               "value": "lf",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -213,7 +206,6 @@
                 "ctxt": 0
               },
               "value": "Order",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -226,7 +218,6 @@
               "ctxt": 0
             },
             "value": "DESC",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -279,7 +270,6 @@
                 "ctxt": 0
               },
               "value": "lf",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -290,7 +280,6 @@
                 "ctxt": 0
               },
               "value": "Order",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -303,7 +292,6 @@
               "ctxt": 0
             },
             "value": "ASC",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

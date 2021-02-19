@@ -28,7 +28,6 @@
             "ctxt": 0
           },
           "value": "Person",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -58,7 +57,6 @@
                   "ctxt": 0
                 },
                 "value": "name",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false,
@@ -100,7 +98,6 @@
                   "ctxt": 0
                 },
                 "value": "age",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false,
@@ -154,7 +151,6 @@
             "ctxt": 0
           },
           "value": "M2",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -187,7 +183,6 @@
                     "ctxt": 0
                   },
                   "value": "I2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "declare": false,
@@ -217,7 +212,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false,
@@ -246,7 +240,6 @@
                               "ctxt": 0
                             },
                             "value": "Person",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -279,7 +272,6 @@
           "ctxt": 0
         },
         "value": "foo0",
-        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -330,6 +322,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -352,12 +345,10 @@
                     "ctxt": 0
                   },
                   "value": "foo0",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ObjectExpression",
@@ -397,6 +388,7 @@
               "ctxt": 0
             },
             "value": "y",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -428,7 +420,6 @@
                         "ctxt": 0
                       },
                       "value": "M2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -457,7 +448,6 @@
                             "ctxt": 0
                           },
                           "value": "Object",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -467,8 +457,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "Identifier",
@@ -478,7 +467,6 @@
               "ctxt": 0
             },
             "value": "foo0",
-            "typeAnnotation": null,
             "optional": false
           },
           "definite": false

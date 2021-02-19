@@ -284,7 +284,7 @@ impl Fold for CommonJs {
                                 kind: VarDeclKind::Var,
                                 decls: vec![VarDeclarator {
                                     span: DUMMY_SP,
-                                    name: Pat::Ident(ident.clone()),
+                                    name: Pat::Ident(ident.clone().into()),
                                     init: Some(expr.expr.fold_with(self)),
                                     definite: false,
                                 }],
@@ -457,7 +457,7 @@ impl Fold for CommonJs {
                     kind: VarDeclKind::Var,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(exported_names.clone()),
+                        name: Pat::Ident(exported_names.clone().into()),
                         init: Some(Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: exports
@@ -561,7 +561,7 @@ impl Fold for CommonJs {
                                             kind: VarDeclKind::Const,
                                             decls: vec![VarDeclarator {
                                                 span: DUMMY_SP,
-                                                name: Pat::Ident(quote_ident!("data")),
+                                                name: Pat::Ident(quote_ident!("data").into()),
                                                 init: Some(rhs),
                                                 definite: false,
                                             }],
@@ -570,7 +570,9 @@ impl Fold for CommonJs {
                                         // foo = function() { return data; };
                                         AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ident))),
+                                            left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                                ident.into(),
+                                            ))),
                                             op: op!("="),
                                             right: Box::new(
                                                 FnExpr {
@@ -609,7 +611,7 @@ impl Fold for CommonJs {
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(ident),
+                                name: Pat::Ident(ident.into()),
                                 init: Some(rhs),
                                 definite: false,
                             }],

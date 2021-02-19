@@ -1,5 +1,6 @@
 #![allow(clippy::vec_box)]
 #![allow(missing_copy_implementations)]
+use crate::BindingIdent;
 use crate::{
     class::Decorator,
     expr::Expr,
@@ -89,7 +90,7 @@ pub struct TsParamProp {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsParamPropParam {
     #[tag("Identifier")]
-    Ident(Ident),
+    Ident(BindingIdent),
 
     #[tag("AssignmentPattern")]
     Assign(AssignPat),
@@ -399,7 +400,7 @@ pub struct TsThisType {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsFnParam {
     #[tag("Identifier")]
-    Ident(Ident),
+    Ident(BindingIdent),
 
     #[tag("ArrayPattern")]
     Array(ArrayPat),

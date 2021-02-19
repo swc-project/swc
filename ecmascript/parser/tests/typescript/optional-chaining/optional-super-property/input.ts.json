@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -52,7 +52,6 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "params": [],
@@ -112,7 +111,6 @@
                               "ctxt": 0
                             },
                             "value": "c",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false

@@ -54,7 +54,6 @@
               "ctxt": 0
             },
             "value": "notregexp",
-            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -80,7 +79,6 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -91,7 +89,6 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false

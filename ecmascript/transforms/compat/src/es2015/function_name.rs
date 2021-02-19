@@ -97,7 +97,7 @@ impl Fold for FnName {
         match decl.name {
             Pat::Ident(ref mut ident) => {
                 let mut folder = Renamer {
-                    name: Some(prepare(ident.clone(), false)),
+                    name: Some(prepare(ident.id.clone(), false)),
                 };
                 let init = decl.init.fold_with(&mut folder);
 

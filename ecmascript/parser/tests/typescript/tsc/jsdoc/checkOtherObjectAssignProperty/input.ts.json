@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "obj",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -52,7 +52,6 @@
                     "ctxt": 0
                   },
                   "value": "value",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -75,7 +74,6 @@
                     "ctxt": 0
                   },
                   "value": "writable",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -123,7 +121,6 @@
               "ctxt": 0
             },
             "value": "Object",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -134,7 +131,6 @@
               "ctxt": 0
             },
             "value": "defineProperty",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -150,7 +146,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -181,7 +176,6 @@
                 "ctxt": 0
               },
               "value": "obj",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -214,8 +208,8 @@
               "ctxt": 0
             },
             "value": "str",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ParenthesisExpression",
@@ -272,7 +266,6 @@
               "ctxt": 0
             },
             "value": "Object",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -283,7 +276,6 @@
               "ctxt": 0
             },
             "value": "defineProperty",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -299,7 +291,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -313,7 +304,6 @@
                 "ctxt": 0
               },
               "value": "str",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -337,7 +327,6 @@
                       "ctxt": 0
                     },
                     "value": "value",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -360,7 +349,6 @@
                       "ctxt": 0
                     },
                     "value": "writable",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -405,8 +393,8 @@
               "ctxt": 0
             },
             "value": "propName",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "StringLiteral",
@@ -455,7 +443,6 @@
               "ctxt": 0
             },
             "value": "Object",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -466,7 +453,6 @@
               "ctxt": 0
             },
             "value": "defineProperty",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -482,7 +468,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -496,7 +481,6 @@
                 "ctxt": 0
               },
               "value": "propName",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -520,7 +504,6 @@
                       "ctxt": 0
                     },
                     "value": "value",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -543,7 +526,6 @@
                       "ctxt": 0
                     },
                     "value": "writable",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -592,7 +574,6 @@
               "ctxt": 0
             },
             "value": "Object",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -603,7 +584,6 @@
               "ctxt": 0
             },
             "value": "defineProperty",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -619,7 +599,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -685,7 +664,6 @@
               "ctxt": 0
             },
             "value": "Object",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -696,7 +674,6 @@
               "ctxt": 0
             },
             "value": "defineProperty",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -712,7 +689,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -753,7 +729,6 @@
                       "ctxt": 0
                     },
                     "value": "get",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "params": [],
@@ -805,7 +780,6 @@
                       "ctxt": 0
                     },
                     "value": "value",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -859,7 +833,6 @@
               "ctxt": 0
             },
             "value": "Object",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -870,7 +843,6 @@
               "ctxt": 0
             },
             "value": "defineProperty",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -886,7 +858,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -927,7 +898,6 @@
                       "ctxt": 0
                     },
                     "value": "writable",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -972,8 +942,8 @@
               "ctxt": 0
             },
             "value": "mod",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -990,7 +960,6 @@
                 "ctxt": 0
               },
               "value": "require",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -1040,7 +1009,6 @@
             "ctxt": 0
           },
           "value": "mod",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1051,7 +1019,6 @@
             "ctxt": 0
           },
           "value": "thing",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -1079,7 +1046,6 @@
             "ctxt": 0
           },
           "value": "mod",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1090,7 +1056,6 @@
             "ctxt": 0
           },
           "value": "other",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -1118,7 +1083,6 @@
             "ctxt": 0
           },
           "value": "mod",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1129,7 +1093,6 @@
             "ctxt": 0
           },
           "value": "prop",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -1157,7 +1120,6 @@
             "ctxt": 0
           },
           "value": "mod",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1168,7 +1130,6 @@
             "ctxt": 0
           },
           "value": "bad1",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -1196,7 +1157,6 @@
             "ctxt": 0
           },
           "value": "mod",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1207,7 +1167,6 @@
             "ctxt": 0
           },
           "value": "bad2",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -1235,7 +1194,6 @@
             "ctxt": 0
           },
           "value": "mod",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1246,7 +1204,6 @@
             "ctxt": 0
           },
           "value": "bad3",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -1282,7 +1239,6 @@
               "ctxt": 0
             },
             "value": "mod",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1293,7 +1249,6 @@
               "ctxt": 0
             },
             "value": "thing",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1339,7 +1294,6 @@
               "ctxt": 0
             },
             "value": "mod",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1350,7 +1304,6 @@
               "ctxt": 0
             },
             "value": "other",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1396,7 +1349,6 @@
               "ctxt": 0
             },
             "value": "mod",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1407,7 +1359,6 @@
               "ctxt": 0
             },
             "value": "prop",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1453,7 +1404,6 @@
               "ctxt": 0
             },
             "value": "mod",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1464,7 +1414,6 @@
               "ctxt": 0
             },
             "value": "bad1",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1510,7 +1459,6 @@
               "ctxt": 0
             },
             "value": "mod",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1521,7 +1469,6 @@
               "ctxt": 0
             },
             "value": "bad2",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -1567,7 +1514,6 @@
               "ctxt": 0
             },
             "value": "mod",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -1578,7 +1524,6 @@
               "ctxt": 0
             },
             "value": "bad3",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

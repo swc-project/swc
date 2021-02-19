@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "o1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -64,8 +64,8 @@
               "ctxt": 0
             },
             "value": "o2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -97,8 +97,8 @@
               "ctxt": 0
             },
             "value": "o3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -115,7 +115,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -136,8 +135,8 @@
               "ctxt": 0
             },
             "value": "o",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -185,7 +184,6 @@
                     "ctxt": 0
                   },
                   "value": "o",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -196,7 +194,6 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -242,7 +239,6 @@
                     "ctxt": 0
                   },
                   "value": "o",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -253,7 +249,6 @@
                     "ctxt": 0
                   },
                   "value": "bar",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false

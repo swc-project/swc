@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -68,7 +66,6 @@
                   "ctxt": 0
                 },
                 "value": "undefined",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -100,7 +97,6 @@
           "ctxt": 0
         },
         "value": "D0",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -126,7 +122,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -166,7 +161,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -184,7 +178,6 @@
           "ctxt": 0
         },
         "value": "DA",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -210,7 +203,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -236,7 +228,6 @@
                   "ctxt": 0
                 },
                 "value": "undefined",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -260,7 +251,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -278,7 +268,6 @@
           "ctxt": 0
         },
         "value": "D1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -304,7 +293,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -344,7 +332,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -362,7 +349,6 @@
           "ctxt": 0
         },
         "value": "D1A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -388,7 +374,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -414,7 +399,6 @@
                   "ctxt": 0
                 },
                 "value": "String",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -439,7 +423,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -457,7 +440,6 @@
           "ctxt": 0
         },
         "value": "D2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -483,7 +465,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -523,7 +504,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -541,7 +521,6 @@
           "ctxt": 0
         },
         "value": "D2A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -567,7 +546,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -593,7 +571,6 @@
                   "ctxt": 0
                 },
                 "value": "Number",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -618,7 +595,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -636,7 +612,6 @@
           "ctxt": 0
         },
         "value": "D3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -662,7 +637,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -702,7 +676,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -720,7 +693,6 @@
           "ctxt": 0
         },
         "value": "D3A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -746,7 +718,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -772,7 +743,6 @@
                   "ctxt": 0
                 },
                 "value": "Boolean",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -797,7 +767,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -815,7 +784,6 @@
           "ctxt": 0
         },
         "value": "D4",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -841,7 +809,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -867,7 +834,6 @@
                   "ctxt": 0
                 },
                 "value": "RegExp",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -892,7 +858,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -910,7 +875,6 @@
           "ctxt": 0
         },
         "value": "D5",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -936,7 +900,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -962,7 +925,6 @@
                   "ctxt": 0
                 },
                 "value": "Date",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -987,7 +949,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -1005,7 +966,6 @@
           "ctxt": 0
         },
         "value": "D6",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1031,7 +991,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -1079,7 +1038,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -1097,7 +1055,6 @@
           "ctxt": 0
         },
         "value": "D7",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1123,7 +1080,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -1158,7 +1114,6 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -1206,7 +1161,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -1224,7 +1178,6 @@
           "ctxt": 0
         },
         "value": "D8",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1250,7 +1203,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -1276,7 +1228,6 @@
                   "ctxt": 0
                 },
                 "value": "D7",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -1301,7 +1252,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -1324,7 +1274,6 @@
           "ctxt": 0
         },
         "value": "I1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1354,7 +1303,6 @@
                 "ctxt": 0
               },
               "value": "bar",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -1393,7 +1341,6 @@
           "ctxt": 0
         },
         "value": "D9",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1419,7 +1366,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -1445,7 +1391,6 @@
                   "ctxt": 0
                 },
                 "value": "I1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -1470,7 +1415,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -1488,7 +1432,6 @@
           "ctxt": 0
         },
         "value": "D10",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1514,7 +1457,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -1572,7 +1514,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -1597,7 +1538,6 @@
           "ctxt": 0
         },
         "value": "E",
-        "typeAnnotation": null,
         "optional": false
       },
       "members": [
@@ -1616,7 +1556,6 @@
               "ctxt": 0
             },
             "value": "A",
-            "typeAnnotation": null,
             "optional": false
           },
           "init": null
@@ -1633,7 +1572,6 @@
           "ctxt": 0
         },
         "value": "D11",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1659,7 +1597,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -1685,7 +1622,6 @@
                   "ctxt": 0
                 },
                 "value": "E",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -1710,7 +1646,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -1728,7 +1663,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1770,7 +1704,6 @@
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -1813,8 +1746,8 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "NumericLiteral",
@@ -1843,7 +1776,6 @@
           "ctxt": 0
         },
         "value": "D12",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1869,7 +1801,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -1895,7 +1826,6 @@
                   "ctxt": 0
                 },
                 "value": "f",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -1919,7 +1849,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -1937,7 +1866,6 @@
           "ctxt": 0
         },
         "value": "c",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1963,7 +1891,6 @@
               "ctxt": 0
             },
             "value": "baz",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -2018,7 +1945,6 @@
           "ctxt": 0
         },
         "value": "c",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -2061,8 +1987,8 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "NumericLiteral",
@@ -2091,7 +2017,6 @@
           "ctxt": 0
         },
         "value": "D13",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -2117,7 +2042,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -2143,7 +2067,6 @@
                   "ctxt": 0
                 },
                 "value": "c",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -2167,7 +2090,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -2185,7 +2107,6 @@
           "ctxt": 0
         },
         "value": "D14",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -2211,7 +2132,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -2237,7 +2157,6 @@
                   "ctxt": 0
                 },
                 "value": "T",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -2262,7 +2181,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -2289,7 +2207,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -2310,7 +2227,6 @@
           "ctxt": 0
         },
         "value": "D15",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -2336,7 +2252,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -2362,7 +2277,6 @@
                   "ctxt": 0
                 },
                 "value": "U",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -2387,7 +2301,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -2414,7 +2327,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -2435,7 +2347,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -2456,7 +2367,6 @@
           "ctxt": 0
         },
         "value": "D16",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -2482,7 +2392,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -2508,7 +2417,6 @@
                   "ctxt": 0
                 },
                 "value": "Object",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -2533,7 +2441,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -2551,7 +2458,6 @@
           "ctxt": 0
         },
         "value": "D17",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -2577,7 +2483,6 @@
               "ctxt": 0
             },
             "value": "foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -2617,7 +2522,6 @@
           "ctxt": 0
         },
         "value": "Base",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,

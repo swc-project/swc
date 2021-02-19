@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "Link",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -50,7 +49,6 @@
                 "ctxt": 0
               },
               "value": "key",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -92,7 +90,6 @@
                 "ctxt": 0
               },
               "value": "text",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -144,7 +141,6 @@
               "ctxt": 0
             },
             "value": "Link",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null

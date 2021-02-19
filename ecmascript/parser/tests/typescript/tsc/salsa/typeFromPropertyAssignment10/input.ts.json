@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "Outer",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "BinaryExpression",
@@ -50,7 +50,6 @@
                 "ctxt": 0
               },
               "value": "Outer",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -97,7 +96,6 @@
               "ctxt": 0
             },
             "value": "Outer",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -108,7 +106,6 @@
               "ctxt": 0
             },
             "value": "app",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -136,7 +133,6 @@
                 "ctxt": 0
               },
               "value": "Outer",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -147,7 +143,6 @@
                 "ctxt": 0
               },
               "value": "app",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -201,7 +196,6 @@
                 "ctxt": 0
               },
               "value": "Outer",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -212,7 +206,6 @@
                 "ctxt": 0
               },
               "value": "app",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -225,7 +218,6 @@
               "ctxt": 0
             },
             "value": "SomeView",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -287,8 +279,8 @@
                             "ctxt": 0
                           },
                           "value": "SomeView",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "init": {
                           "type": "FunctionExpression",
@@ -333,8 +325,8 @@
                                         "ctxt": 0
                                       },
                                       "value": "me",
-                                      "typeAnnotation": null,
-                                      "optional": false
+                                      "optional": false,
+                                      "typeAnnotation": null
                                     },
                                     "init": {
                                       "type": "ThisExpression",
@@ -374,7 +366,6 @@
                         "ctxt": 0
                       },
                       "value": "SomeView",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -428,7 +419,6 @@
                 "ctxt": 0
               },
               "value": "Outer",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -439,7 +429,6 @@
                 "ctxt": 0
               },
               "value": "app",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -452,7 +441,6 @@
               "ctxt": 0
             },
             "value": "Inner",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -482,7 +470,6 @@
                   "ctxt": 0
                 },
                 "value": "constructor",
-                "typeAnnotation": null,
                 "optional": false
               },
               "params": [],
@@ -532,7 +519,6 @@
                             "ctxt": 0
                           },
                           "value": "y",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -587,8 +573,8 @@
               "ctxt": 0
             },
             "value": "example",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -619,7 +605,6 @@
                     "ctxt": 0
                   },
                   "value": "Outer",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -630,7 +615,6 @@
                     "ctxt": 0
                   },
                   "value": "app",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -643,7 +627,6 @@
                   "ctxt": 0
                 },
                 "value": "Inner",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -677,7 +660,6 @@
             "ctxt": 0
           },
           "value": "example",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -688,7 +670,6 @@
             "ctxt": 0
           },
           "value": "y",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -731,7 +712,6 @@
                 "ctxt": 0
               },
               "value": "Outer",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -742,7 +722,6 @@
                 "ctxt": 0
               },
               "value": "app",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -755,7 +734,6 @@
               "ctxt": 0
             },
             "value": "statische",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -780,8 +758,8 @@
                   "ctxt": 0
                 },
                 "value": "k",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             }
           ],
@@ -822,7 +800,6 @@
                       "ctxt": 0
                     },
                     "value": "k",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "right": {
@@ -833,7 +810,6 @@
                       "ctxt": 0
                     },
                     "value": "k",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -884,7 +860,6 @@
                 "ctxt": 0
               },
               "value": "Outer",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -895,7 +870,6 @@
                 "ctxt": 0
               },
               "value": "app",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -908,7 +882,6 @@
               "ctxt": 0
             },
             "value": "Application",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -970,8 +943,8 @@
                             "ctxt": 0
                           },
                           "value": "Application",
-                          "typeAnnotation": null,
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "init": {
                           "type": "FunctionExpression",
@@ -1016,8 +989,8 @@
                                         "ctxt": 0
                                       },
                                       "value": "me",
-                                      "typeAnnotation": null,
-                                      "optional": false
+                                      "optional": false,
+                                      "typeAnnotation": null
                                     },
                                     "init": {
                                       "type": "ThisExpression",
@@ -1061,7 +1034,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "me",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "property": {
@@ -1072,7 +1044,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "view",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "computed": false
@@ -1106,7 +1077,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "Outer",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "property": {
@@ -1117,7 +1087,6 @@
                                             "ctxt": 0
                                           },
                                           "value": "app",
-                                          "typeAnnotation": null,
                                           "optional": false
                                         },
                                         "computed": false
@@ -1130,7 +1099,6 @@
                                           "ctxt": 0
                                         },
                                         "value": "SomeView",
-                                        "typeAnnotation": null,
                                         "optional": false
                                       },
                                       "computed": false
@@ -1166,7 +1134,6 @@
                         "ctxt": 0
                       },
                       "value": "Application",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -1208,8 +1175,8 @@
               "ctxt": 0
             },
             "value": "app",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -1240,7 +1207,6 @@
                     "ctxt": 0
                   },
                   "value": "Outer",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -1251,7 +1217,6 @@
                     "ctxt": 0
                   },
                   "value": "app",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -1264,7 +1229,6 @@
                   "ctxt": 0
                 },
                 "value": "Application",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -1301,8 +1265,8 @@
               "ctxt": 0
             },
             "value": "inner",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -1333,7 +1297,6 @@
                     "ctxt": 0
                   },
                   "value": "Outer",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -1344,7 +1307,6 @@
                     "ctxt": 0
                   },
                   "value": "app",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -1357,7 +1319,6 @@
                   "ctxt": 0
                 },
                 "value": "Inner",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -1391,7 +1352,6 @@
             "ctxt": 0
           },
           "value": "inner",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1402,7 +1362,6 @@
             "ctxt": 0
           },
           "value": "y",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -1433,8 +1392,8 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -1463,7 +1422,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -1474,7 +1432,6 @@
             "ctxt": 0
           },
           "value": "y",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -1516,7 +1473,6 @@
                 "ctxt": 0
               },
               "value": "Outer",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1527,7 +1483,6 @@
                 "ctxt": 0
               },
               "value": "app",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1540,7 +1495,6 @@
               "ctxt": 0
             },
             "value": "statische",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "IList",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -48,7 +47,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -81,7 +79,6 @@
                 "ctxt": 0
               },
               "value": "data",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -109,7 +106,6 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -133,7 +129,6 @@
                 "ctxt": 0
               },
               "value": "next",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -171,7 +166,6 @@
           "ctxt": 0
         },
         "value": "List",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -197,7 +191,6 @@
               "ctxt": 0
             },
             "value": "data",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -234,7 +227,6 @@
                     "ctxt": 0
                   },
                   "value": "U",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -262,7 +254,6 @@
               "ctxt": 0
             },
             "value": "next",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -327,7 +318,6 @@
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -352,7 +342,6 @@
               "ctxt": 0
             },
             "value": "IList",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": {
@@ -378,7 +367,6 @@
                     "ctxt": 0
                   },
                   "value": "U",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null

@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Multimap",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -37,8 +36,8 @@
               "ctxt": 0
             },
             "value": "ik",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         },
         {
@@ -57,8 +56,8 @@
               "ctxt": 0
             },
             "value": "iv",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -114,7 +113,6 @@
                     "ctxt": 0
                   },
                   "value": "_map",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -168,7 +166,6 @@
                     "ctxt": 0
                   },
                   "value": "_map2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -198,7 +195,6 @@
                           "ctxt": 0
                         },
                         "value": "ik",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -210,7 +206,6 @@
                         "ctxt": 0
                       },
                       "value": "iv",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -258,8 +253,8 @@
               "ctxt": 0
             },
             "value": "map",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -276,7 +271,6 @@
                 "ctxt": 0
               },
               "value": "Multimap",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -341,8 +335,8 @@
               "ctxt": 0
             },
             "value": "map2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -359,7 +353,6 @@
                 "ctxt": 0
               },
               "value": "Multimap",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -424,8 +417,8 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -449,7 +442,6 @@
                   "ctxt": 0
                 },
                 "value": "map",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -460,7 +452,6 @@
                   "ctxt": 0
                 },
                 "value": "_map",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -510,8 +501,8 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -535,7 +526,6 @@
                   "ctxt": 0
                 },
                 "value": "map",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -546,7 +536,6 @@
                   "ctxt": 0
                 },
                 "value": "_map2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -596,8 +585,8 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -621,7 +610,6 @@
                   "ctxt": 0
                 },
                 "value": "map2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -632,7 +620,6 @@
                   "ctxt": 0
                 },
                 "value": "_map",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -682,8 +669,8 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -707,7 +694,6 @@
                   "ctxt": 0
                 },
                 "value": "map",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -718,7 +704,6 @@
                   "ctxt": 0
                 },
                 "value": "_map2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -753,7 +738,6 @@
           "ctxt": 0
         },
         "value": "Cp",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -774,8 +758,8 @@
               "ctxt": 0
             },
             "value": "t",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           }
         }
       ],
@@ -831,7 +815,6 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -885,7 +868,6 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -898,7 +880,6 @@
                   "ctxt": 0
                 },
                 "value": "t",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -940,7 +921,6 @@
               "ctxt": 0
             },
             "value": "Cp",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -951,7 +931,6 @@
               "ctxt": 0
             },
             "value": "prototype",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -974,7 +953,6 @@
                   "ctxt": 0
                 },
                 "value": "m1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "params": [],
@@ -1022,7 +1000,6 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -1045,7 +1022,6 @@
                   "ctxt": 0
                 },
                 "value": "m2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "params": [],
@@ -1101,7 +1077,6 @@
                             "ctxt": 0
                           },
                           "value": "z",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1137,7 +1112,6 @@
                               "ctxt": 0
                             },
                             "value": "x",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -1184,7 +1158,6 @@
                           "ctxt": 0
                         },
                         "value": "y",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -1226,8 +1199,8 @@
               "ctxt": 0
             },
             "value": "cp",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -1244,7 +1217,6 @@
                 "ctxt": 0
               },
               "value": "Cp",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -1292,8 +1264,8 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -1310,7 +1282,6 @@
                 "ctxt": 0
               },
               "value": "cp",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1321,7 +1292,6 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1355,8 +1325,8 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "MemberExpression",
@@ -1373,7 +1343,6 @@
                 "ctxt": 0
               },
               "value": "cp",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -1384,7 +1353,6 @@
                 "ctxt": 0
               },
               "value": "y",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -1418,8 +1386,8 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -1443,7 +1411,6 @@
                   "ctxt": 0
                 },
                 "value": "cp",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -1454,7 +1421,6 @@
                   "ctxt": 0
                 },
                 "value": "m1",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -1491,8 +1457,8 @@
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -1516,7 +1482,6 @@
                   "ctxt": 0
                 },
                 "value": "cp",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -1527,7 +1492,6 @@
                   "ctxt": 0
                 },
                 "value": "m2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false

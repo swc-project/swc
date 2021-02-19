@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "lf",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -56,7 +55,6 @@
                   "ctxt": 0
                 },
                 "value": "Transaction",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -86,7 +84,6 @@
                         "ctxt": 0
                       },
                       "value": "attach",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -100,6 +97,7 @@
                           "ctxt": 0
                         },
                         "value": "query",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -124,7 +122,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "query",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "right": {
@@ -135,14 +132,12 @@
                                   "ctxt": 0
                                 },
                                 "value": "Builder",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             },
                             "typeParams": null
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     ],
                     "typeAnn": {
@@ -167,7 +162,6 @@
                             "ctxt": 0
                           },
                           "value": "Promise",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": {
@@ -193,7 +187,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "Array",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": {
@@ -219,7 +212,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "Object",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "typeParams": null
@@ -249,7 +241,6 @@
                         "ctxt": 0
                       },
                       "value": "begin",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -263,6 +254,7 @@
                           "ctxt": 0
                         },
                         "value": "scope",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -285,7 +277,6 @@
                                 "ctxt": 0
                               },
                               "value": "Array",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": {
@@ -313,7 +304,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "schema",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "right": {
@@ -324,7 +314,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "Table",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     }
                                   },
@@ -333,8 +322,7 @@
                               ]
                             }
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     ],
                     "typeAnn": {
@@ -359,7 +347,6 @@
                             "ctxt": 0
                           },
                           "value": "Promise",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": {
@@ -401,7 +388,6 @@
                         "ctxt": 0
                       },
                       "value": "commit",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -429,7 +415,6 @@
                             "ctxt": 0
                           },
                           "value": "Promise",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": {
@@ -471,7 +456,6 @@
                         "ctxt": 0
                       },
                       "value": "exec",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -485,6 +469,7 @@
                           "ctxt": 0
                         },
                         "value": "queries",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -507,7 +492,6 @@
                                 "ctxt": 0
                               },
                               "value": "Array",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": {
@@ -535,7 +519,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "query",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "right": {
@@ -546,7 +529,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "Builder",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     }
                                   },
@@ -555,8 +537,7 @@
                               ]
                             }
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     ],
                     "typeAnn": {
@@ -581,7 +562,6 @@
                             "ctxt": 0
                           },
                           "value": "Promise",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": {
@@ -607,7 +587,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "Array",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "typeParams": {
@@ -633,7 +612,6 @@
                                         "ctxt": 0
                                       },
                                       "value": "Array",
-                                      "typeAnnotation": null,
                                       "optional": false
                                     },
                                     "typeParams": {
@@ -659,7 +637,6 @@
                                               "ctxt": 0
                                             },
                                             "value": "Object",
-                                            "typeAnnotation": null,
                                             "optional": false
                                           },
                                           "typeParams": null
@@ -692,7 +669,6 @@
                         "ctxt": 0
                       },
                       "value": "rollback",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -720,7 +696,6 @@
                             "ctxt": 0
                           },
                           "value": "Promise",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": {
@@ -762,7 +737,6 @@
                         "ctxt": 0
                       },
                       "value": "stats",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -790,7 +764,6 @@
                             "ctxt": 0
                           },
                           "value": "TransactionStats",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -835,7 +808,6 @@
               "ctxt": 0
             },
             "value": "lf",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -846,7 +818,6 @@
               "ctxt": 0
             },
             "value": "Transaction",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -921,7 +892,6 @@
                   "ctxt": 0
                 },
                 "value": "lf",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
@@ -932,7 +902,6 @@
                   "ctxt": 0
                 },
                 "value": "Transaction",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -945,7 +914,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -958,7 +926,6 @@
               "ctxt": 0
             },
             "value": "begin",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -983,8 +950,8 @@
                   "ctxt": 0
                 },
                 "value": "scope",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             }
           ],

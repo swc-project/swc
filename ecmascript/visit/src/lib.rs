@@ -745,16 +745,22 @@ define!({
         Param(Param),
     }
 
+    pub struct BindingIdent {
+        pub id: Ident,
+        pub type_ann: Option<TsTypeAnn>,
+    }
+
     pub struct Ident {
         pub span: Span,
         pub sym: JsWord,
-        pub type_ann: Option<TsTypeAnn>,
         pub optional: bool,
     }
+
     pub struct PrivateName {
         pub span: Span,
         pub id: Ident,
     }
+
     pub enum JSXObject {
         JSXMemberExpr(Box<JSXMemberExpr>),
         Ident(Ident),
@@ -1045,7 +1051,7 @@ define!({
         Delete,
     }
     pub enum Pat {
-        Ident(Ident),
+        Ident(BindingIdent),
         Array(ArrayPat),
         Rest(RestPat),
         Object(ObjectPat),
@@ -1291,7 +1297,7 @@ define!({
         pub param: TsParamPropParam,
     }
     pub enum TsParamPropParam {
-        Ident(Ident),
+        Ident(BindingIdent),
         Assign(AssignPat),
     }
     pub struct TsQualifiedName {
@@ -1404,7 +1410,7 @@ define!({
         pub span: Span,
     }
     pub enum TsFnParam {
-        Ident(Ident),
+        Ident(BindingIdent),
         Array(ArrayPat),
         Rest(RestPat),
         Object(ObjectPat),

@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "ns",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -105,8 +105,8 @@
               "ctxt": 0
             },
             "value": "crash",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false

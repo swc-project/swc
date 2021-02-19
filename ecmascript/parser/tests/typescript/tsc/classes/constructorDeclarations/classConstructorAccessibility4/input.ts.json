@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -73,7 +71,6 @@
               "ctxt": 0
             },
             "value": "method",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -102,7 +99,6 @@
                       "ctxt": 0
                     },
                     "value": "B",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "declare": false,
@@ -128,7 +124,6 @@
                           "ctxt": 0
                         },
                         "value": "method",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "function": {
@@ -169,7 +164,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "A",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "arguments": [],
@@ -206,7 +200,6 @@
                       "ctxt": 0
                     },
                     "value": "C",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "declare": false,
@@ -225,7 +218,6 @@
                       "ctxt": 0
                     },
                     "value": "A",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "isAbstract": false,
@@ -263,7 +255,6 @@
           "ctxt": 0
         },
         "value": "D",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -289,7 +280,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -320,7 +310,6 @@
               "ctxt": 0
             },
             "value": "method",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -349,7 +338,6 @@
                       "ctxt": 0
                     },
                     "value": "E",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "declare": false,
@@ -375,7 +363,6 @@
                           "ctxt": 0
                         },
                         "value": "method",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "function": {
@@ -416,7 +403,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "D",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "arguments": [],
@@ -453,7 +439,6 @@
                       "ctxt": 0
                     },
                     "value": "F",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "declare": false,
@@ -472,7 +457,6 @@
                       "ctxt": 0
                     },
                     "value": "D",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "isAbstract": false,

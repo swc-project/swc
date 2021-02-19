@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "field",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -87,7 +85,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [],
@@ -144,7 +141,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -206,7 +202,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -268,7 +263,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -330,7 +324,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -392,7 +385,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -454,7 +446,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -516,7 +507,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -578,7 +568,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -640,7 +629,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -702,7 +690,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -764,7 +751,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -826,7 +812,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -888,7 +873,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -949,7 +933,6 @@
                             "ctxt": 0
                           },
                           "value": "A",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -960,7 +943,6 @@
                             "ctxt": 0
                           },
                           "value": "getInstance",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -983,7 +965,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -1044,7 +1025,6 @@
                             "ctxt": 0
                           },
                           "value": "A",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -1055,7 +1035,6 @@
                             "ctxt": 0
                           },
                           "value": "getInstance",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1078,7 +1057,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -1139,7 +1117,6 @@
                             "ctxt": 0
                           },
                           "value": "A",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -1150,7 +1127,6 @@
                             "ctxt": 0
                           },
                           "value": "getInstance",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1173,7 +1149,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -1234,7 +1209,6 @@
                             "ctxt": 0
                           },
                           "value": "A",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -1245,7 +1219,6 @@
                             "ctxt": 0
                           },
                           "value": "getInstance",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1268,7 +1241,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -1329,7 +1301,6 @@
                             "ctxt": 0
                           },
                           "value": "A",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -1340,7 +1311,6 @@
                             "ctxt": 0
                           },
                           "value": "getInstance",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1363,7 +1333,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -1424,7 +1393,6 @@
                             "ctxt": 0
                           },
                           "value": "A",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -1435,7 +1403,6 @@
                             "ctxt": 0
                           },
                           "value": "getInstance",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1458,7 +1425,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -1519,7 +1485,6 @@
                             "ctxt": 0
                           },
                           "value": "A",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -1530,7 +1495,6 @@
                             "ctxt": 0
                           },
                           "value": "getInstance",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1553,7 +1517,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -1614,7 +1577,6 @@
                             "ctxt": 0
                           },
                           "value": "A",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -1625,7 +1587,6 @@
                             "ctxt": 0
                           },
                           "value": "getInstance",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1648,7 +1609,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -1709,7 +1669,6 @@
                             "ctxt": 0
                           },
                           "value": "A",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -1720,7 +1679,6 @@
                             "ctxt": 0
                           },
                           "value": "getInstance",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1743,7 +1701,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -1804,7 +1761,6 @@
                             "ctxt": 0
                           },
                           "value": "A",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -1815,7 +1771,6 @@
                             "ctxt": 0
                           },
                           "value": "getInstance",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1838,7 +1793,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -1899,7 +1853,6 @@
                             "ctxt": 0
                           },
                           "value": "A",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -1910,7 +1863,6 @@
                             "ctxt": 0
                           },
                           "value": "getInstance",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -1933,7 +1885,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -1994,7 +1945,6 @@
                             "ctxt": 0
                           },
                           "value": "A",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -2005,7 +1955,6 @@
                             "ctxt": 0
                           },
                           "value": "getInstance",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -2028,7 +1977,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -2089,7 +2037,6 @@
                             "ctxt": 0
                           },
                           "value": "A",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -2100,7 +2047,6 @@
                             "ctxt": 0
                           },
                           "value": "getInstance",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -2123,7 +2069,6 @@
                           "ctxt": 0
                         },
                         "value": "field",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     },
@@ -2160,7 +2105,6 @@
               "ctxt": 0
             },
             "value": "getInstance",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -2201,7 +2145,6 @@
                         "ctxt": 0
                       },
                       "value": "A",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "arguments": [],

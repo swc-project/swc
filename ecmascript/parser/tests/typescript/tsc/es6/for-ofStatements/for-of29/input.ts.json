@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "iterableWithOptionalIterator",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -69,7 +70,6 @@
                           "ctxt": 0
                         },
                         "value": "Symbol",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -80,7 +80,6 @@
                           "ctxt": 0
                         },
                         "value": "iterator",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -110,7 +109,6 @@
                             "ctxt": 0
                           },
                           "value": "Iterator",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": {
@@ -138,8 +136,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -179,8 +176,8 @@
                 "ctxt": 0
               },
               "value": "v",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": null,
             "definite": false
@@ -195,7 +192,6 @@
           "ctxt": 0
         },
         "value": "iterableWithOptionalIterator",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {

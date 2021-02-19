@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "test",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": true,

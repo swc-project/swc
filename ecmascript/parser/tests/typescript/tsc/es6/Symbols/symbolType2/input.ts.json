@@ -36,7 +36,6 @@
               "ctxt": 0
             },
             "value": "Symbol",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -47,7 +46,6 @@
               "ctxt": 0
             },
             "value": "isConcatSpreadable",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -107,7 +105,6 @@
               "ctxt": 0
             },
             "value": "Symbol",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -118,7 +115,6 @@
               "ctxt": 0
             },
             "value": "toPrimitive",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

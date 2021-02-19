@@ -38,8 +38,8 @@
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "BinaryExpression",
@@ -95,7 +95,6 @@
             "ctxt": 0
           },
           "value": "Aleph",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -125,7 +124,6 @@
                   "ctxt": 0
                 },
                 "value": "q",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false,
@@ -172,7 +170,6 @@
             "ctxt": 0
           },
           "value": "Bet",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -198,7 +195,6 @@
                 "ctxt": 0
               },
               "value": "q",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": {
@@ -263,7 +259,6 @@
                 "ctxt": 0
               },
               "value": "Aleph",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeArguments": null

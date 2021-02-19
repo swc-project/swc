@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "C1",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -35,7 +34,6 @@
           "ctxt": 0
         },
         "value": "Object",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -53,7 +51,6 @@
           "ctxt": 0
         },
         "value": "C2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -72,7 +69,6 @@
           "ctxt": 0
         },
         "value": "Function",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -90,7 +86,6 @@
           "ctxt": 0
         },
         "value": "C3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -109,7 +104,6 @@
           "ctxt": 0
         },
         "value": "String",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -127,7 +121,6 @@
           "ctxt": 0
         },
         "value": "C4",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -146,7 +139,6 @@
           "ctxt": 0
         },
         "value": "Boolean",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -164,7 +156,6 @@
           "ctxt": 0
         },
         "value": "C5",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -183,7 +174,6 @@
           "ctxt": 0
         },
         "value": "Number",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -201,7 +191,6 @@
           "ctxt": 0
         },
         "value": "C6",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -220,7 +209,6 @@
           "ctxt": 0
         },
         "value": "Date",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -238,7 +226,6 @@
           "ctxt": 0
         },
         "value": "C7",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -257,7 +244,6 @@
           "ctxt": 0
         },
         "value": "RegExp",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -275,7 +261,6 @@
           "ctxt": 0
         },
         "value": "C8",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -294,7 +279,6 @@
           "ctxt": 0
         },
         "value": "Error",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -312,7 +296,6 @@
           "ctxt": 0
         },
         "value": "C9",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -331,7 +314,6 @@
           "ctxt": 0
         },
         "value": "Array",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -349,7 +331,6 @@
           "ctxt": 0
         },
         "value": "C10",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -368,7 +349,6 @@
           "ctxt": 0
         },
         "value": "Array",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,

@@ -29,8 +29,8 @@
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
-          "optional": false
+          "optional": false,
+          "typeAnnotation": null
         },
         "right": {
           "type": "AssignmentExpression",
@@ -48,8 +48,8 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "right": {
             "type": "FunctionExpression",
@@ -61,7 +61,6 @@
                 "ctxt": 0
               },
               "value": "c",
-              "typeAnnotation": null,
               "optional": false
             },
             "params": [],
@@ -108,7 +107,6 @@
                           "ctxt": 0
                         },
                         "value": "console",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -119,7 +117,6 @@
                           "ctxt": 0
                         },
                         "value": "log",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false

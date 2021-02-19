@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Animal",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "_sound",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -85,7 +83,6 @@
               "ctxt": 0
             },
             "value": "sound",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -134,7 +131,6 @@
                         "ctxt": 0
                       },
                       "value": "_sound",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -168,7 +164,6 @@
               "ctxt": 0
             },
             "value": "sound",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -189,8 +184,8 @@
                     "ctxt": 0
                   },
                   "value": "val",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -246,7 +241,6 @@
                           "ctxt": 0
                         },
                         "value": "_sound",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -259,7 +253,6 @@
                         "ctxt": 0
                       },
                       "value": "val",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -292,7 +285,6 @@
               "ctxt": 0
             },
             "value": "makeSound",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -340,7 +332,6 @@
                           "ctxt": 0
                         },
                         "value": "console",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -351,7 +342,6 @@
                           "ctxt": 0
                         },
                         "value": "log",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -382,7 +372,6 @@
                               "ctxt": 0
                             },
                             "value": "_sound",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -437,8 +426,8 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -455,7 +444,6 @@
                 "ctxt": 0
               },
               "value": "Animal",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": null,
@@ -494,7 +482,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -505,7 +492,6 @@
               "ctxt": 0
             },
             "value": "makeSound",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -524,7 +510,6 @@
           "ctxt": 0
         },
         "value": "Lion",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -550,7 +535,6 @@
               "ctxt": 0
             },
             "value": "sound",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -587,7 +571,6 @@
           "ctxt": 0
         },
         "value": "Animal",
-        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
@@ -620,8 +603,8 @@
               "ctxt": 0
             },
             "value": "lion",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NewExpression",
@@ -638,7 +621,6 @@
                 "ctxt": 0
               },
               "value": "Lion",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": null,
@@ -677,7 +659,6 @@
               "ctxt": 0
             },
             "value": "lion",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -688,7 +669,6 @@
               "ctxt": 0
             },
             "value": "makeSound",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

@@ -36,7 +36,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -47,7 +46,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -60,7 +58,6 @@
             "ctxt": 0
           },
           "value": "MyClass",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -75,7 +72,6 @@
           "ctxt": 0
         },
         "value": "MyClass",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -130,7 +126,6 @@
               "ctxt": 0
             },
             "value": "MyClass",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -141,7 +136,6 @@
               "ctxt": 0
             },
             "value": "staticMethod",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -209,7 +203,6 @@
                 "ctxt": 0
               },
               "value": "MyClass",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -220,7 +213,6 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -233,7 +225,6 @@
               "ctxt": 0
             },
             "value": "method",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -294,7 +285,6 @@
               "ctxt": 0
             },
             "value": "MyClass",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -305,7 +295,6 @@
               "ctxt": 0
             },
             "value": "staticProperty",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

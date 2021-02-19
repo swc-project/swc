@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "Outer",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ClassExpression",
@@ -44,7 +44,6 @@
                 "ctxt": 0
               },
               "value": "O",
-              "typeAnnotation": null,
               "optional": false
             },
             "span": {
@@ -69,7 +68,6 @@
                     "ctxt": 0
                   },
                   "value": "m",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "function": {
@@ -90,8 +88,8 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       }
                     },
                     {
@@ -110,8 +108,8 @@
                           "ctxt": 0
                         },
                         "value": "y",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       }
                     }
                   ],
@@ -182,7 +180,6 @@
               "ctxt": 0
             },
             "value": "Outer",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -193,7 +190,6 @@
               "ctxt": 0
             },
             "value": "Inner",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -208,7 +204,6 @@
               "ctxt": 0
             },
             "value": "I",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -233,7 +228,6 @@
                   "ctxt": 0
                 },
                 "value": "n",
-                "typeAnnotation": null,
                 "optional": false
               },
               "function": {
@@ -254,8 +248,8 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     }
                   },
                   {
@@ -274,8 +268,8 @@
                         "ctxt": 0
                       },
                       "value": "b",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     }
                   }
                 ],
@@ -339,8 +333,8 @@
               "ctxt": 0
             },
             "value": "si",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -369,7 +363,6 @@
             "ctxt": 0
           },
           "value": "si",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -380,7 +373,6 @@
             "ctxt": 0
           },
           "value": "m",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -411,8 +403,8 @@
               "ctxt": 0
             },
             "value": "oi",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": null,
           "definite": false
@@ -441,7 +433,6 @@
             "ctxt": 0
           },
           "value": "oi",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -452,7 +443,6 @@
             "ctxt": 0
           },
           "value": "n",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false

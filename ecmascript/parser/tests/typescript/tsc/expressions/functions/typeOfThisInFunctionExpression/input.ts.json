@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "fn",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -60,8 +59,8 @@
                     "ctxt": 0
                   },
                   "value": "p",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "ThisExpression",
@@ -100,6 +99,7 @@
                     "ctxt": 0
                   },
                   "value": "p",
+                  "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -116,8 +116,7 @@
                       },
                       "kind": "any"
                     }
-                  },
-                  "optional": false
+                  }
                 },
                 "init": null,
                 "definite": false
@@ -156,8 +155,8 @@
               "ctxt": 0
             },
             "value": "t",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -202,8 +201,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -242,6 +241,7 @@
                           "ctxt": 0
                         },
                         "value": "p",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -258,8 +258,7 @@
                             },
                             "kind": "any"
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -302,8 +301,8 @@
               "ctxt": 0
             },
             "value": "t2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "FunctionExpression",
@@ -315,7 +314,6 @@
                 "ctxt": 0
               },
               "value": "f",
-              "typeAnnotation": null,
               "optional": false
             },
             "params": [],
@@ -358,8 +356,8 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -398,6 +396,7 @@
                           "ctxt": 0
                         },
                         "value": "x",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -414,8 +413,7 @@
                             },
                             "kind": "any"
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -443,7 +441,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -469,7 +466,6 @@
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -515,6 +511,7 @@
                           "ctxt": 0
                         },
                         "value": "q",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -531,8 +528,7 @@
                             },
                             "kind": "any"
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -564,8 +560,8 @@
                           "ctxt": 0
                         },
                         "value": "q",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -612,7 +608,6 @@
               "ctxt": 0
             },
             "value": "y",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -625,7 +620,6 @@
                 "ctxt": 0
               },
               "value": "ff",
-              "typeAnnotation": null,
               "optional": false
             },
             "params": [],
@@ -668,6 +662,7 @@
                           "ctxt": 0
                         },
                         "value": "q",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -684,8 +679,7 @@
                             },
                             "kind": "any"
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -717,8 +711,8 @@
                           "ctxt": 0
                         },
                         "value": "q",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -774,7 +768,6 @@
           "ctxt": 0
         },
         "value": "M",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -795,7 +788,6 @@
                 "ctxt": 0
               },
               "value": "fn",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -839,8 +831,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": {
                         "type": "ThisExpression",
@@ -879,6 +871,7 @@
                           "ctxt": 0
                         },
                         "value": "p",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -895,8 +888,7 @@
                             },
                             "kind": "any"
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false
@@ -935,8 +927,8 @@
                     "ctxt": 0
                   },
                   "value": "t",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "FunctionExpression",
@@ -981,8 +973,8 @@
                                 "ctxt": 0
                               },
                               "value": "p",
-                              "typeAnnotation": null,
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             },
                             "init": {
                               "type": "ThisExpression",
@@ -1021,6 +1013,7 @@
                                 "ctxt": 0
                               },
                               "value": "p",
+                              "optional": false,
                               "typeAnnotation": {
                                 "type": "TsTypeAnnotation",
                                 "span": {
@@ -1037,8 +1030,7 @@
                                   },
                                   "kind": "any"
                                 }
-                              },
-                              "optional": false
+                              }
                             },
                             "init": null,
                             "definite": false
@@ -1081,8 +1073,8 @@
                     "ctxt": 0
                   },
                   "value": "t2",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": {
                   "type": "FunctionExpression",
@@ -1094,7 +1086,6 @@
                       "ctxt": 0
                     },
                     "value": "f",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "params": [],
@@ -1137,8 +1128,8 @@
                                 "ctxt": 0
                               },
                               "value": "x",
-                              "typeAnnotation": null,
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             },
                             "init": {
                               "type": "ThisExpression",
@@ -1177,6 +1168,7 @@
                                 "ctxt": 0
                               },
                               "value": "x",
+                              "optional": false,
                               "typeAnnotation": {
                                 "type": "TsTypeAnnotation",
                                 "span": {
@@ -1193,8 +1185,7 @@
                                   },
                                   "kind": "any"
                                 }
-                              },
-                              "optional": false
+                              }
                             },
                             "init": null,
                             "definite": false

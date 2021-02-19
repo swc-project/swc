@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "big",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ObjectExpression",
@@ -52,7 +52,6 @@
                     "ctxt": 0
                   },
                   "value": "break",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -75,7 +74,6 @@
                     "ctxt": 0
                   },
                   "value": "super",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {
@@ -98,7 +96,6 @@
                     "ctxt": 0
                   },
                   "value": "const",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "value": {

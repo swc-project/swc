@@ -38,8 +38,8 @@
                 "ctxt": 0
               },
               "value": "y",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "NumericLiteral",

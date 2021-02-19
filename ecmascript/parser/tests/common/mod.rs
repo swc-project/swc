@@ -44,7 +44,7 @@ impl Fold for Normalizer {
 
         if let Pat::Expr(expr) = node {
             match *expr {
-                Expr::Ident(i) => return Pat::Ident(i),
+                Expr::Ident(i) => return Pat::Ident(i.into()),
                 _ => {
                     node = Pat::Expr(expr);
                 }
@@ -59,7 +59,7 @@ impl Fold for Normalizer {
 
         match node {
             PatOrExpr::Expr(expr) => match *expr {
-                Expr::Ident(i) => PatOrExpr::Pat(Box::new(Pat::Ident(i))),
+                Expr::Ident(i) => PatOrExpr::Pat(Box::new(Pat::Ident(i.into()))),
                 _ => PatOrExpr::Expr(expr),
             },
             PatOrExpr::Pat(pat) => match *pat {

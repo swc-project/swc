@@ -77,12 +77,12 @@ impl ParamMetadata {
                         Param {
                             span: DUMMY_SP,
                             decorators: Default::default(),
-                            pat: Pat::Ident(quote_ident!("target")),
+                            pat: Pat::Ident(quote_ident!("target").into()),
                         },
                         Param {
                             span: DUMMY_SP,
                             decorators: Default::default(),
-                            pat: Pat::Ident(quote_ident!("key")),
+                            pat: Pat::Ident(quote_ident!("key").into()),
                         },
                     ],
                     body: Some(BlockStmt {

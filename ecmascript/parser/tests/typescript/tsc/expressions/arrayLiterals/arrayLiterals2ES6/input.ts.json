@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "a0",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -111,8 +111,8 @@
               "ctxt": 0
             },
             "value": "a1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -187,8 +187,8 @@
               "ctxt": 0
             },
             "value": "a2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -215,7 +215,6 @@
                     "ctxt": 0
                   },
                   "value": "a0",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -267,8 +266,8 @@
               "ctxt": 0
             },
             "value": "a3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -294,7 +293,6 @@
                     "ctxt": 0
                   },
                   "value": "a0",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -329,8 +327,8 @@
               "ctxt": 0
             },
             "value": "a4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -396,8 +394,8 @@
               "ctxt": 0
             },
             "value": "a5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -421,7 +419,6 @@
                     "ctxt": 0
                   },
                   "value": "a0",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -457,6 +454,7 @@
               "ctxt": 0
             },
             "value": "b0",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -528,8 +526,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -549,7 +546,6 @@
                     "ctxt": 0
                   },
                   "value": "undefined",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -574,7 +570,6 @@
                     "ctxt": 0
                   },
                   "value": "undefined",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -609,6 +604,7 @@
               "ctxt": 0
             },
             "value": "b1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -678,8 +674,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -824,8 +819,8 @@
                   "ctxt": 0
                 },
                 "value": "c0",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               {
                 "type": "Identifier",
@@ -835,8 +830,8 @@
                   "ctxt": 0
                 },
                 "value": "c1",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
             "optional": false,
@@ -913,8 +908,8 @@
                   "ctxt": 0
                 },
                 "value": "c2",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               {
                 "type": "Identifier",
@@ -924,8 +919,8 @@
                   "ctxt": 0
                 },
                 "value": "c3",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
             "optional": false,
@@ -1006,8 +1001,8 @@
               "ctxt": 0
             },
             "value": "temp",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -1099,8 +1094,8 @@
               "ctxt": 0
             },
             "value": "temp1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -1177,6 +1172,7 @@
               "ctxt": 0
             },
             "value": "temp2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1246,8 +1242,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -1374,7 +1369,6 @@
           "ctxt": 0
         },
         "value": "myArray",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1395,7 +1389,6 @@
               "ctxt": 0
             },
             "value": "Array",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": {
@@ -1421,7 +1414,6 @@
                     "ctxt": 0
                   },
                   "value": "Number",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -1455,7 +1447,6 @@
           "ctxt": 0
         },
         "value": "myArray2",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -1476,7 +1467,6 @@
               "ctxt": 0
             },
             "value": "Array",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": {
@@ -1510,7 +1500,6 @@
                         "ctxt": 0
                       },
                       "value": "Number",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -1530,7 +1519,6 @@
                         "ctxt": 0
                       },
                       "value": "String",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -1576,8 +1564,8 @@
               "ctxt": 0
             },
             "value": "d0",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -1625,7 +1613,6 @@
                     "ctxt": 0
                   },
                   "value": "temp",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -1660,8 +1647,8 @@
               "ctxt": 0
             },
             "value": "d1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -1685,7 +1672,6 @@
                     "ctxt": 0
                   },
                   "value": "temp",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -1720,6 +1706,7 @@
               "ctxt": 0
             },
             "value": "d2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1744,8 +1731,7 @@
                   "kind": "number"
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -1769,7 +1755,6 @@
                     "ctxt": 0
                   },
                   "value": "temp1",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -1804,6 +1789,7 @@
               "ctxt": 0
             },
             "value": "d3",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1826,13 +1812,11 @@
                     "ctxt": 0
                   },
                   "value": "myArray",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -1856,7 +1840,6 @@
                     "ctxt": 0
                   },
                   "value": "temp1",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -1891,6 +1874,7 @@
               "ctxt": 0
             },
             "value": "d4",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1913,13 +1897,11 @@
                     "ctxt": 0
                   },
                   "value": "myArray2",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -1943,7 +1925,6 @@
                     "ctxt": 0
                   },
                   "value": "temp",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               },
@@ -1961,7 +1942,6 @@
                     "ctxt": 0
                   },
                   "value": "temp1",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -1996,8 +1976,8 @@
               "ctxt": 0
             },
             "value": "d5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -2021,7 +2001,6 @@
                     "ctxt": 0
                   },
                   "value": "a2",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -2056,8 +2035,8 @@
               "ctxt": 0
             },
             "value": "d6",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -2081,7 +2060,6 @@
                     "ctxt": 0
                   },
                   "value": "a3",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -2116,8 +2094,8 @@
               "ctxt": 0
             },
             "value": "d7",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -2141,7 +2119,6 @@
                     "ctxt": 0
                   },
                   "value": "a4",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -2176,6 +2153,7 @@
               "ctxt": 0
             },
             "value": "d8",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2208,8 +2186,7 @@
                   }
                 }
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ArrayExpression",
@@ -2243,7 +2220,6 @@
                           "ctxt": 0
                         },
                         "value": "temp1",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -2281,8 +2257,8 @@
               "ctxt": 0
             },
             "value": "d9",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "ArrayExpression",
@@ -2316,7 +2292,6 @@
                           "ctxt": 0
                         },
                         "value": "temp1",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }

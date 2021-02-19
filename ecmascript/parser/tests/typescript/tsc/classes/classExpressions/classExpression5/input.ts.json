@@ -59,7 +59,6 @@
                       "ctxt": 0
                     },
                     "value": "hi",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "function": {
@@ -131,7 +130,6 @@
               "ctxt": 0
             },
             "value": "hi",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

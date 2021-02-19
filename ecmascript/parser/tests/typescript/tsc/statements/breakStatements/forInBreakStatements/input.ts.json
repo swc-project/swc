@@ -38,8 +38,8 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": null,
             "definite": false
@@ -90,7 +90,6 @@
           "ctxt": 0
         },
         "value": "ONE",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -125,8 +124,8 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "init": null,
               "definite": false
@@ -165,7 +164,6 @@
                   "ctxt": 0
                 },
                 "value": "ONE",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -188,7 +186,6 @@
           "ctxt": 0
         },
         "value": "TWO",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -206,7 +203,6 @@
             "ctxt": 0
           },
           "value": "THREE",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -241,8 +237,8 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": null,
                 "definite": false
@@ -281,7 +277,6 @@
                     "ctxt": 0
                   },
                   "value": "THREE",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -305,7 +300,6 @@
           "ctxt": 0
         },
         "value": "FOUR",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -340,8 +334,8 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "init": null,
               "definite": false
@@ -380,7 +374,6 @@
                   "ctxt": 0
                 },
                 "value": "FIVE",
-                "typeAnnotation": null,
                 "optional": false
               },
               "body": {
@@ -415,8 +408,8 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "typeAnnotation": null,
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "init": null,
                       "definite": false
@@ -455,7 +448,6 @@
                           "ctxt": 0
                         },
                         "value": "FOUR",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -499,8 +491,8 @@
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": null,
             "definite": false
@@ -539,7 +531,6 @@
                 "ctxt": 0
               },
               "value": "SIX",
-              "typeAnnotation": null,
               "optional": false
             },
             "body": {
@@ -574,8 +565,8 @@
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "init": null,
                     "definite": false
@@ -606,7 +597,6 @@
                     "ctxt": 0
                   },
                   "value": "SIX",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -630,7 +620,6 @@
           "ctxt": 0
         },
         "value": "SEVEN",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -665,8 +654,8 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "init": null,
               "definite": false
@@ -714,8 +703,8 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "init": null,
                 "definite": false
@@ -763,8 +752,8 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": null,
                   "definite": false
@@ -795,7 +784,6 @@
                   "ctxt": 0
                 },
                 "value": "SEVEN",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -818,7 +806,6 @@
           "ctxt": 0
         },
         "value": "EIGHT",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -853,8 +840,8 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "init": null,
               "definite": false
@@ -903,8 +890,8 @@
                       "ctxt": 0
                     },
                     "value": "fn",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "init": {
                     "type": "FunctionExpression",
@@ -949,7 +936,6 @@
                   "ctxt": 0
                 },
                 "value": "EIGHT",
-                "typeAnnotation": null,
                 "optional": false
               }
             }

@@ -130,13 +130,17 @@ fn wrap_module(
                 Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(Ident::new("module".into(), DUMMY_SP.with_ctxt(local_ctxt))),
+                    pat: Pat::Ident(
+                        Ident::new("module".into(), DUMMY_SP.with_ctxt(local_ctxt)).into(),
+                    ),
                 },
                 // exports
                 Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(Ident::new("exports".into(), DUMMY_SP.with_ctxt(local_ctxt))),
+                    pat: Pat::Ident(
+                        Ident::new("exports".into(), DUMMY_SP.with_ctxt(local_ctxt)).into(),
+                    ),
                 },
             ],
             decorators: vec![],
@@ -168,7 +172,7 @@ fn wrap_module(
         declare: false,
         decls: vec![VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(load_var.clone()),
+            name: Pat::Ident(load_var.clone().into()),
             init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: Ident::new("__spack_require__".into(), DUMMY_SP.with_ctxt(helper_ctxt))

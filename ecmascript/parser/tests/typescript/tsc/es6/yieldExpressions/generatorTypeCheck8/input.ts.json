@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "BadGenerator",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "Iterator",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": {
@@ -80,7 +78,6 @@
               "ctxt": 0
             },
             "value": "Iterable",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": {
@@ -124,7 +121,6 @@
           "ctxt": 0
         },
         "value": "g3",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -169,7 +165,6 @@
               "ctxt": 0
             },
             "value": "BadGenerator",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null

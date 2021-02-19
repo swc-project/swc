@@ -53,8 +53,8 @@
               "ctxt": 0
             },
             "value": "config",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "CallExpression",
@@ -71,7 +71,6 @@
                 "ctxt": 0
               },
               "value": "require",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -136,7 +135,6 @@
                 "ctxt": 0
               },
               "value": "module",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -147,7 +145,6 @@
                 "ctxt": 0
               },
               "value": "exports",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -160,7 +157,6 @@
               "ctxt": 0
             },
             "value": "route",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -185,8 +181,8 @@
                   "ctxt": 0
                 },
                 "value": "server",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             }
           ],
@@ -233,7 +229,6 @@
                         "ctxt": 0
                       },
                       "value": "server",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -244,7 +239,6 @@
                         "ctxt": 0
                       },
                       "value": "get",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -282,7 +276,6 @@
                                 "ctxt": 0
                               },
                               "value": "config",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "property": {
@@ -293,7 +286,6 @@
                                 "ctxt": 0
                               },
                               "value": "env",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -306,7 +298,6 @@
                               "ctxt": 0
                             },
                             "value": "siteRoot",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "computed": false
@@ -349,8 +340,8 @@
                                 "ctxt": 0
                               },
                               "value": "req",
-                              "typeAnnotation": null,
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             }
                           },
                           {
@@ -369,8 +360,8 @@
                                 "ctxt": 0
                               },
                               "value": "res",
-                              "typeAnnotation": null,
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             }
                           },
                           {
@@ -389,8 +380,8 @@
                                 "ctxt": 0
                               },
                               "value": "next",
-                              "typeAnnotation": null,
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             }
                           }
                         ],
@@ -437,7 +428,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "req",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "property": {
@@ -448,7 +438,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "redirect",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   },
                                   "computed": false

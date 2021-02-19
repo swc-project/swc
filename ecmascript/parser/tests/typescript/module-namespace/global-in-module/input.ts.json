@@ -54,7 +54,6 @@
                 "ctxt": 0
               },
               "value": "global",
-              "typeAnnotation": null,
               "optional": false
             },
             "body": {
@@ -90,6 +89,7 @@
                           "ctxt": 0
                         },
                         "value": "x",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -106,8 +106,7 @@
                             },
                             "kind": "number"
                           }
-                        },
-                        "optional": false
+                        }
                       },
                       "init": null,
                       "definite": false

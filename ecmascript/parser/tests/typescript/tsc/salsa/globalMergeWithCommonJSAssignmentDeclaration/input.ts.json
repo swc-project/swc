@@ -36,7 +36,6 @@
               "ctxt": 0
             },
             "value": "window",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -47,7 +46,6 @@
               "ctxt": 0
             },
             "value": "name",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -85,7 +83,6 @@
             "ctxt": 0
           },
           "value": "window",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
@@ -96,7 +93,6 @@
             "ctxt": 0
           },
           "value": "console",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
@@ -132,7 +128,6 @@
               "ctxt": 0
             },
             "value": "module",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -143,7 +138,6 @@
               "ctxt": 0
             },
             "value": "exports",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false

@@ -21,7 +21,6 @@
           "ctxt": 0
         },
         "value": "BinaryTuple",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -48,7 +47,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -69,7 +67,6 @@
                 "ctxt": 0
               },
               "value": "S",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -102,7 +99,6 @@
                 "ctxt": 0
               },
               "value": "first",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -131,7 +127,6 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -155,7 +150,6 @@
                 "ctxt": 0
               },
               "value": "second",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -184,7 +178,6 @@
                     "ctxt": 0
                   },
                   "value": "S",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -210,7 +203,6 @@
           "ctxt": 0
         },
         "value": "Sequence",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -237,7 +229,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -270,7 +261,6 @@
                 "ctxt": 0
               },
               "value": "hasNext",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -311,7 +301,6 @@
                 "ctxt": 0
               },
               "value": "pop",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -339,7 +328,6 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -363,7 +351,6 @@
                 "ctxt": 0
               },
               "value": "zip",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -377,6 +364,7 @@
                   "ctxt": 0
                 },
                 "value": "seq",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -399,7 +387,6 @@
                         "ctxt": 0
                       },
                       "value": "Sequence",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -425,7 +412,6 @@
                               "ctxt": 0
                             },
                             "value": "S",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -433,8 +419,7 @@
                       ]
                     }
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnn": {
@@ -459,7 +444,6 @@
                     "ctxt": 0
                   },
                   "value": "Sequence",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -485,7 +469,6 @@
                           "ctxt": 0
                         },
                         "value": "BinaryTuple",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": {
@@ -511,7 +494,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
@@ -531,7 +513,6 @@
                                 "ctxt": 0
                               },
                               "value": "S",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
@@ -566,7 +547,6 @@
                       "ctxt": 0
                     },
                     "value": "S",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -593,7 +573,6 @@
           "ctxt": 0
         },
         "value": "List",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -620,7 +599,6 @@
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -644,7 +622,6 @@
               "ctxt": 0
             },
             "value": "Sequence",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeArguments": {
@@ -670,7 +647,6 @@
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -703,7 +679,6 @@
                 "ctxt": 0
               },
               "value": "getLength",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -744,7 +719,6 @@
                 "ctxt": 0
               },
               "value": "zip",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -758,6 +732,7 @@
                   "ctxt": 0
                 },
                 "value": "seq",
+                "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -780,7 +755,6 @@
                         "ctxt": 0
                       },
                       "value": "Sequence",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": {
@@ -806,7 +780,6 @@
                               "ctxt": 0
                             },
                             "value": "S",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
@@ -814,8 +787,7 @@
                       ]
                     }
                   }
-                },
-                "optional": false
+                }
               }
             ],
             "typeAnn": {
@@ -840,7 +812,6 @@
                     "ctxt": 0
                   },
                   "value": "List",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
@@ -866,7 +837,6 @@
                           "ctxt": 0
                         },
                         "value": "BinaryTuple",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": {
@@ -892,7 +862,6 @@
                                 "ctxt": 0
                               },
                               "value": "T",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
@@ -912,7 +881,6 @@
                                 "ctxt": 0
                               },
                               "value": "S",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "typeParams": null
@@ -947,7 +915,6 @@
                       "ctxt": 0
                     },
                     "value": "S",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,

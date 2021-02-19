@@ -54,7 +54,6 @@
                   "ctxt": 0
                 },
                 "value": "Something",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -107,8 +106,8 @@
                 "ctxt": 0
               },
               "value": "Something",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "NumericLiteral",
@@ -148,7 +147,6 @@
             "ctxt": 0
           },
           "value": "A",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -183,7 +181,6 @@
                     "ctxt": 0
                   },
                   "value": "B",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "body": {
@@ -219,8 +216,8 @@
                               "ctxt": 0
                             },
                             "value": "Something",
-                            "typeAnnotation": null,
-                            "optional": false
+                            "optional": false,
+                            "typeAnnotation": null
                           },
                           "init": {
                             "type": "MemberExpression",
@@ -244,7 +241,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "require",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "arguments": [
@@ -276,7 +272,6 @@
                                 "ctxt": 0
                               },
                               "value": "Something",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false
@@ -310,8 +305,8 @@
                               "ctxt": 0
                             },
                             "value": "thing",
-                            "typeAnnotation": null,
-                            "optional": false
+                            "optional": false,
+                            "typeAnnotation": null
                           },
                           "init": {
                             "type": "NewExpression",
@@ -328,7 +323,6 @@
                                 "ctxt": 0
                               },
                               "value": "Something",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "arguments": [],
@@ -361,7 +355,6 @@
                               "ctxt": 0
                             },
                             "value": "thing",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "exported": null

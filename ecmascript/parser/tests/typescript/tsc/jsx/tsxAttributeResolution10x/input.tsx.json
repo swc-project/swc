@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "JSX",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -80,7 +78,6 @@
                 "ctxt": 0
               },
               "value": "IntrinsicElements",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -111,7 +108,6 @@
                 "ctxt": 0
               },
               "value": "ElementAttributesProperty",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -141,7 +137,6 @@
                       "ctxt": 0
                     },
                     "value": "props",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -174,7 +169,6 @@
             "ctxt": 0
           },
           "value": "MyComponent",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -200,7 +194,6 @@
                 "ctxt": 0
               },
               "value": "render",
-              "typeAnnotation": null,
               "optional": false
             },
             "function": {
@@ -246,7 +239,6 @@
                 "ctxt": 0
               },
               "value": "props",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": null,
@@ -276,6 +268,7 @@
                           "ctxt": 0
                         },
                         "value": "s",
+                        "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -292,8 +285,7 @@
                             },
                             "kind": "string"
                           }
-                        },
-                        "optional": false
+                        }
                       }
                     ],
                     "typeAnnotation": {
@@ -365,7 +357,6 @@
               "ctxt": 0
             },
             "value": "MyComponent",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -389,7 +380,6 @@
                   "ctxt": 0
                 },
                 "value": "bar",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -439,7 +429,6 @@
               "ctxt": 0
             },
             "value": "MyComponent",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -463,7 +452,6 @@
                   "ctxt": 0
                 },
                 "value": "bar",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -516,7 +504,6 @@
               "ctxt": 0
             },
             "value": "MyComponent",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -540,7 +527,6 @@
                   "ctxt": 0
                 },
                 "value": "data-bar",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {

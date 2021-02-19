@@ -30,7 +30,6 @@
             "ctxt": 0
           },
           "value": "CodeGenTarget",
-          "typeAnnotation": null,
           "optional": false
         },
         "members": [
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "ES3",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {
@@ -77,7 +75,6 @@
                 "ctxt": 0
               },
               "value": "ES5",
-              "typeAnnotation": null,
               "optional": false
             },
             "init": {

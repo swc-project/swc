@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -103,7 +101,6 @@
               "ctxt": 0
             },
             "value": "A",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": {
@@ -114,7 +111,6 @@
               "ctxt": 0
             },
             "value": "B",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -146,7 +142,6 @@
             "ctxt": 0
           },
           "value": "Z",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeParams": null,
@@ -165,7 +160,6 @@
               "ctxt": 0
             },
             "value": "A",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null
@@ -195,7 +189,6 @@
               "ctxt": 0
             },
             "value": "Y",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": {
@@ -206,7 +199,6 @@
               "ctxt": 0
             },
             "value": "Z",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -251,7 +243,6 @@
               "ctxt": 0
             },
             "value": "B",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": {
@@ -262,7 +253,6 @@
               "ctxt": 0
             },
             "value": "C",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -307,7 +297,6 @@
               "ctxt": 0
             },
             "value": "C",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -353,7 +342,6 @@
               "ctxt": 0
             },
             "value": "C",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": {
@@ -364,7 +352,6 @@
               "ctxt": 0
             },
             "value": "D",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -396,7 +383,6 @@
               "ctxt": 0
             },
             "value": "D",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": null
@@ -441,7 +427,6 @@
             "ctxt": 0
           },
           "value": "D",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [],
@@ -473,6 +458,7 @@
               "ctxt": 0
             },
             "value": "d",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -495,13 +481,11 @@
                     "ctxt": 0
                   },
                   "value": "D",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
               }
-            },
-            "optional": false
+            }
           },
           "init": {
             "type": "ObjectExpression",

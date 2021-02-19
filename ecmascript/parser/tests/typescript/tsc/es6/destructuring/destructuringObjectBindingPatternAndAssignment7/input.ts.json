@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "K",
-        "typeAnnotation": null,
         "optional": false
       },
       "members": [
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "init": {
@@ -75,7 +73,6 @@
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           },
           "init": {
@@ -144,7 +141,6 @@
                         "ctxt": 0
                       },
                       "value": "K",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -155,7 +151,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -169,8 +164,8 @@
                     "ctxt": 0
                   },
                   "value": "aVal",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               },
               {
@@ -197,7 +192,6 @@
                         "ctxt": 0
                       },
                       "value": "K",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -208,7 +202,6 @@
                         "ctxt": 0
                       },
                       "value": "b",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -222,8 +215,8 @@
                     "ctxt": 0
                   },
                   "value": "bVal",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               }
             ],
@@ -299,7 +292,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "K",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -310,7 +302,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "a",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -350,7 +341,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "K",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "property": {
@@ -361,7 +351,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "b",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false
@@ -424,7 +413,6 @@
               "ctxt": 0
             },
             "value": "console",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -435,7 +423,6 @@
               "ctxt": 0
             },
             "value": "log",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -451,7 +438,6 @@
                 "ctxt": 0
               },
               "value": "aVal",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -465,7 +451,6 @@
                 "ctxt": 0
               },
               "value": "bVal",
-              "typeAnnotation": null,
               "optional": false
             }
           }

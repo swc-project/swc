@@ -424,12 +424,12 @@ impl MethodFolder {
 
         self.vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(ident.clone()),
+            name: Pat::Ident(ident.clone().into()),
             init: Some(Box::new(Expr::Arrow(ArrowExpr {
                 span: DUMMY_SP,
                 is_async: false,
                 is_generator: false,
-                params: vec![Pat::Ident(args_ident.clone())],
+                params: vec![Pat::Ident(args_ident.clone().into())],
                 body: BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     left: PatOrExpr::Expr(Box::new(
@@ -548,7 +548,7 @@ impl Fold for MethodFolder {
 
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(ident.clone()),
+                    name: Pat::Ident(ident.clone().into()),
                     init: Some(Box::new(Expr::Arrow(ArrowExpr {
                         span: DUMMY_SP,
                         is_async: false,
@@ -556,7 +556,7 @@ impl Fold for MethodFolder {
                         params: vec![Pat::Rest(RestPat {
                             span: DUMMY_SP,
                             dot3_token: DUMMY_SP,
-                            arg: Box::new(Pat::Ident(args_ident.clone())),
+                            arg: Box::new(Pat::Ident(args_ident.clone().into())),
                             type_ann: Default::default(),
                         })],
                         body: BlockStmtOrExpr::Expr(Box::new(Expr::Call(CallExpr {
@@ -597,7 +597,7 @@ impl Fold for MethodFolder {
                 let (_, ident) = self.ident_for_super(&prop);
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(ident.clone()),
+                    name: Pat::Ident(ident.clone().into()),
                     init: Some(Box::new(Expr::Arrow(ArrowExpr {
                         span: DUMMY_SP,
                         is_async: false,
@@ -678,7 +678,7 @@ impl Actual {
                         match p.pat {
                             Pat::Ident(..) => Some(p.clone()),
                             Pat::Array(..) | Pat::Object(..) => Some(Param {
-                                pat: Pat::Ident(private_ident!("_")),
+                                pat: Pat::Ident(private_ident!("_").into()),
                                 ..p.clone()
                             }),
                             _ => {
@@ -709,7 +709,9 @@ impl Actual {
                         stmts: vec![
                             AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(real_fn_ident.clone()))),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                    real_fn_ident.clone().into(),
+                                ))),
                                 op: op!("="),
                                 right: Box::new(right),
                             }
@@ -739,7 +741,7 @@ impl Actual {
                 kind: VarDeclKind::Var,
                 decls: vec![VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(real_fn_ident.clone()),
+                    name: Pat::Ident(real_fn_ident.clone().into()),
                     init: Some(Box::new(right)),
                     definite: false,
                 }],

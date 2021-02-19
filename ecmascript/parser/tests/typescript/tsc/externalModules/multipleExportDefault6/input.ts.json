@@ -31,7 +31,6 @@
                 "ctxt": 0
               },
               "value": "lol",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": {
@@ -72,7 +71,6 @@
                 "ctxt": 0
               },
               "value": "lol",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": {

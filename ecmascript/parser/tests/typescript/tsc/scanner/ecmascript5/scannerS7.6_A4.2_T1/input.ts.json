@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "А",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -70,7 +70,6 @@
             "ctxt": 0
           },
           "value": "А",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -113,7 +112,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -167,8 +165,8 @@
               "ctxt": 0
             },
             "value": "Б",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -206,7 +204,6 @@
             "ctxt": 0
           },
           "value": "Б",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -249,7 +246,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -303,8 +299,8 @@
               "ctxt": 0
             },
             "value": "В",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -342,7 +338,6 @@
             "ctxt": 0
           },
           "value": "В",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -385,7 +380,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -439,8 +433,8 @@
               "ctxt": 0
             },
             "value": "Г",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -478,7 +472,6 @@
             "ctxt": 0
           },
           "value": "Г",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -521,7 +514,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -575,8 +567,8 @@
               "ctxt": 0
             },
             "value": "Д",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -614,7 +606,6 @@
             "ctxt": 0
           },
           "value": "Д",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -657,7 +648,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -711,8 +701,8 @@
               "ctxt": 0
             },
             "value": "Е",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -750,7 +740,6 @@
             "ctxt": 0
           },
           "value": "Е",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -793,7 +782,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -847,8 +835,8 @@
               "ctxt": 0
             },
             "value": "Ж",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -886,7 +874,6 @@
             "ctxt": 0
           },
           "value": "Ж",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -929,7 +916,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -983,8 +969,8 @@
               "ctxt": 0
             },
             "value": "З",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -1022,7 +1008,6 @@
             "ctxt": 0
           },
           "value": "З",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -1065,7 +1050,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -1119,8 +1103,8 @@
               "ctxt": 0
             },
             "value": "И",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -1158,7 +1142,6 @@
             "ctxt": 0
           },
           "value": "И",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -1201,7 +1184,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -1255,8 +1237,8 @@
               "ctxt": 0
             },
             "value": "Й",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -1294,7 +1276,6 @@
             "ctxt": 0
           },
           "value": "Й",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -1337,7 +1318,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -1391,8 +1371,8 @@
               "ctxt": 0
             },
             "value": "К",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -1430,7 +1410,6 @@
             "ctxt": 0
           },
           "value": "К",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -1473,7 +1452,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -1527,8 +1505,8 @@
               "ctxt": 0
             },
             "value": "Л",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -1566,7 +1544,6 @@
             "ctxt": 0
           },
           "value": "Л",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -1609,7 +1586,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -1663,8 +1639,8 @@
               "ctxt": 0
             },
             "value": "М",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -1702,7 +1678,6 @@
             "ctxt": 0
           },
           "value": "М",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -1745,7 +1720,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -1799,8 +1773,8 @@
               "ctxt": 0
             },
             "value": "Н",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -1838,7 +1812,6 @@
             "ctxt": 0
           },
           "value": "Н",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -1881,7 +1854,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -1935,8 +1907,8 @@
               "ctxt": 0
             },
             "value": "О",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -1974,7 +1946,6 @@
             "ctxt": 0
           },
           "value": "О",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -2017,7 +1988,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -2071,8 +2041,8 @@
               "ctxt": 0
             },
             "value": "П",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -2110,7 +2080,6 @@
             "ctxt": 0
           },
           "value": "П",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -2153,7 +2122,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -2207,8 +2175,8 @@
               "ctxt": 0
             },
             "value": "Р",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -2246,7 +2214,6 @@
             "ctxt": 0
           },
           "value": "Р",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -2289,7 +2256,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -2343,8 +2309,8 @@
               "ctxt": 0
             },
             "value": "С",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -2382,7 +2348,6 @@
             "ctxt": 0
           },
           "value": "С",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -2425,7 +2390,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -2479,8 +2443,8 @@
               "ctxt": 0
             },
             "value": "Т",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -2518,7 +2482,6 @@
             "ctxt": 0
           },
           "value": "Т",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -2561,7 +2524,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -2615,8 +2577,8 @@
               "ctxt": 0
             },
             "value": "У",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -2654,7 +2616,6 @@
             "ctxt": 0
           },
           "value": "У",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -2697,7 +2658,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -2751,8 +2711,8 @@
               "ctxt": 0
             },
             "value": "Ф",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -2790,7 +2750,6 @@
             "ctxt": 0
           },
           "value": "Ф",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -2833,7 +2792,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -2887,8 +2845,8 @@
               "ctxt": 0
             },
             "value": "Х",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -2926,7 +2884,6 @@
             "ctxt": 0
           },
           "value": "Х",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -2969,7 +2926,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -3023,8 +2979,8 @@
               "ctxt": 0
             },
             "value": "Ц",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -3062,7 +3018,6 @@
             "ctxt": 0
           },
           "value": "Ц",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -3105,7 +3060,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -3159,8 +3113,8 @@
               "ctxt": 0
             },
             "value": "Ч",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -3198,7 +3152,6 @@
             "ctxt": 0
           },
           "value": "Ч",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -3241,7 +3194,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -3295,8 +3247,8 @@
               "ctxt": 0
             },
             "value": "Ш",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -3334,7 +3286,6 @@
             "ctxt": 0
           },
           "value": "Ш",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -3377,7 +3328,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -3431,8 +3381,8 @@
               "ctxt": 0
             },
             "value": "Щ",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -3470,7 +3420,6 @@
             "ctxt": 0
           },
           "value": "Щ",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -3513,7 +3462,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -3567,8 +3515,8 @@
               "ctxt": 0
             },
             "value": "Ъ",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -3606,7 +3554,6 @@
             "ctxt": 0
           },
           "value": "Ъ",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -3649,7 +3596,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -3703,8 +3649,8 @@
               "ctxt": 0
             },
             "value": "Ы",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -3742,7 +3688,6 @@
             "ctxt": 0
           },
           "value": "Ы",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -3785,7 +3730,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -3839,8 +3783,8 @@
               "ctxt": 0
             },
             "value": "Ь",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -3878,7 +3822,6 @@
             "ctxt": 0
           },
           "value": "Ь",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -3921,7 +3864,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -3975,8 +3917,8 @@
               "ctxt": 0
             },
             "value": "Э",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -4014,7 +3956,6 @@
             "ctxt": 0
           },
           "value": "Э",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -4057,7 +3998,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -4111,8 +4051,8 @@
               "ctxt": 0
             },
             "value": "Ю",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -4150,7 +4090,6 @@
             "ctxt": 0
           },
           "value": "Ю",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -4193,7 +4132,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -4247,8 +4185,8 @@
               "ctxt": 0
             },
             "value": "Я",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -4286,7 +4224,6 @@
             "ctxt": 0
           },
           "value": "Я",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -4329,7 +4266,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -4383,8 +4319,8 @@
               "ctxt": 0
             },
             "value": "Ё",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "NumericLiteral",
@@ -4422,7 +4358,6 @@
             "ctxt": 0
           },
           "value": "Ё",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -4465,7 +4400,6 @@
                   "ctxt": 0
                 },
                 "value": "$ERROR",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [

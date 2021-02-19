@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "v",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -62,7 +63,6 @@
                         "ctxt": 0
                       },
                       "value": "workItem",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -104,7 +104,6 @@
                         "ctxt": 0
                       },
                       "value": "width",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -132,8 +131,7 @@
                   }
                 ]
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false

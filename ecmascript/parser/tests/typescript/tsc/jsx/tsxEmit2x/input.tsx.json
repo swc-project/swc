@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "JSX",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "Element",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -80,7 +78,6 @@
                 "ctxt": 0
               },
               "value": "IntrinsicElements",
-              "typeAnnotation": null,
               "optional": false
             },
             "declare": false,
@@ -105,6 +102,7 @@
                         "ctxt": 0
                       },
                       "value": "s",
+                      "optional": false,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
@@ -121,8 +119,7 @@
                           },
                           "kind": "string"
                         }
-                      },
-                      "optional": false
+                      }
                     }
                   ],
                   "typeAnnotation": {
@@ -180,6 +177,7 @@
               "ctxt": 0
             },
             "value": "p1",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -196,8 +194,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -217,6 +214,7 @@
               "ctxt": 0
             },
             "value": "p2",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -233,8 +231,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -254,6 +251,7 @@
               "ctxt": 0
             },
             "value": "p3",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -270,8 +268,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -303,8 +300,8 @@
               "ctxt": 0
             },
             "value": "spreads1",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -323,7 +320,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -347,7 +343,6 @@
                       "ctxt": 0
                     },
                     "value": "p1",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -371,7 +366,6 @@
                     "ctxt": 0
                   },
                   "value": "p2",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -391,7 +385,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -425,8 +418,8 @@
               "ctxt": 0
             },
             "value": "spreads2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -445,7 +438,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -469,7 +461,6 @@
                       "ctxt": 0
                     },
                     "value": "p1",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -493,7 +484,6 @@
                     "ctxt": 0
                   },
                   "value": "p2",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -513,7 +503,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -547,8 +536,8 @@
               "ctxt": 0
             },
             "value": "spreads3",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -567,7 +556,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -591,7 +579,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -609,7 +596,6 @@
                         "ctxt": 0
                       },
                       "value": "p3",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -629,7 +615,6 @@
                       "ctxt": 0
                     },
                     "value": "p1",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -653,7 +638,6 @@
                     "ctxt": 0
                   },
                   "value": "p2",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -673,7 +657,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -707,8 +690,8 @@
               "ctxt": 0
             },
             "value": "spreads4",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -727,7 +710,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -751,7 +733,6 @@
                       "ctxt": 0
                     },
                     "value": "p1",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -770,7 +751,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -788,7 +768,6 @@
                         "ctxt": 0
                       },
                       "value": "p3",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -813,7 +792,6 @@
                     "ctxt": 0
                   },
                   "value": "p2",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -833,7 +811,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -867,8 +844,8 @@
               "ctxt": 0
             },
             "value": "spreads5",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "JSXElement",
@@ -887,7 +864,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -911,7 +887,6 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -929,7 +904,6 @@
                         "ctxt": 0
                       },
                       "value": "p2",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -949,7 +923,6 @@
                       "ctxt": 0
                     },
                     "value": "p1",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 },
@@ -968,7 +941,6 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -986,7 +958,6 @@
                         "ctxt": 0
                       },
                       "value": "p3",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -1011,7 +982,6 @@
                     "ctxt": 0
                   },
                   "value": "p2",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -1031,7 +1001,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
