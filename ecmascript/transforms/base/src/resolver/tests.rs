@@ -2030,9 +2030,9 @@ to_ts!(
     }
     ",
     "
-    var f3 = <T__6, U__6 extends T__6>(x__6: T__6, y__6: U__6)=>{
-        x__6 = y__6;
-        return y__6;
+    var f3 = <T__2, U__2 extends T__2>(x__2: T__2, y__2: U__2)=>{
+        x__2 = y__2;
+        return y__2;
     };
     "
 );
@@ -2046,9 +2046,9 @@ to_ts!(
     }
     ",
     "
-    var f4 = <U__7 extends T__7, T__7>(x__7: T__7, y__7: U__7)=>{
-        x__7 = y__7;
-        return y__7;
+    var f4 = <U__2 extends T__2, T__2>(x__2: T__2, y__2: U__2)=>{
+        x__2 = y__2;
+        return y__2;
     };
     "
 );
