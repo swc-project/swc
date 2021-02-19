@@ -26,6 +26,7 @@ serde_json = "1"
 spack = {path = "../spack"}
 swc = {path = "../"}
 swc_atoms = {version = "0.2.4", path = "../atoms"}
+swc_babel_compat = {path = "./babel-compat"}
 swc_bundler = {path = "../bundler"}
 swc_common = {path = "../common", features = ["tty-emitter", "sourcemap"]}
 swc_ecma_ast = {path = "../ecmascript/ast"}
