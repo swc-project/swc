@@ -174,11 +174,17 @@ where
                                 _ => {}
                             }
                         }
-
-                        Some(Stmt::Decl(Decl::Var(var)))
+                        module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))));
+                        None
                     }
 
-                    ModuleItem::Stmt(s) => Some(s),
+                    ModuleItem::Stmt(s @ Stmt::Return(..)) => Some(s),
+
+                    ModuleItem::Stmt(s) => {
+                        module_items.push(ModuleItem::Stmt(s));
+                        None
+                    }
+
                     ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
                         // We handle this later.
                         let mut map = ctx.export_stars_in_wrapped.lock();
