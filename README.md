@@ -68,7 +68,7 @@ The lower bound of the speedup compared to babel is **18**. The benchmarks were 
 
 swc is a community-driven project, and is maintained by a group of [volunteers](https://opencollective.com/swc#team). If you'd like to help support the future of the project, please consider:
 
-- Giving developer time on the project. (Message us on [Slack](https://swc-org.slack.com/) for guidance!)
+- Giving developer time on the project. (Message us on [Github discussions](https://github.com/swc-project/swc/discussions) (preferred) or [Slack](https://swc-org.slack.com/) for guidance!)
 - [Slackin for swc](https://swc-slackin.herokuapp.com)
 - Giving funds by becoming a sponsor (see below)!
 
