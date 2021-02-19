@@ -2153,3 +2153,18 @@ to_ts!(
     });
     "
 );
+
+to!(
+    issue_1402,
+    "
+    var e = 1;
+    try {
+        throw 2;
+    } catch (e) {
+        console.log(e);
+    }
+    ",
+    "
+    
+    "
+);
