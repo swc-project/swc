@@ -9,6 +9,7 @@ use swc_common::Spanned;
 
 /// Identifer used as a pattern.
 #[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Serialize, Deserialize)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct BindingIdent {
     #[span]
     #[serde(flatten)]
