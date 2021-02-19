@@ -406,9 +406,14 @@ where
                                 }
                             }
                         }
-                        JSXAttrOrSpread::SpreadElement(attr) => {
-                            props_obj.props.push(PropOrSpread::Spread(attr));
-                        }
+                        JSXAttrOrSpread::SpreadElement(attr) => match *attr.expr {
+                            Expr::Object(obj) => {
+                                props_obj.props.extend(obj.props);
+                            }
+                            _ => {
+                                props_obj.props.push(PropOrSpread::Spread(attr));
+                            }
+                        },
                     }
                 }
 
