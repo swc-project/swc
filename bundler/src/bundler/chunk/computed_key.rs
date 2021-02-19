@@ -312,22 +312,23 @@ impl ExportToReturn<'_> {
         );
     }
 
-    fn export_key_value(&mut self, mut key: Ident, ident: Ident) {
+    fn export_key_value(&mut self, key: Ident, value: Ident) {
         self.return_props
             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(key.clone()),
-                value: Box::new(Expr::Ident(ident)),
+                value: Box::new(Expr::Ident(value.clone())),
             }))));
+        if self.module_var.ctxt() == value.span.ctxt {
+            return;
+        }
 
-        let prop = Ident::new(key.sym.clone(), key.span.with_ctxt(SyntaxContext::empty()));
+        let mut exported = key;
 
-        key.span.ctxt = self.module_var.ctxt();
+        exported.span.ctxt = self.module_var.ctxt();
 
         self.esm_exports.push(
-            self.module_var
-                .clone()
-                .make_member(prop)
-                .assign_to(key)
+            value
+                .assign_to(exported)
                 .into_module_item(self.injected_ctxt, "export to return => export_key_value"),
         );
     }
