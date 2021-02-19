@@ -352,8 +352,7 @@ where
                                     };
 
                                     // TODO: Check if `i` is a valid identifier.
-                                    let key = if i.sym.contains("-") || i.sym.is_reserved_for_es3()
-                                    {
+                                    let key = if i.sym.contains("-") {
                                         PropName::Str(Str {
                                             span: i.span,
                                             value: i.sym,
