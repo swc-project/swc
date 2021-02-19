@@ -239,16 +239,27 @@ where
                     .map(Some)
                     .collect::<Vec<_>>();
 
-                if !children.is_empty() {
-                    props_obj
-                        .props
-                        .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                            key: PropName::Ident(quote_ident!("children")),
-                            value: Box::new(Expr::Array(ArrayLit {
-                                span: DUMMY_SP,
-                                elems: children,
-                            })),
-                        }))));
+                match children.len() {
+                    0 => {}
+                    1 if children[0].as_ref().unwrap().spread.is_none() => {
+                        props_obj
+                            .props
+                            .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                key: PropName::Ident(quote_ident!("children")),
+                                value: children.into_iter().next().flatten().unwrap().expr,
+                            }))));
+                    }
+                    _ => {
+                        props_obj
+                            .props
+                            .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                key: PropName::Ident(quote_ident!("children")),
+                                value: Box::new(Expr::Array(ArrayLit {
+                                    span: DUMMY_SP,
+                                    elems: children,
+                                })),
+                            }))));
+                    }
                 }
 
                 Expr::Call(CallExpr {
