@@ -1,0 +1,14 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Compatibility layer between babel and swc"
+edition = "2018"
+license = "MIT"
+name = "swc_babel_compat"
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+swc_atoms = {version = "0.2.5", path = "../../atoms"}
+swc_common = {version = "0.10.9", path = "../../common"}
+swc_ecma_ast = {version = "0.39.0", path = "../../ecmascript/ast"}
