@@ -1159,13 +1159,20 @@ identical!(
 });"
 );
 
-identical!(
+to!(
     issue_788_2,
     "window.addEventListener('message', function(e) {
     try {
         console.log(e.data);
     } catch(e) {
         console.log(e);
+    }
+});",
+    "window.addEventListener('message', function(e) {
+    try {
+        console.log(e.data);
+    } catch(e1) {
+        console.log(e1);
     }
 });"
 );
