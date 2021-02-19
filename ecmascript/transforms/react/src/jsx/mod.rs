@@ -524,15 +524,19 @@ where
         if attrs.is_empty() {
             return Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP })));
         }
-        let props = attrs
-            .into_iter()
-            .map(|attr| match attr {
-                JSXAttrOrSpread::JSXAttr(attr) => {
-                    PropOrSpread::Prop(Box::new(self.attr_to_prop(attr)))
+        let mut props = vec![];
+        attrs.into_iter().for_each(|attr| match attr {
+            JSXAttrOrSpread::JSXAttr(attr) => {
+                props.push(PropOrSpread::Prop(Box::new(self.attr_to_prop(attr))))
+            }
+            JSXAttrOrSpread::SpreadElement(spread) => {
+                // babel does some optimizations
+                match *spread.expr {
+                    Expr::Object(obj) => props.extend(obj.props),
+                    _ => props.push(PropOrSpread::Spread(spread)),
                 }
-                JSXAttrOrSpread::SpreadElement(spread) => PropOrSpread::Spread(spread),
-            })
-            .collect();
+            }
+        });
 
         let obj = ObjectLit {
             span: DUMMY_SP,
