@@ -827,6 +827,24 @@ impl<'a> VisitMut for Resolver<'a> {
         self.cur_defining = folder.cur_defining;
     }
 
+    fn visit_mut_private_method(&mut self, m: &mut PrivateMethod) {
+        m.key.visit_mut_with(self);
+
+        {
+            let child_mark = Mark::fresh(self.mark);
+
+            // Child folder
+            let mut child = Resolver::new(
+                child_mark,
+                Scope::new(ScopeKind::Fn, Some(&self.current)),
+                None,
+                self.handle_types,
+            );
+
+            m.function.visit_mut_with(&mut child)
+        }
+    }
+
     fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
         m.key.visit_mut_with(self);
 
