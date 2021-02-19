@@ -56,7 +56,7 @@ impl Default for Runtime {
 pub struct Options {
     /// If this is `true`, swc will behave just like babel 8 with
     /// `BABEL_8_BREAKING: true`.
-    #[serde(default)]
+    #[serde(skip, default)]
     pub next: bool,
 
     #[serde(default)]
