@@ -1,4 +1,3 @@
-use self::static_check::is_static;
 use self::static_check::should_use_create_element;
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
@@ -55,6 +54,11 @@ impl Default for Runtime {
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct Options {
+    /// If this is `true`, swc will behave just like babel 8 with
+    /// `BABEL_8_BREAKING: true`.
+    #[serde(default)]
+    pub next: bool,
+
     #[serde(default)]
     pub runtime: Option<Runtime>,
 
@@ -86,6 +90,7 @@ pub struct Options {
 impl Default for Options {
     fn default() -> Self {
         Options {
+            next: false,
             runtime: Default::default(),
             import_source: default_import_source(),
             pragma: default_pragma(),
@@ -151,7 +156,7 @@ where
 {
     as_folder(Jsx {
         cm: cm.clone(),
-        next: options.runtime.is_some(),
+        next: options.next,
         runtime: options.runtime.unwrap_or_default(),
         import_source: options.import_source.into(),
         import_jsx: None,
