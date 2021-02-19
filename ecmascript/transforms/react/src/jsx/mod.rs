@@ -241,7 +241,18 @@ where
 
                 match children.len() {
                     0 => {}
-                    1 if children[0].as_ref().unwrap().spread.is_none() => {
+                    1 if children[0].as_ref().unwrap().spread.is_none()
+                        && match &*children[0].as_ref().unwrap().expr {
+                            Expr::Call(CallExpr {
+                                callee: ExprOrSuper::Expr(callee),
+                                ..
+                            }) => match &**callee {
+                                Expr::Ident(Ident { sym, .. }) => *sym != *"_jsx",
+                                _ => true,
+                            },
+                            e => true,
+                        } =>
+                    {
                         props_obj
                             .props
                             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
