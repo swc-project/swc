@@ -376,14 +376,14 @@ const mod = function() {
                 try {
                     start = DateTime6.fromISO(s, opts);
                     startIsValid = start.isValid;
-                } catch (e) {
+                } catch (e1) {
                     startIsValid = false;
                 }
                 let end, endIsValid;
                 try {
                     end = DateTime6.fromISO(e, opts);
                     endIsValid = end.isValid;
-                } catch (e) {
+                } catch (e1) {
                     endIsValid = false;
                 }
                 if (startIsValid && endIsValid) {
