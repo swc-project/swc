@@ -647,10 +647,6 @@ where
                     .map(|attr| {
                         let mut v = self.attr_to_prop(attr);
                         v.visit_mut_with(self);
-                    .map(attr_to_prop)
-                    .map(|mut v| {
-                        v.visit_mut_with(self);
-
                         v
                     })
                     .map(Box::new)
@@ -861,10 +857,6 @@ where
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         let top_level_node = self.top_level_node;
         let mut did_work = false;
-    }
-
-    fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        expr.visit_mut_children_with(self);
 
         if let Expr::JSXElement(el) = expr {
             did_work = true;
@@ -875,15 +867,6 @@ where
             did_work = true;
             *expr = self.jsx_frag_to_expr(frag.take());
         } else if let Expr::Paren(ParenExpr {
-            return;
-        }
-        if let Expr::JSXFragment(frag) = expr {
-            // <></> => React.createElement(React.Fragment, null);
-            *expr = self.jsx_frag_to_expr(frag.take());
-            return;
-        }
-
-        if let Expr::Paren(ParenExpr {
             expr: inner_expr, ..
         }) = expr
         {
@@ -910,15 +893,6 @@ where
         e.obj.visit_mut_with(self);
         if e.computed {
             e.prop.visit_mut_with(self);
-        }
-                *expr = self.jsx_elem_to_expr(*el.take());
-                return;
-            }
-            if let Expr::JSXFragment(frag) = &mut **inner_expr {
-                // <></> => React.createElement(React.Fragment, null);
-                *expr = self.jsx_frag_to_expr(frag.take());
-                return;
-            }
         }
     }
 }
