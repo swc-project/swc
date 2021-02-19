@@ -973,6 +973,16 @@ impl<'a> VisitMut for Resolver<'a> {
 
     fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
 
+    fn visit_mut_binding_ident(&mut self, i: &mut BindingIdent) {
+        let ident_type = self.ident_type;
+        let in_type = self.in_type;
+        i.type_ann.visit_mut_with(self);
+        self.in_type = in_type;
+        self.ident_type = ident_type;
+
+        i.id.visit_mut_with(self);
+    }
+
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         let ident_type = self.ident_type;
         let in_type = self.in_type;
