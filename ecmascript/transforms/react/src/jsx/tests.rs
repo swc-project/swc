@@ -1,12 +1,15 @@
 use super::*;
 use crate::display_name;
+use std::path::PathBuf;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::EsConfig;
 use swc_ecma_transforms_compat::es2015::arrow;
 use swc_ecma_transforms_compat::es2015::classes;
 use swc_ecma_transforms_compat::es3::property_literals;
 use swc_ecma_transforms_module::common_js::common_js;
+use swc_ecma_transforms_testing::parse_options;
 use swc_ecma_transforms_testing::test;
+use swc_ecma_transforms_testing::test_fixture;
 use swc_ecma_transforms_testing::Tester;
 
 fn tr(t: &mut Tester, options: Options) -> impl Fold {
@@ -18,6 +21,42 @@ fn tr(t: &mut Tester, options: Options) -> impl Fold {
     )
 }
 
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct FixtureOptions {
+    #[serde(flatten)]
+    options: Options,
+
+    #[serde(default, rename = "BABEL_8_BREAKING")]
+    babel_8_breaking: bool,
+
+    #[serde(default = "true_by_default")]
+    pure: bool,
+
+    #[serde(default)]
+    throws: Option<String>,
+
+    #[serde(default, alias = "useBuiltIns")]
+    use_builtins: bool,
+}
+
+fn true_by_default() -> bool {
+    true
+}
+
+fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
+    options.options.next = options.babel_8_breaking || options.options.runtime.is_some();
+
+    if !options.babel_8_breaking && options.options.runtime.is_none() {
+        options.options.runtime = Some(Runtime::Classic);
+    }
+
+    options.options.use_builtins |= options.use_builtins;
+    chain!(
+        jsx(t.cm.clone(), Some(t.comments.clone()), options.options),
+        display_name(),
+    )
+}
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
@@ -1236,3 +1275,24 @@ exports.default = RandomComponent;
 
 "#
 );
+
+#[testing::fixture("fixture/**/input.js")]
+fn fixture(input: PathBuf) {
+    let mut output = input.with_file_name("output.js");
+    if !output.exists() {
+        output = input.with_file_name("output.mjs");
+    }
+
+    test_fixture(
+        Syntax::Es(EsConfig {
+            jsx: true,
+            ..Default::default()
+        }),
+        &|t| {
+            let options = parse_options(input.parent().unwrap());
+            fixture_tr(t, options)
+        },
+        &input,
+        &output,
+    );
+}
