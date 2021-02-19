@@ -990,7 +990,7 @@ removeAttribute('id')}
 function se(t, e, n, r) {
     try {
         return O.apply(n, f.querySelectorAll(c)), n;
-    } catch (e) {
+    } catch (e1) {
         S(t, !0);
     } finally{
         s === N && e.removeAttribute('id');
@@ -1148,15 +1148,22 @@ identical!(
     }"
 );
 
-identical!(
+to!(
     issue_788_1,
     "window.addEventListener('message', (e) => {
-    try {
-        console.log(e.data);
-    } catch(e) {
-        console.log(e);
-    }
-});"
+        try {
+            console.log(e.data);
+        } catch(e) {
+            console.log(e);
+        }
+    });",
+    "window.addEventListener('message', (e) => {
+        try {
+            console.log(e.data);
+        } catch(e1) {
+            console.log(e1);
+        }
+    });"
 );
 
 to!(
