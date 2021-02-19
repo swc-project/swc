@@ -528,19 +528,29 @@ where
         if attrs.is_empty() {
             return Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP })));
         }
+        let attr_cnt = attrs.len();
+
         let mut props = vec![];
-        attrs.into_iter().for_each(|attr| match attr {
-            JSXAttrOrSpread::JSXAttr(attr) => {
-                props.push(PropOrSpread::Prop(Box::new(self.attr_to_prop(attr))))
-            }
-            JSXAttrOrSpread::SpreadElement(spread) => {
-                // babel does some optimizations
-                match *spread.expr {
-                    Expr::Object(obj) => props.extend(obj.props),
-                    _ => props.push(PropOrSpread::Spread(spread)),
+        for attr in attrs {
+            match attr {
+                JSXAttrOrSpread::JSXAttr(attr) => {
+                    props.push(PropOrSpread::Prop(Box::new(self.attr_to_prop(attr))))
+                }
+                JSXAttrOrSpread::SpreadElement(spread) => {
+                    // babel does some optimizations
+                    match *spread.expr {
+                        Expr::Object(obj) => {
+                            if attr_cnt == 1 {
+                                return Box::new(Expr::Object(obj));
+                            } else {
+                                props.extend(obj.props)
+                            }
+                        }
+                        _ => props.push(PropOrSpread::Spread(spread)),
+                    }
                 }
             }
-        });
+        }
 
         let obj = ObjectLit {
             span: DUMMY_SP,
