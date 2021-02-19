@@ -472,10 +472,12 @@ where
                 for dep in deps {
                     // Check if it's circular.
                     if let Some(members) = builder.circular.get(dep) {
+                        let mut members = members.iter().copied().collect::<Vec<_>>();
+                        members.sort();
                         let mut contained_in_entry = false;
 
                         // Exclude circular imnports from normal dependencies
-                        for &circular_member in members {
+                        for &circular_member in &members {
                             if entry == circular_member {
                                 continue;
                             }
@@ -551,7 +553,7 @@ where
             plans.normal.entry(entry).or_default();
         }
 
-        // dbg!(&plans);
+        dbg!(&plans);
 
         plans
     }
