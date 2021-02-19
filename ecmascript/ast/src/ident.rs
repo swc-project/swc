@@ -47,13 +47,11 @@ impl arbitrary::Arbitrary for Ident {
         }
         let sym = sym.into();
 
-        let type_ann = u.arbitrary()?;
         let optional = u.arbitrary()?;
 
         Ok(Self {
             span,
             sym,
-            type_ann,
             optional,
         })
     }
