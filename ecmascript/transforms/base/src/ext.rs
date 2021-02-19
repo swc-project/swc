@@ -139,17 +139,6 @@ impl MapWithMut for JSXElement {
     }
 }
 
-impl MapWithMut for JSXElement {
-    fn dummy() -> Self {
-        JSXElement {
-            span: DUMMY_SP,
-            opening: MapWithMut::dummy(),
-            children: MapWithMut::dummy(),
-            closing: MapWithMut::dummy(),
-        }
-    }
-}
-
 impl MapWithMut for ExprOrSuper {
     fn dummy() -> Self {
         ExprOrSuper::Super(Super { span: DUMMY_SP })
@@ -163,17 +152,6 @@ impl MapWithMut for CallExpr {
             callee: MapWithMut::dummy(),
             args: MapWithMut::dummy(),
             type_args: Default::default(),
-        }
-    }
-}
-impl MapWithMut for JSXOpeningElement {
-    fn dummy() -> Self {
-        JSXOpeningElement {
-            span: DUMMY_SP,
-            name: MapWithMut::dummy(),
-            attrs: MapWithMut::dummy(),
-            self_closing: false,
-            type_args: MapWithMut::dummy(),
         }
     }
 }
@@ -207,14 +185,6 @@ impl MapWithMut for JSXClosingElement {
         }
     }
 }
-impl MapWithMut for JSXClosingElement {
-    fn dummy() -> Self {
-        JSXClosingElement {
-            span: DUMMY_SP,
-            name: MapWithMut::dummy(),
-        }
-    }
-}
 
 impl MapWithMut for Decl {
     fn dummy() -> Self {
@@ -229,22 +199,6 @@ impl MapWithMut for VarDecl {
             kind: VarDeclKind::Var,
             declare: false,
             decls: vec![],
-        }
-    }
-}
-impl MapWithMut for JSXElementName {
-    fn dummy() -> Self {
-        JSXElementName::Ident(Ident::dummy())
-    }
-}
-
-impl MapWithMut for JSXFragment {
-    fn dummy() -> Self {
-        JSXFragment {
-            span: DUMMY_SP,
-            opening: MapWithMut::dummy(),
-            children: MapWithMut::dummy(),
-            closing: MapWithMut::dummy(),
         }
     }
 }
@@ -305,17 +259,6 @@ impl MapWithMut for TplElement {
                 kind: Default::default(),
             },
         }
-    }
-}
-impl MapWithMut for JSXOpeningFragment {
-    fn dummy() -> Self {
-        JSXOpeningFragment { span: DUMMY_SP }
-    }
-}
-
-impl MapWithMut for JSXClosingFragment {
-    fn dummy() -> Self {
-        JSXClosingFragment { span: DUMMY_SP }
     }
 }
 impl MapWithMut for JSXOpeningFragment {
