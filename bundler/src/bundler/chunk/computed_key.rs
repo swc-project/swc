@@ -297,6 +297,10 @@ impl ExportToReturn<'_> {
         self.return_props
             .push(PropOrSpread::Prop(Box::new(Prop::Shorthand(i.clone()))));
 
+        if self.module_var.ctxt() == i.span.ctxt {
+            return;
+        }
+
         let src = i.clone();
 
         let mut exported = i;
