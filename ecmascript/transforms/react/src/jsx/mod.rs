@@ -78,11 +78,9 @@ pub struct Options {
     pub development: bool,
 
     /// TODO: Remove this field.
-    #[deprecated = "Babel dropped support for `useBuiltIns` and swc will also drop it"]
     #[serde(default, alias = "useBuiltIns")]
     pub use_builtins: bool,
 
-    #[deprecated = "Babel dropped support for `useSpread` and swc will also drop it"]
     #[serde(default)]
     pub use_spread: bool,
 }
