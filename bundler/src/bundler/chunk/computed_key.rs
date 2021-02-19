@@ -293,19 +293,17 @@ struct ExportToReturn<'a> {
 }
 
 impl ExportToReturn<'_> {
-    fn export_id(&mut self, mut i: Ident) {
+    fn export_id(&mut self, i: Ident) {
         self.return_props
             .push(PropOrSpread::Prop(Box::new(Prop::Shorthand(i.clone()))));
 
-        let prop = Ident::new(i.sym.clone(), i.span.with_ctxt(SyntaxContext::empty()));
+        let src = i.clone();
 
-        i.span.ctxt = self.module_var.ctxt();
+        let mut exported = i;
+        exported.span.ctxt = self.module_var.ctxt();
 
         self.esm_exports.push(
-            self.module_var
-                .clone()
-                .make_member(prop)
-                .assign_to(i)
+            src.assign_to(exported)
                 .into_module_item(self.injected_ctxt, "export to return => export_id"),
         );
     }
