@@ -234,8 +234,6 @@ where
                 definite: false,
                 name: Pat::Ident(module_var_name.into_ident().into()),
                 init: Some(Box::new(module_expr)),
-                name: Pat::Ident(module_var_name.into_ident()),
-                init: Some(Box::new(module_expr)),
             }],
         };
 

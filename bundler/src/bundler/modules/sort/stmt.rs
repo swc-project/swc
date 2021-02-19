@@ -482,7 +482,7 @@ impl Visit for InitializerFinder {
 
     fn visit_pat(&mut self, pat: &Pat, _: &dyn Node) {
         match pat {
-            Pat::Ident(i) if self.ident == *i => {
+            Pat::Ident(i) if self.ident == i.id => {
                 self.found = true;
             }
 
@@ -592,7 +592,7 @@ impl Visit for RequirementCalculartor {
                 if self.in_var_decl && !self.in_assign_lhs {
                     return;
                 }
-                self.insert(i.into());
+                self.insert(i.id.clone().into());
             }
             _ => {
                 pat.visit_children_with(self);
