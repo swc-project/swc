@@ -457,7 +457,7 @@ where
                     args: iter::once(name.as_arg())
                         .chain(iter::once({
                             // Attributes
-                            self.fold_attrs_for_old_classic(el.opening.attrs).as_arg()
+                            self.fold_attrs_for_classic(el.opening.attrs).as_arg()
                         }))
                         .chain({
                             // Children
