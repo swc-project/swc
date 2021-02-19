@@ -2187,3 +2187,45 @@ to!(
     }
     "
 );
+
+to_ts!(
+    deno_lint_612_1,
+    "
+    class T {
+        #foo(x) {}
+        #bar(x) {}
+    }
+  ",
+    "
+    class T {
+        #foo__0(x__2) {
+       }
+        #bar__0(x__3) {
+       }
+    }
+    "
+);
+
+to_ts!(
+    deno_lint_612_2,
+    "
+    class T {
+        #foo(x) {
+            use(x)
+        }
+        #bar(x) {
+            use(x)
+        }
+    }
+  ",
+    "
+    class T {
+        #foo__0(x__2) {
+            use(x__2);
+        }
+        #bar__0(x__3) {
+            use(x__3);
+        }
+    }
+    "
+);
