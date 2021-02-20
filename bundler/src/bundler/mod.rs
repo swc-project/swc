@@ -33,7 +33,7 @@ pub struct Config {
     /// List of modules which should be preserved.
     pub external_modules: Vec<JsWord>,
 
-    /// Type of emiited module
+    /// Type of emitted module
     pub module: ModuleType,
 }
 

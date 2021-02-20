@@ -147,15 +147,15 @@ macro_rules! normal {
     (
         $name:ident,
         $T:ty,
-        $($singluar_props:ident),*
+        $($singular_props:ident),*
     ) => {
-        normal!($name, $T, [$($singluar_props),*], []);
+        normal!($name, $T, [$($singular_props),*], []);
     };
 
     (
         $name:ident,
         $T:ty,
-        [$($singluar_props:ident),*],
+        [$($singular_props:ident),*],
         [$($array_like_props:ident),*]
     ) => {
         fn $name(&mut self, node: &mut $T) {
@@ -166,7 +166,7 @@ macro_rules! normal {
             }
 
             $(
-                node.$singluar_props.visit_mut_with(self);
+                node.$singular_props.visit_mut_with(self);
             )*
 
             $(
@@ -175,7 +175,7 @@ macro_rules! normal {
 
             if self.marking_phase
                 $(
-                    || self.is_marked(node.$singluar_props.span())
+                    || self.is_marked(node.$singular_props.span())
                 )*
                 $(
                     || self.has_marked_elem(&node.$array_like_props)
@@ -185,7 +185,7 @@ macro_rules! normal {
                 node.span = node.span.apply_mark(self.config.used_mark);
 
                 $(
-                    self.mark(&mut node.$singluar_props);
+                    self.mark(&mut node.$singular_props);
                 )*
 
                 $(
@@ -743,7 +743,7 @@ impl VisitMut for Dce<'_> {
     // fn visit_mut_spread_element(&mut self, n: &mut SpreadElement) {}
 
     // ---- ---- ----- ---- -----
-    // If an ast node delagates Spanned::span to a field, we don't need to handle it
+    // If an ast node delegates Spanned::span to a field, we don't need to handle it
     // because of the way Spanned::span works.
 
     // normal!(visit_mut_class_expr, ClassExpr, ident, class);

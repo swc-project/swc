@@ -278,7 +278,7 @@ impl Fold for CommonJs {
                             // TODO: Optimization (when expr cannot throw, `exports.default =
                             // void 0` is not required)
 
-                            // We use extra statements because of the initialzation
+                            // We use extra statements because of the initialization
                             extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                                 span: DUMMY_SP,
                                 kind: VarDeclKind::Var,

@@ -35,7 +35,7 @@ pub fn resolver() -> impl 'static + Fold {
 ///
 /// `top_level_mark` should not be root.
 ///
-/// # Exmaple
+/// # Example
 ///
 /// ```js
 /// let a = 1;

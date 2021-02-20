@@ -1,4 +1,4 @@
-error: Parenthized expression cannot be empty
+error: Parenthesized expression cannot be empty
  --> $DIR/tests/test262-parser/fail/54b72e05f42d7802.js:1:5
   |
 1 | 1 + ()

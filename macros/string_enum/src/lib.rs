@@ -28,8 +28,8 @@ use syn::{self, *};
 ///# Output
 ///
 ///  - `pub fn as_str(&self) -> &'static str`
-///  - `impl serde::Serilaize`
-///  - `impl serde::Deserilaize`
+///  - `impl serde::Serialize`
+///  - `impl serde::Deserialize`
 ///  - `impl FromStr`
 ///  - `impl Debug`
 ///  - `impl Display`
@@ -219,7 +219,7 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
                 })),
                 _ => Box::new(
                     Quote::new(def_site::<Span>())
-                        .quote_with(smart_quote!(Vars { qual_name }, { qual_name{..} }))
+                        .quote_with(smart_quote!(Vars { qual_name }, { qual_name { .. } }))
                         .parse(),
                 ),
             };

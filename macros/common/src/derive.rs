@@ -40,7 +40,7 @@ impl<'a> Derive<'a> {
                 where_clause: input.generics.where_clause.clone(),
             };
 
-            // Handle generic delcared on type.
+            // Handle generic declared on type.
             let ty: Box<Type> = {
                 let (_, ty_generics, _) = input.generics.split_for_impl();
                 let mut t = TokenStream::new();

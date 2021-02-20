@@ -910,7 +910,7 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
             match mode {
                 Mode::Fold | Mode::VisitMut => {
                     // We can not provide parent node because it's child node is
-                    // part of the parent ndoe.
+                    // part of the parent node.
                 }
                 Mode::Visit | Mode::VisitAll => {
                     p.push_punct(def_site());

@@ -482,7 +482,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
     }
 
-    /// Read an escaped charater for string literal.
+    /// Read an escaped character for string literal.
     ///
     /// In template literal, we should preserve raw string.
     fn read_escaped_char(&mut self, raw: &mut Raw) -> LexResult<Option<Char>> {
@@ -828,7 +828,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     ///
     ///
-    /// THis method returns [Char] as non-utf8 character is valid in javsacript.
+    /// This method returns [Char] as non-utf8 character is valid in JavaScript.
     /// See https://github.com/swc-project/swc/issues/261
     fn read_hex_char(&mut self, start: BytePos, count: u8, raw: &mut Raw) -> LexResult<Char> {
         debug_assert!(count == 2 || count == 4);
@@ -921,7 +921,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     match c {
                         '[' => in_class = true,
                         ']' if in_class => in_class = false,
-                        // Termniates content part of regex literal
+                        // Terminates content part of regex literal
                         '/' if !in_class => break,
                         _ => {}
                     }

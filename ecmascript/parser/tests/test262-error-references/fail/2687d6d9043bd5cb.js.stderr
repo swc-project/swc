@@ -1,4 +1,4 @@
-error: Invalid unciode code point
+error: Invalid unicode code point
  --> $DIR/tests/test262-parser/fail/2687d6d9043bd5cb.js:1:5
   |
 1 | "\u{}"

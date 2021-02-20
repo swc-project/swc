@@ -14,7 +14,7 @@ pub(crate) struct InjectSelf {
 }
 
 #[cfg(procmacro2_semver_exempt)]
-fn get_joinned_span(t: &dyn ToTokens) -> Span {
+fn get_joined_span(t: &dyn ToTokens) -> Span {
     let tts: TokenStream = t.dump().into();
     let (mut first, mut last) = (None, None);
     for tt in tts {
@@ -30,7 +30,7 @@ fn get_joinned_span(t: &dyn ToTokens) -> Span {
 }
 
 #[cfg(not(procmacro2_semver_exempt))]
-fn get_joinned_span(t: &dyn ToTokens) -> Span {
+fn get_joined_span(t: &dyn ToTokens) -> Span {
     let tts: TokenStream = t.dump();
     let mut first = None;
     for tt in tts {
@@ -80,7 +80,7 @@ impl Fold for InjectSelf {
         };
 
         let name = i.path.dump().to_string();
-        let span = get_joinned_span(&i.path);
+        let span = get_joined_span(&i.path);
 
         match &*name {
             "smallvec" | "vec" | "unreachable" | "tok" | "op" | "js_word" => i,
