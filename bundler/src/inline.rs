@@ -58,7 +58,7 @@ impl Visit for Inliner {
     fn visit_module_decl(&mut self, _: &ModuleDecl, _: &dyn Node) {}
 
     fn visit_var_decl(&mut self, n: &VarDecl, _: &dyn Node) {
-        if n.span.ctxt != self.injected_ctxt {
+        if n.span.ctxt != self.injected_ctxt || n.kind != VarDeclKind::Const {
             return;
         }
 
