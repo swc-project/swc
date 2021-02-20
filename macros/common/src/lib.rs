@@ -100,9 +100,9 @@ macro_rules! unimplemented {
 #[macro_export]
 macro_rules! unreachable {
     () => {{
-        fail!("internal error: unreacable");
+        fail!("internal error: unreachable");
     }};
     ($($args:tt)+) => {{
-        fail!("internal error: unreacable\n{}", format_args!($($args)*));
+        fail!("internal error: unreachable\n{}", format_args!($($args)*));
     }};
 }

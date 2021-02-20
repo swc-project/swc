@@ -1262,7 +1262,7 @@ class Foo {
 );
 
 to_ts!(
-    ts_resolver_neseted_interface,
+    ts_resolver_nested_interface,
     "
 interface Foo {
     name: string
@@ -1328,7 +1328,7 @@ const bar = {} as Foo;
 );
 
 to_ts!(
-    ts_resolver_neseted_type_alias,
+    ts_resolver_nested_type_alias,
     "
 type Foo = {};
 

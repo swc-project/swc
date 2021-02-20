@@ -279,7 +279,7 @@ pub struct Handler {
 
     // This set contains the `DiagnosticId` of all emitted diagnostics to avoid
     // emitting the same diagnostic with extended help (`--teach`) twice, which
-    // would be uneccessary repetition.
+    // would be unnecessary repetition.
     taught_diagnostics: Lock<HashSet<DiagnosticId>>,
 
     /// Used to suggest rustc --explain <error code>

@@ -1187,7 +1187,7 @@ fn lex_escaped_char(b: &mut Bencher) {
 }
 
 #[bench]
-fn lex_legact_octal_lit(b: &mut Bencher) {
+fn lex_legacy_octal_lit(b: &mut Bencher) {
     bench_simple(
         b,
         "01756123617;01756123617;01756123617;01756123617;01756123617;01756123617;01756123617;\

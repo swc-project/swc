@@ -80,7 +80,7 @@ pub enum SyntaxError {
     /// "implements", "interface", "let", "package",\
     ///  "private", "protected",  "public", "static", or "yield"
     InvalidIdentInStrict,
-    /// 'eval' and 'arguments' are invalid identfier in strict mode.
+    /// 'eval' and 'arguments' are invalid identifier in strict mode.
     EvalAndArgumentsInStrict,
     UnaryInExp {
         left: String,
@@ -259,8 +259,8 @@ impl SyntaxError {
             SyntaxError::IdentAfterNum => "Identifier cannot follow number".into(),
             SyntaxError::UnexpectedChar { c } => format!("Unexpected character {:?}", c).into(),
             SyntaxError::InvalidStrEscape => "Invalid string escape".into(),
-            SyntaxError::InvalidUnicodeEscape => "Invalid unciode escape".into(),
-            SyntaxError::InvalidCodePoint => "Invalid unciode code point".into(),
+            SyntaxError::InvalidUnicodeEscape => "Invalid unicode escape".into(),
+            SyntaxError::InvalidCodePoint => "Invalid unicode code point".into(),
             SyntaxError::ExpectedHexChars { count } => {
                 format!("Expected {} hex characters", count).into()
             }
@@ -313,7 +313,7 @@ impl SyntaxError {
             SyntaxError::SpreadInParenExpr => {
                 "Parenthesized expression cannot contain spread operator".into()
             }
-            SyntaxError::EmptyParenExpr => "Parenthized expression cannot be empty".into(),
+            SyntaxError::EmptyParenExpr => "Parenthesized expression cannot be empty".into(),
             SyntaxError::InvalidPat => "Not a pattern".into(),
             SyntaxError::InvalidExpr => "Not an expression".into(),
             // TODO
@@ -420,7 +420,7 @@ impl SyntaxError {
             }
 
             SyntaxError::TS1056 => {
-                "jsc.taraget should be es5 or upper to use getter / setter".into()
+                "jsc.target should be es5 or upper to use getter / setter".into()
             }
             SyntaxError::TS1110 => "type expected".into(),
             SyntaxError::TS1141 => "literal in an import type should be string literal".into(),
@@ -430,11 +430,11 @@ impl SyntaxError {
             SyntaxError::TS2703 => {
                 "The operand of a delete operator must be a property reference.".into()
             }
-            SyntaxError::DeclNotAllowed => "Declatation is now allowed".into(),
+            SyntaxError::DeclNotAllowed => "Declaration is now allowed".into(),
             SyntaxError::InvalidSuperCall => "Invalid `super()`".into(),
             SyntaxError::InvalidSuper => "Invalid access to super".into(),
             SyntaxError::ArrowNotAllowed => "An arrow function is not allowed here".into(),
-            SyntaxError::ExportNotAllowed => "`export` is not aloowed here".into(),
+            SyntaxError::ExportNotAllowed => "`export` is not allowed here".into(),
             SyntaxError::GetterSetterCannotBeReadonly => {
                 "A getter or a setter cannot be readonly".into()
             }

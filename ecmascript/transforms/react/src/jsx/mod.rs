@@ -135,7 +135,7 @@ fn parse_classic_option(cm: &SourceMap, name: &str, src: String) -> Box<Expr> {
         .map(drop_span)
         .unwrap_or_else(|()| {
             panic!(
-                "faield to parse jsx option {}: '{}' is not an expression",
+                "failed to parse jsx option {}: '{}' is not an expression",
                 name, fm.src,
             )
         });
@@ -536,6 +536,9 @@ where
                         .emit();
                 });
                 return None;
+            }
+            JSXElementChild::JSXSpreadChild(JSXSpreadChild { .. }) => {
+                unimplemented!("jsx spread child")
             }
         })
     }

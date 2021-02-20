@@ -19,7 +19,7 @@ use test::{
 };
 
 const IGNORED_PASS_TESTS: &[&str] = &[
-    // TODO: uningnore
+    // TODO: unignore
     "5654d4106d7025c2.js",
     "431ecef8c85d4d24.js",
     // Stack size (Stupid parens)
@@ -262,7 +262,7 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 fn identity() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
-    identity_tests(&mut tests).expect("failed to load testss");
+    identity_tests(&mut tests).expect("failed to load tests");
     test_main(&args, tests, Some(Options::new()));
 }
 

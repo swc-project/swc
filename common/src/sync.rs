@@ -8,8 +8,8 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-//! This module defines types which are thread safe if cfg!(feature =
-//! "concurrent") is true.
+//! This module defines types which are thread safe if `cfg!(feature =
+//! "concurrent")` is true.
 //!
 //! `Lrc` is an alias of either Rc or Arc.
 //!

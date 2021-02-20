@@ -620,7 +620,7 @@ impl TokenContexts {
 /// given point in the program is loosely based on sweet.js' approach.
 /// See https://github.com/mozilla/sweet.js/wiki/design
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Kind)]
-#[kind(fucntion(is_expr = "bool", preserve_space = "bool"))]
+#[kind(function(is_expr = "bool", preserve_space = "bool"))]
 pub enum TokenContext {
     BraceStmt,
     #[kind(is_expr)]

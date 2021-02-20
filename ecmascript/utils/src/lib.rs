@@ -1356,7 +1356,7 @@ pub fn prop_name_to_expr(p: PropName) -> Expr {
         PropName::Computed(c) => *c.expr,
     }
 }
-/// Simillar to `prop_name_to_expr`, but used for value position.
+/// Similar to `prop_name_to_expr`, but used for value position.
 ///
 /// e.g. value from `{ key: value }`
 pub fn prop_name_to_expr_value(p: PropName) -> Expr {
@@ -1487,7 +1487,7 @@ pub fn prepend_stmts<T: StmtLike>(
         .unwrap_or(to.len());
 
     let mut buf = Vec::with_capacity(to.len() + stmts.len());
-    // TODO: Optimze (maybe unsafe)
+    // TODO: Optimize (maybe unsafe)
 
     buf.extend(to.drain(..idx));
     buf.extend(stmts);
@@ -1779,7 +1779,7 @@ where
             | Expr::JSXNamespacedName(..)
             | Expr::JSXEmpty(..)
             | Expr::JSXElement(..)
-            | Expr::JSXFragment(..) => unreachable!("simplyfing jsx"),
+            | Expr::JSXFragment(..) => unreachable!("simplifying jsx"),
 
             Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
             | Expr::TsNonNull(TsNonNullExpr { expr, .. })

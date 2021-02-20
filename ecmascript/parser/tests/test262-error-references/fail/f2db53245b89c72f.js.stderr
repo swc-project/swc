@@ -1,4 +1,4 @@
-error: Declatation is now allowed
+error: Declaration is now allowed
  --> $DIR/tests/test262-parser/fail/f2db53245b89c72f.js:1:13
   |
 1 | while(true) function a(){}

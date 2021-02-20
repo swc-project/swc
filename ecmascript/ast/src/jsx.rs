@@ -108,7 +108,7 @@ pub struct JSXOpeningElement {
     #[serde(rename = "selfClosing")]
     pub self_closing: bool,
 
-    /// Note: This field's name is differrent from one from babel because it is
+    /// Note: This field's name is different from one from babel because it is
     /// misleading
     #[serde(default, rename = "typeArguments")]
     pub type_args: Option<TsTypeParamInstantiation>,

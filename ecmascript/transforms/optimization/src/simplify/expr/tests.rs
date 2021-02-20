@@ -1438,7 +1438,7 @@ fn test_fold_object_literal_ref1() {
     fold_same("var y = Symbol(); var a = {[y]: 3}[y];");
 
     fold("var x = {a() { 1; }}.a;", "var x = function() { 1; };");
-    // Notice `a` isn't invoked, so beahviour didn't change.
+    // Notice `a` isn't invoked, so behavior didn't change.
     fold(
         "var x = {a() { return this; }}.a;",
         "var x = function() { return this; };",

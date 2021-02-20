@@ -144,8 +144,9 @@ impl Fold for ActualFolder {
                         self.vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             definite: false,
+                            // Initialized by paren expression.
                             name: Pat::Ident(ident.clone().into()),
-                            // Initialized by paren exprssion.
+                            // Initialized by paren expression.
                             init: None,
                         });
 

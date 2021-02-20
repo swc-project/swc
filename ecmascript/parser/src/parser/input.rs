@@ -30,7 +30,7 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
 
     /// Add an error which is valid syntax in script mode.
     ///
-    /// This errors should be dropped if it's not a moduloe.
+    /// This errors should be dropped if it's not a module.
     ///
     /// Implementor should check for if [Context].module, and buffer errors if
     /// module is false. Also, implementors should move errors to the error
