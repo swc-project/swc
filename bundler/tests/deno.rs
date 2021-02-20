@@ -407,7 +407,7 @@ fn deno_8573() {
 }
 
 #[test]
-#[timeout(60000)]
+#[timeout(120000)]
 fn deno_8597() {
     run(
         "https://cdn.skypack.dev/@tensorflow/tfjs@2.6.0",
