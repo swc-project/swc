@@ -2,7 +2,8 @@
 use super::{load::TransformedModule, Bundler, Config};
 use crate::{load::ModuleData, util::HygieneRemover, Load, ModuleId, ModuleRecord, Resolve};
 use anyhow::Error;
-use std::{collections::HashMap, path::PathBuf};
+use indexmap::IndexMap;
+use std::path::PathBuf;
 use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput};
@@ -16,7 +17,7 @@ pub(crate) struct Tester<'a> {
 
 pub struct Loader {
     cm: Lrc<SourceMap>,
-    files: HashMap<String, String>,
+    files: IndexMap<String, String>,
 }
 
 impl Load for Loader {
@@ -109,7 +110,7 @@ pub(crate) fn suite() -> TestBuilder {
 
 #[derive(Default)]
 pub(crate) struct TestBuilder {
-    files: HashMap<String, String>,
+    files: IndexMap<String, String>,
 }
 
 impl TestBuilder {
