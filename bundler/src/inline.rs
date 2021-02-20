@@ -58,6 +58,12 @@ impl Visit for Inliner {
     /// Noop
     fn visit_module_decl(&mut self, _: &ModuleDecl, _: &dyn Node) {}
 
+    /// Noop. We don't inline variables declared in subscopes.
+    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+
+    /// Noop. We don't inline variables declared in subscopes.
+    fn visit_block_stmt(&mut self, _: &BlockStmt, _: &dyn Node) {}
+
     fn visit_var_decl(&mut self, n: &VarDecl, _: &dyn Node) {
         if n.span.ctxt != self.injected_ctxt || n.kind != VarDeclKind::Const {
             return;
