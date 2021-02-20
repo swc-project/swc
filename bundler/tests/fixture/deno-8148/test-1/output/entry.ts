@@ -1,10 +1,8 @@
+class A {
+}
 const mod = function() {
-    class A {
-    }
-    const A1 = A;
     return {
-        A: A1
+        A
     };
 }();
-const foo = mod;
-export { foo };
+export { mod as foo };
