@@ -18,6 +18,7 @@ pub(crate) struct InlineData {
     ids: HashMap<Id, Id, RandomState>,
 }
 
+/// Inline **injected** variables.
 pub(crate) fn inline(injected_ctxt: SyntaxContext, module: &mut Modules) {
     let mut v = Inliner {
         injected_ctxt,
