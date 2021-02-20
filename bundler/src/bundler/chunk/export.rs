@@ -11,6 +11,7 @@ use crate::{
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
+use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
@@ -90,7 +91,31 @@ where
             //     &dep.clone().into(),
             // );
 
-            if !specifiers.is_empty() {
+            // `export *`
+            if specifiers.is_empty() {
+                // We should exclude `default`
+                dep.retain_mut(|item| match item {
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
+                        export.specifiers.retain(|s| match s {
+                            ExportSpecifier::Named(ExportNamedSpecifier {
+                                exported:
+                                    Some(Ident {
+                                        sym: js_word!("default"),
+                                        ..
+                                    }),
+                                ..
+                            }) => false,
+                            _ => true,
+                        });
+                        if export.specifiers.is_empty() {
+                            return false;
+                        }
+
+                        true
+                    }
+                    _ => true,
+                })
+            } else {
                 unexprt_as_var(&mut dep, dep_info.export_ctxt());
 
                 dep = dep.fold_with(&mut DepUnexporter {
