@@ -21,8 +21,5 @@
   "rust-client.revealOutputChannelOn": "warn",
   "rust-client.logToFile": true,
   "editor.formatOnSave": true,
-  "git.ignoreLimitWarning": true,
-  "rust-analyzer.checkOnSave.extraArgs": [
-    "--target-dir", "D:\\projects\\swc\\swc\\target\\check"
-  ]
+  "git.ignoreLimitWarning": true
 }
