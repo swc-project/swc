@@ -112,12 +112,12 @@ where
                             match &decl.name {
                                 Pat::Ident(i) => {
                                     if i.id.sym == js_word!("default") {
-                                        return Some(Stmt::Decl(Decl::Var(var)));
+                                        module_items
+                                            .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))));
+                                        return None;
                                     }
 
-                                    if let Some(remapped) =
-                                        ctx.transitive_remap.get(&i.id.span.ctxt)
-                                    {
+                                    if let Some(..) = ctx.transitive_remap.get(&i.id.span.ctxt) {
                                         // Create
                                         //
                                         // const local = mod.local;
