@@ -7,3 +7,4 @@
 *.rs    text merge=union eol=lf
 *.js    text merge=union eol=lf
 *.json  text merge=union eol=lf
+*.debug text merge=union eol=lf
