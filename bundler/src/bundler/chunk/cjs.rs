@@ -344,7 +344,7 @@ impl VisitMut for RequireReplacer {
 }
 
 fn drop_module_decls(modules: &mut Modules) {
-    modules.retain_mut(|i| match i {
+    modules.retain_mut(|_, i| match i {
         ModuleItem::ModuleDecl(..) => false,
         ModuleItem::Stmt(_) => true,
     })

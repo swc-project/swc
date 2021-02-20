@@ -720,7 +720,7 @@ where
 
         print_hygiene("done", &self.cm, &entry.clone().into());
 
-        entry.retain_mut(|item| {
+        entry.retain_mut(|_, item| {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
                     if self.config.external_modules.contains(&export.src.value) {

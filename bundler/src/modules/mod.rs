@@ -201,19 +201,20 @@ impl Modules {
 
     pub fn retain_mut<F>(&mut self, mut op: F)
     where
-        F: FnMut(&mut ModuleItem) -> bool,
+        F: FnMut(ModuleId, &mut ModuleItem) -> bool,
     {
         self.prepended_stmts
             .iter_mut()
-            .for_each(|(_, v)| v.retain_mut(&mut op));
+            .for_each(|(id, v)| v.retain_mut(|item| op(*id, item)));
 
         for module in &mut self.modules {
-            module.1.body.retain_mut(&mut op);
+            let id = module.0;
+            module.1.body.retain_mut(|item| op(id, item));
         }
 
         self.appended_stmts
             .iter_mut()
-            .for_each(|(_, v)| v.retain_mut(&mut op));
+            .for_each(|(id, v)| v.retain_mut(|item| op(*id, item)));
     }
 }
 
