@@ -5,7 +5,7 @@
 use anyhow::{bail, Context, Error};
 use lru::LruCache;
 #[cfg(windows)]
-use normpath::{BasePath};
+use normpath::BasePath;
 // use path_slash::{PathBufExt, PathExt};
 use serde::Deserialize;
 use std::{
@@ -198,7 +198,11 @@ impl Resolve for NodeResolver {
             #[cfg(windows)]
             let path = {
                 let base_dir = BasePath::new(base_dir).unwrap();
-                base_dir.join(target.replace('/', "\\")).normalize_virtually().unwrap().into_path_buf()
+                base_dir
+                    .join(target.replace('/', "\\"))
+                    .normalize_virtually()
+                    .unwrap()
+                    .into_path_buf()
             };
             #[cfg(not(windows))]
             let path = base_dir.join(target);
