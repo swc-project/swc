@@ -267,7 +267,7 @@ fn circular_001() {
             dbg!(&p);
 
             assert_circular(t, &p.0, "a", &["b"]);
-            assert_normal(t, &p.0, "main", &["a", "b"]);
+            assert_normal(t, &p.0, "main", &["a"]);
             assert_normal(t, &p.0, "a", &[]);
             assert_normal(t, &p.0, "b", &[]);
 
