@@ -408,6 +408,7 @@ fn deno_8573() {
 
 #[test]
 #[timeout(120000)]
+#[ignore = "The generated bundled aceesses `location`"]
 fn deno_8597() {
     run(
         "https://cdn.skypack.dev/@tensorflow/tfjs@2.6.0",
