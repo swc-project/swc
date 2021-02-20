@@ -12,6 +12,8 @@ mod dep_graph;
 mod hash;
 mod hook;
 mod id;
+mod inline;
 mod load;
+mod modules;
 mod resolve;
 mod util;

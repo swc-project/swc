@@ -3,11 +3,12 @@ use super::plan::Plan;
 use crate::bundler::chunk::export::inject_export;
 use crate::bundler::keywords::KeywordRenamer;
 use crate::debug::print_hygiene;
+use crate::inline::inline;
+use crate::modules::Modules;
 use crate::{
     bundler::{
         chunk::plan::NormalPlan,
         load::{Imports, Source, Specifier, TransformedModule},
-        modules::Modules,
     },
     id::{Id, ModuleId},
     load::Load,
@@ -710,6 +711,7 @@ where
 
     fn finalize_merging_of_entry(&self, ctx: &Ctx, id: ModuleId, entry: &mut Modules) {
         self.handle_reexport_of_entry(ctx, id, entry);
+        inline(self.injected_ctxt, entry);
 
         // print_hygiene("before sort", &self.cm, &entry.clone().into());
 

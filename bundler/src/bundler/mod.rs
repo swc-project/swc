@@ -14,11 +14,10 @@ mod helpers;
 mod import;
 mod keywords;
 mod load;
-mod modules;
 mod optimize;
 mod scope;
 #[cfg(test)]
-mod tests;
+pub(crate) mod tests;
 
 #[derive(Debug, Default)]
 pub struct Config {
@@ -91,7 +90,7 @@ where
     synthesized_ctxt: SyntaxContext,
 
     /// Used to mark a variable declaration as injected.
-    injected_ctxt: SyntaxContext,
+    pub(crate) injected_ctxt: SyntaxContext,
 
     scope: Scope,
 

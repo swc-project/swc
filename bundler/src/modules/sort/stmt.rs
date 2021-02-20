@@ -1,7 +1,7 @@
 use super::graph::Required;
-use crate::bundler::modules::sort::graph::StmtDepGraph;
 use crate::debug::print_hygiene;
 use crate::id::Id;
+use crate::modules::sort::graph::StmtDepGraph;
 use crate::util::MapWithMut;
 use ahash::AHashMap;
 use ahash::AHashSet;

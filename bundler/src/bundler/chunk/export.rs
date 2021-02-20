@@ -1,4 +1,4 @@
-use crate::bundler::modules::Modules;
+use crate::modules::Modules;
 use crate::util::MapWithMut;
 use crate::{
     bundler::{

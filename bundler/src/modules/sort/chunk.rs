@@ -1,6 +1,6 @@
 use super::stmt::sort_stmts;
-use crate::bundler::modules::Modules;
 use crate::dep_graph::ModuleGraph;
+use crate::modules::Modules;
 use crate::ModuleId;
 use ahash::AHashSet;
 use indexmap::IndexSet;

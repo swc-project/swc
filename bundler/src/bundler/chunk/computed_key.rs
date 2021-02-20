@@ -1,6 +1,6 @@
-use crate::bundler::modules::Modules;
 use crate::debug::print_hygiene;
 use crate::id::Id;
+use crate::modules::Modules;
 use crate::util::ExprExt;
 use crate::util::VarDeclaratorExt;
 use crate::{bundler::chunk::merge::Ctx, Bundler, Load, ModuleId, Resolve};

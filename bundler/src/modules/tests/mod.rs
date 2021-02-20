@@ -1,6 +1,6 @@
-use crate::bundler::modules::Modules;
 use crate::bundler::tests::suite;
 use crate::debug::print_hygiene;
+use crate::modules::Modules;
 use swc_ecma_ast::Module;
 use swc_ecma_utils::drop_span;
 use testing::assert_eq;

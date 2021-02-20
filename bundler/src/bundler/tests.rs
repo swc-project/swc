@@ -9,7 +9,7 @@ use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::VisitMutWith;
 
-pub(super) struct Tester<'a> {
+pub(crate) struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
     pub bundler: Bundler<'a, Loader, Resolver>,
 }
@@ -103,12 +103,12 @@ impl<'a> Tester<'a> {
         assert_eq!(m, expected)
     }
 }
-pub(super) fn suite() -> TestBuilder {
+pub(crate) fn suite() -> TestBuilder {
     TestBuilder::default()
 }
 
 #[derive(Default)]
-pub(super) struct TestBuilder {
+pub(crate) struct TestBuilder {
     files: HashMap<String, String>,
 }
 
