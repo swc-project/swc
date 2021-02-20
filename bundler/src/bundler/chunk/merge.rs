@@ -970,6 +970,11 @@ where
                         }
 
                         // Create `export { local_default as default }`
+                        log::trace!(
+                            "Exporting `default` with `export default decl` ({})",
+                            local.sym
+                        );
+
                         let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
                             span: DUMMY_SP,
                             orig: local,
@@ -1017,6 +1022,7 @@ where
                                 DUMMY_SP.with_ctxt(info.export_ctxt()),
                             )),
                         });
+                        log::trace!("Exporting `default` with `export default expr`");
                         new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
                                 span: export.span.with_ctxt(injected_ctxt),
@@ -1051,6 +1057,7 @@ where
 
                                 new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(v))));
 
+                                log::trace!("Exporting `default` with `export decl``");
                                 new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                                     NamedExport {
                                         span: export.span.with_ctxt(injected_ctxt),
@@ -1084,6 +1091,11 @@ where
                             | Decl::TsModule(_) => continue,
                         };
 
+                        log::trace!(
+                            "Exporting `default` with `export default decl` ({})",
+                            local.sym
+                        );
+
                         // Create `export { local_ident as exported_ident }`
                         let exported =
                             Ident::new(local.sym.clone(), local.span.with_ctxt(info.export_ctxt()));
@@ -1092,6 +1104,7 @@ where
                             orig: local,
                             exported: Some(exported),
                         });
+
                         new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
                                 span: export.span.with_ctxt(injected_ctxt),
