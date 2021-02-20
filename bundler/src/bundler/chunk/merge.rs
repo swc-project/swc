@@ -711,11 +711,12 @@ where
 
     fn finalize_merging_of_entry(&self, ctx: &Ctx, id: ModuleId, entry: &mut Modules) {
         self.handle_reexport_of_entry(ctx, id, entry);
-        inline(self.injected_ctxt, entry);
 
         // print_hygiene("before sort", &self.cm, &entry.clone().into());
 
         entry.sort(id, &ctx.graph, &self.cm);
+
+        inline(self.injected_ctxt, entry);
 
         print_hygiene("done", &self.cm, &entry.clone().into());
 
