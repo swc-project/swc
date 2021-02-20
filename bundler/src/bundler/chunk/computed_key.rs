@@ -149,26 +149,6 @@ where
                                             injected_ctxt,
                                             "'export *' from wrapped module",
                                         ));
-
-                                        let specifier =
-                                            ExportSpecifier::Named(ExportNamedSpecifier {
-                                                span: DUMMY_SP,
-                                                orig: local_var.clone(),
-                                                exported: {
-                                                    let mut exported = local_var.clone();
-                                                    exported.span.ctxt = remapped;
-                                                    Some(exported)
-                                                },
-                                            });
-                                        module_items.push(ModuleItem::ModuleDecl(
-                                            ModuleDecl::ExportNamed(NamedExport {
-                                                span: DUMMY_SP.with_ctxt(injected_ctxt),
-                                                specifiers: vec![specifier],
-                                                src: None,
-                                                type_only: false,
-                                                asserts: None,
-                                            }),
-                                        ));
                                     }
                                 }
                                 _ => {}
