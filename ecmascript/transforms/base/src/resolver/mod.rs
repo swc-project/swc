@@ -396,7 +396,6 @@ impl<'a> VisitMut for Resolver<'a> {
     typed_ref!(visit_mut_ts_type_query, TsTypeQuery);
     typed_ref!(visit_mut_ts_type_query_expr, TsTypeQueryExpr);
     typed_ref!(visit_mut_ts_type_operator, TsTypeOperator);
-    typed_ref!(visit_mut_ts_type_cast_expr, TsTypeCastExpr);
     typed_ref!(visit_mut_ts_type, TsType);
     typed_ref!(visit_mut_ts_type_ann, TsTypeAnn);
     typed_ref!(visit_mut_ts_type_assertion, TsTypeAssertion);

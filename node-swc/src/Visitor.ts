@@ -144,7 +144,6 @@ import {
   TsTypeAliasDeclaration,
   TsTypeAnnotation,
   TsTypeAssertion,
-  TsTypeCastExpression,
   TsTypeElement,
   TsTypeParameter,
   TsTypeParameterDeclaration,
@@ -1069,8 +1068,6 @@ export default class Visitor {
         return this.visitTsNonNullExpression(n);
       case "TsTypeAssertion":
         return this.visitTsTypeAssertion(n);
-      case "TsTypeCastExpression":
-        return this.visitTsTypeCastExpression(n);
       case "UnaryExpression":
         return this.visitUnaryExpression(n);
       case "UpdateExpression":
@@ -1119,12 +1116,6 @@ export default class Visitor {
 
   visitUnaryExpression(n: UnaryExpression): Expression {
     n.argument = this.visitExpression(n.argument);
-    return n;
-  }
-
-  visitTsTypeCastExpression(n: TsTypeCastExpression): Expression {
-    n.expression = this.visitExpression(n.expression);
-    n.typeAnnotation = this.visitTsTypeAnnotation(n.typeAnnotation)!;
     return n;
   }
 
