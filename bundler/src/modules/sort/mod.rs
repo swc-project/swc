@@ -9,6 +9,8 @@ use swc_ecma_ast::*;
 mod chunk;
 mod graph;
 mod stmt;
+#[cfg(test)]
+mod tests;
 
 impl Modules {
     /// If module graph proves that one module can com before other module, it

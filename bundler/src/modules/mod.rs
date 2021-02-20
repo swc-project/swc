@@ -13,8 +13,7 @@ use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
 
 mod sort;
-#[cfg(test)]
-mod tests;
+
 #[derive(Debug, Clone)]
 pub struct Modules {
     /// Indicates that a statement is injected.
@@ -226,62 +225,5 @@ impl From<Modules> for Module {
             body: modules.into_items(),
             shebang: None,
         }
-    }
-}
-
-fn mark(item: &mut ModuleItem, ctxt: SyntaxContext) {
-    match item {
-        ModuleItem::ModuleDecl(item) => match item {
-            ModuleDecl::Import(ImportDecl { span, .. })
-            | ModuleDecl::ExportDecl(ExportDecl { span, .. })
-            | ModuleDecl::ExportNamed(NamedExport { span, .. })
-            | ModuleDecl::ExportDefaultDecl(ExportDefaultDecl { span, .. })
-            | ModuleDecl::ExportDefaultExpr(ExportDefaultExpr { span, .. })
-            | ModuleDecl::ExportAll(ExportAll { span, .. })
-            | ModuleDecl::TsImportEquals(TsImportEqualsDecl { span, .. })
-            | ModuleDecl::TsExportAssignment(TsExportAssignment { span, .. })
-            | ModuleDecl::TsNamespaceExport(TsNamespaceExportDecl { span, .. }) => {
-                span.ctxt = ctxt;
-            }
-        },
-        ModuleItem::Stmt(stmt) => match stmt {
-            Stmt::Empty(_) => return,
-            Stmt::Block(BlockStmt { span, .. })
-            | Stmt::Debugger(DebuggerStmt { span, .. })
-            | Stmt::With(WithStmt { span, .. })
-            | Stmt::Return(ReturnStmt { span, .. })
-            | Stmt::Labeled(LabeledStmt { span, .. })
-            | Stmt::Break(BreakStmt { span, .. })
-            | Stmt::Continue(ContinueStmt { span, .. })
-            | Stmt::If(IfStmt { span, .. })
-            | Stmt::Switch(SwitchStmt { span, .. })
-            | Stmt::Throw(ThrowStmt { span, .. })
-            | Stmt::Try(TryStmt { span, .. })
-            | Stmt::While(WhileStmt { span, .. })
-            | Stmt::DoWhile(DoWhileStmt { span, .. })
-            | Stmt::For(ForStmt { span, .. })
-            | Stmt::ForIn(ForInStmt { span, .. })
-            | Stmt::ForOf(ForOfStmt { span, .. })
-            | Stmt::Expr(ExprStmt { span, .. }) => {
-                span.ctxt = ctxt;
-            }
-            Stmt::Decl(decl) => match decl {
-                Decl::Class(ClassDecl {
-                    class: Class { span, .. },
-                    ..
-                })
-                | Decl::Fn(FnDecl {
-                    function: Function { span, .. },
-                    ..
-                })
-                | Decl::Var(VarDecl { span, .. })
-                | Decl::TsInterface(TsInterfaceDecl { span, .. })
-                | Decl::TsTypeAlias(TsTypeAliasDecl { span, .. })
-                | Decl::TsEnum(TsEnumDecl { span, .. })
-                | Decl::TsModule(TsModuleDecl { span, .. }) => {
-                    span.ctxt = ctxt;
-                }
-            },
-        },
     }
 }
