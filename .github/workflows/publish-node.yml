@@ -13,6 +13,7 @@ env:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
 
@@ -25,6 +26,12 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14
+      
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          override: true
 
       - name: Install node dependencies
         run: npm i
@@ -57,6 +64,7 @@ jobs:
         run: |
           choco install nodejs-lts --x86 -y --force
           refreshenv
+
       - name: Set 32bit NodeJS path
         run: |
           echo "C:\\Program Files (x86)\\nodejs" >> $GITHUB_PATH
@@ -65,15 +73,12 @@ jobs:
       - name: NodeJS arch
         run: node -e "console.log(process.arch)"
 
-      - name: Install
+      - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: stable
           profile: minimal
           override: true
-
-      - name: Install i686 toolchain
-        run: rustup target add i686-pc-windows-msvc
+          target: i686-pc-windows-msvc
 
       - name: Install node dependencies
         run: npm i
@@ -117,6 +122,7 @@ jobs:
         run: |
           docker pull docker.pkg.github.com/napi-rs/napi-rs/nodejs-rust:10-alpine
           docker tag docker.pkg.github.com/napi-rs/napi-rs/nodejs-rust:10-alpine builder
+
       - name: "Install dependencies"
         run: npm i
 
@@ -142,15 +148,12 @@ jobs:
         with:
           node-version: 14
 
-      - name: Install
+      - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: stable
           profile: minimal
           override: true
-
-      - name: Install aarch64 toolchain
-        run: rustup target add aarch64-apple-darwin
+          target: aarch64-apple-darwin
 
       - name: Cache
         uses: actions/cache@v2
@@ -185,15 +188,12 @@ jobs:
         with:
           node-version: 14
 
-      - name: Install
+      - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: stable
           profile: minimal
           override: true
-
-      - name: Install aarch64 toolchain
-        run: rustup target add aarch64-unknown-linux-gnu
+          target: aarch64-unknown-linux-gnu
 
       - name: Cache
         uses: actions/cache@v2
@@ -201,7 +201,6 @@ jobs:
           path: |
             target/
           key: aarch64-linux-gnu-publish-integration
-
 
       - name: Install cross compile toolchain
         run: |
@@ -234,15 +233,12 @@ jobs:
         with:
           node-version: 14
 
-      - name: Install
+      - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: stable
           profile: minimal
           override: true
-
-      - name: Install aarch64 toolchain
-        run: rustup target add armv7-unknown-linux-gnueabihf
+          target: armv7-unknown-linux-gnueabihf
 
       - name: Cache
         uses: actions/cache@v2
@@ -279,8 +275,12 @@ jobs:
         with:
           node-version: 14
 
-      - name: Install aarch64 toolchain
-        run: rustup target add aarch64-linux-android
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          override: true
+          target: aarch64-linux-android
 
       - name: Install node dependencies
         run: npm i
