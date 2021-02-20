@@ -809,7 +809,7 @@ impl Legacy {
                 type_args: None,
             }));
 
-            // _class = dec(_class = funciton() {}) || _class
+            // _class = dec(_class = function() {}) || _class
             let class_expr = Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 left: PatOrExpr::Pat(Box::new(Pat::Ident(class_ident.clone().into()))),

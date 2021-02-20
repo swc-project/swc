@@ -9,7 +9,7 @@ mod input;
 mod parse;
 mod util;
 
-/// # Atributes on enum
+/// # Attributes on enum
 /// ## functions
 /// `#[kind(functions(name = "return_type"))]`
 ///

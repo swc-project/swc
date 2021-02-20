@@ -28,8 +28,8 @@ use syn::{self, *};
 ///# Output
 ///
 ///  - `pub fn as_str(&self) -> &'static str`
-///  - `impl serde::Serilaize`
-///  - `impl serde::Deserilaize`
+///  - `impl serde::Serialize`
+///  - `impl serde::Deserialize`
 ///  - `impl FromStr`
 ///  - `impl Debug`
 ///  - `impl Display`

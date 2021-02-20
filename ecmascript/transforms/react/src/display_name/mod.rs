@@ -236,6 +236,6 @@ fn is_key_display_name(prop: &PropOrSpread) -> bool {
             Prop::Assign(..) => unreachable!("invalid syntax"),
         },
         _ => false,
-        // TODO(kdy1): maybe.. handle spead
+        // TODO(kdy1): maybe.. handle spread
     }
 }

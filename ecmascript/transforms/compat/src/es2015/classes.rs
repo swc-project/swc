@@ -241,7 +241,7 @@ impl Classes {
         }
     }
 
-    /// Turns class expresion into iife.
+    /// Turns class expression into iife.
     ///
     /// ```js
     /// class Foo {}

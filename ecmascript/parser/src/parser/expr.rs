@@ -31,7 +31,7 @@ impl<'a, I: Tokens> Parser<I> {
         Ok(expr)
     }
 
-    ///`parseMaybeAssign` (overrided)
+    ///`parseMaybeAssign` (overridden)
     pub(super) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
 
@@ -520,7 +520,7 @@ impl<'a, I: Tokens> Parser<I> {
         self.parse_subscripts(ExprOrSuper::Expr(obj), true)
     }
 
-    /// Parse `NewExpresion`.
+    /// Parse `NewExpression`.
     /// This includes `MemberExpression`.
     pub(super) fn parse_new_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_new_expr);

@@ -102,15 +102,15 @@ fn codemap() -> Arc<SourceMap> {
 fn new_handler(_cm: Arc<SourceMapperDyn>) -> (Arc<Handler>, BufferedError) {
     let e = BufferedError::default();
 
-    let handler = Handler::with_emitter(true, false, Box::new(MyEmiter::default()));
+    let handler = Handler::with_emitter(true, false, Box::new(MyEmitter::default()));
 
     (Arc::new(handler), e)
 }
 
 #[derive(Clone, Default)]
-struct MyEmiter(BufferedError);
+struct MyEmitter(BufferedError);
 
-impl Emitter for MyEmiter {
+impl Emitter for MyEmitter {
     fn emit(&mut self, db: &DiagnosticBuilder<'_>) {
         let z = &(self.0).0;
         for msg in &db.message {

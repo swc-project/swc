@@ -184,7 +184,7 @@ impl BlockScoping {
                             })
                             .unwrap_or(true)
                         {
-                            body.stmts.push(v.make_reassignemnt(None).into_stmt());
+                            body.stmts.push(v.make_reassignment(None).into_stmt());
                         }
                     }
                 }
@@ -855,7 +855,7 @@ struct MutationHandler<'a> {
 }
 
 impl MutationHandler<'_> {
-    fn make_reassignemnt(&self, orig: Option<Box<Expr>>) -> Expr {
+    fn make_reassignment(&self, orig: Option<Box<Expr>>) -> Expr {
         if self.map.is_empty() {
             return *orig.unwrap_or_else(|| undefined(DUMMY_SP));
         }
@@ -934,7 +934,7 @@ impl VisitMut for MutationHandler<'_> {
 
         let val = n.arg.take();
 
-        n.arg = Some(Box::new(self.make_reassignemnt(val)))
+        n.arg = Some(Box::new(self.make_reassignment(val)))
     }
 }
 

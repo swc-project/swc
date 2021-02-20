@@ -248,7 +248,7 @@ impl Scope {
         .into_stmt()
     }
 
-    /// Import src to export fomr it.
+    /// Import src to export from it.
     pub fn import_to_export(&mut self, src: &Str, init: bool) -> Option<Ident> {
         let entry = self
             .imports

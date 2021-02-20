@@ -179,7 +179,7 @@ impl Load for SwcLoader {
             let program = if config.is_some() {
                 program?
             } else {
-                program.context("tried to parse as ecmaascript as it's exlcuded by .swcrc")?
+                program.context("tried to parse as ecmascript as it's excluded by .swcrc")?
             };
 
             log::trace!("JsLoader.load: parsed");
