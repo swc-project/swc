@@ -147,7 +147,7 @@ where
                                         };
                                         module_items.push(var_decl.into_module_item(
                                             injected_ctxt,
-                                            "reexport from wrapped module",
+                                            "'export *' from wrapped module",
                                         ));
 
                                         let specifier =
