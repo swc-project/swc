@@ -122,7 +122,9 @@ impl VisitMut for Inliner {
 
     /// Don't modify exported ident.
     fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
-        n.orig.visit_mut_with(self);
+        if n.exported.is_some() {
+            n.orig.visit_mut_with(self);
+        }
     }
 
     /// General logic for member expression.s
