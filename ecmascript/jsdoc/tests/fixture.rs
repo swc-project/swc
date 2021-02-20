@@ -37,7 +37,6 @@ fn fixture() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
     add_fixture(&mut tests).unwrap();
-    tests.truncate(1);
     test_main(&args, tests, Some(test::Options::new()));
 }
 
