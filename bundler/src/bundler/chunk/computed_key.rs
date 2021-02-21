@@ -47,29 +47,22 @@ where
         };
         let injected_ctxt = self.injected_ctxt;
         let mut injected_vars = vec![];
-        module.iter_mut().for_each(|(id, item)| match item {
+        module.iter_mut().for_each(|(_, item)| match item {
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
                 //
                 for s in export.specifiers.iter_mut() {
                     match s {
                         ExportSpecifier::Named(ExportNamedSpecifier {
                             span,
-                            exported: Some(exported),
+                            exported: Some(..),
                             orig,
                             ..
                         }) => {
                             // Allow using variables within the wrapped es module.
-                            injected_vars.push((
-                                id,
-                                orig.clone().assign_to(exported.clone()).into_module_item(
-                                    injected_ctxt,
-                                    "wrapped esm -> aliased export",
-                                ),
-                            ));
                             *s = ExportSpecifier::Named(ExportNamedSpecifier {
                                 span: *span,
                                 exported: None,
-                                orig: exported.clone(),
+                                orig: orig.clone(),
                             })
                         }
                         _ => {}
