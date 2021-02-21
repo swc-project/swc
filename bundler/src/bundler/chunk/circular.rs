@@ -139,7 +139,6 @@ where
         });
         // deps.sort();
 
-        let mut buf = Modules::empty(self.injected_ctxt);
         self.run(|| {
             for dep_id in deps {
                 let dep_info = self.scope.get_module(dep_id).unwrap();
@@ -159,16 +158,14 @@ where
 
                 // print_hygiene("[circular] dep:init 2", &self.cm, &dep);
 
-                buf.push_all(dep);
+                entry.push_all(dep);
             }
 
             // print_hygiene("before circular sort", &self.cm, &entry.clone().into());
 
-            buf.push_all(entry);
-
             // entry.sort();
 
-            Ok(buf)
+            Ok(entry)
         })
     }
 }
