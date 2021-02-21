@@ -120,6 +120,25 @@ impl VisitMut for Inliner {
         }
     }
 
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        match n {
+            Prop::Shorthand(i) => {
+                let orig = i.clone();
+                i.visit_mut_with(self);
+                if i.sym != orig.sym || i.span.ctxt != orig.span.ctxt {
+                    *n = Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(orig),
+                        value: Box::new(Expr::Ident(i.clone())),
+                    });
+                    return;
+                }
+            }
+            _ => {
+                n.visit_mut_children_with(self);
+            }
+        }
+    }
+
     /// Don't modify exported ident.
     fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
         if n.exported.is_none() {
