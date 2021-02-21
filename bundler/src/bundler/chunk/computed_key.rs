@@ -46,32 +46,6 @@ where
             None => bail!("{:?} should not be wrapped with a function", id),
         };
         let injected_ctxt = self.injected_ctxt;
-        let mut injected_vars = vec![];
-        module.iter_mut().for_each(|(_, item)| match item {
-            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
-                //
-                for s in export.specifiers.iter_mut() {
-                    match s {
-                        ExportSpecifier::Named(ExportNamedSpecifier {
-                            span,
-                            exported: Some(..),
-                            orig,
-                            ..
-                        }) => {
-                            // Allow using variables within the wrapped es module.
-                            *s = ExportSpecifier::Named(ExportNamedSpecifier {
-                                span: *span,
-                                exported: None,
-                                orig: orig.clone(),
-                            })
-                        }
-                        _ => {}
-                    }
-                }
-            }
-            _ => {}
-        });
-        module.append_all(injected_vars);
         module.sort(id, &ctx.graph, &self.cm);
 
         let is_async = {
@@ -285,12 +259,15 @@ impl ExportToReturn<'_> {
         );
     }
 
-    fn export_key_value(&mut self, key: Ident, value: Ident) {
+    fn export_key_value(&mut self, key: Ident, value: Ident, skip_var: bool) {
         self.return_props
             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(key.clone()),
                 value: Box::new(Expr::Ident(value.clone())),
             }))));
+        if skip_var {
+            return;
+        }
         if self.module_var.ctxt() == value.span.ctxt {
             return;
         }
@@ -345,6 +322,7 @@ impl Fold for ExportToReturn<'_> {
                     self.export_key_value(
                         Ident::new(js_word!("default"), export.span),
                         ident.clone(),
+                        false,
                     );
 
                     Some(Stmt::Decl(Decl::Class(ClassDecl {
@@ -360,6 +338,7 @@ impl Fold for ExportToReturn<'_> {
                     self.export_key_value(
                         Ident::new(js_word!("default"), export.span),
                         ident.clone(),
+                        false,
                     );
 
                     Some(Stmt::Decl(Decl::Fn(FnDecl {
@@ -381,7 +360,9 @@ impl Fold for ExportToReturn<'_> {
                         ExportSpecifier::Default(_) => {}
                         ExportSpecifier::Named(named) => match &named.exported {
                             Some(exported) => {
-                                self.export_key_value(exported.clone(), named.orig.clone());
+                                // As named exports are converted to variables by other passes, we
+                                // should not create a variable for it.
+                                self.export_key_value(exported.clone(), named.orig.clone(), true);
                             }
                             None => {
                                 self.export_id(named.orig.clone());
