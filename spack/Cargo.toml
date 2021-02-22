@@ -44,5 +44,8 @@ walkdir = "2.3.1"
 [target.'cfg(all(unix, not(target_env = "musl")))'.dev-dependencies]
 jemallocator = {version = "0.3", features = ["disable_initial_exec_tls"]}
 
+[target.'cfg(windows)'.dependencies]
+normpath="0.2"
+
 [target.'cfg(windows)'.dev-dependencies]
 mimalloc = {version = "0.1"}

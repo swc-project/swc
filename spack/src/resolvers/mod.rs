@@ -4,13 +4,17 @@
 
 use anyhow::{bail, Context, Error};
 use lru::LruCache;
+#[cfg(windows)]
+use normpath::BasePath;
+// use path_slash::{PathBufExt, PathExt};
 use serde::Deserialize;
 use std::{
     fs::File,
     io::BufReader,
-    path::{Path, PathBuf},
+    path::{Component, Path, PathBuf},
     sync::Mutex,
 };
+
 use swc_bundler::Resolve;
 use swc_common::FileName;
 
@@ -49,7 +53,7 @@ impl NodeResolver {
     }
 
     fn wrap(&self, base: &PathBuf, target: &str, path: PathBuf) -> Result<FileName, Error> {
-        let path = path.canonicalize().context("failaed to canonicalize")?;
+        let path = path.canonicalize().context("failed to canonicalize")?;
         self.store(base, target, path.clone());
         Ok(FileName::Real(path))
     }
@@ -176,12 +180,10 @@ impl Resolve for NodeResolver {
                 Err(_) => {}
             }
         }
+        let target_path = Path::new(target);
 
-        // Absolute path
-        if target.starts_with("/") {
-            let base_dir = &Path::new("/");
-
-            let path = base_dir.join(target);
+        if target_path.is_absolute() {
+            let path = PathBuf::from(target_path);
             return self
                 .resolve_as_file(&path)
                 .or_else(|_| self.resolve_as_directory(&path))
@@ -190,8 +192,19 @@ impl Resolve for NodeResolver {
 
         let cwd = &Path::new(".");
         let base_dir = base.parent().unwrap_or(&cwd);
+        let mut components = target_path.components();
 
-        if target.starts_with("./") || target.starts_with("../") {
+        if let Some(Component::CurDir | Component::ParentDir) = components.next() {
+            #[cfg(windows)]
+            let path = {
+                let base_dir = BasePath::new(base_dir).unwrap();
+                base_dir
+                    .join(target.replace('/', "\\"))
+                    .normalize_virtually()
+                    .unwrap()
+                    .into_path_buf()
+            };
+            #[cfg(not(windows))]
             let path = base_dir.join(target);
             return self
                 .resolve_as_file(&path)
