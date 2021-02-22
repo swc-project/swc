@@ -3,6 +3,7 @@ use crate::dep_graph::ModuleGraph;
 use crate::modules::Modules;
 use crate::ModuleId;
 use ahash::AHashSet;
+use ahash::RandomState;
 use indexmap::IndexSet;
 use petgraph::algo::all_simple_paths;
 use petgraph::EdgeDirection::Outgoing;
@@ -113,6 +114,38 @@ fn toposort_real_modules<'a>(
     chunks
 }
 
+/// Get all modules in a cycle.
+fn all_modules_in_circle(
+    id: ModuleId,
+    done: &AHashSet<ModuleId>,
+    already_in_index: &mut IndexSet<ModuleId, RandomState>,
+    graph: &ModuleGraph,
+) -> IndexSet<ModuleId, RandomState> {
+    let deps = graph
+        .neighbors_directed(id, Outgoing)
+        .filter(|dep| !done.contains(&dep) && !already_in_index.contains(dep))
+        .collect::<Vec<_>>();
+
+    let mut ids = deps
+        .iter()
+        .copied()
+        .flat_map(|dep| all_simple_paths::<Vec<_>, _>(&graph, dep, id, 0, None))
+        .flatten()
+        .filter(|module_id| !done.contains(&module_id) && !already_in_index.contains(module_id))
+        .collect::<IndexSet<ModuleId, RandomState>>();
+
+    already_in_index.extend(ids.iter().copied());
+    let mut new_ids = IndexSet::<_, RandomState>::default();
+
+    for &dep_id in &ids {
+        let others = all_modules_in_circle(dep_id, done, already_in_index, graph);
+        new_ids.extend(others)
+    }
+    ids.extend(new_ids);
+
+    ids
+}
+
 fn toposort_real_module_ids<'a>(
     mut queue: VecDeque<ModuleId>,
     graph: &'a ModuleGraph,
@@ -141,13 +174,8 @@ fn toposort_real_module_ids<'a>(
 
             // dbg!(&deps);
 
-            let all_modules_in_circle = deps
-                .iter()
-                .copied()
-                .flat_map(|dep| all_simple_paths::<Vec<_>, _>(&graph, dep, id, 0, None))
-                .flatten()
-                .filter(|module_id| !done.contains(&module_id))
-                .collect::<IndexSet<ModuleId>>();
+            let all_modules_in_circle =
+                all_modules_in_circle(id, &done, &mut Default::default(), graph);
 
             if all_modules_in_circle.is_empty() {
                 queue.push_front(id);
