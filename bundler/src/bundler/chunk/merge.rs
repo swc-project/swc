@@ -1071,7 +1071,7 @@ where
                                                 );
 
                                                 ExportNamedSpecifier {
-                                                    span: DUMMY_SP,
+                                                    span: DUMMY_SP.with_ctxt(self.synthesized_ctxt),
                                                     orig: id,
                                                     exported: Some(exported),
                                                 }
@@ -1108,7 +1108,7 @@ where
 
                         new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
-                                span: export.span.with_ctxt(injected_ctxt),
+                                span: export.span.with_ctxt(self.synthesized_ctxt),
                                 specifiers: vec![specifier],
                                 src: None,
                                 type_only: false,

@@ -46,6 +46,7 @@ where
             None => bail!("{:?} should not be wrapped with a function", id),
         };
         let injected_ctxt = self.injected_ctxt;
+        let synthesized_ctxt = self.synthesized_ctxt;
         module.sort(id, &ctx.graph, &self.cm);
 
         let is_async = {
@@ -59,8 +60,8 @@ where
 
         let stmts = {
             let mut module = Module::from(module).fold_with(&mut ExportToReturn {
-                synthesized_ctxt: self.synthesized_ctxt,
-                injected_ctxt: self.injected_ctxt,
+                synthesized_ctxt,
+                injected_ctxt,
                 return_props: Default::default(),
                 esm_exports: &mut extra_exports,
                 module_var: &module_var_name,
@@ -74,7 +75,7 @@ where
                         //
                         // See: https://github.com/denoland/deno/issues/9200
 
-                        if var.span.ctxt == injected_ctxt {
+                        if var.span.ctxt == injected_ctxt || var.span.ctxt == synthesized_ctxt {
                             let decl = &var.decls[0];
                             match &decl.name {
                                 Pat::Ident(i) => {
@@ -365,7 +366,9 @@ impl Fold for ExportToReturn<'_> {
                                 self.export_key_value(
                                     exported.clone(),
                                     named.orig.clone(),
-                                    export.span.ctxt == self.injected_ctxt || export.src.is_some(),
+                                    export.span.ctxt == self.injected_ctxt
+                                        || export.span.ctxt == self.synthesized_ctxt
+                                        || export.src.is_some(),
                                 );
                             }
                             None => {
