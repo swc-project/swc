@@ -1,139 +1,89 @@
-use super::Modules;
-use crate::{id::Id, util::MapWithMut};
+use super::graph::Required;
+use crate::id::Id;
+use crate::modules::sort::graph::StmtDepGraph;
+use crate::util::MapWithMut;
+use ahash::AHashMap;
+use ahash::AHashSet;
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::Incoming as Dependants;
 use petgraph::EdgeDirection::Outgoing as Dependancies;
-use retain_mut::RetainMut;
-use std::collections::HashMap;
-use std::collections::HashSet;
 use std::collections::VecDeque;
 use std::iter::from_fn;
-use std::mem::take;
 use std::ops::Range;
 use swc_atoms::js_word;
 use swc_common::sync::Lrc;
 use swc_common::SourceMap;
 use swc_common::Spanned;
+use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
-use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+use swc_ecma_visit::noop_visit_type;
+use swc_ecma_visit::Node;
+use swc_ecma_visit::Visit;
+use swc_ecma_visit::VisitWith;
 
-type StmtDepGraph = self::graph::StmtDepGraph;
+pub(super) fn sort_stmts(
+    injected_ctxt: SyntaxContext,
+    modules: Vec<Vec<ModuleItem>>,
+    _cm: &Lrc<SourceMap>,
+) -> Vec<ModuleItem> {
+    let total_len: usize = modules.iter().map(|v| v.len()).sum();
 
-mod graph;
+    let mut stmts = vec![];
+    let mut free = vec![];
+    let mut same_module_ranges = vec![];
+    let mut module_starts = vec![];
 
-/// Is dependancy between nodes hard?
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-enum Required {
-    /// Required to evaluate
-    Always,
+    for module in modules {
+        let start = stmts.len();
+        module_starts.push(stmts.len());
+        let mut module_item_count = 0;
 
-    /// Maybe required to evaluate
-    Maybe,
-}
-
-impl Modules {
-    pub fn sort(&mut self, _cm: &Lrc<SourceMap>) {
-        let injected_ctxt = self.injected_ctxt;
-        {
-            let mut modules = take(&mut self.modules);
-            for module in &mut modules {
-                module.body.retain_mut(|item| {
-                    let is_free = item.span().ctxt == injected_ctxt;
-                    if is_free {
-                        self.injected.push(item.take());
-                        false
-                    } else {
-                        true
-                    }
-                });
-            }
-            self.modules = modules;
-        }
-
-        self.retain_mut(|item| match item {
-            ModuleItem::Stmt(Stmt::Empty(..)) => false,
-            _ => true,
-        });
-
-        let mut new = vec![];
-
-        new.extend(self.prepended.drain(..));
-        let mut module_starts = vec![];
-        let mut same_module_ranges = vec![];
-        for module in self.modules.drain(..) {
-            let start = new.len();
-            let inner_len = module.body.len();
-            if inner_len != 0 {
-                let end = start + inner_len;
-
-                module_starts.push(start);
-                same_module_ranges.push(start..end);
-            }
-
-            // for (inner_idx, item) in module.body.into_iter().enumerate() {
-            //     let idx = new.len();
-            //     if inner_idx != 0 && inner_idx + 1 != inner_len && !new.is_empty() {
-            //         graph.add_edge(idx - 1, idx, Required::Always);
-            //     }
-
-            //     new.push(item);
-            // }
-
-            new.extend(module.body);
-        }
-        let free = new.len()..(new.len() + self.injected.len());
-        if cfg!(debug_assertions) {
-            for rng in &same_module_ranges {
-                for idx in rng.clone() {
-                    assert!(!free.contains(&idx));
-                }
+        for stmt in module {
+            if stmt.span().ctxt == injected_ctxt {
+                free.push(stmt)
+            } else {
+                module_item_count += 1;
+                stmts.push(stmt)
             }
         }
-        new.extend(self.injected.drain(..));
 
-        // print_hygiene(
-        //     "before sort",
-        //     cm,
-        //     &Module {
-        //         span: DUMMY_SP,
-        //         body: new.clone(),
-        //         shebang: None,
-        //     },
-        // );
-
-        let mut graph = calc_deps(&new);
-
-        // Now graph contains enough information to sort statements.
-        let mut orders = vec![];
-        orders.extend(iter(
-            &mut graph,
-            &same_module_ranges,
-            free.clone(),
-            &module_starts,
-            &new,
-        ));
-        // let mut delayed = HashSet::new();
-
-        assert_eq!(orders.len(), new.len());
-
-        let mut buf = Vec::with_capacity(new.len());
-        for order in orders {
-            let stmt = new[order].take();
-            buf.push(stmt)
-        }
-
-        let module = Module {
-            span: DUMMY_SP,
-            body: buf,
-            shebang: None,
-        };
-
-        // print_hygiene("after sort", cm, &module);
-
-        *self = Modules::from(module, injected_ctxt);
+        same_module_ranges.push(start..start + module_item_count);
     }
+    let non_free_count = stmts.len();
+    let free_range = non_free_count..non_free_count + free.len();
+    stmts.extend(free);
+
+    // print_hygiene(
+    //     &format!("before sort"),
+    //     cm,
+    //     &Module {
+    //         span: DUMMY_SP,
+    //         body: stmts.clone(),
+    //         shebang: None,
+    //     },
+    // );
+
+    let mut id_graph = calc_deps(&stmts);
+
+    let orders = iter(
+        &mut id_graph,
+        &same_module_ranges,
+        free_range,
+        &module_starts,
+        &stmts,
+    )
+    .collect::<Vec<_>>();
+
+    debug_assert_eq!(total_len, orders.len());
+
+    let mut new = Vec::with_capacity(stmts.len());
+    for idx in orders {
+        new.push(stmts[idx].take());
+    }
+
+    new
 }
 
 fn iter<'a>(
@@ -149,8 +99,8 @@ fn iter<'a>(
     // dbg!(&free);
     // dbg!(&module_starts);
 
-    let mut moves = HashSet::new();
-    let mut done = HashSet::new();
+    let mut moves = AHashSet::new();
+    let mut done = AHashSet::new();
     let mut stack = VecDeque::new();
     stack.extend(module_starts.iter().copied());
 
@@ -186,13 +136,13 @@ fn iter<'a>(
             // match &stmts[idx] {
             //     ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
             //         let ids: Vec<Id> = find_ids(&var.decls);
-            //         eprintln!("(`{}`) Declare: `{:?}`", idx, ids);
+            //         eprintln!("(`{}`) Declare var: `{:?}`", idx, ids);
             //     }
             //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
-            //         eprintln!("(`{}`) Declare: `{:?}`", idx, Id::from(&cls.ident));
+            //         eprintln!("(`{}`) Declare class: `{:?}`", idx, Id::from(&cls.ident));
             //     }
             //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-            //         eprintln!("(`{}`) Declare: `{:?}`", idx, Id::from(&f.ident));
+            //         eprintln!("(`{}`) Declare fn: `{:?}`", idx, Id::from(&f.ident));
             //     }
             //     _ => eprintln!("(`{}`) Stmt", idx,),
             // }
@@ -385,19 +335,23 @@ fn iter<'a>(
                 }
             }
 
-            {
-                // We emit free dependants as early as possible.
-                let free_dependants = graph
-                    .neighbors_directed(idx, Dependants)
-                    .filter(|&dependant| !done.contains(&dependant) && free.contains(&dependant))
-                    .collect::<Vec<_>>();
+            // The logic below is not required because we inline all simple injected
+            // variables.
+            //
+            //
+            // {
+            //     // We emit free dependants as early as possible.
+            //     let free_dependants = graph
+            //         .neighbors_directed(idx, Dependants)
+            //         .filter(|&dependant| !done.contains(&dependant) &&
+            // free.contains(&dependant))         .collect::<Vec<_>>();
 
-                if !free_dependants.is_empty() {
-                    for dependant in free_dependants {
-                        stack.push_front(dependant);
-                    }
-                }
-            }
+            //     if !free_dependants.is_empty() {
+            //         for dependant in free_dependants {
+            //             stack.push_front(dependant);
+            //         }
+            //     }
+            // }
 
             graph.remove_node(idx);
             done.insert(idx);
@@ -413,7 +367,7 @@ fn iter<'a>(
 struct FieldInitFinter {
     in_object_assign: bool,
     in_rhs: bool,
-    accessed: HashSet<Id>,
+    accessed: AHashSet<Id>,
 }
 
 impl FieldInitFinter {
@@ -452,6 +406,8 @@ impl FieldInitFinter {
 }
 
 impl Visit for FieldInitFinter {
+    noop_visit_type!();
+
     fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
         let old = self.in_rhs;
         e.left.visit_with(e, self);
@@ -653,7 +609,7 @@ impl Visit for RequirementCalculartor {
                 if self.in_var_decl && !self.in_assign_lhs {
                     return;
                 }
-                self.insert((&i.id).into());
+                self.insert(i.id.clone().into());
             }
             _ => {
                 pat.visit_children_with(self);
@@ -710,8 +666,8 @@ impl Visit for RequirementCalculartor {
 fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
     let mut graph = StmtDepGraph::default();
 
-    let mut declared_by = HashMap::<Id, Vec<usize>>::default();
-    let mut uninitialized_ids = HashMap::<Id, usize>::new();
+    let mut declared_by = AHashMap::<Id, Vec<usize>>::default();
+    let mut uninitialized_ids = AHashMap::<Id, usize>::new();
 
     for (idx, item) in new.iter().enumerate() {
         graph.add_node(idx);
@@ -858,4 +814,437 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
     }
 
     graph
+}
+
+#[cfg(test)]
+mod tests {
+    use super::calc_deps;
+    use super::Dependancies;
+    use crate::bundler::tests::suite;
+    use crate::debug::print_hygiene;
+    use swc_common::DUMMY_SP;
+    use swc_ecma_ast::*;
+
+    fn assert_no_cycle(s: &str) {
+        suite().file("main.js", s).run(|t| {
+            let info = t.module("main.js");
+            let module = (*info.module).clone();
+
+            let graph = calc_deps(&module.body);
+
+            for i in 0..module.body.len() {
+                match &module.body[i] {
+                    ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..))) => continue,
+
+                    _ => {}
+                }
+
+                let deps = graph
+                    .neighbors_directed(i, Dependancies)
+                    .collect::<Vec<_>>();
+
+                for dep in deps {
+                    match &module.body[dep] {
+                        ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..))) => continue,
+
+                        _ => {}
+                    }
+                    print_hygiene(
+                        "first item",
+                        &t.cm,
+                        &Module {
+                            span: DUMMY_SP,
+                            body: vec![module.body[dep].clone()],
+                            shebang: None,
+                        },
+                    );
+                    print_hygiene(
+                        "second item",
+                        &t.cm,
+                        &Module {
+                            span: DUMMY_SP,
+                            body: vec![module.body[i].clone()],
+                            shebang: None,
+                        },
+                    );
+                    assert!(
+                        !graph.has_a_path(dep, i),
+                        "{} and {} is dependant to each other",
+                        dep,
+                        i,
+                    );
+                }
+            }
+
+            Ok(())
+        });
+    }
+
+    #[test]
+    fn no_cycle_1() {
+        assert_no_cycle(
+            r#"
+            function lexer(str) {
+                const tokens = [];
+                let i = 0;
+                while(i < str.length){
+                    const char = str[i];
+                    if (char === "*" || char === "+" || char === "?") {
+                        tokens.push({
+                            type: "MODIFIER",
+                            index: i,
+                            value: str[i++]
+                        });
+                        continue;
+                    }
+                    if (char === "\\") {
+                        tokens.push({
+                            type: "ESCAPED_CHAR",
+                            index: i++,
+                            value: str[i++]
+                        });
+                        continue;
+                    }
+                    if (char === "{") {
+                        tokens.push({
+                            type: "OPEN",
+                            index: i,
+                            value: str[i++]
+                        });
+                        continue;
+                    }
+                    if (char === "}") {
+                        tokens.push({
+                            type: "CLOSE",
+                            index: i,
+                            value: str[i++]
+                        });
+                        continue;
+                    }
+                    if (char === ":") {
+                        let name = "";
+                        let j = i + 1;
+                        while(j < str.length){
+                            const code = str.charCodeAt(j);
+                            if ((code >= 48 && code <= 57) || (code >= 65 && code <= 90) || (code >= 97 && code <= 122) || code === 95) {
+                                name += str[j++];
+                                continue;
+                            }
+                            break;
+                        }
+                        if (!name) throw new TypeError(`Missing parameter name at ${i}`);
+                        tokens.push({
+                            type: "NAME",
+                            index: i,
+                            value: name
+                        });
+                        i = j;
+                        continue;
+                    }
+                    if (char === "(") {
+                        let count = 1;
+                        let pattern = "";
+                        let j = i + 1;
+                        if (str[j] === "?") {
+                            throw new TypeError(`Pattern cannot start with "?" at ${j}`);
+                        }
+                        while(j < str.length){
+                            if (str[j] === "\\") {
+                                pattern += str[j++] + str[j++];
+                                continue;
+                            }
+                            if (str[j] === ")") {
+                                count--;
+                                if (count === 0) {
+                                    j++;
+                                    break;
+                                }
+                            } else if (str[j] === "(") {
+                                count++;
+                                if (str[j + 1] !== "?") {
+                                    throw new TypeError(`Capturing groups are not allowed at ${j}`);
+                                }
+                            }
+                            pattern += str[j++];
+                        }
+                        if (count) throw new TypeError(`Unbalanced pattern at ${i}`);
+                        if (!pattern) throw new TypeError(`Missing pattern at ${i}`);
+                        tokens.push({
+                            type: "PATTERN",
+                            index: i,
+                            value: pattern
+                        });
+                        i = j;
+                        continue;
+                    }
+                    tokens.push({
+                        type: "CHAR",
+                        index: i,
+                        value: str[i++]
+                    });
+                }
+                tokens.push({
+                    type: "END",
+                    index: i,
+                    value: ""
+                });
+                return tokens;
+            }
+            function parse(str, options = {
+            }) {
+                const tokens = lexer(str);
+                const { prefixes ="./"  } = options;
+                const defaultPattern = `[^${escapeString(options.delimiter || "/#?")}]+?`;
+                const result = [];
+                let key = 0;
+                let i = 0;
+                let path = "";
+                const tryConsume = (type)=>{
+                    if (i < tokens.length && tokens[i].type === type) return tokens[i++].value;
+                };
+                const mustConsume = (type)=>{
+                    const value = tryConsume(type);
+                    if (value !== undefined) return value;
+                    const { type: nextType , index  } = tokens[i];
+                    throw new TypeError(`Unexpected ${nextType} at ${index}, expected ${type}`);
+                };
+                const consumeText = ()=>{
+                    let result1 = "";
+                    let value;
+                    while((value = tryConsume("CHAR") || tryConsume("ESCAPED_CHAR"))){
+                        result1 += value;
+                    }
+                    return result1;
+                };
+                while(i < tokens.length){
+                    const char = tryConsume("CHAR");
+                    const name = tryConsume("NAME");
+                    const pattern = tryConsume("PATTERN");
+                    if (name || pattern) {
+                        let prefix = char || "";
+                        if (prefixes.indexOf(prefix) === -1) {
+                            path += prefix;
+                            prefix = "";
+                        }
+                        if (path) {
+                            result.push(path);
+                            path = "";
+                        }
+                        result.push({
+                            name: name || key++,
+                            prefix,
+                            suffix: "",
+                            pattern: pattern || defaultPattern,
+                            modifier: tryConsume("MODIFIER") || ""
+                        });
+                        continue;
+                    }
+                    const value = char || tryConsume("ESCAPED_CHAR");
+                    if (value) {
+                        path += value;
+                        continue;
+                    }
+                    if (path) {
+                        result.push(path);
+                        path = "";
+                    }
+                    const open = tryConsume("OPEN");
+                    if (open) {
+                        const prefix = consumeText();
+                        const name1 = tryConsume("NAME") || "";
+                        const pattern1 = tryConsume("PATTERN") || "";
+                        const suffix = consumeText();
+                        mustConsume("CLOSE");
+                        result.push({
+                            name: name1 || (pattern1 ? key++ : ""),
+                            pattern: name1 && !pattern1 ? defaultPattern : pattern1,
+                            prefix,
+                            suffix,
+                            modifier: tryConsume("MODIFIER") || ""
+                        });
+                        continue;
+                    }
+                    mustConsume("END");
+                }
+                return result;
+            }
+            const parse1 = parse;
+            function compile(str, options) {
+                return tokensToFunction(parse(str, options), options);
+            }
+            const compile1 = compile;
+            function tokensToFunction(tokens, options = {
+            }) {
+                const reFlags = flags(options);
+                const { encode =(x)=>x
+                 , validate =true  } = options;
+                const matches = tokens.map((token)=>{
+                    if (typeof token === "object") {
+                        return new RegExp(`^(?:${token.pattern})$`, reFlags);
+                    }
+                });
+                return (data)=>{
+                    let path = "";
+                    for(let i = 0; i < tokens.length; i++){
+                        const token = tokens[i];
+                        if (typeof token === "string") {
+                            path += token;
+                            continue;
+                        }
+                        const value = data ? data[token.name] : undefined;
+                        const optional = token.modifier === "?" || token.modifier === "*";
+                        const repeat = token.modifier === "*" || token.modifier === "+";
+                        if (Array.isArray(value)) {
+                            if (!repeat) {
+                                throw new TypeError(`Expected "${token.name}" to not repeat, but got an array`);
+                            }
+                            if (value.length === 0) {
+                                if (optional) continue;
+                                throw new TypeError(`Expected "${token.name}" to not be empty`);
+                            }
+                            for(let j = 0; j < value.length; j++){
+                                const segment = encode(value[j], token);
+                                if (validate && !(matches[i]).test(segment)) {
+                                    throw new TypeError(`Expected all "${token.name}" to match "${token.pattern}", but got "${segment}"`);
+                                }
+                                path += token.prefix + segment + token.suffix;
+                            }
+                            continue;
+                        }
+                        if (typeof value === "string" || typeof value === "number") {
+                            const segment = encode(String(value), token);
+                            if (validate && !(matches[i]).test(segment)) {
+                                throw new TypeError(`Expected "${token.name}" to match "${token.pattern}", but got "${segment}"`);
+                            }
+                            path += token.prefix + segment + token.suffix;
+                            continue;
+                        }
+                        if (optional) continue;
+                        const typeOfMessage = repeat ? "an array" : "a string";
+                        throw new TypeError(`Expected "${token.name}" to be ${typeOfMessage}`);
+                    }
+                    return path;
+                };
+            }
+            const tokensToFunction1 = tokensToFunction;
+            function match(str, options) {
+                const keys = [];
+                const re = pathToRegexp(str, keys, options);
+                return regexpToFunction(re, keys, options);
+            }
+            const match1 = match;
+            function regexpToFunction(re, keys, options = {
+            }) {
+                const { decode =(x)=>x
+                  } = options;
+                return function(pathname) {
+                    const m = re.exec(pathname);
+                    if (!m) return false;
+                    const { 0: path , index  } = m;
+                    const params = Object.create(null);
+                    for(let i = 1; i < m.length; i++){
+                        if (m[i] === undefined) continue;
+                        const key = keys[i - 1];
+                        if (key.modifier === "*" || key.modifier === "+") {
+                            params[key.name] = m[i].split(key.prefix + key.suffix).map((value)=>{
+                                return decode(value, key);
+                            });
+                        } else {
+                            params[key.name] = decode(m[i], key);
+                        }
+                    }
+                    return {
+                        path,
+                        index,
+                        params
+                    };
+                };
+            }
+            const regexpToFunction1 = regexpToFunction;
+            function escapeString(str) {
+                return str.replace(/([.+*?=^!:${}()[\]|/\\])/g, "\\$1");
+            }
+            function flags(options) {
+                return options && options.sensitive ? "" : "i";
+            }
+            function regexpToRegexp(path, keys) {
+                if (!keys) return path;
+                const groupsRegex = /\((?:\?<(.*?)>)?(?!\?)/g;
+                let index = 0;
+                let execResult = groupsRegex.exec(path.source);
+                while(execResult){
+                    keys.push({
+                        name: execResult[1] || index++,
+                        prefix: "",
+                        suffix: "",
+                        modifier: "",
+                        pattern: ""
+                    });
+                    execResult = groupsRegex.exec(path.source);
+                }
+                return path;
+            }
+            function arrayToRegexp(paths, keys, options) {
+                const parts = paths.map((path)=>pathToRegexp(path, keys, options).source
+                );
+                return new RegExp(`(?:${parts.join("|")})`, flags(options));
+            }
+            function stringToRegexp(path, keys, options) {
+                return tokensToRegexp(parse(path, options), keys, options);
+            }
+            function tokensToRegexp(tokens, keys, options = {
+            }) {
+                const { strict =false , start =true , end =true , encode =(x)=>x
+                  } = options;
+                const endsWith = `[${escapeString(options.endsWith || "")}]|$`;
+                const delimiter = `[${escapeString(options.delimiter || "/#?")}]`;
+                let route = start ? "^" : "";
+                for (const token of tokens){
+                    if (typeof token === "string") {
+                        route += escapeString(encode(token));
+                    } else {
+                        const prefix = escapeString(encode(token.prefix));
+                        const suffix = escapeString(encode(token.suffix));
+                        if (token.pattern) {
+                            if (keys) keys.push(token);
+                            if (prefix || suffix) {
+                                if (token.modifier === "+" || token.modifier === "*") {
+                                    const mod = token.modifier === "*" ? "?" : "";
+                                    route += `(?:${prefix}((?:${token.pattern})(?:${suffix}${prefix}(?:${token.pattern}))*)${suffix})${mod}`;
+                                } else {
+                                    route += `(?:${prefix}(${token.pattern})${suffix})${token.modifier}`;
+                                }
+                            } else {
+                                route += `(${token.pattern})${token.modifier}`;
+                            }
+                        } else {
+                            route += `(?:${prefix}${suffix})${token.modifier}`;
+                        }
+                    }
+                }
+                if (end) {
+                    if (!strict) route += `${delimiter}?`;
+                    route += !options.endsWith ? "$" : `(?=${endsWith})`;
+                } else {
+                    const endToken = tokens[tokens.length - 1];
+                    const isEndDelimited = typeof endToken === "string" ? delimiter.indexOf(endToken[endToken.length - 1]) > -1 : endToken === undefined;
+                    if (!strict) {
+                        route += `(?:${delimiter}(?=${endsWith}))?`;
+                    }
+                    if (!isEndDelimited) {
+                        route += `(?=${delimiter}|${endsWith})`;
+                    }
+                }
+                return new RegExp(route, flags(options));
+            }
+            const tokensToRegexp1 = tokensToRegexp;
+            function pathToRegexp(path, keys, options) {
+                if (path instanceof RegExp) return regexpToRegexp(path, keys);
+                if (Array.isArray(path)) return arrayToRegexp(path, keys, options);
+                return stringToRegexp(path, keys, options);
+            }
+            const pathToRegexp1 = pathToRegexp;
+        "#,
+        );
+    }
 }

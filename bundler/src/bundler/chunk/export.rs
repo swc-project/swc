@@ -1,4 +1,4 @@
-use crate::bundler::modules::Modules;
+use crate::modules::Modules;
 use crate::util::MapWithMut;
 use crate::{
     bundler::{
@@ -11,6 +11,7 @@ use crate::{
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
+use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
@@ -60,6 +61,8 @@ where
     ) -> Result<Modules, Error> {
         self.run(|| {
             log::debug!("Reexporting {:?}", dep_id);
+            let injected_ctxt = self.injected_ctxt;
+
             let dep_info = self.scope.get_module(dep_id).unwrap();
             let mut dep = self
                 .merge_modules(ctx, dep_id, false, true)
@@ -71,7 +74,8 @@ where
                 for specifier in specifiers {
                     match specifier {
                         Specifier::Namespace { local, .. } => {
-                            dep.inject(
+                            dep.append(
+                                dep_info.id,
                                 module_name
                                     .assign_to(local.clone())
                                     .into_module_item(self.injected_ctxt, "merge_export"),
@@ -89,7 +93,47 @@ where
             //     &dep.clone().into(),
             // );
 
-            if !specifiers.is_empty() {
+            // `export *`
+            if specifiers.is_empty() {
+                let mut items = vec![];
+                // We should exclude `default`
+                dep.retain_mut(|module_id, item| match item {
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
+                        export.specifiers.retain(|s| match s {
+                            ExportSpecifier::Named(ExportNamedSpecifier {
+                                orig,
+                                exported:
+                                    Some(Ident {
+                                        sym: js_word!("default"),
+                                        span: exported_span,
+                                        ..
+                                    }),
+                                ..
+                            }) => {
+                                items.push((
+                                    module_id,
+                                    orig.clone()
+                                        .assign_to(Ident::new(js_word!("default"), *exported_span))
+                                        .into_module_item(
+                                            injected_ctxt,
+                                            "Removing default for export *",
+                                        ),
+                                ));
+                                false
+                            }
+                            _ => true,
+                        });
+                        if export.specifiers.is_empty() {
+                            return false;
+                        }
+
+                        true
+                    }
+                    _ => true,
+                });
+
+                dep.append_all(items);
+            } else {
                 unexprt_as_var(&mut dep, dep_info.export_ctxt());
 
                 dep = dep.fold_with(&mut DepUnexporter {
@@ -114,7 +158,7 @@ pub(super) fn inject_export(
     dep: Modules,
     source: Source,
 ) {
-    entry.map_items_mut(|item| {
+    entry.map_items_mut(|_, item| {
         //
         match item {
             ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export))
@@ -190,7 +234,7 @@ pub(super) fn inject_export(
 /// =>
 /// export { foo#7 as foo#5 } where #5 is mark of current entry.
 fn unexprt_as_var(modules: &mut Modules, dep_export_ctxt: SyntaxContext) {
-    modules.map_items_mut(|n| {
+    modules.map_items_mut(|_, n| {
         match n {
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                 ref export @ NamedExport { src: None, .. },

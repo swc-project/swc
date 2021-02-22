@@ -3,22 +3,14 @@ class C {
         throw new Error('Unimplemented');
     }
     b() {
-        return new B2();
+        return new B();
     }
 }
-const C1 = C;
-const C2 = C1;
-class B extends C2 {
+class B extends C {
     a() {
-        return new A3();
+        return new A();
     }
 }
-const B1 = B;
-const B2 = B1;
-const B3 = B1;
-class A extends B3 {
+class A extends B {
 }
-const A1 = A;
-const A2 = A1;
-const A3 = A1;
-console.log(A2, 'Loaded!');
+console.log(A, 'Loaded!');

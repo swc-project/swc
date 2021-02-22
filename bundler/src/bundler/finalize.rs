@@ -1,10 +1,8 @@
 use crate::{hash::calc_hash, Bundle, BundleKind, Bundler, Load, ModuleType, Resolve};
+use ahash::AHashMap;
 use anyhow::Error;
 use relative_path::RelativePath;
-use std::{
-    collections::HashMap,
-    path::{Path, PathBuf},
-};
+use std::path::{Path, PathBuf};
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, FileName, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -29,7 +27,7 @@ where
     pub(super) fn finalize(&self, bundles: Vec<Bundle>) -> Result<Vec<Bundle>, Error> {
         self.run(|| {
             let mut new = Vec::with_capacity(bundles.len());
-            let mut renamed = HashMap::default();
+            let mut renamed = AHashMap::default();
 
             for mut bundle in bundles {
                 bundle.module = self.optimize(bundle.module);
@@ -368,7 +366,7 @@ where
 {
     resolver: R,
     base: &'a PathBuf,
-    renamed: &'a HashMap<PathBuf, String>,
+    renamed: &'a AHashMap<PathBuf, String>,
 }
 
 impl<R> Fold for Renamer<'_, R>

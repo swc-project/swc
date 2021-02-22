@@ -1,11 +1,7 @@
+const a = "hello world";
 const mod = function() {
-    const a = "hello world";
-    const __instanceof = a;
     return {
-        instanceof: __instanceof
+        a: a
     };
 }();
-const y = mod;
-const __instanceof = mod.instanceof;
-const x = __instanceof;
-console.log(x, y);
+console.log(a, mod);

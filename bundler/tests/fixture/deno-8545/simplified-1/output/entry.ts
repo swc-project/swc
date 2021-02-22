@@ -1,13 +1,9 @@
 class Application {
 }
-const Application1 = Application;
-const Application2 = Application1;
 class Router {
 }
-const Router1 = Router;
-const Router2 = Router1;
-const app = new Application2();
-const router = new Router2();
+const app = new Application();
+const router = new Router();
 router.get("/", (ctx)=>{
     ctx.response.body = "Index Page";
 });

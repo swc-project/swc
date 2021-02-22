@@ -3,10 +3,11 @@ use crate::{
     bundler::chunk::merge::Ctx, id::ModuleId, load::Load, resolve::Resolve,
     util::IntoParallelIterator, Bundle,
 };
+use ahash::AHashMap;
+use ahash::AHashSet;
 use anyhow::{Context, Error};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
-use std::collections::{HashMap, HashSet};
 
 mod circular;
 mod cjs;
@@ -25,9 +26,9 @@ struct InternalEntry {
 
 #[derive(Debug, Default)]
 struct State {
-    synchronously_included: HashSet<ModuleId>,
-    dynamic_entries: HashSet<ModuleId>,
-    common_libs: HashSet<ModuleId>,
+    synchronously_included: AHashSet<ModuleId>,
+    dynamic_entries: AHashSet<ModuleId>,
+    common_libs: AHashSet<ModuleId>,
 }
 
 impl<L, R> Bundler<'_, L, R>
@@ -42,11 +43,12 @@ where
     /// For first, we load all dependencies and determine all entries.
     pub(super) fn chunk(
         &self,
-        entries: HashMap<String, TransformedModule>,
+        entries: AHashMap<String, TransformedModule>,
     ) -> Result<Vec<Bundle>, Error> {
-        let plan = self.determine_entries(entries).context("failed to plan")?;
+        let (plan, graph) = self.determine_entries(entries).context("failed to plan")?;
         let ctx = Ctx {
             plan,
+            graph,
             merged: Default::default(),
             transitive_remap: Default::default(),
             export_stars_in_wrapped: Default::default(),
@@ -105,7 +107,7 @@ mod tests {
                     .bundler
                     .load_transformed(&FileName::Real("main.js".into()))?
                     .unwrap();
-                let mut entries = HashMap::default();
+                let mut entries = AHashMap::default();
                 entries.insert("main.js".to_string(), module);
 
                 let chunked = t.bundler.chunk(entries)?;

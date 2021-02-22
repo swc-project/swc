@@ -1,4 +1,5 @@
-use crate::bundler::modules::Modules;
+use crate::id::Id;
+use crate::modules::Modules;
 use crate::util::ExprExt;
 use crate::util::VarDeclaratorExt;
 use crate::{bundler::chunk::merge::Ctx, Bundler, Load, ModuleId, Resolve};
@@ -44,39 +45,7 @@ where
             None => bail!("{:?} should not be wrapped with a function", id),
         };
         let injected_ctxt = self.injected_ctxt;
-        let mut injected_vars = vec![];
-        module.iter_mut().for_each(|item| match item {
-            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
-                //
-                for s in export.specifiers.iter_mut() {
-                    match s {
-                        ExportSpecifier::Named(ExportNamedSpecifier {
-                            span,
-                            exported: Some(exported),
-                            orig,
-                            ..
-                        }) => {
-                            // Allow using variables within the wrapped es module.
-                            injected_vars.push(
-                                orig.clone().assign_to(exported.clone()).into_module_item(
-                                    injected_ctxt,
-                                    "wrapped esm -> aliased export",
-                                ),
-                            );
-                            *s = ExportSpecifier::Named(ExportNamedSpecifier {
-                                span: *span,
-                                exported: None,
-                                orig: exported.clone(),
-                            })
-                        }
-                        _ => {}
-                    }
-                }
-            }
-            _ => {}
-        });
-        module.inject_all(injected_vars);
-        module.sort(&self.cm);
+        module.sort(id, &ctx.graph, &self.cm);
 
         let is_async = {
             let mut v = TopLevelAwaitFinder { found: false };
@@ -85,73 +54,44 @@ where
         };
 
         let mut module_items = vec![];
+        let mut extra_exports = vec![];
 
         let stmts = {
-            let mut module = Module::from(module).fold_with(&mut ExportToReturn {
-                synthesized_ctxt: self.synthesized_ctxt,
-                exports: Default::default(),
-            });
-
-            take(&mut module.body)
-                .into_iter()
-                .filter_map(|v| match v {
-                    ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-                        // Handle `export *`-s from dependency modules.
-                        //
-                        // See: https://github.com/denoland/deno/issues/9200
-
-                        if var.span.ctxt == injected_ctxt {
-                            let decl = &var.decls[0];
-                            match &decl.name {
-                                Pat::Ident(i) => {
-                                    if i.id.sym == js_word!("default") {
-                                        return Some(Stmt::Decl(Decl::Var(var)));
-                                    }
-
-                                    if let Some(remapped) =
-                                        ctx.transitive_remap.get(&i.id.span.ctxt)
+            module.iter().for_each(|(_, item)| {
+                match item {
+                    // Handle `export *`-s from dependency modules.
+                    //
+                    // See: https://github.com/denoland/deno/issues/9200
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                        span,
+                        ref specifiers,
+                        ..
+                    })) if span.ctxt == injected_ctxt => {
+                        for s in specifiers {
+                            match s {
+                                ExportSpecifier::Named(ExportNamedSpecifier {
+                                    orig,
+                                    exported: Some(exported),
+                                    ..
+                                }) => {
+                                    if let Some(..) = ctx.transitive_remap.get(&exported.span.ctxt)
                                     {
-                                        // Create
-                                        //
-                                        // const local = mod.local;
-                                        // expodt { local as exported }
-                                        //
-
-                                        let local_var = Ident::new(
-                                            i.id.sym.clone(),
-                                            i.id.span.with_ctxt(info.local_ctxt()),
+                                        let mut var_name = exported.clone();
+                                        var_name.span.ctxt = info.export_ctxt();
+                                        module_items.push(
+                                            exported
+                                                .clone()
+                                                .assign_to(var_name.clone())
+                                                .into_module_item(
+                                                    injected_ctxt,
+                                                    "export * in a wrapped esm",
+                                                ),
                                         );
-
-                                        let var_decl = VarDeclarator {
-                                            span: DUMMY_SP,
-                                            name: Pat::Ident(local_var.clone().into()),
-                                            init: Some(Box::new(Expr::Member(MemberExpr {
-                                                span: DUMMY_SP,
-                                                obj: module_var_name.clone().as_obj(),
-                                                prop: {
-                                                    let mut prop = i.id.clone();
-                                                    prop.span.ctxt = SyntaxContext::empty();
-
-                                                    Box::new(Expr::Ident(prop))
-                                                },
-                                                computed: false,
-                                            }))),
-                                            definite: false,
-                                        };
-                                        module_items.push(var_decl.into_module_item(
-                                            injected_ctxt,
-                                            "reexport from wrapped module",
-                                        ));
-
                                         let specifier =
                                             ExportSpecifier::Named(ExportNamedSpecifier {
                                                 span: DUMMY_SP,
-                                                orig: local_var.clone(),
-                                                exported: {
-                                                    let mut exported = local_var.clone();
-                                                    exported.span.ctxt = remapped;
-                                                    Some(exported)
-                                                },
+                                                orig: orig.clone(),
+                                                exported: Some(exported.clone()),
                                             });
                                         module_items.push(ModuleItem::ModuleDecl(
                                             ModuleDecl::ExportNamed(NamedExport {
@@ -167,11 +107,29 @@ where
                                 _ => {}
                             }
                         }
+                    }
+                    _ => {}
+                }
+            });
 
-                        Some(Stmt::Decl(Decl::Var(var)))
+            let mut module = Module::from(module).fold_with(&mut ExportToReturn {
+                synthesized_ctxt: self.synthesized_ctxt,
+                injected_ctxt: self.injected_ctxt,
+                return_props: Default::default(),
+                esm_exports: &mut extra_exports,
+                module_var: &module_var_name,
+            });
+
+            take(&mut module.body)
+                .into_iter()
+                .filter_map(|v| match v {
+                    ModuleItem::Stmt(s @ Stmt::Return(..)) => Some(s),
+
+                    ModuleItem::Stmt(s) => {
+                        module_items.push(ModuleItem::Stmt(s));
+                        None
                     }
 
-                    ModuleItem::Stmt(s) => Some(s),
                     ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
                         // We handle this later.
                         let mut map = ctx.export_stars_in_wrapped.lock();
@@ -231,8 +189,20 @@ where
         };
 
         module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))));
+        module_items.extend(extra_exports);
+
+        // print_hygiene(
+        //     "wrap",
+        //     &self.cm,
+        //     &Module {
+        //         span: DUMMY_SP,
+        //         body: module_items.clone(),
+        //         shebang: None,
+        //     },
+        // );
 
         Ok(Modules::from(
+            id,
             Module {
                 span: DUMMY_SP,
                 shebang: None,
@@ -259,12 +229,60 @@ impl Visit for TopLevelAwaitFinder {
     }
 }
 
-struct ExportToReturn {
-    exports: Vec<PropOrSpread>,
+struct ExportToReturn<'a> {
+    injected_ctxt: SyntaxContext,
+    module_var: &'a Id,
+    return_props: Vec<PropOrSpread>,
     synthesized_ctxt: SyntaxContext,
+    esm_exports: &'a mut Vec<ModuleItem>,
 }
 
-impl Fold for ExportToReturn {
+impl ExportToReturn<'_> {
+    fn export_id(&mut self, i: Ident) {
+        self.return_props
+            .push(PropOrSpread::Prop(Box::new(Prop::Shorthand(i.clone()))));
+
+        if self.module_var.ctxt() == i.span.ctxt {
+            return;
+        }
+
+        let src = i.clone();
+
+        let mut exported = i;
+        exported.span.ctxt = self.module_var.ctxt();
+
+        self.esm_exports.push(
+            src.assign_to(exported)
+                .into_module_item(self.injected_ctxt, "export to return => export_id"),
+        );
+    }
+
+    fn export_key_value(&mut self, key: Ident, value: Ident, skip_var: bool) {
+        self.return_props
+            .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                key: PropName::Ident(key.clone()),
+                value: Box::new(Expr::Ident(value.clone())),
+            }))));
+        if skip_var {
+            return;
+        }
+        if self.module_var.ctxt() == value.span.ctxt {
+            return;
+        }
+
+        let mut exported = key;
+
+        exported.span.ctxt = self.module_var.ctxt();
+
+        self.esm_exports.push(
+            value
+                .assign_to(exported)
+                .into_module_item(self.injected_ctxt, "export to return => export_key_value"),
+        );
+    }
+}
+
+impl Fold for ExportToReturn<'_> {
     noop_fold_type!();
 
     fn fold_stmt(&mut self, s: Stmt) -> Stmt {
@@ -277,101 +295,95 @@ impl Fold for ExportToReturn {
             ModuleItem::Stmt(_) => return item,
         };
 
-        let stmt =
-            match decl {
-                ModuleDecl::Import(_) => return ModuleItem::ModuleDecl(decl),
-                ModuleDecl::ExportDecl(export) => {
-                    match &export.decl {
-                        Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
-                            self.exports
-                                .push(PropOrSpread::Prop(Box::new(Prop::Shorthand(ident.clone()))));
-                        }
-                        Decl::Var(decl) => {
-                            let ids: Vec<Ident> = find_ids(decl);
-                            self.exports.extend(
-                                ids.into_iter()
-                                    .map(Prop::Shorthand)
-                                    .map(Box::new)
-                                    .map(PropOrSpread::Prop),
-                            );
-                        }
-                        _ => unreachable!(),
+        let stmt = match decl {
+            ModuleDecl::Import(_) => return ModuleItem::ModuleDecl(decl),
+            ModuleDecl::ExportDecl(export) => {
+                match &export.decl {
+                    Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+                        self.export_id(ident.clone());
                     }
-
-                    Some(Stmt::Decl(export.decl))
+                    Decl::Var(decl) => {
+                        let ids: Vec<Ident> = find_ids(decl);
+                        ids.into_iter().for_each(|id| self.export_id(id));
+                    }
+                    _ => unreachable!(),
                 }
 
-                ModuleDecl::ExportDefaultDecl(export) => match export.decl {
-                    DefaultDecl::Class(expr) => {
-                        let ident = expr.ident;
-                        let ident = ident.unwrap_or_else(|| private_ident!("_default_decl"));
+                Some(Stmt::Decl(export.decl))
+            }
 
-                        self.exports
-                            .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                key: PropName::Ident(Ident::new(js_word!("default"), export.span)),
-                                value: Box::new(Expr::Ident(ident.clone())),
-                            }))));
+            ModuleDecl::ExportDefaultDecl(export) => match export.decl {
+                DefaultDecl::Class(expr) => {
+                    let ident = expr.ident;
+                    let ident = ident.unwrap_or_else(|| private_ident!("_default_decl"));
 
-                        Some(Stmt::Decl(Decl::Class(ClassDecl {
-                            ident,
-                            class: expr.class,
-                            declare: false,
-                        })))
-                    }
-                    DefaultDecl::Fn(expr) => {
-                        let ident = expr.ident;
-                        let ident = ident.unwrap_or_else(|| private_ident!("_default_decl"));
+                    self.export_key_value(
+                        Ident::new(js_word!("default"), export.span),
+                        ident.clone(),
+                        false,
+                    );
 
-                        self.exports
-                            .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                key: PropName::Ident(Ident::new(js_word!("default"), export.span)),
-                                value: Box::new(Expr::Ident(ident.clone())),
-                            }))));
-
-                        Some(Stmt::Decl(Decl::Fn(FnDecl {
-                            ident,
-                            function: expr.function,
-                            declare: false,
-                        })))
-                    }
-                    DefaultDecl::TsInterfaceDecl(_) => None,
-                },
-                ModuleDecl::ExportDefaultExpr(_) => None,
-                ModuleDecl::ExportAll(export) => {
-                    return ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export))
+                    Some(Stmt::Decl(Decl::Class(ClassDecl {
+                        ident,
+                        class: expr.class,
+                        declare: false,
+                    })))
                 }
-                ModuleDecl::ExportNamed(named) => {
-                    for specifier in &named.specifiers {
-                        match specifier {
-                            ExportSpecifier::Namespace(_) => {}
-                            ExportSpecifier::Default(_) => {}
-                            ExportSpecifier::Named(named) => {
-                                match &named.exported {
-                                    Some(exported) => self.exports.push(PropOrSpread::Prop(
-                                        Box::new(Prop::KeyValue(KeyValueProp {
-                                            key: PropName::Ident(exported.clone()),
-                                            value: Box::new(Expr::Ident(named.orig.clone())),
-                                        })),
-                                    )),
-                                    None => self.exports.push(PropOrSpread::Prop(Box::new(
-                                        Prop::Shorthand(named.orig.clone()),
-                                    ))),
-                                }
+                DefaultDecl::Fn(expr) => {
+                    let ident = expr.ident;
+                    let ident = ident.unwrap_or_else(|| private_ident!("_default_decl"));
+
+                    self.export_key_value(
+                        Ident::new(js_word!("default"), export.span),
+                        ident.clone(),
+                        false,
+                    );
+
+                    Some(Stmt::Decl(Decl::Fn(FnDecl {
+                        ident,
+                        function: expr.function,
+                        declare: false,
+                    })))
+                }
+                DefaultDecl::TsInterfaceDecl(_) => None,
+            },
+            ModuleDecl::ExportDefaultExpr(_) => None,
+            ModuleDecl::ExportAll(export) => {
+                return ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export))
+            }
+            ModuleDecl::ExportNamed(export) => {
+                for specifier in &export.specifiers {
+                    match specifier {
+                        ExportSpecifier::Namespace(_) => {}
+                        ExportSpecifier::Default(_) => {}
+                        ExportSpecifier::Named(named) => match &named.exported {
+                            Some(exported) => {
+                                // As injected named exports are converted to variables by other
+                                // passes, we should not create a variable for it.
+                                self.export_key_value(
+                                    exported.clone(),
+                                    named.orig.clone(),
+                                    export.span.ctxt == self.injected_ctxt || export.src.is_some(),
+                                );
                             }
-                        }
-                    }
-
-                    // Ignore export {} specified by user.
-                    if named.src.is_none() && named.span.ctxt != self.synthesized_ctxt {
-                        None
-                    } else {
-                        return ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(named));
+                            None => {
+                                self.export_id(named.orig.clone());
+                            }
+                        },
                     }
                 }
-                ModuleDecl::TsImportEquals(_) => None,
-                ModuleDecl::TsExportAssignment(_) => None,
-                ModuleDecl::TsNamespaceExport(_) => None,
-            };
+
+                // Ignore export {} specified by user.
+                if export.src.is_none() && export.span.ctxt != self.synthesized_ctxt {
+                    None
+                } else {
+                    return ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export));
+                }
+            }
+            ModuleDecl::TsImportEquals(_) => None,
+            ModuleDecl::TsExportAssignment(_) => None,
+            ModuleDecl::TsNamespaceExport(_) => None,
+        };
 
         if let Some(stmt) = stmt {
             ModuleItem::Stmt(stmt)
@@ -392,7 +404,7 @@ impl Fold for ExportToReturn {
             span: DUMMY_SP,
             arg: Some(Box::new(Expr::Object(ObjectLit {
                 span: DUMMY_SP,
-                props: take(&mut self.exports),
+                props: take(&mut self.return_props),
             }))),
         })));
 

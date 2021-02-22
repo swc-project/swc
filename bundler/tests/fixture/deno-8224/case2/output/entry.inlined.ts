@@ -1,15 +1,14 @@
+const showList = (v)=>{
+    return `[${v.map(showValue).join(', ')}]`;
+};
 const showValue = (v)=>{
     if (v === 0) {
-        return showList1([
+        return showList([
             v
         ]);
     }
     return `${v}`;
 };
-const showList = (v)=>{
-    return `[${v.map(showValue).join(', ')}]`;
-};
-const showList1 = showList;
 console.log(showList([
     1,
     2,

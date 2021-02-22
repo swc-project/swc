@@ -406,9 +406,9 @@ fn deno_8573() {
     run("tests/deno/deno-8573/entry.ts", &[])
 }
 
-/// Timeout is long because tfjs is so large.
 #[test]
-#[ignore = "Not implemented yet"]
+#[timeout(120000)]
+#[ignore = "The generated bundled aceesses `location`"]
 fn deno_8597() {
     run(
         "https://cdn.skypack.dev/@tensorflow/tfjs@2.6.0",
