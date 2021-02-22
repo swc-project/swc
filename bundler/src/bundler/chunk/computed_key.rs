@@ -69,62 +69,93 @@ where
             take(&mut module.body)
                 .into_iter()
                 .filter_map(|v| match v {
-                    ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-                        // Handle `export *`-s from dependency modules.
-                        //
-                        // See: https://github.com/denoland/deno/issues/9200
-
-                        if var.span.ctxt == injected_ctxt {
-                            let decl = &var.decls[0];
-                            match &decl.name {
-                                Pat::Ident(i) => {
-                                    if i.id.sym == js_word!("default") {
-                                        module_items
-                                            .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))));
-                                        return None;
-                                    }
-
-                                    if let Some(..) = ctx.transitive_remap.get(&i.id.span.ctxt) {
-                                        // Create
-                                        //
-                                        // const local = mod.local;
-                                        // expodt { local as exported }
-                                        //
-
-                                        let local_var = Ident::new(
-                                            i.id.sym.clone(),
-                                            i.id.span.with_ctxt(info.local_ctxt()),
+                    // Handle `export *`-s from dependency modules.
+                    //
+                    // See: https://github.com/denoland/deno/issues/9200
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                        span,
+                        ref specifiers,
+                        ..
+                    })) if span.ctxt == injected_ctxt => {
+                        for s in specifiers {
+                            match s {
+                                ExportSpecifier::Named(ExportNamedSpecifier {
+                                    orig,
+                                    exported: Some(exported),
+                                    ..
+                                }) => {
+                                    if let Some(remapped) =
+                                        ctx.transitive_remap.get(&exported.span.ctxt)
+                                    {
+                                        let mut var_name = exported.clone();
+                                        var_name.span.ctxt = remapped;
+                                        module_items.push(
+                                            orig.clone().assign_to(var_name).into_module_item(
+                                                injected_ctxt,
+                                                "export * in a wrapped esm",
+                                            ),
                                         );
-
-                                        let var_decl = VarDeclarator {
-                                            span: DUMMY_SP,
-                                            name: Pat::Ident(local_var.clone().into()),
-                                            init: Some(Box::new(Expr::Member(MemberExpr {
-                                                span: DUMMY_SP,
-                                                obj: module_var_name.clone().as_obj(),
-                                                prop: {
-                                                    let mut prop = i.id.clone();
-                                                    prop.span.ctxt = SyntaxContext::empty();
-
-                                                    Box::new(Expr::Ident(prop))
-                                                },
-                                                computed: false,
-                                            }))),
-                                            definite: false,
-                                        };
-                                        module_items.push(var_decl.into_module_item(
-                                            injected_ctxt,
-                                            "'export *' from wrapped module",
-                                        ));
                                     }
                                 }
                                 _ => {}
                             }
                         }
-                        module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))));
+
+                        module_items.push(v);
                         None
                     }
 
+                    // ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+                    //     if var.span.ctxt == injected_ctxt {
+                    //         let decl = &var.decls[0];
+                    //         match &decl.name {
+                    //             Pat::Ident(i) => {
+                    //                 if i.id.sym == js_word!("default") {
+                    //                     module_items
+                    //                         .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))));
+                    //                     return None;
+                    //                 }
+
+                    //                 if let Some(..) = ctx.transitive_remap.get(&i.id.span.ctxt) {
+                    //                     // Create
+                    //                     //
+                    //                     // const local = mod.local;
+                    //                     // expodt { local as exported }
+                    //                     //
+
+                    //                     let local_var = Ident::new(
+                    //                         i.id.sym.clone(),
+                    //                         i.id.span.with_ctxt(info.local_ctxt()),
+                    //                     );
+
+                    //                     let var_decl = VarDeclarator {
+                    //                         span: DUMMY_SP,
+                    //                         name: Pat::Ident(local_var.clone().into()),
+                    //                         init: Some(Box::new(Expr::Member(MemberExpr {
+                    //                             span: DUMMY_SP,
+                    //                             obj: module_var_name.clone().as_obj(),
+                    //                             prop: {
+                    //                                 let mut prop = i.id.clone();
+                    //                                 prop.span.ctxt = SyntaxContext::empty();
+
+                    //                                 Box::new(Expr::Ident(prop))
+                    //                             },
+                    //                             computed: false,
+                    //                         }))),
+                    //                         definite: false,
+                    //                     };
+                    //                     module_items.push(var_decl.into_module_item(
+                    //                         injected_ctxt,
+                    //                         "'export *' from wrapped module",
+                    //                     ));
+                    //                 }
+                    //             }
+                    //             _ => {}
+                    //         }
+                    //     }
+                    //     module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))));
+                    //     None
+                    // }
                     ModuleItem::Stmt(s @ Stmt::Return(..)) => Some(s),
 
                     ModuleItem::Stmt(s) => {
