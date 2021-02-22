@@ -333,8 +333,7 @@ pub trait ExprExt {
                 op: op!("void"),
                 ref arg,
                 ..
-            })
-            | Expr::TsTypeCast(TsTypeCastExpr { expr: ref arg, .. }) => arg.is_immutable_value(),
+            }) => arg.is_immutable_value(),
 
             Expr::Ident(ref i) => {
                 i.sym == js_word!("undefined")
@@ -948,8 +947,9 @@ pub trait ExprExt {
 
             Expr::TsAs(TsAsExpr { ref expr, .. })
             | Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
-            | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
-            | Expr::TsTypeCast(TsTypeCastExpr { ref expr, .. }) => expr.may_have_side_effects(),
+            | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. }) => {
+                expr.may_have_side_effects()
+            }
             Expr::OptChain(ref e) => e.expr.may_have_side_effects(),
 
             Expr::Invalid(..) => unreachable!(),
@@ -1783,7 +1783,6 @@ where
 
             Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
             | Expr::TsNonNull(TsNonNullExpr { expr, .. })
-            | Expr::TsTypeCast(TsTypeCastExpr { expr, .. })
             | Expr::TsAs(TsAsExpr { expr, .. })
             | Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => add_effects(v, expr),
             Expr::OptChain(e) => add_effects(v, e.expr),

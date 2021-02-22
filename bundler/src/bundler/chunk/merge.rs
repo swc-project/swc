@@ -2,11 +2,12 @@ use super::plan::DepType;
 use super::plan::Plan;
 use crate::bundler::chunk::export::inject_export;
 use crate::bundler::keywords::KeywordRenamer;
+use crate::inline::inline;
+use crate::modules::Modules;
 use crate::{
     bundler::{
         chunk::plan::NormalPlan,
         load::{Imports, Source, Specifier, TransformedModule},
-        modules::Modules,
     },
     id::{Id, ModuleId},
     load::Load,
@@ -14,23 +15,25 @@ use crate::{
     util::{self, CloneMap, ExprExt, IntoParallelIterator, MapWithMut, VarDeclaratorExt},
     Bundler, Hook, ModuleRecord,
 };
+use ahash::AHashMap;
+use ahash::AHashSet;
+use ahash::RandomState;
 use anyhow::{Context, Error};
+use petgraph::graphmap::DiGraphMap;
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
-use std::collections::HashMap;
-use std::collections::HashSet;
 use swc_atoms::js_word;
 use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, prepend, private_ident, ExprFactory};
+use swc_ecma_utils::{find_ids, prepend, private_ident};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use util::CHashSet;
-
 pub(super) struct Ctx {
     pub plan: Plan,
+    pub graph: DiGraphMap<ModuleId, ()>,
     pub merged: CHashSet<ModuleId>,
     pub transitive_remap: CloneMap<SyntaxContext, SyntaxContext>,
-    pub export_stars_in_wrapped: Lock<HashMap<ModuleId, Vec<SyntaxContext>>>,
+    pub export_stars_in_wrapped: Lock<AHashMap<ModuleId, Vec<SyntaxContext>>>,
 }
 
 impl<L, R> Bundler<'_, L, R>
@@ -57,7 +60,7 @@ where
                         })?;
                     if is_entry {
                         self.replace_import_specifiers(&info, &mut module);
-                        self.finalize_merging_of_entry(ctx, &mut module);
+                        self.finalize_merging_of_entry(ctx, info.id, &mut module);
                     }
                     return Ok(module);
                 }
@@ -103,7 +106,7 @@ where
 
             if is_entry {
                 self.replace_import_specifiers(&info, &mut module);
-                self.finalize_merging_of_entry(ctx, &mut module);
+                self.finalize_merging_of_entry(ctx, info.id, &mut module);
             }
 
             Ok(module)
@@ -114,8 +117,8 @@ where
         &self,
         ctx: &Ctx,
         dep_id: ModuleId,
-        src: &Source,
-        specifiers: &[Specifier],
+        _src: &Source,
+        _specifiers: &[Specifier],
     ) -> Result<Modules, Error> {
         let injected_ctxt = self.injected_ctxt;
 
@@ -129,8 +132,6 @@ where
             let mut module: Modules = self.get_module_for_merging(ctx, dep_id, false)?;
             module = self.wrap_esm(ctx, dep_id, module.into())?.into();
             self.prepare(&dep_info, &mut module);
-
-            let esm_id = self.scope.wrapped_esm_id(dep_id).unwrap();
 
             let plan = ctx.plan.normal.get(&dep_id);
             let default_plan;
@@ -154,22 +155,27 @@ where
                 .merge_deps(ctx, false, module, plan, &dep_info, false)
                 .context("failed to merge dependencies")?;
 
-            // Required to handle edge cases liek https://github.com/denoland/deno/issues/8530
-            for specifier in specifiers {
-                match specifier {
-                    Specifier::Specific { local, alias } => {
-                        let i = alias.clone().unwrap_or_else(|| local.clone());
+            // This code is currently not required because wrapped es modules store their
+            // content on the top scope.
+            //
+            //
+            // // Required to handle edge cases liek https://github.com/denoland/deno/issues/8530
+            // for specifier in specifiers {
+            //     match specifier {
+            //         Specifier::Specific { local, alias } => {
+            //             let i = alias.clone().unwrap_or_else(|| local.clone());
 
-                        let from = esm_id.clone().into_ident().make_member(i.clone());
+            //             let from = esm_id.clone().into_ident().make_member(i.clone());
 
-                        module.inject(
-                            from.assign_to(i.with_ctxt(src.export_ctxt))
-                                .into_module_item(injected_ctxt, "namespace_with_normal"),
-                        );
-                    }
-                    Specifier::Namespace { .. } => continue,
-                }
-            }
+            //             module.append(
+            //                 dep_id,
+            //                 from.assign_to(i.with_ctxt(src.export_ctxt))
+            //                     .into_module_item(injected_ctxt,
+            // "namespace_with_normal"),             );
+            //         }
+            //         Specifier::Namespace { .. } => continue,
+            //     }
+            // }
 
             self.handle_import_deps(ctx, &dep_info, &mut module, false);
 
@@ -203,8 +209,11 @@ where
 
         module = module.fold_with(&mut Unexporter);
 
-        for var in var_decls {
-            module.inject(var.into_module_item(injected_ctxt, "from_merge_direct_import"));
+        for (id, var) in var_decls {
+            module.append(
+                id,
+                var.into_module_item(injected_ctxt, "from_merge_direct_import"),
+            );
         }
 
         Ok(module)
@@ -223,8 +232,11 @@ where
 
         // module = module.fold_with(&mut Unexporter);
 
-        for var in var_decls {
-            module.inject(var.into_module_item(injected_ctxt, "from_merge_transitive_import"));
+        for (id, var) in var_decls {
+            module.append(
+                id,
+                var.into_module_item(injected_ctxt, "from_merge_transitive_import"),
+            );
         }
 
         Ok(module)
@@ -248,7 +260,7 @@ where
     ) -> Result<(), Error> {
         self.run(|| {
             //
-            for stmt in module.iter_mut() {
+            for (_, stmt) in module.iter_mut() {
                 let decl = match stmt {
                     ModuleItem::ModuleDecl(decl) => decl,
                     ModuleItem::Stmt(_) => continue,
@@ -490,7 +502,7 @@ where
                 err: None,
             });
 
-            let module = Modules::from(entry, self.injected_ctxt);
+            let module = Modules::from(module_id, entry, self.injected_ctxt);
 
             Ok(module)
         })
@@ -500,7 +512,7 @@ where
     ///
     /// This method does not care about orders of statement, and it's expected
     /// to be called before `sort`.
-    fn handle_reexport_of_entry(&self, ctx: &Ctx, entry: &mut Modules) {
+    fn handle_reexport_of_entry(&self, ctx: &Ctx, _entry_id: ModuleId, entry: &mut Modules) {
         let injected_ctxt = self.injected_ctxt;
 
         {
@@ -515,9 +527,9 @@ where
             // If an user import and export from D, the transitive syntax context map
             // contains a entry from D to foo because it's reexported and
             // the variable (reexported from D) exist because it's imported.
-            let mut declared_ids = HashSet::new();
+            let mut declared_ids = AHashSet::<_, RandomState>::default();
 
-            for stmt in entry.iter() {
+            for (_, stmt) in entry.iter() {
                 match stmt {
                     ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
                         if decl.span.ctxt == injected_ctxt {
@@ -529,7 +541,7 @@ where
                 }
             }
 
-            for stmt in entry.iter() {
+            for (module_id, stmt) in entry.iter() {
                 match stmt {
                     ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
                         for s in &export.specifiers {
@@ -543,7 +555,8 @@ where
                                             continue;
                                         }
 
-                                        vars.push(
+                                        vars.push((
+                                            module_id,
                                             named
                                                 .orig
                                                 .clone()
@@ -552,7 +565,7 @@ where
                                                     injected_ctxt,
                                                     "finalize -> export to var",
                                                 ),
-                                        );
+                                        ));
                                     }
                                     None => {}
                                 },
@@ -575,10 +588,11 @@ where
                                     continue;
                                 }
 
-                                vars.push(
+                                vars.push((
+                                    module_id,
                                     id.assign_to(reexported)
                                         .into_module_item(injected_ctxt, "export_star_replacer"),
-                                );
+                                ));
                             }
                         }
                     }
@@ -587,15 +601,15 @@ where
                 }
             }
 
-            entry.inject_all(vars);
+            entry.append_all(vars);
         }
 
         {
             let mut map = ctx.export_stars_in_wrapped.lock();
-            let mut additional_props = HashMap::<_, Vec<_>>::new();
+            let mut additional_props = AHashMap::<_, Vec<_>>::new();
             // Handle `export *` for wrapped modules.
             for (module_id, ctxts) in map.drain() {
-                for stmt in entry.iter() {
+                for (_, stmt) in entry.iter() {
                     match stmt {
                         ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
                             let ids: Vec<Id> = find_ids(decl);
@@ -625,7 +639,7 @@ where
                     None => continue,
                 };
 
-                for stmt in entry.iter_mut() {
+                for (_, stmt) in entry.iter_mut() {
                     let var = match stmt {
                         ModuleItem::Stmt(Stmt::Decl(Decl::Var(
                             var
@@ -693,16 +707,18 @@ where
         }
     }
 
-    fn finalize_merging_of_entry(&self, ctx: &Ctx, entry: &mut Modules) {
-        self.handle_reexport_of_entry(ctx, entry);
+    fn finalize_merging_of_entry(&self, ctx: &Ctx, id: ModuleId, entry: &mut Modules) {
+        self.handle_reexport_of_entry(ctx, id, entry);
 
         // print_hygiene("before sort", &self.cm, &entry.clone().into());
 
-        entry.sort(&self.cm);
+        entry.sort(id, &ctx.graph, &self.cm);
+
+        inline(self.injected_ctxt, entry);
 
         // print_hygiene("done", &self.cm, &entry.clone().into());
 
-        entry.retain_mut(|item| {
+        entry.retain_mut(|_, item| {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
                     if self.config.external_modules.contains(&export.src.value) {
@@ -791,7 +807,7 @@ where
             return;
         }
 
-        module.map_any_items(|items| {
+        module.map_any_items(|_, items| {
             let mut new = Vec::with_capacity(items.len() * 11 / 10);
 
             for item in items {
@@ -952,6 +968,11 @@ where
                         }
 
                         // Create `export { local_default as default }`
+                        log::trace!(
+                            "Exporting `default` with `export default decl` ({})",
+                            local.sym
+                        );
+
                         let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
                             span: DUMMY_SP,
                             orig: local,
@@ -999,6 +1020,7 @@ where
                                 DUMMY_SP.with_ctxt(info.export_ctxt()),
                             )),
                         });
+                        log::trace!("Exporting `default` with `export default expr`");
                         new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
                                 span: export.span.with_ctxt(injected_ctxt),
@@ -1033,6 +1055,7 @@ where
 
                                 new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(v))));
 
+                                log::trace!("Exporting `default` with `export decl``");
                                 new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                                     NamedExport {
                                         span: export.span.with_ctxt(injected_ctxt),
@@ -1066,6 +1089,11 @@ where
                             | Decl::TsModule(_) => continue,
                         };
 
+                        log::trace!(
+                            "Exporting `default` with `export default decl` ({})",
+                            local.sym
+                        );
+
                         // Create `export { local_ident as exported_ident }`
                         let exported =
                             Ident::new(local.sym.clone(), local.span.with_ctxt(info.export_ctxt()));
@@ -1074,6 +1102,7 @@ where
                             orig: local,
                             exported: Some(exported),
                         });
+
                         new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
                                 span: export.span.with_ctxt(injected_ctxt),
@@ -1105,7 +1134,7 @@ where
         let injected_ctxt = self.injected_ctxt;
 
         let mut vars = vec![];
-        module.map_any_items(|stmts| {
+        module.map_any_items(|module_id, stmts| {
             let mut new = Vec::with_capacity(stmts.len() + 32);
 
             for stmt in stmts {
@@ -1120,7 +1149,8 @@ where
                             match specifier {
                                 ImportSpecifier::Named(named) => match &named.imported {
                                     Some(imported) => {
-                                        vars.push(
+                                        vars.push((
+                                            module_id,
                                             imported
                                                 .clone()
                                                 .assign_to(named.local.clone())
@@ -1128,7 +1158,7 @@ where
                                                     injected_ctxt,
                                                     "from_replace_import_specifiers",
                                                 ),
-                                        );
+                                        ));
                                         continue;
                                     }
                                     None => {}
@@ -1144,14 +1174,15 @@ where
                                             js_word!("default"),
                                             DUMMY_SP.with_ctxt(src.export_ctxt),
                                         );
-                                        vars.push(
+                                        vars.push((
+                                            module_id,
                                             imported
                                                 .assign_to(default.local.clone())
                                                 .into_module_item(
                                                     injected_ctxt,
                                                     "from_replace_import_specifiers",
                                                 ),
-                                        );
+                                        ));
                                         continue;
                                     }
                                 }
@@ -1168,7 +1199,8 @@ where
                                                  means failutre of deblobbing and as a result \
                                                  module should be marked as wrpaped esm",
                                             );
-                                        vars.push(
+                                        vars.push((
+                                            module_id,
                                             esm_id
                                                 .clone()
                                                 .assign_to(s.local.clone())
@@ -1176,7 +1208,7 @@ where
                                                     injected_ctxt,
                                                     "from_replace_import_specifiers: namespaced",
                                                 ),
-                                        );
+                                        ));
                                         continue;
                                     }
                                 }
@@ -1195,7 +1227,7 @@ where
             new
         });
 
-        module.inject_all(vars)
+        module.append_all(vars)
     }
 
     /// If a dependency aliased exports, we handle them at here.
@@ -1210,7 +1242,7 @@ where
 
         let mut vars = vec![];
 
-        for orig_stmt in module.iter_mut() {
+        for (module_id, orig_stmt) in module.iter_mut() {
             let mut stmt = orig_stmt.take();
 
             match stmt {
@@ -1230,15 +1262,19 @@ where
                                     ExportSpecifier::Namespace(ns) => {
                                         let mut lhs = ns.name.clone();
                                         lhs.span = lhs.span.with_ctxt(info.export_ctxt());
-                                        vars.push(ns.name.clone().assign_to(lhs).into_module_item(
-                                            injected_ctxt,
-                                            "import_deps_namespace",
+                                        vars.push((
+                                            module_id,
+                                            ns.name.clone().assign_to(lhs).into_module_item(
+                                                injected_ctxt,
+                                                "import_deps_namespace",
+                                            ),
                                         ));
                                     }
                                     ExportSpecifier::Default(default) => {
                                         let mut lhs = default.exported.clone();
                                         lhs.span = lhs.span.with_ctxt(info.export_ctxt());
-                                        vars.push(
+                                        vars.push((
+                                            module_id,
                                             default
                                                 .exported
                                                 .clone()
@@ -1247,7 +1283,7 @@ where
                                                     injected_ctxt,
                                                     "import_deps_default",
                                                 ),
-                                        );
+                                        ));
                                     }
                                     ExportSpecifier::Named(named) => match &named.exported {
                                         Some(exported) => {
@@ -1258,7 +1294,8 @@ where
                                                  context correctly by previous passes"
                                             );
 
-                                            vars.push(
+                                            vars.push((
+                                                module_id,
                                                 named
                                                     .orig
                                                     .clone()
@@ -1270,14 +1307,15 @@ where
                                                             info.fm.name
                                                         ),
                                                     ),
-                                            );
+                                            ));
 
                                             if exported.span.ctxt != info.export_ctxt()
                                                 && exported.sym != js_word!("default")
                                             {
                                                 let mut lhs = exported.clone();
                                                 lhs.span = lhs.span.with_ctxt(info.export_ctxt());
-                                                vars.push(
+                                                vars.push((
+                                                    module_id,
                                                     exported
                                                         .clone()
                                                         .assign_to(lhs)
@@ -1289,14 +1327,15 @@ where
                                                                 info.fm.name
                                                             ),
                                                         ),
-                                                );
+                                                ));
                                             }
                                         }
                                         None => {
                                             if info.export_ctxt() != named.orig.span.ctxt {
                                                 let mut lhs: Ident = named.orig.clone();
                                                 lhs.span.ctxt = info.export_ctxt();
-                                                vars.push(
+                                                vars.push((
+                                                    module_id,
                                                     named
                                                         .orig
                                                         .clone()
@@ -1309,7 +1348,7 @@ where
                                                                 info.fm.name
                                                             ),
                                                         ),
-                                                );
+                                                ));
                                             }
                                         }
                                     },
@@ -1347,7 +1386,8 @@ where
                                     ),
                                 };
 
-                                vars.push(
+                                vars.push((
+                                    module_id,
                                     VarDeclarator {
                                         span: DUMMY_SP,
                                         name: export_name,
@@ -1358,7 +1398,7 @@ where
                                         injected_ctxt,
                                         "import_deps_export_default_decl",
                                     ),
-                                );
+                                ));
 
                                 s
                             }
@@ -1384,9 +1424,12 @@ where
                                     ),
                                 };
 
-                                vars.push(init.assign_to(export_name).into_module_item(
-                                    injected_ctxt,
-                                    "import_deps_export_default_decl_fn",
+                                vars.push((
+                                    module_id,
+                                    init.assign_to(export_name).into_module_item(
+                                        injected_ctxt,
+                                        "import_deps_export_default_decl_fn",
+                                    ),
                                 ));
                                 s
                             }
@@ -1400,9 +1443,12 @@ where
                                 | Decl::Fn(FnDecl { ident, .. }) => {
                                     let mut exported = ident.clone();
                                     exported.span.ctxt = info.export_ctxt();
-                                    vars.push(ident.clone().assign_to(exported).into_module_item(
-                                        injected_ctxt,
-                                        "import_deps_export_decl",
+                                    vars.push((
+                                        module_id,
+                                        ident.clone().assign_to(exported).into_module_item(
+                                            injected_ctxt,
+                                            "import_deps_export_decl",
+                                        ),
                                     ));
                                 }
                                 Decl::Var(var) => {
@@ -1411,9 +1457,12 @@ where
                                     for id in ids {
                                         let mut exported = id.clone();
                                         exported.span.ctxt = info.export_ctxt();
-                                        vars.push(id.assign_to(exported).into_module_item(
-                                            injected_ctxt,
-                                            "import_deps_export_var_decl",
+                                        vars.push((
+                                            module_id,
+                                            id.assign_to(exported).into_module_item(
+                                                injected_ctxt,
+                                                "import_deps_export_var_decl",
+                                            ),
                                         ));
                                     }
                                 }
@@ -1423,7 +1472,8 @@ where
                             ModuleItem::Stmt(Stmt::Decl(export.decl))
                         }
                         ModuleDecl::ExportDefaultExpr(mut export) => {
-                            vars.push(
+                            vars.push((
+                                module_id,
                                 VarDeclarator {
                                     span: DUMMY_SP,
                                     name: Pat::Ident(
@@ -1437,7 +1487,7 @@ where
                                     definite: false,
                                 }
                                 .into_module_item(injected_ctxt, "import_deps_export_default_expr"),
-                            );
+                            ));
                             ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
                         }
 
@@ -1457,20 +1507,23 @@ where
             *orig_stmt = stmt;
         }
 
-        for var in vars {
-            module.inject(var);
+        for (id, var) in vars {
+            module.append(id, var);
         }
     }
 }
 
-fn vars_from_exports(dep_info: &TransformedModule, module: &Modules) -> Vec<VarDeclarator> {
+fn vars_from_exports(
+    dep_info: &TransformedModule,
+    module: &Modules,
+) -> Vec<(ModuleId, VarDeclarator)> {
     // Convert all exports into variables in form of
     //
     // A__export = A__local
 
     let mut vars = vec![];
 
-    for item in module.iter() {
+    for (module_id, item) in module.iter() {
         let item = match item {
             ModuleItem::ModuleDecl(item) => item,
             ModuleItem::Stmt(_) => continue,
@@ -1484,7 +1537,7 @@ fn vars_from_exports(dep_info: &TransformedModule, module: &Modules) -> Vec<VarD
                         ident.span.with_ctxt(dep_info.export_ctxt()),
                     );
 
-                    vars.push(ident.clone().assign_to(exported_name));
+                    vars.push((module_id, ident.clone().assign_to(exported_name)));
                 }
                 Decl::Var(var) => {
                     let ids: Vec<Id> = find_ids(var);
@@ -1495,7 +1548,7 @@ fn vars_from_exports(dep_info: &TransformedModule, module: &Modules) -> Vec<VarD
                             DUMMY_SP.with_ctxt(dep_info.export_ctxt()),
                         );
 
-                        vars.push(id.assign_to(exported))
+                        vars.push((module_id, id.assign_to(exported)))
                     }
                 }
                 Decl::TsInterface(_) => {}
@@ -1510,13 +1563,14 @@ fn vars_from_exports(dep_info: &TransformedModule, module: &Modules) -> Vec<VarD
                     export.span.with_ctxt(dep_info.export_ctxt()),
                 );
 
-                vars.push(
+                vars.push((
+                    module_id,
                     Ident::new(
                         js_word!("default"),
                         export.span.with_ctxt(dep_info.local_ctxt()),
                     )
                     .assign_to(export_name),
-                );
+                ));
             }
             ModuleDecl::ExportDefaultExpr(export) => {
                 let export_name = Ident::new(
@@ -1524,13 +1578,14 @@ fn vars_from_exports(dep_info: &TransformedModule, module: &Modules) -> Vec<VarD
                     export.span.with_ctxt(dep_info.export_ctxt()),
                 );
 
-                vars.push(
+                vars.push((
+                    module_id,
                     Ident::new(
                         js_word!("default"),
                         export.span.with_ctxt(dep_info.local_ctxt()),
                     )
                     .assign_to(export_name),
-                );
+                ));
             }
             _ => {}
         }
@@ -1623,6 +1678,8 @@ struct ImportMetaHandler<'a, 'b> {
     is_entry: bool,
     inline_ident: Ident,
     occurred: bool,
+    /// TODO: Use this
+    #[allow(dead_code)]
     err: Option<Error>,
 }
 

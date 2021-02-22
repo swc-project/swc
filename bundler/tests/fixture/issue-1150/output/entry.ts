@@ -1,26 +1,23 @@
 function a() {
     console.log("a");
 }
-const a1 = a;
-var O3;
+var O2;
 (function(O1) {
     O1[O1["A"] = 0] = "A";
     O1[O1["B"] = 1] = "B";
     O1[O1["C"] = 2] = "C";
-})(O3 || (O3 = {
+})(O2 || (O2 = {
 }));
-const O1 = O3;
-const a2 = a1;
-const defaultA = a2;
-const O2 = O1;
-export { O2 as O };
+const a1 = a;
+const O1 = O2;
+export { O1 as O };
 class A {
     #a;
     #c;
     constructor(o = {
     }){
-        const { a: a3 = defaultA , c ,  } = o;
-        this.#a = a3;
+        const { a: a2 = a1 , c ,  } = o;
+        this.#a = a2;
         this.#c = c;
     }
     a() {
@@ -30,6 +27,6 @@ class A {
         console.log(this.#c);
     }
 }
-let a4 = new A();
-a4.a();
-a4.c();
+let a3 = new A();
+a3.a();
+a3.c();

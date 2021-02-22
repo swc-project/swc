@@ -537,9 +537,6 @@ where
                 });
                 return None;
             }
-            JSXElementChild::JSXSpreadChild(JSXSpreadChild { .. }) => {
-                unimplemented!("jsx spread child")
-            }
         })
     }
 

@@ -1,18 +1,12 @@
-const b = "b";
-const b1 = b;
-console.log(b1); // "b"
+const c = "c";
+class C {
+}
 const mod = function() {
-    const c = "c";
-    const c1 = c;
-    class C {
-    }
-    const __default = C;
-    const __default1 = __default;
     return {
-        c: c1,
-        default: __default1
+        mod: c,
+        default: C
     };
 }();
-const c = mod;
-const c1 = c;
-console.log(c1); // { c: "c", default: class C }
+const b = "b";
+console.log(b); // "b"
+console.log(mod); // { c: "c", default: class C }

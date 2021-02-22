@@ -144,8 +144,7 @@ impl Strip {
             Expr::TsAs(TsAsExpr { expr, .. })
             | Expr::TsNonNull(TsNonNullExpr { expr, .. })
             | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
-            | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
-            | Expr::TsTypeCast(TsTypeCastExpr { expr, .. }) => {
+            | Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => {
                 expr.visit_mut_with(self);
                 let expr = *expr.take();
                 *n = expr;

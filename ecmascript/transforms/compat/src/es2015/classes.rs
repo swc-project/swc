@@ -188,7 +188,7 @@ impl Fold for Classes {
         fn should_work(node: &Decl) -> bool {
             struct Visitor {
                 found: bool,
-            };
+            }
             impl Visit for Visitor {
                 noop_visit_type!();
 

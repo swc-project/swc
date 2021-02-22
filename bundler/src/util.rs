@@ -5,6 +5,8 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
 
+pub(crate) mod fast_graph;
+
 const TRACK: bool = false;
 
 pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {

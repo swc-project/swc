@@ -773,7 +773,6 @@ export type Expression =
   | JSXFragment
   | TsTypeAssertion
   | TsNonNullExpression
-  | TsTypeCastExpression
   | TsAsExpression
   | PrivateName
   | OptionalChainingExpression
@@ -1689,13 +1688,6 @@ export interface TsTypeParameterInstantiation extends Node, HasSpan {
   type: "TsTypeParameterInstantiation";
 
   params: TsType[];
-}
-
-export interface TsTypeCastExpression extends Node, HasSpan {
-  type: "TsTypeCastExpression";
-
-  expression: Expression;
-  typeAnnotation: TsTypeAnnotation;
 }
 
 export interface TsParameterProperty extends Node, HasSpan, HasDecorator {

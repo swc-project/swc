@@ -60,17 +60,6 @@ pub struct TsTypeParamInstantiation {
     pub params: Vec<Box<TsType>>,
 }
 
-#[ast_node("TsTypeCastExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub struct TsTypeCastExpr {
-    pub span: Span,
-    #[serde(rename = "expression")]
-    pub expr: Box<Expr>,
-    #[serde(rename = "typeAnnotation")]
-    pub type_ann: TsTypeAnn,
-}
-
 #[ast_node("TsParameterProperty")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]

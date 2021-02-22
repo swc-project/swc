@@ -8,14 +8,13 @@ function d() {
     });
     return Object.assign(promise, methods);
 }
-const d1 = d;
 class A {
     s = d();
     a() {
         this.s.resolve();
     }
     b() {
-        this.s = d1();
+        this.s = d();
     }
 }
 new A();

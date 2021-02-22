@@ -1,60 +1,47 @@
-use crate::bundler::modules::Modules;
+use super::stmt::sort_stmts;
 use crate::bundler::tests::suite;
 use crate::debug::print_hygiene;
-use swc_ecma_ast::Module;
+use swc_common::SyntaxContext;
+use swc_common::DUMMY_SP;
+use swc_ecma_ast::*;
 use swc_ecma_utils::drop_span;
 use testing::assert_eq;
 
 fn assert_sorted(src: &[&str], res: &str) {
-    let mut s = suite();
+    assert_sorted_with_free(src, "", res)
+}
 
+fn assert_sorted_with_free(src: &[&str], free: &str, res: &str) {
+    let mut s = suite();
     for (i, src) in src.iter().enumerate() {
         s = s.file(&format!("{}.js", i), src);
     }
     s.run(|t| {
-        let mut modules = Modules::empty(t.bundler.injected_ctxt);
+        let mut modules = vec![];
+        let mut entry = None;
+
+        let mut free: Module = drop_span(t.parse(free));
+        for item in free.body.iter_mut() {
+            mark(item, t.bundler.injected_ctxt);
+        }
+        modules.push(free.body);
 
         for (i, _) in src.iter().enumerate() {
             let info = t.module(&format!("{}.js", i));
+            if entry.is_none() {
+                entry = Some(info.id);
+            }
             let actual: Module = drop_span((*info.module).clone());
-
-            let mut module = Modules::from(actual, t.bundler.injected_ctxt);
-
-            t.bundler.prepare(&info, &mut module);
-            modules.push_all(module);
+            modules.push(actual.body);
         }
 
-        modules.sort(&t.cm);
-        let actual: Module = modules.into();
+        let sorted = sort_stmts(t.bundler.injected_ctxt, modules, &t.cm);
 
-        let expected = drop_span(t.parse(res));
-
-        if actual == expected {
-            return Ok(());
-        }
-
-        print_hygiene("actual", &t.cm, &actual);
-        print_hygiene("expected", &t.cm, &expected);
-
-        assert_eq!(actual, expected);
-        panic!()
-    });
-}
-
-fn assert_sorted_with_free(src: &[&str], free: &str, res: &str) {
-    suite().run(|t| {
-        let mut modules = Modules::empty(t.bundler.injected_ctxt);
-
-        let free: Module = drop_span(t.parse(free));
-        modules.inject_all(free.body);
-
-        for src in src {
-            let actual: Module = drop_span(t.parse(src));
-            modules.push_all(Modules::from(actual, t.bundler.injected_ctxt));
-        }
-
-        modules.sort(&t.cm);
-        let actual: Module = drop_span(modules.into());
+        let actual: Module = drop_span(Module {
+            span: DUMMY_SP,
+            body: sorted,
+            shebang: None,
+        });
 
         let expected = drop_span(t.parse(res));
 
@@ -258,9 +245,10 @@ fn sort_007() {
         "
         var e, o = e = {};
         var T = e;
+        e.env = {
+        };
         const h325 = T;
         const h$1 = h325;
-        e.env = {};
         if (h$1.env.NODE_DEBUG) {
         }
         ",
@@ -482,4 +470,61 @@ fn sort_015() {
         use(NATIVE_OS);
         ",
     );
+}
+
+fn mark(item: &mut ModuleItem, ctxt: SyntaxContext) {
+    match item {
+        ModuleItem::ModuleDecl(item) => match item {
+            ModuleDecl::Import(ImportDecl { span, .. })
+            | ModuleDecl::ExportDecl(ExportDecl { span, .. })
+            | ModuleDecl::ExportNamed(NamedExport { span, .. })
+            | ModuleDecl::ExportDefaultDecl(ExportDefaultDecl { span, .. })
+            | ModuleDecl::ExportDefaultExpr(ExportDefaultExpr { span, .. })
+            | ModuleDecl::ExportAll(ExportAll { span, .. })
+            | ModuleDecl::TsImportEquals(TsImportEqualsDecl { span, .. })
+            | ModuleDecl::TsExportAssignment(TsExportAssignment { span, .. })
+            | ModuleDecl::TsNamespaceExport(TsNamespaceExportDecl { span, .. }) => {
+                span.ctxt = ctxt;
+            }
+        },
+        ModuleItem::Stmt(stmt) => match stmt {
+            Stmt::Empty(_) => return,
+            Stmt::Block(BlockStmt { span, .. })
+            | Stmt::Debugger(DebuggerStmt { span, .. })
+            | Stmt::With(WithStmt { span, .. })
+            | Stmt::Return(ReturnStmt { span, .. })
+            | Stmt::Labeled(LabeledStmt { span, .. })
+            | Stmt::Break(BreakStmt { span, .. })
+            | Stmt::Continue(ContinueStmt { span, .. })
+            | Stmt::If(IfStmt { span, .. })
+            | Stmt::Switch(SwitchStmt { span, .. })
+            | Stmt::Throw(ThrowStmt { span, .. })
+            | Stmt::Try(TryStmt { span, .. })
+            | Stmt::While(WhileStmt { span, .. })
+            | Stmt::DoWhile(DoWhileStmt { span, .. })
+            | Stmt::For(ForStmt { span, .. })
+            | Stmt::ForIn(ForInStmt { span, .. })
+            | Stmt::ForOf(ForOfStmt { span, .. })
+            | Stmt::Expr(ExprStmt { span, .. }) => {
+                span.ctxt = ctxt;
+            }
+            Stmt::Decl(decl) => match decl {
+                Decl::Class(ClassDecl {
+                    class: Class { span, .. },
+                    ..
+                })
+                | Decl::Fn(FnDecl {
+                    function: Function { span, .. },
+                    ..
+                })
+                | Decl::Var(VarDecl { span, .. })
+                | Decl::TsInterface(TsInterfaceDecl { span, .. })
+                | Decl::TsTypeAlias(TsTypeAliasDecl { span, .. })
+                | Decl::TsEnum(TsEnumDecl { span, .. })
+                | Decl::TsModule(TsModuleDecl { span, .. }) => {
+                    span.ctxt = ctxt;
+                }
+            },
+        },
+    }
 }
