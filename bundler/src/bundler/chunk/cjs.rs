@@ -80,6 +80,7 @@ where
                 dep.visit_mut_with(&mut DefaultHandler {
                     local_ctxt: dep_info.local_ctxt(),
                 });
+                dep.sort(info.id, &ctx.graph, &self.cm);
 
                 entry.prepend(
                     info.id,
