@@ -1,4 +1,3 @@
-use crate::debug::print_hygiene;
 use crate::id::Id;
 use crate::modules::Modules;
 use crate::util::ExprExt;
@@ -40,7 +39,6 @@ where
         mut module: Modules,
     ) -> Result<Modules, Error> {
         let span = DUMMY_SP;
-        let info = self.scope.get_module(id).unwrap();
         let module_var_name = match self.scope.wrapped_esm_id(id) {
             Some(v) => v,
             None => bail!("{:?} should not be wrapped with a function", id),
