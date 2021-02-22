@@ -79,11 +79,28 @@ where
                                         let mut var_name = exported.clone();
                                         var_name.span.ctxt = remapped;
                                         module_items.push(
-                                            orig.clone().assign_to(var_name).into_module_item(
-                                                injected_ctxt,
-                                                "export * in a wrapped esm",
-                                            ),
+                                            orig.clone()
+                                                .assign_to(var_name.clone())
+                                                .into_module_item(
+                                                    injected_ctxt,
+                                                    "export * in a wrapped esm",
+                                                ),
                                         );
+                                        let specifier =
+                                            ExportSpecifier::Named(ExportNamedSpecifier {
+                                                span: DUMMY_SP,
+                                                orig: orig.clone(),
+                                                exported: Some(var_name),
+                                            });
+                                        module_items.push(ModuleItem::ModuleDecl(
+                                            ModuleDecl::ExportNamed(NamedExport {
+                                                span: DUMMY_SP,
+                                                specifiers: vec![specifier],
+                                                src: None,
+                                                type_only: false,
+                                                asserts: None,
+                                            }),
+                                        ));
                                     }
                                 }
                                 _ => {}
