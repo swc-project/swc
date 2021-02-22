@@ -125,7 +125,10 @@ impl VisitMut for Inliner {
             Prop::Shorthand(i) => {
                 let orig = i.clone();
                 i.visit_mut_with(self);
-                if i.sym != orig.sym || i.span.ctxt != orig.span.ctxt {
+                if i.span.ctxt != orig.span.ctxt {
+                    return;
+                }
+                if i.sym != orig.sym {
                     *n = Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(orig),
                         value: Box::new(Expr::Ident(i.clone())),
