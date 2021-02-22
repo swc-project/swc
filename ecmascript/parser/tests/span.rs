@@ -857,10 +857,6 @@ impl Visit for Shower<'_> {
         self.show("TsTypeAssertion", n);
         n.visit_children_with(self)
     }
-    fn visit_ts_type_cast_expr(&mut self, n: &TsTypeCastExpr, _parent: &dyn Node) {
-        self.show("TsTypeCastExpr", n);
-        n.visit_children_with(self)
-    }
     fn visit_ts_type_element(&mut self, n: &TsTypeElement, _parent: &dyn Node) {
         self.show("TsTypeElement", n);
         n.visit_children_with(self)
