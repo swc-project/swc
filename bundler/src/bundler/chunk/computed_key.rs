@@ -58,17 +58,8 @@ where
         let mut extra_exports = vec![];
 
         let stmts = {
-            let mut module = Module::from(module).fold_with(&mut ExportToReturn {
-                synthesized_ctxt: self.synthesized_ctxt,
-                injected_ctxt: self.injected_ctxt,
-                return_props: Default::default(),
-                esm_exports: &mut extra_exports,
-                module_var: &module_var_name,
-            });
-
-            take(&mut module.body)
-                .into_iter()
-                .filter_map(|v| match v {
+            module.iter().for_each(|(_, item)| {
+                match item {
                     // Handle `export *`-s from dependency modules.
                     //
                     // See: https://github.com/denoland/deno/issues/9200
@@ -100,62 +91,22 @@ where
                                 _ => {}
                             }
                         }
-
-                        module_items.push(v);
-                        None
                     }
+                    _ => {}
+                }
+            });
 
-                    // ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-                    //     if var.span.ctxt == injected_ctxt {
-                    //         let decl = &var.decls[0];
-                    //         match &decl.name {
-                    //             Pat::Ident(i) => {
-                    //                 if i.id.sym == js_word!("default") {
-                    //                     module_items
-                    //                         .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))));
-                    //                     return None;
-                    //                 }
+            let mut module = Module::from(module).fold_with(&mut ExportToReturn {
+                synthesized_ctxt: self.synthesized_ctxt,
+                injected_ctxt: self.injected_ctxt,
+                return_props: Default::default(),
+                esm_exports: &mut extra_exports,
+                module_var: &module_var_name,
+            });
 
-                    //                 if let Some(..) = ctx.transitive_remap.get(&i.id.span.ctxt) {
-                    //                     // Create
-                    //                     //
-                    //                     // const local = mod.local;
-                    //                     // expodt { local as exported }
-                    //                     //
-
-                    //                     let local_var = Ident::new(
-                    //                         i.id.sym.clone(),
-                    //                         i.id.span.with_ctxt(info.local_ctxt()),
-                    //                     );
-
-                    //                     let var_decl = VarDeclarator {
-                    //                         span: DUMMY_SP,
-                    //                         name: Pat::Ident(local_var.clone().into()),
-                    //                         init: Some(Box::new(Expr::Member(MemberExpr {
-                    //                             span: DUMMY_SP,
-                    //                             obj: module_var_name.clone().as_obj(),
-                    //                             prop: {
-                    //                                 let mut prop = i.id.clone();
-                    //                                 prop.span.ctxt = SyntaxContext::empty();
-
-                    //                                 Box::new(Expr::Ident(prop))
-                    //                             },
-                    //                             computed: false,
-                    //                         }))),
-                    //                         definite: false,
-                    //                     };
-                    //                     module_items.push(var_decl.into_module_item(
-                    //                         injected_ctxt,
-                    //                         "'export *' from wrapped module",
-                    //                     ));
-                    //                 }
-                    //             }
-                    //             _ => {}
-                    //         }
-                    //     }
-                    //     module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))));
-                    //     None
-                    // }
+            take(&mut module.body)
+                .into_iter()
+                .filter_map(|v| match v {
                     ModuleItem::Stmt(s @ Stmt::Return(..)) => Some(s),
 
                     ModuleItem::Stmt(s) => {
