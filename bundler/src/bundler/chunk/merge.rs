@@ -18,6 +18,7 @@ use crate::{
 };
 use ahash::AHashMap;
 use ahash::AHashSet;
+use ahash::RandomState;
 use anyhow::{Context, Error};
 use petgraph::graphmap::DiGraphMap;
 #[cfg(feature = "concurrent")]
@@ -529,7 +530,7 @@ where
             // If an user import and export from D, the transitive syntax context map
             // contains a entry from D to foo because it's reexported and
             // the variable (reexported from D) exist because it's imported.
-            let mut declared_ids = AHashSet::new();
+            let mut declared_ids = AHashSet::<_, RandomState>::default();
 
             for (_, stmt) in entry.iter() {
                 match stmt {
