@@ -124,7 +124,7 @@ fn toposort_real_module_ids<'a>(
             if done.contains(&id) {
                 continue;
             }
-            // dbg!(id);
+            dbg!(id);
 
             let deps = graph
                 .neighbors_directed(id, Outgoing)
@@ -163,12 +163,14 @@ fn toposort_real_module_ids<'a>(
             // We need to handle dependencies of all circular modules.
             let deps_of_circle = all_modules_in_circle
                 .iter()
-                .flat_map(|id| {
+                .flat_map(|&id| {
                     graph
-                        .neighbors_directed(*id, Outgoing)
+                        .neighbors_directed(id, Outgoing)
                         .filter(|dep| !done.contains(&dep) && !all_modules_in_circle.contains(dep))
                 })
                 .collect::<Vec<_>>();
+
+            dbg!(&deps_of_circle);
 
             if !deps_of_circle.is_empty() {
                 queue.push_front(id);
@@ -185,7 +187,7 @@ fn toposort_real_module_ids<'a>(
 
             // Emit
             done.extend(all_modules_in_circle.iter().copied());
-            return Some(all_modules_in_circle.into_iter().collect());
+            return Some(all_modules_in_circle.into_iter().rev().collect());
         }
 
         None

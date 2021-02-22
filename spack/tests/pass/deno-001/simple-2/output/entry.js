@@ -1,10 +1,3 @@
-function deferred() {
-}
-class MuxAsyncIterator {
-    constructor(){
-        this.signal = deferred();
-    }
-}
 class ServerRequest {
     constructor(){
         this.done = deferred();
@@ -22,3 +15,10 @@ listenAndServe({
     port: 8080
 }, async (req)=>{
 });
+function deferred() {
+}
+class MuxAsyncIterator {
+    constructor(){
+        this.signal = deferred();
+    }
+}
