@@ -39,6 +39,7 @@ where
         mut module: Modules,
     ) -> Result<Modules, Error> {
         let span = DUMMY_SP;
+        let info = self.scope.get_module(id).unwrap();
         let module_var_name = match self.scope.wrapped_esm_id(id) {
             Some(v) => v,
             None => bail!("{:?} should not be wrapped with a function", id),
@@ -73,11 +74,10 @@ where
                                     exported: Some(exported),
                                     ..
                                 }) => {
-                                    if let Some(remapped) =
-                                        ctx.transitive_remap.get(&exported.span.ctxt)
+                                    if let Some(..) = ctx.transitive_remap.get(&exported.span.ctxt)
                                     {
                                         let mut var_name = exported.clone();
-                                        var_name.span.ctxt = remapped;
+                                        var_name.span.ctxt = info.export_ctxt();
                                         module_items.push(
                                             orig.clone()
                                                 .assign_to(var_name.clone())
@@ -94,7 +94,7 @@ where
                                             });
                                         module_items.push(ModuleItem::ModuleDecl(
                                             ModuleDecl::ExportNamed(NamedExport {
-                                                span: DUMMY_SP,
+                                                span: DUMMY_SP.with_ctxt(injected_ctxt),
                                                 specifiers: vec![specifier],
                                                 src: None,
                                                 type_only: false,
