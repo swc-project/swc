@@ -5,9 +5,9 @@ const [a, b, c] = [
 ];
 const mod = function() {
     return {
-        a,
-        b,
-        c
+        a: a,
+        b: b,
+        c: c
     };
 }();
 export { mod as foo };

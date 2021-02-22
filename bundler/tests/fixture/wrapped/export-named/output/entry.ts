@@ -3,12 +3,9 @@ const [a, b, c] = [
     2,
     3
 ];
-const b1 = b;
 const mod = function() {
-    const b2 = b1;
     return {
-        b: b2
+        b: b
     };
 }();
-const foo = mod;
-console.log(foo);
+console.log(mod);
