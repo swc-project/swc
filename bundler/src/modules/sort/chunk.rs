@@ -129,7 +129,16 @@ fn all_modules_in_circle(
     let mut ids = deps
         .iter()
         .copied()
-        .flat_map(|dep| all_simple_paths::<Vec<_>, _>(&graph, dep, id, 0, None))
+        .flat_map(|dep| {
+            let mut paths =
+                all_simple_paths::<Vec<_>, _>(&graph, dep, id, 0, None).collect::<Vec<_>>();
+
+            for path in paths.iter_mut() {
+                path.reverse();
+            }
+
+            paths
+        })
         .flatten()
         .filter(|module_id| !done.contains(&module_id) && !already_in_index.contains(module_id))
         .collect::<IndexSet<ModuleId, RandomState>>();
@@ -215,7 +224,7 @@ fn toposort_real_module_ids<'a>(
 
             // Emit
             done.extend(all_modules_in_circle.iter().copied());
-            return Some(all_modules_in_circle.into_iter().rev().collect());
+            return Some(all_modules_in_circle.into_iter().collect());
         }
 
         None
