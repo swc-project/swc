@@ -79,7 +79,8 @@ where
                                         let mut var_name = exported.clone();
                                         var_name.span.ctxt = info.export_ctxt();
                                         module_items.push(
-                                            orig.clone()
+                                            exported
+                                                .clone()
                                                 .assign_to(var_name.clone())
                                                 .into_module_item(
                                                     injected_ctxt,
@@ -90,7 +91,7 @@ where
                                             ExportSpecifier::Named(ExportNamedSpecifier {
                                                 span: DUMMY_SP,
                                                 orig: orig.clone(),
-                                                exported: Some(var_name),
+                                                exported: Some(exported.clone()),
                                             });
                                         module_items.push(ModuleItem::ModuleDecl(
                                             ModuleDecl::ExportNamed(NamedExport {
