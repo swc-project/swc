@@ -166,7 +166,7 @@ fn toposort_real_module_ids<'a>(
             if done.contains(&id) {
                 continue;
             }
-            dbg!(id);
+            // dbg!(id);
 
             let deps = graph
                 .neighbors_directed(id, Outgoing)
@@ -207,7 +207,7 @@ fn toposort_real_module_ids<'a>(
                 })
                 .collect::<Vec<_>>();
 
-            dbg!(&deps_of_circle);
+            // dbg!(&deps_of_circle);
 
             if !deps_of_circle.is_empty() {
                 queue.push_front(id);

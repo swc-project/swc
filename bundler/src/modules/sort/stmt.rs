@@ -132,20 +132,20 @@ fn iter<'a>(
             }
             let is_free = free.contains(&idx);
 
-            dbg!(idx, is_free);
-            match &stmts[idx] {
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-                    let ids: Vec<Id> = find_ids(&var.decls);
-                    eprintln!("(`{}`) Declare var: `{:?}`", idx, ids);
-                }
-                ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
-                    eprintln!("(`{}`) Declare class: `{:?}`", idx, Id::from(&cls.ident));
-                }
-                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-                    eprintln!("(`{}`) Declare fn: `{:?}`", idx, Id::from(&f.ident));
-                }
-                _ => eprintln!("(`{}`) Stmt", idx,),
-            }
+            // dbg!(idx, is_free);
+            // match &stmts[idx] {
+            //     ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+            //         let ids: Vec<Id> = find_ids(&var.decls);
+            //         eprintln!("(`{}`) Declare var: `{:?}`", idx, ids);
+            //     }
+            //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
+            //         eprintln!("(`{}`) Declare class: `{:?}`", idx, Id::from(&cls.ident));
+            //     }
+            //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
+            //         eprintln!("(`{}`) Declare fn: `{:?}`", idx, Id::from(&f.ident));
+            //     }
+            //     _ => eprintln!("(`{}`) Stmt", idx,),
+            // }
 
             let current_range = same_module_ranges
                 .iter()
