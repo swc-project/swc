@@ -353,20 +353,16 @@ impl Fold for ExportToReturn<'_> {
             ModuleDecl::ExportAll(export) => {
                 return ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export))
             }
-            ModuleDecl::ExportNamed(export) => {
-                for specifier in &export.specifiers {
+            ModuleDecl::ExportNamed(named) => {
+                for specifier in &named.specifiers {
                     match specifier {
                         ExportSpecifier::Namespace(_) => {}
                         ExportSpecifier::Default(_) => {}
                         ExportSpecifier::Named(named) => match &named.exported {
                             Some(exported) => {
-                                // As injected named exports are converted to variables by other
-                                // passes, we should not create a variable for it.
-                                self.export_key_value(
-                                    exported.clone(),
-                                    named.orig.clone(),
-                                    export.span.ctxt == self.injected_ctxt,
-                                );
+                                // As named exports are converted to variables by other passes, we
+                                // should not create a variable for it.
+                                self.export_key_value(exported.clone(), named.orig.clone(), true);
                             }
                             None => {
                                 self.export_id(named.orig.clone());
@@ -376,10 +372,10 @@ impl Fold for ExportToReturn<'_> {
                 }
 
                 // Ignore export {} specified by user.
-                if export.src.is_none() && export.span.ctxt != self.synthesized_ctxt {
+                if named.src.is_none() && named.span.ctxt != self.synthesized_ctxt {
                     None
                 } else {
-                    return ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export));
+                    return ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(named));
                 }
             }
             ModuleDecl::TsImportEquals(_) => None,
