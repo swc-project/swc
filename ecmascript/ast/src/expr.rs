@@ -10,8 +10,8 @@ use crate::{
     prop::Prop,
     stmt::BlockStmt,
     typescript::{
-        TsAsExpr, TsConstAssertion, TsNonNullExpr, TsTypeAnn, TsTypeAssertion, TsTypeCastExpr,
-        TsTypeParamDecl, TsTypeParamInstantiation,
+        TsAsExpr, TsConstAssertion, TsNonNullExpr, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
+        TsTypeParamInstantiation,
     },
     Invalid,
 };
@@ -139,9 +139,6 @@ pub enum Expr {
 
     #[tag("TsNonNullExpression")]
     TsNonNull(TsNonNullExpr),
-
-    #[tag("TsTypeCastExpression")]
-    TsTypeCast(TsTypeCastExpr),
 
     #[tag("TsAsExpression")]
     TsAs(TsAsExpr),
@@ -560,7 +557,6 @@ pub enum PatOrExpr {
     #[tag("TsTypeAssertion")]
     #[tag("TsConstAssertion")]
     #[tag("TsNonNullExpression")]
-    #[tag("TsTypeCastExpression")]
     #[tag("TsAsExpression")]
     #[tag("PrivateName")]
     Expr(Box<Expr>),

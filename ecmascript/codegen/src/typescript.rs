@@ -867,16 +867,6 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    fn emit_ts_type_cast_expr(&mut self, n: &TsTypeCastExpr) -> Result {
-        self.emit_leading_comments_of_pos(n.span().lo())?;
-
-        punct!("<");
-        emit!(n.type_ann);
-        punct!(">");
-        emit!(n.expr);
-    }
-
-    #[emitter]
     fn emit_ts_type_element(&mut self, n: &TsTypeElement) -> Result {
         match n {
             TsTypeElement::TsCallSignatureDecl(n) => emit!(n),

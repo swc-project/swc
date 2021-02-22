@@ -1090,7 +1090,6 @@ fn can_be_null(e: &Expr) -> bool {
         Expr::TsNonNull(..) => false,
         Expr::TsAs(TsAsExpr { ref expr, .. })
         | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
-        | Expr::TsTypeCast(TsTypeCastExpr { ref expr, .. })
         | Expr::TsConstAssertion(TsConstAssertion { ref expr, .. }) => can_be_null(expr),
         Expr::OptChain(ref e) => can_be_null(&e.expr),
 
