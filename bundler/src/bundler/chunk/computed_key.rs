@@ -365,7 +365,7 @@ impl Fold for ExportToReturn<'_> {
                                 self.export_key_value(
                                     exported.clone(),
                                     named.orig.clone(),
-                                    export.span.ctxt == self.injected_ctxt,
+                                    export.span.ctxt == self.injected_ctxt || export.src.is_some(),
                                 );
                             }
                             None => {
