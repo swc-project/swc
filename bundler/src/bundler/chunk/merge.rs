@@ -2,7 +2,6 @@ use super::plan::DepType;
 use super::plan::Plan;
 use crate::bundler::chunk::export::inject_export;
 use crate::bundler::keywords::KeywordRenamer;
-use crate::debug::print_hygiene;
 use crate::inline::inline;
 use crate::modules::Modules;
 use crate::{
@@ -26,7 +25,7 @@ use rayon::iter::ParallelIterator;
 use swc_atoms::js_word;
 use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, prepend, private_ident, ExprFactory};
+use swc_ecma_utils::{find_ids, prepend, private_ident};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use util::CHashSet;
 pub(super) struct Ctx {
@@ -118,8 +117,8 @@ where
         &self,
         ctx: &Ctx,
         dep_id: ModuleId,
-        src: &Source,
-        specifiers: &[Specifier],
+        _src: &Source,
+        _specifiers: &[Specifier],
     ) -> Result<Modules, Error> {
         let injected_ctxt = self.injected_ctxt;
 
@@ -133,8 +132,6 @@ where
             let mut module: Modules = self.get_module_for_merging(ctx, dep_id, false)?;
             module = self.wrap_esm(ctx, dep_id, module.into())?.into();
             self.prepare(&dep_info, &mut module);
-
-            let esm_id = self.scope.wrapped_esm_id(dep_id).unwrap();
 
             let plan = ctx.plan.normal.get(&dep_id);
             let default_plan;
@@ -515,7 +512,7 @@ where
     ///
     /// This method does not care about orders of statement, and it's expected
     /// to be called before `sort`.
-    fn handle_reexport_of_entry(&self, ctx: &Ctx, entry_id: ModuleId, entry: &mut Modules) {
+    fn handle_reexport_of_entry(&self, ctx: &Ctx, _entry_id: ModuleId, entry: &mut Modules) {
         let injected_ctxt = self.injected_ctxt;
 
         {
@@ -719,7 +716,7 @@ where
 
         inline(self.injected_ctxt, entry);
 
-        print_hygiene("done", &self.cm, &entry.clone().into());
+        // print_hygiene("done", &self.cm, &entry.clone().into());
 
         entry.retain_mut(|_, item| {
             match item {
@@ -1681,6 +1678,8 @@ struct ImportMetaHandler<'a, 'b> {
     is_entry: bool,
     inline_ident: Ident,
     occurred: bool,
+    /// TODO: Use this
+    #[allow(dead_code)]
     err: Option<Error>,
 }
 

@@ -1,5 +1,4 @@
 use super::graph::Required;
-use crate::debug::print_hygiene;
 use crate::id::Id;
 use crate::modules::sort::graph::StmtDepGraph;
 use crate::util::MapWithMut;
@@ -27,7 +26,7 @@ use swc_ecma_visit::VisitWith;
 pub(super) fn sort_stmts(
     injected_ctxt: SyntaxContext,
     modules: Vec<Vec<ModuleItem>>,
-    cm: &Lrc<SourceMap>,
+    _cm: &Lrc<SourceMap>,
 ) -> Vec<ModuleItem> {
     let total_len: usize = modules.iter().map(|v| v.len()).sum();
 
@@ -56,15 +55,15 @@ pub(super) fn sort_stmts(
     let free_range = non_free_count..non_free_count + free.len();
     stmts.extend(free);
 
-    print_hygiene(
-        &format!("before sort"),
-        cm,
-        &Module {
-            span: DUMMY_SP,
-            body: stmts.clone(),
-            shebang: None,
-        },
-    );
+    // print_hygiene(
+    //     &format!("before sort"),
+    //     cm,
+    //     &Module {
+    //         span: DUMMY_SP,
+    //         body: stmts.clone(),
+    //         shebang: None,
+    //     },
+    // );
 
     let mut id_graph = calc_deps(&stmts);
 

@@ -48,7 +48,7 @@ struct SuperCalleeFolder<'a> {
     class_name: &'a Ident,
     /// True if we should inject get and
     inject_get: bool,
-    inject_set: bool,
+    _inject_set: bool,
     /// Mark for the `_this`. Used only when folding constructor.
     constructor_this_mark: Option<Mark>,
     is_static: bool,
@@ -269,7 +269,7 @@ impl<'a> SuperCalleeFolder<'a> {
         op: AssignOp,
         rhs: Box<Expr>,
     ) -> Expr {
-        self.inject_set = true;
+        self._inject_set = true;
 
         let mut ref_ident = alias_ident_for(&rhs, "_ref");
         ref_ident.span = ref_ident.span.apply_mark(Mark::fresh(Mark::root()));
@@ -446,7 +446,7 @@ impl<'a> Fold for SuperFieldAccessFolder<'a> {
         let mut callee_folder = SuperCalleeFolder {
             class_name: self.class_name,
             inject_get: false,
-            inject_set: false,
+            _inject_set: false,
             vars: self.vars,
             constructor_this_mark: self.constructor_this_mark,
             is_static: self.is_static,

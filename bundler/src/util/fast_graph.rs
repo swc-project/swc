@@ -1,14 +1,14 @@
 //! `GraphMap<N, E, Ty>` is a graph datastructure where node values are mapping
 //! keys.
 
+#![allow(dead_code)] // We don't want to modify copied source code.
+
 use ahash::RandomState;
 use indexmap::map::Keys;
 use indexmap::map::{Iter as IndexMapIter, IterMut as IndexMapIterMut};
 use indexmap::IndexMap;
 use petgraph::graph::node_index;
 use petgraph::graph::Graph;
-use petgraph::visit::IntoEdges;
-use petgraph::visit::NodeCount;
 use petgraph::IntoWeightedEdge;
 use petgraph::{Directed, Direction, EdgeType, Incoming, Outgoing, Undirected};
 use std::cmp::Ordering;
