@@ -41,7 +41,6 @@ impl Optimizer<'_> {
                 member.prop = Box::new(Expr::Ident(Ident {
                     span: prop.span,
                     sym: prop.value.clone(),
-                    type_ann: None,
                     optional: false,
                 }))
             }
@@ -55,8 +54,12 @@ impl Optimizer<'_> {
         }
 
         if f.params.iter().any(|param| match param.pat {
-            Pat::Ident(Ident {
-                sym: js_word!("arguments"),
+            Pat::Ident(BindingIdent {
+                id:
+                    Ident {
+                        sym: js_word!("arguments"),
+                        ..
+                    },
                 ..
             }) => true,
             Pat::Ident(..) => false,
@@ -110,7 +113,7 @@ impl ArgReplacer<'_> {
                 let p = Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(private_ident!(format!("argument_{}", start))),
+                    pat: Pat::Ident(private_ident!(format!("argument_{}", start)).into()),
                 };
                 start += 1;
                 p
@@ -148,7 +151,7 @@ impl VisitMut for ArgReplacer<'_> {
                                         match &param.pat {
                                             Pat::Ident(i) => {
                                                 self.changed = true;
-                                                *n = Expr::Ident(i.clone());
+                                                *n = Expr::Ident(i.id.clone());
                                                 return;
                                             }
                                             _ => {}
@@ -174,7 +177,7 @@ impl VisitMut for ArgReplacer<'_> {
                                                      normal reference",
                                                 );
                                                 self.changed = true;
-                                                *n = Expr::Ident(i.clone());
+                                                *n = Expr::Ident(i.id.clone());
                                                 return;
                                             }
                                             _ => {}

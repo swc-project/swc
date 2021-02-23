@@ -210,7 +210,7 @@ impl Optimizer<'_> {
                 _ => return,
             },
             PatOrExpr::Pat(p) => match &**p {
-                Pat::Ident(i) => i,
+                Pat::Ident(i) => &i.id,
                 _ => return,
             },
         };

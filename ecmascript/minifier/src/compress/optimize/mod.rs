@@ -239,7 +239,7 @@ impl Optimizer<'_> {
                 _ => return,
             },
             PatOrExpr::Pat(p) => match &**p {
-                Pat::Ident(i) => i,
+                Pat::Ident(i) => &i.id,
                 _ => return,
             },
         };
@@ -634,7 +634,6 @@ impl Optimizer<'_> {
             | Expr::TsTypeAssertion(_)
             | Expr::TsConstAssertion(_)
             | Expr::TsNonNull(_)
-            | Expr::TsTypeCast(_)
             | Expr::TsAs(_) => return Some(e.take()),
 
             Expr::Array(arr) => {

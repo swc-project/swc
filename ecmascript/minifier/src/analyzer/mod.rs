@@ -479,7 +479,7 @@ impl Visit for UsageAnalyzer {
                     || self.ctx.in_catch_param
                 {
                     let v = self.declare_decl(
-                        i,
+                        &i.id,
                         self.ctx.in_pat_of_var_decl_with_init,
                         self.ctx.var_decl_kind_of_pat,
                     );
@@ -492,7 +492,7 @@ impl Visit for UsageAnalyzer {
                         v.reassigned = true;
                     }
                 } else {
-                    self.report_usage(i, true);
+                    self.report_usage(&i.id, true);
                 }
             }
             _ => {}

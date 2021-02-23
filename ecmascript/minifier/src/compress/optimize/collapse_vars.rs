@@ -40,7 +40,7 @@ impl Optimizer<'_> {
                     PatOrExpr::Expr(_) => {}
                     PatOrExpr::Pat(left) => match &**left {
                         Pat::Ident(left) => {
-                            if left.sym == ident.sym && left.span.ctxt == ident.span.ctxt {
+                            if left.id.sym == ident.sym && left.id.span.ctxt == ident.span.ctxt {
                                 seq.exprs.pop();
                             }
                         }
@@ -153,7 +153,7 @@ impl Optimizer<'_> {
                                     {
                                         if var.usage_count != 1
                                             || var.reassigned
-                                            || !SimpleUsageFinder::find(&name, r)
+                                            || !SimpleUsageFinder::find(&name.id, r)
                                         {
                                             return None;
                                         }

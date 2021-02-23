@@ -64,7 +64,7 @@ impl Optimizer<'_> {
 
         match name {
             Pat::Ident(i) => {
-                if self.options.top_retain.contains(&i.sym) {
+                if self.options.top_retain.contains(&i.id.sym) {
                     return;
                 }
 
@@ -78,8 +78,8 @@ impl Optimizer<'_> {
                     self.changed = true;
                     log::trace!(
                         "unused: Dropping a variable '{}{:?}' because it is not used",
-                        i.sym,
-                        i.span.ctxt
+                        i.id.sym,
+                        i.id.span.ctxt
                     );
                     // This will remove variable.
                     name.take();

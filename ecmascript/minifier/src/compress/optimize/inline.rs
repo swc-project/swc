@@ -23,10 +23,10 @@ impl Optimizer<'_> {
         // We will inline if possible.
         match &var.name {
             Pat::Ident(i) => {
-                if i.sym == *"arguments" {
+                if i.id.sym == *"arguments" {
                     return;
                 }
-                if self.options.top_retain.contains(&i.sym) {
+                if self.options.top_retain.contains(&i.id.sym) {
                     return;
                 }
 
@@ -91,8 +91,8 @@ impl Optimizer<'_> {
                     {
                         log::trace!(
                             "inline: Decided to inline '{}{:?}' because it's simple",
-                            i.sym,
-                            i.span.ctxt
+                            i.id.sym,
+                            i.id.span.ctxt
                         );
                         if self.options.inline != 0 && !should_preserve {
                             self.lits.insert(i.to_id(), init.take());
@@ -133,8 +133,8 @@ impl Optimizer<'_> {
 
                         log::trace!(
                             "inline: Decided to inline '{}{:?}' because it's used only once",
-                            i.sym,
-                            i.span.ctxt
+                            i.id.sym,
+                            i.id.span.ctxt
                         );
                         self.changed = true;
                         self.vars_for_inlining.insert(i.to_id(), init.take());

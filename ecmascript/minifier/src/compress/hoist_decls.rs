@@ -143,7 +143,7 @@ impl Hoister {
 
                                         var_decls.push(VarDeclarator {
                                             span: DUMMY_SP,
-                                            name: Pat::Ident(id),
+                                            name: Pat::Ident(id.into()),
                                             init: None,
                                             definite: false,
                                         })
