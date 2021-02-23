@@ -86,6 +86,15 @@ impl Visit for Inliner {
 impl VisitMut for Inliner {
     noop_visit_mut_type!();
 
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        n.visit_mut_children_with(self);
+
+        n.retain(|v| match v {
+            ModuleItem::Stmt(Stmt::Empty(..)) => false,
+            _ => true,
+        });
+    }
+
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
         n.visit_mut_children_with(self);
 
