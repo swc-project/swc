@@ -117,7 +117,7 @@ impl VisitMut for Mangler {
 
         match n {
             Pat::Ident(i) => {
-                self.rename(i);
+                self.rename(&mut i.id);
             }
             _ => {}
         }

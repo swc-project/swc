@@ -180,7 +180,7 @@ impl Optimizer<'_> {
             PatOrExpr::Expr(_) => return,
             PatOrExpr::Pat(left) => match &**left {
                 Pat::Ident(i) => {
-                    if self.options.top_retain.contains(&i.sym) {
+                    if self.options.top_retain.contains(&i.id.sym) {
                         return;
                     }
 
@@ -192,8 +192,8 @@ impl Optimizer<'_> {
                         if var.is_fn_local && var.usage_count == 0 {
                             log::trace!(
                                 "unused: Dropping assignment to var '{}{:?}', which is never used",
-                                i.sym,
-                                i.span.ctxt
+                                i.id.sym,
+                                i.id.span.ctxt
                             );
                             self.changed = true;
                             *e = *assign.right.take();
@@ -276,6 +276,7 @@ impl UnreachableHandler {
                 decls: v
                     .vars
                     .into_iter()
+                    .map(BindingIdent::from)
                     .map(Pat::Ident)
                     .map(|name| VarDeclarator {
                         span: DUMMY_SP,
@@ -300,7 +301,7 @@ impl VisitMut for UnreachableHandler {
         if self.in_var_name && self.in_hoisted_var {
             match n {
                 Pat::Ident(i) => {
-                    self.vars.push(i.clone());
+                    self.vars.push(i.id.clone());
                 }
                 _ => {}
             }
