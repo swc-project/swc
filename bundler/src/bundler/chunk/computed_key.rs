@@ -75,31 +75,35 @@ where
                                     exported: Some(exported),
                                     ..
                                 }) => {
-                                    let mut var_name = exported.clone();
-                                    var_name.span.ctxt = info.export_ctxt();
-                                    module_items.push(
-                                        exported
-                                            .clone()
-                                            .assign_to(var_name.clone())
-                                            .into_module_item(
-                                                injected_ctxt,
-                                                "export * in a wrapped esm",
-                                            ),
-                                    );
-                                    let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
-                                        span: DUMMY_SP,
-                                        orig: orig.clone(),
-                                        exported: Some(exported.clone()),
-                                    });
-                                    module_items.push(ModuleItem::ModuleDecl(
-                                        ModuleDecl::ExportNamed(NamedExport {
-                                            span: DUMMY_SP.with_ctxt(injected_ctxt),
-                                            specifiers: vec![specifier],
-                                            src: None,
-                                            type_only: false,
-                                            asserts: None,
-                                        }),
-                                    ));
+                                    if let Some(..) = ctx.transitive_remap.get(&exported.span.ctxt)
+                                    {
+                                        let mut var_name = exported.clone();
+                                        var_name.span.ctxt = info.export_ctxt();
+                                        module_items.push(
+                                            exported
+                                                .clone()
+                                                .assign_to(var_name.clone())
+                                                .into_module_item(
+                                                    injected_ctxt,
+                                                    "export * in a wrapped esm",
+                                                ),
+                                        );
+                                        let specifier =
+                                            ExportSpecifier::Named(ExportNamedSpecifier {
+                                                span: DUMMY_SP,
+                                                orig: orig.clone(),
+                                                exported: Some(exported.clone()),
+                                            });
+                                        module_items.push(ModuleItem::ModuleDecl(
+                                            ModuleDecl::ExportNamed(NamedExport {
+                                                span: DUMMY_SP.with_ctxt(injected_ctxt),
+                                                specifiers: vec![specifier],
+                                                src: None,
+                                                type_only: false,
+                                                asserts: None,
+                                            }),
+                                        ));
+                                    }
                                 }
                                 _ => {}
                             }
