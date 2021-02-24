@@ -134,7 +134,7 @@ where
 
                 dep.append_all(items);
             } else {
-                unexprt_as_var(&mut dep, dep_info.export_ctxt());
+                unexprt_as_var(&mut dep, self.injected_ctxt, dep_info.export_ctxt());
 
                 dep = dep.fold_with(&mut DepUnexporter {
                     exports: &specifiers,
@@ -233,7 +233,11 @@ pub(super) fn inject_export(
 /// export { foo#7 } from './b' where #7 is mark of './b'
 /// =>
 /// export { foo#7 as foo#5 } where #5 is mark of current entry.
-fn unexprt_as_var(modules: &mut Modules, dep_export_ctxt: SyntaxContext) {
+fn unexprt_as_var(
+    modules: &mut Modules,
+    injected_ctxt: SyntaxContext,
+    dep_export_ctxt: SyntaxContext,
+) {
     modules.map_items_mut(|_, n| {
         match n {
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
@@ -254,7 +258,7 @@ fn unexprt_as_var(modules: &mut Modules, dep_export_ctxt: SyntaxContext) {
                                     || exported.span.ctxt != n.orig.span.ctxt
                                 {
                                     decls.push(VarDeclarator {
-                                        span: n.span,
+                                        span: n.span.with_ctxt(injected_ctxt),
                                         name: Pat::Ident(exported.into()),
                                         init: Some(Box::new(Expr::Ident(n.orig.clone()))),
                                         definite: true,
@@ -266,7 +270,7 @@ fn unexprt_as_var(modules: &mut Modules, dep_export_ctxt: SyntaxContext) {
                                     log::trace!("Alias: {:?} -> {:?}", n.orig, dep_export_ctxt);
 
                                     decls.push(VarDeclarator {
-                                        span: n.span,
+                                        span: n.span.with_ctxt(injected_ctxt),
                                         name: Pat::Ident(
                                             Ident::new(
                                                 n.orig.sym.clone(),

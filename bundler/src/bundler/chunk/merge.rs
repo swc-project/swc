@@ -1059,7 +1059,7 @@ where
                                 log::trace!("Exporting `default` with `export decl``");
                                 new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                                     NamedExport {
-                                        span: export.span.with_ctxt(injected_ctxt),
+                                        span: export.span,
                                         specifiers: ids
                                             .into_iter()
                                             .map(|id| {
@@ -1106,7 +1106,7 @@ where
 
                         new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
-                                span: export.span.with_ctxt(injected_ctxt),
+                                span: export.span,
                                 specifiers: vec![specifier],
                                 src: None,
                                 type_only: false,
