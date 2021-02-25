@@ -60,7 +60,6 @@ where
     ) -> Result<Modules, Error> {
         self.run(|| {
             log::debug!("Reexporting {:?}", dep_id);
-            let injected_ctxt = self.injected_ctxt;
 
             let dep_info = self.scope.get_module(dep_id).unwrap();
             let mut dep = self
@@ -94,32 +93,18 @@ where
 
             // `export *`
             if specifiers.is_empty() {
-                let mut items = vec![];
                 // We should exclude `default`
-                dep.retain_mut(|module_id, item| match item {
+                dep.retain_mut(|_, item| match item {
                     ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
                         export.specifiers.retain(|s| match s {
                             ExportSpecifier::Named(ExportNamedSpecifier {
-                                orig,
                                 exported:
                                     Some(Ident {
                                         sym: js_word!("default"),
-                                        span: exported_span,
                                         ..
                                     }),
                                 ..
-                            }) => {
-                                items.push((
-                                    module_id,
-                                    orig.clone()
-                                        .assign_to(Ident::new(js_word!("default"), *exported_span))
-                                        .into_module_item(
-                                            injected_ctxt,
-                                            "Removing default for export *",
-                                        ),
-                                ));
-                                false
-                            }
+                            }) => false,
                             _ => true,
                         });
                         if export.specifiers.is_empty() {
@@ -130,8 +115,6 @@ where
                     }
                     _ => true,
                 });
-
-                dep.append_all(items);
             } else {
                 dep = dep.fold_with(&mut DepUnexporter {});
 
