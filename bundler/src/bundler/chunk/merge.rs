@@ -1074,8 +1074,8 @@ where
                                 new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(v))));
 
                                 log::trace!("Exporting `default` with `export decl``");
-                                new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                                    NamedExport {
+                                let export =
+                                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
                                         span: export.span.with_ctxt(injected_ctxt),
                                         specifiers: ids
                                             .into_iter()
@@ -1083,6 +1083,15 @@ where
                                                 let exported = Ident::new(
                                                     id.sym.clone(),
                                                     id.span.with_ctxt(info.export_ctxt()),
+                                                );
+
+                                                new.push(
+                                                    id.clone()
+                                                        .assign_to(exported.clone())
+                                                        .into_module_item(
+                                                            injected_ctxt,
+                                                            "prepare -> expodt decl -> var",
+                                                        ),
                                                 );
 
                                                 ExportNamedSpecifier {
@@ -1096,8 +1105,8 @@ where
                                         src: None,
                                         type_only: false,
                                         asserts: None,
-                                    },
-                                )));
+                                    }));
+                                new.push(export);
                                 continue;
                             }
 
@@ -1115,6 +1124,14 @@ where
                         // Create `export { local_ident as exported_ident }`
                         let exported =
                             Ident::new(local.sym.clone(), local.span.with_ctxt(info.export_ctxt()));
+
+                        new.push(
+                            local
+                                .clone()
+                                .assign_to(exported.clone())
+                                .into_module_item(injected_ctxt, "prepare -> expodt decl -> var"),
+                        );
+
                         let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
                             span: DUMMY_SP,
                             orig: local,
