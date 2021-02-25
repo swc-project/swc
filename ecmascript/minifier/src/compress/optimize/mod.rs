@@ -669,8 +669,22 @@ impl Optimizer<'_> {
                             exprs.extend(self.ignore_return_value(&mut e.expr).map(Box::new));
                         }
                         PropOrSpread::Prop(prop) => match *prop {
-                            Prop::KeyValue(KeyValueProp { key, .. })
-                            | Prop::Getter(GetterProp { key, .. })
+                            Prop::KeyValue(KeyValueProp { key, mut value, .. }) => {
+                                match key {
+                                    PropName::Ident(_) => {}
+                                    PropName::Str(_) => {}
+                                    PropName::Num(_) => {}
+                                    PropName::Computed(mut key) => {
+                                        exprs.extend(
+                                            self.ignore_return_value(&mut key.expr).map(Box::new),
+                                        );
+                                    }
+                                    PropName::BigInt(_) => {}
+                                }
+
+                                exprs.extend(self.ignore_return_value(&mut value).map(Box::new));
+                            }
+                            Prop::Getter(GetterProp { key, .. })
                             | Prop::Setter(SetterProp { key, .. })
                             | Prop::Method(MethodProp { key, .. }) => match key {
                                 PropName::Ident(_) => {}
