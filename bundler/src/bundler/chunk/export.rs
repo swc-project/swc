@@ -134,8 +134,6 @@ where
 
                 dep.append_all(items);
             } else {
-                unexprt_as_var(&mut dep, dep_info.export_ctxt());
-
                 dep = dep.fold_with(&mut DepUnexporter {
                     exports: &specifiers,
                 });
@@ -216,30 +214,6 @@ pub(super) fn inject_export(
     });
 
     entry.add_dep(dep);
-}
-
-/// Converts
-///
-/// ```js
-/// export { l1 as e2 };
-/// ```
-///
-/// to
-///
-/// ```js
-/// const e3 = l1;
-/// ```
-///
-/// export { foo#7 } from './b' where #7 is mark of './b'
-/// =>
-/// export { foo#7 as foo#5 } where #5 is mark of current entry.
-fn unexprt_as_var(modules: &mut Modules, dep_export_ctxt: SyntaxContext) {
-    modules.map_items_mut(|_, n| match n {
-        ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport { src: None, .. })) => {
-            *n = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
-        }
-        _ => {}
-    })
 }
 
 struct DepUnexporter<'a> {
