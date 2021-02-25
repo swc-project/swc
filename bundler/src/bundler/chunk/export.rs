@@ -14,7 +14,6 @@ use rayon::iter::ParallelIterator;
 use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_fold_type, Fold};
 
 impl<L, R> Bundler<'_, L, R>
@@ -134,9 +133,7 @@ where
 
                 dep.append_all(items);
             } else {
-                dep = dep.fold_with(&mut DepUnexporter {
-                    exports: &specifiers,
-                });
+                dep = dep.fold_with(&mut DepUnexporter {});
 
                 // print_hygiene(&format!("dep: unexport"), &self.cm,
                 // &dep.clone().into());
@@ -216,24 +213,9 @@ pub(super) fn inject_export(
     entry.add_dep(dep);
 }
 
-struct DepUnexporter<'a> {
-    exports: &'a [Specifier],
-}
+struct DepUnexporter;
 
-impl DepUnexporter<'_> {
-    fn is_exported(&self, id: &Id) -> bool {
-        if self.exports.is_empty() {
-            return true;
-        }
-
-        self.exports.iter().any(|s| match s {
-            Specifier::Specific { local, .. } => local.to_id() == *id,
-            Specifier::Namespace { local, all } => local.to_id() == *id || *all,
-        })
-    }
-}
-
-impl Fold for DepUnexporter<'_> {
+impl Fold for DepUnexporter {
     noop_fold_type!();
 
     fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
