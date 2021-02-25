@@ -131,8 +131,8 @@ where
         // Now we handle imports
         let mut module = if wrapped {
             let mut module: Modules = self.get_module_for_merging(ctx, dep_id, false)?;
-            module = self.wrap_esm(ctx, dep_id, module.into())?.into();
             self.prepare(&dep_info, &mut module);
+            module = self.wrap_esm(ctx, dep_id, module.into())?.into();
 
             let plan = ctx.plan.normal.get(&dep_id);
             let default_plan;
