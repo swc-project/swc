@@ -1129,7 +1129,7 @@ where
                             local
                                 .clone()
                                 .assign_to(exported.clone())
-                                .into_module_item(injected_ctxt, "prepare -> expodt decl -> var"),
+                                .into_module_item(injected_ctxt, "prepare -> export decl -> var"),
                         );
 
                         let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
@@ -1147,6 +1147,31 @@ where
                                 asserts: None,
                             },
                         )));
+                    }
+
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                        ref specifiers,
+                        ..
+                    })) => {
+                        for s in specifiers {
+                            match s {
+                                ExportSpecifier::Named(ExportNamedSpecifier {
+                                    orig,
+                                    exported: Some(exported),
+                                    ..
+                                }) => {
+                                    new.push(
+                                        orig.clone().assign_to(exported.clone()).into_module_item(
+                                            injected_ctxt,
+                                            "prepare -> export named -> aliased",
+                                        ),
+                                    );
+                                }
+                                _ => {}
+                            }
+                        }
+
+                        new.push(item);
                     }
 
                     _ => {
