@@ -33,7 +33,15 @@ use testing::assert_eq;
 use testing::NormalizedOutput;
 
 fn is_ignored(path: &Path) -> bool {
-    let s = path.to_string_lossy();
+    static IGNORED: Lazy<Vec<String>> = Lazy::new(|| {
+        let lines = read_to_string("tests/ignored.txt").unwrap();
+        lines
+            .lines()
+            .filter(|v| !v.trim().is_empty())
+            .map(|v| v.to_string())
+            .collect()
+    });
+
     static GOLDEN: Lazy<Vec<String>> = Lazy::new(|| {
         let lines = read_to_string("tests/golden.txt").unwrap();
         lines
@@ -42,6 +50,12 @@ fn is_ignored(path: &Path) -> bool {
             .map(|v| v.to_string())
             .collect()
     });
+
+    let s = path.to_string_lossy();
+
+    if IGNORED.iter().any(|ignored| s.contains(&**ignored)) {
+        return true;
+    }
 
     if let Ok(one) = env::var("GOLDEN_ONLY").or_else(|_| env::var("CI")) {
         if one == "1" {
