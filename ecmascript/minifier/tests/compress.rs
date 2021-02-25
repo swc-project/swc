@@ -51,7 +51,7 @@ fn is_ignored(path: &Path) -> bool {
             .collect()
     });
 
-    let s = path.to_string_lossy();
+    let s = path.to_string_lossy().replace("-", "_");
 
     if IGNORED.iter().any(|ignored| s.contains(&**ignored)) {
         return true;
