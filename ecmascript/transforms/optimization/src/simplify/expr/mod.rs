@@ -823,6 +823,14 @@ impl SimplifyExpr {
                 }
             },
             op!("void") if !may_have_side_effects => {
+                match &*arg {
+                    Expr::Lit(Lit::Num(Number { value, .. })) if *value == 0.0 => {
+                        return Expr::Unary(UnaryExpr { op, arg, span })
+                    }
+                    _ => {}
+                }
+                self.changed = true;
+
                 return Expr::Unary(UnaryExpr {
                     op: op!("void"),
                     arg: Box::new(Expr::Lit(Lit::Num(Number {
