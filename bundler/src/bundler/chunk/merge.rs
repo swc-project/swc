@@ -1347,73 +1347,8 @@ where
                                                 ),
                                         ));
                                     }
-                                    ExportSpecifier::Named(named) => match &named.exported {
-                                        Some(exported) => {
-                                            assert_ne!(
-                                                named.orig.span.ctxt, exported.span.ctxt,
-                                                "While handling imports, all named export \
-                                                 specifiers should be modified to reflect syntax \
-                                                 context correctly by previous passes"
-                                            );
-
-                                            vars.push((
-                                                module_id,
-                                                named
-                                                    .orig
-                                                    .clone()
-                                                    .assign_to(exported.clone())
-                                                    .into_module_item(
-                                                        injected_ctxt,
-                                                        &format!(
-                                                            "import -> named alias -> prepared: {}",
-                                                            info.fm.name
-                                                        ),
-                                                    ),
-                                            ));
-
-                                            if exported.span.ctxt != info.export_ctxt()
-                                                && exported.sym != js_word!("default")
-                                            {
-                                                let mut lhs = exported.clone();
-                                                lhs.span = lhs.span.with_ctxt(info.export_ctxt());
-                                                vars.push((
-                                                    module_id,
-                                                    exported
-                                                        .clone()
-                                                        .assign_to(lhs)
-                                                        .into_module_item(
-                                                            injected_ctxt,
-                                                            &format!(
-                                                                "import -> named alias -> export: \
-                                                                 {}",
-                                                                info.fm.name
-                                                            ),
-                                                        ),
-                                                ));
-                                            }
-                                        }
-                                        None => {
-                                            if info.export_ctxt() != named.orig.span.ctxt {
-                                                let mut lhs: Ident = named.orig.clone();
-                                                lhs.span.ctxt = info.export_ctxt();
-                                                vars.push((
-                                                    module_id,
-                                                    named
-                                                        .orig
-                                                        .clone()
-                                                        .assign_to(lhs)
-                                                        .into_module_item(
-                                                            injected_ctxt,
-                                                            &format!(
-                                                                "import_deps: named without \
-                                                                 alias: {}",
-                                                                info.fm.name
-                                                            ),
-                                                        ),
-                                                ));
-                                            }
-                                        }
-                                    },
+                                    // Handlded by `prepare`
+                                    ExportSpecifier::Named(..) => {}
                                 }
                             }
 
