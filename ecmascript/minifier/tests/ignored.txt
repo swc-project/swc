@@ -9,6 +9,10 @@ collapse_vars/chained_3/input.js
 collapse_vars/collapse_rhs_lhs_2/input.js
 drop_unused/issue_2063/input.js
 drop_unused/issue_t161_top_retain_3/input.js
+issue_1466/same_variable_in_multiple_forIn_sequences_const/input.js
+issue_1466/same_variable_in_multiple_forIn_sequences_let/input.js
+issue_1466/same_variable_in_multiple_forOf_sequences_const/input.js
+issue_1466/same_variable_in_multiple_forOf_sequences_let/input.js
 issue_229/template_strings/input.js
 numbers/comparisons/input.js
 return_undefined/return_undefined/input.js
