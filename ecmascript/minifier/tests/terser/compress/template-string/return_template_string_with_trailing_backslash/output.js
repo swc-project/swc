@@ -1,16 +1,16 @@
 function a() {
-    return `foo`;
+    return "foo";
 }
 function b() {
     return `\nbar`;
 }
 function c() {
     return;
-    `baz`;
+    "baz";
 }
 function d() {
     return;
-    `qux`;
+    "qux";
 }
 function e() {
     return `\nfin`;
