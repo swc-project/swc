@@ -3,6 +3,9 @@ collapse_vars/cascade_conditional/input.js
 collapse_vars/cascade_forin/input.js
 collapse_vars/cascade_statement/input.js
 collapse_vars/cascade_switch/input.js
+collapse_vars/chained_1/input.js
+collapse_vars/chained_2/input.js
+collapse_vars/chained_3/input.js
 collapse_vars/collapse_rhs_lhs_2/input.js
 drop_unused/issue_2063/input.js
 drop_unused/issue_t161_top_retain_3/input.js
