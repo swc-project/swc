@@ -977,13 +977,20 @@ where
                             local.sym
                         );
 
+                        let exported =
+                            Ident::new(js_word!("default"), DUMMY_SP.with_ctxt(info.export_ctxt()));
+
+                        new.push(
+                            local
+                                .clone()
+                                .assign_to(exported.clone())
+                                .into_module_item(injected_ctxt, "prepare -> export default decl"),
+                        );
+
                         let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
                             span: DUMMY_SP,
                             orig: local,
-                            exported: Some(Ident::new(
-                                js_word!("default"),
-                                DUMMY_SP.with_ctxt(info.export_ctxt()),
-                            )),
+                            exported: Some(exported),
                         });
                         new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
