@@ -801,6 +801,9 @@ where
     /// Basically one module have two top-level contexts. One is for it's codes
     /// and another is for exporting. This method connects two module by
     /// injecting `const local_A = exported_B_from_foo;`
+    ///
+    ///
+    /// TODO: We convert all exports to variable at here.
     pub(crate) fn prepare(&self, info: &TransformedModule, module: &mut Modules) {
         let injected_ctxt = self.injected_ctxt;
 
