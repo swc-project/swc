@@ -9,7 +9,26 @@ use swc_ecma_visit::VisitMutWith;
 
 /// Methods related to the option `unused`.
 impl Optimizer<'_> {
-    pub(super) fn drop_unused_stmt_at_end_of_fn(&mut self, s: &mut Stmt) {}
+    pub(super) fn drop_unused_stmt_at_end_of_fn(&mut self, s: &mut Stmt) {
+        match s {
+            Stmt::Return(r) => match r.arg.as_deref_mut() {
+                Some(Expr::Unary(UnaryExpr {
+                    span,
+                    op: op!("void"),
+                    arg,
+                })) => {
+                    log::trace!("unused: Removing `return void` in end of a function");
+                    self.changed = true;
+                    *s = Stmt::Expr(ExprStmt {
+                        span: *span,
+                        expr: arg.take(),
+                    });
+                    return;
+                }
+                _ => {}
+            },
+        }
+    }
 
     pub(super) fn drop_unused_var_declarator(&mut self, var: &mut VarDeclarator) {
         match &mut var.init {
