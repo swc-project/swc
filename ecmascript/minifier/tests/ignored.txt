@@ -1,4 +1,7 @@
 array_constructor/array_constructor_unsafe/input.js
+arrays/constant_join/input.js
+arrays/constant_join_2/input.js
+arrays/constant_join_3/input.js
 collapse_vars/cascade_call/input.js
 collapse_vars/cascade_conditional/input.js
 collapse_vars/cascade_forin/input.js
