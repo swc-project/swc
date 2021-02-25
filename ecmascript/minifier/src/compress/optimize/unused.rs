@@ -1,4 +1,5 @@
 use super::Optimizer;
+use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -138,6 +139,10 @@ impl Optimizer<'_> {
 
         match decl {
             Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+                if ident.sym == js_word!("arguments") {
+                    return;
+                }
+
                 if self
                     .data
                     .as_ref()
