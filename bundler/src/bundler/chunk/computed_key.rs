@@ -55,7 +55,6 @@ where
         };
 
         let mut module_items = vec![];
-        let mut extra_exports = vec![];
 
         let stmts = {
             module.iter().for_each(|(_, item)| {
@@ -189,7 +188,6 @@ where
         };
 
         module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))));
-        module_items.extend(extra_exports);
 
         print_hygiene(
             "wrap",
