@@ -1340,17 +1340,7 @@ where
 
                             for specifier in &export.specifiers {
                                 match specifier {
-                                    ExportSpecifier::Namespace(ns) => {
-                                        let mut lhs = ns.name.clone();
-                                        lhs.span = lhs.span.with_ctxt(info.export_ctxt());
-                                        vars.push((
-                                            module_id,
-                                            ns.name.clone().assign_to(lhs).into_module_item(
-                                                injected_ctxt,
-                                                "import_deps_namespace",
-                                            ),
-                                        ));
-                                    }
+                                    ExportSpecifier::Namespace(..) => {}
                                     ExportSpecifier::Default(default) => {
                                         let mut lhs = default.exported.clone();
                                         lhs.span = lhs.span.with_ctxt(info.export_ctxt());
