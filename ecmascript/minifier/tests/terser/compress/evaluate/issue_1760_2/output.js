@@ -1,8 +1,8 @@
-!(function (a) {
+!function(a) {
     try {
         throw 0;
-    } catch (Infinity) {
+    } catch (Infinity1) {
         a = 1 / 0;
     }
     console.log(a);
-})();
+}();
