@@ -234,68 +234,11 @@ pub(super) fn inject_export(
 /// =>
 /// export { foo#7 as foo#5 } where #5 is mark of current entry.
 fn unexprt_as_var(modules: &mut Modules, dep_export_ctxt: SyntaxContext) {
-    modules.map_items_mut(|_, n| {
-        match n {
-            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                ref export @ NamedExport { src: None, .. },
-            )) => {
-                let mut decls = vec![];
-                for s in &export.specifiers {
-                    match s {
-                        ExportSpecifier::Namespace(_) => {}
-                        ExportSpecifier::Default(_) => {}
-                        ExportSpecifier::Named(n) => match &n.exported {
-                            Some(exported) => {
-                                // TODO: (maybe) Check previous context
-                                let exported = exported.clone();
-                                // exported.span = exported.span.with_ctxt(self.dep_ctxt);
-
-                                if exported.sym != n.orig.sym
-                                    || exported.span.ctxt != n.orig.span.ctxt
-                                {
-                                    decls.push(VarDeclarator {
-                                        span: n.span,
-                                        name: Pat::Ident(exported.into()),
-                                        init: Some(Box::new(Expr::Ident(n.orig.clone()))),
-                                        definite: true,
-                                    })
-                                }
-                            }
-                            None => {
-                                if n.orig.span.ctxt != dep_export_ctxt {
-                                    log::trace!("Alias: {:?} -> {:?}", n.orig, dep_export_ctxt);
-
-                                    decls.push(VarDeclarator {
-                                        span: n.span,
-                                        name: Pat::Ident(
-                                            Ident::new(
-                                                n.orig.sym.clone(),
-                                                n.orig.span.with_ctxt(dep_export_ctxt),
-                                            )
-                                            .into(),
-                                        ),
-                                        init: Some(Box::new(Expr::Ident(n.orig.clone()))),
-                                        definite: false,
-                                    })
-                                }
-                            }
-                        },
-                    }
-                }
-
-                if decls.is_empty() {
-                    *n = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
-                } else {
-                    *n = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                        span: export.span,
-                        decls,
-                        declare: false,
-                        kind: VarDeclKind::Const,
-                    })))
-                }
-            }
-            _ => {}
+    modules.map_items_mut(|_, n| match n {
+        ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport { src: None, .. })) => {
+            *n = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
         }
+        _ => {}
     })
 }
 
