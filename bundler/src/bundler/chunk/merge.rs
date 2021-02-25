@@ -1022,14 +1022,21 @@ where
                                 .into_module_item(injected_ctxt, "prepare -> export default expr"),
                         );
 
+                        let exported =
+                            Ident::new(js_word!("default"), DUMMY_SP.with_ctxt(info.export_ctxt()));
+
+                        new.push(
+                            local
+                                .clone()
+                                .assign_to(exported.clone())
+                                .into_module_item("prepare -> export default expr"),
+                        );
+
                         // Create `export { local_default as default }`
                         let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
                             span: DUMMY_SP,
                             orig: local,
-                            exported: Some(Ident::new(
-                                js_word!("default"),
-                                DUMMY_SP.with_ctxt(info.export_ctxt()),
-                            )),
+                            exported: Some(exported),
                         });
                         log::trace!("Exporting `default` with `export default expr`");
                         new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
