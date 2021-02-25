@@ -29,6 +29,9 @@ issue_1466/same_variable_in_multiple_forOf_sequences_const/input.js
 issue_1466/same_variable_in_multiple_forOf_sequences_let/input.js
 issue_229/template_strings/input.js
 numbers/comparisons/input.js
+reduce_vars/unsafe_evaluate_array_1/input.js
+reduce_vars/unsafe_evaluate_array_2/input.js
+reduce_vars/unsafe_evaluate_array_4/input.js
 return_undefined/return_undefined/input.js
 sequences/cascade_assignment_in_return/input.js
 sequences/forin/input.js
