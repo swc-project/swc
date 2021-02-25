@@ -917,6 +917,7 @@ rename/mangle_catch_redef_1_ie8/input.js
 rename/mangle_catch_redef_2/input.js
 rename/mangle_catch_redef_2_ie8/input.js
 rename/mangle_catch_var_ie8/input.js
+return_undefined/return_void/input.js
 sandbox/console_log/input.js
 sequences/delete_seq_1/input.js
 sequences/delete_seq_2/input.js
