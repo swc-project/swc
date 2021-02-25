@@ -22,8 +22,10 @@ sequences/forin/input.js
 sequences/func_def_1/input.js
 sequences/hoist_decl/input.js
 sequences/hoist_defun/input.js
+sequences/lift_sequences_2/input.js
 sequences/side_effects_cascade_1/input.js
 sequences/side_effects_cascade_3/input.js
+sequences/unsafe_undefined/input.js
 template_string/array_join/input.js
 template_string/coerce_to_string/input.js
 template_string/equality/input.js
