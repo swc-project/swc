@@ -1,3 +1,5 @@
+drop_unused/issue_2063/input.js
+drop_unused/issue_t161_top_retain_3/input.js
 issue_229/template_strings/input.js
 numbers/comparisons/input.js
 sequences/hoist_defun/input.js
@@ -18,5 +20,3 @@ template_string/template_evaluate_undefined/input.js
 template_string/template_literal_plus/input.js
 template_string/template_literal_plus_grouping/input.js
 template_string/template_string_with_predefined_constants/input.js
-drop_unused/issue_2063/input.js
-drop_unused/issue_t161_top_retain_3/input.js
