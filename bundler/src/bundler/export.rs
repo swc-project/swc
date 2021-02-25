@@ -213,6 +213,8 @@ where
                 for s in &mut named.specifiers {
                     match s {
                         ExportSpecifier::Namespace(n) => {
+                            n.name.span.ctxt = self.export_ctxt;
+
                             need_wrapping = true;
                             v.push(Specifier::Namespace {
                                 local: n.name.clone().into(),
