@@ -715,9 +715,11 @@ where
 
         entry.sort(id, &ctx.graph, &self.cm);
 
+        print_hygiene("before inline", &self.cm, &entry.clone().into());
+
         inline(self.injected_ctxt, entry);
 
-        print_hygiene("done", &self.cm, &entry.clone().into());
+        // print_hygiene("done", &self.cm, &entry.clone().into());
 
         entry.retain_mut(|_, item| {
             match item {
