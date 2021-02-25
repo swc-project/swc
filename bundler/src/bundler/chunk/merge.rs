@@ -1092,7 +1092,7 @@ where
                                                         .assign_to(exported.clone())
                                                         .into_module_item(
                                                             injected_ctxt,
-                                                            "prepare -> expodt decl -> var",
+                                                            "prepare -> export decl -> var",
                                                         ),
                                                 );
 
