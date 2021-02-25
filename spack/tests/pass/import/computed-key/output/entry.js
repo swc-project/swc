@@ -6,7 +6,7 @@ const arr = [
 ];
 const mod = function() {
     return {
-        arr
+        arr: arr
     };
 }();
 console.log(mod[foo()]);

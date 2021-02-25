@@ -1,8 +1,5 @@
-const foo3 = 1;
-const bar3 = 1;
-const baz3 = 1;
-const foo1 = foo3, bar1 = bar3, baz1 = baz3;
-const foo2 = foo1, bar2 = bar1;
-const baz2 = baz1;
-export { foo2 as foo, bar2 as bar };
-export { baz2 as baz };
+const foo1 = 1;
+const bar1 = 1;
+const baz1 = 1;
+export { foo1 as foo, bar1 as bar };
+export { baz1 as baz };

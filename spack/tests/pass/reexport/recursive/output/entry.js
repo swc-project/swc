@@ -1,10 +1,8 @@
 const e = 'e';
 console.log('e');
-const d = e;
 console.log('d');
 console.log('c');
 console.log('b');
-const b1 = d;
 console.log('a.js');
-export { b1 as b };
+export { e as b };
 console.log('entry');
