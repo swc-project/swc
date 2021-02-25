@@ -1169,6 +1169,25 @@ where
                                         ),
                                     );
                                 }
+
+                                ExportSpecifier::Default(ExportDefaultSpecifier {
+                                    exported,
+                                    ..
+                                }) => {
+                                    new.push(
+                                        Ident::new(
+                                            js_word!("default"),
+                                            DUMMY_SP.with_ctxt(info.local_ctxt()),
+                                        )
+                                        .clone()
+                                        .assign_to(exported.clone())
+                                        .into_module_item(
+                                            injected_ctxt,
+                                            "prepare -> export named -> aliased",
+                                        ),
+                                    );
+                                }
+
                                 _ => {}
                             }
                         }
