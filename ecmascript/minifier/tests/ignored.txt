@@ -11,6 +11,7 @@ drop_unused/issue_2063/input.js
 drop_unused/issue_t161_top_retain_3/input.js
 issue_229/template_strings/input.js
 numbers/comparisons/input.js
+return_undefined/return_undefined/input.js
 sequences/cascade_assignment_in_return/input.js
 sequences/func_def_1/input.js
 sequences/hoist_defun/input.js
