@@ -33,7 +33,6 @@ fn add_test<F: FnOnce() + Send + 'static>(
 }
 
 #[test]
-
 fn fixture() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
@@ -63,7 +62,7 @@ fn add_fixture(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
 
                         let fm = cm
                             .load_file(entry.path())
-                            .expect("failed to load fixtue file");
+                            .expect("failed to load fixture file");
 
                         let lexer = Lexer::new(
                             Syntax::Es(EsConfig {

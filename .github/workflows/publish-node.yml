@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-18.04, macos-latest, windows-latest]
 
     name: Build - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -50,6 +50,10 @@ jobs:
 
       - name: Test bindings
         run: npm test
+
+      - name: Test in lts docker
+        if: matrix.os == 'ubuntu-18.04'
+        run: docker run --rm -v $(pwd):/swc -w /swc node:10-slim sh -c "yarn test"
 
   build-windows-i686:
     name: stable - windows-i686 - node@14

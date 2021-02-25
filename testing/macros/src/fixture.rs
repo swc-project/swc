@@ -133,6 +133,7 @@ pub fn expand(test_file: &SourceFile, callee: &Ident, attr: Config) -> Result<Ve
             callee,
             path_for_name
                 .to_string_lossy()
+                .replace("\\", "__")
                 .replace("/", "__")
                 .replace(".", "_")
                 .replace("-", "_")
