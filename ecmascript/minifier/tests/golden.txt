@@ -277,7 +277,6 @@ drop_unused/function_argument_modified_by_function_statement/input.js
 drop_unused/iife/input.js
 drop_unused/issue_1539/input.js
 drop_unused/issue_1709/input.js
-drop_unused/issue_2063/input.js
 drop_unused/issue_3146_2/input.js
 drop_unused/issue_805_1/input.js
 drop_unused/issue_805_2/input.js
@@ -288,7 +287,6 @@ drop_unused/issue_t161_top_retain_12/input.js
 drop_unused/issue_t161_top_retain_13/input.js
 drop_unused/issue_t161_top_retain_14/input.js
 drop_unused/issue_t161_top_retain_2/input.js
-drop_unused/issue_t161_top_retain_3/input.js
 drop_unused/issue_t161_top_retain_5/input.js
 drop_unused/issue_t161_top_retain_6/input.js
 drop_unused/issue_t161_top_retain_7/input.js
