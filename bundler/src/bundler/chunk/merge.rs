@@ -881,7 +881,7 @@ where
                                                 .assign_to(s.local.clone())
                                                 .into_module_item(
                                                     injected_ctxt,
-                                                    "from_replace_import_specifiers: namespaced",
+                                                    "prepare -> import -> namespace",
                                                 ),
                                         );
                                     }
