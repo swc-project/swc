@@ -1,2 +1,4 @@
+numbers/comparisons/input.js
+sequences/hoist_defun/input.js
 template_string/sequence_1/input.js
 template_string/sequence_2/input.js
