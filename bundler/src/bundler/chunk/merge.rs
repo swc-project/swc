@@ -1029,7 +1029,7 @@ where
                             local
                                 .clone()
                                 .assign_to(exported.clone())
-                                .into_module_item("prepare -> export default expr"),
+                                .into_module_item(injected_ctxt, "prepare -> export default expr"),
                         );
 
                         // Create `export { local_default as default }`
