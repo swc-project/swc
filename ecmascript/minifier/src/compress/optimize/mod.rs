@@ -1480,6 +1480,10 @@ impl VisitMut for Optimizer<'_> {
                 Some(body) => {
                     // Bypass block scope handler.
                     body.visit_mut_children_with(optimizer);
+
+                    if let Some(last) = body.stmts.last_mut() {
+                        optimizer.drop_unused_stmt_at_end_of_fn(last);
+                    }
                 }
                 None => {}
             }

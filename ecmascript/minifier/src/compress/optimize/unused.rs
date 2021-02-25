@@ -9,6 +9,8 @@ use swc_ecma_visit::VisitMutWith;
 
 /// Methods related to the option `unused`.
 impl Optimizer<'_> {
+    pub(super) fn drop_unused_stmt_at_end_of_fn(&mut self, s: &mut Stmt) {}
+
     pub(super) fn drop_unused_var_declarator(&mut self, var: &mut VarDeclarator) {
         match &mut var.init {
             Some(init) => match &**init {
