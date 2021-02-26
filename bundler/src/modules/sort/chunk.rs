@@ -121,10 +121,12 @@ fn all_modules_in_circle(
     already_in_index: &mut IndexSet<ModuleId, RandomState>,
     graph: &ModuleGraph,
 ) -> IndexSet<ModuleId, RandomState> {
-    let deps = graph
+    let mut deps = graph
         .neighbors_directed(id, Outgoing)
         .filter(|dep| !done.contains(&dep) && !already_in_index.contains(dep))
         .collect::<Vec<_>>();
+
+    deps.reverse();
 
     let mut ids = deps
         .iter()
