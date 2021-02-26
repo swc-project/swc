@@ -5,7 +5,7 @@ use swc_ecma_transforms_optimization::simplify::dce::dce;
 use swc_ecma_transforms_testing::test_fixture;
 
 #[testing::fixture("dce/**/input.js")]
-fn test_dce(input: PathBuf) {
+fn dce_single_pass(input: PathBuf) {
     let output = input.with_file_name("output.js");
 
     test_fixture(
