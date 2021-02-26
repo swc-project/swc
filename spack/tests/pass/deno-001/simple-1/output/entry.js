@@ -502,14 +502,6 @@ async function listenAndServe(addr, handler) {
     const server = serve(addr);
     for await (const request of server)handler(request);
 }
-function serveTLS(options) {
-    const tlsOptions = {
-        ...options,
-        transport: "tcp"
-    };
-    const listener1 = Deno.listenTls(tlsOptions);
-    return new Server(listener1);
-}
 listenAndServe({
     port: 8080
 }, async (req)=>{

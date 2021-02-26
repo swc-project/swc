@@ -6,22 +6,6 @@ const decoder = new TextDecoder();
 function decode(input) {
     return decoder.decode(input);
 }
-function findIndex(source, pat) {
-    const s = pat[0];
-    for(let i = 0; i < source.length; i++){
-        if (source[i] !== s) continue;
-        const pin = i;
-        let matched = 1;
-        let j = i;
-        while(matched < pat.length){
-            j++;
-            if (source[j] !== pat[j - pin]) break;
-            matched++;
-        }
-        if (matched === pat.length) return pin;
-    }
-    return -1;
-}
 function concat(origin, b) {
     const output = new Uint8Array(origin.length + b.length);
     output.set(origin, 0);
@@ -548,11 +532,6 @@ async function* readDelim(reader, delim) {
         // Keep inspectIndex and matchIndex.
         inputBuffer = new Deno.Buffer(sliceToProcess);
     }
-}
-async function* readStringDelim(reader, delim) {
-    const encoder1 = new TextEncoder();
-    const decoder1 = new TextDecoder();
-    for await (const chunk of readDelim(reader, encoder1.encode(delim)))yield decoder1.decode(chunk);
 }
 function deferred() {
     let methods;
@@ -1164,14 +1143,6 @@ function serve(addr) {
 async function listenAndServe(addr, handler) {
     const server = serve(addr);
     for await (const request of server)handler(request);
-}
-function serveTLS(options) {
-    const tlsOptions = {
-        ...options,
-        transport: "tcp"
-    };
-    const listener1 = Deno.listenTls(tlsOptions);
-    return new Server(listener1);
 }
 listenAndServe({
     port: 8080
