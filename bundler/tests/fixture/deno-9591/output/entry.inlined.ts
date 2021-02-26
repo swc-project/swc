@@ -1343,6 +1343,7 @@ const regExpEscapeChars = [
     "{",
     "|"
 ];
+const path1 = isWindows ? mod1 : mod2;
 const rangeEscapeChars = [
     "-",
     "\\",
@@ -1572,7 +1573,6 @@ function isGlob(str) {
     }
     return false;
 }
-const path1 = isWindows ? mod1 : mod2;
 const { basename: basename2 , delimiter: delimiter2 , dirname: dirname2 , extname: extname2 , format: format2 , fromFileUrl: fromFileUrl2 , isAbsolute: isAbsolute2 , join: join2 , normalize: normalize2 , parse: parse3 , relative: relative2 , resolve: resolve2 , sep: sep2 , toFileUrl: toFileUrl2 , toNamespacedPath: toNamespacedPath2 ,  } = path1;
 function normalizeGlob(glob, { globstar =false  } = {
 }) {
