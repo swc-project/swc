@@ -98,6 +98,7 @@ impl VisitMut for Inliner {
     fn visit_mut_ident(&mut self, n: &mut Ident) {
         if let Some(mapped) = self.data.ids.get(&n.clone().into()).cloned() {
             *n = mapped.into();
+            n.visit_mut_with(self);
         }
     }
 
