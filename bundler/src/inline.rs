@@ -86,6 +86,30 @@ impl Visit for Inliner {
 impl VisitMut for Inliner {
     noop_visit_mut_type!();
 
+    /// Don't modify exported ident.
+    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
+        if n.exported.is_none() {
+            n.exported = Some(n.orig.clone());
+        }
+
+        n.orig.visit_mut_with(self);
+    }
+
+    fn visit_mut_ident(&mut self, n: &mut Ident) {
+        if let Some(mapped) = self.data.ids.get(&n.clone().into()).cloned() {
+            *n = mapped.into();
+        }
+    }
+
+    /// General logic for member expression.s
+    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+        n.obj.visit_mut_with(self);
+
+        if n.computed {
+            n.prop.visit_mut_with(self);
+        }
+    }
+
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         n.visit_mut_children_with(self);
 
@@ -93,6 +117,40 @@ impl VisitMut for Inliner {
             ModuleItem::Stmt(Stmt::Empty(..)) => false,
             _ => true,
         });
+    }
+
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        match n {
+            Prop::Shorthand(i) => {
+                let orig = i.clone();
+                i.visit_mut_with(self);
+                if i.span.ctxt != orig.span.ctxt {
+                    return;
+                }
+                if i.sym != orig.sym {
+                    *n = Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(orig),
+                        value: Box::new(Expr::Ident(i.clone())),
+                    });
+                    return;
+                }
+            }
+            _ => {
+                n.visit_mut_children_with(self);
+            }
+        }
+    }
+
+    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+        match n {
+            PropName::Ident(_) => {}
+            PropName::Str(_) => {}
+            PropName::Num(_) => {}
+            PropName::Computed(e) => {
+                e.expr.visit_mut_with(self);
+            }
+            PropName::BigInt(_) => {}
+        }
     }
 
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
@@ -121,51 +179,5 @@ impl VisitMut for Inliner {
         });
 
         n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_ident(&mut self, n: &mut Ident) {
-        if let Some(mapped) = self.data.ids.get(&n.clone().into()).cloned() {
-            *n = mapped.into();
-        }
-    }
-
-    fn visit_mut_prop(&mut self, n: &mut Prop) {
-        match n {
-            Prop::Shorthand(i) => {
-                let orig = i.clone();
-                i.visit_mut_with(self);
-                if i.span.ctxt != orig.span.ctxt {
-                    return;
-                }
-                if i.sym != orig.sym {
-                    *n = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(orig),
-                        value: Box::new(Expr::Ident(i.clone())),
-                    });
-                    return;
-                }
-            }
-            _ => {
-                n.visit_mut_children_with(self);
-            }
-        }
-    }
-
-    /// Don't modify exported ident.
-    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
-        if n.exported.is_none() {
-            n.exported = Some(n.orig.clone());
-        }
-
-        n.orig.visit_mut_with(self);
-    }
-
-    /// General logic for member expression.s
-    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
-        n.obj.visit_mut_with(self);
-
-        if n.computed {
-            n.prop.visit_mut_with(self);
-        }
     }
 }
