@@ -2208,68 +2208,6 @@ class BufWriterSync extends AbstractBufBase {
         return totalBytesWritten;
     }
 }
-function createLPS(pat) {
-    const lps = new Uint8Array(pat.length);
-    lps[0] = 0;
-    let prefixEnd = 0;
-    let i = 1;
-    while(i < lps.length){
-        if (pat[i] == pat[prefixEnd]) {
-            prefixEnd++;
-            lps[i] = prefixEnd;
-            i++;
-        } else if (prefixEnd === 0) {
-            lps[i] = 0;
-            i++;
-        } else {
-            prefixEnd = pat[prefixEnd - 1];
-        }
-    }
-    return lps;
-}
-async function* readDelim(reader, delim) {
-    const delimLen = delim.length;
-    const delimLPS = createLPS(delim);
-    let inputBuffer = new Deno.Buffer();
-    const inspectArr = new Uint8Array(Math.max(1024, delimLen + 1));
-    let inspectIndex = 0;
-    let matchIndex = 0;
-    while(true){
-        const result = await reader.read(inspectArr);
-        if (result === null) {
-            yield inputBuffer.bytes();
-            return;
-        }
-        if (result < 0) {
-            return;
-        }
-        const sliceRead = inspectArr.subarray(0, result);
-        await Deno.writeAll(inputBuffer, sliceRead);
-        let sliceToProcess = inputBuffer.bytes();
-        while(inspectIndex < sliceToProcess.length){
-            if (sliceToProcess[inspectIndex] === delim[matchIndex]) {
-                inspectIndex++;
-                matchIndex++;
-                if (matchIndex === delimLen) {
-                    const matchEnd = inspectIndex - delimLen;
-                    const readyBytes = sliceToProcess.subarray(0, matchEnd);
-                    const pendingBytes = sliceToProcess.slice(inspectIndex);
-                    yield readyBytes;
-                    sliceToProcess = pendingBytes;
-                    inspectIndex = 0;
-                    matchIndex = 0;
-                }
-            } else {
-                if (matchIndex === 0) {
-                    inspectIndex++;
-                } else {
-                    matchIndex = delimLPS[matchIndex - 1];
-                }
-            }
-        }
-        inputBuffer = new Deno.Buffer(sliceToProcess);
-    }
-}
 const DEFAULT_FORMATTER = "{levelName} {msg}";
 class BaseHandler {
     constructor(levelName2, options2 = {
@@ -3649,20 +3587,6 @@ async function init(input) {
     return wasm;
 }
 const hextable = new TextEncoder().encode("0123456789abcdef");
-function errInvalidByte(__byte) {
-    return new Error("encoding/hex: invalid byte: " + new TextDecoder().decode(new Uint8Array([
-        __byte
-    ])));
-}
-function errLength() {
-    return new Error("encoding/hex: odd length hex string");
-}
-function fromHexChar(__byte) {
-    if (48 <= __byte && __byte <= 57) return __byte - 48;
-    if (97 <= __byte && __byte <= 102) return __byte - 97 + 10;
-    if (65 <= __byte && __byte <= 70) return __byte - 65 + 10;
-    throw errInvalidByte(__byte);
-}
 function encodedLen(n) {
     return n * 2;
 }
@@ -3677,9 +3601,6 @@ function encode1(src) {
 }
 function encodeToString(src) {
     return new TextDecoder().decode(encode1(src));
-}
-function decodedLen(x) {
-    return x >>> 1;
 }
 await init(source);
 const TYPE_ERROR_MSG = "hash: `data` is invalid type";
@@ -4799,88 +4720,6 @@ const mod7 = function() {
     };
 }();
 const version2 = "1.11.0";
-function textTable(headings, cells) {
-    const corners = [
-        [
-            "┌",
-            "┐"
-        ],
-        [
-            "└",
-            "┘"
-        ]
-    ];
-    const hbar = "─";
-    const vbar = "│";
-    const ttop = "┬";
-    const tbottom = "┴";
-    const cross = "┼";
-    const tleft = "├";
-    const tright = "┤";
-    const maxWidths = headings.map((t)=>t.length
-    );
-    for (const row of cells){
-        let colInd = 0;
-        for (const col of row){
-            maxWidths[colInd] = Math.max(maxWidths[colInd], col.length);
-            ++colInd;
-        }
-    }
-    const output = [];
-    {
-        const textrow = [];
-        textrow.push(corners[0][0]);
-        textrow.push(maxWidths.map((n)=>hbar.repeat(n + 2)
-        ).join(ttop));
-        textrow.push(corners[0][1]);
-        output.push(textrow.join(""));
-    }
-    {
-        const textrow = [];
-        textrow.push(vbar);
-        textrow.push(headings.map((h, i2)=>{
-            const curLength = h.length;
-            const maxWidth = maxWidths[i2];
-            const curSpaces = maxWidth - curLength;
-            const spaceBefore = Math.floor(curSpaces / 2);
-            const spaceAfter = curSpaces - spaceBefore;
-            return " ".repeat(1 + spaceBefore) + h + " ".repeat(1 + spaceAfter);
-        }).join(vbar));
-        textrow.push(vbar);
-        output.push(textrow.join(""));
-    }
-    {
-        const textrow = [];
-        textrow.push(tleft);
-        textrow.push(maxWidths.map((n)=>hbar.repeat(n + 2)
-        ).join(cross));
-        textrow.push(tright);
-        output.push(textrow.join(""));
-    }
-    for (const row1 of cells){
-        const textrow = [];
-        textrow.push(vbar);
-        textrow.push(row1.map((t, i2)=>{
-            const curLength = t.length;
-            const maxWidth = maxWidths[i2];
-            const curSpaces = maxWidth - curLength;
-            const spaceBefore = Math.floor(curSpaces / 2);
-            const spaceAfter = curSpaces - spaceBefore;
-            return " ".repeat(1 + spaceBefore) + t + " ".repeat(1 + spaceAfter);
-        }).join(vbar));
-        textrow.push(vbar);
-        output.push(textrow.join(""));
-    }
-    {
-        const textrow = [];
-        textrow.push(corners[1][0]);
-        textrow.push(maxWidths.map((n)=>hbar.repeat(n + 2)
-        ).join(tbottom));
-        textrow.push(corners[1][1]);
-        output.push(textrow.join(""));
-    }
-    return output.join("\n");
-}
 const TaskName_AST = {
     "moduleName": "dnit.manifest",
     "decl": {
@@ -5218,9 +5057,6 @@ function isVoid(texpr) {
         return texpr.typeRef.value === "Void";
     }
     return false;
-}
-function scopedNamesEqual(sn1, sn2) {
-    return sn1.moduleName === sn2.moduleName && sn1.name === sn2.name;
 }
 function asJsonObject(jv) {
     if (jv instanceof Object && !(jv instanceof Array)) {
@@ -6487,16 +6323,6 @@ async function getFileSha1Sum(filename1) {
 async function getFileTimestamp(filename1, stat) {
     const mtime = stat.mtime;
     return mtime?.toISOString() || "";
-}
-function showTaskList(ctx) {
-    console.log(textTable([
-        "Name",
-        "Description"
-    ], Array.from(ctx.taskRegister.values()).map((t)=>[
-            t.name,
-            t.description || "", 
-        ]
-    )));
 }
 class StdErrPlainHandler extends mod4.handlers.BaseHandler {
     constructor(levelName5){
