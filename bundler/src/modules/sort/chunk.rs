@@ -121,12 +121,10 @@ fn all_modules_in_circle(
     already_in_index: &mut IndexSet<ModuleId, RandomState>,
     graph: &ModuleGraph,
 ) -> IndexSet<ModuleId, RandomState> {
-    let mut deps = graph
+    let deps = graph
         .neighbors_directed(id, Outgoing)
         .filter(|dep| !done.contains(&dep) && !already_in_index.contains(dep))
         .collect::<Vec<_>>();
-
-    deps.reverse();
 
     let mut ids = deps
         .iter()
@@ -185,8 +183,9 @@ fn toposort_real_module_ids<'a>(
 
             // dbg!(&deps);
 
-            let all_modules_in_circle =
+            let mut all_modules_in_circle =
                 all_modules_in_circle(id, &done, &mut Default::default(), graph);
+            all_modules_in_circle.reverse();
 
             if all_modules_in_circle.is_empty() {
                 queue.push_front(id);
