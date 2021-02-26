@@ -37,11 +37,6 @@ struct Inliner {
 
 impl Inliner {
     fn store(&mut self, from: Id, to: Id) {
-        if let Some(mapped) = self.data.ids.get(&to).cloned() {
-            self.store(from, mapped);
-            return;
-        }
-
         if let Some(prev) = self.data.ids.insert(from.clone(), to.clone()) {
             unreachable!(
                 "Multiple identifiers equivalent up to span hygiene found: {:#?}\nFirst = \
