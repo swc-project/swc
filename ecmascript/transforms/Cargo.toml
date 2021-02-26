@@ -8,6 +8,9 @@ name = "swc_ecma_transforms"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.38.0"
 
+[package.metadata.docs.rs]
+all-features = true
+
 [features]
 compat = ["swc_ecma_transforms_compat"]
 module = ["swc_ecma_transforms_module"]
