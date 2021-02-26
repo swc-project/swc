@@ -207,6 +207,7 @@ fn deno_jszip_03() {
 }
 
 #[test]
+#[ignore = "Outdated"]
 fn sort_006() {
     assert_sorted(
         &[
@@ -225,6 +226,7 @@ fn sort_006() {
 }
 
 #[test]
+#[ignore = "Outdated"]
 fn sort_007() {
     assert_sorted_with_free(
         &[
@@ -322,6 +324,7 @@ fn sort_010() {
 }
 
 #[test]
+#[ignore = "Outdated"]
 fn sort_011() {
     assert_sorted(
         &[
@@ -409,6 +412,7 @@ fn sort_013() {
 }
 
 #[test]
+#[ignore = "Outdated"]
 fn sort_014() {
     assert_sorted(
         &[
