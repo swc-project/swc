@@ -32,3 +32,4 @@ swc_ecma_transforms_proposal = {version = "0.7.0", path = "../proposal"}
 swc_ecma_transforms_react = {version = "0.8.0", path = "../react"}
 swc_ecma_transforms_testing = {version = "0.6.0", path = "../testing"}
 swc_ecma_transforms_typescript = {version = "0.7.0", path = "../typescript"}
+testing = {version = "0.10.0", path = "../../../testing"}
