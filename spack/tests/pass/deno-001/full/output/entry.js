@@ -1,11 +1,3 @@
-const encoder = new TextEncoder();
-function encode(input) {
-    return encoder.encode(input);
-}
-const decoder = new TextDecoder();
-function decode(input) {
-    return decoder.decode(input);
-}
 function concat(origin, b) {
     const output = new Uint8Array(origin.length + b.length);
     output.set(origin, 0);
@@ -476,63 +468,13 @@ class BufWriterSync extends AbstractBufBase {
         this.buf = new Uint8Array(size3);
     }
 }
-function deferred() {
-    let methods;
-    const promise = new Promise((resolve, reject)=>{
-        methods = {
-            resolve,
-            reject
-        };
-    });
-    return Object.assign(promise, methods);
+const encoder = new TextEncoder();
+function encode(input) {
+    return encoder.encode(input);
 }
-var tmp = Symbol.asyncIterator;
-class MuxAsyncIterator {
-    add(iterator) {
-        ++this.iteratorCount;
-        this.callIteratorNext(iterator);
-    }
-    async callIteratorNext(iterator) {
-        try {
-            const { value , done  } = await iterator.next();
-            if (done) --this.iteratorCount;
-            else this.yields.push({
-                iterator,
-                value
-            });
-        } catch (e) {
-            this.throws.push(e);
-        }
-        this.signal.resolve();
-    }
-    async *iterate() {
-        while(this.iteratorCount > 0){
-            // Sleep until any of the wrapped iterators yields.
-            await this.signal;
-            // Note that while we're looping over `yields`, new items may be added.
-            for(let i = 0; i < this.yields.length; i++){
-                const { iterator , value  } = this.yields[i];
-                yield value;
-                this.callIteratorNext(iterator);
-            }
-            if (this.throws.length) {
-                for (const e of this.throws)throw e;
-                this.throws.length = 0;
-            }
-            // Clear the `yields` list and reset the `signal` promise.
-            this.yields.length = 0;
-            this.signal = deferred();
-        }
-    }
-    [tmp]() {
-        return this.iterate();
-    }
-    constructor(){
-        this.iteratorCount = 0;
-        this.yields = [];
-        this.throws = [];
-        this.signal = deferred();
-    }
+const decoder = new TextDecoder();
+function decode(input) {
+    return decoder.decode(input);
 }
 // FROM https://github.com/denoland/deno/blob/b34628a26ab0187a827aa4ebe256e23178e25d39/cli/js/web/headers.ts#L9
 const invalidHeaderCharRegex = /[^\t\x20-\x7e\x80-\xff]/g;
@@ -641,6 +583,64 @@ class TextProtoReader {
     }
 }
 const STATUS_TEXT = new Map([]);
+function deferred() {
+    let methods;
+    const promise = new Promise((resolve, reject)=>{
+        methods = {
+            resolve,
+            reject
+        };
+    });
+    return Object.assign(promise, methods);
+}
+var tmp = Symbol.asyncIterator;
+class MuxAsyncIterator {
+    add(iterator) {
+        ++this.iteratorCount;
+        this.callIteratorNext(iterator);
+    }
+    async callIteratorNext(iterator) {
+        try {
+            const { value , done  } = await iterator.next();
+            if (done) --this.iteratorCount;
+            else this.yields.push({
+                iterator,
+                value
+            });
+        } catch (e) {
+            this.throws.push(e);
+        }
+        this.signal.resolve();
+    }
+    async *iterate() {
+        while(this.iteratorCount > 0){
+            // Sleep until any of the wrapped iterators yields.
+            await this.signal;
+            // Note that while we're looping over `yields`, new items may be added.
+            for(let i = 0; i < this.yields.length; i++){
+                const { iterator , value  } = this.yields[i];
+                yield value;
+                this.callIteratorNext(iterator);
+            }
+            if (this.throws.length) {
+                for (const e of this.throws)throw e;
+                this.throws.length = 0;
+            }
+            // Clear the `yields` list and reset the `signal` promise.
+            this.yields.length = 0;
+            this.signal = deferred();
+        }
+    }
+    [tmp]() {
+        return this.iterate();
+    }
+    constructor(){
+        this.iteratorCount = 0;
+        this.yields = [];
+        this.throws = [];
+        this.signal = deferred();
+    }
+}
 function emptyReader() {
     return {
         read (_) {
@@ -838,38 +838,6 @@ async function writeResponse(w, r1) {
     }
     await writer.flush();
 }
-function parseHTTPVersion(vers) {
-    switch(vers){
-        case "HTTP/1.1":
-            return [
-                1,
-                1
-            ];
-        case "HTTP/1.0":
-            return [
-                1,
-                0
-            ];
-        default:
-            {
-                const Big = 1000000; // arbitrary upper bound
-                if (!vers.startsWith("HTTP/")) break;
-                const dot = vers.indexOf(".");
-                if (dot < 0) break;
-                const majorStr = vers.substring(vers.indexOf("/") + 1, dot);
-                const major = Number(majorStr);
-                if (!Number.isInteger(major) || major < 0 || major > Big) break;
-                const minorStr = vers.substring(dot + 1);
-                const minor = Number(minorStr);
-                if (!Number.isInteger(minor) || minor < 0 || minor > Big) break;
-                return [
-                    major,
-                    minor
-                ];
-            }
-    }
-    throw new Error(`malformed HTTP version ${vers}`);
-}
 class ServerRequest {
     /**
      * Value of Content-Length header.
@@ -942,6 +910,38 @@ class ServerRequest {
     }
 }
 var tmp1 = Symbol.asyncIterator;
+function parseHTTPVersion(vers) {
+    switch(vers){
+        case "HTTP/1.1":
+            return [
+                1,
+                1
+            ];
+        case "HTTP/1.0":
+            return [
+                1,
+                0
+            ];
+        default:
+            {
+                const Big = 1000000; // arbitrary upper bound
+                if (!vers.startsWith("HTTP/")) break;
+                const dot = vers.indexOf(".");
+                if (dot < 0) break;
+                const majorStr = vers.substring(vers.indexOf("/") + 1, dot);
+                const major = Number(majorStr);
+                if (!Number.isInteger(major) || major < 0 || major > Big) break;
+                const minorStr = vers.substring(dot + 1);
+                const minor = Number(minorStr);
+                if (!Number.isInteger(minor) || minor < 0 || minor > Big) break;
+                return [
+                    major,
+                    minor
+                ];
+            }
+    }
+    throw new Error(`malformed HTTP version ${vers}`);
+}
 async function readRequest(conn, bufr) {
     const tp = new TextProtoReader(bufr);
     const firstLine = await tp.readLine(); // e.g. GET /index.html HTTP/1.0
@@ -956,26 +956,6 @@ async function readRequest(conn, bufr) {
     req.headers = headers;
     fixLength(req);
     return req;
-}
-function fixLength(req) {
-    const contentLength = req.headers.get("Content-Length");
-    if (contentLength) {
-        const arrClen = contentLength.split(",");
-        if (arrClen.length > 1) {
-            const distinct = [
-                ...new Set(arrClen.map((e)=>e.trim()
-                ))
-            ];
-            if (distinct.length > 1) throw Error("cannot contain multiple Content-Length headers");
-            else req.headers.set("Content-Length", distinct[0]);
-        }
-        const c = req.headers.get("Content-Length");
-        if (req.method === "HEAD" && c && c !== "0") throw Error("http: method cannot contain a Content-Length");
-        if (c && req.headers.has("transfer-encoding")) // A sender MUST NOT send a Content-Length header field in any message
-        // that contains a Transfer-Encoding header field.
-        // rfc: https://tools.ietf.org/html/rfc7230#section-3.3.2
-        throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
-    }
 }
 class Server {
     close() {
@@ -1086,6 +1066,26 @@ function serve(addr) {
 async function listenAndServe(addr, handler) {
     const server = serve(addr);
     for await (const request of server)handler(request);
+}
+function fixLength(req) {
+    const contentLength = req.headers.get("Content-Length");
+    if (contentLength) {
+        const arrClen = contentLength.split(",");
+        if (arrClen.length > 1) {
+            const distinct = [
+                ...new Set(arrClen.map((e)=>e.trim()
+                ))
+            ];
+            if (distinct.length > 1) throw Error("cannot contain multiple Content-Length headers");
+            else req.headers.set("Content-Length", distinct[0]);
+        }
+        const c = req.headers.get("Content-Length");
+        if (req.method === "HEAD" && c && c !== "0") throw Error("http: method cannot contain a Content-Length");
+        if (c && req.headers.has("transfer-encoding")) // A sender MUST NOT send a Content-Length header field in any message
+        // that contains a Transfer-Encoding header field.
+        // rfc: https://tools.ietf.org/html/rfc7230#section-3.3.2
+        throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
+    }
 }
 listenAndServe({
     port: 8080

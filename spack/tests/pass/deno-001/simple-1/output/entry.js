@@ -253,38 +253,6 @@ async function writeResponse(w, r) {
     }
     await writer.flush();
 }
-function parseHTTPVersion(vers) {
-    switch(vers){
-        case "HTTP/1.1":
-            return [
-                1,
-                1
-            ];
-        case "HTTP/1.0":
-            return [
-                1,
-                0
-            ];
-        default:
-            {
-                const Big = 1000000; // arbitrary upper bound
-                if (!vers.startsWith("HTTP/")) break;
-                const dot = vers.indexOf(".");
-                if (dot < 0) break;
-                const majorStr = vers.substring(vers.indexOf("/") + 1, dot);
-                const major = Number(majorStr);
-                if (!Number.isInteger(major) || major < 0 || major > Big) break;
-                const minorStr = vers.substring(dot + 1);
-                const minor = Number(minorStr);
-                if (!Number.isInteger(minor) || minor < 0 || minor > Big) break;
-                return [
-                    major,
-                    minor
-                ];
-            }
-    }
-    throw new Error(`malformed HTTP version ${vers}`);
-}
 class ServerRequest {
     /**
      * Value of Content-Length header.
@@ -357,6 +325,38 @@ class ServerRequest {
     }
 }
 var tmp1 = Symbol.asyncIterator;
+function parseHTTPVersion(vers) {
+    switch(vers){
+        case "HTTP/1.1":
+            return [
+                1,
+                1
+            ];
+        case "HTTP/1.0":
+            return [
+                1,
+                0
+            ];
+        default:
+            {
+                const Big = 1000000; // arbitrary upper bound
+                if (!vers.startsWith("HTTP/")) break;
+                const dot = vers.indexOf(".");
+                if (dot < 0) break;
+                const majorStr = vers.substring(vers.indexOf("/") + 1, dot);
+                const major = Number(majorStr);
+                if (!Number.isInteger(major) || major < 0 || major > Big) break;
+                const minorStr = vers.substring(dot + 1);
+                const minor = Number(minorStr);
+                if (!Number.isInteger(minor) || minor < 0 || minor > Big) break;
+                return [
+                    major,
+                    minor
+                ];
+            }
+    }
+    throw new Error(`malformed HTTP version ${vers}`);
+}
 async function readRequest(conn, bufr) {
     const tp = new TextProtoReader(bufr);
     const firstLine = await tp.readLine(); // e.g. GET /index.html HTTP/1.0
@@ -371,26 +371,6 @@ async function readRequest(conn, bufr) {
     req.headers = headers;
     fixLength(req);
     return req;
-}
-function fixLength(req) {
-    const contentLength = req.headers.get("Content-Length");
-    if (contentLength) {
-        const arrClen = contentLength.split(",");
-        if (arrClen.length > 1) {
-            const distinct = [
-                ...new Set(arrClen.map((e)=>e.trim()
-                ))
-            ];
-            if (distinct.length > 1) throw Error("cannot contain multiple Content-Length headers");
-            else req.headers.set("Content-Length", distinct[0]);
-        }
-        const c = req.headers.get("Content-Length");
-        if (req.method === "HEAD" && c && c !== "0") throw Error("http: method cannot contain a Content-Length");
-        if (c && req.headers.has("transfer-encoding")) // A sender MUST NOT send a Content-Length header field in any message
-        // that contains a Transfer-Encoding header field.
-        // rfc: https://tools.ietf.org/html/rfc7230#section-3.3.2
-        throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
-    }
 }
 class Server {
     close() {
@@ -501,6 +481,26 @@ function serve(addr) {
 async function listenAndServe(addr, handler) {
     const server = serve(addr);
     for await (const request of server)handler(request);
+}
+function fixLength(req) {
+    const contentLength = req.headers.get("Content-Length");
+    if (contentLength) {
+        const arrClen = contentLength.split(",");
+        if (arrClen.length > 1) {
+            const distinct = [
+                ...new Set(arrClen.map((e)=>e.trim()
+                ))
+            ];
+            if (distinct.length > 1) throw Error("cannot contain multiple Content-Length headers");
+            else req.headers.set("Content-Length", distinct[0]);
+        }
+        const c = req.headers.get("Content-Length");
+        if (req.method === "HEAD" && c && c !== "0") throw Error("http: method cannot contain a Content-Length");
+        if (c && req.headers.has("transfer-encoding")) // A sender MUST NOT send a Content-Length header field in any message
+        // that contains a Transfer-Encoding header field.
+        // rfc: https://tools.ietf.org/html/rfc7230#section-3.3.2
+        throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
+    }
 }
 listenAndServe({
     port: 8080
