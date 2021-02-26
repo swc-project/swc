@@ -13,7 +13,7 @@ fn test_dce(input: PathBuf) {
             dynamic_import: true,
             ..Default::default()
         }),
-        &|t| dce(Default::default()),
+        &|_| dce(Default::default()),
         &input,
         &output,
     );
