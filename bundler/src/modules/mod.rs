@@ -44,14 +44,14 @@ impl Modules {
     }
 
     fn into_items(self) -> Vec<ModuleItem> {
-        debug_assert!(
-            self.prepended_stmts.is_empty(),
-            "sort should be called before calling into_items"
-        );
-        debug_assert!(
-            self.appended_stmts.is_empty(),
-            "sort should be called before calling into_items"
-        );
+        // debug_assert!(
+        //     self.prepended_stmts.is_empty(),
+        //     "sort should be called before calling into_items"
+        // );
+        // debug_assert!(
+        //     self.appended_stmts.is_empty(),
+        //     "sort should be called before calling into_items"
+        // );
         self.modules.into_iter().flat_map(|v| v.1.body).collect()
     }
 

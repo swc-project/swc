@@ -713,11 +713,11 @@ where
 
         // print_hygiene("before sort", &self.cm, &entry.clone().into());
 
-        entry.sort(id, &ctx.graph, &self.cm);
-
-        // print_hygiene("before inline", &self.cm, &entry.clone().into());
+        print_hygiene("before inline", &self.cm, &entry.clone().into());
 
         inline(self.injected_ctxt, entry);
+
+        entry.sort(id, &ctx.graph, &self.cm);
 
         print_hygiene("done", &self.cm, &entry.clone().into());
 
