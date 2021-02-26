@@ -1,9 +1,9 @@
 const c = "c";
 class C {
 }
-const mod = function() {
+const mod = function () {
     return {
-        mod: c,
+        c: c,
         default: C
     };
 }();
