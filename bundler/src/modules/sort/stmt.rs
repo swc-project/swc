@@ -325,34 +325,6 @@ fn iter<'a>(
                 continue 'main;
             }
 
-            // Prefer inserting module as a whole.
-            let next = idx + 1;
-            if current_range.contains(&next) {
-                if moves.insert((idx, next)) {
-                    if !done.contains(&next) {
-                        stack.push_front(next);
-                    }
-                }
-            }
-
-            // The logic below is not required because we inline all simple injected
-            // variables.
-            //
-            //
-            // {
-            //     // We emit free dependants as early as possible.
-            //     let free_dependants = graph
-            //         .neighbors_directed(idx, Dependants)
-            //         .filter(|&dependant| !done.contains(&dependant) &&
-            // free.contains(&dependant))         .collect::<Vec<_>>();
-
-            //     if !free_dependants.is_empty() {
-            //         for dependant in free_dependants {
-            //             stack.push_front(dependant);
-            //         }
-            //     }
-            // }
-
             graph.remove_node(idx);
             done.insert(idx);
             return Some(idx);
