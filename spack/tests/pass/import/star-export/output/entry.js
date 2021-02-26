@@ -2,7 +2,7 @@ class A {
 }
 const mod = function() {
     return {
-        A
+        A: A
     };
 }();
 export { mod as a };

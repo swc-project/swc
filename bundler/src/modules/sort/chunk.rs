@@ -183,8 +183,9 @@ fn toposort_real_module_ids<'a>(
 
             // dbg!(&deps);
 
-            let all_modules_in_circle =
+            let mut all_modules_in_circle =
                 all_modules_in_circle(id, &done, &mut Default::default(), graph);
+            all_modules_in_circle.reverse();
 
             if all_modules_in_circle.is_empty() {
                 queue.push_front(id);

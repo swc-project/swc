@@ -1,4 +1,3 @@
-use crate::id::Id;
 use crate::modules::Modules;
 use crate::util::ExprExt;
 use crate::util::VarDeclaratorExt;
@@ -54,7 +53,6 @@ where
         };
 
         let mut module_items = vec![];
-        let mut extra_exports = vec![];
 
         let stmts = {
             module.iter().for_each(|(_, item)| {
@@ -114,10 +112,7 @@ where
 
             let mut module = Module::from(module).fold_with(&mut ExportToReturn {
                 synthesized_ctxt: self.synthesized_ctxt,
-                injected_ctxt: self.injected_ctxt,
                 return_props: Default::default(),
-                esm_exports: &mut extra_exports,
-                module_var: &module_var_name,
             });
 
             take(&mut module.body)
@@ -189,7 +184,6 @@ where
         };
 
         module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))));
-        module_items.extend(extra_exports);
 
         // print_hygiene(
         //     "wrap",
@@ -229,60 +223,27 @@ impl Visit for TopLevelAwaitFinder {
     }
 }
 
-struct ExportToReturn<'a> {
-    injected_ctxt: SyntaxContext,
-    module_var: &'a Id,
+struct ExportToReturn {
     return_props: Vec<PropOrSpread>,
     synthesized_ctxt: SyntaxContext,
-    esm_exports: &'a mut Vec<ModuleItem>,
 }
 
-impl ExportToReturn<'_> {
+impl ExportToReturn {
     fn export_id(&mut self, i: Ident) {
         self.return_props
             .push(PropOrSpread::Prop(Box::new(Prop::Shorthand(i.clone()))));
-
-        if self.module_var.ctxt() == i.span.ctxt {
-            return;
-        }
-
-        let src = i.clone();
-
-        let mut exported = i;
-        exported.span.ctxt = self.module_var.ctxt();
-
-        self.esm_exports.push(
-            src.assign_to(exported)
-                .into_module_item(self.injected_ctxt, "export to return => export_id"),
-        );
     }
 
-    fn export_key_value(&mut self, key: Ident, value: Ident, skip_var: bool) {
+    fn export_key_value(&mut self, key: Ident, value: Ident) {
         self.return_props
             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(key.clone()),
                 value: Box::new(Expr::Ident(value.clone())),
             }))));
-        if skip_var {
-            return;
-        }
-        if self.module_var.ctxt() == value.span.ctxt {
-            return;
-        }
-
-        let mut exported = key;
-
-        exported.span.ctxt = self.module_var.ctxt();
-
-        self.esm_exports.push(
-            value
-                .assign_to(exported)
-                .into_module_item(self.injected_ctxt, "export to return => export_key_value"),
-        );
     }
 }
 
-impl Fold for ExportToReturn<'_> {
+impl Fold for ExportToReturn {
     noop_fold_type!();
 
     fn fold_stmt(&mut self, s: Stmt) -> Stmt {
@@ -320,7 +281,6 @@ impl Fold for ExportToReturn<'_> {
                     self.export_key_value(
                         Ident::new(js_word!("default"), export.span),
                         ident.clone(),
-                        false,
                     );
 
                     Some(Stmt::Decl(Decl::Class(ClassDecl {
@@ -336,7 +296,6 @@ impl Fold for ExportToReturn<'_> {
                     self.export_key_value(
                         Ident::new(js_word!("default"), export.span),
                         ident.clone(),
-                        false,
                     );
 
                     Some(Stmt::Decl(Decl::Fn(FnDecl {
@@ -360,11 +319,7 @@ impl Fold for ExportToReturn<'_> {
                             Some(exported) => {
                                 // As injected named exports are converted to variables by other
                                 // passes, we should not create a variable for it.
-                                self.export_key_value(
-                                    exported.clone(),
-                                    named.orig.clone(),
-                                    export.span.ctxt == self.injected_ctxt || export.src.is_some(),
-                                );
+                                self.export_key_value(exported.clone(), named.orig.clone());
                             }
                             None => {
                                 self.export_id(named.orig.clone());

@@ -1,7 +1,7 @@
 const a = "hello world";
 const mod = function() {
     return {
-        a: a
+        instanceof: a
     };
 }();
 console.log(a, mod);

@@ -1,27 +1,3 @@
-const encoder = new TextEncoder();
-function encode(input) {
-    return encoder.encode(input);
-}
-const decoder = new TextDecoder();
-function decode(input) {
-    return decoder.decode(input);
-}
-function findIndex(source, pat) {
-    const s = pat[0];
-    for(let i = 0; i < source.length; i++){
-        if (source[i] !== s) continue;
-        const pin = i;
-        let matched = 1;
-        let j = i;
-        while(matched < pat.length){
-            j++;
-            if (source[j] !== pat[j - pin]) break;
-            matched++;
-        }
-        if (matched === pat.length) return pin;
-    }
-    return -1;
-}
 function concat(origin, b) {
     const output = new Uint8Array(origin.length + b.length);
     output.set(origin, 0);
@@ -492,125 +468,13 @@ class BufWriterSync extends AbstractBufBase {
         this.buf = new Uint8Array(size3);
     }
 }
-/** Generate longest proper prefix which is also suffix array. */ function createLPS(pat) {
-    const lps = new Uint8Array(pat.length);
-    lps[0] = 0;
-    let prefixEnd = 0;
-    let i = 1;
-    while(i < lps.length)if (pat[i] == pat[prefixEnd]) {
-        prefixEnd++;
-        lps[i] = prefixEnd;
-        i++;
-    } else if (prefixEnd === 0) {
-        lps[i] = 0;
-        i++;
-    } else prefixEnd = pat[prefixEnd - 1];
-    return lps;
+const encoder = new TextEncoder();
+function encode(input) {
+    return encoder.encode(input);
 }
-async function* readDelim(reader, delim) {
-    // Avoid unicode problems
-    const delimLen = delim.length;
-    const delimLPS = createLPS(delim);
-    let inputBuffer = new Deno.Buffer();
-    const inspectArr = new Uint8Array(Math.max(1024, delimLen + 1));
-    // Modified KMP
-    let inspectIndex = 0;
-    let matchIndex = 0;
-    while(true){
-        const result = await reader.read(inspectArr);
-        if (result === null) {
-            // Yield last chunk.
-            yield inputBuffer.bytes();
-            return;
-        }
-        if (result < 0) // Discard all remaining and silently fail.
-        return;
-        const sliceRead = inspectArr.subarray(0, result);
-        await Deno.writeAll(inputBuffer, sliceRead);
-        let sliceToProcess = inputBuffer.bytes();
-        while(inspectIndex < sliceToProcess.length)if (sliceToProcess[inspectIndex] === delim[matchIndex]) {
-            inspectIndex++;
-            matchIndex++;
-            if (matchIndex === delimLen) {
-                // Full match
-                const matchEnd = inspectIndex - delimLen;
-                const readyBytes = sliceToProcess.subarray(0, matchEnd);
-                // Copy
-                const pendingBytes = sliceToProcess.slice(inspectIndex);
-                yield readyBytes;
-                // Reset match, different from KMP.
-                sliceToProcess = pendingBytes;
-                inspectIndex = 0;
-                matchIndex = 0;
-            }
-        } else if (matchIndex === 0) inspectIndex++;
-        else matchIndex = delimLPS[matchIndex - 1];
-        // Keep inspectIndex and matchIndex.
-        inputBuffer = new Deno.Buffer(sliceToProcess);
-    }
-}
-async function* readStringDelim(reader, delim) {
-    const encoder1 = new TextEncoder();
-    const decoder1 = new TextDecoder();
-    for await (const chunk of readDelim(reader, encoder1.encode(delim)))yield decoder1.decode(chunk);
-}
-function deferred() {
-    let methods;
-    const promise = new Promise((resolve, reject)=>{
-        methods = {
-            resolve,
-            reject
-        };
-    });
-    return Object.assign(promise, methods);
-}
-var tmp = Symbol.asyncIterator;
-class MuxAsyncIterator {
-    add(iterator) {
-        ++this.iteratorCount;
-        this.callIteratorNext(iterator);
-    }
-    async callIteratorNext(iterator) {
-        try {
-            const { value , done  } = await iterator.next();
-            if (done) --this.iteratorCount;
-            else this.yields.push({
-                iterator,
-                value
-            });
-        } catch (e) {
-            this.throws.push(e);
-        }
-        this.signal.resolve();
-    }
-    async *iterate() {
-        while(this.iteratorCount > 0){
-            // Sleep until any of the wrapped iterators yields.
-            await this.signal;
-            // Note that while we're looping over `yields`, new items may be added.
-            for(let i = 0; i < this.yields.length; i++){
-                const { iterator , value  } = this.yields[i];
-                yield value;
-                this.callIteratorNext(iterator);
-            }
-            if (this.throws.length) {
-                for (const e of this.throws)throw e;
-                this.throws.length = 0;
-            }
-            // Clear the `yields` list and reset the `signal` promise.
-            this.yields.length = 0;
-            this.signal = deferred();
-        }
-    }
-    [tmp]() {
-        return this.iterate();
-    }
-    constructor(){
-        this.iteratorCount = 0;
-        this.yields = [];
-        this.throws = [];
-        this.signal = deferred();
-    }
+const decoder = new TextDecoder();
+function decode(input) {
+    return decoder.decode(input);
 }
 // FROM https://github.com/denoland/deno/blob/b34628a26ab0187a827aa4ebe256e23178e25d39/cli/js/web/headers.ts#L9
 const invalidHeaderCharRegex = /[^\t\x20-\x7e\x80-\xff]/g;
@@ -719,6 +583,64 @@ class TextProtoReader {
     }
 }
 const STATUS_TEXT = new Map([]);
+function deferred() {
+    let methods;
+    const promise = new Promise((resolve, reject)=>{
+        methods = {
+            resolve,
+            reject
+        };
+    });
+    return Object.assign(promise, methods);
+}
+var tmp = Symbol.asyncIterator;
+class MuxAsyncIterator {
+    add(iterator) {
+        ++this.iteratorCount;
+        this.callIteratorNext(iterator);
+    }
+    async callIteratorNext(iterator) {
+        try {
+            const { value , done  } = await iterator.next();
+            if (done) --this.iteratorCount;
+            else this.yields.push({
+                iterator,
+                value
+            });
+        } catch (e) {
+            this.throws.push(e);
+        }
+        this.signal.resolve();
+    }
+    async *iterate() {
+        while(this.iteratorCount > 0){
+            // Sleep until any of the wrapped iterators yields.
+            await this.signal;
+            // Note that while we're looping over `yields`, new items may be added.
+            for(let i = 0; i < this.yields.length; i++){
+                const { iterator , value  } = this.yields[i];
+                yield value;
+                this.callIteratorNext(iterator);
+            }
+            if (this.throws.length) {
+                for (const e of this.throws)throw e;
+                this.throws.length = 0;
+            }
+            // Clear the `yields` list and reset the `signal` promise.
+            this.yields.length = 0;
+            this.signal = deferred();
+        }
+    }
+    [tmp]() {
+        return this.iterate();
+    }
+    constructor(){
+        this.iteratorCount = 0;
+        this.yields = [];
+        this.throws = [];
+        this.signal = deferred();
+    }
+}
 function emptyReader() {
     return {
         read (_) {
@@ -916,38 +838,6 @@ async function writeResponse(w, r1) {
     }
     await writer.flush();
 }
-function parseHTTPVersion(vers) {
-    switch(vers){
-        case "HTTP/1.1":
-            return [
-                1,
-                1
-            ];
-        case "HTTP/1.0":
-            return [
-                1,
-                0
-            ];
-        default:
-            {
-                const Big = 1000000; // arbitrary upper bound
-                if (!vers.startsWith("HTTP/")) break;
-                const dot = vers.indexOf(".");
-                if (dot < 0) break;
-                const majorStr = vers.substring(vers.indexOf("/") + 1, dot);
-                const major = Number(majorStr);
-                if (!Number.isInteger(major) || major < 0 || major > Big) break;
-                const minorStr = vers.substring(dot + 1);
-                const minor = Number(minorStr);
-                if (!Number.isInteger(minor) || minor < 0 || minor > Big) break;
-                return [
-                    major,
-                    minor
-                ];
-            }
-    }
-    throw new Error(`malformed HTTP version ${vers}`);
-}
 class ServerRequest {
     /**
      * Value of Content-Length header.
@@ -1020,6 +910,38 @@ class ServerRequest {
     }
 }
 var tmp1 = Symbol.asyncIterator;
+function parseHTTPVersion(vers) {
+    switch(vers){
+        case "HTTP/1.1":
+            return [
+                1,
+                1
+            ];
+        case "HTTP/1.0":
+            return [
+                1,
+                0
+            ];
+        default:
+            {
+                const Big = 1000000; // arbitrary upper bound
+                if (!vers.startsWith("HTTP/")) break;
+                const dot = vers.indexOf(".");
+                if (dot < 0) break;
+                const majorStr = vers.substring(vers.indexOf("/") + 1, dot);
+                const major = Number(majorStr);
+                if (!Number.isInteger(major) || major < 0 || major > Big) break;
+                const minorStr = vers.substring(dot + 1);
+                const minor = Number(minorStr);
+                if (!Number.isInteger(minor) || minor < 0 || minor > Big) break;
+                return [
+                    major,
+                    minor
+                ];
+            }
+    }
+    throw new Error(`malformed HTTP version ${vers}`);
+}
 async function readRequest(conn, bufr) {
     const tp = new TextProtoReader(bufr);
     const firstLine = await tp.readLine(); // e.g. GET /index.html HTTP/1.0
@@ -1034,26 +956,6 @@ async function readRequest(conn, bufr) {
     req.headers = headers;
     fixLength(req);
     return req;
-}
-function fixLength(req) {
-    const contentLength = req.headers.get("Content-Length");
-    if (contentLength) {
-        const arrClen = contentLength.split(",");
-        if (arrClen.length > 1) {
-            const distinct = [
-                ...new Set(arrClen.map((e)=>e.trim()
-                ))
-            ];
-            if (distinct.length > 1) throw Error("cannot contain multiple Content-Length headers");
-            else req.headers.set("Content-Length", distinct[0]);
-        }
-        const c = req.headers.get("Content-Length");
-        if (req.method === "HEAD" && c && c !== "0") throw Error("http: method cannot contain a Content-Length");
-        if (c && req.headers.has("transfer-encoding")) // A sender MUST NOT send a Content-Length header field in any message
-        // that contains a Transfer-Encoding header field.
-        // rfc: https://tools.ietf.org/html/rfc7230#section-3.3.2
-        throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
-    }
 }
 class Server {
     close() {
@@ -1165,13 +1067,25 @@ async function listenAndServe(addr, handler) {
     const server = serve(addr);
     for await (const request of server)handler(request);
 }
-function serveTLS(options) {
-    const tlsOptions = {
-        ...options,
-        transport: "tcp"
-    };
-    const listener1 = Deno.listenTls(tlsOptions);
-    return new Server(listener1);
+function fixLength(req) {
+    const contentLength = req.headers.get("Content-Length");
+    if (contentLength) {
+        const arrClen = contentLength.split(",");
+        if (arrClen.length > 1) {
+            const distinct = [
+                ...new Set(arrClen.map((e)=>e.trim()
+                ))
+            ];
+            if (distinct.length > 1) throw Error("cannot contain multiple Content-Length headers");
+            else req.headers.set("Content-Length", distinct[0]);
+        }
+        const c = req.headers.get("Content-Length");
+        if (req.method === "HEAD" && c && c !== "0") throw Error("http: method cannot contain a Content-Length");
+        if (c && req.headers.has("transfer-encoding")) // A sender MUST NOT send a Content-Length header field in any message
+        // that contains a Transfer-Encoding header field.
+        // rfc: https://tools.ietf.org/html/rfc7230#section-3.3.2
+        throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
+    }
 }
 listenAndServe({
     port: 8080

@@ -207,6 +207,7 @@ fn deno_jszip_03() {
 }
 
 #[test]
+#[ignore = "Outdated"]
 fn sort_006() {
     assert_sorted(
         &[
@@ -225,6 +226,7 @@ fn sort_006() {
 }
 
 #[test]
+#[ignore = "Outdated"]
 fn sort_007() {
     assert_sorted_with_free(
         &[
@@ -322,6 +324,7 @@ fn sort_010() {
 }
 
 #[test]
+#[ignore = "Outdated"]
 fn sort_011() {
     assert_sorted(
         &[
@@ -409,6 +412,7 @@ fn sort_013() {
 }
 
 #[test]
+#[ignore = "Outdated"]
 fn sort_014() {
     assert_sorted(
         &[
@@ -468,6 +472,34 @@ fn sort_015() {
         const isWindows = NATIVE_OS == 'windows';
         use(isWindows);
         use(NATIVE_OS);
+        ",
+    );
+}
+
+#[test]
+fn sort_016() {
+    assert_sorted(
+        &[
+            "
+            function f1() {
+
+            }
+            f2();
+            ",
+            "
+            function f2() {
+
+            }
+            f1();
+            ",
+        ],
+        "
+        function f1() {
+        }
+        function f2() {
+        }
+        f2();
+        f1();
         ",
     );
 }

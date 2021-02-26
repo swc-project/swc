@@ -14,7 +14,6 @@ use rayon::iter::ParallelIterator;
 use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_fold_type, Fold};
 
 impl<L, R> Bundler<'_, L, R>
@@ -61,7 +60,6 @@ where
     ) -> Result<Modules, Error> {
         self.run(|| {
             log::debug!("Reexporting {:?}", dep_id);
-            let injected_ctxt = self.injected_ctxt;
 
             let dep_info = self.scope.get_module(dep_id).unwrap();
             let mut dep = self
@@ -95,32 +93,18 @@ where
 
             // `export *`
             if specifiers.is_empty() {
-                let mut items = vec![];
                 // We should exclude `default`
-                dep.retain_mut(|module_id, item| match item {
+                dep.retain_mut(|_, item| match item {
                     ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
                         export.specifiers.retain(|s| match s {
                             ExportSpecifier::Named(ExportNamedSpecifier {
-                                orig,
                                 exported:
                                     Some(Ident {
                                         sym: js_word!("default"),
-                                        span: exported_span,
                                         ..
                                     }),
                                 ..
-                            }) => {
-                                items.push((
-                                    module_id,
-                                    orig.clone()
-                                        .assign_to(Ident::new(js_word!("default"), *exported_span))
-                                        .into_module_item(
-                                            injected_ctxt,
-                                            "Removing default for export *",
-                                        ),
-                                ));
-                                false
-                            }
+                            }) => false,
                             _ => true,
                         });
                         if export.specifiers.is_empty() {
@@ -131,14 +115,8 @@ where
                     }
                     _ => true,
                 });
-
-                dep.append_all(items);
             } else {
-                unexprt_as_var(&mut dep, dep_info.export_ctxt());
-
-                dep = dep.fold_with(&mut DepUnexporter {
-                    exports: &specifiers,
-                });
+                dep = dep.fold_with(&mut DepUnexporter {});
 
                 // print_hygiene(&format!("dep: unexport"), &self.cm,
                 // &dep.clone().into());
@@ -218,170 +196,28 @@ pub(super) fn inject_export(
     entry.add_dep(dep);
 }
 
-/// Converts
-///
-/// ```js
-/// export { l1 as e2 };
-/// ```
-///
-/// to
-///
-/// ```js
-/// const e3 = l1;
-/// ```
-///
-/// export { foo#7 } from './b' where #7 is mark of './b'
-/// =>
-/// export { foo#7 as foo#5 } where #5 is mark of current entry.
-fn unexprt_as_var(modules: &mut Modules, dep_export_ctxt: SyntaxContext) {
-    modules.map_items_mut(|_, n| {
-        match n {
-            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                ref export @ NamedExport { src: None, .. },
-            )) => {
-                let mut decls = vec![];
-                for s in &export.specifiers {
-                    match s {
-                        ExportSpecifier::Namespace(_) => {}
-                        ExportSpecifier::Default(_) => {}
-                        ExportSpecifier::Named(n) => match &n.exported {
-                            Some(exported) => {
-                                // TODO: (maybe) Check previous context
-                                let exported = exported.clone();
-                                // exported.span = exported.span.with_ctxt(self.dep_ctxt);
+struct DepUnexporter;
 
-                                if exported.sym != n.orig.sym
-                                    || exported.span.ctxt != n.orig.span.ctxt
-                                {
-                                    decls.push(VarDeclarator {
-                                        span: n.span,
-                                        name: Pat::Ident(exported.into()),
-                                        init: Some(Box::new(Expr::Ident(n.orig.clone()))),
-                                        definite: true,
-                                    })
-                                }
-                            }
-                            None => {
-                                if n.orig.span.ctxt != dep_export_ctxt {
-                                    log::trace!("Alias: {:?} -> {:?}", n.orig, dep_export_ctxt);
-
-                                    decls.push(VarDeclarator {
-                                        span: n.span,
-                                        name: Pat::Ident(
-                                            Ident::new(
-                                                n.orig.sym.clone(),
-                                                n.orig.span.with_ctxt(dep_export_ctxt),
-                                            )
-                                            .into(),
-                                        ),
-                                        init: Some(Box::new(Expr::Ident(n.orig.clone()))),
-                                        definite: false,
-                                    })
-                                }
-                            }
-                        },
-                    }
-                }
-
-                if decls.is_empty() {
-                    *n = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
-                } else {
-                    *n = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                        span: export.span,
-                        decls,
-                        declare: false,
-                        kind: VarDeclKind::Const,
-                    })))
-                }
-            }
-            _ => {}
-        }
-    })
-}
-
-struct DepUnexporter<'a> {
-    exports: &'a [Specifier],
-}
-
-impl DepUnexporter<'_> {
-    fn is_exported(&self, id: &Id) -> bool {
-        if self.exports.is_empty() {
-            return true;
-        }
-
-        self.exports.iter().any(|s| match s {
-            Specifier::Specific { local, .. } => local.to_id() == *id,
-            Specifier::Namespace { local, all } => local.to_id() == *id || *all,
-        })
-    }
-}
-
-impl Fold for DepUnexporter<'_> {
+impl Fold for DepUnexporter {
     noop_fold_type!();
 
     fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
         match item {
-            ModuleItem::ModuleDecl(decl) => match decl {
-                ModuleDecl::ExportDecl(mut export) => {
-                    match &mut export.decl {
-                        Decl::Class(c) => {
-                            if self.is_exported(&c.ident.to_id()) {
-                                return ModuleItem::Stmt(Stmt::Decl(export.decl));
-                            }
-                        }
-                        Decl::Fn(f) => {
-                            if self.is_exported(&f.ident.to_id()) {
-                                return ModuleItem::Stmt(Stmt::Decl(export.decl));
-                            }
-                        }
-                        Decl::Var(..) => {
-                            if self.exports.is_empty() {
-                                return ModuleItem::Stmt(Stmt::Decl(export.decl));
-                            }
-                        }
-                        _ => {}
-                    }
-                    ModuleItem::Stmt(Stmt::Decl(export.decl))
-                }
-
-                ModuleDecl::ExportDefaultDecl(export) => match export.decl {
-                    DefaultDecl::Class(ClassExpr { ident: None, .. })
-                    | DefaultDecl::Fn(FnExpr { ident: None, .. }) => {
+            ModuleItem::ModuleDecl(decl) => {
+                match decl {
+                    // Empty statement
+                    ModuleDecl::ExportDecl(..)
+                    | ModuleDecl::ExportDefaultDecl(..)
+                    | ModuleDecl::ExportAll(..)
+                    | ModuleDecl::ExportDefaultExpr(..)
+                    | ModuleDecl::ExportNamed(..) => {
                         ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
                     }
-                    DefaultDecl::TsInterfaceDecl(decl) => {
-                        ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(decl)))
-                    }
+                    ModuleDecl::Import(..) => ModuleItem::ModuleDecl(decl),
 
-                    DefaultDecl::Class(ClassExpr {
-                        ident: Some(ident),
-                        class,
-                    }) => ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl {
-                        declare: false,
-                        ident,
-                        class,
-                    }))),
-
-                    DefaultDecl::Fn(FnExpr {
-                        ident: Some(ident),
-                        function,
-                    }) => ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                        declare: false,
-                        function,
-                        ident,
-                    }))),
-                },
-
-                // Empty statement
-                ModuleDecl::ExportAll(..)
-                | ModuleDecl::ExportDefaultExpr(..)
-                | ModuleDecl::ExportNamed(..) => {
-                    ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+                    _ => unimplemented!("Unexported: {:?}", decl),
                 }
-                ModuleDecl::Import(..) => ModuleItem::ModuleDecl(decl),
-
-                _ => unimplemented!("Unexported: {:?}", decl),
-            },
+            }
 
             _ => item,
         }

@@ -130,8 +130,8 @@ where
         // Now we handle imports
         let mut module = if wrapped {
             let mut module: Modules = self.get_module_for_merging(ctx, dep_id, false)?;
-            module = self.wrap_esm(ctx, dep_id, module.into())?.into();
             self.prepare(&dep_info, &mut module);
+            module = self.wrap_esm(ctx, dep_id, module.into())?.into();
 
             let plan = ctx.plan.normal.get(&dep_id);
             let default_plan;
@@ -712,9 +712,11 @@ where
 
         // print_hygiene("before sort", &self.cm, &entry.clone().into());
 
-        entry.sort(id, &ctx.graph, &self.cm);
+        // print_hygiene("before inline", &self.cm, &entry.clone().into());
 
         inline(self.injected_ctxt, entry);
+
+        entry.sort(id, &ctx.graph, &self.cm);
 
         // print_hygiene("done", &self.cm, &entry.clone().into());
 
@@ -800,6 +802,9 @@ where
     /// Basically one module have two top-level contexts. One is for it's codes
     /// and another is for exporting. This method connects two module by
     /// injecting `const local_A = exported_B_from_foo;`
+    ///
+    ///
+    /// TODO: We convert all exports to variable at here.
     pub(crate) fn prepare(&self, info: &TransformedModule, module: &mut Modules) {
         let injected_ctxt = self.injected_ctxt;
 
@@ -877,7 +882,7 @@ where
                                                 .assign_to(s.local.clone())
                                                 .into_module_item(
                                                     injected_ctxt,
-                                                    "from_replace_import_specifiers: namespaced",
+                                                    "prepare -> import -> namespace",
                                                 ),
                                         );
                                     }
@@ -973,13 +978,20 @@ where
                             local.sym
                         );
 
+                        let exported =
+                            Ident::new(js_word!("default"), DUMMY_SP.with_ctxt(info.export_ctxt()));
+
+                        new.push(
+                            local
+                                .clone()
+                                .assign_to(exported.clone())
+                                .into_module_item(injected_ctxt, "prepare -> export default decl"),
+                        );
+
                         let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
                             span: DUMMY_SP,
                             orig: local,
-                            exported: Some(Ident::new(
-                                js_word!("default"),
-                                DUMMY_SP.with_ctxt(info.export_ctxt()),
-                            )),
+                            exported: Some(exported),
                         });
                         new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
@@ -1011,14 +1023,21 @@ where
                                 .into_module_item(injected_ctxt, "prepare -> export default expr"),
                         );
 
+                        let exported =
+                            Ident::new(js_word!("default"), DUMMY_SP.with_ctxt(info.export_ctxt()));
+
+                        new.push(
+                            local
+                                .clone()
+                                .assign_to(exported.clone())
+                                .into_module_item(injected_ctxt, "prepare -> export default expr"),
+                        );
+
                         // Create `export { local_default as default }`
                         let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
                             span: DUMMY_SP,
                             orig: local,
-                            exported: Some(Ident::new(
-                                js_word!("default"),
-                                DUMMY_SP.with_ctxt(info.export_ctxt()),
-                            )),
+                            exported: Some(exported),
                         });
                         log::trace!("Exporting `default` with `export default expr`");
                         new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
@@ -1056,8 +1075,8 @@ where
                                 new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(v))));
 
                                 log::trace!("Exporting `default` with `export decl``");
-                                new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                                    NamedExport {
+                                let export =
+                                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
                                         span: export.span.with_ctxt(injected_ctxt),
                                         specifiers: ids
                                             .into_iter()
@@ -1065,6 +1084,15 @@ where
                                                 let exported = Ident::new(
                                                     id.sym.clone(),
                                                     id.span.with_ctxt(info.export_ctxt()),
+                                                );
+
+                                                new.push(
+                                                    id.clone()
+                                                        .assign_to(exported.clone())
+                                                        .into_module_item(
+                                                            injected_ctxt,
+                                                            "prepare -> export decl -> var",
+                                                        ),
                                                 );
 
                                                 ExportNamedSpecifier {
@@ -1078,8 +1106,8 @@ where
                                         src: None,
                                         type_only: false,
                                         asserts: None,
-                                    },
-                                )));
+                                    }));
+                                new.push(export);
                                 continue;
                             }
 
@@ -1097,6 +1125,14 @@ where
                         // Create `export { local_ident as exported_ident }`
                         let exported =
                             Ident::new(local.sym.clone(), local.span.with_ctxt(info.export_ctxt()));
+
+                        new.push(
+                            local
+                                .clone()
+                                .assign_to(exported.clone())
+                                .into_module_item(injected_ctxt, "prepare -> export decl -> var"),
+                        );
+
                         let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
                             span: DUMMY_SP,
                             orig: local,
@@ -1112,6 +1148,50 @@ where
                                 asserts: None,
                             },
                         )));
+                    }
+
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                        ref specifiers,
+                        ..
+                    })) => {
+                        for s in specifiers {
+                            match s {
+                                ExportSpecifier::Named(ExportNamedSpecifier {
+                                    orig,
+                                    exported: Some(exported),
+                                    ..
+                                }) => {
+                                    new.push(
+                                        orig.clone().assign_to(exported.clone()).into_module_item(
+                                            injected_ctxt,
+                                            "prepare -> export named -> aliased",
+                                        ),
+                                    );
+                                }
+
+                                ExportSpecifier::Default(ExportDefaultSpecifier {
+                                    exported,
+                                    ..
+                                }) => {
+                                    new.push(
+                                        Ident::new(
+                                            js_word!("default"),
+                                            DUMMY_SP.with_ctxt(info.local_ctxt()),
+                                        )
+                                        .clone()
+                                        .assign_to(exported.clone())
+                                        .into_module_item(
+                                            injected_ctxt,
+                                            "prepare -> export named -> aliased",
+                                        ),
+                                    );
+                                }
+
+                                _ => {}
+                            }
+                        }
+
+                        new.push(item);
                     }
 
                     _ => {
@@ -1259,17 +1339,7 @@ where
 
                             for specifier in &export.specifiers {
                                 match specifier {
-                                    ExportSpecifier::Namespace(ns) => {
-                                        let mut lhs = ns.name.clone();
-                                        lhs.span = lhs.span.with_ctxt(info.export_ctxt());
-                                        vars.push((
-                                            module_id,
-                                            ns.name.clone().assign_to(lhs).into_module_item(
-                                                injected_ctxt,
-                                                "import_deps_namespace",
-                                            ),
-                                        ));
-                                    }
+                                    ExportSpecifier::Namespace(..) => {}
                                     ExportSpecifier::Default(default) => {
                                         let mut lhs = default.exported.clone();
                                         lhs.span = lhs.span.with_ctxt(info.export_ctxt());
@@ -1285,73 +1355,8 @@ where
                                                 ),
                                         ));
                                     }
-                                    ExportSpecifier::Named(named) => match &named.exported {
-                                        Some(exported) => {
-                                            assert_ne!(
-                                                named.orig.span.ctxt, exported.span.ctxt,
-                                                "While handling imports, all named export \
-                                                 specifiers should be modified to reflect syntax \
-                                                 context correctly by previous passes"
-                                            );
-
-                                            vars.push((
-                                                module_id,
-                                                named
-                                                    .orig
-                                                    .clone()
-                                                    .assign_to(exported.clone())
-                                                    .into_module_item(
-                                                        injected_ctxt,
-                                                        &format!(
-                                                            "import -> named alias -> prepared: {}",
-                                                            info.fm.name
-                                                        ),
-                                                    ),
-                                            ));
-
-                                            if exported.span.ctxt != info.export_ctxt()
-                                                && exported.sym != js_word!("default")
-                                            {
-                                                let mut lhs = exported.clone();
-                                                lhs.span = lhs.span.with_ctxt(info.export_ctxt());
-                                                vars.push((
-                                                    module_id,
-                                                    exported
-                                                        .clone()
-                                                        .assign_to(lhs)
-                                                        .into_module_item(
-                                                            injected_ctxt,
-                                                            &format!(
-                                                                "import -> named alias -> export: \
-                                                                 {}",
-                                                                info.fm.name
-                                                            ),
-                                                        ),
-                                                ));
-                                            }
-                                        }
-                                        None => {
-                                            if info.export_ctxt() != named.orig.span.ctxt {
-                                                let mut lhs: Ident = named.orig.clone();
-                                                lhs.span.ctxt = info.export_ctxt();
-                                                vars.push((
-                                                    module_id,
-                                                    named
-                                                        .orig
-                                                        .clone()
-                                                        .assign_to(lhs)
-                                                        .into_module_item(
-                                                            injected_ctxt,
-                                                            &format!(
-                                                                "import_deps: named without \
-                                                                 alias: {}",
-                                                                info.fm.name
-                                                            ),
-                                                        ),
-                                                ));
-                                            }
-                                        }
-                                    },
+                                    // Handlded by `prepare`
+                                    ExportSpecifier::Named(..) => {}
                                 }
                             }
 

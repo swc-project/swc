@@ -889,6 +889,7 @@ impl Dce<'_> {
                 if self.is_marked(item.span()) {
                     Some(item)
                 } else {
+                    self.dropped = true;
                     None
                 }
             });

@@ -1,6 +1,3 @@
-const showList = (v)=>{
-    return `[${v.map(showValue1).join(', ')}]`;
-};
 const showValue1 = (v)=>{
     if (v === 0) {
         return showList([
@@ -8,6 +5,9 @@ const showValue1 = (v)=>{
         ]);
     }
     return `${v}`;
+};
+const showList = (v)=>{
+    return `[${v.map(showValue1).join(', ')}]`;
 };
 console.log(showList([
     1,

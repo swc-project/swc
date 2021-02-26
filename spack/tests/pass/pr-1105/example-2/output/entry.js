@@ -3,7 +3,7 @@ class C {
 }
 const mod = function() {
     return {
-        mod: c,
+        c: c,
         default: C
     };
 }();

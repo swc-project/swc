@@ -1,5 +1,6 @@
 use std::{iter, ptr};
 
+/// Modifiers vector in-place.
 pub trait MoveMap<T>: Sized {
     /// Map in place.
     fn move_map<F>(self, mut f: F) -> Self

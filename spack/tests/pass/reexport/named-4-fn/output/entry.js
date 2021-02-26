@@ -2,6 +2,5 @@ function b() {
     console.log(b);
 }
 console.log('b', b);
-const b1 = b;
 console.log('a');
-export { b1 as a };
+export { b as a };
