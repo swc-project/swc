@@ -4795,7 +4795,7 @@ const mod7 = function() {
         prerelease: prerelease,
         intersects: intersects,
         coerce: coerce,
-        SemVer: SemVer
+        default: SemVer
     };
 }();
 const version2 = "1.11.0";
