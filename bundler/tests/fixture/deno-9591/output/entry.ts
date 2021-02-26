@@ -267,6 +267,8 @@ if (globalThis.Deno != null) {
     NATIVE_OS = "windows";
 }
 const isWindows = NATIVE_OS == "windows";
+const SEP = isWindows ? "\\" : "/";
+const SEP_PATTERN = isWindows ? /[\\/]+/ : /\/+/;
 function assertPath(path) {
     if (typeof path !== "string") {
         throw new TypeError(`Path must be a string. Received ${JSON.stringify(path)}`);
@@ -1312,8 +1314,6 @@ const mod2 = function() {
         toFileUrl: toFileUrl1
     };
 }();
-const SEP = isWindows ? "\\" : "/";
-const SEP_PATTERN = isWindows ? /[\\/]+/ : /\/+/;
 function common(paths, sep2 = SEP) {
     const [first = "", ...remaining] = paths;
     if (first === "" || remaining.length === 0) {
@@ -1335,6 +1335,7 @@ function common(paths, sep2 = SEP) {
     const prefix = parts.slice(0, endOfPrefix).join(sep2);
     return prefix.endsWith(sep2) ? prefix : `${prefix}${sep2}`;
 }
+const path1 = isWindows ? mod1 : mod2;
 const regExpEscapeChars = [
     "!",
     "$",
@@ -1351,7 +1352,9 @@ const regExpEscapeChars = [
     "{",
     "|"
 ];
-const path1 = isWindows ? mod1 : mod2;
+const win32 = mod1;
+const posix = mod2;
+const { basename: basename2 , delimiter: delimiter2 , dirname: dirname2 , extname: extname2 , format: format2 , fromFileUrl: fromFileUrl2 , isAbsolute: isAbsolute2 , join: join2 , normalize: normalize2 , parse: parse3 , relative: relative2 , resolve: resolve2 , sep: sep2 , toFileUrl: toFileUrl2 , toNamespacedPath: toNamespacedPath2 ,  } = path1;
 const rangeEscapeChars = [
     "-",
     "\\",
@@ -1362,7 +1365,7 @@ function globToRegExp(glob, { extended =true , globstar: globstarOption = true ,
     if (glob == "") {
         return /(?!)/;
     }
-    const sep2 = os == "windows" ? "(?:\\\\|/)+" : "/+";
+    const sep3 = os == "windows" ? "(?:\\\\|/)+" : "/+";
     const sepMaybe = os == "windows" ? "(?:\\\\|/)*" : "/*";
     const seps = os == "windows" ? [
         "\\",
@@ -1543,7 +1546,7 @@ function globToRegExp(glob, { extended =true , globstar: globstarOption = true ,
         }
         regExpString += segment;
         if (!endsWithSep) {
-            regExpString += i < glob.length ? sep2 : sepMaybe;
+            regExpString += i < glob.length ? sep3 : sepMaybe;
             endsWithSep = true;
         }
         while(seps.includes(glob[i]))i++;
@@ -1581,9 +1584,6 @@ function isGlob(str) {
     }
     return false;
 }
-const win32 = mod1;
-const posix = mod2;
-const { basename: basename2 , delimiter: delimiter2 , dirname: dirname2 , extname: extname2 , format: format2 , fromFileUrl: fromFileUrl2 , isAbsolute: isAbsolute2 , join: join2 , normalize: normalize2 , parse: parse3 , relative: relative2 , resolve: resolve2 , sep: sep2 , toFileUrl: toFileUrl2 , toNamespacedPath: toNamespacedPath2 ,  } = path1;
 function normalizeGlob(glob, { globstar =false  } = {
 }) {
     if (glob.match(/\0/g)) {
