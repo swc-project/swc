@@ -1821,14 +1821,6 @@ function blue(str) {
         34
     ], 39));
 }
-function brightBlack(str) {
-    return run(str, code([
-        90
-    ], 39));
-}
-function clampAndTruncate(n, max = 255, min = 0) {
-    return Math.trunc(Math.max(Math.min(n, max), min));
-}
 const ANSI_PATTERN = new RegExp([
     "[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)",
     "(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))", 
@@ -1854,26 +1846,6 @@ function existsSync(filePath) {
         }
         throw err;
     }
-}
-function findIndex(source, pat) {
-    const s = pat[0];
-    for(let i = 0; i < source.length; i++){
-        if (source[i] !== s) continue;
-        const pin = i;
-        let matched = 1;
-        let j = i;
-        while(matched < pat.length){
-            j++;
-            if (source[j] !== pat[j - pin]) {
-                break;
-            }
-            matched++;
-        }
-        if (matched === pat.length) {
-            return pin;
-        }
-    }
-    return -1;
 }
 function copyBytes(src, dst, off = 0) {
     off = Math.max(0, Math.min(off, dst.byteLength));
@@ -2296,13 +2268,6 @@ async function* readDelim(reader, delim) {
             }
         }
         inputBuffer = new Deno.Buffer(sliceToProcess);
-    }
-}
-async function* readStringDelim(reader, delim) {
-    const encoder = new TextEncoder();
-    const decoder = new TextDecoder();
-    for await (const chunk of readDelim(reader, encoder.encode(delim))){
-        yield decoder.decode(chunk);
     }
 }
 const DEFAULT_FORMATTER = "{levelName} {msg}";
@@ -3713,19 +3678,6 @@ function encode1(src) {
 function encodeToString(src) {
     return new TextDecoder().decode(encode1(src));
 }
-function decode1(src) {
-    const dst = new Uint8Array(decodedLen(src.length));
-    for(let i = 0; i < dst.length; i++){
-        const a = fromHexChar(src[i * 2]);
-        const b = fromHexChar(src[i * 2 + 1]);
-        dst[i] = a << 4 | b;
-    }
-    if (src.length % 2 == 1) {
-        fromHexChar(src[dst.length * 2]);
-        throw errLength();
-    }
-    return dst;
-}
 function decodedLen(x) {
     return x >>> 1;
 }
@@ -4955,10 +4907,6 @@ const TaskName_AST = {
         }
     }
 };
-const snTaskName = {
-    moduleName: "dnit.manifest",
-    name: "TaskName"
-};
 const TrackedFileName_AST = {
     "moduleName": "dnit.manifest",
     "decl": {
@@ -4984,10 +4932,6 @@ const TrackedFileName_AST = {
             "kind": "nothing"
         }
     }
-};
-const snTrackedFileName = {
-    moduleName: "dnit.manifest",
-    name: "TrackedFileName"
 };
 const TrackedFileHash_AST = {
     "moduleName": "dnit.manifest",
@@ -5015,10 +4959,6 @@ const TrackedFileHash_AST = {
         }
     }
 };
-const snTrackedFileHash = {
-    moduleName: "dnit.manifest",
-    name: "TrackedFileHash"
-};
 const Timestamp_AST = {
     "moduleName": "dnit.manifest",
     "decl": {
@@ -5044,10 +4984,6 @@ const Timestamp_AST = {
             "kind": "nothing"
         }
     }
-};
-const snTimestamp = {
-    moduleName: "dnit.manifest",
-    name: "Timestamp"
 };
 const TaskData_AST = {
     "moduleName": "dnit.manifest",
@@ -5133,10 +5069,6 @@ const TaskData_AST = {
         }
     }
 };
-const snTaskData = {
-    moduleName: "dnit.manifest",
-    name: "TaskData"
-};
 const TrackedFileData_AST = {
     "moduleName": "dnit.manifest",
     "decl": {
@@ -5190,10 +5122,6 @@ const TrackedFileData_AST = {
             "kind": "nothing"
         }
     }
-};
-const snTrackedFileData = {
-    moduleName: "dnit.manifest",
-    name: "TrackedFileData"
 };
 const Manifest_AST = {
     "moduleName": "dnit.manifest",
@@ -5291,33 +5219,8 @@ function isVoid(texpr) {
     }
     return false;
 }
-function typeRefsEqual(tref1, tref2) {
-    if (tref1.kind === "primitive" && tref2.kind === "primitive") {
-        return tref1.value === tref2.value;
-    } else if (tref1.kind === "typeParam" && tref2.kind === "typeParam") {
-        return tref1.value === tref2.value;
-    } else if (tref1.kind === "reference" && tref2.kind === "reference") {
-        return scopedNamesEqual(tref1.value, tref2.value);
-    }
-    return false;
-}
 function scopedNamesEqual(sn1, sn2) {
     return sn1.moduleName === sn2.moduleName && sn1.name === sn2.name;
-}
-function typeExprToStringImpl(te, withScopedNames) {
-    let result = "";
-    if (te.typeRef.kind == "primitive") {
-        result = te.typeRef.value;
-    } else if (te.typeRef.kind == "typeParam") {
-        result = te.typeRef.value;
-    } else if (te.typeRef.kind == "reference") {
-        result = withScopedNames ? te.typeRef.value.moduleName + "." + te.typeRef.value.name : te.typeRef.value.name;
-    }
-    if (te.parameters.length > 0) {
-        result = result + "<" + te.parameters.map((p)=>typeExprToStringImpl(p, withScopedNames)
-        ) + ">";
-    }
-    return result;
 }
 function asJsonObject(jv) {
     if (jv instanceof Object && !(jv instanceof Array)) {
@@ -5778,30 +5681,6 @@ function declResolver(...astMaps) {
         return result;
     }
     return resolver;
-}
-function texprPrimitive(ptype) {
-    return {
-        value: {
-            typeRef: {
-                kind: "primitive",
-                value: ptype
-            },
-            parameters: []
-        }
-    };
-}
-function texprPrimitive1(ptype, etype) {
-    return {
-        value: {
-            typeRef: {
-                kind: "primitive",
-                value: ptype
-            },
-            parameters: [
-                etype.value
-            ]
-        }
-    };
 }
 const Pair_AST = {
     "moduleName": "sys.types",
@@ -6609,14 +6488,6 @@ async function getFileTimestamp(filename1, stat) {
     const mtime = stat.mtime;
     return mtime?.toISOString() || "";
 }
-function file(fileParams1) {
-    if (typeof fileParams1 === "string") {
-        return new TrackedFile({
-            path: fileParams1
-        });
-    }
-    return new TrackedFile(fileParams1);
-}
 function showTaskList(ctx) {
     console.log(textTable([
         "Name",
@@ -6669,52 +6540,6 @@ async function setupLogging() {
             }
         }
     });
-}
-async function execCli(cliArgs, tasks) {
-    const args1 = mod.parse(cliArgs);
-    await setupLogging();
-    const dnitDir = args1["dnitDir"] || "./dnit";
-    delete args1["dnitDir"];
-    const ctx = new ExecContext(new Manifest(dnitDir), args1);
-    tasks.forEach((t)=>ctx.taskRegister.set(t.name, t)
-    );
-    let requestedTaskName = null;
-    const positionalArgs = args1["_"];
-    if (positionalArgs.length > 0) {
-        requestedTaskName = `${positionalArgs[0]}`;
-    }
-    if (requestedTaskName === null) {
-        ctx.taskLogger.error("No task name given");
-        showTaskList(ctx);
-        return {
-            success: false
-        };
-    }
-    if (requestedTaskName === "list") {
-        showTaskList(ctx);
-        return {
-            success: true
-        };
-    }
-    try {
-        await ctx.manifest.load();
-        await Promise.all(Array.from(ctx.taskRegister.values()).map((t)=>ctx.asyncQueue.schedule(()=>t.setup(ctx)
-            )
-        ));
-        const requestedTask = ctx.taskRegister.get(requestedTaskName);
-        if (requestedTask !== undefined) {
-            await requestedTask.exec(ctx);
-        } else {
-            ctx.taskLogger.error(`Task ${requestedTaskName} not found`);
-        }
-        await ctx.manifest.save();
-        return {
-            success: true
-        };
-    } catch (err) {
-        ctx.taskLogger.error("Error", err);
-        throw err;
-    }
 }
 function findUserSourceContext(dir1) {
     const pathParts = dir1.split(mod3.SEP);
