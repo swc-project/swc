@@ -7,7 +7,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
 
 pub(crate) mod fast_graph;
 
-const TRACK: bool = true;
+const TRACK: bool = false;
 
 pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
     fn into_module_item(self, injected_ctxt: SyntaxContext, name: &str) -> ModuleItem {
