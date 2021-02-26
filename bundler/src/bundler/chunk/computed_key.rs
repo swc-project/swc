@@ -1,4 +1,3 @@
-use crate::debug::print_hygiene;
 use crate::modules::Modules;
 use crate::util::ExprExt;
 use crate::util::VarDeclaratorExt;
@@ -186,15 +185,15 @@ where
 
         module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))));
 
-        print_hygiene(
-            "wrap",
-            &self.cm,
-            &Module {
-                span: DUMMY_SP,
-                body: module_items.clone(),
-                shebang: None,
-            },
-        );
+        // print_hygiene(
+        //     "wrap",
+        //     &self.cm,
+        //     &Module {
+        //         span: DUMMY_SP,
+        //         body: module_items.clone(),
+        //         shebang: None,
+        //     },
+        // );
 
         Ok(Modules::from(
             id,
