@@ -144,8 +144,8 @@ where
                 let dep_info = self.scope.get_module(dep_id).unwrap();
                 let mut dep = if self.scope.should_be_wrapped_with_a_fn(dep_id) {
                     let mut dep: Modules = self.get_module_for_merging(ctx, dep_id, false)?;
-                    dep = self.wrap_esm(ctx, dep_id, dep.into())?.into();
                     self.prepare(&dep_info, &mut dep);
+                    dep = self.wrap_esm(ctx, dep_id, dep.into())?.into();
                     dep
                 } else {
                     self.merge_modules(ctx, dep_id, false, false)
