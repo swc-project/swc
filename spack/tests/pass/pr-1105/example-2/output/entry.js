@@ -1,7 +1,7 @@
 const c = "c";
 class C {
 }
-const mod = function () {
+const mod = function() {
     return {
         c: c,
         default: C
