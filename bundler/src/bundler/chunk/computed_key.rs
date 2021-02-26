@@ -1,5 +1,4 @@
 use crate::debug::print_hygiene;
-use crate::id::Id;
 use crate::modules::Modules;
 use crate::util::ExprExt;
 use crate::util::VarDeclaratorExt;
@@ -114,9 +113,7 @@ where
 
             let mut module = Module::from(module).fold_with(&mut ExportToReturn {
                 synthesized_ctxt: self.synthesized_ctxt,
-                injected_ctxt: self.injected_ctxt,
                 return_props: Default::default(),
-                module_var: &module_var_name,
             });
 
             take(&mut module.body)
@@ -227,14 +224,12 @@ impl Visit for TopLevelAwaitFinder {
     }
 }
 
-struct ExportToReturn<'a> {
-    injected_ctxt: SyntaxContext,
-    module_var: &'a Id,
+struct ExportToReturn {
     return_props: Vec<PropOrSpread>,
     synthesized_ctxt: SyntaxContext,
 }
 
-impl ExportToReturn<'_> {
+impl ExportToReturn {
     fn export_id(&mut self, i: Ident) {
         self.return_props
             .push(PropOrSpread::Prop(Box::new(Prop::Shorthand(i.clone()))));
@@ -249,7 +244,7 @@ impl ExportToReturn<'_> {
     }
 }
 
-impl Fold for ExportToReturn<'_> {
+impl Fold for ExportToReturn {
     noop_fold_type!();
 
     fn fold_stmt(&mut self, s: Stmt) -> Stmt {
