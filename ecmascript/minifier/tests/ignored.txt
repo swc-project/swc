@@ -37,6 +37,8 @@ pure_funcs/array/input.js
 reduce_vars/unsafe_evaluate_array_1/input.js
 reduce_vars/unsafe_evaluate_array_2/input.js
 reduce_vars/unsafe_evaluate_array_4/input.js
+reduce_vars/var_assign_1/input.js
+reduce_vars/var_assign_2/input.js
 return_undefined/return_undefined/input.js
 sequences/cascade_assignment_in_return/input.js
 sequences/forin/input.js
