@@ -25,6 +25,16 @@ fn calc_hash(s: &str) -> String {
     hex::encode(sum)
 }
 
+fn calc_cache_path(cache_dir: &Path, url: &Url) -> PathBuf {
+    let hash = calc_hash(&url.to_string());
+    let s = url.to_string();
+    if s.starts_with("https://deno.land/") {
+        return cache_dir.join("deno").join(&hash);
+    }
+
+    cache_dir.join("untrusted").join(hash)
+}
+
 /// Load url. This method does caching.
 fn load_url(url: Url) -> Result<String, Error> {
     let cache_dir = PathBuf::from(
@@ -35,9 +45,7 @@ fn load_url(url: Url) -> Result<String, Error> {
     .join(".cache");
     create_dir_all(&cache_dir).context("failed to create cache dir")?;
 
-    let hash = calc_hash(&url.to_string());
-
-    let cache_path = cache_dir.join(&hash);
+    let cache_path = calc_cache_path(&cache_dir, &url);
 
     match read_to_string(&cache_path) {
         Ok(v) => return Ok(v),
