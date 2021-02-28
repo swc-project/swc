@@ -824,7 +824,9 @@ impl Merge for GlobalPassOption {
 
 impl Merge for react::Options {
     fn merge(&mut self, from: &Self) {
-        *self = from.clone();
+        if *from != react::Options::default() {
+            *self = from.clone();
+        }
     }
 }
 
