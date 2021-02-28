@@ -21,11 +21,7 @@ impl Fold for EdgeDefaultParam {
         let params = n.params.fold_with(self);
         self.in_arrow = false;
 
-        let body = match n.body {
-            BlockStmtOrExpr::BlockStmt(b) => BlockStmtOrExpr::BlockStmt(b.fold_with(self)),
-            BlockStmtOrExpr::Expr(e) => BlockStmtOrExpr::Expr(e.fold_with(self)),
-        };
-
+        let body = n.body.fold_with(self);
         ArrowExpr { params, body, ..n }
     }
 
