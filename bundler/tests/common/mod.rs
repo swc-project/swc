@@ -63,7 +63,7 @@ fn load_url(url: Url) -> Result<String, Error> {
         .with_context(|| format!("failed to read data from `{}`", url))?;
 
     let mut content = vec![];
-    write!(content, "// Loaded from {}\n", url).unwrap();
+    write!(content, "// Loaded from {}\n\n\n", url).unwrap();
     content.extend_from_slice(&bytes);
 
     write(&cache_path, &content)?;
