@@ -1279,11 +1279,11 @@ const bar = {} as Foo;
     ",
     "
 interface Foo {
-    name: string;
+    name__0: string;
 }
 function foo() {
     interface Foo__2 {
-        name: string;
+        name__0: string;
     }
     const foo__2 = {
     } as Foo__2;
@@ -1873,10 +1873,10 @@ to_ts!(
     ",
     "
     interface A<T__2> {
-        x: T__2;
+        x__0: T__2;
     }
     interface B {
-        m: string;
+        m__0: string;
     }
     var x: any;
     var y = x as A<B>[];
@@ -1899,10 +1899,10 @@ to_ts!(
     "
     module Top {
         interface A__2<T__3> {
-            x: T__3;
+            x__0: T__3;
         }
         interface B__2 {
-            m: string;
+            m__0: string;
         }
         var x: any;
         var y = x as A__2<B__2>[];
@@ -2227,5 +2227,23 @@ to_ts!(
             use(x__3);
         }
     }
+    "
+);
+
+to_ts!(
+    tsc_conformance_types_type_aliases_type_aliases_1,
+    "
+    interface I6 { x : string }
+    type T6 = I6;
+    var x6: I6;
+    var x6: T6;
+    ",
+    "
+    interface I6 {
+        x__0: string;
+    }
+    type T6 = I6;
+    var x6: I6;
+    var x6: T6;
     "
 );
