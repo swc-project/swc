@@ -2229,3 +2229,14 @@ to_ts!(
     }
     "
 );
+
+to_ts!(
+    tsc_conformance_types_type_aliases_type_aliases_1,
+    "
+    interface I6 { x : string }
+    type T6 = I6;
+    var x6: I6;
+    var x6: T6;
+    ",
+    ""
+);
