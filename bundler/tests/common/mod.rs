@@ -1,6 +1,7 @@
 use anyhow::{bail, Context, Error};
 use reqwest::Url;
 use sha1::{Digest, Sha1};
+use std::io::Write;
 use std::{
     self, env,
     fs::{create_dir_all, read_to_string, write},
@@ -61,7 +62,11 @@ fn load_url(url: Url) -> Result<String, Error> {
         .bytes()
         .with_context(|| format!("failed to read data from `{}`", url))?;
 
-    write(&cache_path, &bytes)?;
+    let mut content = vec![];
+    write!(content, "// Loaded from {}", url).unwrap();
+    content.extend_from_slice(&bytes);
+
+    write(&cache_path, &content)?;
 
     return Ok(String::from_utf8_lossy(&bytes).to_string());
 }
