@@ -65,10 +65,11 @@ where
             })
         },
         expected,
+        Default::default(),
     )
 }
 
-fn test_module<F>(op: F, expected: &str)
+fn test_module<F>(op: F, expected: &str, config: Config)
 where
     F: FnOnce(&mut crate::tests::Tester<'_>) -> Result<Module, ()>,
 {
@@ -83,7 +84,7 @@ where
             _ => {}
         }
 
-        let module = module.fold_with(&mut hygiene());
+        let module = module.fold_with(&mut hygiene_with_config(config));
 
         let actual = tester.print(&module);
 
@@ -985,6 +986,7 @@ fn module_01() {
         },
         "import foo from 'src1';
         import foo1 from 'src2';",
+        Default::default(),
     );
 }
 
@@ -1005,6 +1007,7 @@ fn module_02() {
         },
         "import {foo} from 'src1';
         import {foo as foo1} from 'src2';",
+        Default::default(),
     );
 }
 
@@ -1027,6 +1030,7 @@ fn module_03() {
         "var foo = 1;
         var foo1 = 2;
         export {foo1 as foo}",
+        Default::default(),
     );
 }
 
@@ -1048,6 +1052,7 @@ fn issue_281_01() {
         "label: {
             break label
         }",
+        Default::default(),
     );
 }
 
@@ -1086,6 +1091,7 @@ fn issue_281_02() {
                 }
             }
         }",
+        Default::default(),
     );
 }
 
@@ -1115,6 +1121,7 @@ fn issue_295_01() {
                 bar;
             }
         }",
+        Default::default(),
     );
 }
 
@@ -1146,6 +1153,7 @@ fn issue_295_02() {
                 bar;
             }
         }",
+        Default::default(),
     );
 }
 
@@ -1167,6 +1175,7 @@ fn exported_function() {
         "const foo = {};
         function foo1(){}
       export { foo1 as foo };",
+        Default::default(),
     );
 }
 
@@ -1188,5 +1197,31 @@ fn exported_class_1() {
         "var Foo = {};
         class Foo1 {}
         export { Foo1 as Foo };",
+        Default::default(),
+    );
+}
+
+#[test]
+fn issue_1279() {
+    test_module(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            Ok(tester
+                .parse_module(
+                    "actual1.js",
+                    "class Foo {
+                        method() {
+                            class Foo {}
+                        }
+                    };",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("Foo", &[mark1, mark2])])))
+        },
+        "",
+        Config {
+            keep_class_names: true,
+        },
     );
 }

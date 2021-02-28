@@ -18,6 +18,12 @@ mod tests;
 
 const LOG: bool = false;
 
+#[derive(Debug, Clone, Default)]
+pub struct Config {
+    /// If true, the `hygiene` pass will preserve class names.
+    pub keep_class_names: bool,
+}
+
 trait ToBoxedStr {
     fn to_boxed_str(&self) -> Box<str>;
 }
@@ -29,6 +35,7 @@ impl ToBoxedStr for JsWord {
 }
 
 struct Hygiene<'a> {
+    config: Config,
     current: Scope<'a>,
     ident_type: IdentType,
     var_kind: Option<VarDeclKind>,
@@ -175,9 +182,15 @@ impl<'a> Hygiene<'a> {
     }
 }
 
+/// Creates a `hygiene` pass with default value of [Config].
 pub fn hygiene() -> impl Fold + 'static {
+    hygiene_with_config(Default::default())
+}
+
+pub fn hygiene_with_config(config: Config) -> impl Fold + 'static {
     chain!(
         as_folder(Hygiene {
+            config,
             current: Default::default(),
             ident_type: IdentType::Ref,
             var_kind: None,
@@ -220,6 +233,7 @@ impl<'a> Hygiene<'a> {
         }
 
         let mut folder = Hygiene {
+            config: self.config.clone(),
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,
             var_kind: None,
@@ -547,6 +561,7 @@ impl<'a> VisitMut for Hygiene<'a> {
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         let mut folder = Hygiene {
+            config: self.config.clone(),
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,
             var_kind: None,
@@ -563,6 +578,7 @@ impl<'a> VisitMut for Hygiene<'a> {
 
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt) {
         let mut folder = Hygiene {
+            config: self.config.clone(),
             current: Scope::new(ScopeKind::Block, Some(&self.current)),
             ident_type: IdentType::Ref,
             var_kind: None,
@@ -574,6 +590,7 @@ impl<'a> VisitMut for Hygiene<'a> {
 
     fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
         let mut folder = Hygiene {
+            config: self.config.clone(),
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,
             var_kind: None,
@@ -662,6 +679,7 @@ impl<'a> VisitMut for Hygiene<'a> {
 
     fn visit_mut_object_lit(&mut self, node: &mut ObjectLit) {
         let mut folder = Hygiene {
+            config: self.config.clone(),
             current: Scope::new(ScopeKind::Block, Some(&self.current)),
             ident_type: IdentType::Ref,
             var_kind: None,
