@@ -27,7 +27,12 @@ fn calc_hash(s: &str) -> String {
 
 /// Load url. This method does caching.
 fn load_url(url: Url) -> Result<String, Error> {
-    let cache_dir = PathBuf::from(env!("OUT_DIR")).join("deno-cache");
+    let cache_dir = PathBuf::from(
+        env::var("CARGO_MANIFEST_DIR")
+            .expect("the test requires an environment variable named `CARGO_MANIFEST_DIR`"),
+    )
+    .join("tests")
+    .join(".cache");
     create_dir_all(&cache_dir).context("failed to create cache dir")?;
 
     let hash = calc_hash(&url.to_string());
