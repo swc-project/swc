@@ -44,7 +44,7 @@ fn load_url(url: Url) -> Result<String, Error> {
     .join("tests")
     .join(".cache");
 
-    let cache_path = calc_cache_path(&cache_dir, &url);
+    let cache_path = calc_cache_path(&cache_dir, &url).with_extension("ts");
     eprintln!("Storing `{}` at `{}`", url, cache_path.display());
 
     create_dir_all(cache_path.parent().unwrap()).context("failed to create cache dir")?;
