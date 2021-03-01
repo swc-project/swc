@@ -617,36 +617,6 @@ impl<'a> VisitMut for Hygiene<'a> {
         self.apply_ops(c)
     }
 
-    fn visit_mut_expr(&mut self, node: &mut Expr) {
-        let old = self.ident_type;
-        self.ident_type = IdentType::Ref;
-        match node {
-            Expr::Ident(..) => node.visit_mut_children_with(self),
-            Expr::Member(e) => {
-                if e.computed {
-                    e.obj.visit_mut_with(self);
-                    e.prop.visit_mut_with(self);
-                } else {
-                    e.obj.visit_mut_with(self)
-                }
-            }
-
-            Expr::This(..) => {}
-
-            _ => node.visit_mut_children_with(self),
-        };
-
-        self.ident_type = old;
-    }
-
-    fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
-        self.visit_mut_fn(Some(node.ident.clone()), &mut node.function);
-    }
-
-    fn visit_mut_fn_expr(&mut self, node: &mut FnExpr) {
-        self.visit_mut_fn(node.ident.clone(), &mut node.function);
-    }
-
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
         match decl {
             Decl::Class(cls) if self.config.keep_class_names => {
@@ -677,6 +647,36 @@ impl<'a> VisitMut for Hygiene<'a> {
         }
 
         decl.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_expr(&mut self, node: &mut Expr) {
+        let old = self.ident_type;
+        self.ident_type = IdentType::Ref;
+        match node {
+            Expr::Ident(..) => node.visit_mut_children_with(self),
+            Expr::Member(e) => {
+                if e.computed {
+                    e.obj.visit_mut_with(self);
+                    e.prop.visit_mut_with(self);
+                } else {
+                    e.obj.visit_mut_with(self)
+                }
+            }
+
+            Expr::This(..) => {}
+
+            _ => node.visit_mut_children_with(self),
+        };
+
+        self.ident_type = old;
+    }
+
+    fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
+        self.visit_mut_fn(Some(node.ident.clone()), &mut node.function);
+    }
+
+    fn visit_mut_fn_expr(&mut self, node: &mut FnExpr) {
+        self.visit_mut_fn(node.ident.clone(), &mut node.function);
     }
 
     /// Invoked for `IdentifierReference` / `BindingIdentifier`
