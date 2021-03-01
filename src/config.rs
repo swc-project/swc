@@ -19,6 +19,7 @@ use swc_ecma_ast::{Expr, ExprStmt, ModuleItem, Stmt};
 use swc_ecma_ext_transforms::jest;
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_transforms::hygiene;
 use swc_ecma_transforms::{
     compat::es2020::typescript_class_properties,
     modules,
@@ -193,6 +194,7 @@ impl Options {
             external_helpers,
             target,
             loose,
+            keep_class_names,
         } = config.jsc;
 
         let syntax = syntax.unwrap_or_default();
@@ -262,7 +264,11 @@ impl Options {
         let pass = PassBuilder::new(&cm, &handler, loose, root_mark, pass)
             .target(target)
             .skip_helper_injection(self.skip_helper_injection)
-            .hygiene(!self.disable_hygiene)
+            .hygiene(if self.disable_hygiene {
+                None
+            } else {
+                Some(hygiene::Config { keep_class_names })
+            })
             .fixer(!self.disable_fixer)
             .preset_env(config.env)
             .finalize(syntax, config.module, comments);
@@ -350,6 +356,7 @@ impl Default for Rc {
                     external_helpers: false,
                     target: Default::default(),
                     loose: false,
+                    keep_class_names: false,
                 },
                 module: None,
                 minify: None,
@@ -368,6 +375,7 @@ impl Default for Rc {
                     external_helpers: false,
                     target: Default::default(),
                     loose: false,
+                    keep_class_names: false,
                 },
                 module: None,
                 minify: None,
@@ -386,6 +394,7 @@ impl Default for Rc {
                     external_helpers: false,
                     target: Default::default(),
                     loose: false,
+                    keep_class_names: false,
                 },
                 module: None,
                 minify: None,
@@ -549,6 +558,9 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub loose: bool,
+
+    #[serde(default)]
+    pub keep_class_names: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
