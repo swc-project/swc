@@ -161,21 +161,6 @@ export interface Options extends Config {
   inputSourceMap?: boolean | string;
 
   /**
-   * - true to generate a sourcemap for the code and include it in the result object.
-   * - "inline" to generate a sourcemap and append it as a data URL to the end of the code, but not include it in the result object.
-   * - "both" is the same as inline, but will include the map in the result object.
-   *
-   * `swc-cli` overloads some of these to also affect how maps are written to disk:
-   *
-   * - true will write the map to a .map file on disk
-   * - "inline" will write the file directly, so it will have a data: containing the map
-   * - "both" will write the file with a data: URL and also a .map.
-   * - Note: These options are bit weird, so it may make the most sense to just use true
-   *  and handle the rest in your own code, depending on your use case.
-   */
-  sourceMaps?: boolean | "inline" | "both";
-
-  /**
    * The name to use for the file inside the source map object.
    *
    * Defaults to `path.basename(opts.filenameRelative)` when available, or `"unknown"`.
@@ -215,6 +200,21 @@ export interface Config {
   jsc?: JscConfig;
   module?: ModuleConfig;
   minify?: boolean;
+
+  /**
+   * - true to generate a sourcemap for the code and include it in the result object.
+   * - "inline" to generate a sourcemap and append it as a data URL to the end of the code, but not include it in the result object.
+   * - "both" is the same as inline, but will include the map in the result object.
+   *
+   * `swc-cli` overloads some of these to also affect how maps are written to disk:
+   *
+   * - true will write the map to a .map file on disk
+   * - "inline" will write the file directly, so it will have a data: containing the map
+   * - "both" will write the file with a data: URL and also a .map.
+   * - Note: These options are bit weird, so it may make the most sense to just use true
+   *  and handle the rest in your own code, depending on your use case.
+   */
+  sourceMaps?: boolean | "inline" | "both";
 }
 
 /**
@@ -561,7 +561,7 @@ export interface Output {
   map?: string;
 }
 
-export interface MatchPattern {}
+export interface MatchPattern { }
 
 // -------------------------------
 // ---------- Ast nodes ----------
@@ -778,7 +778,7 @@ export type Expression =
   | OptionalChainingExpression
   | Invalid;
 
-interface ExpressionBase extends Node, HasSpan {}
+interface ExpressionBase extends Node, HasSpan { }
 
 export interface OptionalChainingExpression extends ExpressionBase {
   type: "OptionalChainingExpression";

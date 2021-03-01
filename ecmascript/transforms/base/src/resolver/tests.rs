@@ -1,3 +1,5 @@
+use crate::hygiene::Config;
+
 use super::*;
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
@@ -61,7 +63,20 @@ where
     F: FnOnce() -> V,
     V: Fold,
 {
-    crate::tests::test_transform(syntax, |_| tr(), src, to, true);
+    crate::tests::test_transform(syntax, |_| tr(), src, to, true, Default::default());
+}
+
+fn run_test_with_config<F, V>(
+    syntax: Syntax,
+    tr: F,
+    src: &str,
+    to: &str,
+    config: crate::hygiene::Config,
+) where
+    F: FnOnce() -> V,
+    V: Fold,
+{
+    crate::tests::test_transform(syntax, |_| tr(), src, to, true, config);
 }
 
 macro_rules! to_ts {
@@ -2247,3 +2262,57 @@ to_ts!(
     var x6: T6;
     "
 );
+
+#[test]
+fn issue_1279_1() {
+    run_test_with_config(
+        Default::default(),
+        || resolver(),
+        "class Foo {
+            static f = 1;
+            static g = Foo.f;
+        }",
+        "
+        let Foo1 = class Foo {
+            static f = 1;
+            static g = Foo.f;
+        };
+        ",
+        Config {
+            keep_class_names: true,
+        },
+    );
+}
+
+#[test]
+fn issue_1279_2() {
+    run_test_with_config(
+        Default::default(),
+        || resolver(),
+        "class Foo {
+            static f = 1;
+            static g = Foo.f;
+            method() {
+                class Foo {
+                    static nested = 1;
+                    static nested2 = Foo.nested;
+                }
+            }
+        }",
+        "
+        let Foo1 = class Foo {
+            static f = 1;
+            static g = Foo.f;
+            method() {
+                let Foo2 = class Foo {
+                    static nested = 1;
+                    static nested2 = Foo.nested;
+                };
+            }
+        };
+        ",
+        Config {
+            keep_class_names: true,
+        },
+    );
+}

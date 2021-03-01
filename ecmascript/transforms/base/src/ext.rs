@@ -273,6 +273,21 @@ impl MapWithMut for JSXClosingFragment {
     }
 }
 
+impl MapWithMut for Class {
+    fn dummy() -> Self {
+        Class {
+            span: DUMMY_SP,
+            decorators: Default::default(),
+            body: Default::default(),
+            super_class: Default::default(),
+            is_abstract: Default::default(),
+            type_params: Default::default(),
+            super_type_params: Default::default(),
+            implements: Default::default(),
+        }
+    }
+}
+
 /// Do not use: This is not a public api and it can be changed without a version
 /// bump.
 pub trait PatOrExprExt: AsOptExpr {
