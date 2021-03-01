@@ -1215,11 +1215,18 @@ fn issue_1279() {
                         method() {
                             class Foo {}
                         }
-                    };",
+                    }",
                 )?
                 .fold_with(&mut OnceMarker::new(&[("Foo", &[mark1, mark2])])))
         },
-        "",
+        "
+        let Foo = class Foo {
+            method() {
+                let Foo1 = class Foo {
+                };
+            }
+        };
+        ",
         Config {
             keep_class_names: true,
         },

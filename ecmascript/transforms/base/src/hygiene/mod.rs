@@ -7,10 +7,12 @@ use crate::scope::ScopeKind;
 use fxhash::{FxHashMap, FxHashSet};
 use smallvec::{smallvec, SmallVec};
 use std::cell::RefCell;
+use std::collections::HashMap;
 use swc_atoms::js_word;
 use swc_atoms::JsWord;
 use swc_common::{chain, SyntaxContext};
 use swc_ecma_ast::*;
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 mod ops;
@@ -622,6 +624,18 @@ impl<'a> VisitMut for Hygiene<'a> {
             Decl::Class(cls) if self.config.keep_class_names => {
                 let mut orig_name = cls.ident.clone();
                 orig_name.span.ctxt = SyntaxContext::empty();
+
+                {
+                    // Remove span hygiene of the class.
+                    let mut rename = HashMap::default();
+
+                    rename.insert(cls.ident.to_id(), orig_name.sym.clone());
+
+                    let ops = Operations { rename };
+                    let mut operator = Operator(&ops);
+
+                    cls.class.visit_mut_with(&mut operator);
+                }
 
                 cls.visit_mut_with(self);
 
