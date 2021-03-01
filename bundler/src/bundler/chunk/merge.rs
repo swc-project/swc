@@ -410,6 +410,8 @@ where
                         source.unwrap().clone(),
                     );
 
+                    // print_hygiene("merged as reexport", &self.cm, &module.clone().into());
+
                     log::debug!(
                         "Merged {} into {} as a reexport",
                         dep_info.fm.name,
@@ -719,7 +721,7 @@ where
 
         entry.sort(id, &ctx.graph, &self.cm);
 
-        print_hygiene("done", &self.cm, &entry.clone().into());
+        // print_hygiene("done", &self.cm, &entry.clone().into());
 
         entry.retain_mut(|_, item| {
             match item {
@@ -1075,7 +1077,6 @@ where
 
                                 new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(v))));
 
-                                log::trace!("Exporting `default` with `export decl``");
                                 let export =
                                     ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
                                         span: export.span.with_ctxt(injected_ctxt),
@@ -1085,6 +1086,12 @@ where
                                                 let exported = Ident::new(
                                                     id.sym.clone(),
                                                     id.span.with_ctxt(info.export_ctxt()),
+                                                );
+
+                                                log::trace!(
+                                                    "Exporting `{}{:?}` with `export decl`",
+                                                    id.sym,
+                                                    id.span.ctxt
                                                 );
 
                                                 new.push(
@@ -1204,11 +1211,11 @@ where
             new
         });
 
-        // print_hygiene(
-        //     &format!("prepared: {}", info.fm.name),
-        //     &self.cm,
-        //     &module.clone().into(),
-        // );
+        print_hygiene(
+            &format!("prepared: {}", info.fm.name),
+            &self.cm,
+            &module.clone().into(),
+        );
     }
 
     pub(super) fn replace_import_specifiers(&self, info: &TransformedModule, module: &mut Modules) {
