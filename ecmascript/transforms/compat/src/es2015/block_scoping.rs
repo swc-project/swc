@@ -153,6 +153,7 @@ impl BlockScoping {
                     has_break: false,
                     has_return: false,
                     mutated,
+                    in_switch_case: false,
                 };
 
                 let mut body = match body.fold_with(&mut flow_helper) {
@@ -736,6 +737,7 @@ struct FlowHelper<'a> {
     has_return: bool,
     all: &'a Vec<Id>,
     mutated: HashMap<Id, SyntaxContext>,
+    in_switch_case: bool,
 }
 
 impl<'a> FlowHelper<'a> {
@@ -752,23 +754,20 @@ impl<'a> FlowHelper<'a> {
 impl Fold for FlowHelper<'_> {
     noop_fold_type!();
 
+    fn fold_switch_case(&mut self, n: SwitchCase) -> SwitchCase {
+        let old = self.in_switch_case;
+        self.in_switch_case = true;
+
+        let n = n.fold_children_with(self);
+
+        self.in_switch_case = old;
+
+        n
+    }
+
     /// noop
     fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
         f
-    }
-
-    /// noop
-    fn fold_function(&mut self, f: Function) -> Function {
-        f
-    }
-
-    fn fold_update_expr(&mut self, n: UpdateExpr) -> UpdateExpr {
-        match *n.arg {
-            Expr::Ident(ref i) => self.check(i.to_id()),
-            _ => {}
-        }
-
-        n.fold_children_with(self)
     }
 
     fn fold_assign_expr(&mut self, n: AssignExpr) -> AssignExpr {
@@ -791,6 +790,11 @@ impl Fold for FlowHelper<'_> {
         n.fold_children_with(self)
     }
 
+    /// noop
+    fn fold_function(&mut self, f: Function) -> Function {
+        f
+    }
+
     fn fold_stmt(&mut self, node: Stmt) -> Stmt {
         let span = node.span();
 
@@ -811,6 +815,9 @@ impl Fold for FlowHelper<'_> {
                 });
             }
             Stmt::Break(..) => {
+                if self.in_switch_case {
+                    return node;
+                }
                 self.has_break = true;
                 return Stmt::Return(ReturnStmt {
                     span,
@@ -845,6 +852,15 @@ impl Fold for FlowHelper<'_> {
             }
             _ => node.fold_children_with(self),
         }
+    }
+
+    fn fold_update_expr(&mut self, n: UpdateExpr) -> UpdateExpr {
+        match *n.arg {
+            Expr::Ident(ref i) => self.check(i.to_id()),
+            _ => {}
+        }
+
+        n.fold_children_with(self)
     }
 }
 
