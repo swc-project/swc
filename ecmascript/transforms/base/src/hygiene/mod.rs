@@ -1,4 +1,5 @@
 use self::ops::{Operations, Operator};
+use crate::ext::MapWithMut;
 use crate::native::is_native;
 use crate::native::is_native_word;
 use crate::scope::IdentType;
@@ -44,6 +45,32 @@ struct Hygiene<'a> {
 type Contexts = SmallVec<[SyntaxContext; 32]>;
 
 impl<'a> Hygiene<'a> {
+    fn convert_decl_to_keep_name(&mut self, decl: &mut Decl) {
+        match decl {
+            Decl::Class(cls) if self.config.keep_class_names => {
+                let mut orig_name = cls.ident.clone();
+                orig_name.span.ctxt = SyntaxContext::empty();
+                let class_expr = ClassExpr {
+                    ident: Some(orig_name),
+                    class: cls.class.take(),
+                };
+                let var = VarDeclarator {
+                    span: cls.class.span,
+                    name: Pat::Ident(cls.ident.clone().into()),
+                    init: Some(Box::new(Expr::Class(class_expr))),
+                    definite: false,
+                };
+                *decl = Decl::Var(VarDecl {
+                    span: cls.class.span,
+                    kind: VarDeclKind::Let,
+                    declare: false,
+                    decls: vec![var],
+                })
+            }
+            _ => {}
+        }
+    }
+
     fn add_declared_ref(&mut self, ident: Ident) {
         let ctxt = ident.span.ctxt();
 
@@ -646,8 +673,18 @@ impl<'a> VisitMut for Hygiene<'a> {
         self.visit_mut_fn(node.ident.clone(), &mut node.function);
     }
 
+    fn visit_mut_decl(&mut self, n: &mut Decl) {
+        self.convert_decl_to_keep_name(n);
+
+        n.visit_mut_children_with(self);
+    }
+
     /// Invoked for `IdentifierReference` / `BindingIdentifier`
     fn visit_mut_ident(&mut self, i: &mut Ident) {
+        if i.span.ctxt == SyntaxContext::empty() {
+            return;
+        }
+
         if i.sym == js_word!("arguments") || i.sym == js_word!("undefined") {
             return;
         }
