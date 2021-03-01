@@ -229,16 +229,19 @@ struct ExportToReturn {
 }
 
 impl ExportToReturn {
-    fn export_id(&mut self, i: Ident) {
+    fn export_id(&mut self, mut i: Ident) {
+        i.span.ctxt = SyntaxContext::empty();
         self.return_props
-            .push(PropOrSpread::Prop(Box::new(Prop::Shorthand(i.clone()))));
+            .push(PropOrSpread::Prop(Box::new(Prop::Shorthand(i))));
     }
 
-    fn export_key_value(&mut self, key: Ident, value: Ident) {
+    fn export_key_value(&mut self, mut key: Ident, value: Ident) {
+        key.span.ctxt = SyntaxContext::empty();
+
         self.return_props
             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                key: PropName::Ident(key.clone()),
-                value: Box::new(Expr::Ident(value.clone())),
+                key: PropName::Ident(key),
+                value: Box::new(Expr::Ident(value)),
             }))));
     }
 }
