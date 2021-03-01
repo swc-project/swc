@@ -279,6 +279,7 @@ impl Options {
             source_maps: self
                 .source_maps
                 .clone()
+                .or(config.source_maps)
                 .unwrap_or(SourceMapsConfig::Bool(false)),
             input_source_map: self.input_source_map.clone(),
         }
@@ -352,6 +353,7 @@ impl Default for Rc {
                 },
                 module: None,
                 minify: None,
+                source_maps: None,
             },
             Config {
                 env: None,
@@ -369,6 +371,7 @@ impl Default for Rc {
                 },
                 module: None,
                 minify: None,
+                source_maps: None,
             },
             Config {
                 env: None,
@@ -386,6 +389,7 @@ impl Default for Rc {
                 },
                 module: None,
                 minify: None,
+                source_maps: None,
             },
         ])
     }
@@ -445,6 +449,10 @@ pub struct Config {
 
     #[serde(default)]
     pub minify: Option<bool>,
+
+    /// Possible values are: `'inline'`, `true`, `false`.
+    #[serde(default)]
+    pub source_maps: Option<SourceMapsConfig>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -755,6 +763,18 @@ impl Merge for Config {
         self.module.merge(&from.module);
         self.minify.merge(&from.minify);
         self.env.merge(&from.env);
+        self.source_maps.merge(&from.source_maps);
+    }
+}
+
+impl Merge for SourceMapsConfig {
+    fn merge(&mut self, from: &Self) {
+        match self {
+            SourceMapsConfig::Bool(false) => {
+                *self = from.clone();
+            }
+            _ => {}
+        }
     }
 }
 
