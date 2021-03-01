@@ -1033,3 +1033,63 @@ fn deno_8302_3() {
             Ok(())
         });
 }
+
+#[test]
+fn deno_9307_1() {
+    suite()
+        .file(
+            "main.js",
+            "
+            export * as G from './a';
+            ",
+        )
+        .file("a.js", "")
+        .run(|t| {
+            let module = t
+                .bundler
+                .load_transformed(&FileName::Real("main.js".into()))?
+                .unwrap();
+            let mut entries = AHashMap::default();
+            entries.insert("main.js".to_string(), module.clone());
+
+            let p = t.bundler.calculate_plan(entries)?;
+
+            dbg!(&p);
+
+            assert_normal(t, &p.0, "main", &["a"]);
+
+            assert_normal(t, &p.0, "a", &[]);
+
+            Ok(())
+        });
+}
+
+#[test]
+fn deno_9307_2() {
+    suite()
+        .file(
+            "main.js",
+            "
+            export * from './a';
+            ",
+        )
+        .file("a.js", "")
+        .run(|t| {
+            let module = t
+                .bundler
+                .load_transformed(&FileName::Real("main.js".into()))?
+                .unwrap();
+            let mut entries = AHashMap::default();
+            entries.insert("main.js".to_string(), module.clone());
+
+            let p = t.bundler.calculate_plan(entries)?;
+
+            dbg!(&p);
+
+            assert_normal(t, &p.0, "main", &["a"]);
+
+            assert_normal(t, &p.0, "a", &[]);
+
+            Ok(())
+        });
+}
