@@ -623,7 +623,7 @@ impl<'a> VisitMut for Hygiene<'a> {
                 let mut orig_name = cls.ident.clone();
                 orig_name.span.ctxt = SyntaxContext::empty();
 
-                cls.visit_mut_children_with(self);
+                cls.visit_mut_with(self);
 
                 let class_expr = ClassExpr {
                     ident: Some(orig_name),
