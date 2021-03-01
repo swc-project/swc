@@ -1171,52 +1171,49 @@ foo();"
     }
     return vars;
   };",
-        "module.exports = function(values) {
-    var _this = this, _loop = function(i) {
-        elem = _this.elements[i];
-        name = elem.name;
-        if (!name) return 'continue';
-        val = values[name];
-        if (val == null) val = '';
-        switch(elem.type){
-            case 'submit':
-                return 'break';
-            case 'radio':
-            case 'checkbox':
-                elem.checked = val.some(function(str) {
-                    return str.toString() == elem.value;
-                });
-                return 'break';
-            case 'select-multiple':
-                elem.fill(val);
-                return 'break';
-            case 'textarea':
-                elem.innerText = val;
-                return 'break';
-            case 'hidden':
-                return 'break';
-            default:
-                if (elem.fill) {
-                    elem.fill(val);
-                } else {
-                    elem.value = val;
+        "
+        module.exports = function(values) {
+            var _this = this, _loop = function(i) {
+                elem = _this.elements[i];
+                name = elem.name;
+                if (!name) return 'continue';
+                val = values[name];
+                if (val == null) val = '';
+                switch(elem.type){
+                    case 'submit':
+                        break;
+                    case 'radio':
+                    case 'checkbox':
+                        elem.checked = val.some(function(str) {
+                            return str.toString() == elem.value;
+                        });
+                        break;
+                    case 'select-multiple':
+                        elem.fill(val);
+                        break;
+                    case 'textarea':
+                        elem.innerText = val;
+                        break;
+                    case 'hidden':
+                        break;
+                    default:
+                        if (elem.fill) {
+                            elem.fill(val);
+                        } else {
+                            elem.value = val;
+                        }
+                        break;
                 }
-                return 'break';
-        }
-    };
-    var vars = [];
-    var elem = null, name, val;
-    for(var i = 0; i < this.elements.length; i++){
-        var _ret = _loop(i);
-        switch(_ret){
-            case 'break':
-                break;
-            case 'continue':
-                continue;
-        }
-    }
-    return vars;
-};"
+            };
+            var vars = [];
+            var elem = null, name, val;
+            for(var i = 0; i < this.elements.length; i++){
+                var _ret = _loop(i);
+                if (_ret === 'continue') continue;
+            }
+            return vars;
+        };
+        "
     );
 
     test_exec!(
