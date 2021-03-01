@@ -194,11 +194,6 @@ impl<'a, I: Tokens> Parser<I> {
                     ref mut span,
                     ..
                 })
-                | Pat::Assign(AssignPat {
-                    ref mut type_ann,
-                    ref mut span,
-                    ..
-                })
                 | Pat::Ident(BindingIdent {
                     ref mut type_ann,
                     id: Ident { ref mut span, .. },
@@ -219,6 +214,16 @@ impl<'a, I: Tokens> Parser<I> {
                         *span = Span::new(pat_start, self.input.prev_span().hi, Default::default());
                     }
                     *type_ann = new_type_ann;
+                }
+                Pat::Assign(AssignPat {
+                    ref mut type_ann,
+                    ref mut span,
+                    ..
+                }) => {
+                    if let Some(_) = self.try_parse_ts_type_ann()? {
+                        *span = Span::new(pat_start, self.input.prev_span().hi, Default::default());
+                        self.emit_err(*span, SyntaxError::TSTypeAnnotationAfterAssign);
+                    }
                 }
                 Pat::Invalid(..) => {}
                 _ => unreachable!("invalid syntax: Pat: {:?}", pat),
