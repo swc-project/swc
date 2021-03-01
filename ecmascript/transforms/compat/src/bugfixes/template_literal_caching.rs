@@ -1,6 +1,6 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend_stmts, private_ident};
+use swc_ecma_utils::{prepend, private_ident};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 // Converts destructured parameters with default values to non-shorthand syntax.
@@ -91,9 +91,7 @@ impl Fold for TemplateLiteralCaching {
                     span: DUMMY_SP,
                     tag: Box::new(Expr::Ident(helper_ident.clone())),
                     quasis: n.quasis,
-                    exprs: n
-                        .exprs
-                        .clone()
+                    exprs: (&n.exprs)
                         .into_iter()
                         .map(|_| {
                             Box::new(Expr::Lit(Lit::Num(Number {
@@ -133,10 +131,11 @@ impl Fold for TemplateLiteralCaching {
                         spread: None,
                     }]
                     .into_iter()
-                    .chain(n.exprs.into_iter().map(|expr| ExprOrSpread {
-                        expr: expr.clone(),
-                        spread: None,
-                    }))
+                    .chain(
+                        n.exprs
+                            .into_iter()
+                            .map(|expr| ExprOrSpread { expr, spread: None }),
+                    )
                     .collect(),
                     type_args: None,
                 })
@@ -148,7 +147,7 @@ impl Fold for TemplateLiteralCaching {
     fn fold_module(&mut self, n: Module) -> Module {
         let mut body = n.body.fold_children_with(self);
         if let Some(var) = self.create_var_decl() {
-            prepend_stmts(&mut body, vec![ModuleItem::Stmt(var)].drain(..))
+            prepend(&mut body, ModuleItem::Stmt(var))
         }
 
         Module { body, ..n }
@@ -157,7 +156,7 @@ impl Fold for TemplateLiteralCaching {
     fn fold_script(&mut self, n: Script) -> Script {
         let mut body = n.body.fold_children_with(self);
         if let Some(var) = self.create_var_decl() {
-            prepend_stmts(&mut body, vec![var].drain(..))
+            prepend(&mut body, var)
         }
 
         Script { body, ..n }

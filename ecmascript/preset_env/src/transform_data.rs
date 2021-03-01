@@ -169,16 +169,12 @@ pub(crate) static BUGFIX_FEATURES: Lazy<HashMap<Feature, BrowserData<Option<Vers
         FEATURES
             .clone()
             .into_iter()
-            .chain(
-                map.into_iter()
-                    .map(|(feature, version)| {
-                        (
-                            feature,
-                            version.map_value(|version| version.map(|v| v.parse().unwrap())),
-                        )
-                    })
-                    .collect::<HashMap<Feature, BrowserData<Option<Version>>>>(),
-            )
+            .chain(map.into_iter().map(|(feature, version)| {
+                (
+                    feature,
+                    version.map_value(|version| version.map(|v| v.parse().unwrap())),
+                )
+            }))
             .collect()
     });
 
