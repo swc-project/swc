@@ -620,10 +620,11 @@ impl<'a> VisitMut for Hygiene<'a> {
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
         match decl {
             Decl::Class(cls) if self.config.keep_class_names => {
-                cls.class.visit_mut_with(self);
-
                 let mut orig_name = cls.ident.clone();
                 orig_name.span.ctxt = SyntaxContext::empty();
+
+                cls.visit_mut_children_with(self);
+
                 let class_expr = ClassExpr {
                     ident: Some(orig_name),
                     class: cls.class.take(),
