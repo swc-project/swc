@@ -576,7 +576,9 @@ impl<'a> VisitMut for Resolver<'a> {
         child.in_type = true;
 
         n.type_params.visit_mut_with(&mut child);
-        n.key.visit_mut_with(&mut child);
+        if n.computed {
+            n.key.visit_mut_with(&mut child);
+        }
         n.params.visit_mut_with(&mut child);
         n.type_ann.visit_mut_with(&mut child);
     }
@@ -587,7 +589,9 @@ impl<'a> VisitMut for Resolver<'a> {
         }
 
         self.in_type = true;
-        n.key.visit_mut_with(self);
+        if n.computed {
+            n.key.visit_mut_with(self);
+        }
         let child_mark = Mark::fresh(self.mark);
         // Child folder
         let mut child = Resolver::new(
