@@ -2,7 +2,6 @@ use super::plan::DepType;
 use super::plan::Plan;
 use crate::bundler::chunk::export::inject_export;
 use crate::bundler::keywords::KeywordRenamer;
-use crate::debug::print_hygiene;
 use crate::inline::inline;
 use crate::modules::Modules;
 use crate::{
@@ -194,11 +193,11 @@ where
         } else {
             let mut module = self.merge_modules(ctx, dep_id, false, true)?;
 
-            print_hygiene(
-                &format!("not-wrapped: after deps: {:?}", dep_id),
-                &self.cm,
-                &module.clone().into(),
-            );
+            // print_hygiene(
+            //     &format!("not-wrapped: after deps: {:?}", dep_id),
+            //     &self.cm,
+            //     &module.clone().into(),
+            // );
 
             // print_hygiene(
             //     &format!(
@@ -1227,11 +1226,11 @@ where
             new
         });
 
-        print_hygiene(
-            &format!("prepared: {}", info.fm.name),
-            &self.cm,
-            &module.clone().into(),
-        );
+        // print_hygiene(
+        //     &format!("prepared: {}", info.fm.name),
+        //     &self.cm,
+        //     &module.clone().into(),
+        // );
     }
 
     pub(super) fn replace_import_specifiers(&self, info: &TransformedModule, module: &mut Modules) {
