@@ -244,75 +244,6 @@ function timeObject(obj) {
     ]);
 }
 const ianaRegex = /[A-Za-z_+-]{1,256}(:?\/[A-Za-z_+-]{1,256}(\/[A-Za-z_+-]{1,256})?)?/;
-class Zone {
-    get type() {
-        throw new ZoneIsAbstractError();
-    }
-    get name() {
-        throw new ZoneIsAbstractError();
-    }
-    get universal() {
-        throw new ZoneIsAbstractError();
-    }
-    offsetName(ts, opts) {
-        throw new ZoneIsAbstractError();
-    }
-    formatOffset(ts, format) {
-        throw new ZoneIsAbstractError();
-    }
-    offset(ts) {
-        throw new ZoneIsAbstractError();
-    }
-    equals(otherZone) {
-        throw new ZoneIsAbstractError();
-    }
-    get isValid() {
-        throw new ZoneIsAbstractError();
-    }
-}
-class InvalidZone extends Zone {
-    constructor(zoneName){
-        super();
-        this.zoneName = zoneName;
-    }
-    get type() {
-        return "invalid";
-    }
-    get name() {
-        return this.zoneName;
-    }
-    get universal() {
-        return false;
-    }
-    offsetName() {
-        return null;
-    }
-    formatOffset() {
-        return "";
-    }
-    offset() {
-        return NaN;
-    }
-    equals() {
-        return false;
-    }
-    get isValid() {
-        return false;
-    }
-}
-class Invalid {
-    constructor(reason3, explanation1){
-        this.reason = reason3;
-        this.explanation = explanation1;
-    }
-    toMessage() {
-        if (this.explanation) {
-            return `${this.reason}: ${this.explanation}`;
-        } else {
-            return this.reason;
-        }
-    }
-}
 const n1 = "numeric", s1 = "short", l = "long";
 const DATE_SHORT = {
     year: n1,
@@ -1098,6 +1029,32 @@ class Formatter {
         return stringifyTokens(tokens, tokenToString(collapsed));
     }
 }
+class Zone {
+    get type() {
+        throw new ZoneIsAbstractError();
+    }
+    get name() {
+        throw new ZoneIsAbstractError();
+    }
+    get universal() {
+        throw new ZoneIsAbstractError();
+    }
+    offsetName(ts, opts) {
+        throw new ZoneIsAbstractError();
+    }
+    formatOffset(ts, format) {
+        throw new ZoneIsAbstractError();
+    }
+    offset(ts) {
+        throw new ZoneIsAbstractError();
+    }
+    equals(otherZone) {
+        throw new ZoneIsAbstractError();
+    }
+    get isValid() {
+        throw new ZoneIsAbstractError();
+    }
+}
 let singleton = null;
 class FixedOffsetZone extends Zone {
     static get utcInstance() {
@@ -1401,6 +1358,36 @@ function parseDigits(str) {
 function digitRegex({ numberingSystem  }, append = "") {
     return new RegExp(`${numberingSystems[numberingSystem || "latn"]}${append}`);
 }
+class InvalidZone extends Zone {
+    constructor(zoneName){
+        super();
+        this.zoneName = zoneName;
+    }
+    get type() {
+        return "invalid";
+    }
+    get name() {
+        return this.zoneName;
+    }
+    get universal() {
+        return false;
+    }
+    offsetName() {
+        return null;
+    }
+    formatOffset() {
+        return "";
+    }
+    offset() {
+        return NaN;
+    }
+    equals() {
+        return false;
+    }
+    get isValid() {
+        return false;
+    }
+}
 function normalizeZone(input, defaultZone) {
     let offset1;
     if (isUndefined(input) || input === null) {
@@ -1421,6 +1408,19 @@ function normalizeZone(input, defaultZone) {
         return input;
     } else {
         return new InvalidZone(input);
+    }
+}
+class Invalid {
+    constructor(reason3, explanation1){
+        this.reason = reason3;
+        this.explanation = explanation1;
+    }
+    toMessage() {
+        if (this.explanation) {
+            return `${this.reason}: ${this.explanation}`;
+        } else {
+            return this.reason;
+        }
     }
 }
 let singleton1 = null;
@@ -1837,6 +1837,81 @@ function hasInvalidTimeData(obj) {
     } else return false;
 }
 const INVALID = "Invalid DateTime";
+let intlDTCache = {
+};
+const INVALID1 = "Invalid Duration";
+let now = ()=>Date.now()
+, defaultZone = null, defaultLocale = null, defaultNumberingSystem = null, defaultOutputCalendar = null, throwOnInvalid = false;
+const INVALID2 = "Invalid Interval";
+class Info {
+    static hasDST(zone = Settings.defaultZone) {
+        const proto = DateTime.local().setZone(zone).set({
+            month: 12
+        });
+        return !zone.universal && proto.offset !== proto.set({
+            month: 6
+        }).offset;
+    }
+    static isValidIANAZone(zone) {
+        return IANAZone.isValidSpecifier(zone) && IANAZone.isValidZone(zone);
+    }
+    static normalizeZone(input) {
+        return normalizeZone(input, Settings.defaultZone);
+    }
+    static months(length = "long", { locale =null , numberingSystem =null , outputCalendar ="gregory"  } = {
+    }) {
+        return Locale.create(locale, numberingSystem, outputCalendar).months(length);
+    }
+    static monthsFormat(length = "long", { locale =null , numberingSystem =null , outputCalendar ="gregory"  } = {
+    }) {
+        return Locale.create(locale, numberingSystem, outputCalendar).months(length, true);
+    }
+    static weekdays(length = "long", { locale =null , numberingSystem =null  } = {
+    }) {
+        return Locale.create(locale, numberingSystem, null).weekdays(length);
+    }
+    static weekdaysFormat(length = "long", { locale =null , numberingSystem =null  } = {
+    }) {
+        return Locale.create(locale, numberingSystem, null).weekdays(length, true);
+    }
+    static meridiems({ locale =null  } = {
+    }) {
+        return Locale.create(locale).meridiems();
+    }
+    static eras(length = "short", { locale =null  } = {
+    }) {
+        return Locale.create(locale, null, "gregory").eras(length);
+    }
+    static features() {
+        let intl = false, intlTokens = false, zones = false, relative = false;
+        if (hasIntl()) {
+            intl = true;
+            intlTokens = hasFormatToParts();
+            relative = hasRelative();
+            try {
+                zones = new Intl.DateTimeFormat("en", {
+                    timeZone: "America/New_York"
+                }).resolvedOptions().timeZone === "America/New_York";
+            } catch (e) {
+                zones = false;
+            }
+        }
+        return {
+            intl,
+            intlTokens,
+            zones,
+            relative
+        };
+    }
+}
+function dayDiff(earlier, later) {
+    const utcDayStart = (dt)=>dt.toUTC(0, {
+            keepLocalTime: true
+        }).startOf("day").valueOf()
+    , ms = utcDayStart(later) - utcDayStart(earlier);
+    return Math.floor(Duration.fromMillis(ms).as("days"));
+}
+const MISSING_FTP = "missing Intl.DateTimeFormat.formatToParts support";
 function unsupportedZone(zone) {
     return new Invalid("unsupported zone", `the zone "${zone.name}" is not supported`);
 }
@@ -2812,8 +2887,6 @@ function friendlyDateTime(dateTimeish) {
         throw new InvalidArgumentError(`Unknown datetime argument: ${dateTimeish}, of type ${typeof dateTimeish}`);
     }
 }
-let intlDTCache = {
-};
 function getCachedDTF(locString, opts = {
 }) {
     const key = JSON.stringify([
@@ -3214,7 +3287,6 @@ class Locale {
         return this.locale === other.locale && this.numberingSystem === other.numberingSystem && this.outputCalendar === other.outputCalendar;
     }
 }
-const INVALID1 = "Invalid Duration";
 const lowOrderMatrix = {
     weeks: {
         days: 7,
@@ -3648,8 +3720,6 @@ function friendlyDuration(durationish) {
         throw new InvalidArgumentError(`Unknown duration argument ${durationish} of type ${typeof durationish}`);
     }
 }
-let now = ()=>Date.now()
-, defaultZone = null, defaultLocale = null, defaultNumberingSystem = null, defaultOutputCalendar = null, throwOnInvalid = false;
 class Settings {
     static get now() {
         return now;
@@ -3699,7 +3769,6 @@ class Settings {
         IANAZone.resetCache();
     }
 }
-const INVALID2 = "Invalid Interval";
 function validateStartEnd(start, end) {
     if (!start || !start.isValid) {
         return Interval.invalid("missing or invalid start");
@@ -3998,74 +4067,6 @@ class Interval {
         return Interval.fromDateTimes(mapFn(this.s), mapFn(this.e));
     }
 }
-class Info {
-    static hasDST(zone = Settings.defaultZone) {
-        const proto = DateTime.local().setZone(zone).set({
-            month: 12
-        });
-        return !zone.universal && proto.offset !== proto.set({
-            month: 6
-        }).offset;
-    }
-    static isValidIANAZone(zone) {
-        return IANAZone.isValidSpecifier(zone) && IANAZone.isValidZone(zone);
-    }
-    static normalizeZone(input) {
-        return normalizeZone(input, Settings.defaultZone);
-    }
-    static months(length = "long", { locale =null , numberingSystem =null , outputCalendar ="gregory"  } = {
-    }) {
-        return Locale.create(locale, numberingSystem, outputCalendar).months(length);
-    }
-    static monthsFormat(length = "long", { locale =null , numberingSystem =null , outputCalendar ="gregory"  } = {
-    }) {
-        return Locale.create(locale, numberingSystem, outputCalendar).months(length, true);
-    }
-    static weekdays(length = "long", { locale =null , numberingSystem =null  } = {
-    }) {
-        return Locale.create(locale, numberingSystem, null).weekdays(length);
-    }
-    static weekdaysFormat(length = "long", { locale =null , numberingSystem =null  } = {
-    }) {
-        return Locale.create(locale, numberingSystem, null).weekdays(length, true);
-    }
-    static meridiems({ locale =null  } = {
-    }) {
-        return Locale.create(locale).meridiems();
-    }
-    static eras(length = "short", { locale =null  } = {
-    }) {
-        return Locale.create(locale, null, "gregory").eras(length);
-    }
-    static features() {
-        let intl3 = false, intlTokens = false, zones = false, relative = false;
-        if (hasIntl()) {
-            intl3 = true;
-            intlTokens = hasFormatToParts();
-            relative = hasRelative();
-            try {
-                zones = new Intl.DateTimeFormat("en", {
-                    timeZone: "America/New_York"
-                }).resolvedOptions().timeZone === "America/New_York";
-            } catch (e) {
-                zones = false;
-            }
-        }
-        return {
-            intl: intl3,
-            intlTokens,
-            zones,
-            relative
-        };
-    }
-}
-function dayDiff(earlier, later) {
-    const utcDayStart = (dt2)=>dt2.toUTC(0, {
-            keepLocalTime: true
-        }).startOf("day").valueOf()
-    , ms = utcDayStart(later) - utcDayStart(earlier);
-    return Math.floor(Duration.fromMillis(ms).as("days"));
-}
 function highOrderDiffs(cursor, later, units) {
     const differs = [
         [
@@ -4143,7 +4144,6 @@ function __default(earlier, later, units, opts4) {
         return duration;
     }
 }
-const MISSING_FTP = "missing Intl.DateTimeFormat.formatToParts support";
 function intUnit(regex, post = (i)=>i
 ) {
     return {

@@ -143,7 +143,11 @@ where
                 }
             };
 
-            // print_hygiene("wrapped: before deps", &self.cm, &module);
+            // print_hygiene(
+            //     &format!("wrapped: before deps: {:?}", dep_id),
+            //     &self.cm,
+            //     &module.clone().into(),
+            // );
 
             if let Some(plan) = ctx.plan.circular.get(&dep_id) {
                 module = self
@@ -154,6 +158,12 @@ where
             module = self
                 .merge_deps(ctx, false, module, plan, &dep_info, false)
                 .context("failed to merge dependencies")?;
+
+            // print_hygiene(
+            //     &format!("wrapped: after deps: {:?}", dep_id),
+            //     &self.cm,
+            //     &module.clone().into(),
+            // );
 
             // This code is currently not required because wrapped es modules store their
             // content on the top scope.
@@ -182,6 +192,12 @@ where
             module
         } else {
             let mut module = self.merge_modules(ctx, dep_id, false, true)?;
+
+            // print_hygiene(
+            //     &format!("not-wrapped: after deps: {:?}", dep_id),
+            //     &self.cm,
+            //     &module.clone().into(),
+            // );
 
             // print_hygiene(
             //     &format!(
@@ -408,6 +424,8 @@ where
                         dep_module,
                         source.unwrap().clone(),
                     );
+
+                    // print_hygiene("merged as reexport", &self.cm, &module.clone().into());
 
                     log::debug!(
                         "Merged {} into {} as a reexport",
@@ -1074,7 +1092,6 @@ where
 
                                 new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(v))));
 
-                                log::trace!("Exporting `default` with `export decl``");
                                 let export =
                                     ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
                                         span: export.span.with_ctxt(injected_ctxt),
@@ -1084,6 +1101,12 @@ where
                                                 let exported = Ident::new(
                                                     id.sym.clone(),
                                                     id.span.with_ctxt(info.export_ctxt()),
+                                                );
+
+                                                log::trace!(
+                                                    "Exporting `{}{:?}` with `export decl`",
+                                                    id.sym,
+                                                    id.span.ctxt
                                                 );
 
                                                 new.push(

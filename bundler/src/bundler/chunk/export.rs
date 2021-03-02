@@ -117,12 +117,9 @@ where
                 });
             } else {
                 dep = dep.fold_with(&mut DepUnexporter {});
-
-                // print_hygiene(&format!("dep: unexport"), &self.cm,
-                // &dep.clone().into());
             }
 
-            // TODO: Add varaible based on specifers
+            // print_hygiene(&format!("done: reexport"), &self.cm, &dep.clone().into());
 
             Ok(dep)
         })

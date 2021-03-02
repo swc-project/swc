@@ -990,7 +990,6 @@ fn run(url: &str, exports: &[&str]) {
 
     let output = Command::new("deno")
         .arg("run")
-        .arg("--allow-all")
         .arg("--no-check")
         .arg(&path)
         .stdout(Stdio::inherit())
