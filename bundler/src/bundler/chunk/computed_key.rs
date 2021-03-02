@@ -35,7 +35,7 @@ where
         &self,
         ctx: &Ctx,
         id: ModuleId,
-        mut module: Modules,
+        module: Modules,
     ) -> Result<Modules, Error> {
         let span = DUMMY_SP;
         let info = self.scope.get_module(id).unwrap();
@@ -44,7 +44,6 @@ where
             None => bail!("{:?} should not be wrapped with a function", id),
         };
         let injected_ctxt = self.injected_ctxt;
-        module.sort(id, &ctx.graph, &self.cm);
 
         let is_async = {
             let mut v = TopLevelAwaitFinder { found: false };
