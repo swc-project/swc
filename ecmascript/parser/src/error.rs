@@ -217,6 +217,7 @@ pub enum SyntaxError {
     TS2483,
     TS2491,
     TS2703,
+    TSTypeAnnotationAfterAssign,
 }
 
 impl SyntaxError {
@@ -522,6 +523,9 @@ impl SyntaxError {
             SyntaxError::TS2491 => "The left-hand side of a 'for...in' statement cannot be a \
                                     destructuring pattern"
                 .into(),
+            SyntaxError::TSTypeAnnotationAfterAssign => {
+                "Type annotations must come before default assignments".into()
+            }
         }
     }
 }

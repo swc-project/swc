@@ -50,7 +50,7 @@ impl Default for Runtime {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct Options {
@@ -169,6 +169,7 @@ where
             expr: parse_classic_option(&cm, "pragmaFrag", options.pragma_frag),
         },
         use_builtins: options.use_builtins,
+        use_spread: options.use_spread,
         throw_if_namespace: options.throw_if_namespace,
         top_level_node: true,
     })
@@ -198,6 +199,7 @@ where
     comments: Option<C>,
     pragma_frag: ExprOrSpread,
     use_builtins: bool,
+    use_spread: bool,
     throw_if_namespace: bool,
 }
 
@@ -586,6 +588,10 @@ where
     fn fold_attrs_for_old_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
         if attrs.is_empty() {
             return Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP })));
+        }
+
+        if self.use_spread {
+            return self.fold_attrs_for_next_classic(attrs);
         }
 
         let is_complex = attrs.iter().any(|a| match *a {

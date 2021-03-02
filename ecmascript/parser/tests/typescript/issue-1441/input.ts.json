@@ -1,0 +1,59 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 2,
+    "end": 25,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2,
+        "end": 13,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AwaitExpression",
+        "span": {
+          "start": 2,
+          "end": 13,
+          "ctxt": 0
+        },
+        "argument": {
+          "type": "CallExpression",
+          "span": {
+            "start": 8,
+            "end": 13,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 8,
+              "end": 11,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          },
+          "arguments": [],
+          "typeArguments": null
+        }
+      }
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 15,
+        "end": 25,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": null,
+      "typeOnly": false,
+      "asserts": null
+    }
+  ],
+  "interpreter": null
+}

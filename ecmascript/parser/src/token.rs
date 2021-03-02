@@ -1,4 +1,4 @@
-//! Ported from [babel/bablyon][]
+//! Ported from [babel/babylon][]
 //!
 //! [babel/babylon]:https://github.com/babel/babel/blob/2d378d076eb0c5fe63234a8b509886005c01d7ee/packages/babylon/src/tokenizer/types.js
 pub(crate) use self::{AssignOpToken::*, BinOpToken::*, Keyword::*, Token::*};

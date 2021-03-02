@@ -694,7 +694,14 @@ mod tests {
     use super::fixer;
 
     fn run_test(from: &str, to: &str) {
-        crate::tests::test_transform(Default::default(), |_| fixer(None), from, to, true);
+        crate::tests::test_transform(
+            Default::default(),
+            |_| fixer(None),
+            from,
+            to,
+            true,
+            Default::default(),
+        );
     }
 
     macro_rules! test_fixer {
