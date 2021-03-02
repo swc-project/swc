@@ -27,6 +27,10 @@ pub(crate) fn inline(injected_ctxt: SyntaxContext, module: &mut Modules) {
 
     module.visit_with(&mut v);
     module.visit_mut_with(&mut v);
+    module.retain_mut(|_, s| match s {
+        ModuleItem::Stmt(Stmt::Empty(..)) => false,
+        _ => true,
+    });
 }
 
 #[derive(Debug)]
