@@ -8,7 +8,7 @@ use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, private_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, Node, Visit};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -51,93 +51,87 @@ where
             v.found
         };
 
-        let mut module_items = vec![];
+        let mut addtional_items = vec![];
 
-        let stmts = {
-            module.iter().for_each(|(_, item)| {
-                match item {
-                    // Handle `export *`-s from dependency modules.
-                    //
-                    // See: https://github.com/denoland/deno/issues/9200
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                        span,
-                        ref specifiers,
-                        ..
-                    })) if span.ctxt == injected_ctxt => {
-                        for s in specifiers {
-                            match s {
-                                ExportSpecifier::Named(ExportNamedSpecifier {
-                                    orig,
-                                    exported: Some(exported),
-                                    ..
-                                }) => {
-                                    if let Some(..) = ctx.transitive_remap.get(&exported.span.ctxt)
-                                    {
-                                        let mut var_name = exported.clone();
-                                        var_name.span.ctxt = info.export_ctxt();
-                                        module_items.push(
-                                            exported
-                                                .clone()
-                                                .assign_to(var_name.clone())
-                                                .into_module_item(
-                                                    injected_ctxt,
-                                                    "export * in a wrapped esm",
-                                                ),
-                                        );
-                                        let specifier =
-                                            ExportSpecifier::Named(ExportNamedSpecifier {
-                                                span: DUMMY_SP,
-                                                orig: orig.clone(),
-                                                exported: Some(exported.clone()),
-                                            });
-                                        module_items.push(ModuleItem::ModuleDecl(
-                                            ModuleDecl::ExportNamed(NamedExport {
+        module.iter().for_each(|(module_id, item)| {
+            match item {
+                // Handle `export *`-s from dependency modules.
+                //
+                // See: https://github.com/denoland/deno/issues/9200
+                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                    span,
+                    ref specifiers,
+                    ..
+                })) if span.ctxt == injected_ctxt => {
+                    for s in specifiers {
+                        match s {
+                            ExportSpecifier::Named(ExportNamedSpecifier {
+                                orig,
+                                exported: Some(exported),
+                                ..
+                            }) => {
+                                if let Some(..) = ctx.transitive_remap.get(&exported.span.ctxt) {
+                                    let mut var_name = exported.clone();
+                                    var_name.span.ctxt = info.export_ctxt();
+                                    addtional_items.push((
+                                        module_id,
+                                        exported
+                                            .clone()
+                                            .assign_to(var_name.clone())
+                                            .into_module_item(
+                                                injected_ctxt,
+                                                "export * in a wrapped esm",
+                                            ),
+                                    ));
+                                    let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
+                                        span: DUMMY_SP,
+                                        orig: orig.clone(),
+                                        exported: Some(exported.clone()),
+                                    });
+                                    addtional_items.push((
+                                        module_id,
+                                        ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                                            NamedExport {
                                                 span: DUMMY_SP.with_ctxt(injected_ctxt),
                                                 specifiers: vec![specifier],
                                                 src: None,
                                                 type_only: false,
                                                 asserts: None,
-                                            }),
-                                        ));
-                                    }
+                                            },
+                                        )),
+                                    ));
                                 }
-                                _ => {}
                             }
+                            _ => {}
                         }
                     }
-                    _ => {}
                 }
-            });
+                _ => {}
+            }
+        });
 
-            let mut module = Module::from(module).fold_with(&mut ExportToReturn {
-                synthesized_ctxt: self.synthesized_ctxt,
-                return_props: Default::default(),
-            });
-
-            take(&mut module.body)
-                .into_iter()
-                .filter_map(|v| match v {
-                    ModuleItem::Stmt(s @ Stmt::Return(..)) => Some(s),
-
-                    ModuleItem::Stmt(s) => {
-                        module_items.push(ModuleItem::Stmt(s));
-                        None
-                    }
-
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
-                        // We handle this later.
-                        let mut map = ctx.export_stars_in_wrapped.lock();
-                        map.entry(id).or_default().push(export.span.ctxt);
-                        module_items.push(v);
-                        None
-                    }
-                    _ => {
-                        module_items.push(v);
-                        None
-                    }
-                })
-                .collect()
+        let mut export_visitor = ExportToReturn {
+            synthesized_ctxt: self.synthesized_ctxt,
+            return_props: Default::default(),
         };
+        let mut module = module.fold_with(&mut export_visitor);
+
+        let return_stmt = Stmt::Return(ReturnStmt {
+            span: DUMMY_SP,
+            arg: Some(Box::new(Expr::Object(ObjectLit {
+                span: DUMMY_SP,
+                props: take(&mut export_visitor.return_props),
+            }))),
+        });
+
+        module.iter().for_each(|(_, v)| match v {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
+                // We handle this later.
+                let mut map = ctx.export_stars_in_wrapped.lock();
+                map.entry(id).or_default().push(export.span.ctxt);
+            }
+            _ => {}
+        });
 
         let module_fn = Expr::Fn(FnExpr {
             function: Function {
@@ -146,7 +140,7 @@ where
                 span: DUMMY_SP,
                 body: Some(BlockStmt {
                     span: DUMMY_SP,
-                    stmts,
+                    stmts: vec![return_stmt],
                 }),
                 is_generator: false,
                 is_async,
@@ -182,7 +176,7 @@ where
             }],
         };
 
-        module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))));
+        module.append(id, ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))));
 
         // print_hygiene(
         //     "wrap",
@@ -194,15 +188,7 @@ where
         //     },
         // );
 
-        Ok(Modules::from(
-            id,
-            Module {
-                span: DUMMY_SP,
-                shebang: None,
-                body: module_items,
-            },
-            self.injected_ctxt,
-        ))
+        Ok(module)
     }
 }
 
@@ -347,24 +333,5 @@ impl Fold for ExportToReturn {
         } else {
             ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
         }
-    }
-
-    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        let mut new = items.fold_children_with(self);
-
-        new.retain(|s| match s {
-            ModuleItem::Stmt(Stmt::Empty(..)) => false,
-            _ => true,
-        });
-
-        new.push(ModuleItem::Stmt(Stmt::Return(ReturnStmt {
-            span: DUMMY_SP,
-            arg: Some(Box::new(Expr::Object(ObjectLit {
-                span: DUMMY_SP,
-                props: take(&mut self.return_props),
-            }))),
-        })));
-
-        new
     }
 }
