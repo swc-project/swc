@@ -144,7 +144,11 @@ where
                 }
             };
 
-            // print_hygiene("wrapped: before deps", &self.cm, &module);
+            // print_hygiene(
+            //     &format!("wrapped: before deps: {:?}", dep_id),
+            //     &self.cm,
+            //     &module.clone().into(),
+            // );
 
             if let Some(plan) = ctx.plan.circular.get(&dep_id) {
                 module = self
@@ -155,6 +159,12 @@ where
             module = self
                 .merge_deps(ctx, false, module, plan, &dep_info, false)
                 .context("failed to merge dependencies")?;
+
+            // print_hygiene(
+            //     &format!("wrapped: after deps: {:?}", dep_id),
+            //     &self.cm,
+            //     &module.clone().into(),
+            // );
 
             // This code is currently not required because wrapped es modules store their
             // content on the top scope.
@@ -183,6 +193,12 @@ where
             module
         } else {
             let mut module = self.merge_modules(ctx, dep_id, false, true)?;
+
+            print_hygiene(
+                &format!("not-wrapped: after deps: {:?}", dep_id),
+                &self.cm,
+                &module.clone().into(),
+            );
 
             // print_hygiene(
             //     &format!(
