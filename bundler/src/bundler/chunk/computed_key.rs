@@ -35,7 +35,7 @@ where
         &self,
         ctx: &Ctx,
         id: ModuleId,
-        mut module: Modules,
+        module: Modules,
     ) -> Result<Modules, Error> {
         let span = DUMMY_SP;
         let info = self.scope.get_module(id).unwrap();
