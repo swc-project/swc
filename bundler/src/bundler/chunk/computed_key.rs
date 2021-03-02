@@ -35,7 +35,7 @@ where
         &self,
         ctx: &Ctx,
         id: ModuleId,
-        module: Modules,
+        mut module: Modules,
     ) -> Result<Modules, Error> {
         let span = DUMMY_SP;
         let info = self.scope.get_module(id).unwrap();
@@ -109,6 +109,8 @@ where
                 _ => {}
             }
         });
+
+        module.append_all(addtional_items);
 
         let mut export_visitor = ExportToReturn {
             synthesized_ctxt: self.synthesized_ctxt,
