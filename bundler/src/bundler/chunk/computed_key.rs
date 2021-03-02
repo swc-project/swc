@@ -110,13 +110,13 @@ where
             }
         });
 
-        module.append_all(addtional_items);
-
         let mut export_visitor = ExportToReturn {
             synthesized_ctxt: self.synthesized_ctxt,
             return_props: Default::default(),
         };
         let mut module = module.fold_with(&mut export_visitor);
+
+        module.append_all(addtional_items);
 
         let return_stmt = Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
