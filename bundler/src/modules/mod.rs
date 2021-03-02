@@ -44,12 +44,15 @@ impl Modules {
     }
 
     fn into_items(self) -> Vec<ModuleItem> {
-        self.modules
-            .into_iter()
-            .flat_map(|v| v.1.body)
-            .chain(self.prepended_stmts.into_iter().flat_map(|v| v.1))
-            .chain(self.appended_stmts.into_iter().flat_map(|v| v.1))
-            .collect()
+        debug_assert!(
+            self.prepended_stmts.is_empty(),
+            "sort should be called before calling into_items"
+        );
+        debug_assert!(
+            self.appended_stmts.is_empty(),
+            "sort should be called before calling into_items"
+        );
+        self.modules.into_iter().flat_map(|v| v.1.body).collect()
     }
 
     pub fn add_dep(&mut self, dep: Modules) {
