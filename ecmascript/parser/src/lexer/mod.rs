@@ -1019,6 +1019,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             } else if c.is_line_break() {
                 self.state.had_line_break = true;
                 let c = if c == '\r' && self.peek() == Some('\n') {
+                    raw.push('\r');
                     self.bump(); // '\r'
                     '\n'
                 } else {
