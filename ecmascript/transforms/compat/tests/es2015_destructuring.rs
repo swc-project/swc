@@ -1488,15 +1488,3 @@ test!(
     "var ref;
 foo((ref = [1, 2], a = ref[0], b = ref[1], ref));"
 );
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_1450_1,
-    "async function foo() {
-        const {
-            bar: {} = {}
-        } = baz;
-    }",
-    ""
-);
