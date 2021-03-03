@@ -1311,6 +1311,7 @@ fn issue_1272_2_js() {
 }
 
 #[test]
+#[ignore = "Raw token should be different. See https://github.com/denoland/deno/issues/9620"]
 fn normalize_tpl_carriage_return() {
     assert_eq!(
         lex_tokens(Syntax::default(), "`\r\n`"),

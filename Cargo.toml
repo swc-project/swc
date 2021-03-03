@@ -11,7 +11,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.8.0"
+version = "0.9.0"
 
 [lib]
 name = "swc"
@@ -30,11 +30,11 @@ sourcemap = "6"
 swc_atoms = {version = "0.2", path = "./atoms"}
 swc_common = {version = "0.10.10", path = "./common", features = ["sourcemap", "concurrent"]}
 swc_ecma_ast = {version = "0.40.0", path = "./ecmascript/ast"}
-swc_ecma_codegen = {version = "0.47.0", path = "./ecmascript/codegen"}
-swc_ecma_ext_transforms = {version = "0.6.0", path = "./ecmascript/ext-transforms"}
-swc_ecma_parser = {version = "0.49.0", path = "./ecmascript/parser"}
-swc_ecma_preset_env = {version = "0.8.1", path = "./ecmascript/preset_env"}
-swc_ecma_transforms = {version = "0.38.1", path = "./ecmascript/transforms", features = [
+swc_ecma_codegen = {version = "0.48.0", path = "./ecmascript/codegen"}
+swc_ecma_ext_transforms = {version = "0.7.0", path = "./ecmascript/ext-transforms"}
+swc_ecma_parser = {version = "0.50.0", path = "./ecmascript/parser"}
+swc_ecma_preset_env = {version = "0.9.0", path = "./ecmascript/preset_env"}
+swc_ecma_transforms = {version = "0.39.0", path = "./ecmascript/transforms", features = [
   "compat",
   "module",
   "optimization",

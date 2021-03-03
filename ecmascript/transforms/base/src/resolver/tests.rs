@@ -2316,3 +2316,32 @@ fn issue_1279_2() {
         },
     );
 }
+
+to_ts!(
+    deno_9650_1,
+    "
+    export class X {
+        constructor() {
+        }
+        bad(target :number) {
+            const d = 1;
+            const min = 0;
+            const max = 100;
+            console.log('x', `duration ${d} not in range - ${min} ≥ ${d} && ${max} ≥ ${d}`);
+        }
+    }
+    ",
+    "
+    export class X {
+        constructor(){
+        }
+        bad(target__2: number) {
+            const d__2 = 1;
+            const min__2 = 0;
+            const max__2 = 100;
+            console.log('x', `duration ${d__2} not in range - ${min__2} ≥ ${d__2} && ${max__2} ≥ \
+     ${d__2}`);
+        }
+    }
+    "
+);

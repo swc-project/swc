@@ -1,0 +1,131 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 71,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 15,
+          "end": 18,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 0,
+        "end": 71,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 21,
+          "end": 71,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 27,
+              "end": 69,
+              "ctxt": 0
+            },
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 33,
+                  "end": 68,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "ObjectPattern",
+                  "span": {
+                    "start": 33,
+                    "end": 62,
+                    "ctxt": 0
+                  },
+                  "properties": [
+                    {
+                      "type": "KeyValuePatternProperty",
+                      "key": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 43,
+                          "end": 46,
+                          "ctxt": 0
+                        },
+                        "value": "bar",
+                        "optional": false
+                      },
+                      "value": {
+                        "type": "AssignmentPattern",
+                        "span": {
+                          "start": 48,
+                          "end": 56,
+                          "ctxt": 0
+                        },
+                        "left": {
+                          "type": "ObjectPattern",
+                          "span": {
+                            "start": 48,
+                            "end": 51,
+                            "ctxt": 0
+                          },
+                          "properties": [],
+                          "optional": false,
+                          "typeAnnotation": null
+                        },
+                        "right": {
+                          "type": "ObjectExpression",
+                          "span": {
+                            "start": 54,
+                            "end": 56,
+                            "ctxt": 0
+                          },
+                          "properties": []
+                        },
+                        "typeAnnotation": null
+                      }
+                    }
+                  ],
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 65,
+                    "end": 68,
+                    "ctxt": 0
+                  },
+                  "value": "baz",
+                  "optional": false
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}
