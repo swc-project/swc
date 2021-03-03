@@ -2383,10 +2383,10 @@ fn unescape(s: &str) -> String {
         if c != '\\' {
             match c {
                 '\r' => {
-                    result.push_str("\r");
+                    result.push_str("\\r");
                 }
                 '\n' => {
-                    result.push_str("\n");
+                    result.push_str("\\n");
                 }
 
                 // TODO: Handle all escapes
