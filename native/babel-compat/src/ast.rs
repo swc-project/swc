@@ -60,13 +60,13 @@ pub struct BaseNode {
     pub extra: Option<HashMap<String, Value, RandomState>>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub enum CommentTypeShorthand {
-    Leading,
-    Inner,
-    Trailing,
-}
+// #[derive(Debug, Clone, Serialize, Deserialize)]
+// #[serde(rename_all = "camelCase")]
+// pub enum CommentTypeShorthand {
+//     Leading,
+//     Inner,
+//     Trailing,
+// }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Node {
@@ -369,7 +369,7 @@ pub enum Node {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum ArrayExpressionEl {
+pub enum ArrayEl {
     // TODO
     // Expression(Expression),
     // SpreadElement(SpreadElement),
@@ -380,7 +380,7 @@ pub enum ArrayExpressionEl {
 pub struct ArrayExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub elements: Vec<Option<ArrayExpressionEl>>,
+    pub elements: Vec<Option<ArrayEl>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -445,9 +445,9 @@ pub enum BinaryOp {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum BinaryExpressionLVal {
+pub enum BindaryLeft {
+    Expression(Expression),
     // TODO
-    // Expression(Expression),
     // PrivateName(PrivateName),
 }
 
@@ -457,9 +457,8 @@ pub struct BinaryExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub operator: BinaryOp,
-    pub left: BinaryExpressionLVal,
-    // TODO
-    // pub right: Expression,
+    pub left: BindaryLeft,
+    pub right: Expression,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -506,16 +505,16 @@ pub struct BreakStatement {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum CallExpressionCallee {
+pub enum Callee {
+    Expression(Expression),
     // TODO
-    // Expression(Expression),
     // V8IntrinsicIdentifier(V8IntrinsicIdentifier),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum CallExpressionArg {
+pub enum Arg {
+    Expression(Expression),
     // TODO
-    // Expression(Expression),
     // SpreadElement(SpreadElement),
     // JSXNamespacedName(JSXNamespacedName),
     // ArgumentPlaceholder(ArgumentPlaceholder),
@@ -527,8 +526,8 @@ pub enum CallExpressionArg {
 pub struct CallExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub callee: CallExpressionCallee,
-    pub arguments: Vec<CallExpressionArg>,
+    pub callee: Callee,
+    pub arguments: Vec<Arg>,
     pub optional: Option<bool>,
     // TODO
     // pub type_arguments: Option<TypeParameterInstantiation>,
@@ -557,10 +556,9 @@ pub struct CatchClause {
 pub struct ConditionalExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    // TODO
-    // pub test: Expression,
-    // pub consequent: Expression,
-    // pub altername: Expression,
+    pub test: Expression,
+    pub consequent: Expression,
+    pub altername: Expression,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -586,6 +584,135 @@ pub struct DoWhileStatement {
     pub base: BaseNode,
     pub test: Expression,
     pub body: Statement,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct EmptyStatement {
+    #[serde(flatten)]
+    pub base: BaseNode,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct ExpressionStatement {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub expression: Expression,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct File {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    // TODO
+    // pub program: Program,
+    pub comments: Option<Vec<Comment>>,
+    // pub tokens: Option<Vec<_>>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum ForInLeft {
+    // TODO
+    // VariableDeclaration(VariableDeclaration),
+    LVal(LVal),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct ForInStatement {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub left: ForInLeft,
+    pub right: Expression,
+    pub body: Statement,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum ForInit {
+    // TODO
+    // VariableDeclaration(VariableDeclaration),
+    Expression(Expression),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct ForStatement {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub init: Option<ForInit>,
+    pub test: Option<Expression>,
+    pub update: Option<Expression>,
+    pub body: Statement,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum TypeAnnotation {
+
+    // TODO
+    // FlowTypeAnnotation(FlowTypeAnnotation),
+    // TSTypeAnnotation(TSTypeAnnotation),
+    // Noop(Noop),
+
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum Param {
+    Identifier(Identifier),
+    Pattern(Pattern),
+    // TODO
+    // RestElement(RestElement),
+    // TSParameterTypeProperty(TSParameterTypeProperty),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum TypeParamDeclaration {
+
+    // TODO
+    // FlowTypeParameterDeclaration(FlowTypeParameterDeclaration),
+    // TSTypeParameterDeclaration(TSTypeParameterDeclaration),
+    // Noop(Noop),
+
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct FunctionDeclaration {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub id: Option<Identifier>,
+    pub params: Vec<Param>,
+    pub body: BlockStatement,
+    pub generator: Option<bool>,
+    #[serde(rename = "async")]
+    pub is_async: Option<bool>,
+    pub return_type: Option<TypeAnnotation>,
+    pub type_parameters: Option<TypeParamDeclaration>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct Identifier {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub name: String,
+    // TODO
+    // pub decorators: Option<Vec<Decorator>>,
+    pub optional: Option<bool>,
+    pub type_annotation: Option<TypeAnnotation>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct IfStatement {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub test: Expression,
+    pub consequent: Statement,
+    pub alternate: Option<Statement>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
