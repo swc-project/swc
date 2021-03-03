@@ -333,8 +333,7 @@ pub trait ExprExt {
                 op: op!("void"),
                 ref arg,
                 ..
-            })
-            | Expr::TsTypeCast(TsTypeCastExpr { expr: ref arg, .. }) => arg.is_immutable_value(),
+            }) => arg.is_immutable_value(),
 
             Expr::Ident(ref i) => {
                 i.sym == js_word!("undefined")
@@ -948,8 +947,9 @@ pub trait ExprExt {
 
             Expr::TsAs(TsAsExpr { ref expr, .. })
             | Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
-            | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
-            | Expr::TsTypeCast(TsTypeCastExpr { ref expr, .. }) => expr.may_have_side_effects(),
+            | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. }) => {
+                expr.may_have_side_effects()
+            }
             Expr::OptChain(ref e) => e.expr.may_have_side_effects(),
 
             Expr::Invalid(..) => unreachable!(),
@@ -1356,7 +1356,7 @@ pub fn prop_name_to_expr(p: PropName) -> Expr {
         PropName::Computed(c) => *c.expr,
     }
 }
-/// Simillar to `prop_name_to_expr`, but used for value position.
+/// Similar to `prop_name_to_expr`, but used for value position.
 ///
 /// e.g. value from `{ key: value }`
 pub fn prop_name_to_expr_value(p: PropName) -> Expr {
@@ -1487,7 +1487,7 @@ pub fn prepend_stmts<T: StmtLike>(
         .unwrap_or(to.len());
 
     let mut buf = Vec::with_capacity(to.len() + stmts.len());
-    // TODO: Optimze (maybe unsafe)
+    // TODO: Optimize (maybe unsafe)
 
     buf.extend(to.drain(..idx));
     buf.extend(stmts);
@@ -1779,11 +1779,10 @@ where
             | Expr::JSXNamespacedName(..)
             | Expr::JSXEmpty(..)
             | Expr::JSXElement(..)
-            | Expr::JSXFragment(..) => unreachable!("simplyfing jsx"),
+            | Expr::JSXFragment(..) => unreachable!("simplifying jsx"),
 
             Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
             | Expr::TsNonNull(TsNonNullExpr { expr, .. })
-            | Expr::TsTypeCast(TsTypeCastExpr { expr, .. })
             | Expr::TsAs(TsAsExpr { expr, .. })
             | Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => add_effects(v, expr),
             Expr::OptChain(e) => add_effects(v, e.expr),

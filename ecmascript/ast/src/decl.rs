@@ -96,7 +96,7 @@ pub struct VarDeclarator {
     #[serde(rename = "id")]
     pub name: Pat,
 
-    /// Initialization expresion.
+    /// Initialization expression.
     #[serde(default)]
     pub init: Option<Box<Expr>>,
 

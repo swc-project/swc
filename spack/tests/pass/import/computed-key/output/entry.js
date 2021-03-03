@@ -1,13 +1,12 @@
+const arr = [
+    0,
+    1,
+    2,
+    3
+];
 const mod = function() {
-    const arr = [
-        0,
-        1,
-        2,
-        3
-    ];
     return {
-        arr
+        arr: arr
     };
 }();
-const a = mod;
-console.log(a[foo()]);
+console.log(mod[foo()]);

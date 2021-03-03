@@ -85,7 +85,7 @@ fn fold_span(b: &mut Bencher) {
 }
 
 #[bench]
-fn fold_span_pnic(b: &mut Bencher) {
+fn fold_span_panic(b: &mut Bencher) {
     struct RespanFold;
 
     impl Fold for RespanFold {

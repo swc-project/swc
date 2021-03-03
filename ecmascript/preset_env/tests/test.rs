@@ -190,6 +190,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                     loose: true,
                     // TODO
                     dynamic_import: true,
+                    bugfixes: false,
                     include: c.include,
                     exclude: c.exclude,
                     core_js: match c.corejs {

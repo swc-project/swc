@@ -1,123 +1,9 @@
-function deferred() {
-    let methods;
-    const promise = new Promise((resolve, reject)=>{
-        methods = {
-            resolve,
-            reject
-        };
-    });
-    return Object.assign(promise, methods);
-}
-const deferred1 = deferred;
-const deferred2 = deferred1;
-const deferred3 = deferred1;
-const deferred4 = deferred3;
-var tmp = Symbol.asyncIterator;
-class MuxAsyncIterator {
-    add(iterator) {
-        ++this.iteratorCount;
-        this.callIteratorNext(iterator);
-    }
-    async callIteratorNext(iterator) {
-        try {
-            const { value , done  } = await iterator.next();
-            if (done) --this.iteratorCount;
-            else this.yields.push({
-                iterator,
-                value
-            });
-        } catch (e) {
-            this.throws.push(e);
-        }
-        this.signal.resolve();
-    }
-    async *iterate() {
-        while(this.iteratorCount > 0){
-            // Sleep until any of the wrapped iterators yields.
-            await this.signal;
-            // Note that while we're looping over `yields`, new items may be added.
-            for(let i = 0; i < this.yields.length; i++){
-                const { iterator , value  } = this.yields[i];
-                yield value;
-                this.callIteratorNext(iterator);
-            }
-            if (this.throws.length) {
-                for (const e of this.throws)throw e;
-                this.throws.length = 0;
-            }
-            // Clear the `yields` list and reset the `signal` promise.
-            this.yields.length = 0;
-            this.signal = deferred2();
-        }
-    }
-    [tmp]() {
-        return this.iterate();
-    }
-    constructor(){
-        this.iteratorCount = 0;
-        this.yields = [];
-        this.throws = [];
-        this.signal = deferred2();
-    }
-}
-const MuxAsyncIterator1 = MuxAsyncIterator;
-const MuxAsyncIterator2 = MuxAsyncIterator1;
-const MuxAsyncIterator3 = MuxAsyncIterator2;
-function emptyReader() {
-    return {
-        read (_) {
-            return Promise.resolve(null);
-        }
-    };
-}
-const emptyReader1 = emptyReader;
-const emptyReader2 = emptyReader1;
-function bodyReader(contentLength, r) {
-    let totalRead = 0;
-    let finished = false;
-    async function read(buf) {
-        if (finished) return null;
-        let result;
-        const remaining = contentLength - totalRead;
-        if (remaining >= buf.byteLength) result = await r.read(buf);
-        else {
-            const readBuf = buf.subarray(0, remaining);
-            result = await r.read(readBuf);
-        }
-        if (result !== null) totalRead += result;
-        finished = totalRead === contentLength;
-        return result;
-    }
-    return {
-        read
-    };
-}
-const bodyReader1 = bodyReader;
-const bodyReader2 = bodyReader1;
-function findIndex(source, pat) {
-    const s = pat[0];
-    for(let i = 0; i < source.length; i++){
-        if (source[i] !== s) continue;
-        const pin = i;
-        let matched = 1;
-        let j = i;
-        while(matched < pat.length){
-            j++;
-            if (source[j] !== pat[j - pin]) break;
-            matched++;
-        }
-        if (matched === pat.length) return pin;
-    }
-    return -1;
-}
 function concat(origin, b) {
     const output = new Uint8Array(origin.length + b.length);
     output.set(origin, 0);
     output.set(b, origin.length);
     return output;
 }
-const concat1 = concat;
-const concat2 = concat1;
 function copyBytes(src, dst, off = 0) {
     off = Math.max(0, Math.min(off, dst.byteLength));
     const dstBytesAvailable = dst.byteLength - off;
@@ -125,130 +11,6 @@ function copyBytes(src, dst, off = 0) {
     dst.set(src, off);
     return src.byteLength;
 }
-const copyBytes1 = copyBytes;
-const copyBytes2 = copyBytes1;
-// FROM https://github.com/denoland/deno/blob/b34628a26ab0187a827aa4ebe256e23178e25d39/cli/js/web/headers.ts#L9
-const invalidHeaderCharRegex = /[^\t\x20-\x7e\x80-\xff]/g;
-const encoder = new TextEncoder();
-const encoder1 = encoder;
-const encoder2 = encoder1;
-function encode(input) {
-    return encoder.encode(input);
-}
-const encode1 = encode;
-const encode2 = encode1;
-const decoder = new TextDecoder();
-function decode(input) {
-    return decoder.decode(input);
-}
-const decode1 = decode;
-const decode2 = decode1;
-function str(buf) {
-    if (buf == null) return "";
-    else return decode2(buf);
-}
-function charCode(s) {
-    return s.charCodeAt(0);
-}
-class TextProtoReader {
-    /** readLine() reads a single line from the TextProtoReader,
-   * eliding the final \n or \r\n from the returned string.
-   */ async readLine() {
-        const s = await this.readLineSlice();
-        if (s === null) return null;
-        return str(s);
-    }
-    /** ReadMIMEHeader reads a MIME-style header from r.
-   * The header is a sequence of possibly continued Key: Value lines
-   * ending in a blank line.
-   * The returned map m maps CanonicalMIMEHeaderKey(key) to a
-   * sequence of values in the same order encountered in the input.
-   *
-   * For example, consider this input:
-   *
-   *	My-Key: Value 1
-   *	Long-Key: Even
-   *	       Longer Value
-   *	My-Key: Value 2
-   *
-   * Given that input, ReadMIMEHeader returns the map:
-   *
-   *	map[string][]string{
-   *		"My-Key": {"Value 1", "Value 2"},
-   *		"Long-Key": {"Even Longer Value"},
-   *	}
-   */ async readMIMEHeader() {
-        const m = new Headers();
-        let line;
-        // The first line cannot start with a leading space.
-        let buf = await this.r.peek(1);
-        if (buf === null) return null;
-        else if (buf[0] == charCode(" ") || buf[0] == charCode("\t")) line = await this.readLineSlice();
-        buf = await this.r.peek(1);
-        if (buf === null) throw new Deno.errors.UnexpectedEof();
-        else if (buf[0] == charCode(" ") || buf[0] == charCode("\t")) throw new Deno.errors.InvalidData(`malformed MIME header initial line: ${str(line)}`);
-        while(true){
-            const kv = await this.readLineSlice(); // readContinuedLineSlice
-            if (kv === null) throw new Deno.errors.UnexpectedEof();
-            if (kv.byteLength === 0) return m;
-            // Key ends at first colon
-            let i = kv.indexOf(charCode(":"));
-            if (i < 0) throw new Deno.errors.InvalidData(`malformed MIME header line: ${str(kv)}`);
-            //let key = canonicalMIMEHeaderKey(kv.subarray(0, endKey));
-            const key = str(kv.subarray(0, i));
-            // As per RFC 7230 field-name is a token,
-            // tokens consist of one or more chars.
-            // We could throw `Deno.errors.InvalidData` here,
-            // but better to be liberal in what we
-            // accept, so if we get an empty key, skip it.
-            if (key == "") continue;
-            // Skip initial spaces in value.
-            i++; // skip colon
-            while(i < kv.byteLength && (kv[i] == charCode(" ") || kv[i] == charCode("\t")))i++;
-            const value = str(kv.subarray(i)).replace(invalidHeaderCharRegex, encodeURI);
-            // In case of invalid header we swallow the error
-            // example: "Audio Mode" => invalid due to space in the key
-            try {
-                m.append(key, value);
-            } catch  {
-            }
-        }
-    }
-    async readLineSlice() {
-        // this.closeDot();
-        let line;
-        while(true){
-            const r = await this.r.readLine();
-            if (r === null) return null;
-            const { line: l , more  } = r;
-            // Avoid the copy if the first call produced a full line.
-            if (!line && !more) {
-                // TODO(ry):
-                // This skipSpace() is definitely misplaced, but I don't know where it
-                // comes from nor how to fix it.
-                if (this.skipSpace(l) === 0) return new Uint8Array(0);
-                return l;
-            }
-            line = line ? concat2(line, l) : l;
-            if (!more) break;
-        }
-        return line;
-    }
-    skipSpace(l) {
-        let n = 0;
-        for(let i = 0; i < l.length; i++){
-            if (l[i] === charCode(" ") || l[i] === charCode("\t")) continue;
-            n++;
-        }
-        return n;
-    }
-    constructor(r1){
-        this.r = r1;
-        this.r = r1;
-    }
-}
-const TextProtoReader1 = TextProtoReader;
-const TextProtoReader2 = TextProtoReader1;
 class DenoStdInternalError extends Error {
     constructor(message){
         super(message);
@@ -257,113 +19,6 @@ class DenoStdInternalError extends Error {
 }
 function assert(expr, msg = "") {
     if (!expr) throw new DenoStdInternalError(msg);
-}
-const assert1 = assert;
-const assert2 = assert1;
-const assert3 = assert1;
-const assert4 = assert1;
-function chunkedBodyReader(h, r1) {
-    // Based on https://tools.ietf.org/html/rfc2616#section-19.4.6
-    const tp = new TextProtoReader2(r1);
-    let finished = false;
-    const chunks = [];
-    async function read(buf) {
-        if (finished) return null;
-        const [chunk] = chunks;
-        if (chunk) {
-            const chunkRemaining = chunk.data.byteLength - chunk.offset;
-            const readLength = Math.min(chunkRemaining, buf.byteLength);
-            for(let i = 0; i < readLength; i++)buf[i] = chunk.data[chunk.offset + i];
-            chunk.offset += readLength;
-            if (chunk.offset === chunk.data.byteLength) {
-                chunks.shift();
-                // Consume \r\n;
-                if (await tp.readLine() === null) throw new Deno.errors.UnexpectedEof();
-            }
-            return readLength;
-        }
-        const line = await tp.readLine();
-        if (line === null) throw new Deno.errors.UnexpectedEof();
-        // TODO: handle chunk extension
-        const [chunkSizeString] = line.split(";");
-        const chunkSize = parseInt(chunkSizeString, 16);
-        if (Number.isNaN(chunkSize) || chunkSize < 0) throw new Error("Invalid chunk size");
-        if (chunkSize > 0) {
-            if (chunkSize > buf.byteLength) {
-                let eof = await r1.readFull(buf);
-                if (eof === null) throw new Deno.errors.UnexpectedEof();
-                const restChunk = new Uint8Array(chunkSize - buf.byteLength);
-                eof = await r1.readFull(restChunk);
-                if (eof === null) throw new Deno.errors.UnexpectedEof();
-                else chunks.push({
-                    offset: 0,
-                    data: restChunk
-                });
-                return buf.byteLength;
-            } else {
-                const bufToFill = buf.subarray(0, chunkSize);
-                const eof = await r1.readFull(bufToFill);
-                if (eof === null) throw new Deno.errors.UnexpectedEof();
-                // Consume \r\n
-                if (await tp.readLine() === null) throw new Deno.errors.UnexpectedEof();
-                return chunkSize;
-            }
-        } else {
-            assert2(chunkSize === 0);
-            // Consume \r\n
-            if (await r1.readLine() === null) throw new Deno.errors.UnexpectedEof();
-            await readTrailers(h, r1);
-            finished = true;
-            return null;
-        }
-    }
-    return {
-        read
-    };
-}
-const chunkedBodyReader1 = chunkedBodyReader;
-const chunkedBodyReader2 = chunkedBodyReader1;
-function isProhibidedForTrailer(key) {
-    const s = new Set([
-        "transfer-encoding",
-        "content-length",
-        "trailer"
-    ]);
-    return s.has(key.toLowerCase());
-}
-async function readTrailers(headers, r1) {
-    const trailers = parseTrailer(headers.get("trailer"));
-    if (trailers == null) return;
-    const trailerNames = [
-        ...trailers.keys()
-    ];
-    const tp = new TextProtoReader2(r1);
-    const result = await tp.readMIMEHeader();
-    if (result == null) throw new Deno.errors.InvalidData("Missing trailer header.");
-    const undeclared = [
-        ...result.keys()
-    ].filter((k)=>!trailerNames.includes(k)
-    );
-    if (undeclared.length > 0) throw new Deno.errors.InvalidData(`Undeclared trailers: ${Deno.inspect(undeclared)}.`);
-    for (const [k, v] of result)headers.append(k, v);
-    const missingTrailers = trailerNames.filter((k1)=>!result.has(k1)
-    );
-    if (missingTrailers.length > 0) throw new Deno.errors.InvalidData(`Missing trailers: ${Deno.inspect(missingTrailers)}.`);
-    headers.delete("trailer");
-}
-function parseTrailer(field) {
-    if (field == null) return undefined;
-    const trailerNames = field.split(",").map((v)=>v.trim().toLowerCase()
-    );
-    if (trailerNames.length === 0) throw new Deno.errors.InvalidData("Empty trailer header.");
-    const prohibited = trailerNames.filter((k)=>isProhibidedForTrailer(k)
-    );
-    if (prohibited.length > 0) throw new Deno.errors.InvalidData(`Prohibited trailer names: ${Deno.inspect(prohibited)}.`);
-    return new Headers(trailerNames.map((key)=>[
-            key,
-            ""
-        ]
-    ));
 }
 const DEFAULT_BUF_SIZE = 4096;
 const MIN_BUF_SIZE = 16;
@@ -411,7 +66,7 @@ class BufReader {
                 this.eof = true;
                 return;
             }
-            assert3(rr >= 0, "negative read");
+            assert(rr >= 0, "negative read");
             this.w += rr;
             if (rr > 0) return;
         }
@@ -441,7 +96,7 @@ class BufReader {
                 // Read directly into p to avoid copy.
                 const rr1 = await this.rd.read(p);
                 const nread = rr1 ?? 0;
-                assert3(nread >= 0, "negative read");
+                assert(nread >= 0, "negative read");
                 // if (rr.nread > 0) {
                 //   this.lastByte = p[rr.nread - 1];
                 //   this.lastCharSize = -1;
@@ -454,11 +109,11 @@ class BufReader {
             this.w = 0;
             rr = await this.rd.read(this.buf);
             if (rr === 0 || rr === null) return rr;
-            assert3(rr >= 0, "negative read");
+            assert(rr >= 0, "negative read");
             this.w += rr;
         }
         // copy as much as we can
-        const copied = copyBytes2(this.buf.subarray(this.r, this.w), p, 0);
+        const copied = copyBytes(this.buf.subarray(this.r, this.w), p, 0);
         this.r += copied;
         // this.lastByte = this.buf[this.r - 1];
         // this.lastCharSize = -1;
@@ -543,7 +198,7 @@ class BufReader {
             line = await this.readSlice(LF);
         } catch (err) {
             let { partial: partial1  } = err;
-            assert3(partial1 instanceof Uint8Array, "bufio: caught error from `readSlice()` without `partial` property");
+            assert(partial1 instanceof Uint8Array, "bufio: caught error from `readSlice()` without `partial` property");
             // Don't throw if `readSlice()` failed with `BufferFullError`, instead we
             // just return whatever is available and set the `more` flag.
             if (!(err instanceof BufferFullError)) throw err;
@@ -551,7 +206,7 @@ class BufReader {
             if (!this.eof && partial1.byteLength > 0 && partial1[partial1.byteLength - 1] === CR) {
                 // Put the '\r' back on buf and drop it from line.
                 // Let the next call to ReadLine check for "\r\n".
-                assert3(this.r > 0, "bufio: tried to rewind past start of buffer");
+                assert(this.r > 0, "bufio: tried to rewind past start of buffer");
                 this.r--;
                 partial1 = partial1.subarray(0, partial1.byteLength - 1);
             }
@@ -670,8 +325,6 @@ class BufReader {
         this._reset(new Uint8Array(size1), rd);
     }
 }
-const BufReader1 = BufReader;
-const BufReader2 = BufReader1;
 class AbstractBufBase {
     /** Size returns the size of the underlying buffer in bytes. */ size() {
         return this.buf.byteLength;
@@ -733,14 +386,14 @@ class BufWriter extends AbstractBufBase {
                 throw e;
             }
             else {
-                numBytesWritten = copyBytes2(data, this.buf, this.usedBufferBytes);
+                numBytesWritten = copyBytes(data, this.buf, this.usedBufferBytes);
                 this.usedBufferBytes += numBytesWritten;
                 await this.flush();
             }
             totalBytesWritten += numBytesWritten;
             data = data.subarray(numBytesWritten);
         }
-        numBytesWritten = copyBytes2(data, this.buf, this.usedBufferBytes);
+        numBytesWritten = copyBytes(data, this.buf, this.usedBufferBytes);
         this.usedBufferBytes += numBytesWritten;
         totalBytesWritten += numBytesWritten;
         return totalBytesWritten;
@@ -752,9 +405,6 @@ class BufWriter extends AbstractBufBase {
         this.buf = new Uint8Array(size2);
     }
 }
-const BufWriter1 = BufWriter;
-const BufWriter2 = BufWriter1;
-const BufWriter3 = BufWriter1;
 class BufWriterSync extends AbstractBufBase {
     /** return new BufWriterSync unless writer is BufWriterSync */ static create(writer, size = DEFAULT_BUF_SIZE) {
         return writer instanceof BufWriterSync ? writer : new BufWriterSync(writer, size);
@@ -799,14 +449,14 @@ class BufWriterSync extends AbstractBufBase {
                 throw e;
             }
             else {
-                numBytesWritten = copyBytes2(data, this.buf, this.usedBufferBytes);
+                numBytesWritten = copyBytes(data, this.buf, this.usedBufferBytes);
                 this.usedBufferBytes += numBytesWritten;
                 this.flush();
             }
             totalBytesWritten += numBytesWritten;
             data = data.subarray(numBytesWritten);
         }
-        numBytesWritten = copyBytes2(data, this.buf, this.usedBufferBytes);
+        numBytesWritten = copyBytes(data, this.buf, this.usedBufferBytes);
         this.usedBufferBytes += numBytesWritten;
         totalBytesWritten += numBytesWritten;
         return totalBytesWritten;
@@ -818,79 +468,318 @@ class BufWriterSync extends AbstractBufBase {
         this.buf = new Uint8Array(size3);
     }
 }
-/** Generate longest proper prefix which is also suffix array. */ function createLPS(pat) {
-    const lps = new Uint8Array(pat.length);
-    lps[0] = 0;
-    let prefixEnd = 0;
-    let i = 1;
-    while(i < lps.length)if (pat[i] == pat[prefixEnd]) {
-        prefixEnd++;
-        lps[i] = prefixEnd;
-        i++;
-    } else if (prefixEnd === 0) {
-        lps[i] = 0;
-        i++;
-    } else prefixEnd = pat[prefixEnd - 1];
-    return lps;
+const encoder = new TextEncoder();
+function encode(input) {
+    return encoder.encode(input);
 }
-async function* readDelim(reader, delim) {
-    // Avoid unicode problems
-    const delimLen = delim.length;
-    const delimLPS = createLPS(delim);
-    let inputBuffer = new Deno.Buffer();
-    const inspectArr = new Uint8Array(Math.max(1024, delimLen + 1));
-    // Modified KMP
-    let inspectIndex = 0;
-    let matchIndex = 0;
-    while(true){
-        const result = await reader.read(inspectArr);
-        if (result === null) {
-            // Yield last chunk.
-            yield inputBuffer.bytes();
-            return;
-        }
-        if (result < 0) // Discard all remaining and silently fail.
-        return;
-        const sliceRead = inspectArr.subarray(0, result);
-        await Deno.writeAll(inputBuffer, sliceRead);
-        let sliceToProcess = inputBuffer.bytes();
-        while(inspectIndex < sliceToProcess.length)if (sliceToProcess[inspectIndex] === delim[matchIndex]) {
-            inspectIndex++;
-            matchIndex++;
-            if (matchIndex === delimLen) {
-                // Full match
-                const matchEnd = inspectIndex - delimLen;
-                const readyBytes = sliceToProcess.subarray(0, matchEnd);
-                // Copy
-                const pendingBytes = sliceToProcess.slice(inspectIndex);
-                yield readyBytes;
-                // Reset match, different from KMP.
-                sliceToProcess = pendingBytes;
-                inspectIndex = 0;
-                matchIndex = 0;
+const decoder = new TextDecoder();
+function decode(input) {
+    return decoder.decode(input);
+}
+// FROM https://github.com/denoland/deno/blob/b34628a26ab0187a827aa4ebe256e23178e25d39/cli/js/web/headers.ts#L9
+const invalidHeaderCharRegex = /[^\t\x20-\x7e\x80-\xff]/g;
+function str(buf) {
+    if (buf == null) return "";
+    else return decode(buf);
+}
+function charCode(s) {
+    return s.charCodeAt(0);
+}
+class TextProtoReader {
+    /** readLine() reads a single line from the TextProtoReader,
+   * eliding the final \n or \r\n from the returned string.
+   */ async readLine() {
+        const s = await this.readLineSlice();
+        if (s === null) return null;
+        return str(s);
+    }
+    /** ReadMIMEHeader reads a MIME-style header from r.
+   * The header is a sequence of possibly continued Key: Value lines
+   * ending in a blank line.
+   * The returned map m maps CanonicalMIMEHeaderKey(key) to a
+   * sequence of values in the same order encountered in the input.
+   *
+   * For example, consider this input:
+   *
+   *	My-Key: Value 1
+   *	Long-Key: Even
+   *	       Longer Value
+   *	My-Key: Value 2
+   *
+   * Given that input, ReadMIMEHeader returns the map:
+   *
+   *	map[string][]string{
+   *		"My-Key": {"Value 1", "Value 2"},
+   *		"Long-Key": {"Even Longer Value"},
+   *	}
+   */ async readMIMEHeader() {
+        const m = new Headers();
+        let line;
+        // The first line cannot start with a leading space.
+        let buf = await this.r.peek(1);
+        if (buf === null) return null;
+        else if (buf[0] == charCode(" ") || buf[0] == charCode("\t")) line = await this.readLineSlice();
+        buf = await this.r.peek(1);
+        if (buf === null) throw new Deno.errors.UnexpectedEof();
+        else if (buf[0] == charCode(" ") || buf[0] == charCode("\t")) throw new Deno.errors.InvalidData(`malformed MIME header initial line: ${str(line)}`);
+        while(true){
+            const kv = await this.readLineSlice(); // readContinuedLineSlice
+            if (kv === null) throw new Deno.errors.UnexpectedEof();
+            if (kv.byteLength === 0) return m;
+            // Key ends at first colon
+            let i = kv.indexOf(charCode(":"));
+            if (i < 0) throw new Deno.errors.InvalidData(`malformed MIME header line: ${str(kv)}`);
+            //let key = canonicalMIMEHeaderKey(kv.subarray(0, endKey));
+            const key = str(kv.subarray(0, i));
+            // As per RFC 7230 field-name is a token,
+            // tokens consist of one or more chars.
+            // We could throw `Deno.errors.InvalidData` here,
+            // but better to be liberal in what we
+            // accept, so if we get an empty key, skip it.
+            if (key == "") continue;
+            // Skip initial spaces in value.
+            i++; // skip colon
+            while(i < kv.byteLength && (kv[i] == charCode(" ") || kv[i] == charCode("\t")))i++;
+            const value = str(kv.subarray(i)).replace(invalidHeaderCharRegex, encodeURI);
+            // In case of invalid header we swallow the error
+            // example: "Audio Mode" => invalid due to space in the key
+            try {
+                m.append(key, value);
+            } catch  {
             }
-        } else if (matchIndex === 0) inspectIndex++;
-        else matchIndex = delimLPS[matchIndex - 1];
-        // Keep inspectIndex and matchIndex.
-        inputBuffer = new Deno.Buffer(sliceToProcess);
+        }
+    }
+    async readLineSlice() {
+        // this.closeDot();
+        let line;
+        while(true){
+            const r = await this.r.readLine();
+            if (r === null) return null;
+            const { line: l , more  } = r;
+            // Avoid the copy if the first call produced a full line.
+            if (!line && !more) {
+                // TODO(ry):
+                // This skipSpace() is definitely misplaced, but I don't know where it
+                // comes from nor how to fix it.
+                if (this.skipSpace(l) === 0) return new Uint8Array(0);
+                return l;
+            }
+            line = line ? concat(line, l) : l;
+            if (!more) break;
+        }
+        return line;
+    }
+    skipSpace(l) {
+        let n = 0;
+        for(let i = 0; i < l.length; i++){
+            if (l[i] === charCode(" ") || l[i] === charCode("\t")) continue;
+            n++;
+        }
+        return n;
+    }
+    constructor(r1){
+        this.r = r1;
+        this.r = r1;
     }
 }
-async function* readStringDelim(reader, delim) {
-    const encoder3 = new TextEncoder();
-    const decoder1 = new TextDecoder();
-    for await (const chunk of readDelim(reader, encoder3.encode(delim)))yield decoder1.decode(chunk);
+const STATUS_TEXT = new Map([]);
+function deferred() {
+    let methods;
+    const promise = new Promise((resolve, reject)=>{
+        methods = {
+            resolve,
+            reject
+        };
+    });
+    return Object.assign(promise, methods);
 }
-async function writeChunkedBody(w, r2) {
-    const writer = BufWriter2.create(w);
-    for await (const chunk of Deno.iter(r2)){
+var tmp = Symbol.asyncIterator;
+class MuxAsyncIterator {
+    add(iterator) {
+        ++this.iteratorCount;
+        this.callIteratorNext(iterator);
+    }
+    async callIteratorNext(iterator) {
+        try {
+            const { value , done  } = await iterator.next();
+            if (done) --this.iteratorCount;
+            else this.yields.push({
+                iterator,
+                value
+            });
+        } catch (e) {
+            this.throws.push(e);
+        }
+        this.signal.resolve();
+    }
+    async *iterate() {
+        while(this.iteratorCount > 0){
+            // Sleep until any of the wrapped iterators yields.
+            await this.signal;
+            // Note that while we're looping over `yields`, new items may be added.
+            for(let i = 0; i < this.yields.length; i++){
+                const { iterator , value  } = this.yields[i];
+                yield value;
+                this.callIteratorNext(iterator);
+            }
+            if (this.throws.length) {
+                for (const e of this.throws)throw e;
+                this.throws.length = 0;
+            }
+            // Clear the `yields` list and reset the `signal` promise.
+            this.yields.length = 0;
+            this.signal = deferred();
+        }
+    }
+    [tmp]() {
+        return this.iterate();
+    }
+    constructor(){
+        this.iteratorCount = 0;
+        this.yields = [];
+        this.throws = [];
+        this.signal = deferred();
+    }
+}
+function emptyReader() {
+    return {
+        read (_) {
+            return Promise.resolve(null);
+        }
+    };
+}
+function bodyReader(contentLength, r1) {
+    let totalRead = 0;
+    let finished = false;
+    async function read(buf) {
+        if (finished) return null;
+        let result;
+        const remaining = contentLength - totalRead;
+        if (remaining >= buf.byteLength) result = await r1.read(buf);
+        else {
+            const readBuf = buf.subarray(0, remaining);
+            result = await r1.read(readBuf);
+        }
+        if (result !== null) totalRead += result;
+        finished = totalRead === contentLength;
+        return result;
+    }
+    return {
+        read
+    };
+}
+function chunkedBodyReader(h, r1) {
+    // Based on https://tools.ietf.org/html/rfc2616#section-19.4.6
+    const tp = new TextProtoReader(r1);
+    let finished = false;
+    const chunks = [];
+    async function read(buf) {
+        if (finished) return null;
+        const [chunk] = chunks;
+        if (chunk) {
+            const chunkRemaining = chunk.data.byteLength - chunk.offset;
+            const readLength = Math.min(chunkRemaining, buf.byteLength);
+            for(let i = 0; i < readLength; i++)buf[i] = chunk.data[chunk.offset + i];
+            chunk.offset += readLength;
+            if (chunk.offset === chunk.data.byteLength) {
+                chunks.shift();
+                // Consume \r\n;
+                if (await tp.readLine() === null) throw new Deno.errors.UnexpectedEof();
+            }
+            return readLength;
+        }
+        const line = await tp.readLine();
+        if (line === null) throw new Deno.errors.UnexpectedEof();
+        // TODO: handle chunk extension
+        const [chunkSizeString] = line.split(";");
+        const chunkSize = parseInt(chunkSizeString, 16);
+        if (Number.isNaN(chunkSize) || chunkSize < 0) throw new Error("Invalid chunk size");
+        if (chunkSize > 0) {
+            if (chunkSize > buf.byteLength) {
+                let eof = await r1.readFull(buf);
+                if (eof === null) throw new Deno.errors.UnexpectedEof();
+                const restChunk = new Uint8Array(chunkSize - buf.byteLength);
+                eof = await r1.readFull(restChunk);
+                if (eof === null) throw new Deno.errors.UnexpectedEof();
+                else chunks.push({
+                    offset: 0,
+                    data: restChunk
+                });
+                return buf.byteLength;
+            } else {
+                const bufToFill = buf.subarray(0, chunkSize);
+                const eof = await r1.readFull(bufToFill);
+                if (eof === null) throw new Deno.errors.UnexpectedEof();
+                // Consume \r\n
+                if (await tp.readLine() === null) throw new Deno.errors.UnexpectedEof();
+                return chunkSize;
+            }
+        } else {
+            assert(chunkSize === 0);
+            // Consume \r\n
+            if (await r1.readLine() === null) throw new Deno.errors.UnexpectedEof();
+            await readTrailers(h, r1);
+            finished = true;
+            return null;
+        }
+    }
+    return {
+        read
+    };
+}
+function isProhibidedForTrailer(key) {
+    const s = new Set([
+        "transfer-encoding",
+        "content-length",
+        "trailer"
+    ]);
+    return s.has(key.toLowerCase());
+}
+async function readTrailers(headers, r1) {
+    const trailers = parseTrailer(headers.get("trailer"));
+    if (trailers == null) return;
+    const trailerNames = [
+        ...trailers.keys()
+    ];
+    const tp = new TextProtoReader(r1);
+    const result = await tp.readMIMEHeader();
+    if (result == null) throw new Deno.errors.InvalidData("Missing trailer header.");
+    const undeclared = [
+        ...result.keys()
+    ].filter((k)=>!trailerNames.includes(k)
+    );
+    if (undeclared.length > 0) throw new Deno.errors.InvalidData(`Undeclared trailers: ${Deno.inspect(undeclared)}.`);
+    for (const [k, v] of result)headers.append(k, v);
+    const missingTrailers = trailerNames.filter((k1)=>!result.has(k1)
+    );
+    if (missingTrailers.length > 0) throw new Deno.errors.InvalidData(`Missing trailers: ${Deno.inspect(missingTrailers)}.`);
+    headers.delete("trailer");
+}
+function parseTrailer(field) {
+    if (field == null) return undefined;
+    const trailerNames = field.split(",").map((v)=>v.trim().toLowerCase()
+    );
+    if (trailerNames.length === 0) throw new Deno.errors.InvalidData("Empty trailer header.");
+    const prohibited = trailerNames.filter((k)=>isProhibidedForTrailer(k)
+    );
+    if (prohibited.length > 0) throw new Deno.errors.InvalidData(`Prohibited trailer names: ${Deno.inspect(prohibited)}.`);
+    return new Headers(trailerNames.map((key)=>[
+            key,
+            ""
+        ]
+    ));
+}
+async function writeChunkedBody(w, r1) {
+    const writer = BufWriter.create(w);
+    for await (const chunk of Deno.iter(r1)){
         if (chunk.byteLength <= 0) continue;
-        const start = encoder2.encode(`${chunk.byteLength.toString(16)}\r\n`);
-        const end = encoder2.encode("\r\n");
+        const start = encoder.encode(`${chunk.byteLength.toString(16)}\r\n`);
+        const end = encoder.encode("\r\n");
         await writer.write(start);
         await writer.write(chunk);
         await writer.write(end);
     }
-    const endChunk = encoder2.encode("0\r\n\r\n");
+    const endChunk = encoder.encode("0\r\n\r\n");
     await writer.write(endChunk);
 }
 async function writeTrailers(w, headers, trailers) {
@@ -898,7 +787,7 @@ async function writeTrailers(w, headers, trailers) {
     if (trailer === null) throw new TypeError("Missing trailer header.");
     const transferEncoding = headers.get("transfer-encoding");
     if (transferEncoding === null || !transferEncoding.match(/^chunked/)) throw new TypeError(`Trailers are only allowed for "transfer-encoding: chunked", got "transfer-encoding: ${transferEncoding}".`);
-    const writer = BufWriter2.create(w);
+    const writer = BufWriter.create(w);
     const trailerNames = trailer.split(",").map((s)=>s.trim().toLowerCase()
     );
     const prohibitedTrailers = trailerNames.filter((k)=>isProhibidedForTrailer(k)
@@ -909,51 +798,118 @@ async function writeTrailers(w, headers, trailers) {
     ].filter((k)=>!trailerNames.includes(k)
     );
     if (undeclared.length > 0) throw new TypeError(`Undeclared trailers: ${Deno.inspect(undeclared)}.`);
-    for (const [key, value] of trailers)await writer.write(encoder2.encode(`${key}: ${value}\r\n`));
-    await writer.write(encoder2.encode("\r\n"));
+    for (const [key, value] of trailers)await writer.write(encoder.encode(`${key}: ${value}\r\n`));
+    await writer.write(encoder.encode("\r\n"));
     await writer.flush();
 }
-const STATUS_TEXT = new Map([]);
-const STATUS_TEXT1 = STATUS_TEXT;
-const STATUS_TEXT2 = STATUS_TEXT1;
-async function writeResponse(w, r2) {
+async function writeResponse(w, r1) {
     const protoMajor = 1;
     const protoMinor = 1;
-    const statusCode = r2.status || 200;
-    const statusText = STATUS_TEXT2.get(statusCode);
-    const writer = BufWriter2.create(w);
+    const statusCode = r1.status || 200;
+    const statusText = STATUS_TEXT.get(statusCode);
+    const writer = BufWriter.create(w);
     if (!statusText) throw new Deno.errors.InvalidData("Bad status code");
-    if (!r2.body) r2.body = new Uint8Array();
-    if (typeof r2.body === "string") r2.body = encoder2.encode(r2.body);
+    if (!r1.body) r1.body = new Uint8Array();
+    if (typeof r1.body === "string") r1.body = encoder.encode(r1.body);
     let out = `HTTP/${protoMajor}.${protoMinor} ${statusCode} ${statusText}\r\n`;
-    const headers = r2.headers ?? new Headers();
-    if (r2.body && !headers.get("content-length")) {
-        if (r2.body instanceof Uint8Array) out += `content-length: ${r2.body.byteLength}\r\n`;
+    const headers = r1.headers ?? new Headers();
+    if (r1.body && !headers.get("content-length")) {
+        if (r1.body instanceof Uint8Array) out += `content-length: ${r1.body.byteLength}\r\n`;
         else if (!headers.get("transfer-encoding")) out += "transfer-encoding: chunked\r\n";
     }
     for (const [key, value] of headers)out += `${key}: ${value}\r\n`;
     out += `\r\n`;
-    const header = encoder2.encode(out);
+    const header = encoder.encode(out);
     const n = await writer.write(header);
-    assert2(n === header.byteLength);
-    if (r2.body instanceof Uint8Array) {
-        const n1 = await writer.write(r2.body);
-        assert2(n1 === r2.body.byteLength);
+    assert(n === header.byteLength);
+    if (r1.body instanceof Uint8Array) {
+        const n1 = await writer.write(r1.body);
+        assert(n1 === r1.body.byteLength);
     } else if (headers.has("content-length")) {
         const contentLength = headers.get("content-length");
-        assert2(contentLength != null);
+        assert(contentLength != null);
         const bodyLength = parseInt(contentLength);
-        const n1 = await Deno.copy(r2.body, writer);
-        assert2(n1 === bodyLength);
-    } else await writeChunkedBody(writer, r2.body);
-    if (r2.trailers) {
-        const t = await r2.trailers();
+        const n1 = await Deno.copy(r1.body, writer);
+        assert(n1 === bodyLength);
+    } else await writeChunkedBody(writer, r1.body);
+    if (r1.trailers) {
+        const t = await r1.trailers();
         await writeTrailers(writer, headers, t);
     }
     await writer.flush();
 }
-const writeResponse1 = writeResponse;
-const writeResponse2 = writeResponse1;
+class ServerRequest {
+    /**
+     * Value of Content-Length header.
+     * If null, then content length is invalid or not given (e.g. chunked encoding).
+     */ get contentLength() {
+        // undefined means not cached.
+        // null means invalid or not provided.
+        if (this._contentLength === undefined) {
+            const cl = this.headers.get("content-length");
+            if (cl) {
+                this._contentLength = parseInt(cl);
+                // Convert NaN to null (as NaN harder to test)
+                if (Number.isNaN(this._contentLength)) this._contentLength = null;
+            } else this._contentLength = null;
+        }
+        return this._contentLength;
+    }
+    /**
+     * Body of the request.  The easiest way to consume the body is:
+     *
+     *     const buf: Uint8Array = await Deno.readAll(req.body);
+     */ get body() {
+        if (!this._body) {
+            if (this.contentLength != null) this._body = bodyReader(this.contentLength, this.r);
+            else {
+                const transferEncoding = this.headers.get("transfer-encoding");
+                if (transferEncoding != null) {
+                    const parts = transferEncoding.split(",").map((e)=>e.trim().toLowerCase()
+                    );
+                    assert(parts.includes("chunked"), 'transfer-encoding must include "chunked" if content-length is not set');
+                    this._body = chunkedBodyReader(this.headers, this.r);
+                } else // Neither content-length nor transfer-encoding: chunked
+                this._body = emptyReader();
+            }
+        }
+        return this._body;
+    }
+    async respond(r) {
+        let err;
+        try {
+            // Write our response!
+            await writeResponse(this.w, r);
+        } catch (e) {
+            try {
+                // Eagerly close on error.
+                this.conn.close();
+            } catch  {
+            }
+            err = e;
+        }
+        // Signal that this request has been processed and the next pipelined
+        // request on the same connection can be accepted.
+        this.done.resolve(err);
+        if (err) // Error during responding, rethrow.
+        throw err;
+    }
+    async finalize() {
+        if (this.finalized) return;
+        // Consume unread body
+        const body = this.body;
+        const buf = new Uint8Array(1024);
+        while(await body.read(buf) !== null);
+        this.finalized = true;
+    }
+    constructor(){
+        this.done = deferred();
+        this._contentLength = undefined;
+        this._body = null;
+        this.finalized = false;
+    }
+}
+var tmp1 = Symbol.asyncIterator;
 function parseHTTPVersion(vers) {
     switch(vers){
         case "HTTP/1.1":
@@ -986,87 +942,13 @@ function parseHTTPVersion(vers) {
     }
     throw new Error(`malformed HTTP version ${vers}`);
 }
-class ServerRequest {
-    /**
-     * Value of Content-Length header.
-     * If null, then content length is invalid or not given (e.g. chunked encoding).
-     */ get contentLength() {
-        // undefined means not cached.
-        // null means invalid or not provided.
-        if (this._contentLength === undefined) {
-            const cl = this.headers.get("content-length");
-            if (cl) {
-                this._contentLength = parseInt(cl);
-                // Convert NaN to null (as NaN harder to test)
-                if (Number.isNaN(this._contentLength)) this._contentLength = null;
-            } else this._contentLength = null;
-        }
-        return this._contentLength;
-    }
-    /**
-     * Body of the request.  The easiest way to consume the body is:
-     *
-     *     const buf: Uint8Array = await Deno.readAll(req.body);
-     */ get body() {
-        if (!this._body) {
-            if (this.contentLength != null) this._body = bodyReader2(this.contentLength, this.r);
-            else {
-                const transferEncoding = this.headers.get("transfer-encoding");
-                if (transferEncoding != null) {
-                    const parts = transferEncoding.split(",").map((e)=>e.trim().toLowerCase()
-                    );
-                    assert4(parts.includes("chunked"), 'transfer-encoding must include "chunked" if content-length is not set');
-                    this._body = chunkedBodyReader2(this.headers, this.r);
-                } else // Neither content-length nor transfer-encoding: chunked
-                this._body = emptyReader2();
-            }
-        }
-        return this._body;
-    }
-    async respond(r) {
-        let err;
-        try {
-            // Write our response!
-            await writeResponse2(this.w, r);
-        } catch (e) {
-            try {
-                // Eagerly close on error.
-                this.conn.close();
-            } catch  {
-            }
-            err = e;
-        }
-        // Signal that this request has been processed and the next pipelined
-        // request on the same connection can be accepted.
-        this.done.resolve(err);
-        if (err) // Error during responding, rethrow.
-        throw err;
-    }
-    async finalize() {
-        if (this.finalized) return;
-        // Consume unread body
-        const body = this.body;
-        const buf = new Uint8Array(1024);
-        while(await body.read(buf) !== null);
-        this.finalized = true;
-    }
-    constructor(){
-        this.done = deferred4();
-        this._contentLength = undefined;
-        this._body = null;
-        this.finalized = false;
-    }
-}
-const ServerRequest1 = ServerRequest;
-const ServerRequest2 = ServerRequest1;
-var tmp1 = Symbol.asyncIterator;
 async function readRequest(conn, bufr) {
-    const tp = new TextProtoReader2(bufr);
+    const tp = new TextProtoReader(bufr);
     const firstLine = await tp.readLine(); // e.g. GET /index.html HTTP/1.0
     if (firstLine === null) return null;
     const headers = await tp.readMIMEHeader();
     if (headers === null) throw new Deno.errors.UnexpectedEof();
-    const req = new ServerRequest2();
+    const req = new ServerRequest();
     req.conn = conn;
     req.r = bufr;
     [req.method, req.url, req.proto] = firstLine.split(" ", 3);
@@ -1074,28 +956,6 @@ async function readRequest(conn, bufr) {
     req.headers = headers;
     fixLength(req);
     return req;
-}
-const readRequest1 = readRequest;
-const readRequest2 = readRequest1;
-function fixLength(req) {
-    const contentLength = req.headers.get("Content-Length");
-    if (contentLength) {
-        const arrClen = contentLength.split(",");
-        if (arrClen.length > 1) {
-            const distinct = [
-                ...new Set(arrClen.map((e)=>e.trim()
-                ))
-            ];
-            if (distinct.length > 1) throw Error("cannot contain multiple Content-Length headers");
-            else req.headers.set("Content-Length", distinct[0]);
-        }
-        const c = req.headers.get("Content-Length");
-        if (req.method === "HEAD" && c && c !== "0") throw Error("http: method cannot contain a Content-Length");
-        if (c && req.headers.has("transfer-encoding")) // A sender MUST NOT send a Content-Length header field in any message
-        // that contains a Transfer-Encoding header field.
-        // rfc: https://tools.ietf.org/html/rfc7230#section-3.3.2
-        throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
-    }
 }
 class Server {
     close() {
@@ -1110,17 +970,17 @@ class Server {
     }
     // Yields all HTTP requests on a single TCP connection.
     async *iterateHttpRequests(conn) {
-        const reader = new BufReader2(conn);
-        const writer = new BufWriter3(conn);
+        const reader = new BufReader(conn);
+        const writer = new BufWriter(conn);
         while(!this.closing){
             let request;
             try {
-                request = await readRequest2(conn, reader);
+                request = await readRequest(conn, reader);
             } catch (error) {
                 if (error instanceof Deno.errors.InvalidData || error instanceof Deno.errors.UnexpectedEof) // An error was thrown while parsing request headers.
-                await writeResponse2(writer, {
+                await writeResponse(writer, {
                     status: 400,
-                    body: encode2(`${error.message}\r\n\r\n`)
+                    body: encode(`${error.message}\r\n\r\n`)
                 });
                 break;
             }
@@ -1174,7 +1034,7 @@ class Server {
         yield* this.iterateHttpRequests(conn);
     }
     [tmp1]() {
-        const mux = new MuxAsyncIterator3();
+        const mux = new MuxAsyncIterator();
         mux.add(this.acceptConnAndIterateHttpRequests(mux));
         return mux.iterate();
     }
@@ -1207,17 +1067,27 @@ async function listenAndServe(addr, handler) {
     const server = serve(addr);
     for await (const request of server)handler(request);
 }
-const listenAndServe1 = listenAndServe;
-const listenAndServe2 = listenAndServe1;
-function serveTLS(options) {
-    const tlsOptions = {
-        ...options,
-        transport: "tcp"
-    };
-    const listener1 = Deno.listenTls(tlsOptions);
-    return new Server(listener1);
+function fixLength(req) {
+    const contentLength = req.headers.get("Content-Length");
+    if (contentLength) {
+        const arrClen = contentLength.split(",");
+        if (arrClen.length > 1) {
+            const distinct = [
+                ...new Set(arrClen.map((e)=>e.trim()
+                ))
+            ];
+            if (distinct.length > 1) throw Error("cannot contain multiple Content-Length headers");
+            else req.headers.set("Content-Length", distinct[0]);
+        }
+        const c = req.headers.get("Content-Length");
+        if (req.method === "HEAD" && c && c !== "0") throw Error("http: method cannot contain a Content-Length");
+        if (c && req.headers.has("transfer-encoding")) // A sender MUST NOT send a Content-Length header field in any message
+        // that contains a Transfer-Encoding header field.
+        // rfc: https://tools.ietf.org/html/rfc7230#section-3.3.2
+        throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
+    }
 }
-listenAndServe2({
+listenAndServe({
     port: 8080
 }, async (req)=>{
 });

@@ -14,10 +14,10 @@ function __spack_require__(mod) {
     })();
 }
 var load = __spack_require__.bind(void 0, function(module, exports) {
+    module.exports = {
+        "version": "1.2.47"
+    };
     const mod = function() {
-        module.exports = {
-            "version": "1.2.47"
-        };
         return {
         };
     }();

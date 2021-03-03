@@ -9,8 +9,6 @@ function assert(expr, msg = "") {
         throw new DenoStdInternalError(msg);
     }
 }
-const assert1 = assert;
-const assert2 = assert1;
 function get(obj, key) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) {
         return obj[key];
@@ -18,7 +16,7 @@ function get(obj, key) {
 }
 function getForce(obj, key) {
     const v = get(obj, key);
-    assert2(v != null);
+    assert(v != null);
     return v;
 }
 function isNumber(x) {
@@ -150,7 +148,7 @@ function parse(args, { "--": doubleDash = false , alias ={
         const arg = args[i];
         if (/^--.+=/.test(arg)) {
             const m = arg.match(/^--([^=]+)=(.*)$/s);
-            assert2(m != null);
+            assert(m != null);
             const [, key1, value] = m;
             if (flags.bools[key1]) {
                 const booleanValue = value !== "false";
@@ -160,11 +158,11 @@ function parse(args, { "--": doubleDash = false , alias ={
             }
         } else if (/^--no-.+/.test(arg)) {
             const m = arg.match(/^--no-(.+)/);
-            assert2(m != null);
+            assert(m != null);
             setArg(m[1], false, arg);
         } else if (/^--.+/.test(arg)) {
             const m = arg.match(/^--(.+)/);
-            assert2(m != null);
+            assert(m != null);
             const [, key1] = m;
             const next = args[i + 1];
             if (next !== undefined && !/^-/.test(next) && !get(flags.bools, key1) && !flags.allBools && (get(aliases, key1) ? !aliasIsBoolean(key1) : true)) {
@@ -247,9 +245,7 @@ function parse(args, { "--": doubleDash = false , alias ={
     }
     return argv;
 }
-const parse1 = parse;
-const parse2 = parse1;
-const args = parse2(Deno.args, {
+const args = parse(Deno.args, {
     boolean: [
         "help",
         "verbose", 

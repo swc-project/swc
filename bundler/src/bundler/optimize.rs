@@ -1,4 +1,5 @@
 use crate::{Bundler, Load, Resolve};
+use swc_common::pass::Repeat;
 use swc_ecma_ast::*;
 use swc_ecma_transforms::optimization::simplify::{const_propgation::constant_propagation, dce};
 use swc_ecma_visit::FoldWith;
@@ -18,10 +19,10 @@ where
                 node = node.fold_with(&mut constant_propagation())
             }
 
-            node = node.fold_with(&mut dce::dce(dce::Config {
+            node = node.fold_with(&mut Repeat::new(dce::dce(dce::Config {
                 used: None,
                 used_mark: self.used_mark,
-            }));
+            })));
 
             node
         })

@@ -1,4 +1,5 @@
 use self::ops::{Operations, Operator};
+use crate::ext::MapWithMut;
 use crate::native::is_native;
 use crate::native::is_native_word;
 use crate::scope::IdentType;
@@ -6,10 +7,12 @@ use crate::scope::ScopeKind;
 use fxhash::{FxHashMap, FxHashSet};
 use smallvec::{smallvec, SmallVec};
 use std::cell::RefCell;
+use std::collections::HashMap;
 use swc_atoms::js_word;
 use swc_atoms::JsWord;
 use swc_common::{chain, SyntaxContext};
 use swc_ecma_ast::*;
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 mod ops;
@@ -17,6 +20,12 @@ mod ops;
 mod tests;
 
 const LOG: bool = false;
+
+#[derive(Debug, Clone, Default)]
+pub struct Config {
+    /// If true, the `hygiene` pass will preserve class names.
+    pub keep_class_names: bool,
+}
 
 trait ToBoxedStr {
     fn to_boxed_str(&self) -> Box<str>;
@@ -29,6 +38,7 @@ impl ToBoxedStr for JsWord {
 }
 
 struct Hygiene<'a> {
+    config: Config,
     current: Scope<'a>,
     ident_type: IdentType,
     var_kind: Option<VarDeclKind>,
@@ -137,7 +147,7 @@ impl<'a> Hygiene<'a> {
             {
                 // This assertion was correct in old time, but bundler creates
                 // same variable with same name and same span
-                // hygieen, so this assertion is not valid anymore.
+                // hygiene, so this assertion is not valid anymore.
                 //
                 // I decided not to remove this code because I may modify the
                 // bundler to be correct in aspect of original span hygiene.
@@ -175,9 +185,15 @@ impl<'a> Hygiene<'a> {
     }
 }
 
+/// Creates a `hygiene` pass with default value of [Config].
 pub fn hygiene() -> impl Fold + 'static {
+    hygiene_with_config(Default::default())
+}
+
+pub fn hygiene_with_config(config: Config) -> impl Fold + 'static {
     chain!(
         as_folder(Hygiene {
+            config,
             current: Default::default(),
             ident_type: IdentType::Ref,
             var_kind: None,
@@ -220,6 +236,7 @@ impl<'a> Hygiene<'a> {
         }
 
         let mut folder = Hygiene {
+            config: self.config.clone(),
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,
             var_kind: None,
@@ -547,6 +564,7 @@ impl<'a> VisitMut for Hygiene<'a> {
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         let mut folder = Hygiene {
+            config: self.config.clone(),
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,
             var_kind: None,
@@ -563,6 +581,7 @@ impl<'a> VisitMut for Hygiene<'a> {
 
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt) {
         let mut folder = Hygiene {
+            config: self.config.clone(),
             current: Scope::new(ScopeKind::Block, Some(&self.current)),
             ident_type: IdentType::Ref,
             var_kind: None,
@@ -574,6 +593,7 @@ impl<'a> VisitMut for Hygiene<'a> {
 
     fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
         let mut folder = Hygiene {
+            config: self.config.clone(),
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,
             var_kind: None,
@@ -597,6 +617,51 @@ impl<'a> VisitMut for Hygiene<'a> {
         c.key.visit_mut_with(self);
 
         self.apply_ops(c)
+    }
+
+    fn visit_mut_decl(&mut self, decl: &mut Decl) {
+        match decl {
+            Decl::Class(cls) if self.config.keep_class_names => {
+                let mut orig_name = cls.ident.clone();
+                orig_name.span.ctxt = SyntaxContext::empty();
+
+                {
+                    // Remove span hygiene of the class.
+                    let mut rename = HashMap::default();
+
+                    rename.insert(cls.ident.to_id(), orig_name.sym.clone());
+
+                    let ops = Operations { rename };
+                    let mut operator = Operator(&ops);
+
+                    cls.class.visit_mut_with(&mut operator);
+                }
+
+                cls.visit_mut_with(self);
+
+                let class_expr = ClassExpr {
+                    ident: Some(orig_name),
+                    class: cls.class.take(),
+                };
+
+                let var = VarDeclarator {
+                    span: cls.class.span,
+                    name: Pat::Ident(cls.ident.clone().into()),
+                    init: Some(Box::new(Expr::Class(class_expr))),
+                    definite: false,
+                };
+                *decl = Decl::Var(VarDecl {
+                    span: cls.class.span,
+                    kind: VarDeclKind::Let,
+                    declare: false,
+                    decls: vec![var],
+                });
+                return;
+            }
+            _ => {}
+        }
+
+        decl.visit_mut_children_with(self);
     }
 
     fn visit_mut_expr(&mut self, node: &mut Expr) {
@@ -629,9 +694,7 @@ impl<'a> VisitMut for Hygiene<'a> {
         self.visit_mut_fn(node.ident.clone(), &mut node.function);
     }
 
-    fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
-
-    /// Invoked for `IdetifierRefrence` / `BindingIdentifier`
+    /// Invoked for `IdentifierReference` / `BindingIdentifier`
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if i.sym == js_word!("arguments") || i.sym == js_word!("undefined") {
             return;
@@ -662,6 +725,7 @@ impl<'a> VisitMut for Hygiene<'a> {
 
     fn visit_mut_object_lit(&mut self, node: &mut ObjectLit) {
         let mut folder = Hygiene {
+            config: self.config.clone(),
             current: Scope::new(ScopeKind::Block, Some(&self.current)),
             ident_type: IdentType::Ref,
             var_kind: None,
@@ -670,6 +734,8 @@ impl<'a> VisitMut for Hygiene<'a> {
 
         folder.apply_ops(node)
     }
+
+    fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
 
     fn visit_mut_try_stmt(&mut self, node: &mut TryStmt) {
         node.block.visit_mut_children_with(self);

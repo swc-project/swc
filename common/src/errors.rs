@@ -279,7 +279,7 @@ pub struct Handler {
 
     // This set contains the `DiagnosticId` of all emitted diagnostics to avoid
     // emitting the same diagnostic with extended help (`--teach`) twice, which
-    // would be uneccessary repetition.
+    // would be unnecessary repetition.
     taught_diagnostics: Lock<HashSet<DiagnosticId>>,
 
     /// Used to suggest rustc --explain <error code>
@@ -545,7 +545,7 @@ impl Handler {
     }
     pub fn span_bug<S: Into<MultiSpan>>(&self, sp: S, msg: &str) -> ! {
         self.emit(&sp.into(), msg, Bug);
-        panic!(ExplicitBug);
+        panic!("{}", ExplicitBug);
     }
     pub fn delay_span_bug<S: Into<MultiSpan>>(&self, sp: S, msg: &str) {
         if self.flags.treat_err_as_bug {
@@ -604,7 +604,7 @@ impl Handler {
     pub fn bug(&self, msg: &str) -> ! {
         let mut db = DiagnosticBuilder::new(self, Bug, msg);
         db.emit();
-        panic!(ExplicitBug);
+        panic!("{}", ExplicitBug);
     }
     pub fn unimpl(&self, msg: &str) -> ! {
         self.bug(&format!("unimplemented {}", msg));

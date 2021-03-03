@@ -32,7 +32,7 @@ pub enum Pat {
     #[tag("Invalid")]
     Invalid(Invalid),
 
-    /// Only for for-in / for-of loops. This is *syntatically* valid.
+    /// Only for for-in / for-of loops. This is *syntactically* valid.
     #[tag("*")]
     Expr(Box<Expr>),
 }

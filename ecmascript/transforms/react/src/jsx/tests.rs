@@ -1105,6 +1105,24 @@ test!(
     |t| tr(
         t,
         Options {
+            use_spread: true,
+            ..Default::default()
+        },
+    ),
+    use_spread_assignment,
+    r#"<Component y={2} { ...x } z />"#,
+    r#"
+React.createElement(Component, {y: 2, ...x, z: true});"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
             use_builtins: true,
             ..Default::default()
         },

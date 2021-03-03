@@ -2,21 +2,22 @@
 use super::{load::TransformedModule, Bundler, Config};
 use crate::{load::ModuleData, util::HygieneRemover, Load, ModuleId, ModuleRecord, Resolve};
 use anyhow::Error;
-use std::{collections::HashMap, path::PathBuf};
+use indexmap::IndexMap;
+use std::path::PathBuf;
 use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::VisitMutWith;
 
-pub(super) struct Tester<'a> {
+pub(crate) struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
     pub bundler: Bundler<'a, Loader, Resolver>,
 }
 
 pub struct Loader {
     cm: Lrc<SourceMap>,
-    files: HashMap<String, String>,
+    files: IndexMap<String, String>,
 }
 
 impl Load for Loader {
@@ -103,13 +104,13 @@ impl<'a> Tester<'a> {
         assert_eq!(m, expected)
     }
 }
-pub(super) fn suite() -> TestBuilder {
+pub(crate) fn suite() -> TestBuilder {
     TestBuilder::default()
 }
 
 #[derive(Default)]
-pub(super) struct TestBuilder {
-    files: HashMap<String, String>,
+pub(crate) struct TestBuilder {
+    files: IndexMap<String, String>,
 }
 
 impl TestBuilder {

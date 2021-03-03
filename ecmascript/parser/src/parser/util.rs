@@ -308,7 +308,6 @@ pub(super) trait ExprExt {
             Expr::OptChain(OptChainExpr { ref expr, .. })
             | Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
             | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
-            | Expr::TsTypeCast(TsTypeCastExpr { ref expr, .. })
             | Expr::TsAs(TsAsExpr { ref expr, .. }) => {
                 expr.is_valid_simple_assignment_target(strict)
             }

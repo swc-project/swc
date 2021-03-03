@@ -18,13 +18,13 @@
 //!
 //! ## Error recovery
 //!
-//! The parser can recover from some parsing erros. For example, parser returns
+//! The parser can recover from some parsing errors. For example, parser returns
 //! `Ok(Module)` for the code below, while emitting error to handler.
 //!
 //! ```ts
 //! const CONST = 9000 % 2;
 //! const enum D {
-//!     // Comma is requied, but parser can recover because of the newline.
+//!     // Comma is required, but parser can recover because of the newline.
 //!     d = 10
 //!     g = CONST
 //! }

@@ -6,7 +6,7 @@ use swc_ecma_utils::member_expr;
 use swc_ecma_utils::{calc_literal_cost, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
-/// Trnasform to optimize performance of literals.
+/// Transform to optimize performance of literals.
 ///
 ///
 /// This transform converts pure object literals like

@@ -59,9 +59,9 @@ pub use self::{
         TsNonNullExpr, TsOptionalType, TsParamProp, TsParamPropParam, TsParenthesizedType,
         TsPropertySignature, TsQualifiedName, TsRestType, TsSignatureDecl, TsThisType,
         TsThisTypeOrIdent, TsTplLitType, TsTupleElement, TsTupleType, TsType, TsTypeAliasDecl,
-        TsTypeAnn, TsTypeAssertion, TsTypeCastExpr, TsTypeElement, TsTypeLit, TsTypeOperator,
-        TsTypeOperatorOp, TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate,
-        TsTypeQuery, TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
+        TsTypeAnn, TsTypeAssertion, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp,
+        TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate, TsTypeQuery,
+        TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
     },
 };
 use serde::Deserialize;
@@ -116,7 +116,7 @@ pub enum EsVersion {
 
 impl EsVersion {
     /// Get the latest version. This is `es2020` for now, but it will be changed
-    /// if a new version of specification is realeased.
+    /// if a new version of specification is released.
     pub const fn latest() -> Self {
         EsVersion::Es2020
     }

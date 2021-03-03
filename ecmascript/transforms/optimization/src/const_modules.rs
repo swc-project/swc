@@ -57,7 +57,7 @@ fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
         .map(drop_span)
         .unwrap_or_else(|()| {
             panic!(
-                "faield to parse jsx option {}: '{}' is not an expression",
+                "failed to parse jsx option {}: '{}' is not an expression",
                 name, fm.src,
             )
         });

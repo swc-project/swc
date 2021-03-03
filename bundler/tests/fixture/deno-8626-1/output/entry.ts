@@ -1,11 +1,9 @@
+const foo = 'bar';
+const bar = 123;
 const mod = function() {
-    const foo = 'bar';
-    const foo1 = foo;
-    const bar = 123;
     return {
-        foo: foo1,
-        bar
+        foo: foo,
+        bar: bar
     };
 }();
-const foo = mod;
-console.log(foo);
+console.log(mod);

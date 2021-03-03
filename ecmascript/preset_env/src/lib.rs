@@ -14,7 +14,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{chain, FromVariant, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
-    compat::{es2015, es2016, es2017, es2018, es2020, es3},
+    compat::{bugfixes, es2015, es2016, es2017, es2018, es2020, es3},
     pass::{noop, Optional},
 };
 use swc_ecma_utils::prepend_stmts;
@@ -46,7 +46,7 @@ pub fn preset_env(global_mark: Mark, c: Config) -> impl Fold {
                 && (c.force_all_transforms
                     || (is_any_target
                         || include.contains(&f)
-                        || f.should_enable(targets, $default)))
+                        || f.should_enable(targets, c.bugfixes, $default)))
         }};
     }
 
@@ -64,6 +64,19 @@ pub fn preset_env(global_mark: Mark, c: Config) -> impl Fold {
             chain!($prev, Optional::new($pass, enable))
         }};
     }
+
+    // Bugfixes
+    let pass = add!(pass, BugfixEdgeDefaultParam, bugfixes::edge_default_param());
+    let pass = add!(
+        pass,
+        BugfixAsyncArrowsInClass,
+        bugfixes::async_arrows_in_class()
+    );
+    let pass = add!(
+        pass,
+        BugfixTaggedTemplateCaching,
+        bugfixes::template_literal_caching()
+    );
 
     // ES2020
 
@@ -436,6 +449,9 @@ pub struct Config {
 
     #[serde(default)]
     pub force_all_transforms: bool,
+
+    #[serde(default)]
+    pub bugfixes: bool,
 }
 
 fn default_targets() -> Option<Targets> {

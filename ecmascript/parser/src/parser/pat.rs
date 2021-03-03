@@ -194,11 +194,6 @@ impl<'a, I: Tokens> Parser<I> {
                     ref mut span,
                     ..
                 })
-                | Pat::Assign(AssignPat {
-                    ref mut type_ann,
-                    ref mut span,
-                    ..
-                })
                 | Pat::Ident(BindingIdent {
                     ref mut type_ann,
                     id: Ident { ref mut span, .. },
@@ -219,6 +214,16 @@ impl<'a, I: Tokens> Parser<I> {
                         *span = Span::new(pat_start, self.input.prev_span().hi, Default::default());
                     }
                     *type_ann = new_type_ann;
+                }
+                Pat::Assign(AssignPat {
+                    ref mut type_ann,
+                    ref mut span,
+                    ..
+                }) => {
+                    if let Some(_) = self.try_parse_ts_type_ann()? {
+                        *span = Span::new(pat_start, self.input.prev_span().hi, Default::default());
+                        self.emit_err(*span, SyntaxError::TSTypeAnnotationAfterAssign);
+                    }
                 }
                 Pat::Invalid(..) => {}
                 _ => unreachable!("invalid syntax: Pat: {:?}", pat),
@@ -436,7 +441,7 @@ impl<'a, I: Tokens> Parser<I> {
 pub enum PatType {
     BindingPat,
     BindingElement,
-    /// AssigmentPattern
+    /// AssignmentPattern
     AssignPat,
     AssignElement,
 }
@@ -540,7 +545,7 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                 }
 
-                // It's special because of optional intializer
+                // It's special because of optional initializer
                 Expr::Assign(..) => {}
 
                 _ => self.emit_err(span, SyntaxError::InvalidPat),
@@ -701,7 +706,7 @@ impl<'a, I: Tokens> Parser<I> {
                             // TODO: is BindingPat correct?
                             self.reparse_expr_as_pat(pat_ty.element(), expr).map(Some)?
                         }
-                        // TODO: sytax error if last element is ellison and ...rest exists.
+                        // TODO: syntax error if last element is ellison and ...rest exists.
                         None => None,
                     };
                     params.push(last);

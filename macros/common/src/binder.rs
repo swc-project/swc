@@ -1,7 +1,7 @@
 //! # Example
 //!
 //! `_binded_a`, `_binded_b` and `_binded_0` in below example are
-//! `BinededField`.
+//! `BindedField`.
 //!
 //! ```rust
 //! struct S {

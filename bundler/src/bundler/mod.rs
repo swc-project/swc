@@ -1,5 +1,6 @@
 use self::scope::Scope;
 use crate::{Hook, Load, ModuleId, Resolve};
+use ahash::AHashMap;
 use anyhow::{Context, Error};
 use std::collections::HashMap;
 use swc_atoms::JsWord;
@@ -13,11 +14,10 @@ mod helpers;
 mod import;
 mod keywords;
 mod load;
-mod modules;
 mod optimize;
 mod scope;
 #[cfg(test)]
-mod tests;
+pub(crate) mod tests;
 
 #[derive(Debug, Default)]
 pub struct Config {
@@ -33,7 +33,7 @@ pub struct Config {
     /// List of modules which should be preserved.
     pub external_modules: Vec<JsWord>,
 
-    /// Type of emiited module
+    /// Type of emitted module
     pub module: ModuleType,
 }
 
@@ -90,7 +90,7 @@ where
     synthesized_ctxt: SyntaxContext,
 
     /// Used to mark a variable declaration as injected.
-    injected_ctxt: SyntaxContext,
+    pub(crate) injected_ctxt: SyntaxContext,
 
     scope: Scope,
 
@@ -157,7 +157,7 @@ where
         // TODO: Handle dynamic imports
 
         let local = {
-            let mut output = HashMap::default();
+            let mut output = AHashMap::default();
 
             for res in results {
                 let (name, m) = res?;

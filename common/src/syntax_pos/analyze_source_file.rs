@@ -53,7 +53,7 @@ cfg_if::cfg_if! {
                                     lines: &mut Vec<BytePos>,
                                     multi_byte_chars: &mut Vec<MultiByteChar>,
                                     non_narrow_chars: &mut Vec<NonNarrowChar>) {
-            if is_x86_feature_detected!("sse2") {
+            if is_x86_feature_detected!("sse2") && cfg!(not(miri)) {
                 unsafe {
                     analyze_source_file_sse2(src,
                                          source_file_start_pos,

@@ -8,10 +8,6 @@ function deferred() {
     });
     return Object.assign(promise, methods);
 }
-const deferred1 = deferred;
-const deferred2 = deferred1;
-const deferred3 = deferred1;
-const deferred4 = deferred3;
 var tmp = Symbol.asyncIterator;
 class MuxAsyncIterator {
     add(iterator) {
@@ -47,7 +43,7 @@ class MuxAsyncIterator {
             }
             // Clear the `yields` list and reset the `signal` promise.
             this.yields.length = 0;
-            this.signal = deferred2();
+            this.signal = deferred();
         }
     }
     [tmp]() {
@@ -57,12 +53,9 @@ class MuxAsyncIterator {
         this.iteratorCount = 0;
         this.yields = [];
         this.throws = [];
-        this.signal = deferred2();
+        this.signal = deferred();
     }
 }
-const MuxAsyncIterator1 = MuxAsyncIterator;
-const MuxAsyncIterator2 = MuxAsyncIterator1;
-const MuxAsyncIterator3 = MuxAsyncIterator2;
 function emptyReader() {
     return {
         read (_) {
@@ -70,8 +63,6 @@ function emptyReader() {
         }
     };
 }
-const emptyReader1 = emptyReader;
-const emptyReader2 = emptyReader1;
 function bodyReader(contentLength, r) {
     let totalRead = 0;
     let finished = false;
@@ -92,8 +83,6 @@ function bodyReader(contentLength, r) {
         read
     };
 }
-const bodyReader1 = bodyReader;
-const bodyReader2 = bodyReader1;
 function chunkedBodyReader(h, r) {
     // Based on https://tools.ietf.org/html/rfc2616#section-19.4.6
     const tp = new TextProtoReader(r);
@@ -153,8 +142,6 @@ function chunkedBodyReader(h, r) {
         read
     };
 }
-const chunkedBodyReader1 = chunkedBodyReader;
-const chunkedBodyReader2 = chunkedBodyReader1;
 function isProhibidedForTrailer(key) {
     const s = new Set([
         "transfer-encoding",
@@ -266,8 +253,78 @@ async function writeResponse(w, r) {
     }
     await writer.flush();
 }
-const writeResponse1 = writeResponse;
-const writeResponse2 = writeResponse1;
+class ServerRequest {
+    /**
+     * Value of Content-Length header.
+     * If null, then content length is invalid or not given (e.g. chunked encoding).
+     */ get contentLength() {
+        // undefined means not cached.
+        // null means invalid or not provided.
+        if (this._contentLength === undefined) {
+            const cl = this.headers.get("content-length");
+            if (cl) {
+                this._contentLength = parseInt(cl);
+                // Convert NaN to null (as NaN harder to test)
+                if (Number.isNaN(this._contentLength)) this._contentLength = null;
+            } else this._contentLength = null;
+        }
+        return this._contentLength;
+    }
+    /**
+     * Body of the request.  The easiest way to consume the body is:
+     *
+     *     const buf: Uint8Array = await Deno.readAll(req.body);
+     */ get body() {
+        if (!this._body) {
+            if (this.contentLength != null) this._body = bodyReader(this.contentLength, this.r);
+            else {
+                const transferEncoding = this.headers.get("transfer-encoding");
+                if (transferEncoding != null) {
+                    const parts = transferEncoding.split(",").map((e)=>e.trim().toLowerCase()
+                    );
+                    assert(parts.includes("chunked"), 'transfer-encoding must include "chunked" if content-length is not set');
+                    this._body = chunkedBodyReader(this.headers, this.r);
+                } else // Neither content-length nor transfer-encoding: chunked
+                this._body = emptyReader();
+            }
+        }
+        return this._body;
+    }
+    async respond(r) {
+        let err;
+        try {
+            // Write our response!
+            await writeResponse(this.w, r);
+        } catch (e) {
+            try {
+                // Eagerly close on error.
+                this.conn.close();
+            } catch  {
+            }
+            err = e;
+        }
+        // Signal that this request has been processed and the next pipelined
+        // request on the same connection can be accepted.
+        this.done.resolve(err);
+        if (err) // Error during responding, rethrow.
+        throw err;
+    }
+    async finalize() {
+        if (this.finalized) return;
+        // Consume unread body
+        const body = this.body;
+        const buf = new Uint8Array(1024);
+        while(await body.read(buf) !== null);
+        this.finalized = true;
+    }
+    constructor(){
+        this.done = deferred();
+        this._contentLength = undefined;
+        this._body = null;
+        this.finalized = false;
+    }
+}
+var tmp1 = Symbol.asyncIterator;
 function parseHTTPVersion(vers) {
     switch(vers){
         case "HTTP/1.1":
@@ -300,87 +357,13 @@ function parseHTTPVersion(vers) {
     }
     throw new Error(`malformed HTTP version ${vers}`);
 }
-class ServerRequest {
-    /**
-     * Value of Content-Length header.
-     * If null, then content length is invalid or not given (e.g. chunked encoding).
-     */ get contentLength() {
-        // undefined means not cached.
-        // null means invalid or not provided.
-        if (this._contentLength === undefined) {
-            const cl = this.headers.get("content-length");
-            if (cl) {
-                this._contentLength = parseInt(cl);
-                // Convert NaN to null (as NaN harder to test)
-                if (Number.isNaN(this._contentLength)) this._contentLength = null;
-            } else this._contentLength = null;
-        }
-        return this._contentLength;
-    }
-    /**
-     * Body of the request.  The easiest way to consume the body is:
-     *
-     *     const buf: Uint8Array = await Deno.readAll(req.body);
-     */ get body() {
-        if (!this._body) {
-            if (this.contentLength != null) this._body = bodyReader2(this.contentLength, this.r);
-            else {
-                const transferEncoding = this.headers.get("transfer-encoding");
-                if (transferEncoding != null) {
-                    const parts = transferEncoding.split(",").map((e)=>e.trim().toLowerCase()
-                    );
-                    assert(parts.includes("chunked"), 'transfer-encoding must include "chunked" if content-length is not set');
-                    this._body = chunkedBodyReader2(this.headers, this.r);
-                } else // Neither content-length nor transfer-encoding: chunked
-                this._body = emptyReader2();
-            }
-        }
-        return this._body;
-    }
-    async respond(r) {
-        let err;
-        try {
-            // Write our response!
-            await writeResponse2(this.w, r);
-        } catch (e) {
-            try {
-                // Eagerly close on error.
-                this.conn.close();
-            } catch  {
-            }
-            err = e;
-        }
-        // Signal that this request has been processed and the next pipelined
-        // request on the same connection can be accepted.
-        this.done.resolve(err);
-        if (err) // Error during responding, rethrow.
-        throw err;
-    }
-    async finalize() {
-        if (this.finalized) return;
-        // Consume unread body
-        const body = this.body;
-        const buf = new Uint8Array(1024);
-        while(await body.read(buf) !== null);
-        this.finalized = true;
-    }
-    constructor(){
-        this.done = deferred4();
-        this._contentLength = undefined;
-        this._body = null;
-        this.finalized = false;
-    }
-}
-const ServerRequest1 = ServerRequest;
-const ServerRequest2 = ServerRequest1;
-var tmp1 = Symbol.asyncIterator;
 async function readRequest(conn, bufr) {
     const tp = new TextProtoReader(bufr);
     const firstLine = await tp.readLine(); // e.g. GET /index.html HTTP/1.0
     if (firstLine === null) return null;
     const headers = await tp.readMIMEHeader();
     if (headers === null) throw new Deno.errors.UnexpectedEof();
-    const req = new ServerRequest2();
+    const req = new ServerRequest();
     req.conn = conn;
     req.r = bufr;
     [req.method, req.url, req.proto] = firstLine.split(" ", 3);
@@ -388,28 +371,6 @@ async function readRequest(conn, bufr) {
     req.headers = headers;
     fixLength(req);
     return req;
-}
-const readRequest1 = readRequest;
-const readRequest2 = readRequest1;
-function fixLength(req) {
-    const contentLength = req.headers.get("Content-Length");
-    if (contentLength) {
-        const arrClen = contentLength.split(",");
-        if (arrClen.length > 1) {
-            const distinct = [
-                ...new Set(arrClen.map((e)=>e.trim()
-                ))
-            ];
-            if (distinct.length > 1) throw Error("cannot contain multiple Content-Length headers");
-            else req.headers.set("Content-Length", distinct[0]);
-        }
-        const c = req.headers.get("Content-Length");
-        if (req.method === "HEAD" && c && c !== "0") throw Error("http: method cannot contain a Content-Length");
-        if (c && req.headers.has("transfer-encoding")) // A sender MUST NOT send a Content-Length header field in any message
-        // that contains a Transfer-Encoding header field.
-        // rfc: https://tools.ietf.org/html/rfc7230#section-3.3.2
-        throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
-    }
 }
 class Server {
     close() {
@@ -429,10 +390,10 @@ class Server {
         while(!this.closing){
             let request;
             try {
-                request = await readRequest2(conn, reader);
+                request = await readRequest(conn, reader);
             } catch (error) {
                 if (error instanceof Deno.errors.InvalidData || error instanceof Deno.errors.UnexpectedEof) // An error was thrown while parsing request headers.
-                await writeResponse2(writer, {
+                await writeResponse(writer, {
                     status: 400,
                     body: encode(`${error.message}\r\n\r\n`)
                 });
@@ -488,7 +449,7 @@ class Server {
         yield* this.iterateHttpRequests(conn);
     }
     [tmp1]() {
-        const mux = new MuxAsyncIterator3();
+        const mux = new MuxAsyncIterator();
         mux.add(this.acceptConnAndIterateHttpRequests(mux));
         return mux.iterate();
     }
@@ -521,17 +482,27 @@ async function listenAndServe(addr, handler) {
     const server = serve(addr);
     for await (const request of server)handler(request);
 }
-const listenAndServe1 = listenAndServe;
-const listenAndServe2 = listenAndServe1;
-function serveTLS(options) {
-    const tlsOptions = {
-        ...options,
-        transport: "tcp"
-    };
-    const listener1 = Deno.listenTls(tlsOptions);
-    return new Server(listener1);
+function fixLength(req) {
+    const contentLength = req.headers.get("Content-Length");
+    if (contentLength) {
+        const arrClen = contentLength.split(",");
+        if (arrClen.length > 1) {
+            const distinct = [
+                ...new Set(arrClen.map((e)=>e.trim()
+                ))
+            ];
+            if (distinct.length > 1) throw Error("cannot contain multiple Content-Length headers");
+            else req.headers.set("Content-Length", distinct[0]);
+        }
+        const c = req.headers.get("Content-Length");
+        if (req.method === "HEAD" && c && c !== "0") throw Error("http: method cannot contain a Content-Length");
+        if (c && req.headers.has("transfer-encoding")) // A sender MUST NOT send a Content-Length header field in any message
+        // that contains a Transfer-Encoding header field.
+        // rfc: https://tools.ietf.org/html/rfc7230#section-3.3.2
+        throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
+    }
 }
-listenAndServe2({
+listenAndServe({
     port: 8080
 }, async (req)=>{
 });

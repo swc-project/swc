@@ -31,7 +31,7 @@ struct Regenerator {
     global_mark: Mark,
     /// [Some] if used.
     regenerator_runtime: Option<Ident>,
-    /// Variables delcared in outer function.
+    /// Variables declared in outer function.
     outer_fn_vars: Vec<VarDeclarator>,
     /// mark
     top_level_vars: Vec<VarDeclarator>,
