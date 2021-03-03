@@ -298,7 +298,11 @@ fn issue_450() {
 <h1>It works!</h1>
 \`\`\`
 `);"#,
-        r#"console.log(`\n\`\`\`html\n<h1>It works!</h1>\n\`\`\`\n`);"#,
+        r#"console.log(`
+\`\`\`html
+<h1>It works!</h1>
+\`\`\`
+`);"#,
     );
 }
 
@@ -503,6 +507,7 @@ fn deno_8925() {
 }
 
 #[test]
+#[ignore = "Tested using deno"]
 fn deno_9620() {
     assert_pretty(
         "const content = `--------------------------366796e1c748a2fb\r
