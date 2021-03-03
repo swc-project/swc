@@ -503,6 +503,19 @@ fn deno_8925() {
 }
 
 #[test]
+fn deno_9620() {
+    assert_pretty(
+        "const content = `--------------------------366796e1c748a2fb\r
+    Content-Disposition: form-data; name=\"payload\"\r
+    Content-Type: text/plain\r
+    \r
+    CONTENT\r
+    --------------------------366796e1c748a2fb--`",
+        "",
+    );
+}
+
+#[test]
 fn test_escape_without_source() {
     fn es2020(src: &str, expected: &str) {
         assert_eq!(
