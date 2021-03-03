@@ -100,6 +100,8 @@ pub(crate) fn assert_min_typescript(from: &str, to: &str) {
 pub(crate) fn assert_pretty(from: &str, to: &str) {
     let out = parse_then_emit(from, Config { minify: false }, Syntax::default());
 
+    println!("Expected: {:?}", to);
+    println!("Actaul: {:?}", from);
     assert_eq!(DebugUsingDisplay(&out.trim()), DebugUsingDisplay(to),);
 }
 
@@ -507,7 +509,6 @@ fn deno_8925() {
 }
 
 #[test]
-#[ignore = "Tested using deno"]
 fn deno_9620() {
     assert_pretty(
         "const content = `--------------------------366796e1c748a2fb\r
