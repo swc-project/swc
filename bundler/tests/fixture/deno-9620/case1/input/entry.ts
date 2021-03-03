@@ -12,6 +12,7 @@ CONTENT\r
 const boundary = "------------------------366796e1c748a2fb";
 
 const stringReader = new StringReader(content);
+console.log(content);
 
 const multipartReader = new MultipartReader(stringReader, boundary);
 const formData = await multipartReader.readForm()
