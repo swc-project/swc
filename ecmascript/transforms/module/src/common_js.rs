@@ -1,7 +1,7 @@
 pub use super::util::Config;
 use super::util::{
-    define_es_module, define_property, initialize_to_undefined, make_descriptor, make_require_call,
-    use_strict, ModulePass, Scope,
+    define_es_module, define_property, has_use_strict, initialize_to_undefined, make_descriptor,
+    make_require_call, use_strict, ModulePass, Scope,
 };
 use fxhash::FxHashSet;
 use swc_atoms::js_word;
@@ -41,7 +41,7 @@ impl Fold for CommonJs {
         let mut stmts = Vec::with_capacity(items.len() + 4);
         let mut extra_stmts = Vec::with_capacity(items.len());
 
-        if self.config.strict_mode {
+        if self.config.strict_mode && !has_use_strict(&items) {
             stmts.push(ModuleItem::Stmt(use_strict()));
         }
 
@@ -53,7 +53,9 @@ impl Fold for CommonJs {
             self.in_top_level = true;
 
             match item {
-                ModuleItem::Stmt(ref s) if s.is_use_strict() => {}
+                ModuleItem::Stmt(ref s) if s.is_use_strict() => {
+                    stmts.push(item);
+                }
 
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
                     self.scope.insert_import(import)
