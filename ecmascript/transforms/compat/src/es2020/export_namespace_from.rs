@@ -1,6 +1,7 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::IdentExt;
+use swc_ecma_utils::IsDirective;
 use swc_ecma_visit::{noop_fold_type, Fold};
 
 pub fn export_namespace_from() -> impl Fold {
@@ -20,6 +21,7 @@ impl Fold for ExportNamespaceFrom {
 
         for item in items {
             match item {
+                ModuleItem::Stmt(ref s) if s.is_use_strict() => stmts.push(item),
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
                     // Skip if it does not have namespace export
                     if export.specifiers.iter().all(|s| match *s {
