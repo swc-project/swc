@@ -5023,7 +5023,7 @@ var _dec9 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "funct
     Number,
     typeof Object === "undefined" ? Object : Object,
     Function,
-    void 0,
+    String,
     Object,
     typeof Function === "undefined" ? Object : Function,
     void 0,
@@ -5690,5 +5690,38 @@ test!(
     }) || _class, _applyDecoratedDescriptor(_class.prototype, foo, [
         dec
     ], Object.getOwnPropertyDescriptor(_class.prototype, foo), _class.prototype), _class);
+    "
+);
+
+test!(
+    ts(),
+    |_| decorators(decorators::Config {
+        legacy: true,
+        emit_metadata: true,
+        ..Default::default()
+    }),
+    issue_1421_1,
+    "
+    class User {
+      @column() currency!: 'usd' | 'eur' | 'yen';
+    }
+    ",
+    "
+    var _class, _descriptor;
+    var _dec = column(), _dec1 = typeof Reflect !== 'undefined' && typeof Reflect.metadata === \
+     'function' && Reflect.metadata('design:type', String);
+    let User = ((_class = class User {
+        constructor(){
+            _initializerDefineProperty(this, 'currency', _descriptor, this);
+        }
+    }) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'currency', [
+        _dec,
+        _dec1
+    ], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: void 0
+    }), _class);
     "
 );
