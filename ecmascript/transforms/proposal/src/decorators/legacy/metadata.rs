@@ -509,14 +509,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                 ..
             }) => quote_ident!("Boolean").into(),
 
-            TsType::TsLitType(TsLitType {
-                lit: TsLit::Str(..),
-                ..
-            })
-            | TsType::TsKeywordType(TsKeywordType {
-                kind: TsKeywordTypeKind::TsStringKeyword,
-                ..
-            }) => quote_ident!("String").into(),
+            ty if is_str(ty) => quote_ident!("String").into(),
 
             TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsObjectKeyword,
@@ -615,4 +608,23 @@ fn get_type_ann_of_pat(p: &Pat) -> Option<&TsTypeAnn> {
         Pat::Expr(_) => return None,
     }
     .as_ref()
+}
+
+fn is_str(ty: &TsType) -> bool {
+    match ty {
+        TsType::TsLitType(TsLitType {
+            lit: TsLit::Str(..),
+            ..
+        })
+        | TsType::TsKeywordType(TsKeywordType {
+            kind: TsKeywordTypeKind::TsStringKeyword,
+            ..
+        }) => true,
+
+        TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(u)) => {
+            u.types.iter().all(|ty| is_str(ty))
+        }
+
+        _ => false,
+    }
 }
