@@ -101,7 +101,7 @@ pub(crate) fn assert_pretty(from: &str, to: &str) {
     let out = parse_then_emit(from, Config { minify: false }, Syntax::default());
 
     println!("Expected: {:?}", to);
-    println!("Actaul: {:?}", from);
+    println!("Actaul:   {:?}", out);
     assert_eq!(DebugUsingDisplay(&out.trim()), DebugUsingDisplay(to),);
 }
 
