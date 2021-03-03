@@ -11,6 +11,8 @@ CONTENT\r
 
 const boundary = "------------------------366796e1c748a2fb";
 
+console.log(content);
+
 const stringReader = new StringReader(content);
 
 const multipartReader = new MultipartReader(stringReader, boundary);
