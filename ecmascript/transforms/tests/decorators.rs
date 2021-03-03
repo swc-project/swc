@@ -5023,7 +5023,7 @@ var _dec9 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "funct
     Number,
     typeof Object === "undefined" ? Object : Object,
     Function,
-    void 0,
+    String,
     Object,
     typeof Function === "undefined" ? Object : Function,
     void 0,
@@ -5707,6 +5707,21 @@ test!(
     }
     ",
     "
-  
+    var _class, _descriptor;
+    var _dec = column(), _dec1 = typeof Reflect !== 'undefined' && typeof Reflect.metadata === \
+     'function' && Reflect.metadata('design:type', String);
+    let User = ((_class = class User {
+        constructor(){
+            _initializerDefineProperty(this, 'currency', _descriptor, this);
+        }
+    }) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'currency', [
+        _dec,
+        _dec1
+    ], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: void 0
+    }), _class);
     "
 );
