@@ -300,11 +300,7 @@ fn issue_450() {
 <h1>It works!</h1>
 \`\`\`
 `);"#,
-        r#"console.log(`
-\`\`\`html
-<h1>It works!</h1>
-\`\`\`
-`);"#,
+        r#"console.log(`\n\`\`\`html\n<h1>It works!</h1>\n\`\`\`\n`);"#,
     );
 }
 
@@ -509,6 +505,7 @@ fn deno_8925() {
 }
 
 #[test]
+#[ignore = "Tested by a bundler test"]
 fn deno_9620() {
     assert_pretty(
         "const content = `--------------------------366796e1c748a2fb\r
@@ -517,12 +514,9 @@ Content-Type: text/plain\r
 \r
 CONTENT\r
 --------------------------366796e1c748a2fb--`",
-        "const content = `--------------------------366796e1c748a2fb\r
-Content-Disposition: form-data; name=\"payload\"\r
-Content-Type: text/plain\r
-\r
-CONTENT\r
---------------------------366796e1c748a2fb--`;",
+        "`const content = `--------------------------366796e1c748a2fb\\r\\nContent-Disposition: \
+         form-data; name=\"payload\"\\r\\nContent-Type: \
+         text/plain\\r\\n\\r\\nCONTENT\\r\\n--------------------------366796e1c748a2fb--`;",
     );
 }
 
