@@ -1,7 +1,7 @@
 pub use super::util::Config;
 use super::util::{
-    define_es_module, define_property, has_use_strict, initialize_to_undefined, make_descriptor,
-    make_require_call, use_strict, ModulePass, Scope,
+    define_es_module, define_property, initialize_to_undefined, make_descriptor, make_require_call,
+    use_strict, ModulePass, Scope,
 };
 use fxhash::FxHashSet;
 use swc_atoms::js_word;
@@ -13,6 +13,7 @@ use swc_ecma_utils::member_expr;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::quote_str;
+use swc_ecma_utils::IsDirective;
 use swc_ecma_utils::{var::VarCollector, DestructuringFinder, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
@@ -40,7 +41,7 @@ impl Fold for CommonJs {
         let mut stmts = Vec::with_capacity(items.len() + 4);
         let mut extra_stmts = Vec::with_capacity(items.len());
 
-        if self.config.strict_mode && !has_use_strict(&items) {
+        if self.config.strict_mode {
             stmts.push(ModuleItem::Stmt(use_strict()));
         }
 
@@ -52,6 +53,8 @@ impl Fold for CommonJs {
             self.in_top_level = true;
 
             match item {
+                ModuleItem::Stmt(ref s) if s.is_use_strict() => {}
+
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
                     self.scope.insert_import(import)
                 }
