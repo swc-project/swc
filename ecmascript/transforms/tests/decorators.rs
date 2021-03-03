@@ -5692,3 +5692,21 @@ test!(
     ], Object.getOwnPropertyDescriptor(_class.prototype, foo), _class.prototype), _class);
     "
 );
+
+test!(
+    ts(),
+    |_| decorators(decorators::Config {
+        legacy: true,
+        emit_metadata: true,
+        ..Default::default()
+    }),
+    issue_1421_1,
+    "
+    class User {
+      @column() currency!: 'usd' | 'eur' | 'yen';
+    }
+    ",
+    "
+  
+    "
+);
