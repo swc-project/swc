@@ -556,6 +556,11 @@ fn deno_8541_2() {
     );
 }
 
+#[test]
+fn issue_1452_1() {
+    assert_min("async foo => 0", "async foo => 0;");
+}
+
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {
