@@ -613,7 +613,7 @@ pub struct File {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum ForInLeft {
+pub enum ForLeft {
     // TODO
     // VariableDeclaration(VariableDeclaration),
     LVal(LVal),
@@ -624,7 +624,7 @@ pub enum ForInLeft {
 pub struct ForInStatement {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub left: ForInLeft,
+    pub left: ForLeft,
     pub right: Expression,
     pub body: Statement,
 }
@@ -667,10 +667,10 @@ pub enum Param {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum TypeParameterDeclaration {
+pub enum FlowOrTSTypeParameterDeclaration {
 
     // TODO
-    // FlowTypeParameterDeclaration(FlowTypeParameterDeclaration),
+    // TypeParameterDeclaration(TypeParameterDeclaration),
     // TSTypeParameterDeclaration(TSTypeParameterDeclaration),
     // Noop(Noop),
 
@@ -689,7 +689,7 @@ pub struct FunctionDeclaration {
     #[serde(rename = "async")]
     pub is_async: Option<bool>,
     pub return_type: Option<TypeAnnotation>,
-    pub type_parameters: Option<TypeParameterDeclaration>,
+    pub type_parameters: Option<FlowOrTSTypeParameterDeclaration>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -814,7 +814,7 @@ pub struct NewExpression {
     pub arguments: Vec<Arg>,
     pub optional: Option<bool>,
     // TODO
-    // pub type_arguments: Option<FlowTypeParameterInstantiation>,
+    // pub type_arguments: Option<TypeParameterInstantiation>,
     // pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
@@ -888,7 +888,7 @@ pub struct ObjectMethod {
     // TODO
     // pub decorator: Option<Vec<Decorator>>,
     pub return_type: Option<TypeAnnotation>,
-    pub type_parameters: Option<TypeParameterDeclaration>,
+    pub type_parameters: Option<FlowOrTSTypeParameterDeclaration>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1124,7 +1124,7 @@ pub struct ArrowFunctionExpression {
     pub expression: bool,
     pub generator: bool,
     pub return_type: TypeAnnotation,
-    pub type_parameters: Option<TypeParameterDeclaration>,
+    pub type_parameters: Option<FlowOrTSTypeParameterDeclaration>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1154,9 +1154,9 @@ pub enum ClassImpl {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum TypeParameterInstantiation {
+pub enum FlowOrTSTypeParameterInstantiation {
     // TODO
-    // FlowTypeParameterInstantiation(FlowTypeParameterInstantiation),
+    // TypeParameterInstantiation(TypeParameterInstantiation),
     // TSTypeParameterInstantiation(TSTypeParameterInstantiation),
 }
 
@@ -1173,8 +1173,8 @@ pub struct ClassExpression {
     // pub decorators: Option<Vec<Decorator>>,
     pub implements: Option<ClassImpl>,
     // pub mixins: Option<InterfaceExtends>,
-    pub super_type_parameters: Option<TypeParameterInstantiation>,
-    pub type_parameters: Option<TypeParameterDeclaration>,
+    pub super_type_parameters: Option<FlowOrTSTypeParameterInstantiation>,
+    pub type_parameters: Option<FlowOrTSTypeParameterDeclaration>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1193,9 +1193,1424 @@ pub struct ClassDeclaration {
     pub declare: Option<bool>,
     pub implements: Option<ClassImpl>,
     // pub mixins: Option<InterfaceExtends>,
-    pub super_type_parameters: Option<TypeParameterInstantiation>,
-    pub type_parameters: Option<TypeParameterDeclaration>,
+    pub super_type_parameters: Option<FlowOrTSTypeParameterInstantiation>,
+    pub type_parameters: Option<FlowOrTSTypeParameterDeclaration>,
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum ExportKind {
+    Type,
+    Value,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct ExportAllDeclaration {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub source: StringLiteral,
+    // TODO
+    // pub assertions: Option<Vec<ImportAttribute>>,
+    pub export_kind: Option<ExportKind>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum ExportDefaultDeclartionType {
+    FunctionDeclaration(FunctionDeclaration),
+    // TODO
+    // TSDeclarFunction(TSDeclareFunction),
+    ClassDeclaration(ClassDeclaration),
+    Expression(Expression),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct ExportDefaultDeclaration {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub declaration: ExportDefaultDeclartionType,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum ExportSpecifierType {
+    // TODO
+    // ExportSpecifier(ExportSpecifier),
+    // ExportDefaultSpecifier(ExportDefaultSpecifier),
+    // ExportNamespaceSpecifier(ExportNamespaceSpecifier),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct ExportNamedDeclaration {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub declaration: Option<Declaration>,
+    pub specifiers: Vec<ExportSpecifierType>,
+    pub source: Option<StringLiteral>,
+    // TODO
+    // pub assertions: Option<Vec<ImportAttribute>>,
+    pub export_kind: Option<ExportKind>
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum IdOrString {
+    Identifier(Identifier),
+    StringLiteral(StringLiteral),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct ExportSpecifier {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub local: Identifier,
+    pub exported: IdOrString,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct ForOfStatement {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub left: ForLeft,
+    pub right: Expression,
+    pub body: Statement,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum ImportSpecifierType {
+    // TODO
+    // ImportSpecifier(ImportSpecifier),
+    // ImportDefaultSpecifier(ImportDefaultSpecifier),
+    // ImportNamespaceSpecifier(ImportNamespaceSpecifier),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum ImportKind {
+    Type,
+    Typeof,
+    Value,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct ImportDeclaration {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub specifiers: Vec<ImportSpecifierType>,
+    pub source: StringLiteral,
+    // TODO
+    // pub assertions: Option<Vec<ImportAttribute>>,
+    pub import_kind: Option<ImportKind>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct ImportDefaultSpecifier {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub local: Identifier,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct ImportNamespaceSpecifier {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub local: Identifier,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct ImportSpecifier {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub local: Identifier,
+    pub imported: IdOrString,
+    pub import_kind: ImportKind,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct MetaProperty {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub meta: Identifier,
+    pub property: Identifier,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum ClassMethodKind {
+    Get,
+    Set,
+    Method,
+    Constructor,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum Access {
+    Public,
+    Private,
+    Protected,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct ClassMethod {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub kind: Option<ClassMethodKind>,
+    pub key: ObjectKey,
+    pub params: Vec<Param>,
+    pub body: BlockStatement,
+    pub computed: Option<bool>,
+    #[serde(rename = "static")]
+    pub is_static: Option<bool>,
+    pub generator: Option<bool>,
+    #[serde(rename = "async")]
+    pub is_async: Option<bool>,
+    #[serde(rename = "abstract")]
+    pub is_abstract: Option<bool>,
+    pub access: Option<Access>,
+    pub accessibility: Option<Access>,
+    // TODO
+    // pub decorators: Option<Vec<Decorator>>,
+    pub optional: Option<bool>,
+    pub return_type: Option<TypeAnnotation>,
+    pub type_parameters: Option<FlowOrTSTypeParameterDeclaration>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum ObjectPropOrRest {
+    RestElement(RestElement),
+    ObjectProperty(ObjectProperty),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct ObjectPattern {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub properties: Vec<ObjectPropOrRest>,
+    // TODO
+    // pub decorators: Option<Vec<Decorator>>,
+    pub type_annotation: Option<TypeAnnotation>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct SpreadElement {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub argument: Expression,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct Super {
+    #[serde(flatten)]
+    pub base: BaseNode,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct TaggedTemplateExpression {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub tag: Expression,
+    pub quasi: TemplateLiteral,
+    pub type_parameters: Option<FlowOrTSTypeParameterDeclaration>, // TODO: w/o noop
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TemplateVal {
+    pub raw: String,
+    pub cooked: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct TemplateElement {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub value: TemplateVal,
+    pub tail: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum TemplateExpression {
+    Expression(Expression),
+    TSType(TSType),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct TemplateLiteral {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub quasis: Vec<TemplateElement>,
+    pub expressions: Vec<TemplateExpression>
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct YieldExpression {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub argument: Option<Expression>,
+    pub delegate: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct AwaitExpression {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub argument: Expression,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct Import {
+    #[serde(flatten)]
+    pub base: BaseNode,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct BigIntLiteral {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub value: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct ExportNamespaceSpecifier {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub exported: Identifier,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum ExpressionOrIdentifier {
+    Expression(Expression),
+    Identifier(Identifier),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct OptionalMemberExpression {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub object: Expression,
+    pub property: ExpressionOrIdentifier,
+    pub computed: bool,
+    pub optional: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct OptionalCallExpression {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub callee: Expression,
+    pub arguments: Vec<Arg>,
+    pub optional: bool,
+    // TODO
+    // pub type_arguments: Option<TypeParameterInstantiation>,
+    // pub type_parameters: Option<TSTypeParameterInstantiation>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct AnyTypeAnnotation {
+    #[serde(flatten)]
+    pub base: BaseNode,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct ArrayTypeAnnotation {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub element_type: FlowType,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct BooleanTypeAnnotation {
+    #[serde(flatten)]
+    pub base: BaseNode,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct BooleanLiteralTypeAnnotation {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub value: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct NullLiteralTypeAnnotation {
+    #[serde(flatten)]
+    pub base: BaseNode,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct ClassImplements {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub id: Identifier,
+    // TODO
+    // pub type_parameters: Option<TypeParameterInstantiation>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct DeclareClass {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub id: Identifier,
+    // TODO
+    // pub type_parameters: Option<TypeParameterInstantiation>,
+    // pub extends: Option<Vec<InterfaceExtends>>,
+    // pub body: ObjectTypeAnnotation,
+    pub implements: Option<Vec<ClassImplements>>,
+    // pub mixins: Option<Array<InterfaceExtends>>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct DeclareFunction {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub id: Identifier,
+    // TODO
+    // pub predicate: Option<DeclarePredicate>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct DeclareInterface {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub id: Identifier,
+    // TODO
+    // pub type_parameters: Option<TypeParameterInstantiation>,
+    // pub extends: Option<Vec<InterfaceExtends>>,
+    // pub body: ObjectTypeAnnotation,
+    pub implements: Option<Vec<ClassImplements>>,
+    // pub mixins: Option<Array<InterfaceExtends>>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum ModuleKind {
+    #[serde(rename = "CommonJS")]
+    CommonJs,
+    #[serde(rename = "ES")]
+    Es,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct DeclareModule {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub id: IdOrString,
+    pub body: BlockStatement,
+    pub kind: Option<ModuleKind>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct DeclareModuleExports {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub type_annotation: TypeAnnotation,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct DeclareTypeAlias {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub id: Identifier,
+    // TODO
+    // pub type_parameters: Option<TypeParameterDeclaration>,
+    pub right: FlowType,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct DeclareOpaqueType {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub id: Identifier,
+    // TODO
+    // pub type_parameters: Option<TypeParameterDeclaration>,
+    pub supertype: Option<FlowType>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct DeclareVariable {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub id: Identifier,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct DeclareExportDeclaration {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub declaration: Option<Flow>,
+    pub specifiers: Option<Vec<ExportSpecifierType>>, // TODO: w/o export default specifier
+    pub source: Option<StringLiteral>,
+    pub default: Option<bool>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct DeclareExportAllDeclaration {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub source: StringLiteral,
+    pub export_kind: Option<ExportKind>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct DeclarePredicate {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub value: Flow,
+}
+
+/* 123
+export interface ExistsTypeAnnotation extends BaseNode {
+  type: "ExistsTypeAnnotation";
+}
+
+export interface FunctionTypeAnnotation extends BaseNode {
+  type: "FunctionTypeAnnotation";
+  typeParameters?: TypeParameterDeclaration | null;
+  params: Array<FunctionTypeParam>;
+  rest?: FunctionTypeParam | null;
+  returnType: FlowType;
+  this?: FunctionTypeParam | null;
+}
+
+export interface FunctionTypeParam extends BaseNode {
+  type: "FunctionTypeParam";
+  name?: Identifier | null;
+  typeAnnotation: FlowType;
+  optional?: boolean | null;
+}
+
+export interface GenericTypeAnnotation extends BaseNode {
+  type: "GenericTypeAnnotation";
+  id: Identifier | QualifiedTypeIdentifier;
+  typeParameters?: TypeParameterInstantiation | null;
+}
+
+export interface InferredPredicate extends BaseNode {
+  type: "InferredPredicate";
+}
+
+export interface InterfaceExtends extends BaseNode {
+  type: "InterfaceExtends";
+  id: Identifier | QualifiedTypeIdentifier;
+  typeParameters?: TypeParameterInstantiation | null;
+}
+
+export interface InterfaceDeclaration extends BaseNode {
+  type: "InterfaceDeclaration";
+  id: Identifier;
+  typeParameters?: TypeParameterDeclaration | null;
+  extends?: Array<InterfaceExtends> | null;
+  body: ObjectTypeAnnotation;
+  implements?: Array<ClassImplements> | null;
+  mixins?: Array<InterfaceExtends> | null;
+}
+
+export interface InterfaceTypeAnnotation extends BaseNode {
+  type: "InterfaceTypeAnnotation";
+  extends?: Array<InterfaceExtends> | null;
+  body: ObjectTypeAnnotation;
+}
+
+export interface IntersectionTypeAnnotation extends BaseNode {
+  type: "IntersectionTypeAnnotation";
+  types: Array<FlowType>;
+}
+
+export interface MixedTypeAnnotation extends BaseNode {
+  type: "MixedTypeAnnotation";
+}
+
+export interface EmptyTypeAnnotation extends BaseNode {
+  type: "EmptyTypeAnnotation";
+}
+
+export interface NullableTypeAnnotation extends BaseNode {
+  type: "NullableTypeAnnotation";
+  typeAnnotation: FlowType;
+}
+
+export interface NumberLiteralTypeAnnotation extends BaseNode {
+  type: "NumberLiteralTypeAnnotation";
+  value: number;
+}
+
+export interface NumberTypeAnnotation extends BaseNode {
+  type: "NumberTypeAnnotation";
+}
+
+export interface ObjectTypeAnnotation extends BaseNode {
+  type: "ObjectTypeAnnotation";
+  properties: Array<ObjectTypeProperty | ObjectTypeSpreadProperty>;
+  indexers?: Array<ObjectTypeIndexer> | null;
+  callProperties?: Array<ObjectTypeCallProperty> | null;
+  internalSlots?: Array<ObjectTypeInternalSlot> | null;
+  exact: boolean;
+  inexact?: boolean | null;
+}
+
+export interface ObjectTypeInternalSlot extends BaseNode {
+  type: "ObjectTypeInternalSlot";
+  id: Identifier;
+  value: FlowType;
+  optional: boolean;
+  static: boolean;
+  method: boolean;
+}
+
+export interface ObjectTypeCallProperty extends BaseNode {
+  type: "ObjectTypeCallProperty";
+  value: FlowType;
+  static: boolean;
+}
+
+export interface ObjectTypeIndexer extends BaseNode {
+  type: "ObjectTypeIndexer";
+  id?: Identifier | null;
+  key: FlowType;
+  value: FlowType;
+  variance?: Variance | null;
+  static: boolean;
+}
+
+export interface ObjectTypeProperty extends BaseNode {
+  type: "ObjectTypeProperty";
+  key: Identifier | StringLiteral;
+  value: FlowType;
+  variance?: Variance | null;
+  kind: "init" | "get" | "set";
+  method: boolean;
+  optional: boolean;
+  proto: boolean;
+  static: boolean;
+}
+
+export interface ObjectTypeSpreadProperty extends BaseNode {
+  type: "ObjectTypeSpreadProperty";
+  argument: FlowType;
+}
+
+export interface OpaqueType extends BaseNode {
+  type: "OpaqueType";
+  id: Identifier;
+  typeParameters?: TypeParameterDeclaration | null;
+  supertype?: FlowType | null;
+  impltype: FlowType;
+}
+
+export interface QualifiedTypeIdentifier extends BaseNode {
+  type: "QualifiedTypeIdentifier";
+  id: Identifier;
+  qualification: Identifier | QualifiedTypeIdentifier;
+}
+
+export interface StringLiteralTypeAnnotation extends BaseNode {
+  type: "StringLiteralTypeAnnotation";
+  value: string;
+}
+
+export interface StringTypeAnnotation extends BaseNode {
+  type: "StringTypeAnnotation";
+}
+
+export interface SymbolTypeAnnotation extends BaseNode {
+  type: "SymbolTypeAnnotation";
+}
+
+export interface ThisTypeAnnotation extends BaseNode {
+  type: "ThisTypeAnnotation";
+}
+
+export interface TupleTypeAnnotation extends BaseNode {
+  type: "TupleTypeAnnotation";
+  types: Array<FlowType>;
+}
+
+export interface TypeofTypeAnnotation extends BaseNode {
+  type: "TypeofTypeAnnotation";
+  argument: FlowType;
+}
+
+export interface TypeAlias extends BaseNode {
+  type: "TypeAlias";
+  id: Identifier;
+  typeParameters?: TypeParameterDeclaration | null;
+  right: FlowType;
+}
+
+export interface TypeAnnotation extends BaseNode {
+  type: "TypeAnnotation";
+  typeAnnotation: FlowType;
+}
+
+export interface TypeCastExpression extends BaseNode {
+  type: "TypeCastExpression";
+  expression: Expression;
+  typeAnnotation: TypeAnnotation;
+}
+
+export interface TypeParameter extends BaseNode {
+  type: "TypeParameter";
+  bound?: TypeAnnotation | null;
+  default?: FlowType | null;
+  variance?: Variance | null;
+  name: string;
+}
+
+export interface TypeParameterDeclaration extends BaseNode {
+  type: "TypeParameterDeclaration";
+  params: Array<TypeParameter>;
+}
+
+export interface TypeParameterInstantiation extends BaseNode {
+  type: "TypeParameterInstantiation";
+  params: Array<FlowType>;
+}
+
+export interface UnionTypeAnnotation extends BaseNode {
+  type: "UnionTypeAnnotation";
+  types: Array<FlowType>;
+}
+
+export interface Variance extends BaseNode {
+  type: "Variance";
+  kind: "minus" | "plus";
+}
+
+export interface VoidTypeAnnotation extends BaseNode {
+  type: "VoidTypeAnnotation";
+}
+
+export interface EnumDeclaration extends BaseNode {
+  type: "EnumDeclaration";
+  id: Identifier;
+  body: EnumBooleanBody | EnumNumberBody | EnumStringBody | EnumSymbolBody;
+}
+
+export interface EnumBooleanBody extends BaseNode {
+  type: "EnumBooleanBody";
+  members: Array<EnumBooleanMember>;
+  explicitType: boolean;
+  hasUnknownMembers: boolean;
+}
+
+export interface EnumNumberBody extends BaseNode {
+  type: "EnumNumberBody";
+  members: Array<EnumNumberMember>;
+  explicitType: boolean;
+  hasUnknownMembers: boolean;
+}
+
+export interface EnumStringBody extends BaseNode {
+  type: "EnumStringBody";
+  members: Array<EnumStringMember | EnumDefaultedMember>;
+  explicitType: boolean;
+  hasUnknownMembers: boolean;
+}
+
+export interface EnumSymbolBody extends BaseNode {
+  type: "EnumSymbolBody";
+  members: Array<EnumDefaultedMember>;
+  hasUnknownMembers: boolean;
+}
+
+export interface EnumBooleanMember extends BaseNode {
+  type: "EnumBooleanMember";
+  id: Identifier;
+  init: BooleanLiteral;
+}
+
+export interface EnumNumberMember extends BaseNode {
+  type: "EnumNumberMember";
+  id: Identifier;
+  init: NumericLiteral;
+}
+
+export interface EnumStringMember extends BaseNode {
+  type: "EnumStringMember";
+  id: Identifier;
+  init: StringLiteral;
+}
+
+export interface EnumDefaultedMember extends BaseNode {
+  type: "EnumDefaultedMember";
+  id: Identifier;
+}
+
+export interface JSXAttribute extends BaseNode {
+  type: "JSXAttribute";
+  name: JSXIdentifier | JSXNamespacedName;
+  value?:
+    | JSXElement
+    | JSXFragment
+    | StringLiteral
+    | JSXExpressionContainer
+    | null;
+}
+
+export interface JSXClosingElement extends BaseNode {
+  type: "JSXClosingElement";
+  name: JSXIdentifier | JSXMemberExpression | JSXNamespacedName;
+}
+
+export interface JSXElement extends BaseNode {
+  type: "JSXElement";
+  openingElement: JSXOpeningElement;
+  closingElement?: JSXClosingElement | null;
+  children: Array<
+    JSXText | JSXExpressionContainer | JSXSpreadChild | JSXElement | JSXFragment
+  >;
+  selfClosing?: boolean | null;
+}
+
+export interface JSXEmptyExpression extends BaseNode {
+  type: "JSXEmptyExpression";
+}
+
+export interface JSXExpressionContainer extends BaseNode {
+  type: "JSXExpressionContainer";
+  expression: Expression | JSXEmptyExpression;
+}
+
+export interface JSXSpreadChild extends BaseNode {
+  type: "JSXSpreadChild";
+  expression: Expression;
+}
+
+export interface JSXIdentifier extends BaseNode {
+  type: "JSXIdentifier";
+  name: string;
+}
+
+export interface JSXMemberExpression extends BaseNode {
+  type: "JSXMemberExpression";
+  object: JSXMemberExpression | JSXIdentifier;
+  property: JSXIdentifier;
+}
+
+export interface JSXNamespacedName extends BaseNode {
+  type: "JSXNamespacedName";
+  namespace: JSXIdentifier;
+  name: JSXIdentifier;
+}
+
+export interface JSXOpeningElement extends BaseNode {
+  type: "JSXOpeningElement";
+  name: JSXIdentifier | JSXMemberExpression | JSXNamespacedName;
+  attributes: Array<JSXAttribute | JSXSpreadAttribute>;
+  selfClosing: boolean;
+  typeParameters?:
+    | TypeParameterInstantiation
+    | TSTypeParameterInstantiation
+    | null;
+}
+
+export interface JSXSpreadAttribute extends BaseNode {
+  type: "JSXSpreadAttribute";
+  argument: Expression;
+}
+
+export interface JSXText extends BaseNode {
+  type: "JSXText";
+  value: string;
+}
+
+export interface JSXFragment extends BaseNode {
+  type: "JSXFragment";
+  openingFragment: JSXOpeningFragment;
+  closingFragment: JSXClosingFragment;
+  children: Array<
+    JSXText | JSXExpressionContainer | JSXSpreadChild | JSXElement | JSXFragment
+  >;
+}
+
+export interface JSXOpeningFragment extends BaseNode {
+  type: "JSXOpeningFragment";
+}
+
+export interface JSXClosingFragment extends BaseNode {
+  type: "JSXClosingFragment";
+}
+
+export interface Noop extends BaseNode {
+  type: "Noop";
+}
+
+export interface Placeholder extends BaseNode {
+  type: "Placeholder";
+  expectedNode:
+    | "Identifier"
+    | "StringLiteral"
+    | "Expression"
+    | "Statement"
+    | "Declaration"
+    | "BlockStatement"
+    | "ClassBody"
+    | "Pattern";
+  name: Identifier;
+}
+
+export interface V8IntrinsicIdentifier extends BaseNode {
+  type: "V8IntrinsicIdentifier";
+  name: string;
+}
+
+export interface ArgumentPlaceholder extends BaseNode {
+  type: "ArgumentPlaceholder";
+}
+
+export interface BindExpression extends BaseNode {
+  type: "BindExpression";
+  object: Expression;
+  callee: Expression;
+}
+
+export interface ClassProperty extends BaseNode {
+  type: "ClassProperty";
+  key: Identifier | StringLiteral | NumericLiteral | Expression;
+  value?: Expression | null;
+  typeAnnotation?: TypeAnnotation | TSTypeAnnotation | Noop | null;
+  decorators?: Array<Decorator> | null;
+  computed?: boolean;
+  static?: boolean;
+  abstract?: boolean | null;
+  accessibility?: "public" | "private" | "protected" | null;
+  declare?: boolean | null;
+  definite?: boolean | null;
+  optional?: boolean | null;
+  readonly?: boolean | null;
+}
+
+export interface PipelineTopicExpression extends BaseNode {
+  type: "PipelineTopicExpression";
+  expression: Expression;
+}
+
+export interface PipelineBareFunction extends BaseNode {
+  type: "PipelineBareFunction";
+  callee: Expression;
+}
+
+export interface PipelinePrimaryTopicReference extends BaseNode {
+  type: "PipelinePrimaryTopicReference";
+}
+
+export interface ClassPrivateProperty extends BaseNode {
+  type: "ClassPrivateProperty";
+  key: PrivateName;
+  value?: Expression | null;
+  decorators?: Array<Decorator> | null;
+  static: any;
+  typeAnnotation?: TypeAnnotation | TSTypeAnnotation | Noop | null;
+}
+
+export interface ClassPrivateMethod extends BaseNode {
+  type: "ClassPrivateMethod";
+  kind?: "get" | "set" | "method" | "constructor";
+  key: PrivateName;
+  params: Array<Identifier | Pattern | RestElement | TSParameterProperty>;
+  body: BlockStatement;
+  static?: boolean;
+  abstract?: boolean | null;
+  access?: "public" | "private" | "protected" | null;
+  accessibility?: "public" | "private" | "protected" | null;
+  async?: boolean;
+  computed?: boolean;
+  decorators?: Array<Decorator> | null;
+  generator?: boolean;
+  optional?: boolean | null;
+  returnType?: TypeAnnotation | TSTypeAnnotation | Noop | null;
+  typeParameters?:
+    | TypeParameterDeclaration
+    | TSTypeParameterDeclaration
+    | Noop
+    | null;
+}
+
+export interface ImportAttribute extends BaseNode {
+  type: "ImportAttribute";
+  key: Identifier | StringLiteral;
+  value: StringLiteral;
+}
+
+export interface Decorator extends BaseNode {
+  type: "Decorator";
+  expression: Expression;
+}
+
+export interface DoExpression extends BaseNode {
+  type: "DoExpression";
+  body: BlockStatement;
+}
+
+export interface ExportDefaultSpecifier extends BaseNode {
+  type: "ExportDefaultSpecifier";
+  exported: Identifier;
+}
+
+export interface PrivateName extends BaseNode {
+  type: "PrivateName";
+  id: Identifier;
+}
+
+export interface RecordExpression extends BaseNode {
+  type: "RecordExpression";
+  properties: Array<ObjectProperty | SpreadElement>;
+}
+
+export interface TupleExpression extends BaseNode {
+  type: "TupleExpression";
+  elements: Array<Expression | SpreadElement>;
+}
+
+export interface DecimalLiteral extends BaseNode {
+  type: "DecimalLiteral";
+  value: string;
+}
+
+export interface StaticBlock extends BaseNode {
+  type: "StaticBlock";
+  body: Array<Statement>;
+}
+
+export interface ModuleExpression extends BaseNode {
+  type: "ModuleExpression";
+  body: Program;
+}
+
+export interface TSParameterProperty extends BaseNode {
+  type: "TSParameterProperty";
+  parameter: Identifier | AssignmentPattern;
+  accessibility?: "public" | "private" | "protected" | null;
+  readonly?: boolean | null;
+}
+
+export interface TSDeclareFunction extends BaseNode {
+  type: "TSDeclareFunction";
+  id?: Identifier | null;
+  typeParameters?: TSTypeParameterDeclaration | Noop | null;
+  params: Array<Identifier | Pattern | RestElement | TSParameterProperty>;
+  returnType?: TSTypeAnnotation | Noop | null;
+  async?: boolean;
+  declare?: boolean | null;
+  generator?: boolean;
+}
+
+export interface TSDeclareMethod extends BaseNode {
+  type: "TSDeclareMethod";
+  decorators?: Array<Decorator> | null;
+  key: Identifier | StringLiteral | NumericLiteral | Expression;
+  typeParameters?: TSTypeParameterDeclaration | Noop | null;
+  params: Array<Identifier | Pattern | RestElement | TSParameterProperty>;
+  returnType?: TSTypeAnnotation | Noop | null;
+  abstract?: boolean | null;
+  access?: "public" | "private" | "protected" | null;
+  accessibility?: "public" | "private" | "protected" | null;
+  async?: boolean;
+  computed?: boolean;
+  generator?: boolean;
+  kind?: "get" | "set" | "method" | "constructor";
+  optional?: boolean | null;
+  static?: boolean;
+}
+
+export interface TSQualifiedName extends BaseNode {
+  type: "TSQualifiedName";
+  left: TSEntityName;
+  right: Identifier;
+}
+
+export interface TSCallSignatureDeclaration extends BaseNode {
+  type: "TSCallSignatureDeclaration";
+  typeParameters?: TSTypeParameterDeclaration | null;
+  parameters: Array<Identifier | RestElement>;
+  typeAnnotation?: TSTypeAnnotation | null;
+}
+
+export interface TSConstructSignatureDeclaration extends BaseNode {
+  type: "TSConstructSignatureDeclaration";
+  typeParameters?: TSTypeParameterDeclaration | null;
+  parameters: Array<Identifier | RestElement>;
+  typeAnnotation?: TSTypeAnnotation | null;
+}
+
+export interface TSPropertySignature extends BaseNode {
+  type: "TSPropertySignature";
+  key: Expression;
+  typeAnnotation?: TSTypeAnnotation | null;
+  initializer?: Expression | null;
+  computed?: boolean | null;
+  optional?: boolean | null;
+  readonly?: boolean | null;
+}
+
+export interface TSMethodSignature extends BaseNode {
+  type: "TSMethodSignature";
+  key: Expression;
+  typeParameters?: TSTypeParameterDeclaration | null;
+  parameters: Array<Identifier | RestElement>;
+  typeAnnotation?: TSTypeAnnotation | null;
+  computed?: boolean | null;
+  optional?: boolean | null;
+}
+
+export interface TSIndexSignature extends BaseNode {
+  type: "TSIndexSignature";
+  parameters: Array<Identifier>;
+  typeAnnotation?: TSTypeAnnotation | null;
+  readonly?: boolean | null;
+}
+
+export interface TSAnyKeyword extends BaseNode {
+  type: "TSAnyKeyword";
+}
+
+export interface TSBooleanKeyword extends BaseNode {
+  type: "TSBooleanKeyword";
+}
+
+export interface TSBigIntKeyword extends BaseNode {
+  type: "TSBigIntKeyword";
+}
+
+export interface TSIntrinsicKeyword extends BaseNode {
+  type: "TSIntrinsicKeyword";
+}
+
+export interface TSNeverKeyword extends BaseNode {
+  type: "TSNeverKeyword";
+}
+
+export interface TSNullKeyword extends BaseNode {
+  type: "TSNullKeyword";
+}
+
+export interface TSNumberKeyword extends BaseNode {
+  type: "TSNumberKeyword";
+}
+
+export interface TSObjectKeyword extends BaseNode {
+  type: "TSObjectKeyword";
+}
+
+export interface TSStringKeyword extends BaseNode {
+  type: "TSStringKeyword";
+}
+
+export interface TSSymbolKeyword extends BaseNode {
+  type: "TSSymbolKeyword";
+}
+
+export interface TSUndefinedKeyword extends BaseNode {
+  type: "TSUndefinedKeyword";
+}
+
+export interface TSUnknownKeyword extends BaseNode {
+  type: "TSUnknownKeyword";
+}
+
+export interface TSVoidKeyword extends BaseNode {
+  type: "TSVoidKeyword";
+}
+
+export interface TSThisType extends BaseNode {
+  type: "TSThisType";
+}
+
+export interface TSFunctionType extends BaseNode {
+  type: "TSFunctionType";
+  typeParameters?: TSTypeParameterDeclaration | null;
+  parameters: Array<Identifier | RestElement>;
+  typeAnnotation?: TSTypeAnnotation | null;
+}
+
+export interface TSConstructorType extends BaseNode {
+  type: "TSConstructorType";
+  typeParameters?: TSTypeParameterDeclaration | null;
+  parameters: Array<Identifier | RestElement>;
+  typeAnnotation?: TSTypeAnnotation | null;
+  abstract?: boolean | null;
+}
+
+export interface TSTypeReference extends BaseNode {
+  type: "TSTypeReference";
+  typeName: TSEntityName;
+  typeParameters?: TSTypeParameterInstantiation | null;
+}
+
+export interface TSTypePredicate extends BaseNode {
+  type: "TSTypePredicate";
+  parameterName: Identifier | TSThisType;
+  typeAnnotation?: TSTypeAnnotation | null;
+  asserts?: boolean | null;
+}
+
+export interface TSTypeQuery extends BaseNode {
+  type: "TSTypeQuery";
+  exprName: TSEntityName | TSImportType;
+}
+
+export interface TSTypeLiteral extends BaseNode {
+  type: "TSTypeLiteral";
+  members: Array<TSTypeElement>;
+}
+
+export interface TSArrayType extends BaseNode {
+  type: "TSArrayType";
+  elementType: TSType;
+}
+
+export interface TSTupleType extends BaseNode {
+  type: "TSTupleType";
+  elementTypes: Array<TSType | TSNamedTupleMember>;
+}
+
+export interface TSOptionalType extends BaseNode {
+  type: "TSOptionalType";
+  typeAnnotation: TSType;
+}
+
+export interface TSRestType extends BaseNode {
+  type: "TSRestType";
+  typeAnnotation: TSType;
+}
+
+export interface TSNamedTupleMember extends BaseNode {
+  type: "TSNamedTupleMember";
+  label: Identifier;
+  elementType: TSType;
+  optional: boolean;
+}
+
+export interface TSUnionType extends BaseNode {
+  type: "TSUnionType";
+  types: Array<TSType>;
+}
+
+export interface TSIntersectionType extends BaseNode {
+  type: "TSIntersectionType";
+  types: Array<TSType>;
+}
+
+export interface TSConditionalType extends BaseNode {
+  type: "TSConditionalType";
+  checkType: TSType;
+  extendsType: TSType;
+  trueType: TSType;
+  falseType: TSType;
+}
+
+export interface TSInferType extends BaseNode {
+  type: "TSInferType";
+  typeParameter: TSTypeParameter;
+}
+
+export interface TSParenthesizedType extends BaseNode {
+  type: "TSParenthesizedType";
+  typeAnnotation: TSType;
+}
+
+export interface TSTypeOperator extends BaseNode {
+  type: "TSTypeOperator";
+  typeAnnotation: TSType;
+  operator: string;
+}
+
+export interface TSIndexedAccessType extends BaseNode {
+  type: "TSIndexedAccessType";
+  objectType: TSType;
+  indexType: TSType;
+}
+
+export interface TSMappedType extends BaseNode {
+  type: "TSMappedType";
+  typeParameter: TSTypeParameter;
+  typeAnnotation?: TSType | null;
+  nameType?: TSType | null;
+  optional?: boolean | null;
+  readonly?: boolean | null;
+}
+
+export interface TSLiteralType extends BaseNode {
+  type: "TSLiteralType";
+  literal: NumericLiteral | StringLiteral | BooleanLiteral | BigIntLiteral;
+}
+
+export interface TSExpressionWithTypeArguments extends BaseNode {
+  type: "TSExpressionWithTypeArguments";
+  expression: TSEntityName;
+  typeParameters?: TSTypeParameterInstantiation | null;
+}
+
+export interface TSInterfaceDeclaration extends BaseNode {
+  type: "TSInterfaceDeclaration";
+  id: Identifier;
+  typeParameters?: TSTypeParameterDeclaration | null;
+  extends?: Array<TSExpressionWithTypeArguments> | null;
+  body: TSInterfaceBody;
+  declare?: boolean | null;
+}
+
+export interface TSInterfaceBody extends BaseNode {
+  type: "TSInterfaceBody";
+  body: Array<TSTypeElement>;
+}
+
+export interface TSTypeAliasDeclaration extends BaseNode {
+  type: "TSTypeAliasDeclaration";
+  id: Identifier;
+  typeParameters?: TSTypeParameterDeclaration | null;
+  typeAnnotation: TSType;
+  declare?: boolean | null;
+}
+
+export interface TSAsExpression extends BaseNode {
+  type: "TSAsExpression";
+  expression: Expression;
+  typeAnnotation: TSType;
+}
+
+export interface TSTypeAssertion extends BaseNode {
+  type: "TSTypeAssertion";
+  typeAnnotation: TSType;
+  expression: Expression;
+}
+
+export interface TSEnumDeclaration extends BaseNode {
+  type: "TSEnumDeclaration";
+  id: Identifier;
+  members: Array<TSEnumMember>;
+  const?: boolean | null;
+  declare?: boolean | null;
+  initializer?: Expression | null;
+}
+
+export interface TSEnumMember extends BaseNode {
+  type: "TSEnumMember";
+  id: Identifier | StringLiteral;
+  initializer?: Expression | null;
+}
+
+export interface TSModuleDeclaration extends BaseNode {
+  type: "TSModuleDeclaration";
+  id: Identifier | StringLiteral;
+  body: TSModuleBlock | TSModuleDeclaration;
+  declare?: boolean | null;
+  global?: boolean | null;
+}
+
+export interface TSModuleBlock extends BaseNode {
+  type: "TSModuleBlock";
+  body: Array<Statement>;
+}
+
+export interface TSImportType extends BaseNode {
+  type: "TSImportType";
+  argument: StringLiteral;
+  qualifier?: TSEntityName | null;
+  typeParameters?: TSTypeParameterInstantiation | null;
+}
+
+export interface TSImportEqualsDeclaration extends BaseNode {
+  type: "TSImportEqualsDeclaration";
+  id: Identifier;
+  moduleReference: TSEntityName | TSExternalModuleReference;
+  isExport: boolean;
+}
+
+export interface TSExternalModuleReference extends BaseNode {
+  type: "TSExternalModuleReference";
+  expression: StringLiteral;
+}
+
+export interface TSNonNullExpression extends BaseNode {
+  type: "TSNonNullExpression";
+  expression: Expression;
+}
+
+export interface TSExportAssignment extends BaseNode {
+  type: "TSExportAssignment";
+  expression: Expression;
+}
+
+export interface TSNamespaceExportDeclaration extends BaseNode {
+  type: "TSNamespaceExportDeclaration";
+  id: Identifier;
+}
+
+export interface TSTypeAnnotation extends BaseNode {
+  type: "TSTypeAnnotation";
+  typeAnnotation: TSType;
+}
+
+export interface TSTypeParameterInstantiation extends BaseNode {
+  type: "TSTypeParameterInstantiation";
+  params: Array<TSType>;
+}
+
+export interface TSTypeParameterDeclaration extends BaseNode {
+  type: "TSTypeParameterDeclaration";
+  params: Array<TSTypeParameter>;
+}
+
+export interface TSTypeParameter extends BaseNode {
+  type: "TSTypeParameter";
+  constraint?: TSType | null;
+  default?: TSType | null;
+  name: string;
+}
+123 */
 
 
 
