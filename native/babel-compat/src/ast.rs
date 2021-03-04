@@ -661,13 +661,13 @@ pub enum TypeAnnotation {
 pub enum Param {
     Identifier(Identifier),
     Pattern(Pattern),
+    RestElement(RestElement),
     // TODO
-    // RestElement(RestElement),
     // TSParameterTypeProperty(TSParameterTypeProperty),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum TypeParamDeclaration {
+pub enum TypeParameterDeclaration {
 
     // TODO
     // FlowTypeParameterDeclaration(FlowTypeParameterDeclaration),
@@ -689,7 +689,7 @@ pub struct FunctionDeclaration {
     #[serde(rename = "async")]
     pub is_async: Option<bool>,
     pub return_type: Option<TypeAnnotation>,
-    pub type_parameters: Option<TypeParamDeclaration>,
+    pub type_parameters: Option<TypeParameterDeclaration>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -714,6 +714,494 @@ pub struct IfStatement {
     pub consequent: Statement,
     pub alternate: Option<Statement>,
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct LabeledStatement {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub label: Identifier,
+    pub body: Statement,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct StringLiteral {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub value: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct NumericLiteral {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub value: f64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct NullLiteral {
+    #[serde(flatten)]
+    pub base: BaseNode,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct BooleanLiteral {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub value: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct RegExpLiteral {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub pattern: String,
+    pub flags: String,
+}
+
+// Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum LogicalOp {
+    #[serde(rename = "||")]
+    Or,
+    #[serde(rename = "&&")]
+    And,
+    #[serde(rename = "??")]
+    Nullish,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct LogicalExpression {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub operator: LogicalOp,
+    pub left: Expression,
+    pub right: Expression,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum MemberProp {
+    Expression(Expression),
+    Identifier(Identifier),
+    // TODO
+    // PrivateName(PrivateName),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct MemberExpression {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub object: Expression,
+    pub property: MemberProp,
+    pub computed: bool,
+    pub optional: Option<bool>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct NewExpression {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub callee: Callee,
+    pub arguments: Vec<Arg>,
+    pub optional: Option<bool>,
+    // TODO
+    // pub type_arguments: Option<FlowTypeParameterInstantiation>,
+    // pub type_parameters: Option<TSTypeParameterInstantiation>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum SourceType {
+    Script,
+    Module,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct Program {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub body: Vec<Statement>,
+    pub directives: Vec<Directive>,
+    pub source_type: SourceType,
+    pub interpreter: Option<InterpreterDirective>,
+    pub source_file: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum ObjectExpressionProp {
+    // TODO
+    // ObjectMethod(ObjectMethod),
+    // ObjectProperty(ObjectProperty),
+    // SpreadElement(SpreadElement),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct ObjectExpression {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub properties: Vec<ObjectExpressionProp>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum ObjectKind {
+    Method,
+    Get,
+    Set,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum ObjectKey {
+    Expression(Expression),
+    Identifier(Identifier),
+    StringLiteral(StringLiteral),
+    NumericLiteral(NumericLiteral),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct ObjectMethod {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub kind: ObjectKind,
+    pub key: ObjectKey,
+    pub params: Vec<Param>,
+    pub body: BlockStatement,
+    pub computed: bool,
+    pub generator: Option<bool>,
+    #[serde(rename = "async")]
+    pub is_async: Option<bool>,
+    // TODO
+    // pub decorator: Option<Vec<Decorator>>,
+    pub return_type: Option<TypeAnnotation>,
+    pub type_parameters: Option<TypeParameterDeclaration>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum ObjectPropertyVal {
+    Expression(Expression),
+    PatternLike(PatternLike),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct ObjectProperty {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub key: ObjectKey,
+    pub value: ObjectPropertyVal,
+    pub computed: bool,
+    pub shorthand: bool,
+    // TODO
+    // pub decorators: Option<Vec<Decorator>>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct RestElement {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub argument: LVal,
+    // TODO
+    // pub decorators: Option<Vec<Decorator>>,
+    pub type_annotation: Option<TypeAnnotation>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct ReturnStatement {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub argument: Option<Expression>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct SequenceExpression {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub expressions: Vec<Expression>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct ParenthesizedExpression {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub expression: Expression,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct SwitchCase {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub test: Option<Expression>,
+    pub consequent: Vec<Statement>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct SwitchStatement {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub descriminant: Expression,
+    pub cases: Vec<SwitchCase>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct ThisExpression {
+    #[serde(flatten)]
+    pub base: BaseNode,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct ThrowStatement {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub argument: Expression,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct TryStatement {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub block: BlockStatement,
+    pub handler: Option<CatchClause>,
+    pub finalizer: Option<BlockStatement>,
+}
+
+// Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum UnaryOp {
+    Void,
+    Throw,
+    Delete,
+    #[serde(rename = "!")]
+    LogicalNot,
+    #[serde(rename = "+")]
+    Plus,
+    #[serde(rename = "-")]
+    Negation,
+    #[serde(rename = "~")]
+    BitwiseNot,
+    Typeof,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct UnaryExpression {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub operator: UnaryOp,
+    pub argument: Expression,
+    pub prefix: bool,
+}
+
+// Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum UpdateOp {
+    #[serde(rename = "++")]
+    Increment,
+    #[serde(rename = "--")]
+    Decrement,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct UpdateExpression {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub operator: UpdateOp,
+    pub argument: Expression,
+    pub prefix: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum VariableDeclarationKind {
+    Var,
+    Let,
+    Const,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct VariableDeclaration {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub kind: VariableDeclarationKind,
+    pub declarations: Vec<VariableDeclarator>,
+    pub declare: Option<bool>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct VariableDeclarator {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub id: LVal,
+    pub init: Option<Expression>,
+    pub definite: Option<bool>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct WhileStatement {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub test: Expression,
+    pub body: Statement,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum AssignmentPatternLeft {
+    Identifier(Identifier),
+    // TODO
+    // ObjectPattern(ObjectPattern),
+    // ArrayPattern(ArrayPattern),
+    MemberExpression(MemberExpression),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct AssignmentPattern {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub left: AssignmentPatternLeft,
+    pub right: Expression,
+    // TODO
+    // pub decorators: Option<Vec<Decorator>>,
+    pub type_annotation: Option<TypeAnnotation>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct ArrayPattern {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub elements: Vec<Option<PatternLike>>,
+    // TODO
+    // pub decorators: Option<Vec<Decorator>>,
+    pub type_annotation: Option<TypeAnnotation>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum ArrowFunctionBody {
+    BlockStatement(BlockStatement),
+    Expression(Expression),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct ArrowFunctionExpression {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub params: Vec<Param>,
+    pub body: ArrowFunctionBody,
+    #[serde(rename = "async")]
+    pub is_async: bool,
+    pub expression: bool,
+    pub generator: bool,
+    pub return_type: TypeAnnotation,
+    pub type_parameters: Option<TypeParameterDeclaration>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum ClassBodyEl {
+    // TODO
+    // ClassMethod(ClassMethod),
+    // ClassPrivateMethod(ClassPrivateMethod),
+    // ClassProperty(ClassProperty),
+    // ClassPrivateProperty(ClassPrivateProperty),
+    // TSDeclareMethod(TSDeclareMethod),
+    // TSIndexSignature(TSIndexSignature),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct ClassBody {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub body: Vec<ClassBodyEl>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum ClassImpl {
+    // TODO
+    // TSExpressionWithTypeArguments(TSExpressionWithTypeArguments),
+    // ClassImplements(ClassImplements),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum TypeParameterInstantiation {
+    // TODO
+    // FlowTypeParameterInstantiation(FlowTypeParameterInstantiation),
+    // TSTypeParameterInstantiation(TSTypeParameterInstantiation),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct ClassExpression {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub id: Option<Identifier>,
+    pub super_class: Option<Expression>,
+    pub body: ClassBody,
+    // TODO
+    // pub decorators: Option<Vec<Decorator>>,
+    pub implements: Option<ClassImpl>,
+    // pub mixins: Option<InterfaceExtends>,
+    pub super_type_parameters: Option<TypeParameterInstantiation>,
+    pub type_parameters: Option<TypeParameterDeclaration>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct ClassDeclaration {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub id: Identifier,
+    pub super_class: Option<Expression>,
+    pub body: ClassBody,
+    // TODO
+    // pub decorators: Option<Vec<Decorator>>,
+    #[serde(rename = "abstract")]
+    pub is_abstract: Option<bool>,
+    pub declare: Option<bool>,
+    pub implements: Option<ClassImpl>,
+    // pub mixins: Option<InterfaceExtends>,
+    pub super_type_parameters: Option<TypeParameterInstantiation>,
+    pub type_parameters: Option<TypeParameterDeclaration>,
+}
+
+
+
+
+
+
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Expression {
