@@ -648,9 +648,19 @@ impl<'a> Emitter<'a> {
     fn emit_arrow_expr(&mut self, node: &ArrowExpr) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
+        let space = !self.cfg.minify
+            || match node.params.as_slice() {
+                [Pat::Ident(_)] => true,
+                _ => false,
+            };
+
         if node.is_async {
             keyword!("async");
-            formatting_space!();
+            if space {
+                space!();
+            } else {
+                formatting_space!();
+            }
         }
         if node.is_generator {
             punct!("*")
