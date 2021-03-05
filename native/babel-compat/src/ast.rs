@@ -445,10 +445,9 @@ pub enum BinaryOp {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum BindaryLeft {
+pub enum BinaryLeft {
     Expression(Expression),
-    // TODO
-    // PrivateName(PrivateName),
+    PrivateName(PrivateName),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -457,8 +456,8 @@ pub struct BinaryExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub operator: BinaryOp,
-    pub left: BindaryLeft,
-    pub right: Expression,
+    pub left: Box<BinaryLeft>,
+    pub right: Box<Expression>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -490,8 +489,7 @@ pub struct DirectiveLiteral {
 pub struct BlockStatement {
     #[serde(flatten)]
     pub base: BaseNode,
-    // TODO
-    // pub body: Vec<Statement>,
+    pub body: Vec<Statement>,
     pub directives: Vec<Directive>,
 }
 
@@ -500,24 +498,21 @@ pub struct BlockStatement {
 pub struct BreakStatement {
     #[serde(flatten)]
     pub base: BaseNode,
-    // TODO
-    // pub label: Option<Identifier>,
+    pub label: Option<Identifier>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Callee {
     Expression(Expression),
-    // TODO
-    // V8IntrinsicIdentifier(V8IntrinsicIdentifier),
+    V8IntrinsicIdentifier(V8IntrinsicIdentifier),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Arg {
     Expression(Expression),
-    // TODO
-    // SpreadElement(SpreadElement),
-    // JSXNamespacedName(JSXNamespacedName),
-    // ArgumentPlaceholder(ArgumentPlaceholder),
+    SpreadElement(SpreadElement),
+    JSXNamespacedName(JSXNamespacedName),
+    ArgumentPlaceholder(ArgumentPlaceholder),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -526,20 +521,18 @@ pub enum Arg {
 pub struct CallExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub callee: Callee,
+    pub callee: Box<Callee>,
     pub arguments: Vec<Arg>,
     pub optional: Option<bool>,
-    // TODO
-    // pub type_arguments: Option<TypeParameterInstantiation>,
-    // pub type_parameters: Option<TSTypeParameterInstantiation>,
+    pub type_arguments: Option<TypeParameterInstantiation>,
+    pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum CatchParam {
-    // TODO
-    // Identifier(Identifier),
-    // ArrayPattern(ArrayPattern),
-    // ObjectPattern(ObjectPattern),
+    Identifier(Identifier),
+    ArrayPattern(ArrayPattern),
+    ObjectPattern(ObjectPattern),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -556,9 +549,9 @@ pub struct CatchClause {
 pub struct ConditionalExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub test: Expression,
-    pub consequent: Expression,
-    pub altername: Expression,
+    pub test: Box<Expression>,
+    pub consequent: Box<Expression>,
+    pub altername: Box<Expression>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -798,16 +791,15 @@ pub struct LogicalExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub operator: LogicalOp,
-    pub left: Expression,
-    pub right: Expression,
+    pub left: Box<Expression>,
+    pub right: Box<Expression>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum MemberProp {
+pub enum MemberExpressionProperty { // TODO fix names
     Expression(Expression),
     Identifier(Identifier),
-    // TODO
-    // PrivateName(PrivateName),
+    PrivateName(PrivateName),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -815,8 +807,8 @@ pub enum MemberProp {
 pub struct MemberExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub object: Expression,
-    pub property: MemberProp,
+    pub object: Box<Expression>,
+    pub property: Box<MemberExpressionProperty>,
     pub computed: bool,
     pub optional: Option<bool>,
 }
@@ -827,12 +819,11 @@ pub struct MemberExpression {
 pub struct NewExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub callee: Callee,
+    pub callee: Box<Callee>,
     pub arguments: Vec<Arg>,
     pub optional: Option<bool>,
-    // TODO
-    // pub type_arguments: Option<TypeParameterInstantiation>,
-    // pub type_parameters: Option<TSTypeParameterInstantiation>,
+    pub type_arguments: Option<TypeParameterInstantiation>,
+    pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -960,7 +951,7 @@ pub struct SequenceExpression {
 pub struct ParenthesizedExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub expression: Expression,
+    pub expression: Box<Expression>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1030,7 +1021,7 @@ pub struct UnaryExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub operator: UnaryOp,
-    pub argument: Expression,
+    pub argument: Box<Expression>,
     pub prefix: bool,
 }
 
@@ -1049,7 +1040,7 @@ pub struct UpdateExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub operator: UpdateOp,
-    pub argument: Expression,
+    pub argument: Box<Expression>,
     pub prefix: bool,
 }
 
@@ -1123,7 +1114,7 @@ pub struct ArrayPattern {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum ArrowFunctionBody {
+pub enum ArrowFunctionExpressionBody {
     BlockStatement(BlockStatement),
     Expression(Expression),
 }
@@ -1135,7 +1126,7 @@ pub struct ArrowFunctionExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub params: Vec<Param>,
-    pub body: ArrowFunctionBody,
+    pub body: Box<ArrowFunctionExpressionBody>,
     #[serde(rename = "async")]
     pub is_async: bool,
     pub expression: bool,
@@ -1172,9 +1163,8 @@ pub enum ClassImpl {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum FlowOrTSTypeParameterInstantiation {
-    // TODO
-    // TypeParameterInstantiation(TypeParameterInstantiation),
-    // TSTypeParameterInstantiation(TSTypeParameterInstantiation),
+    TypeParameterInstantiation(TypeParameterInstantiation),
+    TSTypeParameterInstantiation(TSTypeParameterInstantiation),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1184,12 +1174,11 @@ pub struct ClassExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: Option<Identifier>,
-    pub super_class: Option<Expression>,
+    pub super_class: Option<Box<Expression>>,
     pub body: ClassBody,
-    // TODO
-    // pub decorators: Option<Vec<Decorator>>,
+    pub decorators: Option<Vec<Decorator>>,
     pub implements: Option<ClassImpl>,
-    // pub mixins: Option<InterfaceExtends>,
+    pub mixins: Option<InterfaceExtends>,
     pub super_type_parameters: Option<FlowOrTSTypeParameterInstantiation>,
     pub type_parameters: Option<FlowTypeParameterDeclarationOrTSTypeParameterDeclarationOrNoop>,
 }
@@ -1203,13 +1192,12 @@ pub struct ClassDeclaration {
     pub id: Identifier,
     pub super_class: Option<Expression>,
     pub body: ClassBody,
-    // TODO
-    // pub decorators: Option<Vec<Decorator>>,
+    pub decorators: Option<Vec<Decorator>>,
     #[serde(rename = "abstract")]
     pub is_abstract: Option<bool>,
     pub declare: Option<bool>,
     pub implements: Option<ClassImpl>,
-    // pub mixins: Option<InterfaceExtends>,
+    pub mixins: Option<InterfaceExtends>,
     pub super_type_parameters: Option<FlowOrTSTypeParameterInstantiation>,
     pub type_parameters: Option<FlowTypeParameterDeclarationOrTSTypeParameterDeclarationOrNoop>,
 }
@@ -1228,8 +1216,7 @@ pub struct ExportAllDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
     pub source: StringLiteral,
-    // TODO
-    // pub assertions: Option<Vec<ImportAttribute>>,
+    pub assertions: Option<Vec<ImportAttribute>>,
     pub export_kind: Option<ExportKind>,
 }
 
@@ -1444,7 +1431,7 @@ pub struct Super {
 pub struct TaggedTemplateExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub tag: Expression,
+    pub tag: Box<Expression>,
     pub quasi: TemplateLiteral,
     pub type_parameters: Option<FlowTypeParameterDeclarationOrTSTypeParameterDeclarationOrNoop>, // TODO: w/o noop
 }
@@ -1484,7 +1471,7 @@ pub struct TemplateLiteral {
 pub struct YieldExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub argument: Option<Expression>,
+    pub argument: Option<Box<Expression>>,
     pub delegate: bool,
 }
 
@@ -1493,7 +1480,7 @@ pub struct YieldExpression {
 pub struct AwaitExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub argument: Expression,
+    pub argument: Box<Expression>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1530,8 +1517,8 @@ pub enum ExpressionOrIdentifier {
 pub struct OptionalMemberExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub object: Expression,
-    pub property: ExpressionOrIdentifier,
+    pub object: Box<Expression>,
+    pub property: Box<ExpressionOrIdentifier>,
     pub computed: bool,
     pub optional: bool,
 }
@@ -1542,12 +1529,11 @@ pub struct OptionalMemberExpression {
 pub struct OptionalCallExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub callee: Expression,
+    pub callee: Box<Expression>,
     pub arguments: Vec<Arg>,
     pub optional: bool,
-    // TODO
-    // pub type_arguments: Option<TypeParameterInstantiation>,
-    // pub type_parameters: Option<TSTypeParameterInstantiation>,
+    pub type_arguments: Option<TypeParameterInstantiation>,
+    pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2052,7 +2038,7 @@ pub struct TypeAnnotation {
 pub struct TypeCastExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub expression: Expression,
+    pub expression: Box<Expression>,
     pub type_annotation: TypeAnnotation,
 }
 
@@ -2317,7 +2303,7 @@ pub struct JSXIdentifier {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum JSXMemberExpressionObject {
-    JSXMemberExpression(Box<JSXMemberExpression>),
+    JSXMemberExpression(JSXMemberExpression),
     JSXIdentifier(JSXIdentifier),
 }
 
@@ -2326,7 +2312,7 @@ pub enum JSXMemberExpressionObject {
 pub struct JSXMemberExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub object: JSXMemberExpressionObject,
+    pub object: Box<JSXMemberExpressionObject>,
     pub property: JSXIdentifier,
 }
 
@@ -2448,8 +2434,8 @@ pub struct ArgumentPlaceholder {
 pub struct BindExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub object: Expression,
-    pub callee: Expression,
+    pub object: Box<Expression>,
+    pub callee: Box<Expression>,
 }
 
 // TODO more descriptive name for object key
@@ -3160,7 +3146,7 @@ pub struct TSTypeAliasDeclaration {
 pub struct TSAsExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub expression: Expression,
+    pub expression: Box<Expression>,
     pub type_annotation: TSType,
 }
 
@@ -3171,7 +3157,7 @@ pub struct TSTypeAssertion {
     #[serde(flatten)]
     pub base: BaseNode,
     pub type_annotation: TSType,
-    pub expression: Expression,
+    pub expression: Box<Expression>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -3263,7 +3249,7 @@ pub struct TSExternalModuleReference {
 pub struct TSNonNullExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub expression: Expression,
+    pub expression: Box<Expression>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -3319,124 +3305,109 @@ pub struct TSTypeParameter {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Expression {
-
-    // TODO
-    // ArrayExpression(ArrayExpression),
-    // AssignmentExpression(AssignmentExpression),
-    // BinaryExpression(BinaryExpression),
-    // CallExpression(CallExpression),
-    // ConditionalExpression(ConditionalExpression),
-    // FunctionExpression(FunctionExpression),
-    // Identifier(Identifier),
-    // StringLiteral(StringLiteral),
-    // NumericLiteral(NumericLiteral),
-    // NullLiteral(NullLiteral),
-    // BooleanLiteral(BooleanLiteral),
-    // RegExpLiteral(RegExpLiteral),
-    // LogicalExpression(LogicalExpression),
-    // MemberExpression(MemberExpression),
-    // NewExpression(NewExpression),
-    // ObjectExpression(ObjectExpression),
-    // SequenceExpression(SequenceExpression),
-    // ParenthesizedExpression(ParenthesizedExpression),
-    // ThisExpression(ThisExpression),
-    // UnaryExpression(UnaryExpression),
-    // UpdateExpression(UpdateExpression),
-    // ArrowFunctionExpression(ArrowFunctionExpression),
-    // ClassExpression(ClassExpression),
-    // MetaProperty(MetaProperty),
-    // Super(Super),
-    // TaggedTemplateExpression(TaggedTemplateExpression),
-    // TemplateLiteral(TemplateLiteral),
-    // YieldExpression(YieldExpression),
-    // AwaitExpression(AwaitExpression),
-    // Import(Import),
-    // BigIntLiteral(BigIntLiteral),
-    // OptionalMemberExpression(OptionalMemberExpression),
-    // OptionalCallExpression(OptionalCallExpression),
-    // TypeCastExpression(TypeCastExpression),
-    // JSXElement(JSXElement),
-    // JSXFragment(JSXFragment),
-    // BindExpression(BindExpression),
-    // PipelinePrimaryTopicReference(PipelinePrimaryTopicReference),
-    // DoExpression(DoExpression),
-    // RecordExpression(RecordExpression),
-    // TupleExpression(TupleExpression),
-    // DecimalLiteral(DecimalLiteral),
-    // ModuleExpression(ModuleExpression),
-    // TSAsExpression(TSAsExpression),
-    // TSTypeAssertion(TSTypeAssertion),
-    // TSNonNullExpression(TSNonNullExpression),
-
+    ArrayExpression(ArrayExpression),
+    AssignmentExpression(AssignmentExpression),
+    BinaryExpression(BinaryExpression),
+    CallExpression(CallExpression),
+    ConditionalExpression(ConditionalExpression),
+    FunctionExpression(FunctionExpression),
+    Identifier(Identifier),
+    StringLiteral(StringLiteral),
+    NumericLiteral(NumericLiteral),
+    NullLiteral(NullLiteral),
+    BooleanLiteral(BooleanLiteral),
+    RegExpLiteral(RegExpLiteral),
+    LogicalExpression(LogicalExpression),
+    MemberExpression(MemberExpression),
+    NewExpression(NewExpression),
+    ObjectExpression(ObjectExpression),
+    SequenceExpression(SequenceExpression),
+    ParenthesizedExpression(ParenthesizedExpression),
+    ThisExpression(ThisExpression),
+    UnaryExpression(UnaryExpression),
+    UpdateExpression(UpdateExpression),
+    ArrowFunctionExpression(ArrowFunctionExpression),
+    ClassExpression(ClassExpression),
+    MetaProperty(MetaProperty),
+    Super(Super),
+    TaggedTemplateExpression(TaggedTemplateExpression),
+    TemplateLiteral(TemplateLiteral),
+    YieldExpression(YieldExpression),
+    AwaitExpression(AwaitExpression),
+    Import(Import),
+    BigIntLiteral(BigIntLiteral),
+    OptionalMemberExpression(OptionalMemberExpression),
+    OptionalCallExpression(OptionalCallExpression),
+    TypeCastExpression(TypeCastExpression),
+    JSXElement(JSXElement),
+    JSXFragment(JSXFragment),
+    BindExpression(BindExpression),
+    PipelinePrimaryTopicReference(PipelinePrimaryTopicReference),
+    DoExpression(DoExpression),
+    RecordExpression(RecordExpression),
+    TupleExpression(TupleExpression),
+    DecimalLiteral(DecimalLiteral),
+    ModuleExpression(ModuleExpression),
+    TSAsExpression(TSAsExpression),
+    TSTypeAssertion(TSTypeAssertion),
+    TSNonNullExpression(TSNonNullExpression),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Binary {
-
-    // TODO
-    // BinaryExpression(BinaryExpression),
-    // LogicalExpression(LogicalExpression),
-
+    BinaryExpression(BinaryExpression),
+    LogicalExpression(LogicalExpression),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Scopable {
-
-    // TODO
-    // BlockStatement(BlockStatement),
-    // CatchClause(CatchClause),
-    // DoWhileStatement(DoWhileStatement),
-    // ForInStatement(ForInStatement),
-    // ForStatement(ForStatement),
-    // FunctionDeclaration(FunctionDeclaration),
-    // FunctionExpression(FunctionExpression),
-    // Program(Program),
-    // ObjectMethod(ObjectMethod),
-    // SwitchStatement(SwitchStatement),
-    // WhileStatement(WhileStatement),
-    // ArrowFunctionExpression(ArrowFunctionExpression),
-    // ClassExpression(ClassExpression),
-    // ClassDeclaration(ClassDeclaration),
-    // ForOfStatement(ForOfStatement),
-    // ClassMethod(ClassMethod),
-    // ClassPrivateMethod(ClassPrivateMethod),
-    // StaticBlock(StaticBlock),
-    // TSModuleBlock(TSModuleBlock),
-
+    BlockStatement(BlockStatement),
+    CatchClause(CatchClause),
+    DoWhileStatement(DoWhileStatement),
+    ForInStatement(ForInStatement),
+    ForStatement(ForStatement),
+    FunctionDeclaration(FunctionDeclaration),
+    FunctionExpression(FunctionExpression),
+    Program(Program),
+    ObjectMethod(ObjectMethod),
+    SwitchStatement(SwitchStatement),
+    WhileStatement(WhileStatement),
+    ArrowFunctionExpression(ArrowFunctionExpression),
+    ClassExpression(ClassExpression),
+    ClassDeclaration(ClassDeclaration),
+    ForOfStatement(ForOfStatement),
+    ClassMethod(ClassMethod),
+    ClassPrivateMethod(ClassPrivateMethod),
+    StaticBlock(StaticBlock),
+    TSModuleBlock(TSModuleBlock),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum BlockParent  {
-
-    // TODO
-    // BlockStatement(BlockStatement),
-    // CatchClause(CatchClause),
-    // DoWhileStatement(DoWhileStatement),
-    // ForInStatement(ForInStatement),
-    // ForStatement(ForStatement),
-    // FunctionDeclaration(FunctionDeclaration),
-    // FunctionExpression(FunctionExpression),
-    // Program(Program),
-    // ObjectMethod(ObjectMethod),
-    // SwitchStatement(SwitchStatement),
-    // WhileStatement(WhileStatement),
-    // ArrowFunctionExpression(ArrowFunctionExpression),
-    // ForOfStatement(ForOfStatement),
-    // ClassMethod(ClassMethod),
-    // ClassPrivateMethod(ClassPrivateMethod),
-    // StaticBlock(StaticBlock),
-    // TSModuleBlock(TSModuleBlock),
-
+    BlockStatement(BlockStatement),
+    CatchClause(CatchClause),
+    DoWhileStatement(DoWhileStatement),
+    ForInStatement(ForInStatement),
+    ForStatement(ForStatement),
+    FunctionDeclaration(FunctionDeclaration),
+    FunctionExpression(FunctionExpression),
+    Program(Program),
+    ObjectMethod(ObjectMethod),
+    SwitchStatement(SwitchStatement),
+    WhileStatement(WhileStatement),
+    ArrowFunctionExpression(ArrowFunctionExpression),
+    ForOfStatement(ForOfStatement),
+    ClassMethod(ClassMethod),
+    ClassPrivateMethod(ClassPrivateMethod),
+    StaticBlock(StaticBlock),
+    TSModuleBlock(TSModuleBlock),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Block {
-
-    // TODO
-    // BlockStatement(BlockStatement),
-    // Program(Program),
-    // TSModuleBlock(TSModuleBlock),
-
+    BlockStatement(BlockStatement),
+    Program(Program),
+    TSModuleBlock(TSModuleBlock),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
