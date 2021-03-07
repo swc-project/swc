@@ -4,7 +4,8 @@ use ahash::RandomState;
 use serde::{Serialize, Deserialize};
 use serde_json::Value;
 
-// Source: https://github.com/babel/babel/blob/main/packages/babel-types/src/ast-types/generated/index.ts
+// This file is derived from source:
+// https://github.com/babel/babel/blob/main/packages/babel-types/src/ast-types/generated/index.ts
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -40,6 +41,14 @@ pub enum Comment {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum CommentTypeShorthand {
+    Leading,
+    Inner,
+    Trailing,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct BaseNode {
     #[serde(default)]
@@ -60,319 +69,309 @@ pub struct BaseNode {
     pub extra: Option<HashMap<String, Value, RandomState>>,
 }
 
-// #[derive(Debug, Clone, Serialize, Deserialize)]
-// #[serde(rename_all = "camelCase")]
-// pub enum CommentTypeShorthand {
-//     Leading,
-//     Inner,
-//     Trailing,
-// }
-
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Node {
-
-    // TODO
-
-    // AnyTypeAnnotation(AnyTypeAnnotation),
-    // ArgumentPlaceholder(ArgumentPlaceholder),
-    // ArrayExpression(ArrayExpression),
-    // ArrayPattern(ArrayPattern),
-    // ArrayTypeAnnotation(ArrayTypeAnnotation),
-    // ArrowFunctionExpression(ArrowFunctionExpression),
-    // AssignmentExpression(AssignmentExpression),
-    // AssignmentPattern(AssignmentPattern),
-    // AwaitExpression(AwaitExpression),
-    // BigIntLiteral(BigIntLiteral),
-    // Binary(Binary),
-    // BinaryExpression(BinaryExpression),
-    // BindExpression(BindExpression),
-    // Block(Block),
-    // BlockParent(BlockParent),
-    // BlockStatement(BlockStatement),
-    // BooleanLiteral(BooleanLiteral),
-    // BooleanLiteralTypeAnnotation(BooleanLiteralTypeAnnotation),
-    // BooleanTypeAnnotation(BooleanTypeAnnotation),
-    // BreakStatement(BreakStatement),
-    // CallExpression(CallExpression),
-    // CatchClause(CatchClause),
-    // Class(Class),
-    // ClassBody(ClassBody),
-    // ClassDeclaration(ClassDeclaration),
-    // ClassExpression(ClassExpression),
-    // ClassImplements(ClassImplements),
-    // ClassMethod(ClassMethod),
-    // ClassPrivateMethod(ClassPrivateMethod),
-    // ClassPrivateProperty(ClassPrivateProperty),
-    // ClassProperty(ClassProperty),
-    // CompletionStatement(CompletionStatement),
-    // Conditional(Conditional),
-    // ConditionalExpression(ConditionalExpression),
-    // ContinueStatement(ContinueStatement),
-    // DebuggerStatement(DebuggerStatement),
-    // DecimalLiteral(DecimalLiteral),
-    // Declaration(Declaration),
-    // DeclareClass(DeclareClass),
-    // DeclareExportAllDeclaration(DeclareExportAllDeclaration),
-    // DeclareExportDeclaration(DeclareExportDeclaration),
-    // DeclareFunction(DeclareFunction),
-    // DeclareInterface(DeclareInterface),
-    // DeclareModule(DeclareModule),
-    // DeclareModuleExports(DeclareModuleExports),
-    // DeclareOpaqueType(DeclareOpaqueType),
-    // DeclareTypeAlias(DeclareTypeAlias),
-    // DeclareVariable(DeclareVariable),
-    // DeclaredPredicate(DeclaredPredicate),
-    // Decorator(Decorator),
-    // Directive(Directive),
-    // DirectiveLiteral(DirectiveLiteral),
-    // DoExpression(DoExpression),
-    // DoWhileStatement(DoWhileStatement),
-    // EmptyStatement(EmptyStatement),
-    // EmptyTypeAnnotation(EmptyTypeAnnotation),
-    // EnumBody(EnumBody),
-    // EnumBooleanBody(EnumBooleanBody),
-    // EnumBooleanMember(EnumBooleanMember),
-    // EnumDeclaration(EnumDeclaration),
-    // EnumDefaultedMember(EnumDefaultedMember),
-    // EnumMember(EnumMember),
-    // EnumNumberBody(EnumNumberBody),
-    // EnumNumberMember(EnumNumberMember),
-    // EnumStringBody(EnumStringBody),
-    // EnumStringMember(EnumStringMember),
-    // EnumSymbolBody(EnumSymbolBody),
-    // ExistsTypeAnnotation(ExistsTypeAnnotation),
-    // ExportAllDeclaration(ExportAllDeclaration),
-    // ExportDeclaration(ExportDeclaration),
-    // ExportDefaultDeclaration(ExportDefaultDeclaration),
-    // ExportDefaultSpecifier(ExportDefaultSpecifier),
-    // ExportNamedDeclaration(ExportNamedDeclaration),
-    // ExportNamespaceSpecifier(ExportNamespaceSpecifier),
-    // ExportSpecifier(ExportSpecifier),
-    // Expression(Expression),
-    // ExpressionStatement(ExpressionStatement),
-    // ExpressionWrapper(ExpressionWrapper),
-    // File(File),
-    // Flow(Flow),
-    // FlowBaseAnnotation(FlowBaseAnnotation),
-    // FlowDeclaration(FlowDeclaration),
-    // FlowPredicate(FlowPredicate),
-    // FlowType(FlowType),
-    // For(For),
-    // ForInStatement(ForInStatement),
-    // ForOfStatement(ForOfStatement),
-    // ForStatement(ForStatement),
-    // ForXStatement(ForXStatement),
-    // Function(Function),
-    // FunctionDeclaration(FunctionDeclaration),
-    // FunctionExpression(FunctionExpression),
-    // FunctionParent(FunctionParent),
-    // FunctionTypeAnnotation(FunctionTypeAnnotation),
-    // FunctionTypeParam(FunctionTypeParam),
-    // GenericTypeAnnotation(GenericTypeAnnotation),
-    // Identifier(Identifier),
-    // IfStatement(IfStatement),
-    // Immutable(Immutable),
-    // Import(Import),
-    // ImportAttribute(ImportAttribute),
-    // ImportDeclaration(ImportDeclaration),
-    // ImportDefaultSpecifier(ImportDefaultSpecifier),
-    // ImportNamespaceSpecifier(ImportNamespaceSpecifier),
-    // ImportSpecifier(ImportSpecifier),
-    // InferredPredicate(InferredPredicate),
-    // InterfaceDeclaration(InterfaceDeclaration),
-    // InterfaceExtends(InterfaceExtends),
-    // InterfaceTypeAnnotation(InterfaceTypeAnnotation),
-    // InterpreterDirective(InterpreterDirective),
-    // IntersectionTypeAnnotation(IntersectionTypeAnnotation),
-    // JSX(JSX),
-    // JSXAttribute(JSXAttribute),
-    // JSXClosingElement(JSXClosingElement),
-    // JSXClosingFragment(JSXClosingFragment),
-    // JSXElement(JSXElement),
-    // JSXEmptyExpression(JSXEmptyExpression),
-    // JSXExpressionContainer(JSXExpressionContainer),
-    // JSXFragment(JSXFragment),
-    // JSXIdentifier(JSXIdentifier),
-    // JSXMemberExpression(JSXMemberExpression),
-    // JSXNamespacedName(JSXNamespacedName),
-    // JSXOpeningElement(JSXOpeningElement),
-    // JSXOpeningFragment(JSXOpeningFragment),
-    // JSXSpreadAttribute(JSXSpreadAttribute),
-    // JSXSpreadChild(JSXSpreadChild),
-    // JSXText(JSXText),
-    // LVal(LVal),
-    // LabeledStatement(LabeledStatement),
-    // Literal(Literal),
-    // LogicalExpression(LogicalExpression),
-    // Loop(Loop),
-    // MemberExpression(MemberExpression),
-    // MetaProperty(MetaProperty),
-    // Method(Method),
-    // MixedTypeAnnotation(MixedTypeAnnotation),
-    // ModuleDeclaration(ModuleDeclaration),
-    // ModuleExpression(ModuleExpression),
-    // ModuleSpecifier(ModuleSpecifier),
-    // NewExpression(NewExpression),
-    // Noop(Noop),
-    // NullLiteral(NullLiteral),
-    // NullLiteralTypeAnnotation(NullLiteralTypeAnnotation),
-    // NullableTypeAnnotation(NullableTypeAnnotation),
-    // NumberLiteral(NumberLiteral),
-    // NumberLiteralTypeAnnotation(NumberLiteralTypeAnnotation),
-    // NumberTypeAnnotation(NumberTypeAnnotation),
-    // NumericLiteral(NumericLiteral),
-    // ObjectExpression(ObjectExpression),
-    // ObjectMember(ObjectMember),
-    // ObjectMethod(ObjectMethod),
-    // ObjectPattern(ObjectPattern),
-    // ObjectProperty(ObjectProperty),
-    // ObjectTypeAnnotation(ObjectTypeAnnotation),
-    // ObjectTypeCallProperty(ObjectTypeCallProperty),
-    // ObjectTypeIndexer(ObjectTypeIndexer),
-    // ObjectTypeInternalSlot(ObjectTypeInternalSlot),
-    // ObjectTypeProperty(ObjectTypeProperty),
-    // ObjectTypeSpreadProperty(ObjectTypeSpreadProperty),
-    // OpaqueType(OpaqueType),
-    // OptionalCallExpression(OptionalCallExpression),
-    // OptionalMemberExpression(OptionalMemberExpression),
-    // ParenthesizedExpression(ParenthesizedExpression),
-    // Pattern(Pattern),
-    // PatternLike(PatternLike),
-    // PipelineBareFunction(PipelineBareFunction),
-    // PipelinePrimaryTopicReference(PipelinePrimaryTopicReference),
-    // PipelineTopicExpression(PipelineTopicExpression),
-    // Placeholder(Placeholder),
-    // Private(Private),
-    // PrivateName(PrivateName),
-    // Program(Program),
-    // Property(Property),
-    // Pureish(Pureish),
-    // QualifiedTypeIdentifier(QualifiedTypeIdentifier),
-    // RecordExpression(RecordExpression),
-    // RegExpLiteral(RegExpLiteral),
-    // RegexLiteral(RegexLiteral),
-    // RestElement(RestElement),
-    // RestProperty(RestProperty),
-    // ReturnStatement(ReturnStatement),
-    // Scopable(Scopable),
-    // SequenceExpression(SequenceExpression),
-    // SpreadElement(SpreadElement),
-    // SpreadProperty(SpreadProperty),
-    // Statement(Statement),
-    // StaticBlock(StaticBlock),
-    // StringLiteral(StringLiteral),
-    // StringLiteralTypeAnnotation(StringLiteralTypeAnnotation),
-    // StringTypeAnnotation(StringTypeAnnotation),
-    // Super(Super),
-    // SwitchCase(SwitchCase),
-    // SwitchStatement(SwitchStatement),
-    // SymbolTypeAnnotation(SymbolTypeAnnotation),
-    // TSAnyKeyword(TSAnyKeyword),
-    // TSArrayType(TSArrayType),
-    // TSAsExpression(TSAsExpression),
-    // TSBaseType(TSBaseType),
-    // TSBigIntKeyword(TSBigIntKeyword),
-    // TSBooleanKeyword(TSBooleanKeyword),
-    // TSCallSignatureDeclaration(TSCallSignatureDeclaration),
-    // TSConditionalType(TSConditionalType),
-    // TSConstructSignatureDeclaration(TSConstructSignatureDeclaration),
-    // TSConstructorType(TSConstructorType),
-    // TSDeclareFunction(TSDeclareFunction),
-    // TSDeclareMethod(TSDeclareMethod),
-    // TSEntityName(TSEntityName),
-    // TSEnumDeclaration(TSEnumDeclaration),
-    // TSEnumMember(TSEnumMember),
-    // TSExportAssignment(TSExportAssignment),
-    // TSExpressionWithTypeArguments(TSExpressionWithTypeArguments),
-    // TSExternalModuleReference(TSExternalModuleReference),
-    // TSFunctionType(TSFunctionType),
-    // TSImportEqualsDeclaration(TSImportEqualsDeclaration),
-    // TSImportType(TSImportType),
-    // TSIndexSignature(TSIndexSignature),
-    // TSIndexedAccessType(TSIndexedAccessType),
-    // TSInferType(TSInferType),
-    // TSInterfaceBody(TSInterfaceBody),
-    // TSInterfaceDeclaration(TSInterfaceDeclaration),
-    // TSIntersectionType(TSIntersectionType),
-    // TSIntrinsicKeyword(TSIntrinsicKeyword),
-    // TSLiteralType(TSLiteralType),
-    // TSMappedType(TSMappedType),
-    // TSMethodSignature(TSMethodSignature),
-    // TSModuleBlock(TSModuleBlock),
-    // TSModuleDeclaration(TSModuleDeclaration),
-    // TSNamedTupleMember(TSNamedTupleMember),
-    // TSNamespaceExportDeclaration(TSNamespaceExportDeclaration),
-    // TSNeverKeyword(TSNeverKeyword),
-    // TSNonNullExpression(TSNonNullExpression),
-    // TSNullKeyword(TSNullKeyword),
-    // TSNumberKeyword(TSNumberKeyword),
-    // TSObjectKeyword(TSObjectKeyword),
-    // TSOptionalType(TSOptionalType),
-    // TSParameterProperty(TSParameterProperty),
-    // TSParenthesizedType(TSParenthesizedType),
-    // TSPropertySignature(TSPropertySignature),
-    // TSQualifiedName(TSQualifiedName),
-    // TSRestType(TSRestType),
-    // TSStringKeyword(TSStringKeyword),
-    // TSSymbolKeyword(TSSymbolKeyword),
-    // TSThisType(TSThisType),
-    // TSTupleType(TSTupleType),
-    // TSType(TSType),
-    // TSTypeAliasDeclaration(TSTypeAliasDeclaration),
-    // TSTypeAnnotation(TSTypeAnnotation),
-    // TSTypeAssertion(TSTypeAssertion),
-    // TSTypeElement(TSTypeElement),
-    // TSTypeLiteral(TSTypeLiteral),
-    // TSTypeOperator(TSTypeOperator),
-    // TSTypeParameter(TSTypeParameter),
-    // TSTypeParameterDeclaration(TSTypeParameterDeclaration),
-    // TSTypeParameterInstantiation(TSTypeParameterInstantiation),
-    // TSTypePredicate(TSTypePredicate),
-    // TSTypeQuery(TSTypeQuery),
-    // TSTypeReference(TSTypeReference),
-    // TSUndefinedKeyword(TSUndefinedKeyword),
-    // TSUnionType(TSUnionType),
-    // TSUnknownKeyword(TSUnknownKeyword),
-    // TSVoidKeyword(TSVoidKeyword),
-    // TaggedTemplateExpression(TaggedTemplateExpression),
-    // TemplateElement(TemplateElement),
-    // TemplateLiteral(TemplateLiteral),
-    // Terminatorless(Terminatorless),
-    // ThisExpression(ThisExpression),
-    // ThisTypeAnnotation(ThisTypeAnnotation),
-    // ThrowStatement(ThrowStatement),
-    // TryStatement(TryStatement),
-    // TupleExpression(TupleExpression),
-    // TupleTypeAnnotation(TupleTypeAnnotation),
-    // TypeAlias(TypeAlias),
-    // TypeAnnotation(TypeAnnotation),
-    // TypeCastExpression(TypeCastExpression),
-    // TypeParameter(TypeParameter),
-    // TypeParameterDeclaration(TypeParameterDeclaration),
-    // TypeParameterInstantiation(TypeParameterInstantiation),
-    // TypeofTypeAnnotation(TypeofTypeAnnotation),
-    // UnaryExpression(UnaryExpression),
-    // UnaryLike(UnaryLike),
-    // UnionTypeAnnotation(UnionTypeAnnotation),
-    // UpdateExpression(UpdateExpression),
-    // UserWhitespacable(UserWhitespacable),
-    // V8IntrinsicIdentifier(V8IntrinsicIdentifier),
-    // VariableDeclaration(VariableDeclaration),
-    // VariableDeclarator(VariableDeclarator),
-    // Variance(Variance),
-    // VoidTypeAnnotation(VoidTypeAnnotation),
-    // While(While),
-    // WhileStatement(WhileStatement),
-    // WithStatement(WithStatement),
-    // YieldExpression(YieldExpression),
-
+    AnyTypeAnnotation(AnyTypeAnnotation),
+    ArgumentPlaceholder(ArgumentPlaceholder),
+    ArrayExpression(ArrayExpression),
+    ArrayPattern(ArrayPattern),
+    ArrayTypeAnnotation(ArrayTypeAnnotation),
+    ArrowFunctionExpression(ArrowFunctionExpression),
+    AssignmentExpression(AssignmentExpression),
+    AssignmentPattern(AssignmentPattern),
+    AwaitExpression(AwaitExpression),
+    BigIntLiteral(BigIntLiteral),
+    Binary(Binary),
+    BinaryExpression(BinaryExpression),
+    BindExpression(BindExpression),
+    Block(Block),
+    BlockParent(BlockParent),
+    BlockStatement(BlockStatement),
+    BooleanLiteral(BooleanLiteral),
+    BooleanLiteralTypeAnnotation(BooleanLiteralTypeAnnotation),
+    BooleanTypeAnnotation(BooleanTypeAnnotation),
+    BreakStatement(BreakStatement),
+    CallExpression(CallExpression),
+    CatchClause(CatchClause),
+    Class(Class),
+    ClassBody(ClassBody),
+    ClassDeclaration(ClassDeclaration),
+    ClassExpression(ClassExpression),
+    ClassImplements(ClassImplements),
+    ClassMethod(ClassMethod),
+    ClassPrivateMethod(ClassPrivateMethod),
+    ClassPrivateProperty(ClassPrivateProperty),
+    ClassProperty(ClassProperty),
+    CompletionStatement(CompletionStatement),
+    Conditional(Conditional),
+    ConditionalExpression(ConditionalExpression),
+    ContinueStatement(ContinueStatement),
+    DebuggerStatement(DebuggerStatement),
+    DecimalLiteral(DecimalLiteral),
+    Declaration(Declaration),
+    DeclareClass(DeclareClass),
+    DeclareExportAllDeclaration(DeclareExportAllDeclaration),
+    DeclareExportDeclaration(DeclareExportDeclaration),
+    DeclareFunction(DeclareFunction),
+    DeclareInterface(DeclareInterface),
+    DeclareModule(DeclareModule),
+    DeclareModuleExports(DeclareModuleExports),
+    DeclareOpaqueType(DeclareOpaqueType),
+    DeclareTypeAlias(DeclareTypeAlias),
+    DeclareVariable(DeclareVariable),
+    DeclaredPredicate(DeclaredPredicate),
+    Decorator(Decorator),
+    Directive(Directive),
+    DirectiveLiteral(DirectiveLiteral),
+    DoExpression(DoExpression),
+    DoWhileStatement(DoWhileStatement),
+    EmptyStatement(EmptyStatement),
+    EmptyTypeAnnotation(EmptyTypeAnnotation),
+    EnumBody(EnumBody),
+    EnumBooleanBody(EnumBooleanBody),
+    EnumBooleanMember(EnumBooleanMember),
+    EnumDeclaration(EnumDeclaration),
+    EnumDefaultedMember(EnumDefaultedMember),
+    EnumMember(EnumMember),
+    EnumNumberBody(EnumNumberBody),
+    EnumNumberMember(EnumNumberMember),
+    EnumStringBody(EnumStringBody),
+    EnumStringMember(EnumStringMember),
+    EnumSymbolBody(EnumSymbolBody),
+    ExistsTypeAnnotation(ExistsTypeAnnotation),
+    ExportAllDeclaration(ExportAllDeclaration),
+    ExportDeclaration(ExportDeclaration),
+    ExportDefaultDeclaration(ExportDefaultDeclaration),
+    ExportDefaultSpecifier(ExportDefaultSpecifier),
+    ExportNamedDeclaration(ExportNamedDeclaration),
+    ExportNamespaceSpecifier(ExportNamespaceSpecifier),
+    ExportSpecifier(ExportSpecifier),
+    Expression(Expression),
+    ExpressionStatement(ExpressionStatement),
+    ExpressionWrapper(ExpressionWrapper),
+    File(File),
+    Flow(Flow),
+    FlowBaseAnnotation(FlowBaseAnnotation),
+    FlowDeclaration(FlowDeclaration),
+    FlowPredicate(FlowPredicate),
+    FlowType(FlowType),
+    For(For),
+    ForInStatement(ForInStatement),
+    ForOfStatement(ForOfStatement),
+    ForStatement(ForStatement),
+    ForXStatement(ForXStatement),
+    Function(Function),
+    FunctionDeclaration(FunctionDeclaration),
+    FunctionExpression(FunctionExpression),
+    FunctionParent(FunctionParent),
+    FunctionTypeAnnotation(FunctionTypeAnnotation),
+    FunctionTypeParam(FunctionTypeParam),
+    GenericTypeAnnotation(GenericTypeAnnotation),
+    Identifier(Identifier),
+    IfStatement(IfStatement),
+    Immutable(Immutable),
+    Import(Import),
+    ImportAttribute(ImportAttribute),
+    ImportDeclaration(ImportDeclaration),
+    ImportDefaultSpecifier(ImportDefaultSpecifier),
+    ImportNamespaceSpecifier(ImportNamespaceSpecifier),
+    ImportSpecifier(ImportSpecifier),
+    InferredPredicate(InferredPredicate),
+    InterfaceDeclaration(InterfaceDeclaration),
+    InterfaceExtends(InterfaceExtends),
+    InterfaceTypeAnnotation(InterfaceTypeAnnotation),
+    InterpreterDirective(InterpreterDirective),
+    IntersectionTypeAnnotation(IntersectionTypeAnnotation),
+    JSX(JSX),
+    JSXAttribute(JSXAttribute),
+    JSXClosingElement(JSXClosingElement),
+    JSXClosingFragment(JSXClosingFragment),
+    JSXElement(JSXElement),
+    JSXEmptyExpression(JSXEmptyExpression),
+    JSXExpressionContainer(JSXExpressionContainer),
+    JSXFragment(JSXFragment),
+    JSXIdentifier(JSXIdentifier),
+    JSXMemberExpression(JSXMemberExpression),
+    JSXNamespacedName(JSXNamespacedName),
+    JSXOpeningElement(JSXOpeningElement),
+    JSXOpeningFragment(JSXOpeningFragment),
+    JSXSpreadAttribute(JSXSpreadAttribute),
+    JSXSpreadChild(JSXSpreadChild),
+    JSXText(JSXText),
+    LVal(LVal),
+    LabeledStatement(LabeledStatement),
+    Literal(Literal),
+    LogicalExpression(LogicalExpression),
+    Loop(Loop),
+    MemberExpression(MemberExpression),
+    MetaProperty(MetaProperty),
+    Method(Method),
+    MixedTypeAnnotation(MixedTypeAnnotation),
+    ModuleDeclaration(ModuleDeclaration),
+    ModuleExpression(ModuleExpression),
+    ModuleSpecifier(ModuleSpecifier),
+    NewExpression(NewExpression),
+    Noop(Noop),
+    NullLiteral(NullLiteral),
+    NullLiteralTypeAnnotation(NullLiteralTypeAnnotation),
+    NullableTypeAnnotation(NullableTypeAnnotation),
+    NumberLiteral(NumberLiteral),
+    NumberLiteralTypeAnnotation(NumberLiteralTypeAnnotation),
+    NumberTypeAnnotation(NumberTypeAnnotation),
+    NumericLiteral(NumericLiteral),
+    ObjectExpression(ObjectExpression),
+    ObjectMember(ObjectMember),
+    ObjectMethod(ObjectMethod),
+    ObjectPattern(ObjectPattern),
+    ObjectProperty(ObjectProperty),
+    ObjectTypeAnnotation(ObjectTypeAnnotation),
+    ObjectTypeCallProperty(ObjectTypeCallProperty),
+    ObjectTypeIndexer(ObjectTypeIndexer),
+    ObjectTypeInternalSlot(ObjectTypeInternalSlot),
+    ObjectTypeProperty(ObjectTypeProperty),
+    ObjectTypeSpreadProperty(ObjectTypeSpreadProperty),
+    OpaqueType(OpaqueType),
+    OptionalCallExpression(OptionalCallExpression),
+    OptionalMemberExpression(OptionalMemberExpression),
+    ParenthesizedExpression(ParenthesizedExpression),
+    Pattern(Pattern),
+    PatternLike(PatternLike),
+    PipelineBareFunction(PipelineBareFunction),
+    PipelinePrimaryTopicReference(PipelinePrimaryTopicReference),
+    PipelineTopicExpression(PipelineTopicExpression),
+    Placeholder(Placeholder),
+    Private(Private),
+    PrivateName(PrivateName),
+    Program(Program),
+    Property(Property),
+    Pureish(Pureish),
+    QualifiedTypeIdentifier(QualifiedTypeIdentifier),
+    RecordExpression(RecordExpression),
+    RegExpLiteral(RegExpLiteral),
+    RegexLiteral(RegexLiteral),
+    RestElement(RestElement),
+    RestProperty(RestProperty),
+    ReturnStatement(ReturnStatement),
+    Scopable(Scopable),
+    SequenceExpression(SequenceExpression),
+    SpreadElement(SpreadElement),
+    SpreadProperty(SpreadProperty),
+    Statement(Statement),
+    StaticBlock(StaticBlock),
+    StringLiteral(StringLiteral),
+    StringLiteralTypeAnnotation(StringLiteralTypeAnnotation),
+    StringTypeAnnotation(StringTypeAnnotation),
+    Super(Super),
+    SwitchCase(SwitchCase),
+    SwitchStatement(SwitchStatement),
+    SymbolTypeAnnotation(SymbolTypeAnnotation),
+    TSAnyKeyword(TSAnyKeyword),
+    TSArrayType(TSArrayType),
+    TSAsExpression(TSAsExpression),
+    TSBaseType(TSBaseType),
+    TSBigIntKeyword(TSBigIntKeyword),
+    TSBooleanKeyword(TSBooleanKeyword),
+    TSCallSignatureDeclaration(TSCallSignatureDeclaration),
+    TSConditionalType(TSConditionalType),
+    TSConstructSignatureDeclaration(TSConstructSignatureDeclaration),
+    TSConstructorType(TSConstructorType),
+    TSDeclareFunction(TSDeclareFunction),
+    TSDeclareMethod(TSDeclareMethod),
+    TSEntityName(TSEntityName),
+    TSEnumDeclaration(TSEnumDeclaration),
+    TSEnumMember(TSEnumMember),
+    TSExportAssignment(TSExportAssignment),
+    TSExpressionWithTypeArguments(TSExpressionWithTypeArguments),
+    TSExternalModuleReference(TSExternalModuleReference),
+    TSFunctionType(TSFunctionType),
+    TSImportEqualsDeclaration(TSImportEqualsDeclaration),
+    TSImportType(TSImportType),
+    TSIndexSignature(TSIndexSignature),
+    TSIndexedAccessType(TSIndexedAccessType),
+    TSInferType(TSInferType),
+    TSInterfaceBody(TSInterfaceBody),
+    TSInterfaceDeclaration(TSInterfaceDeclaration),
+    TSIntersectionType(TSIntersectionType),
+    TSIntrinsicKeyword(TSIntrinsicKeyword),
+    TSLiteralType(TSLiteralType),
+    TSMappedType(TSMappedType),
+    TSMethodSignature(TSMethodSignature),
+    TSModuleBlock(TSModuleBlock),
+    TSModuleDeclaration(TSModuleDeclaration),
+    TSNamedTupleMember(TSNamedTupleMember),
+    TSNamespaceExportDeclaration(TSNamespaceExportDeclaration),
+    TSNeverKeyword(TSNeverKeyword),
+    TSNonNullExpression(TSNonNullExpression),
+    TSNullKeyword(TSNullKeyword),
+    TSNumberKeyword(TSNumberKeyword),
+    TSObjectKeyword(TSObjectKeyword),
+    TSOptionalType(TSOptionalType),
+    TSParameterProperty(TSParameterProperty),
+    TSParenthesizedType(TSParenthesizedType),
+    TSPropertySignature(TSPropertySignature),
+    TSQualifiedName(TSQualifiedName),
+    TSRestType(TSRestType),
+    TSStringKeyword(TSStringKeyword),
+    TSSymbolKeyword(TSSymbolKeyword),
+    TSThisType(TSThisType),
+    TSTupleType(TSTupleType),
+    TSType(TSType),
+    TSTypeAliasDeclaration(TSTypeAliasDeclaration),
+    TSTypeAnnotation(TSTypeAnnotation),
+    TSTypeAssertion(TSTypeAssertion),
+    TSTypeElement(TSTypeElement),
+    TSTypeLiteral(TSTypeLiteral),
+    TSTypeOperator(TSTypeOperator),
+    TSTypeParameter(TSTypeParameter),
+    TSTypeParameterDeclaration(TSTypeParameterDeclaration),
+    TSTypeParameterInstantiation(TSTypeParameterInstantiation),
+    TSTypePredicate(TSTypePredicate),
+    TSTypeQuery(TSTypeQuery),
+    TSTypeReference(TSTypeReference),
+    TSUndefinedKeyword(TSUndefinedKeyword),
+    TSUnionType(TSUnionType),
+    TSUnknownKeyword(TSUnknownKeyword),
+    TSVoidKeyword(TSVoidKeyword),
+    TaggedTemplateExpression(TaggedTemplateExpression),
+    TemplateElement(TemplateElement),
+    TemplateLiteral(TemplateLiteral),
+    Terminatorless(Terminatorless),
+    ThisExpression(ThisExpression),
+    ThisTypeAnnotation(ThisTypeAnnotation),
+    ThrowStatement(ThrowStatement),
+    TryStatement(TryStatement),
+    TupleExpression(TupleExpression),
+    TupleTypeAnnotation(TupleTypeAnnotation),
+    TypeAlias(TypeAlias),
+    TypeAnnotation(TypeAnnotation),
+    TypeCastExpression(TypeCastExpression),
+    TypeParameter(TypeParameter),
+    TypeParameterDeclaration(TypeParameterDeclaration),
+    TypeParameterInstantiation(TypeParameterInstantiation),
+    TypeofTypeAnnotation(TypeofTypeAnnotation),
+    UnaryExpression(UnaryExpression),
+    UnaryLike(UnaryLike),
+    UnionTypeAnnotation(UnionTypeAnnotation),
+    UpdateExpression(UpdateExpression),
+    UserWhitespacable(UserWhitespacable),
+    V8IntrinsicIdentifier(V8IntrinsicIdentifier),
+    VariableDeclaration(VariableDeclaration),
+    VariableDeclarator(VariableDeclarator),
+    Variance(Variance),
+    VoidTypeAnnotation(VoidTypeAnnotation),
+    While(While),
+    WhileStatement(WhileStatement),
+    WithStatement(WithStatement),
+    YieldExpression(YieldExpression),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum ArrayEl {
-    // TODO
-    // Expression(Expression),
-    // SpreadElement(SpreadElement),
+#[serde(tag = "type")]
+pub enum ArrayExprEl {
+    #[serde(rename = "Expression")]
+    Expr(Expression),
+    #[serde(rename = "SpreadElement")]
+    Spread(SpreadElement),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -380,7 +379,8 @@ pub enum ArrayEl {
 pub struct ArrayExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub elements: Vec<Option<ArrayEl>>,
+    #[serde(default)]
+    pub elements: Vec<Option<ArrayExprEl>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -388,16 +388,16 @@ pub struct ArrayExpression {
 pub struct AssignmentExpression {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub operator: String,
-    // TODO
-    // pub left: LVal,
-    // pub right: Expression,
+    pub left: Box<LVal>,
+    pub right: Box<Expression>,
 }
 
 // Source:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum BinaryOp {
+pub enum BinaryExprOp {
     #[serde(rename = "+")]
     Addition,
     #[serde(rename = "-")]
@@ -445,9 +445,12 @@ pub enum BinaryOp {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum BinaryLeft {
-    Expression(Expression),
-    PrivateName(PrivateName),
+#[serde(tag = "type")]
+pub enum BinaryExprLeft {
+    #[serde(rename = "Expression")]
+    Expr(Expression),
+    #[serde(rename = "PrivateName")]
+    Private(PrivateName),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -455,8 +458,8 @@ pub enum BinaryLeft {
 pub struct BinaryExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub operator: BinaryOp,
-    pub left: Box<BinaryLeft>,
+    pub operator: BinaryExprOp,
+    pub left: Box<BinaryExprLeft>,
     pub right: Box<Expression>,
 }
 
@@ -465,6 +468,7 @@ pub struct BinaryExpression {
 pub struct InterpreterDirective {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub value: String,
 }
 
@@ -481,6 +485,7 @@ pub struct Directive {
 pub struct DirectiveLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub value: String,
 }
 
@@ -489,7 +494,9 @@ pub struct DirectiveLiteral {
 pub struct BlockStatement {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub body: Vec<Statement>,
+    #[serde(default)]
     pub directives: Vec<Directive>,
 }
 
@@ -498,21 +505,8 @@ pub struct BlockStatement {
 pub struct BreakStatement {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub label: Option<Identifier>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum Callee {
-    Expression(Expression),
-    V8IntrinsicIdentifier(V8IntrinsicIdentifier),
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum Arg {
-    Expression(Expression),
-    SpreadElement(SpreadElement),
-    JSXNamespacedName(JSXNamespacedName),
-    ArgumentPlaceholder(ArgumentPlaceholder),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -522,17 +516,25 @@ pub struct CallExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub callee: Box<Callee>,
+    #[serde(default)]
     pub arguments: Vec<Arg>,
+    #[serde(default)]
     pub optional: Option<bool>,
+    #[serde(default)]
     pub type_arguments: Option<TypeParameterInstantiation>,
+    #[serde(default)]
     pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum CatchParam {
-    Identifier(Identifier),
-    ArrayPattern(ArrayPattern),
-    ObjectPattern(ObjectPattern),
+#[serde(tag = "type")]
+pub enum CatchClauseParam {
+    #[serde(rename = "Identifier")]
+    Id(Identifier),
+    #[serde(rename = "ArrayPattern")]
+    Array(ArrayPattern),
+    #[serde(rename = "ObjectPattern")]
+    Object(ObjectPattern),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -540,7 +542,8 @@ pub enum CatchParam {
 pub struct CatchClause {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub param: Option<CatchParam>,
+    #[serde(default)]
+    pub param: Option<CatchClauseParam>,
     pub body: BlockStatement,
 }
 
@@ -551,7 +554,7 @@ pub struct ConditionalExpression {
     pub base: BaseNode,
     pub test: Box<Expression>,
     pub consequent: Box<Expression>,
-    pub altername: Box<Expression>,
+    pub alternate: Box<Expression>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -559,8 +562,8 @@ pub struct ConditionalExpression {
 pub struct ContinueStatement {
     #[serde(flatten)]
     pub base: BaseNode,
-    // TODO
-    // pub label: Option<Identifier>,
+    #[serde(default)]
+    pub label: Option<Identifier>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -576,7 +579,7 @@ pub struct DoWhileStatement {
     #[serde(flatten)]
     pub base: BaseNode,
     pub test: Expression,
-    pub body: Statement,
+    pub body: Box<Statement>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -599,17 +602,11 @@ pub struct ExpressionStatement {
 pub struct File {
     #[serde(flatten)]
     pub base: BaseNode,
-    // TODO
-    // pub program: Program,
+    pub program: Program,
+    #[serde(default)]
     pub comments: Option<Vec<Comment>>,
-    // pub tokens: Option<Vec<any>>, // TODO: how to model any?
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum ForLeft {
-    // TODO
-    // VariableDeclaration(VariableDeclaration),
-    LVal(LVal),
+    #[serde(default)]
+    pub tokens: Option<Vec<Value>>, // TODO: is this the right way to model any?
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -617,16 +614,18 @@ pub enum ForLeft {
 pub struct ForInStatement {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub left: ForLeft,
+    pub left: ForStmtLeft,
     pub right: Expression,
-    pub body: Statement,
+    pub body: Box<Statement>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum ForInit {
-    // TODO
-    // VariableDeclaration(VariableDeclaration),
-    Expression(Expression),
+#[serde(tag = "type")]
+pub enum ForStmtInit {
+    #[serde(rename = "VariableDeclaration")]
+    VarDecl(VariableDeclaration),
+    #[serde(rename = "Expression")]
+    Expr(Expression),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -634,39 +633,13 @@ pub enum ForInit {
 pub struct ForStatement {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub init: Option<ForInit>,
+    #[serde(default)]
+    pub init: Option<ForStmtInit>,
+    #[serde(default)]
     pub test: Option<Expression>,
+    #[serde(default)]
     pub update: Option<Expression>,
-    pub body: Statement,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum FlowTypeAnnotationOrTSTypeAnnotationOrNoop { // TODO rename
-
-    // TODO
-    // TypeAnnotation(TypeAnnotation),
-    // TSTypeAnnotation(TSTypeAnnotation),
-    // Noop(Noop),
-
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum Param {
-    Identifier(Identifier),
-    Pattern(Pattern),
-    RestElement(RestElement),
-    // TODO
-    // TSParameterTypeProperty(TSParameterTypeProperty),
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum FlowTypeParameterDeclarationOrTSTypeParameterDeclarationOrNoop { // TODO rename
-
-    // TODO
-    // TypeParameterDeclaration(TypeParameterDeclaration),
-    // TSTypeParameterDeclaration(TSTypeParameterDeclaration),
-    // Noop(Noop),
-
+    pub body: Box<Statement>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -675,14 +648,19 @@ pub enum FlowTypeParameterDeclarationOrTSTypeParameterDeclarationOrNoop { // TOD
 pub struct FunctionDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub id: Option<Identifier>,
+    #[serde(default)]
     pub params: Vec<Param>,
     pub body: BlockStatement,
+    #[serde(default)]
     pub generator: Option<bool>,
-    #[serde(rename = "async")]
+    #[serde(default, rename = "async")]
     pub is_async: Option<bool>,
-    pub return_type: Option<FlowTypeAnnotationOrTSTypeAnnotationOrNoop>,
-    pub type_parameters: Option<FlowTypeParameterDeclarationOrTSTypeParameterDeclarationOrNoop>,
+    #[serde(default)]
+    pub return_type: Option<TypeAnnotOrNoop>,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -691,16 +669,20 @@ pub struct FunctionDeclaration {
 pub struct FunctionExpression {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub id: Option<Identifier>,
+    #[serde(default)]
     pub params: Vec<Param>,
     pub body: BlockStatement,
+    #[serde(default)]
     pub generator: Option<bool>,
-    #[serde(rename = "async")]
+    #[serde(default, rename = "async")]
     pub is_async: Option<bool>,
-    pub return_type: Option<FlowTypeAnnotationOrTSTypeAnnotationOrNoop>,
-    pub type_parameters: Option<FlowTypeParameterDeclarationOrTSTypeParameterDeclarationOrNoop>,
+    #[serde(default)]
+    pub return_type: Option<TypeAnnotOrNoop>,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
-
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -708,11 +690,14 @@ pub struct FunctionExpression {
 pub struct Identifier {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub name: String,
-    // TODO
-    // pub decorators: Option<Vec<Decorator>>,
+    #[serde(default)]
+    pub decorators: Option<Vec<Decorator>>,
+    #[serde(default)]
     pub optional: Option<bool>,
-    pub type_annotation: Option<FlowTypeAnnotationOrTSTypeAnnotationOrNoop>,
+    #[serde(default)]
+    pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -721,8 +706,9 @@ pub struct IfStatement {
     #[serde(flatten)]
     pub base: BaseNode,
     pub test: Expression,
-    pub consequent: Statement,
-    pub alternate: Option<Statement>,
+    pub consequent: Box<Statement>,
+    #[serde(default)]
+    pub alternate: Option<Box<Statement>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -731,7 +717,7 @@ pub struct LabeledStatement {
     #[serde(flatten)]
     pub base: BaseNode,
     pub label: Identifier,
-    pub body: Statement,
+    pub body: Box<Statement>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -745,6 +731,15 @@ pub struct StringLiteral {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
 pub struct NumericLiteral {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub value: f64,
+}
+
+/// Deprecated. Use NumericLiteral instead.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct NumberLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
     pub value: f64,
@@ -771,12 +766,24 @@ pub struct RegExpLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
     pub pattern: String,
+    #[serde(default)]
+    pub flags: String,
+}
+
+/// Deprecated. Use RegExpLiteral instead.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct RegexLiteral {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub pattern: String,
+    #[serde(default)]
     pub flags: String,
 }
 
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum LogicalOp {
+pub enum LogicalExprOp {
     #[serde(rename = "||")]
     Or,
     #[serde(rename = "&&")]
@@ -790,16 +797,20 @@ pub enum LogicalOp {
 pub struct LogicalExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub operator: LogicalOp,
+    pub operator: LogicalExprOp,
     pub left: Box<Expression>,
     pub right: Box<Expression>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum MemberExpressionProperty { // TODO fix names
-    Expression(Expression),
-    Identifier(Identifier),
-    PrivateName(PrivateName),
+#[serde(tag = "type")]
+pub enum MemberExprProp {
+    #[serde(rename = "Expression")]
+    Expr(Expression),
+    #[serde(rename = "Identifier")]
+    Id(Identifier),
+    #[serde(rename = "PrivateName")]
+    Private(PrivateName),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -808,8 +819,10 @@ pub struct MemberExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub object: Box<Expression>,
-    pub property: Box<MemberExpressionProperty>,
+    pub property: Box<MemberExprProp>,
+    #[serde(default)]
     pub computed: bool,
+    #[serde(default)]
     pub optional: Option<bool>,
 }
 
@@ -820,15 +833,19 @@ pub struct NewExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub callee: Box<Callee>,
+    #[serde(default)]
     pub arguments: Vec<Arg>,
+    #[serde(default)]
     pub optional: Option<bool>,
+    #[serde(default)]
     pub type_arguments: Option<TypeParameterInstantiation>,
+    #[serde(default)]
     pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
-pub enum SourceType {
+pub enum SrcType {
     Script,
     Module,
 }
@@ -840,18 +857,24 @@ pub struct Program {
     #[serde(flatten)]
     pub base: BaseNode,
     pub body: Vec<Statement>,
+    #[serde(default)]
     pub directives: Vec<Directive>,
-    pub source_type: SourceType,
+    pub source_type: SrcType,
+    #[serde(default)]
     pub interpreter: Option<InterpreterDirective>,
+    #[serde(default)]
     pub source_file: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum ObjectExpressionProp {
-    // TODO
-    // ObjectMethod(ObjectMethod),
-    // ObjectProperty(ObjectProperty),
-    // SpreadElement(SpreadElement),
+#[serde(tag = "type")]
+pub enum ObjectExprProp {
+    #[serde(rename = "ObjectMethod")]
+    Method(ObjectMethod),
+    #[serde(rename = "ObjectProperty")]
+    Prop(ObjectProperty),
+    #[serde(rename = "SpreadElement")]
+    Spread(SpreadElement),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -860,7 +883,8 @@ pub enum ObjectExpressionProp {
 pub struct ObjectExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub properties: Vec<ObjectExpressionProp>,
+    #[serde(default)]
+    pub properties: Vec<ObjectExprProp>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -872,11 +896,16 @@ pub enum ObjectKind {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum ObjectKey {
-    Expression(Expression),
-    Identifier(Identifier),
-    StringLiteral(StringLiteral),
-    NumericLiteral(NumericLiteral),
+    #[serde(rename = "Expression")]
+    Expr(Expression),
+    #[serde(rename = "Identifier")]
+    Id(Identifier),
+    #[serde(rename = "StringLiteral")]
+    String(StringLiteral),
+    #[serde(rename = "NumericLiteral")]
+    Numeric(NumericLiteral),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -887,22 +916,30 @@ pub struct ObjectMethod {
     pub base: BaseNode,
     pub kind: ObjectKind,
     pub key: ObjectKey,
+    #[serde(default)]
     pub params: Vec<Param>,
     pub body: BlockStatement,
+    #[serde(default)]
     pub computed: bool,
+    #[serde(default)]
     pub generator: Option<bool>,
-    #[serde(rename = "async")]
+    #[serde(default, rename = "async")]
     pub is_async: Option<bool>,
-    // TODO
-    // pub decorator: Option<Vec<Decorator>>,
-    pub return_type: Option<FlowTypeAnnotationOrTSTypeAnnotationOrNoop>,
-    pub type_parameters: Option<FlowTypeParameterDeclarationOrTSTypeParameterDeclarationOrNoop>,
+    #[serde(default)]
+    pub decorator: Option<Vec<Decorator>>,
+    #[serde(default)]
+    pub return_type: Option<TypeAnnotOrNoop>,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum ObjectPropertyVal {
-    Expression(Expression),
-    PatternLike(PatternLike),
+#[serde(tag = "type")]
+pub enum ObjectPropVal {
+    #[serde(rename = "Expression")]
+    Expr(Expression),
+    #[serde(rename = "PatternLike")]
+    Pattern(PatternLike),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -911,11 +948,13 @@ pub struct ObjectProperty {
     #[serde(flatten)]
     pub base: BaseNode,
     pub key: ObjectKey,
-    pub value: ObjectPropertyVal,
+    pub value: ObjectPropVal,
+    #[serde(default)]
     pub computed: bool,
+    #[serde(default)]
     pub shorthand: bool,
-    // TODO
-    // pub decorators: Option<Vec<Decorator>>,
+    #[serde(default)]
+    pub decorators: Option<Vec<Decorator>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -924,10 +963,25 @@ pub struct ObjectProperty {
 pub struct RestElement {
     #[serde(flatten)]
     pub base: BaseNode,
+    pub argument: Box<LVal>,
+    #[serde(default)]
+    pub decorators: Option<Vec<Decorator>>,
+    #[serde(default)]
+    pub type_annotation: Option<TypeAnnotOrNoop>,
+}
+
+/// Deprecated. Use RestElement element.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct RestProperty {
+    #[serde(flatten)]
+    pub base: BaseNode,
     pub argument: LVal,
-    // TODO
-    // pub decorators: Option<Vec<Decorator>>,
-    pub type_annotation: Option<FlowTypeAnnotationOrTSTypeAnnotationOrNoop>,
+    #[serde(default)]
+    pub decorators: Option<Vec<Decorator>>,
+    #[serde(default)]
+    pub type_annotation: Option<TypeAnnotOrNoop>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -935,6 +989,7 @@ pub struct RestElement {
 pub struct ReturnStatement {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub argument: Option<Expression>,
 }
 
@@ -943,6 +998,7 @@ pub struct ReturnStatement {
 pub struct SequenceExpression {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub expressions: Vec<Expression>,
 }
 
@@ -959,7 +1015,9 @@ pub struct ParenthesizedExpression {
 pub struct SwitchCase {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub test: Option<Expression>,
+    #[serde(default)]
     pub consequent: Vec<Statement>,
 }
 
@@ -969,6 +1027,7 @@ pub struct SwitchStatement {
     #[serde(flatten)]
     pub base: BaseNode,
     pub descriminant: Expression,
+    #[serde(default)]
     pub cases: Vec<SwitchCase>,
 }
 
@@ -993,14 +1052,16 @@ pub struct TryStatement {
     #[serde(flatten)]
     pub base: BaseNode,
     pub block: BlockStatement,
+    #[serde(default)]
     pub handler: Option<CatchClause>,
+    #[serde(default)]
     pub finalizer: Option<BlockStatement>,
 }
 
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
-pub enum UnaryOp {
+pub enum UnaryExprOp {
     Void,
     Throw,
     Delete,
@@ -1020,14 +1081,15 @@ pub enum UnaryOp {
 pub struct UnaryExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub operator: UnaryOp,
+    pub operator: UnaryExprOp,
     pub argument: Box<Expression>,
+    #[serde(default)]
     pub prefix: bool,
 }
 
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum UpdateOp {
+pub enum UpdateExprOp {
     #[serde(rename = "++")]
     Increment,
     #[serde(rename = "--")]
@@ -1039,8 +1101,9 @@ pub enum UpdateOp {
 pub struct UpdateExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub operator: UpdateOp,
+    pub operator: UpdateExprOp,
     pub argument: Box<Expression>,
+    #[serde(default)]
     pub prefix: bool,
 }
 
@@ -1058,7 +1121,9 @@ pub struct VariableDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
     pub kind: VariableDeclarationKind,
+    #[serde(default)]
     pub declarations: Vec<VariableDeclarator>,
+    #[serde(default)]
     pub declare: Option<bool>,
 }
 
@@ -1068,8 +1133,19 @@ pub struct VariableDeclarator {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: LVal,
+    #[serde(default)]
     pub init: Option<Expression>,
+    #[serde(default)]
     pub definite: Option<bool>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct WithStatement {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub object: Expression,
+    pub body: Box<Statement>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1078,16 +1154,20 @@ pub struct WhileStatement {
     #[serde(flatten)]
     pub base: BaseNode,
     pub test: Expression,
-    pub body: Statement,
+    pub body: Box<Statement>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum AssignmentPatternLeft {
-    Identifier(Identifier),
-    // TODO
-    // ObjectPattern(ObjectPattern),
-    // ArrayPattern(ArrayPattern),
-    MemberExpression(MemberExpression),
+    #[serde(rename = "Identifier")]
+    Id(Identifier),
+    #[serde(rename = "ObjectPattern")]
+    Object(ObjectPattern),
+    #[serde(rename = "ArrayPattern")]
+    Array(ArrayPattern),
+    #[serde(rename = "MemberExpression")]
+    Member(MemberExpression),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1097,9 +1177,10 @@ pub struct AssignmentPattern {
     pub base: BaseNode,
     pub left: AssignmentPatternLeft,
     pub right: Expression,
-    // TODO
-    // pub decorators: Option<Vec<Decorator>>,
-    pub type_annotation: Option<FlowTypeAnnotationOrTSTypeAnnotationOrNoop>,
+    #[serde(default)]
+    pub decorators: Option<Vec<Decorator>>,
+    #[serde(default)]
+    pub type_annotation: Option<TypeAnnotOrNoop>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1107,16 +1188,21 @@ pub struct AssignmentPattern {
 pub struct ArrayPattern {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub elements: Vec<Option<PatternLike>>,
-    // TODO
-    // pub decorators: Option<Vec<Decorator>>,
-    pub type_annotation: Option<FlowTypeAnnotationOrTSTypeAnnotationOrNoop>,
+    #[serde(default)]
+    pub decorators: Option<Vec<Decorator>>,
+    #[serde(default)]
+    pub type_annotation: Option<TypeAnnotOrNoop>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum ArrowFunctionExpressionBody {
-    BlockStatement(BlockStatement),
-    Expression(Expression),
+#[serde(tag = "type")]
+pub enum ArrowFuncExprBody {
+    #[serde(rename = "BlockStatement")]
+    Block(BlockStatement),
+    #[serde(rename = "Expression")]
+    Expr(Expression),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1125,25 +1211,35 @@ pub enum ArrowFunctionExpressionBody {
 pub struct ArrowFunctionExpression {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(rename = "NumericLiteral")]
     pub params: Vec<Param>,
-    pub body: Box<ArrowFunctionExpressionBody>,
-    #[serde(rename = "async")]
+    pub body: Box<ArrowFuncExprBody>,
+    #[serde(default, rename = "async")]
     pub is_async: bool,
+    #[serde(default)]
     pub expression: bool,
+    #[serde(default)]
     pub generator: bool,
-    pub return_type: FlowTypeAnnotationOrTSTypeAnnotationOrNoop,
-    pub type_parameters: Option<FlowTypeParameterDeclarationOrTSTypeParameterDeclarationOrNoop>,
+    #[serde(default)]
+    pub return_type: Option<TypeAnnotOrNoop>,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ClassBodyEl {
-    // TODO
-    // ClassMethod(ClassMethod),
-    // ClassPrivateMethod(ClassPrivateMethod),
-    // ClassProperty(ClassProperty),
-    // ClassPrivateProperty(ClassPrivateProperty),
-    // TSDeclareMethod(TSDeclareMethod),
-    // TSIndexSignature(TSIndexSignature),
+    #[serde(rename = "ClassMethod")]
+    Method(ClassMethod),
+    #[serde(rename = "ClassPrivateMethod")]
+    PrivateMethod(ClassPrivateMethod),
+    #[serde(rename = "ClassProperty")]
+    Prop(ClassProperty),
+    #[serde(rename = "ClassPrivateProperty")]
+    PrivateProp(ClassPrivateProperty),
+    #[serde(rename = "TSDeclareMethod")]
+    TSMethod(TSDeclareMethod),
+    #[serde(rename = "TSIndexSignature")]
+    TSIndex(TSIndexSignature),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1151,21 +1247,10 @@ pub enum ClassBodyEl {
 pub struct ClassBody {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub body: Vec<ClassBodyEl>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum ClassImpl {
-    // TODO
-    // TSExpressionWithTypeArguments(TSExpressionWithTypeArguments),
-    // ClassImplements(ClassImplements),
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum FlowOrTSTypeParameterInstantiation {
-    TypeParameterInstantiation(TypeParameterInstantiation),
-    TSTypeParameterInstantiation(TSTypeParameterInstantiation),
-}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -1173,14 +1258,21 @@ pub enum FlowOrTSTypeParameterInstantiation {
 pub struct ClassExpression {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub id: Option<Identifier>,
+    #[serde(default)]
     pub super_class: Option<Box<Expression>>,
     pub body: ClassBody,
+    #[serde(default)]
     pub decorators: Option<Vec<Decorator>>,
+    #[serde(default)]
     pub implements: Option<ClassImpl>,
+    #[serde(default)]
     pub mixins: Option<InterfaceExtends>,
-    pub super_type_parameters: Option<FlowOrTSTypeParameterInstantiation>,
-    pub type_parameters: Option<FlowTypeParameterDeclarationOrTSTypeParameterDeclarationOrNoop>,
+    #[serde(default)]
+    pub super_type_parameters: Option<SuperTypeParams>,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1190,23 +1282,23 @@ pub struct ClassDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: Identifier,
+    #[serde(default)]
     pub super_class: Option<Expression>,
     pub body: ClassBody,
+    #[serde(default)]
     pub decorators: Option<Vec<Decorator>>,
-    #[serde(rename = "abstract")]
+    #[serde(default, rename = "abstract")]
     pub is_abstract: Option<bool>,
+    #[serde(default)]
     pub declare: Option<bool>,
+    #[serde(default)]
     pub implements: Option<ClassImpl>,
+    #[serde(default)]
     pub mixins: Option<InterfaceExtends>,
-    pub super_type_parameters: Option<FlowOrTSTypeParameterInstantiation>,
-    pub type_parameters: Option<FlowTypeParameterDeclarationOrTSTypeParameterDeclarationOrNoop>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "lowercase")]
-pub enum ExportKind {
-    Type,
-    Value,
+    #[serde(default)]
+    pub super_type_parameters: Option<SuperTypeParams>,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1216,17 +1308,23 @@ pub struct ExportAllDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
     pub source: StringLiteral,
+    #[serde(default)]
     pub assertions: Option<Vec<ImportAttribute>>,
+    #[serde(default)]
     pub export_kind: Option<ExportKind>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum ExportDefaultDeclartionType {
-    FunctionDeclaration(FunctionDeclaration),
-    // TODO
-    // TSDeclarFunction(TSDeclareFunction),
-    ClassDeclaration(ClassDeclaration),
-    Expression(Expression),
+#[serde(tag = "type")]
+pub enum ExportDefaultDeclType {
+    #[serde(rename = "FunctionDeclaration")]
+    Func(FunctionDeclaration),
+    #[serde(rename = "TSDeclareFunction")]
+    TSFunc(TSDeclareFunction),
+    #[serde(rename = "ClassDeclaration")]
+    Class(ClassDeclaration),
+    #[serde(rename = "Expression")]
+    Expr(Expression),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1234,15 +1332,18 @@ pub enum ExportDefaultDeclartionType {
 pub struct ExportDefaultDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub declaration: ExportDefaultDeclartionType,
+    pub declaration: ExportDefaultDeclType,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum ExportSpecifierType {
-    // TODO
-    // ExportSpecifier(ExportSpecifier),
-    // ExportDefaultSpecifier(ExportDefaultSpecifier),
-    // ExportNamespaceSpecifier(ExportNamespaceSpecifier),
+    #[serde(rename = "ExportSpecifier")]
+    Export(ExportSpecifier),
+    #[serde(rename = "ExportDefaultSpecifier")]
+    Default(ExportDefaultSpecifier),
+    #[serde(rename = "ExportNamespaceSpecifier")]
+    Namespace(ExportNamespaceSpecifier),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1250,18 +1351,16 @@ pub enum ExportSpecifierType {
 pub struct ExportNamedDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub declaration: Option<Declaration>,
+    #[serde(default)]
+    pub declaration: Option<Box<Declaration>>,
+    #[serde(default)]
     pub specifiers: Vec<ExportSpecifierType>,
+    #[serde(default)]
     pub source: Option<StringLiteral>,
-    // TODO
-    // pub assertions: Option<Vec<ImportAttribute>>,
+    #[serde(default)]
+    pub assertions: Option<Vec<ImportAttribute>>,
+    #[serde(default)]
     pub export_kind: Option<ExportKind>
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum IdOrString {
-    Identifier(Identifier),
-    StringLiteral(StringLiteral),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1278,26 +1377,22 @@ pub struct ExportSpecifier {
 pub struct ForOfStatement {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub left: ForLeft,
+    pub left: ForStmtLeft,
     pub right: Expression,
-    pub body: Statement,
+    pub body: Box<Statement>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum ImportSpecifierType {
-    // TODO
-    // ImportSpecifier(ImportSpecifier),
-    // ImportDefaultSpecifier(ImportDefaultSpecifier),
-    // ImportNamespaceSpecifier(ImportNamespaceSpecifier),
+    #[serde(rename = "ImportSpecifier")]
+    Import(ImportSpecifier),
+    #[serde(rename = "ImportDefaultSpecifier")]
+    Default(ImportDefaultSpecifier),
+    #[serde(rename = "ImportNamespaceSpecifier")]
+    Namespace(ImportNamespaceSpecifier),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "lowercase")]
-pub enum ImportKind {
-    Type,
-    Typeof,
-    Value,
-}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -1305,10 +1400,12 @@ pub enum ImportKind {
 pub struct ImportDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub specifiers: Vec<ImportSpecifierType>,
     pub source: StringLiteral,
-    // TODO
-    // pub assertions: Option<Vec<ImportAttribute>>,
+    #[serde(default)]
+    pub assertions: Option<Vec<ImportAttribute>>,
+    #[serde(default)]
     pub import_kind: Option<ImportKind>,
 }
 
@@ -1349,53 +1446,48 @@ pub struct MetaProperty {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "lowercase")]
-pub enum ClassMethodKind {
-    Get,
-    Set,
-    Method,
-    Constructor,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "lowercase")]
-pub enum Access {
-    Public,
-    Private,
-    Protected,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct ClassMethod {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub kind: Option<ClassMethodKind>,
     pub key: ObjectKey,
+    #[serde(default)]
     pub params: Vec<Param>,
     pub body: BlockStatement,
+    #[serde(default)]
     pub computed: Option<bool>,
-    #[serde(rename = "static")]
+    #[serde(default, rename = "static")]
     pub is_static: Option<bool>,
+    #[serde(default)]
     pub generator: Option<bool>,
-    #[serde(rename = "async")]
+    #[serde(default, rename = "async")]
     pub is_async: Option<bool>,
-    #[serde(rename = "abstract")]
+    #[serde(default, rename = "abstract")]
     pub is_abstract: Option<bool>,
+    #[serde(default)]
     pub access: Option<Access>,
+    #[serde(default)]
     pub accessibility: Option<Access>,
-    // TODO
-    // pub decorators: Option<Vec<Decorator>>,
+    #[serde(default)]
+    pub decorators: Option<Vec<Decorator>>,
+    #[serde(default)]
     pub optional: Option<bool>,
-    pub return_type: Option<FlowTypeAnnotationOrTSTypeAnnotationOrNoop>,
-    pub type_parameters: Option<FlowTypeParameterDeclarationOrTSTypeParameterDeclarationOrNoop>,
+    #[serde(default)]
+    pub return_type: Option<TypeAnnotOrNoop>,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum ObjectPropOrRest {
-    RestElement(RestElement),
-    ObjectProperty(ObjectProperty),
+#[serde(tag = "type")]
+pub enum ObjectPatternProp {
+    #[serde(rename = "RestElement")]
+    Rest(RestElement),
+    #[serde(rename = "ObjectProperty")]
+    Prop(ObjectProperty),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1404,15 +1496,26 @@ pub enum ObjectPropOrRest {
 pub struct ObjectPattern {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub properties: Vec<ObjectPropOrRest>,
-    // TODO
-    // pub decorators: Option<Vec<Decorator>>,
-    pub type_annotation: Option<FlowTypeAnnotationOrTSTypeAnnotationOrNoop>,
+    #[serde(default)]
+    pub properties: Vec<ObjectPatternProp>,
+    #[serde(default)]
+    pub decorators: Option<Vec<Decorator>>,
+    #[serde(default)]
+    pub type_annotation: Option<TypeAnnotOrNoop>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
 pub struct SpreadElement {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub argument: Expression,
+}
+
+/// Deprecated. Use SpreadElement instead.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct SpreadProperty {
     #[serde(flatten)]
     pub base: BaseNode,
     pub argument: Expression,
@@ -1426,6 +1529,15 @@ pub struct Super {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum TaggedTemplateExprTypeParams {
+    #[serde(rename = "TypeParameterDeclaration")]
+    Flow(TypeParameterDeclaration),
+    #[serde(rename = "TSTypeParameterDeclaration")]
+    TS(TSTypeParameterDeclaration),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TaggedTemplateExpression {
@@ -1433,12 +1545,15 @@ pub struct TaggedTemplateExpression {
     pub base: BaseNode,
     pub tag: Box<Expression>,
     pub quasi: TemplateLiteral,
-    pub type_parameters: Option<FlowTypeParameterDeclarationOrTSTypeParameterDeclarationOrNoop>, // TODO: w/o noop
+    #[serde(default)]
+    pub type_parameters: Option<TaggedTemplateExprTypeParams>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct TemplateVal {
+pub struct TemplateElVal {
+    #[serde(default)]
     pub raw: String,
+    #[serde(default)]
     pub cooked: Option<String>,
 }
 
@@ -1447,13 +1562,16 @@ pub struct TemplateVal {
 pub struct TemplateElement {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub value: TemplateVal,
+    pub value: TemplateElVal,
+    #[serde(default)]
     pub tail: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum TemplateExpression {
-    Expression(Expression),
+#[serde(tag = "type")]
+pub enum TemplateLiteralExpr {
+    #[serde(rename = "Expression")]
+    Expr(Expression),
     TSType(TSType),
 }
 
@@ -1462,8 +1580,10 @@ pub enum TemplateExpression {
 pub struct TemplateLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub quasis: Vec<TemplateElement>,
-    pub expressions: Vec<TemplateExpression>
+    #[serde(default)]
+    pub expressions: Vec<TemplateLiteralExpr>
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1471,7 +1591,9 @@ pub struct TemplateLiteral {
 pub struct YieldExpression {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub argument: Option<Box<Expression>>,
+    #[serde(default)]
     pub delegate: bool,
 }
 
@@ -1495,6 +1617,7 @@ pub struct Import {
 pub struct BigIntLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub value: String,
 }
 
@@ -1507,9 +1630,12 @@ pub struct ExportNamespaceSpecifier {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum ExpressionOrIdentifier {
+#[serde(tag = "type")]
+pub enum OptionalMemberExprProp {
+    #[serde(rename = "Expression")]
     Expression(Expression),
-    Identifier(Identifier),
+    #[serde(rename = "Identifier")]
+    Id(Identifier),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1518,8 +1644,10 @@ pub struct OptionalMemberExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub object: Box<Expression>,
-    pub property: Box<ExpressionOrIdentifier>,
+    pub property: Box<OptionalMemberExprProp>,
+    #[serde(default)]
     pub computed: bool,
+    #[serde(default)]
     pub optional: bool,
 }
 
@@ -1530,9 +1658,13 @@ pub struct OptionalCallExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub callee: Box<Expression>,
+    #[serde(default)]
     pub arguments: Vec<Arg>,
+    #[serde(default)]
     pub optional: bool,
+    #[serde(default)]
     pub type_arguments: Option<TypeParameterInstantiation>,
+    #[serde(default)]
     pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
@@ -1549,7 +1681,7 @@ pub struct AnyTypeAnnotation {
 pub struct ArrayTypeAnnotation {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub element_type: FlowType,
+    pub element_type: Box<FlowType>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1564,6 +1696,7 @@ pub struct BooleanTypeAnnotation {
 pub struct BooleanLiteralTypeAnnotation {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub value: bool,
 }
 
@@ -1581,8 +1714,8 @@ pub struct ClassImplements {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: Identifier,
-    // TODO
-    // pub type_parameters: Option<TypeParameterInstantiation>,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParameterInstantiation>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1592,12 +1725,15 @@ pub struct DeclareClass {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: Identifier,
-    // TODO
-    // pub type_parameters: Option<TypeParameterInstantiation>,
-    // pub extends: Option<Vec<InterfaceExtends>>,
-    // pub body: ObjectTypeAnnotation,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParameterInstantiation>,
+    #[serde(default)]
+    pub extends: Option<Vec<InterfaceExtends>>,
+    pub body: ObjectTypeAnnotation,
+    #[serde(default)]
     pub implements: Option<Vec<ClassImplements>>,
-    // pub mixins: Option<Array<InterfaceExtends>>,
+    #[serde(default)]
+    pub mixins: Option<Vec<InterfaceExtends>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1606,8 +1742,8 @@ pub struct DeclareFunction {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: Identifier,
-    // TODO
-    // pub predicate: Option<DeclarePredicate>,
+    #[serde(default)]
+    pub predicate: Option<Box<DeclaredPredicate>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1617,12 +1753,15 @@ pub struct DeclareInterface {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: Identifier,
-    // TODO
-    // pub type_parameters: Option<TypeParameterInstantiation>,
-    // pub extends: Option<Vec<InterfaceExtends>>,
-    // pub body: ObjectTypeAnnotation,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParameterInstantiation>,
+    #[serde(default)]
+    pub extends: Option<Vec<InterfaceExtends>>,
+    pub body: ObjectTypeAnnotation,
+    #[serde(default)]
     pub implements: Option<Vec<ClassImplements>>,
-    // pub mixins: Option<Array<InterfaceExtends>>,
+    #[serde(default)]
+    pub mixins: Option<Vec<InterfaceExtends>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1640,6 +1779,7 @@ pub struct DeclareModule {
     pub base: BaseNode,
     pub id: IdOrString,
     pub body: BlockStatement,
+    #[serde(default)]
     pub kind: Option<ModuleKind>,
 }
 
@@ -1659,8 +1799,8 @@ pub struct DeclareTypeAlias {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: Identifier,
-    // TODO
-    // pub type_parameters: Option<TypeParameterDeclaration>,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParameterDeclaration>,
     pub right: FlowType,
 }
 
@@ -1671,8 +1811,9 @@ pub struct DeclareOpaqueType {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: Identifier,
-    // TODO
-    // pub type_parameters: Option<TypeParameterDeclaration>,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParameterDeclaration>,
+    #[serde(default)]
     pub supertype: Option<FlowType>,
 }
 
@@ -1686,12 +1827,25 @@ pub struct DeclareVariable {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
+pub enum DeclareExportDeclSpecifier {
+    #[serde(rename = "ExportSpecifier")]
+    Export(ExportSpecifier),
+    #[serde(rename = "ExportNamespaceSpecifier")]
+    Namespace(ExportNamespaceSpecifier),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub struct DeclareExportDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub declaration: Option<Flow>,
-    pub specifiers: Option<Vec<ExportSpecifierType>>, // TODO: w/o export default specifier
+    #[serde(default)]
+    pub declaration: Option<Box<Flow>>,
+    #[serde(default)]
+    pub specifiers: Option<Vec<DeclareExportDeclSpecifier>>,
+    #[serde(default)]
     pub source: Option<StringLiteral>,
+    #[serde(default)]
     pub default: Option<bool>,
 }
 
@@ -1702,15 +1856,16 @@ pub struct DeclareExportAllDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
     pub source: StringLiteral,
+    #[serde(default)]
     pub export_kind: Option<ExportKind>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
-pub struct DeclarePredicate {
+pub struct DeclaredPredicate {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub value: Flow,
+    pub value: Box<Flow>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1726,11 +1881,14 @@ pub struct ExistsTypeAnnotation {
 pub struct FunctionTypeAnnotation {
     #[serde(flatten)]
     pub base: BaseNode,
-    // TODO
-    // pub type_parameters: Option<TypeParameterDeclaration>,
-    // pub params: Vec<FunctionTypeParam>,
-    // pub rest: Option<FunctionTypeParam>,
-    pub return_type: FlowType,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParameterDeclaration>,
+    #[serde(default)]
+    pub params: Vec<FunctionTypeParam>,
+    #[serde(default)]
+    pub rest: Option<Box<FunctionTypeParam>>,
+    pub return_type: Box<FlowType>,
+    #[serde(default)]
     pub optional: Option<bool>,
 }
 
@@ -1740,16 +1898,11 @@ pub struct FunctionTypeAnnotation {
 pub struct FunctionTypeParam {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub name: Option<Identifier>,
-    pub type_annotation: FlowType,
+    pub type_annotation: Box<FlowType>,
+    #[serde(default)]
     pub optional: Option<bool>
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum IdOrQualifiedId {
-    Identifier(Identifier),
-    // TODO
-    // QualifiedTypeIdentifier(QualifiedTypeIdentifier),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1759,8 +1912,8 @@ pub struct GenericTypeAnnotation {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: IdOrQualifiedId,
-    // TODO
-    // pub type_parameters: Option<TypeParameterInstantiation>,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParameterInstantiation>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1777,8 +1930,8 @@ pub struct InterfaceExtends {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: IdOrQualifiedId,
-    // TODO
-    // pub type_parameters: Option<TypeParameterInstantiation>,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParameterInstantiation>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1788,11 +1941,14 @@ pub struct InterfaceDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: Identifier,
-    // TODO
-    // pub type_parameters: Option<TypeParameterDeclaration>,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParameterDeclaration>,
+    #[serde(default)]
     pub extends: Option<Vec<InterfaceExtends>>,
     pub body: ObjectTypeAnnotation,
+    #[serde(default)]
     pub implements: Option<Vec<ClassImplements>>,
+    #[serde(default)]
     pub mixins: Option<Vec<InterfaceExtends>>,
 }
 
@@ -1802,6 +1958,7 @@ pub struct InterfaceDeclaration {
 pub struct InterfaceTypeAnnotation {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(flatten)]
     pub extends: Option<Vec<InterfaceExtends>>,
     pub body: ObjectTypeAnnotation,
 }
@@ -1811,6 +1968,7 @@ pub struct InterfaceTypeAnnotation {
 pub struct IntersectionTypeAnnotation {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(flatten)]
     pub types: Vec<FlowType>,
 }
 
@@ -1834,7 +1992,7 @@ pub struct EmptyTypeAnnotation {
 pub struct NullableTypeAnnotation {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub type_annotation: FlowType,
+    pub type_annotation: Box<FlowType>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1853,10 +2011,12 @@ pub struct NumberTypeAnnotation {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum ObjectTypeOrSpreadProp {
-    // TODO
-    // ObjectTypeProperty(ObjectTypeProperty),
-    // ObjectTypeSpreadProperty(ObjectTypeSpreadProperty),
+#[serde(tag = "type")]
+pub enum ObjectTypeAnnotProp {
+    #[serde(rename = "ObjectTypeProperty")]
+    Prop(ObjectTypeProperty),
+    #[serde(rename = "ObjectTypeSpreadProperty")]
+    Spread(ObjectTypeSpreadProperty),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1865,12 +2025,17 @@ pub enum ObjectTypeOrSpreadProp {
 pub struct ObjectTypeAnnotation {
     #[serde(flatten)]
     pub base: BaseNode,
-    // TODO
-    // pub properties: Vec<ObjectTypeOrSpreadProp>,
-    // pub indexers: Option<Vec<ObjectTypeIndexer>>,
+    #[serde(default)]
+    pub properties: Vec<ObjectTypeAnnotProp>,
+    #[serde(default)]
+    pub indexers: Option<Vec<ObjectTypeIndexer>>,
+    #[serde(default)]
     pub call_properties: Option<Vec<ObjectTypeCallProperty>>,
+    #[serde(default)]
     pub internal_slots: Option<Vec<ObjectTypeInternalSlot>>,
+    #[serde(default)]
     pub exact: bool,
+    #[serde(default)]
     pub inexact: Option<bool>,
 }
 
@@ -1881,9 +2046,11 @@ pub struct ObjectTypeInternalSlot {
     pub base: BaseNode,
     pub id: Identifier,
     pub value: FlowType,
+    #[serde(default)]
     pub optional: bool,
-    #[serde(rename = "static")]
+    #[serde(default, rename = "static")]
     pub is_static: bool,
+    #[serde(default)]
     pub method: bool,
 }
 
@@ -1902,18 +2069,19 @@ pub struct ObjectTypeCallProperty {
 pub struct ObjectTypeIndexer {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub id: Option<Identifier>,
     pub key: FlowType,
     pub value: FlowType,
-    // TODO
-    // pub variance: Option<Variance>,
-    #[serde(rename = "static")]
+    #[serde(default)]
+    pub variance: Option<Variance>,
+    #[serde(default, rename = "static")]
     pub is_static: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
-pub enum ObjectTypePropertyKind {
+pub enum ObjectTypePropKind {
     Init,
     Get,
     Set,
@@ -1926,19 +2094,22 @@ pub struct ObjectTypeProperty {
     pub base: BaseNode,
     pub key: IdOrString,
     pub value: FlowType,
-    // TODO
-    // pub variance: Option<Variance>,
-    pub kind: ObjectTypePropertyKind,
+    #[serde(default)]
+    pub variance: Option<Variance>,
+    pub kind: ObjectTypePropKind,
+    #[serde(default)]
     pub method: bool,
+    #[serde(default)]
     pub optional: bool,
+    #[serde(default)]
     pub proto: bool,
-    #[serde(rename = "static")]
+    #[serde(default, rename = "static")]
     pub is_static: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
-pub struct ObjectTypePropertySpread {
+pub struct ObjectTypeSpreadProperty {
     #[serde(flatten)]
     pub base: BaseNode,
     pub argument: FlowType,
@@ -1951,8 +2122,9 @@ pub struct OpaqueType {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: Identifier,
-    // TODO
-    // pub type_parameters: Option<TypeParameterDeclaration>,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParameterDeclaration>,
+    #[serde(default)]
     pub supertype: Option<FlowType>,
     pub impltype: FlowType,
 }
@@ -1963,7 +2135,7 @@ pub struct QualifiedTypeIdentifier {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: Identifier,
-    pub qualification: IdOrQualifiedId,
+    pub qualification: Box<IdOrQualifiedId>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1971,6 +2143,7 @@ pub struct QualifiedTypeIdentifier {
 pub struct StringLiteralTypeAnnotation {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub value: String,
 }
 
@@ -2000,15 +2173,16 @@ pub struct ThisTypeAnnotation {
 pub struct TupleTypeAnnotation {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub types: Vec<FlowType>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
-pub struct TypeOfTypeAnnotation {
+pub struct TypeofTypeAnnotation {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub argument: FlowType,
+    pub argument: Box<FlowType>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2018,8 +2192,8 @@ pub struct TypeAlias {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: Identifier,
-    // TODO
-    // pub type_parameters: Option<TypeParameterDeclaration>,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParameterDeclaration>,
     pub right: FlowType,
 }
 
@@ -2047,9 +2221,13 @@ pub struct TypeCastExpression {
 pub struct TypeParameter {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub bound: Option<TypeAnnotation>,
+    #[serde(default)]
     pub default: Option<FlowType>,
+    #[serde(default)]
     pub variance: Option<Variance>,
+    #[serde(default)]
     pub name: String,
 }
 
@@ -2058,6 +2236,7 @@ pub struct TypeParameter {
 pub struct TypeParameterDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub params: Vec<TypeParameter>,
 }
 
@@ -2066,6 +2245,7 @@ pub struct TypeParameterDeclaration {
 pub struct TypeParameterInstantiation {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub params: Vec<FlowType>,
 }
 
@@ -2074,14 +2254,15 @@ pub struct TypeParameterInstantiation {
 pub struct UnionTypeAnnotation {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub types: Vec<FlowType>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
-pub enum MinusOrPlus {
-    Minus,
+pub enum PlusOrMinus {
     Plus,
+    Minus,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2089,7 +2270,7 @@ pub enum MinusOrPlus {
 pub struct Variance {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub kind: MinusOrPlus,
+    pub kind: PlusOrMinus,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2100,11 +2281,16 @@ pub struct VoidTypeAnnotation {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum EnumDeclarationBody {
-    EnumBooleanBody(EnumBooleanBody),
-    EnumNumberBody(EnumNumberBody),
-    EnumStringBody(EnumStringBody),
-    EnumSymbolBody(EnumSymbolBody),
+#[serde(tag = "type")]
+pub enum EnumDeclBody {
+    #[serde(rename = "EnumBooleanBody")]
+    Boolean(EnumBooleanBody),
+    #[serde(rename = "EnumNumberBody")]
+    Number(EnumNumberBody),
+    #[serde(rename = "EnumStringBody")]
+    String(EnumStringBody),
+    #[serde(rename = "EnumSymbolBody")]
+    Symbol(EnumSymbolBody),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2113,7 +2299,7 @@ pub struct EnumDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: Identifier,
-    pub body: EnumDeclarationBody,
+    pub body: EnumDeclBody,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2122,8 +2308,11 @@ pub struct EnumDeclaration {
 pub struct EnumBooleanBody {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub members: Vec<EnumBooleanMember>,
+    #[serde(default)]
     pub explicit_type: bool,
+    #[serde(default)]
     pub has_unknown_members: bool,
 }
 
@@ -2133,15 +2322,21 @@ pub struct EnumBooleanBody {
 pub struct EnumNumberBody {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub members: Vec<EnumNumberMember>,
+    #[serde(default)]
     pub explicit_type: bool,
+    #[serde(default)]
     pub has_unknown_members: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum EnumStringBodyMember {
-    EnumStringMember(EnumStringMember),
-    EnumDefaultedMember(EnumDefaultedMember),
+    #[serde(rename = "EnumStringBodyMember")]
+    String(EnumStringMember),
+    #[serde(rename = "EnumDefaultedMember")]
+    Defaulted(EnumDefaultedMember),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2150,8 +2345,11 @@ pub enum EnumStringBodyMember {
 pub struct EnumStringBody {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub members: Vec<EnumStringBodyMember>,
+    #[serde(default)]
     pub explicit_type: bool,
+    #[serde(default)]
     pub has_unknown_members: bool,
 }
 
@@ -2161,7 +2359,9 @@ pub struct EnumStringBody {
 pub struct EnumSymbolBody {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub members: Vec<EnumDefaultedMember>,
+    #[serde(default)]
     pub has_unknown_members: bool,
 }
 
@@ -2201,19 +2401,25 @@ pub struct EnumDefaultedMember {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum JSXAttributeName {
-    // TODO
-    // JSXIdentifier(JSXIdentifier),
-    // JSXNamespacedName(JSXNamespacedName),
+#[serde(tag = "type")]
+pub enum JSXAttrName {
+    #[serde(rename = "JSXIdentifier")]
+    Id(JSXIdentifier),
+    #[serde(rename = "JSXNamespacedName")]
+    Name(JSXNamespacedName),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum JSXAttributeValue {
-    // TODO
-    // JSXElement(JSXElement),
-    // JSXFragment(JSXFragment),
-    // StringLiteral(StringLiteral),
-    // JSXExpressionContainer(JSXExpressionContainer),
+#[serde(tag = "type")]
+pub enum JSXAttrVal {
+    #[serde(rename = "JSXElement")]
+    Element(JSXElement),
+    #[serde(rename = "JSXFragment")]
+    Fragment(JSXFragment),
+    #[serde(rename = "StringLiteral")]
+    String(StringLiteral),
+    #[serde(rename = "JSXExpressionContainer")]
+    Expr(JSXExpressionContainer),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2221,16 +2427,9 @@ pub enum JSXAttributeValue {
 pub struct JSXAttribute {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub name: JSXAttributeName,
-    pub value: Option<JSXAttributeValue>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum JSXElementName {
-    // TODO
-    // JSXIdentifier(JSXIdentifier),
-    // JSXMemberExpression(JSXMemberExpression),
-    // JSXNamespacedName(JSXNamespacedName),
+    pub name: JSXAttrName,
+    #[serde(default)]
+    pub value: Option<JSXAttrVal>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2242,25 +2441,17 @@ pub struct JSXClosingElement {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum JSXElementChild {
-    // TODO
-    // JSXText(JSXText),
-    // JSXExpressionContainer(JSXExpressionContainer),
-    // JSXSpreadChild(JSXSpreadChild),
-    // JSXElement(JSXElement),
-    // JSXFragment(JSXFragment),
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct JSXElement {
     #[serde(flatten)]
     pub base: BaseNode,
-    // TODO
-    // pub opening_element: JSXOpeningElement,
+    pub opening_element: JSXOpeningElement,
+    #[serde(default)]
     pub closing_element: Option<JSXClosingElement>,
+    #[serde(default)]
     pub children: Vec<JSXElementChild>,
+    #[serde(default)]
     pub self_closing: Option<bool>,
 }
 
@@ -2272,9 +2463,12 @@ pub struct JSXEmptyExpression {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum JSXExpressionContainerExpression { // TODO fix name
-    Expression(Expression),
-    JSXEmptyExpression(JSXEmptyExpression),
+#[serde(tag = "type")]
+pub enum JSXExprContainerExpr {
+    #[serde(rename = "Expression")]
+    Expr(Expression),
+    #[serde(rename = "JSXEmptyExpression")]
+    Empty(JSXEmptyExpression),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2282,7 +2476,7 @@ pub enum JSXExpressionContainerExpression { // TODO fix name
 pub struct JSXExpressionContainer {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub expression: JSXExpressionContainerExpression,
+    pub expression: JSXExprContainerExpr,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2298,13 +2492,17 @@ pub struct JSXSpreadChild {
 pub struct JSXIdentifier {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub name: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum JSXMemberExpressionObject {
-    JSXMemberExpression(JSXMemberExpression),
-    JSXIdentifier(JSXIdentifier),
+#[serde(tag = "type")]
+pub enum JSXMemberExprObject {
+    #[serde(rename = "JSXMemberExpression")]
+    Expr(JSXMemberExpression),
+    #[serde(rename = "JSXIdentifier")]
+    Id(JSXIdentifier),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2312,7 +2510,7 @@ pub enum JSXMemberExpressionObject {
 pub struct JSXMemberExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub object: Box<JSXMemberExpressionObject>,
+    pub object: Box<JSXMemberExprObject>,
     pub property: JSXIdentifier,
 }
 
@@ -2326,10 +2524,21 @@ pub struct JSXNamespacedName {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum JSXOpeningElementAttribute { // TODO fix names
-    JSXAttribute(JSXAttribute),
-    // TODO
-    // JSXSpreadAttribute(JSXSpreadAttribute),
+#[serde(tag = "type")]
+pub enum JSXOpeningElAttr {
+    #[serde(rename = "JSXAttribute")]
+    Attr(JSXAttribute),
+    #[serde(rename = "JSXSpreadAttribute")]
+    Spread(JSXSpreadAttribute),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum TypeParamDecl {
+    #[serde(rename = "TypeParameterDeclaration")]
+    Flow(TypeParameterDeclaration),
+    #[serde(rename = "TSTypeParameterDeclaration")]
+    TS(TSTypeParameterDeclaration),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2339,9 +2548,12 @@ pub struct JSXOpeningElement {
     #[serde(flatten)]
     pub base: BaseNode,
     pub name: JSXElementName,
-    pub attributes: Vec<JSXOpeningElementAttribute>,
+    #[serde(default)]
+    pub attributes: Vec<JSXOpeningElAttr>,
+    #[serde(default)]
     pub self_closing: bool,
-    pub type_parameters: Option<FlowTypeParameterDeclarationOrTSTypeParameterDeclarationOrNoop>, // TODO w/o noop
+    #[serde(default)]
+    pub type_parameters: Option<TypeParamDecl>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2368,6 +2580,7 @@ pub struct JSXFragment {
     pub base: BaseNode,
     pub opening_fragment: JSXOpeningFragment,
     pub closing_fragment: JSXClosingFragment,
+    #[serde(default)]
     pub children: Vec<JSXElementChild>,
 }
 
@@ -2419,6 +2632,7 @@ pub struct Placeholder {
 pub struct V8IntrinsicIdentifier {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub name: String,
 }
 
@@ -2438,35 +2652,40 @@ pub struct BindExpression {
     pub callee: Box<Expression>,
 }
 
-// TODO more descriptive name for object key
-pub type ClassPropertyKey = ObjectKey;
-
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct ClassProperty {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub key: ClassPropertyKey,
+    pub key: ObjectKey,
+    #[serde(default)]
     pub value: Option<Expression>,
-    pub type_annotation: Option<FlowTypeAnnotationOrTSTypeAnnotationOrNoop>,
-    // TODO
-    // pub decorators: Option<Vec<Decorator>>,
+    #[serde(default)]
+    pub type_annotation: Option<TypeAnnotOrNoop>,
+    #[serde(default)]
+    pub decorators: Option<Vec<Decorator>>,
+    #[serde(default)]
     pub computed: Option<bool>,
-    #[serde(rename = "static")]
+    #[serde(default, rename = "static")]
     pub is_static: Option<bool>,
-    #[serde(rename = "abstract")]
+    #[serde(default, rename = "abstract")]
     pub is_abstract: Option<bool>,
+    #[serde(default)]
     pub accessibility: Option<Access>,
+    #[serde(default)]
     pub declare: Option<bool>,
+    #[serde(default)]
     pub definite: Option<bool>,
+    #[serde(default)]
     pub optinoal: Option<bool>,
+    #[serde(default)]
     pub readonly: Option<bool>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
-pub struct PiplineTopicExpression {
+pub struct PipelineTopicExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub expression: Expression,
@@ -2493,12 +2712,15 @@ pub struct PipelinePrimaryTopicReference {
 pub struct ClassPrivateProperty {
     #[serde(flatten)]
     pub base: BaseNode,
-    // TODO
-    // pub key: PrivateName,
+    pub key: PrivateName,
+    #[serde(default)]
     pub value: Option<Expression>,
-    // pub decorators: Option<Vec<Decorator>>,
-    // pub static: any, // TODO how to handle any?
-    pub type_annotation: Option<FlowTypeAnnotationOrTSTypeAnnotationOrNoop>,
+    #[serde(default)]
+    pub decorators: Option<Vec<Decorator>>,
+    #[serde(default, rename = "static")]
+    pub static_any: Value, // TODO: is this the right way to model any?
+    #[serde(default)]
+    pub type_annotation: Option<TypeAnnotOrNoop>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2507,25 +2729,34 @@ pub struct ClassPrivateProperty {
 pub struct ClassPrivateMethod {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub kind: Option<ClassMethodKind>,
-    // TODO
-    // pub key: PrivateName,
+    pub key: PrivateName,
+    #[serde(default)]
     pub params: Vec<Param>,
     pub body: BlockStatement,
-    #[serde(rename = "static")]
+    #[serde(default, rename = "static")]
     pub is_static: Option<bool>,
-    #[serde(rename = "abstract")]
+    #[serde(default, rename = "abstract")]
     pub is_abstract: Option<bool>,
+    #[serde(default)]
     pub access: Option<Access>,
+    #[serde(default)]
     pub accessibility: Option<Access>,
-    #[serde(rename = "async")]
+    #[serde(default, rename = "async")]
     pub is_async: Option<bool>,
+    #[serde(default)]
     pub computed: Option<bool>,
-    // pub decorators: <Option<Vec<Decorator>>,
+    #[serde(default)]
+    pub decorators: Option<Vec<Decorator>>,
+    #[serde(default)]
     pub generator: Option<bool>,
+    #[serde(default)]
     pub optional: Option<bool>,
-    pub return_type: Option<FlowTypeAnnotationOrTSTypeAnnotationOrNoop>,
-    pub type_parameters: Option<FlowTypeParameterDeclarationOrTSTypeParameterDeclarationOrNoop>,
+    #[serde(default)]
+    pub return_type: Option<TypeAnnotOrNoop>,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2570,9 +2801,12 @@ pub struct PrivateName {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum RecordExpressionProperty { // TODO fix names
-    ObjectProperty(ObjectProperty),
-    SpreadElement(SpreadElement),
+#[serde(tag = "type")]
+pub enum RecordExprProp {
+    #[serde(rename = "ObjectProperty")]
+    Prop(ObjectProperty),
+    #[serde(rename = "SpreadElement")]
+    Spread(SpreadElement),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2580,13 +2814,17 @@ pub enum RecordExpressionProperty { // TODO fix names
 pub struct RecordExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub properties: Vec<RecordExpressionProperty>,
+    #[serde(default)]
+    pub properties: Vec<RecordExprProp>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum TupleExpressionElement { // TODO fix names
-    Expression(Expression),
-    SpreadElement(SpreadElement),
+#[serde(tag = "type")]
+pub enum TupleExprEl {
+    #[serde(rename = "Expression")]
+    Expr(Expression),
+    #[serde(rename = "Spread")]
+    Spread(SpreadElement),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2594,7 +2832,8 @@ pub enum TupleExpressionElement { // TODO fix names
 pub struct TupleExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub elements: Vec<TupleExpressionElement>,
+    #[serde(default)]
+    pub elements: Vec<TupleExprEl>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2602,6 +2841,7 @@ pub struct TupleExpression {
 pub struct DecimalLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub value: String,
 }
 
@@ -2610,6 +2850,7 @@ pub struct DecimalLiteral {
 pub struct StaticBlock {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub body: Vec<Statement>,
 }
 
@@ -2622,9 +2863,12 @@ pub struct ModuleExpression {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum TSParameterPropertyParameter { // TODO fix names
-    Identifier(Identifier),
-    AssignmentPattern(AssignmentPattern),
+#[serde(tag = "type")]
+pub enum TSParamPropParam {
+    #[serde(rename = "Identifier")]
+    Id(Identifier),
+    #[serde(rename = "AssignmentPattern")]
+    Assignment(AssignmentPattern),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2632,23 +2876,11 @@ pub enum TSParameterPropertyParameter { // TODO fix names
 pub struct TSParameterProperty {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub parameter: TSParameterPropertyParameter,
+    pub parameter: TSParamPropParam,
+    #[serde(default)]
     pub accessibility: Option<Access>,
+    #[serde(default)]
     pub readonly: Option<bool>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum TSTypeParameterDeclarationOrNoop { // TODO fix names
-    // TODO
-    // TSTypeParameterDeclaration(TSTypeParameterDeclaration),
-    Noop(Noop),
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum TSTypeAnnotationOrNoop { // TODO fix names
-    // TODO
-    // TSTypeAnnotation(TSTypeAnnotation),
-    Noop(Noop),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2657,18 +2889,21 @@ pub enum TSTypeAnnotationOrNoop { // TODO fix names
 pub struct TSDeclareFunction {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub id: Option<Identifier>,
-    pub type_parameters: Option<TSTypeParameterDeclarationOrNoop>,
+    #[serde(default)]
+    pub type_parameters: Option<TSFuncDeclTypeParams>,
+    #[serde(default)]
     pub params: Vec<Param>,
-    pub return_type: Option<TSTypeAnnotationOrNoop>,
-    #[serde(rename = "async")]
+    #[serde(default)]
+    pub return_type: Option<TSFuncDeclTypeAnnot>,
+    #[serde(default, rename = "async")]
     pub is_async: Option<bool>,
+    #[serde(default)]
     pub declare: Option<bool>,
+    #[serde(default)]
     pub generator: Option<bool>,
 }
-
-pub type TSDeclareMethodKey = ObjectKey;
-pub type TSDeclareMethodKind = ClassMethodKind;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -2676,22 +2911,32 @@ pub type TSDeclareMethodKind = ClassMethodKind;
 pub struct TSDeclareMethod {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub decorators: Option<Vec<Decorator>>,
-    pub key: TSDeclareMethodKey,
-    pub type_parameters: Option<TSTypeParameterDeclarationOrNoop>,
+    pub key: ObjectKey,
+    #[serde(default)]
+    pub type_parameters: Option<TSFuncDeclTypeParams>,
+    #[serde(default)]
     pub params: Vec<Param>,
-    pub return_type: Option<TSTypeAnnotationOrNoop>,
-    #[serde(rename = "abstract")]
+    #[serde(default)]
+    pub return_type: Option<TSFuncDeclTypeAnnot>,
+    #[serde(default, rename = "abstract")]
     pub is_abstract: Option<bool>,
+    #[serde(default)]
     pub access: Option<Access>,
+    #[serde(default)]
     pub accessibility: Option<Access>,
-    #[serde(rename = "async")]
+    #[serde(default, rename = "async")]
     pub is_async: Option<bool>,
+    #[serde(default)]
     pub computed: Option<bool>,
+    #[serde(default)]
     pub generator: Option<bool>,
-    pub kind: Option<TSDeclareMethodKind>,
+    #[serde(default)]
+    pub kind: Option<ClassMethodKind>,
+    #[serde(default)]
     pub optional: Option<bool>,
-    #[serde(rename = "static")]
+    #[serde(default, rename = "static")]
     pub is_static: Option<bool>,
 }
 
@@ -2700,14 +2945,8 @@ pub struct TSDeclareMethod {
 pub struct TSQualifiedName {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub left: TSEntityName,
+    pub left: Box<TSEntityName>,
     pub right: Identifier,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum IdOrRest { // TODO fix names
-    Identifier(Identifier),
-    RestElement(RestElement),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2716,10 +2955,12 @@ pub enum IdOrRest { // TODO fix names
 pub struct TSCallSignatureDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
-    // TODO
-    // pub type_parameters: Option<TSTypeParameterDeclaration>,
+    #[serde(default)]
+    pub type_parameters: Option<TSTypeParameterDeclaration>,
+    #[serde(default)]
     pub parameters: Vec<IdOrRest>,
-    // pub type_annotation: Option<TSTypeAnnotation>,
+    #[serde(default)]
+    pub type_annotation: Option<TSTypeAnnotation>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2728,10 +2969,12 @@ pub struct TSCallSignatureDeclaration {
 pub struct TSConstructSignatureDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
-    // TODO
-    // pub type_parameters: Option<TSTypeParameterDeclaration>,
+    #[serde(default)]
+    pub type_parameters: Option<TSTypeParameterDeclaration>,
+    #[serde(default)]
     pub parameters: Vec<IdOrRest>,
-    // pub type_annotation: Option<TSTypeAnnotation>,
+    #[serde(default)]
+    pub type_annotation: Option<TSTypeAnnotation>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2741,11 +2984,15 @@ pub struct TSPropertySignature {
     #[serde(flatten)]
     pub base: BaseNode,
     pub key: Expression,
-    // TODO
-    // pub type_annotation: Option<TSTypeAnnotation>,
+    #[serde(default)]
+    pub type_annotation: Option<TSTypeAnnotation>,
+    #[serde(default)]
     pub initializer: Option<Expression>,
+    #[serde(default)]
     pub computed: Option<bool>,
+    #[serde(default)]
     pub optional: Option<bool>,
+    #[serde(default)]
     pub readonly: Option<bool>,
 }
 
@@ -2755,11 +3002,15 @@ pub struct TSPropertySignature {
 pub struct TSMethodSignature {
     #[serde(flatten)]
     pub base: BaseNode,
-    // TODO
-    // pub type_parameters: Option<TSTypeParameterDeclaration>,
+    #[serde(default)]
+    pub type_parameters: Option<TSTypeParameterDeclaration>,
+    #[serde(default)]
     pub parameters: Vec<IdOrRest>,
-    // pub type_annotation: Option<TSTypeAnnotation>,
+    #[serde(default)]
+    pub type_annotation: Option<TSTypeAnnotation>,
+    #[serde(default)]
     pub computed: Option<bool>,
+    #[serde(default)]
     pub optional: Option<bool>,
 }
 
@@ -2769,9 +3020,11 @@ pub struct TSMethodSignature {
 pub struct TSIndexSignature {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub paramters: Vec<Identifier>,
-    // TODO
-    // pub type_annotation: Option<TSTypeAnnotation>,
+    #[serde(default)]
+    pub type_annotation: Option<TSTypeAnnotation>,
+    #[serde(default)]
     pub readonly: Option<bool>,
 }
 
@@ -2868,7 +3121,7 @@ pub struct TSVoidKeyword {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
-pub struct TSThisKeyword {
+pub struct TSThisType {
     #[serde(flatten)]
     pub base: BaseNode,
 }
@@ -2878,10 +3131,12 @@ pub struct TSThisKeyword {
 pub struct TSFunctionType {
     #[serde(flatten)]
     pub base: BaseNode,
-    // TODO
-    // pub type_parameters: Option<TSTypeParameterDeclaration>,
+    #[serde(default)]
+    pub type_parameters: Option<TSTypeParameterDeclaration>,
+    #[serde(default)]
     pub parameters: Vec<IdOrRest>,
-    // pub type_annotation: Option<TSTypeAnnotation>,
+    #[serde(default)]
+    pub type_annotation: Option<Box<TSTypeAnnotation>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2890,11 +3145,13 @@ pub struct TSFunctionType {
 pub struct TSConstructorType {
     #[serde(flatten)]
     pub base: BaseNode,
-    // TODO
-    // pub type_parameters: Option<TSTypeParameterDeclaration>,
+    #[serde(default)]
+    pub type_parameters: Option<TSTypeParameterDeclaration>,
+    #[serde(default)]
     pub parameters: Vec<IdOrRest>,
-    // pub type_annotation: Option<TSTypeAnnotation>,
-    #[serde(rename = "abstract")]
+    #[serde(default)]
+    pub type_annotation: Option<Box<TSTypeAnnotation>>,
+    #[serde(default, rename = "abstract")]
     pub is_abstract: Option<bool>,
 }
 
@@ -2905,15 +3162,17 @@ pub struct TSTypeReference {
     #[serde(flatten)]
     pub base: BaseNode,
     pub type_name: TSEntityName,
-    // TODO
-    // pub type_parameters: Option<TSTypeParameterInstantiation>,
+    #[serde(default)]
+    pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum TSTypePredicateParameterName { // TODO fix name
-    Identifier(Identifier),
-    // TODO
-    // TSThisType(TSThisType),
+#[serde(tag = "type")]
+pub enum TSTypePredicateParamName {
+    #[serde(rename = "Identifier")]
+    Id(Identifier),
+    #[serde(rename = "TSThisType")]
+    This(TSThisType),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2922,17 +3181,20 @@ pub enum TSTypePredicateParameterName { // TODO fix name
 pub struct TSTypePredicate {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub parameter_name: TSTypePredicateParameterName,
-    // TODO
-    // pub type_annotation: Option<TSTypeAnnotation>,
+    pub parameter_name: TSTypePredicateParamName,
+    #[serde(default)]
+    pub type_annotation: Option<Box<TSTypeAnnotation>>,
+    #[serde(default)]
     pub asserts: Option<bool>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum TSTypeQueryExprName { // TODO fix name
-    TSEntityName(TSEntityName),
-    // TODO
-    // TSImportType(TSImportType),
+#[serde(tag = "type")]
+pub enum TSTypeQueryExprName {
+    #[serde(rename = "TSEntityName")]
+    EntityName(TSEntityName),
+    #[serde(rename = "TSImportType")]
+    ImportType(TSImportType),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2949,6 +3211,7 @@ pub struct TSTypeQuery {
 pub struct TSTypeLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub members: Vec<TSTypeElement>,
 }
 
@@ -2958,14 +3221,15 @@ pub struct TSTypeLiteral {
 pub struct TSArrayType {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub element_type: TSType,
+    pub element_type: Box<TSType>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum TSTupleTypeElementType {
+#[serde(tag = "type")]
+pub enum TSTupleTypeElType {
     TSType(TSType),
-    // TODO
-    // TSNamedTupleMember(TSNamedTupleMember),
+    #[serde(rename = "TSNamedTupleMember")]
+    Member(TSNamedTupleMember),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2974,7 +3238,17 @@ pub enum TSTupleTypeElementType {
 pub struct TSTupleType {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub element_types: Vec<TSTupleTypeElementType>,
+    #[serde(default)]
+    pub element_types: Vec<TSTupleTypeElType>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct TSOptionalType {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub type_annotation: Box<TSType>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2983,7 +3257,7 @@ pub struct TSTupleType {
 pub struct TSRestType {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub type_annotation: TSType,
+    pub type_annotation: Box<TSType>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2994,7 +3268,8 @@ pub struct TSNamedTupleMember {
     pub base: BaseNode,
     pub label: Identifier,
     pub element_type: TSType,
-    pub option: bool,
+    #[serde(default)]
+    pub optional: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -3002,6 +3277,7 @@ pub struct TSNamedTupleMember {
 pub struct TSUnionType {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub types: Vec<TSType>,
 }
 
@@ -3010,6 +3286,7 @@ pub struct TSUnionType {
 pub struct TSIntersectionType {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub types: Vec<TSType>,
 }
 
@@ -3019,10 +3296,10 @@ pub struct TSIntersectionType {
 pub struct TSConditionalType {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub check_type: TSType,
-    pub extends_type: TSType,
-    pub true_type: TSType,
-    pub false_type: TSType,
+    pub check_type: Box<TSType>,
+    pub extends_type: Box<TSType>,
+    pub true_type: Box<TSType>,
+    pub false_type: Box<TSType>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -3031,17 +3308,16 @@ pub struct TSConditionalType {
 pub struct TSInferType {
     #[serde(flatten)]
     pub base: BaseNode,
-    // TODO
-    // pub type_parameter: TSTypeParameter,
+    pub type_parameter: Box<TSTypeParameter>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
-pub struct A {
+pub struct TSParenthesizedType {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub type_annotation: TSType,
+    pub type_annotation: Box<TSType>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -3050,7 +3326,8 @@ pub struct A {
 pub struct TSTypeOperator {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub type_annotation: TSType,
+    pub type_annotation: Box<TSType>,
+    #[serde(default)]
     pub operator: String,
 }
 
@@ -3060,8 +3337,8 @@ pub struct TSTypeOperator {
 pub struct TSIndexedAccessType {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub object_type: TSType,
-    pub index_type: TSType,
+    pub object_type: Box<TSType>,
+    pub index_type: Box<TSType>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -3070,20 +3347,28 @@ pub struct TSIndexedAccessType {
 pub struct TSMappedType {
     #[serde(flatten)]
     pub base: BaseNode,
-    // TODO
-    // pub type_parameter: TSTypeParameter,
-    pub type_annotation: Option<TSType>,
-    pub name_type: Option<TSType>,
+    pub type_parameter: Box<TSTypeParameter>,
+    #[serde(default)]
+    pub type_annotation: Option<Box<TSType>>,
+    #[serde(default)]
+    pub name_type: Option<Box<TSType>>,
+    #[serde(default)]
     pub optional: Option<bool>,
+    #[serde(default)]
     pub readonly: Option<bool>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum TSLiteralTypeLiteral { // TODO fix names
-    NumericLiteral(NumericLiteral),
-    StringLiteral(StringLiteral),
-    BooleanLiteral(BooleanLiteral),
-    BigIntLiteral(BigIntLiteral),
+#[serde(tag = "type")]
+pub enum TSLiteralTypeLiteral {
+    #[serde(rename = "NumericLiteral")]
+    Numeric(NumericLiteral),
+    #[serde(rename = "StringLiteral")]
+    String(StringLiteral),
+    #[serde(rename = "BooleanLiteral")]
+    Boolean(BooleanLiteral),
+    #[serde(rename = "BigIntLiteral")]
+    BigInt(BigIntLiteral),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -3101,21 +3386,23 @@ pub struct TSExpressionWithTypeArguments {
     #[serde(flatten)]
     pub base: BaseNode,
     pub expression: TSEntityName,
-    // TODO
-    // pub type_parameters: Option<TSTypeParameterInstantiation>,
+    #[serde(default)]
+    pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
-pub struct TSInterfaceDeclartion {
+pub struct TSInterfaceDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: Identifier,
-    // TODO
-    // pub type_parameters: Option<TSTypeParameterDeclaration>,
+    #[serde(default)]
+    pub type_parameters: Option<TSTypeParameterDeclaration>,
+    #[serde(default)]
     pub extends: Option<TSExpressionWithTypeArguments>,
     pub body: TSInterfaceBody,
+    #[serde(default)]
     pub declare: Option<bool>,
 }
 
@@ -3124,6 +3411,7 @@ pub struct TSInterfaceDeclartion {
 pub struct TSInterfaceBody {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub body: Vec<TSTypeElement>,
 }
 
@@ -3134,9 +3422,10 @@ pub struct TSTypeAliasDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: Identifier,
-    // TODO
-    // pub type_parameters: Option<TSTypeParameterDeclaration>,
+    #[serde(default)]
+    pub type_parameters: Option<TSTypeParameterDeclaration>,
     pub type_annotation: TSType,
+    #[serde(default)]
     pub declare: Option<bool>,
 }
 
@@ -3166,10 +3455,13 @@ pub struct TSEnumDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: Identifier,
+    #[serde(default)]
     pub members: Vec<TSEnumMember>,
-    #[serde(rename = "const")]
+    #[serde(default, rename = "const")]
     pub is_const: Option<bool>,
+    #[serde(default)]
     pub declare: Option<bool>,
+    #[serde(default)]
     pub initializer: Option<Expression>,
 }
 
@@ -3179,13 +3471,17 @@ pub struct TSEnumMember {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: IdOrString,
+    #[serde(default)]
     pub initializer: Option<Expression>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum TSModuleDeclarationBody { // TODO fix names
-    TSModuleBlock(TSModuleBlock),
-    TSModuleDeclaration(Box<TSModuleDeclaration>),
+#[serde(tag = "type")]
+pub enum TSModuleDeclBody {
+    #[serde(rename = "TSModuleBlock")]
+    Block(TSModuleBlock),
+    #[serde(rename = "TSModuleDeclaration")]
+    Decl(TSModuleDeclaration),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -3194,8 +3490,10 @@ pub struct TSModuleDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: IdOrString,
-    pub body: TSModuleDeclarationBody,
+    pub body: Box<TSModuleDeclBody>,
+    #[serde(default)]
     pub declare: Option<bool>,
+    #[serde(default)]
     pub global: Option<bool>,
 }
 
@@ -3204,7 +3502,8 @@ pub struct TSModuleDeclaration {
 pub struct TSModuleBlock {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub body: Vec<Statement>
+    #[serde(default)]
+    pub body: Vec<Statement>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -3214,15 +3513,19 @@ pub struct TSImportType {
     #[serde(flatten)]
     pub base: BaseNode,
     pub argument: StringLiteral,
+    #[serde(default)]
     pub qualifier: Option<TSEntityName>,
-    // TODO
-    // pub type_parameters: Option<TSTypeParameterInstantiation>,
+    #[serde(default)]
+    pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum TSImportEqualsDeclarationModuleReference { // TODO fix names
-    TSEntityName(TSEntityName),
-    TSExternalModuleRefernce(TSExternalModuleReference),
+#[serde(tag = "type")]
+pub enum TSImportEqualsDeclModuleRef {
+    #[serde(rename = "TSEntityName")]
+    Name(TSEntityName),
+    #[serde(rename = "TSExternalModuleReference")]
+    External(TSExternalModuleReference),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -3232,7 +3535,8 @@ pub struct TSImportEqualsDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: Identifier,
-    pub module_reference: TSImportEqualsDeclarationModuleReference,
+    pub module_reference: TSImportEqualsDeclModuleRef,
+    #[serde(default)]
     pub is_export: bool,
 }
 
@@ -3282,6 +3586,7 @@ pub struct TSTypeAnnotation {
 pub struct TSTypeParameterInstantiation {
     #[serde(flatten)]
     pub base: BaseNode,
+    #[serde(default)]
     pub params: Vec<TSType>,
 }
 
@@ -3298,12 +3603,201 @@ pub struct TSTypeParameterDeclaration {
 pub struct TSTypeParameter {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub constraint: Option<TSType>,
-    pub default: Option<TSType>,
+    #[serde(default)]
+    pub constraint: Option<Box<TSType>>,
+    #[serde(default)]
+    pub default: Option<Box<TSType>>,
+    #[serde(default)]
     pub name: String,
 }
 
+// ----------------------------------------------------------------------------
+// Shared union types
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum Callee {
+    #[serde(rename = "Expression")]
+    Expr(Expression),
+    #[serde(rename = "V8IntrinsicIdentifier")]
+    V8Id(V8IntrinsicIdentifier),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum Arg {
+    #[serde(rename = "Expression")]
+    Expr(Expression),
+    #[serde(rename = "SpreadElement")]
+    Spread(SpreadElement),
+    #[serde(rename = "JSXNamespacedName")]
+    JSXName(JSXNamespacedName),
+    #[serde(rename = "ArgumentPlaceholder")]
+    Placeholder(ArgumentPlaceholder),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum ForStmtLeft {
+    #[serde(rename = "VariableDeclaration")]
+    VarDecl(VariableDeclaration),
+    LVal(LVal),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum TypeAnnotOrNoop {
+    #[serde(rename = "TypeAnnotation")]
+    Flow(TypeAnnotation),
+    #[serde(rename = "TSTypeAnnotation")]
+    TS(TSTypeAnnotation),
+    Noop(Noop),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum TypeParamDeclOrNoop {
+    #[serde(rename = "TypeParameterDeclaration")]
+    Flow(TypeParameterDeclaration),
+    #[serde(rename = "TSTypeParameterDeclaration")]
+    TS(TSTypeParameterDeclaration),
+    Noop(Noop),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum Param {
+    #[serde(rename = "Identifier")]
+    Id(Identifier),
+    Pattern(Pattern),
+    #[serde(rename = "RestElement")]
+    Rest(RestElement),
+    #[serde(rename = "TSParameterProperty")]
+    TSProp(TSParameterProperty),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum ClassImpl {
+    #[serde(rename = "TSExpressionWithTypeArguments")]
+    TSExpr(TSExpressionWithTypeArguments),
+    #[serde(rename = "ClassImplements")]
+    Implements(ClassImplements),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum SuperTypeParams {
+    #[serde(rename = "TypeParameterInstantiation")]
+    Flow(TypeParameterInstantiation),
+    #[serde(rename = "TSTypeParameterInstantiation")]
+    TS(TSTypeParameterInstantiation),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum IdOrString {
+    #[serde(rename = "Identifier")]
+    Id(Identifier),
+    #[serde(rename = "StringLiteral")]
+    String(StringLiteral),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum ExportKind {
+    Type,
+    Value,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum ImportKind {
+    Type,
+    Typeof,
+    Value,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum ClassMethodKind {
+    Get,
+    Set,
+    Method,
+    Constructor,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum Access {
+    Public,
+    Private,
+    Protected,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum IdOrQualifiedId {
+    #[serde(rename = "Identifier")]
+    Id(Identifier),
+    #[serde(rename = "QualifiedTypeIdentifier")]
+    QualifiedId(QualifiedTypeIdentifier),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum JSXElementName {
+    #[serde(rename = "JSXIdentifier")]
+    Id(JSXIdentifier),
+    #[serde(rename = "JSXMemberExpression")]
+    Expr(JSXMemberExpression),
+    #[serde(rename = "JSXNamespacedName")]
+    Name(JSXNamespacedName),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum JSXElementChild {
+    #[serde(rename = "JSXText")]
+    Text(JSXText),
+    #[serde(rename = "JSXExpressionContainer")]
+    Expr(JSXExpressionContainer),
+    #[serde(rename = "JSXSpreadChild")]
+    Spread(JSXSpreadChild),
+    #[serde(rename = "JSXElement")]
+    Element(JSXElement),
+    #[serde(rename = "JSXFragment")]
+    Fragment(JSXFragment),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum TSFuncDeclTypeParams {
+    #[serde(rename = "TSTypeParameterDeclaration")]
+    Type(TSTypeParameterDeclaration),
+    Noop(Noop),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum TSFuncDeclTypeAnnot {
+    #[serde(rename = "TSTypeAnnotation")]
+    Type(TSTypeAnnotation),
+    Noop(Noop),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum IdOrRest {
+    #[serde(rename = "Identifier")]
+    Id(Identifier),
+    #[serde(rename = "RestElement")]
+    Rest(RestElement),
+}
+
+// ----------------------------------------------------------------------------
+// Babel types
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum Expression {
     ArrayExpression(ArrayExpression),
     AssignmentExpression(AssignmentExpression),
@@ -3354,12 +3848,14 @@ pub enum Expression {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum Binary {
     BinaryExpression(BinaryExpression),
     LogicalExpression(LogicalExpression),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum Scopable {
     BlockStatement(BlockStatement),
     CatchClause(CatchClause),
@@ -3383,6 +3879,7 @@ pub enum Scopable {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum BlockParent  {
     BlockStatement(BlockStatement),
     CatchClause(CatchClause),
@@ -3404,6 +3901,7 @@ pub enum BlockParent  {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum Block {
     BlockStatement(BlockStatement),
     Program(Program),
@@ -3411,660 +3909,581 @@ pub enum Block {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum Statement {
-
-    // TODO
-    // BlockStatement(BlockStatement),
-    // BreakStatement(BreakStatement),
-    // ContinueStatement(ContinueStatement),
-    // DebuggerStatement(DebuggerStatement),
-    // DoWhileStatement(DoWhileStatement),
-    // EmptyStatement(EmptyStatement),
-    // ExpressionStatement(ExpressionStatement),
-    // ForInStatement(ForInStatement),
-    // ForStatement(ForStatement),
-    // FunctionDeclaration(FunctionDeclaration),
-    // IfStatement(IfStatement),
-    // LabeledStatement(LabeledStatement),
-    // ReturnStatement(ReturnStatement),
-    // SwitchStatement(SwitchStatement),
-    // ThrowStatement(ThrowStatement),
-    // TryStatement(TryStatement),
-    // VariableDeclaration(VariableDeclaration),
-    // WhileStatement(WhileStatement),
-    // WithStatement(WithStatement),
-    // ClassDeclaration(ClassDeclaration),
-    // ExportAllDeclaration(ExportAllDeclaration),
-    // ExportDefaultDeclaration(ExportDefaultDeclaration),
-    // ExportNamedDeclaration(ExportNamedDeclaration),
-    // ForOfStatement(ForOfStatement),
-    // ImportDeclaration(ImportDeclaration),
-    // DeclareClass(DeclareClass),
-    // DeclareFunction(DeclareFunction),
-    // DeclareInterface(DeclareInterface),
-    // DeclareModule(DeclareModule),
-    // DeclareModuleExports(DeclareModuleExports),
-    // DeclareTypeAlias(DeclareTypeAlias),
-    // DeclareOpaqueType(DeclareOpaqueType),
-    // DeclareVariable(DeclareVariable),
-    // DeclareExportDeclaration(DeclareExportDeclaration),
-    // DeclareExportAllDeclaration(DeclareExportAllDeclaration),
-    // InterfaceDeclaration(InterfaceDeclaration),
-    // OpaqueType(OpaqueType),
-    // TypeAlias(TypeAlias),
-    // EnumDeclaration(EnumDeclaration),
-    // TSDeclareFunction(TSDeclareFunction),
-    // TSInterfaceDeclaration(TSInterfaceDeclaration),
-    // TSTypeAliasDeclaration(TSTypeAliasDeclaration),
-    // TSEnumDeclaration(TSEnumDeclaration),
-    // TSModuleDeclaration(TSModuleDeclaration),
-    // TSImportEqualsDeclaration(TSImportEqualsDeclaration),
-    // TSExportAssignment(TSExportAssignment),
-    // TSNamespaceExportDeclaration(TSNamespaceExportDeclaration),
-
+    BlockStatement(BlockStatement),
+    BreakStatement(BreakStatement),
+    ContinueStatement(ContinueStatement),
+    DebuggerStatement(DebuggerStatement),
+    DoWhileStatement(DoWhileStatement),
+    EmptyStatement(EmptyStatement),
+    ExpressionStatement(ExpressionStatement),
+    ForInStatement(ForInStatement),
+    ForStatement(ForStatement),
+    FunctionDeclaration(FunctionDeclaration),
+    IfStatement(IfStatement),
+    LabeledStatement(LabeledStatement),
+    ReturnStatement(ReturnStatement),
+    SwitchStatement(SwitchStatement),
+    ThrowStatement(ThrowStatement),
+    TryStatement(TryStatement),
+    VariableDeclaration(VariableDeclaration),
+    WhileStatement(WhileStatement),
+    WithStatement(WithStatement),
+    ClassDeclaration(ClassDeclaration),
+    ExportAllDeclaration(ExportAllDeclaration),
+    ExportDefaultDeclaration(ExportDefaultDeclaration),
+    ExportNamedDeclaration(ExportNamedDeclaration),
+    ForOfStatement(ForOfStatement),
+    ImportDeclaration(ImportDeclaration),
+    DeclareClass(DeclareClass),
+    DeclareFunction(DeclareFunction),
+    DeclareInterface(DeclareInterface),
+    DeclareModule(DeclareModule),
+    DeclareModuleExports(DeclareModuleExports),
+    DeclareTypeAlias(DeclareTypeAlias),
+    DeclareOpaqueType(DeclareOpaqueType),
+    DeclareVariable(DeclareVariable),
+    DeclareExportDeclaration(DeclareExportDeclaration),
+    DeclareExportAllDeclaration(DeclareExportAllDeclaration),
+    InterfaceDeclaration(InterfaceDeclaration),
+    OpaqueType(OpaqueType),
+    TypeAlias(TypeAlias),
+    EnumDeclaration(EnumDeclaration),
+    TSDeclareFunction(TSDeclareFunction),
+    TSInterfaceDeclaration(TSInterfaceDeclaration),
+    TSTypeAliasDeclaration(TSTypeAliasDeclaration),
+    TSEnumDeclaration(TSEnumDeclaration),
+    TSModuleDeclaration(TSModuleDeclaration),
+    TSImportEqualsDeclaration(TSImportEqualsDeclaration),
+    TSExportAssignment(TSExportAssignment),
+    TSNamespaceExportDeclaration(TSNamespaceExportDeclaration),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum Terminatorless {
-
-    // TODO
-    // BreakStatement(BreakStatement),
-    // ContinueStatement(ContinueStatement),
-    // ReturnStatement(ReturnStatement),
-    // ThrowStatement(ThrowStatement),
-    // YieldExpression(YieldExpression),
-    // AwaitExpression(AwaitExpression),
-
+    BreakStatement(BreakStatement),
+    ContinueStatement(ContinueStatement),
+    ReturnStatement(ReturnStatement),
+    ThrowStatement(ThrowStatement),
+    YieldExpression(YieldExpression),
+    AwaitExpression(AwaitExpression),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum CompletionStatement {
-
-    // TODO
-    // BreakStatement(BreakStatement),
-    // ContinueStatement(ContinueStatement),
-    // ReturnStatement(ReturnStatement),
-    // ThrowStatement(ThrowStatement),
-
+    BreakStatement(BreakStatement),
+    ContinueStatement(ContinueStatement),
+    ReturnStatement(ReturnStatement),
+    ThrowStatement(ThrowStatement),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum Conditional {
-
-    // TODO
-    // ConditionalExpression(ConditionalExpression),
-    // IfStatement(IfStatement),
-
+    ConditionalExpression(ConditionalExpression),
+    IfStatement(IfStatement),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum Loop {
-
-    // TODO
-    // DoWhileStatement(DoWhileStatement),
-    // ForInStatement(ForInStatement),
-    // ForStatement(ForStatement),
-    // WhileStatement(WhileStatement),
-    // ForOfStatement(ForOfStatement),
-
+    DoWhileStatement(DoWhileStatement),
+    ForInStatement(ForInStatement),
+    ForStatement(ForStatement),
+    WhileStatement(WhileStatement),
+    ForOfStatement(ForOfStatement),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum While {
-
-    // TODO
-    // DoWhileStatement(DoWhileStatement),
-    // WhileStatement(WhileStatement),
-
+    DoWhileStatement(DoWhileStatement),
+    WhileStatement(WhileStatement),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum ExpressionWrapper {
-
-    // TODO
-    // ExpressionStatement(ExpressionStatement),
-    // ParenthesizedExpression(ParenthesizedExpression),
-    // TypeCastExpression(TypeCastExpression),
-
+    ExpressionStatement(ExpressionStatement),
+    ParenthesizedExpression(ParenthesizedExpression),
+    TypeCastExpression(TypeCastExpression),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum For {
-
-    // TODO
-    // ForInStatement(ForInStatement),
-    // ForStatement(ForStatement),
-    // ForOfStatement(ForOfStatement),
-
+    ForInStatement(ForInStatement),
+    ForStatement(ForStatement),
+    ForOfStatement(ForOfStatement),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum ForXStatement {
-
-    // TODO
-    // ForInStatement(ForInStatement),
-    // ForOfStatement(ForOfStatement),
-
+    ForInStatement(ForInStatement),
+    ForOfStatement(ForOfStatement),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum Function {
-
-    // TODO
-    // FunctionDeclaration(FunctionDeclaration),
-    // FunctionExpression(FunctionExpression),
-    // ObjectMethod(ObjectMethod),
-    // ArrowFunctionExpression(ArrowFunctionExpression),
-    // ClassMethod(ClassMethod),
-    // ClassPrivateMethod(ClassPrivateMethod),
-
+    FunctionDeclaration(FunctionDeclaration),
+    FunctionExpression(FunctionExpression),
+    ObjectMethod(ObjectMethod),
+    ArrowFunctionExpression(ArrowFunctionExpression),
+    ClassMethod(ClassMethod),
+    ClassPrivateMethod(ClassPrivateMethod),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum FunctionParent {
-
-    // TODO
-    // FunctionDeclaration(FunctionDeclaration),
-    // FunctionExpression(FunctionExpression),
-    // ObjectMethod(ObjectMethod),
-    // ArrowFunctionExpression(ArrowFunctionExpression),
-    // ClassMethod(ClassMethod),
-    // ClassPrivateMethod(ClassPrivateMethod),
-
+    FunctionDeclaration(FunctionDeclaration),
+    FunctionExpression(FunctionExpression),
+    ObjectMethod(ObjectMethod),
+    ArrowFunctionExpression(ArrowFunctionExpression),
+    ClassMethod(ClassMethod),
+    ClassPrivateMethod(ClassPrivateMethod),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum Pureish {
-
-    // TODO
-    // FunctionDeclaration(FunctionDeclaration),
-    // FunctionExpression(FunctionExpression),
-    // StringLiteral(StringLiteral),
-    // NumericLiteral(NumericLiteral),
-    // NullLiteral(NullLiteral),
-    // BooleanLiteral(BooleanLiteral),
-    // RegExpLiteral(RegExpLiteral),
-    // ArrowFunctionExpression(ArrowFunctionExpression),
-    // BigIntLiteral(BigIntLiteral),
-    // DecimalLiteral(DecimalLiteral),
-
+    FunctionDeclaration(FunctionDeclaration),
+    FunctionExpression(FunctionExpression),
+    StringLiteral(StringLiteral),
+    NumericLiteral(NumericLiteral),
+    NullLiteral(NullLiteral),
+    BooleanLiteral(BooleanLiteral),
+    RegExpLiteral(RegExpLiteral),
+    ArrowFunctionExpression(ArrowFunctionExpression),
+    BigIntLiteral(BigIntLiteral),
+    DecimalLiteral(DecimalLiteral),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum Declaration {
-
-    // TODO
-    // FunctionDeclaration(FunctionDeclaration),
-    // VariableDeclaration(VariableDeclaration),
-    // ClassDeclaration(ClassDeclaration),
-    // ExportAllDeclaration(ExportAllDeclaration),
-    // ExportDefaultDeclaration(ExportDefaultDeclaration),
-    // ExportNamedDeclaration(ExportNamedDeclaration),
-    // ImportDeclaration(ImportDeclaration),
-    // DeclareClass(DeclareClass),
-    // DeclareFunction(DeclareFunction),
-    // DeclareInterface(DeclareInterface),
-    // DeclareModule(DeclareModule),
-    // DeclareModuleExports(DeclareModuleExports),
-    // DeclareTypeAlias(DeclareTypeAlias),
-    // DeclareOpaqueType(DeclareOpaqueType),
-    // DeclareVariable(DeclareVariable),
-    // DeclareExportDeclaration(DeclareExportDeclaration),
-    // DeclareExportAllDeclaration(DeclareExportAllDeclaration),
-    // InterfaceDeclaration(InterfaceDeclaration),
-    // OpaqueType(OpaqueType),
-    // TypeAlias(TypeAlias),
-    // EnumDeclaration(EnumDeclaration),
-    // TSDeclareFunction(TSDeclareFunction),
-    // TSInterfaceDeclaration(TSInterfaceDeclaration),
-    // TSTypeAliasDeclaration(TSTypeAliasDeclaration),
-    // TSEnumDeclaration(TSEnumDeclaration),
-    // TSModuleDeclaration(TSModuleDeclaration),
-
+    FunctionDeclaration(FunctionDeclaration),
+    VariableDeclaration(VariableDeclaration),
+    ClassDeclaration(ClassDeclaration),
+    ExportAllDeclaration(ExportAllDeclaration),
+    ExportDefaultDeclaration(ExportDefaultDeclaration),
+    ExportNamedDeclaration(ExportNamedDeclaration),
+    ImportDeclaration(ImportDeclaration),
+    DeclareClass(DeclareClass),
+    DeclareFunction(DeclareFunction),
+    DeclareInterface(DeclareInterface),
+    DeclareModule(DeclareModule),
+    DeclareModuleExports(DeclareModuleExports),
+    DeclareTypeAlias(DeclareTypeAlias),
+    DeclareOpaqueType(DeclareOpaqueType),
+    DeclareVariable(DeclareVariable),
+    DeclareExportDeclaration(DeclareExportDeclaration),
+    DeclareExportAllDeclaration(DeclareExportAllDeclaration),
+    InterfaceDeclaration(InterfaceDeclaration),
+    OpaqueType(OpaqueType),
+    TypeAlias(TypeAlias),
+    EnumDeclaration(EnumDeclaration),
+    TSDeclareFunction(TSDeclareFunction),
+    TSInterfaceDeclaration(TSInterfaceDeclaration),
+    TSTypeAliasDeclaration(TSTypeAliasDeclaration),
+    TSEnumDeclaration(TSEnumDeclaration),
+    TSModuleDeclaration(TSModuleDeclaration),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum PatternLike {
-
-    // TODO
-    // Identifier(Identifier),
-    // RestElement(RestElement),
-    // AssignmentPattern(AssignmentPattern),
-    // ArrayPattern(ArrayPattern),
-    // ObjectPattern(ObjectPattern),
-
+    Identifier(Identifier),
+    RestElement(RestElement),
+    AssignmentPattern(AssignmentPattern),
+    ArrayPattern(ArrayPattern),
+    ObjectPattern(ObjectPattern),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum LVal {
-
-    // TODO
-    // Identifier(Identifier),
-    // MemberExpression(MemberExpression),
-    // RestElement(RestElement),
-    // AssignmentPattern(AssignmentPattern),
-    // ArrayPattern(ArrayPattern),
-    // ObjectPattern(ObjectPattern),
-    // TSParameterProperty(TSParameterProperty),
-
+    Identifier(Identifier),
+    MemberExpression(MemberExpression),
+    RestElement(RestElement),
+    AssignmentPattern(AssignmentPattern),
+    ArrayPattern(ArrayPattern),
+    ObjectPattern(ObjectPattern),
+    TSParameterProperty(TSParameterProperty),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum TSEntityName {
-
-    // TODO
-    // Identifier(Identifier),
-    // TSQualifiedName(TSQualifiedName),
-
+    Identifier(Identifier),
+    TSQualifiedName(TSQualifiedName),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum Literal {
-
-    // TODO
-    // StringLiteral(StringLiteral),
-    // NumericLiteral(NumericLiteral),
-    // NullLiteral(NullLiteral),
-    // BooleanLiteral(BooleanLiteral),
-    // RegExpLiteral(RegExpLiteral),
-    // TemplateLiteral(TemplateLiteral),
-    // BigIntLiteral(BigIntLiteral),
-    // DecimalLiteral(DecimalLiteral),;
-
+    StringLiteral(StringLiteral),
+    NumericLiteral(NumericLiteral),
+    NullLiteral(NullLiteral),
+    BooleanLiteral(BooleanLiteral),
+    RegExpLiteral(RegExpLiteral),
+    TemplateLiteral(TemplateLiteral),
+    BigIntLiteral(BigIntLiteral),
+    DecimalLiteral(DecimalLiteral),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum Immutable {
-
-    // TODO
-    // StringLiteral(StringLiteral),
-    // NumericLiteral(NumericLiteral),
-    // NullLiteral(NullLiteral),
-    // BooleanLiteral(BooleanLiteral),
-    // BigIntLiteral(BigIntLiteral),
-    // JSXAttribute(JSXAttribute),
-    // JSXClosingElement(JSXClosingElement),
-    // JSXElement(JSXElement),
-    // JSXExpressionContainer(JSXExpressionContainer),
-    // JSXSpreadChild(JSXSpreadChild),
-    // JSXOpeningElement(JSXOpeningElement),
-    // JSXText(JSXText),
-    // JSXFragment(JSXFragment),
-    // JSXOpeningFragment(JSXOpeningFragment),
-    // JSXClosingFragment(JSXClosingFragment),
-    // DecimalLiteral(DecimalLiteral),
-
+    StringLiteral(StringLiteral),
+    NumericLiteral(NumericLiteral),
+    NullLiteral(NullLiteral),
+    BooleanLiteral(BooleanLiteral),
+    BigIntLiteral(BigIntLiteral),
+    JSXAttribute(JSXAttribute),
+    JSXClosingElement(JSXClosingElement),
+    JSXElement(JSXElement),
+    JSXExpressionContainer(JSXExpressionContainer),
+    JSXSpreadChild(JSXSpreadChild),
+    JSXOpeningElement(JSXOpeningElement),
+    JSXText(JSXText),
+    JSXFragment(JSXFragment),
+    JSXOpeningFragment(JSXOpeningFragment),
+    JSXClosingFragment(JSXClosingFragment),
+    DecimalLiteral(DecimalLiteral),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum UserWhitespacable {
-
-    // TODO
-    // ObjectMethod(ObjectMethod),
-    // ObjectProperty(ObjectProperty),
-    // ObjectTypeInternalSlot(ObjectTypeInternalSlot),
-    // ObjectTypeCallProperty(ObjectTypeCallProperty),
-    // ObjectTypeIndexer(ObjectTypeIndexer),
-    // ObjectTypeProperty(ObjectTypeProperty),
-    // ObjectTypeSpreadProperty(ObjectTypeSpreadProperty),
-
+    ObjectMethod(ObjectMethod),
+    ObjectProperty(ObjectProperty),
+    ObjectTypeInternalSlot(ObjectTypeInternalSlot),
+    ObjectTypeCallProperty(ObjectTypeCallProperty),
+    ObjectTypeIndexer(ObjectTypeIndexer),
+    ObjectTypeProperty(ObjectTypeProperty),
+    ObjectTypeSpreadProperty(ObjectTypeSpreadProperty),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum Method {
-
-    // TODO
-    // ObjectMethod(ObjectMethod),
-    // ClassMethod(ClassMethod),
-    // ClassPrivateMethod(ClassPrivateMethod),
-
+    ObjectMethod(ObjectMethod),
+    ClassMethod(ClassMethod),
+    ClassPrivateMethod(ClassPrivateMethod),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum ObjectMember {
-
-    // TODO
-    // ObjectMethod(ObjectMethod),
-    // ObjectProperty(ObjectProperty),
-
+    ObjectMethod(ObjectMethod),
+    ObjectProperty(ObjectProperty),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum Property {
-
-    // TODO
-    // ObjectProperty(ObjectProperty),
-    // ClassProperty(ClassProperty),
-    // ClassPrivateProperty(ClassPrivateProperty),
-
+    ObjectProperty(ObjectProperty),
+    ClassProperty(ClassProperty),
+    ClassPrivateProperty(ClassPrivateProperty),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum UnaryLike {
-
-    // TODO
-    // UnaryExpression(UnaryExpression),
-    // SpreadElement(SpreadElement),
-
+    UnaryExpression(UnaryExpression),
+    SpreadElement(SpreadElement),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum Pattern {
-
-    // TODO
-    // AssignmentPattern(AssignmentPattern),
-    // ArrayPattern(ArrayPattern),
-    // ObjectPattern(ObjectPattern),
-
+    AssignmentPattern(AssignmentPattern),
+    ArrayPattern(ArrayPattern),
+    ObjectPattern(ObjectPattern),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum Class {
-
-    // TODO
-    // ClassExpression(ClassExpression),
-    // ClassDeclaration(ClassDeclaration),
-
+    ClassExpression(ClassExpression),
+    ClassDeclaration(ClassDeclaration),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum ModuleDeclaration {
-
-    // TODO
-    // ExportAllDeclaration(ExportAllDeclaration),
-    // ExportDefaultDeclaration(ExportDefaultDeclaration),
-    // ExportNamedDeclaration(ExportNamedDeclaration),
-    // ImportDeclaration(ImportDeclaration),
-
+    ExportAllDeclaration(ExportAllDeclaration),
+    ExportDefaultDeclaration(ExportDefaultDeclaration),
+    ExportNamedDeclaration(ExportNamedDeclaration),
+    ImportDeclaration(ImportDeclaration),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum ExportDeclaration {
-
-    // TODO
-    // ExportAllDeclaration(ExportAllDeclaration),
-    // ExportDefaultDeclaration(ExportDefaultDeclaration),
-    // ExportNamedDeclaration(ExportNamedDeclaration),;
-
+    ExportAllDeclaration(ExportAllDeclaration),
+    ExportDefaultDeclaration(ExportDefaultDeclaration),
+    ExportNamedDeclaration(ExportNamedDeclaration),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum ModuleSpecifier {
-
-    // TODO
-    // ExportSpecifier(ExportSpecifier),
-    // ImportDefaultSpecifier(ImportDefaultSpecifier),
-    // ImportNamespaceSpecifier(ImportNamespaceSpecifier),
-    // ImportSpecifier(ImportSpecifier),
-    // ExportNamespaceSpecifier(ExportNamespaceSpecifier),
-    // ExportDefaultSpecifier(ExportDefaultSpecifier),;
-
+    ExportSpecifier(ExportSpecifier),
+    ImportDefaultSpecifier(ImportDefaultSpecifier),
+    ImportNamespaceSpecifier(ImportNamespaceSpecifier),
+    ImportSpecifier(ImportSpecifier),
+    ExportNamespaceSpecifier(ExportNamespaceSpecifier),
+    ExportDefaultSpecifier(ExportDefaultSpecifier),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum Flow {
-
-    // TODO
-    // AnyTypeAnnotation(AnyTypeAnnotation),
-    // ArrayTypeAnnotation(ArrayTypeAnnotation),
-    // BooleanTypeAnnotation(BooleanTypeAnnotation),
-    // BooleanLiteralTypeAnnotation(BooleanLiteralTypeAnnotation),
-    // NullLiteralTypeAnnotation(NullLiteralTypeAnnotation),
-    // ClassImplements(ClassImplements),
-    // DeclareClass(DeclareClass),
-    // DeclareFunction(DeclareFunction),
-    // DeclareInterface(DeclareInterface),
-    // DeclareModule(DeclareModule),
-    // DeclareModuleExports(DeclareModuleExports),
-    // DeclareTypeAlias(DeclareTypeAlias),
-    // DeclareOpaqueType(DeclareOpaqueType),
-    // DeclareVariable(DeclareVariable),
-    // DeclareExportDeclaration(DeclareExportDeclaration),
-    // DeclareExportAllDeclaration(DeclareExportAllDeclaration),
-    // DeclaredPredicate(DeclaredPredicate),
-    // ExistsTypeAnnotation(ExistsTypeAnnotation),
-    // FunctionTypeAnnotation(FunctionTypeAnnotation),
-    // FunctionTypeParam(FunctionTypeParam),
-    // GenericTypeAnnotation(GenericTypeAnnotation),
-    // InferredPredicate(InferredPredicate),
-    // InterfaceExtends(InterfaceExtends),
-    // InterfaceDeclaration(InterfaceDeclaration),
-    // InterfaceTypeAnnotation(InterfaceTypeAnnotation),
-    // IntersectionTypeAnnotation(IntersectionTypeAnnotation),
-    // MixedTypeAnnotation(MixedTypeAnnotation),
-    // EmptyTypeAnnotation(EmptyTypeAnnotation),
-    // NullableTypeAnnotation(NullableTypeAnnotation),
-    // NumberLiteralTypeAnnotation(NumberLiteralTypeAnnotation),
-    // NumberTypeAnnotation(NumberTypeAnnotation),
-    // ObjectTypeAnnotation(ObjectTypeAnnotation),
-    // ObjectTypeInternalSlot(ObjectTypeInternalSlot),
-    // ObjectTypeCallProperty(ObjectTypeCallProperty),
-    // ObjectTypeIndexer(ObjectTypeIndexer),
-    // ObjectTypeProperty(ObjectTypeProperty),
-    // ObjectTypeSpreadProperty(ObjectTypeSpreadProperty),
-    // OpaqueType(OpaqueType),
-    // QualifiedTypeIdentifier(QualifiedTypeIdentifier),
-    // StringLiteralTypeAnnotation(StringLiteralTypeAnnotation),
-    // StringTypeAnnotation(StringTypeAnnotation),
-    // SymbolTypeAnnotation(SymbolTypeAnnotation),
-    // ThisTypeAnnotation(ThisTypeAnnotation),
-    // TupleTypeAnnotation(TupleTypeAnnotation),
-    // TypeofTypeAnnotation(TypeofTypeAnnotation),
-    // TypeAlias(TypeAlias),
-    // TypeAnnotation(TypeAnnotation),
-    // TypeCastExpression(TypeCastExpression),
-    // TypeParameter(TypeParameter),
-    // TypeParameterDeclaration(TypeParameterDeclaration),
-    // TypeParameterInstantiation(TypeParameterInstantiation),
-    // UnionTypeAnnotation(UnionTypeAnnotation),
-    // Variance(Variance),
-    // VoidTypeAnnotation(VoidTypeAnnotation),;
-
+    AnyTypeAnnotation(AnyTypeAnnotation),
+    ArrayTypeAnnotation(ArrayTypeAnnotation),
+    BooleanTypeAnnotation(BooleanTypeAnnotation),
+    BooleanLiteralTypeAnnotation(BooleanLiteralTypeAnnotation),
+    NullLiteralTypeAnnotation(NullLiteralTypeAnnotation),
+    ClassImplements(ClassImplements),
+    DeclareClass(DeclareClass),
+    DeclareFunction(DeclareFunction),
+    DeclareInterface(DeclareInterface),
+    DeclareModule(DeclareModule),
+    DeclareModuleExports(DeclareModuleExports),
+    DeclareTypeAlias(DeclareTypeAlias),
+    DeclareOpaqueType(DeclareOpaqueType),
+    DeclareVariable(DeclareVariable),
+    DeclareExportDeclaration(DeclareExportDeclaration),
+    DeclareExportAllDeclaration(DeclareExportAllDeclaration),
+    DeclaredPredicate(DeclaredPredicate),
+    ExistsTypeAnnotation(ExistsTypeAnnotation),
+    FunctionTypeAnnotation(FunctionTypeAnnotation),
+    FunctionTypeParam(FunctionTypeParam),
+    GenericTypeAnnotation(GenericTypeAnnotation),
+    InferredPredicate(InferredPredicate),
+    InterfaceExtends(InterfaceExtends),
+    InterfaceDeclaration(InterfaceDeclaration),
+    InterfaceTypeAnnotation(InterfaceTypeAnnotation),
+    IntersectionTypeAnnotation(IntersectionTypeAnnotation),
+    MixedTypeAnnotation(MixedTypeAnnotation),
+    EmptyTypeAnnotation(EmptyTypeAnnotation),
+    NullableTypeAnnotation(NullableTypeAnnotation),
+    NumberLiteralTypeAnnotation(NumberLiteralTypeAnnotation),
+    NumberTypeAnnotation(NumberTypeAnnotation),
+    ObjectTypeAnnotation(ObjectTypeAnnotation),
+    ObjectTypeInternalSlot(ObjectTypeInternalSlot),
+    ObjectTypeCallProperty(ObjectTypeCallProperty),
+    ObjectTypeIndexer(ObjectTypeIndexer),
+    ObjectTypeProperty(ObjectTypeProperty),
+    ObjectTypeSpreadProperty(ObjectTypeSpreadProperty),
+    OpaqueType(OpaqueType),
+    QualifiedTypeIdentifier(QualifiedTypeIdentifier),
+    StringLiteralTypeAnnotation(StringLiteralTypeAnnotation),
+    StringTypeAnnotation(StringTypeAnnotation),
+    SymbolTypeAnnotation(SymbolTypeAnnotation),
+    ThisTypeAnnotation(ThisTypeAnnotation),
+    TupleTypeAnnotation(TupleTypeAnnotation),
+    TypeofTypeAnnotation(TypeofTypeAnnotation),
+    TypeAlias(TypeAlias),
+    TypeAnnotation(TypeAnnotation),
+    TypeCastExpression(TypeCastExpression),
+    TypeParameter(TypeParameter),
+    TypeParameterDeclaration(TypeParameterDeclaration),
+    TypeParameterInstantiation(TypeParameterInstantiation),
+    UnionTypeAnnotation(UnionTypeAnnotation),
+    Variance(Variance),
+    VoidTypeAnnotation(VoidTypeAnnotation),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum FlowType {
-
-    // TODO
-    // AnyTypeAnnotation(AnyTypeAnnotation),
-    // ArrayTypeAnnotation(ArrayTypeAnnotation),
-    // BooleanTypeAnnotation(BooleanTypeAnnotation),
-    // BooleanLiteralTypeAnnotation(BooleanLiteralTypeAnnotation),
-    // NullLiteralTypeAnnotation(NullLiteralTypeAnnotation),
-    // ExistsTypeAnnotation(ExistsTypeAnnotation),
-    // FunctionTypeAnnotation(FunctionTypeAnnotation),
-    // GenericTypeAnnotation(GenericTypeAnnotation),
-    // InterfaceTypeAnnotation(InterfaceTypeAnnotation),
-    // IntersectionTypeAnnotation(IntersectionTypeAnnotation),
-    // MixedTypeAnnotation(MixedTypeAnnotation),
-    // EmptyTypeAnnotation(EmptyTypeAnnotation),
-    // NullableTypeAnnotation(NullableTypeAnnotation),
-    // NumberLiteralTypeAnnotation(NumberLiteralTypeAnnotation),
-    // NumberTypeAnnotation(NumberTypeAnnotation),
-    // ObjectTypeAnnotation(ObjectTypeAnnotation),
-    // StringLiteralTypeAnnotation(StringLiteralTypeAnnotation),
-    // StringTypeAnnotation(StringTypeAnnotation),
-    // SymbolTypeAnnotation(SymbolTypeAnnotation),
-    // ThisTypeAnnotation(ThisTypeAnnotation),
-    // TupleTypeAnnotation(TupleTypeAnnotation),
-    // TypeofTypeAnnotation(TypeofTypeAnnotation),
-    // UnionTypeAnnotation(UnionTypeAnnotation),
-    // VoidTypeAnnotation(VoidTypeAnnotation),;
-
+    AnyTypeAnnotation(AnyTypeAnnotation),
+    ArrayTypeAnnotation(ArrayTypeAnnotation),
+    BooleanTypeAnnotation(BooleanTypeAnnotation),
+    BooleanLiteralTypeAnnotation(BooleanLiteralTypeAnnotation),
+    NullLiteralTypeAnnotation(NullLiteralTypeAnnotation),
+    ExistsTypeAnnotation(ExistsTypeAnnotation),
+    FunctionTypeAnnotation(FunctionTypeAnnotation),
+    GenericTypeAnnotation(GenericTypeAnnotation),
+    InterfaceTypeAnnotation(InterfaceTypeAnnotation),
+    IntersectionTypeAnnotation(IntersectionTypeAnnotation),
+    MixedTypeAnnotation(MixedTypeAnnotation),
+    EmptyTypeAnnotation(EmptyTypeAnnotation),
+    NullableTypeAnnotation(NullableTypeAnnotation),
+    NumberLiteralTypeAnnotation(NumberLiteralTypeAnnotation),
+    NumberTypeAnnotation(NumberTypeAnnotation),
+    ObjectTypeAnnotation(ObjectTypeAnnotation),
+    StringLiteralTypeAnnotation(StringLiteralTypeAnnotation),
+    StringTypeAnnotation(StringTypeAnnotation),
+    SymbolTypeAnnotation(SymbolTypeAnnotation),
+    ThisTypeAnnotation(ThisTypeAnnotation),
+    TupleTypeAnnotation(TupleTypeAnnotation),
+    TypeofTypeAnnotation(TypeofTypeAnnotation),
+    UnionTypeAnnotation(UnionTypeAnnotation),
+    VoidTypeAnnotation(VoidTypeAnnotation),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum FlowBaseAnnotation {
-
-    // TODO
-    // AnyTypeAnnotation(AnyTypeAnnotation),
-    // BooleanTypeAnnotation(BooleanTypeAnnotation),
-    // NullLiteralTypeAnnotation(NullLiteralTypeAnnotation),
-    // MixedTypeAnnotation(MixedTypeAnnotation),
-    // EmptyTypeAnnotation(EmptyTypeAnnotation),
-    // NumberTypeAnnotation(NumberTypeAnnotation),
-    // StringTypeAnnotation(StringTypeAnnotation),
-    // SymbolTypeAnnotation(SymbolTypeAnnotation),
-    // ThisTypeAnnotation(ThisTypeAnnotation),
-    // VoidTypeAnnotation(VoidTypeAnnotation),;
-
+    AnyTypeAnnotation(AnyTypeAnnotation),
+    BooleanTypeAnnotation(BooleanTypeAnnotation),
+    NullLiteralTypeAnnotation(NullLiteralTypeAnnotation),
+    MixedTypeAnnotation(MixedTypeAnnotation),
+    EmptyTypeAnnotation(EmptyTypeAnnotation),
+    NumberTypeAnnotation(NumberTypeAnnotation),
+    StringTypeAnnotation(StringTypeAnnotation),
+    SymbolTypeAnnotation(SymbolTypeAnnotation),
+    ThisTypeAnnotation(ThisTypeAnnotation),
+    VoidTypeAnnotation(VoidTypeAnnotation),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum FlowDeclaration {
-
-    // TODO
-    // DeclareClass(DeclareClass),
-    // DeclareFunction(DeclareFunction),
-    // DeclareInterface(DeclareInterface),
-    // DeclareModule(DeclareModule),
-    // DeclareModuleExports(DeclareModuleExports),
-    // DeclareTypeAlias(DeclareTypeAlias),
-    // DeclareOpaqueType(DeclareOpaqueType),
-    // DeclareVariable(DeclareVariable),
-    // DeclareExportDeclaration(DeclareExportDeclaration),
-    // DeclareExportAllDeclaration(DeclareExportAllDeclaration),
-    // InterfaceDeclaration(InterfaceDeclaration),
-    // OpaqueType(OpaqueType),
-    // TypeAlias(TypeAlias),;
-
+    DeclareClass(DeclareClass),
+    DeclareFunction(DeclareFunction),
+    DeclareInterface(DeclareInterface),
+    DeclareModule(DeclareModule),
+    DeclareModuleExports(DeclareModuleExports),
+    DeclareTypeAlias(DeclareTypeAlias),
+    DeclareOpaqueType(DeclareOpaqueType),
+    DeclareVariable(DeclareVariable),
+    DeclareExportDeclaration(DeclareExportDeclaration),
+    DeclareExportAllDeclaration(DeclareExportAllDeclaration),
+    InterfaceDeclaration(InterfaceDeclaration),
+    OpaqueType(OpaqueType),
+    TypeAlias(TypeAlias),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum FlowPredicate {
-
-    // TODO
-    // DeclaredPredicate(DeclaredPredicate),
-    // InferredPredicate(InferredPredicate),
-
+    DeclaredPredicate(DeclaredPredicate),
+    InferredPredicate(InferredPredicate),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum EnumBody {
-
-    // TODO
-    // EnumBooleanBody(EnumBooleanBody),
-    // EnumNumberBody(EnumNumberBody),
-    // EnumStringBody(EnumStringBody),
-    // EnumSymbolBody(EnumSymbolBody),;
-
+    EnumBooleanBody(EnumBooleanBody),
+    EnumNumberBody(EnumNumberBody),
+    EnumStringBody(EnumStringBody),
+    EnumSymbolBody(EnumSymbolBody),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum EnumMember {
-
-    // TODO
-    // EnumBooleanMember(EnumBooleanMember),
-    // EnumNumberMember(EnumNumberMember),
-    // EnumStringMember(EnumStringMember),
-    // EnumDefaultedMember(EnumDefaultedMember),;
-
+    EnumBooleanMember(EnumBooleanMember),
+    EnumNumberMember(EnumNumberMember),
+    EnumStringMember(EnumStringMember),
+    EnumDefaultedMember(EnumDefaultedMember),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum JSX {
-
-    // TODO
-    // JSXAttribute(JSXAttribute),
-    // JSXClosingElement(JSXClosingElement),
-    // JSXElement(JSXElement),
-    // JSXEmptyExpression(JSXEmptyExpression),
-    // JSXExpressionContainer(JSXExpressionContainer),
-    // JSXSpreadChild(JSXSpreadChild),
-    // JSXIdentifier(JSXIdentifier),
-    // JSXMemberExpression(JSXMemberExpression),
-    // JSXNamespacedName(JSXNamespacedName),
-    // JSXOpeningElement(JSXOpeningElement),
-    // JSXSpreadAttribute(JSXSpreadAttribute),
-    // JSXText(JSXText),
-    // JSXFragment(JSXFragment),
-    // JSXOpeningFragment(JSXOpeningFragment),
-    // JSXClosingFragment(JSXClosingFragment),;
-
+    JSXAttribute(JSXAttribute),
+    JSXClosingElement(JSXClosingElement),
+    JSXElement(JSXElement),
+    JSXEmptyExpression(JSXEmptyExpression),
+    JSXExpressionContainer(JSXExpressionContainer),
+    JSXSpreadChild(JSXSpreadChild),
+    JSXIdentifier(JSXIdentifier),
+    JSXMemberExpression(JSXMemberExpression),
+    JSXNamespacedName(JSXNamespacedName),
+    JSXOpeningElement(JSXOpeningElement),
+    JSXSpreadAttribute(JSXSpreadAttribute),
+    JSXText(JSXText),
+    JSXFragment(JSXFragment),
+    JSXOpeningFragment(JSXOpeningFragment),
+    JSXClosingFragment(JSXClosingFragment),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum Private {
-
-    // TODO
-    // ClassPrivateProperty(ClassPrivateProperty),
-    // ClassPrivateMethod(ClassPrivateMethod),
-    // PrivateName(PrivateName),
-
+    ClassPrivateProperty(ClassPrivateProperty),
+    ClassPrivateMethod(ClassPrivateMethod),
+    PrivateName(PrivateName),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum TSTypeElement {
-
-    // TODO
-    // TSCallSignatureDeclaration(TSCallSignatureDeclaration),
-    // TSConstructSignatureDeclaration(TSConstructSignatureDeclaration),
-    // TSPropertySignature(TSPropertySignature),
-    // TSMethodSignature(TSMethodSignature),
-    // TSIndexSignature(TSIndexSignature),;
-
+    TSCallSignatureDeclaration(TSCallSignatureDeclaration),
+    TSConstructSignatureDeclaration(TSConstructSignatureDeclaration),
+    TSPropertySignature(TSPropertySignature),
+    TSMethodSignature(TSMethodSignature),
+    TSIndexSignature(TSIndexSignature),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum TSType {
-
-    // TODO
-    // TSAnyKeyword(TSAnyKeyword),
-    // TSBooleanKeyword(TSBooleanKeyword),
-    // TSBigIntKeyword(TSBigIntKeyword),
-    // TSIntrinsicKeyword(TSIntrinsicKeyword),
-    // TSNeverKeyword(TSNeverKeyword),
-    // TSNullKeyword(TSNullKeyword),
-    // TSNumberKeyword(TSNumberKeyword),
-    // TSObjectKeyword(TSObjectKeyword),
-    // TSStringKeyword(TSStringKeyword),
-    // TSSymbolKeyword(TSSymbolKeyword),
-    // TSUndefinedKeyword(TSUndefinedKeyword),
-    // TSUnknownKeyword(TSUnknownKeyword),
-    // TSVoidKeyword(TSVoidKeyword),
-    // TSThisType(TSThisType),
-    // TSFunctionType(TSFunctionType),
-    // TSConstructorType(TSConstructorType),
-    // TSTypeReference(TSTypeReference),
-    // TSTypePredicate(TSTypePredicate),
-    // TSTypeQuery(TSTypeQuery),
-    // TSTypeLiteral(TSTypeLiteral),
-    // TSArrayType(TSArrayType),
-    // TSTupleType(TSTupleType),
-    // TSOptionalType(TSOptionalType),
-    // TSRestType(TSRestType),
-    // TSUnionType(TSUnionType),
-    // TSIntersectionType(TSIntersectionType),
-    // TSConditionalType(TSConditionalType),
-    // TSInferType(TSInferType),
-    // TSParenthesizedType(TSParenthesizedType),
-    // TSTypeOperator(TSTypeOperator),
-    // TSIndexedAccessType(TSIndexedAccessType),
-    // TSMappedType(TSMappedType),
-    // TSLiteralType(TSLiteralType),
-    // TSExpressionWithTypeArguments(TSExpressionWithTypeArguments),
-    // TSImportType(TSImportType),;
-
+    TSAnyKeyword(TSAnyKeyword),
+    TSBooleanKeyword(TSBooleanKeyword),
+    TSBigIntKeyword(TSBigIntKeyword),
+    TSIntrinsicKeyword(TSIntrinsicKeyword),
+    TSNeverKeyword(TSNeverKeyword),
+    TSNullKeyword(TSNullKeyword),
+    TSNumberKeyword(TSNumberKeyword),
+    TSObjectKeyword(TSObjectKeyword),
+    TSStringKeyword(TSStringKeyword),
+    TSSymbolKeyword(TSSymbolKeyword),
+    TSUndefinedKeyword(TSUndefinedKeyword),
+    TSUnknownKeyword(TSUnknownKeyword),
+    TSVoidKeyword(TSVoidKeyword),
+    TSThisType(TSThisType),
+    TSFunctionType(TSFunctionType),
+    TSConstructorType(TSConstructorType),
+    TSTypeReference(TSTypeReference),
+    TSTypePredicate(TSTypePredicate),
+    TSTypeQuery(TSTypeQuery),
+    TSTypeLiteral(TSTypeLiteral),
+    TSArrayType(TSArrayType),
+    TSTupleType(TSTupleType),
+    TSOptionalType(TSOptionalType),
+    TSRestType(TSRestType),
+    TSUnionType(TSUnionType),
+    TSIntersectionType(TSIntersectionType),
+    TSConditionalType(TSConditionalType),
+    TSInferType(TSInferType),
+    TSParenthesizedType(TSParenthesizedType),
+    TSTypeOperator(TSTypeOperator),
+    TSIndexedAccessType(TSIndexedAccessType),
+    TSMappedType(TSMappedType),
+    TSLiteralType(TSLiteralType),
+    TSExpressionWithTypeArguments(TSExpressionWithTypeArguments),
+    TSImportType(TSImportType),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum TSBaseType {
-
-    // TSAnyKeyword(TSAnyKeyword),
-    // TSBooleanKeyword(TSBooleanKeyword),
-    // TSBigIntKeyword(TSBigIntKeyword),
-    // TSIntrinsicKeyword(TSIntrinsicKeyword),
-    // TSNeverKeyword(TSNeverKeyword),
-    // TSNullKeyword(TSNullKeyword),
-    // TSNumberKeyword(TSNumberKeyword),
-    // TSObjectKeyword(TSObjectKeyword),
-    // TSStringKeyword(TSStringKeyword),
-    // TSSymbolKeyword(TSSymbolKeyword),
-    // TSUndefinedKeyword(TSUndefinedKeyword),
-    // TSUnknownKeyword(TSUnknownKeyword),
-    // TSVoidKeyword(TSVoidKeyword),
-    // TSThisType(TSThisType),
-    // TSLiteralType(TSLiteralType),;
-
+    TSAnyKeyword(TSAnyKeyword),
+    TSBooleanKeyword(TSBooleanKeyword),
+    TSBigIntKeyword(TSBigIntKeyword),
+    TSIntrinsicKeyword(TSIntrinsicKeyword),
+    TSNeverKeyword(TSNeverKeyword),
+    TSNullKeyword(TSNullKeyword),
+    TSNumberKeyword(TSNumberKeyword),
+    TSObjectKeyword(TSObjectKeyword),
+    TSStringKeyword(TSStringKeyword),
+    TSSymbolKeyword(TSSymbolKeyword),
+    TSUndefinedKeyword(TSUndefinedKeyword),
+    TSUnknownKeyword(TSUnknownKeyword),
+    TSVoidKeyword(TSVoidKeyword),
+    TSThisType(TSThisType),
+    TSLiteralType(TSLiteralType),
 }
 
