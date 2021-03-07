@@ -814,21 +814,21 @@ test!(
     r#"
     var _s = $RefreshSig$(), _s1 = $RefreshSig$();
 
-    export const A = React.memo(_c1 = React.forwardRef(_c = _s((props, ref) => {
+    export const A = _s(React.memo(_c1 = _s(React.forwardRef(_c = _s((props, ref) => {
       _s();
-
+    
       const [foo, setFoo] = useState(0);
       React.useEffect(() => {});
       return <h1 ref={ref}>{foo}</h1>;
-    }, "useState{[foo, setFoo](0)}\nuseEffect{}")));
+    }, "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}");
     _c2 = A;
-    export const B = React.memo(_c4 = React.forwardRef(_c3 = _s1(function (props, ref) {
+    export const B = _s1(React.memo(_c4 = _s1(React.forwardRef(_c3 = _s1(function (props, ref) {
       _s1();
-
+    
       const [foo, setFoo] = useState(0);
       React.useEffect(() => {});
       return <h1 ref={ref}>{foo}</h1>;
-    }, "useState{[foo, setFoo](0)}\nuseEffect{}")));
+    }, "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}");
     _c5 = B;
 
     function hoc() {
@@ -938,11 +938,11 @@ test!(
     _s3(Bar, "useContext{}");
 
     _c1 = Bar;
-    const Baz = memo(_c2 = _s4(() => {
+    const Baz = _s4(memo(_c2 = _s4(() => {
       _s4();
 
       return useContext(X);
-    }, "useContext{}"));
+    }, "useContext{}")), "useContext{}");
     _c3 = Baz;
 
     const Qux = () => {
@@ -1149,7 +1149,7 @@ test!(
         ..Default::default()
     }),
     tr,
-    donot_consider_require_as_hoc,
+    dont_consider_require_as_hoc,
     r#"
     const A = require('A');
     const B = foo ? require('X') : require('Y');
@@ -1240,5 +1240,32 @@ test!(
 
     $RefreshReg$(_c, "Foo");
     $RefreshReg$(_c1, "Bar");
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    tr,
+    dont_consider_iife_as_hoc,
+    r#"
+    while (item) {
+      (item => {
+        useFoo();
+      })(item);
+    }
+"#,
+    r#"
+    while (item) {
+      var _s = $RefreshSig$();
+    
+      _s(item => {
+        _s();
+    
+        useFoo();
+      }, "useFoo{}", true)(item);
+    }
 "#
 );

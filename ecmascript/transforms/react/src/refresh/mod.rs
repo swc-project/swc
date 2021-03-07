@@ -1,9 +1,11 @@
 use std::collections::{HashMap, HashSet};
 use std::mem;
 
+use base64;
 use indexmap::IndexSet;
 use once_cell::sync::Lazy;
 use regex::Regex;
+use sha1::{Digest, Sha1};
 
 use swc_atoms::JsWord;
 use swc_common::BytePos;
@@ -27,6 +29,13 @@ mod tests;
 struct Hoc {
     insert: bool,
     reg: Vec<(Ident, String)>,
+    // use to register hook for all level of HOC, first is hook register ident
+    // rest is hook register call args
+    hook: Option<HocHook>,
+}
+struct HocHook {
+    ident: ExprOrSuper,
+    args: Vec<ExprOrSpread>,
 }
 enum Persist {
     Hoc(Hoc),
@@ -292,7 +301,9 @@ impl<C: Comments> Refresh<C> {
         let sign = if self.emit_full_signatures {
             sign
         } else {
-            sign
+            let mut hasher = Sha1::new();
+            hasher.update(sign);
+            base64::encode(hasher.finalize())
         };
 
         args.push(Expr::Lit(Lit::Str(Str {
@@ -421,10 +432,15 @@ impl<C: Comments> Refresh<C> {
         // so we should just ignore hook register
         ignore: &HashSet<Ident>,
     ) -> Persist {
-        if callee_should_ignore(ignore, &call_expr.callee).is_some() {
+        if let Some(ident) = callee_should_ignore(ignore, &call_expr.callee) {
             // there's at least one item in reg
             return if reg.len() > 1 {
-                Persist::Hoc(Hoc { reg, insert: true })
+                let args = call_expr.args[1..].to_vec();
+                Persist::Hoc(Hoc {
+                    reg,
+                    insert: true,
+                    hook: Some(HocHook { ident, args }),
+                })
             } else {
                 Persist::None
             };
@@ -453,6 +469,22 @@ impl<C: Comments> Refresh<C> {
                     self.get_persistent_id_from_possible_hoc(expr, reg, ignore)
                 {
                     *first_arg = Box::new(make_assign_stmt(reg_ident.clone(), first_arg.take()));
+                    if let Some(hook) = &hoc.hook {
+                        let span = call_expr.span;
+                        let first = ExprOrSpread {
+                            spread: None,
+                            expr: Box::new(Expr::Call(call_expr.take())),
+                        };
+                        let mut args = vec![first];
+                        args.extend(hook.args.clone());
+                        *call_expr = CallExpr {
+                            span,
+                            callee: hook.ident.clone(),
+                            args,
+                            type_args: None,
+                        };
+                    }
+
                     Persist::Hoc(hoc)
                 } else {
                     return Persist::None;
@@ -462,11 +494,19 @@ impl<C: Comments> Refresh<C> {
                 let reg_ident = private_ident!("_c");
                 *first_arg = Box::new(make_assign_stmt(reg_ident.clone(), first_arg.take()));
                 reg.push((reg_ident, reg_str));
-                Persist::Hoc(Hoc { reg, insert: true })
+                Persist::Hoc(Hoc {
+                    reg,
+                    insert: true,
+                    hook: None,
+                })
             }
             Expr::Ident(ident) => {
                 if let Persist::Component(_) = get_persistent_id(ident) {
-                    Persist::Hoc(Hoc { reg, insert: true })
+                    Persist::Hoc(Hoc {
+                        reg,
+                        insert: true,
+                        hook: None,
+                    })
                 } else {
                     Persist::None
                 }
@@ -594,7 +634,7 @@ impl<C: Comments> Fold for Refresh<C> {
             .map(|decl| match decl {
                 VarDeclarator {
                     span,
-                    // it doesn't quite make sense for other Pt to appear here
+                    // it doesn't quite make sense for other Pat to appear here
                     name: Pat::Ident(BindingIdent { id, type_ann }),
                     init: Some(init),
                     definite,
@@ -820,7 +860,7 @@ impl<C: Comments> Fold for Refresh<C> {
                     span,
                 })) => {
                     if let Expr::Call(call) = expr.as_mut() {
-                        if let Persist::Hoc(Hoc { reg: regs, .. }) = self
+                        if let Persist::Hoc(Hoc { reg, .. }) = self
                             .get_persistent_id_from_possible_hoc(
                                 call,
                                 vec![((private_ident!("_c"), "%default%".to_string()))],
@@ -829,16 +869,14 @@ impl<C: Comments> Fold for Refresh<C> {
                         {
                             item = ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
                                 ExportDefaultExpr {
-                                    expr: Box::new(make_assign_stmt(
-                                        regs[0].0.clone(),
-                                        expr.take(),
-                                    )),
+                                    expr: Box::new(make_assign_stmt(reg[0].0.clone(), expr.take())),
                                     span: span.clone(),
                                 },
                             ));
                             Persist::Hoc(Hoc {
                                 insert: false,
-                                reg: regs,
+                                reg,
+                                hook: None,
                             })
                         } else {
                             Persist::None
