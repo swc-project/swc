@@ -1,0 +1,79 @@
+use serde::{Serialize, Deserialize};
+
+use crate::ast::{
+    common::{BaseNode, Identifier, Decorator, Param, PatternLike, TypeAnnotOrNoop, TypeParamDeclOrNoop},
+    expr::{Expression},
+    lit::{StringLiteral, NumericLiteral},
+    stmt::{BlockStatement},
+};
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum ObjectKind {
+    Method,
+    Get,
+    Set,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum ObjectKey {
+    #[serde(rename = "Expression")]
+    Expr(Expression),
+    #[serde(rename = "Identifier")]
+    Id(Identifier),
+    #[serde(rename = "StringLiteral")]
+    String(StringLiteral),
+    #[serde(rename = "NumericLiteral")]
+    Numeric(NumericLiteral),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct ObjectMethod {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub kind: ObjectKind,
+    pub key: ObjectKey,
+    #[serde(default)]
+    pub params: Vec<Param>,
+    pub body: BlockStatement,
+    #[serde(default)]
+    pub computed: bool,
+    #[serde(default)]
+    pub generator: Option<bool>,
+    #[serde(default, rename = "async")]
+    pub is_async: Option<bool>,
+    #[serde(default)]
+    pub decorator: Option<Vec<Decorator>>,
+    #[serde(default)]
+    pub return_type: Option<TypeAnnotOrNoop>,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParamDeclOrNoop>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum ObjectPropVal {
+    #[serde(rename = "Expression")]
+    Expr(Expression),
+    #[serde(rename = "PatternLike")]
+    Pattern(PatternLike),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct ObjectProperty {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub key: ObjectKey,
+    pub value: ObjectPropVal,
+    #[serde(default)]
+    pub computed: bool,
+    #[serde(default)]
+    pub shorthand: bool,
+    #[serde(default)]
+    pub decorators: Option<Vec<Decorator>>,
+}
+
