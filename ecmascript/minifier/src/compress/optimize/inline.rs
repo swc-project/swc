@@ -126,7 +126,7 @@ impl Optimizer<'_> {
                             }) => return,
                             _ => {}
                         }
-                        match &*init {
+                        match &**init {
                             Expr::Lit(Lit::Regex(..)) => return,
                             _ => {}
                         }
