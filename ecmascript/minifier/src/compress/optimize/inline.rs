@@ -126,6 +126,10 @@ impl Optimizer<'_> {
                             }) => return,
                             _ => {}
                         }
+                        match &*init {
+                            Expr::Lit(Lit::Regex(..)) => return,
+                            _ => {}
+                        }
                         if init.may_have_side_effects() {
                             // TODO: Inline partially
                             return;
