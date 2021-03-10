@@ -69,6 +69,7 @@ template_string/template_evaluate_undefined/input.js
 template_string/template_literal_plus/input.js
 template_string/template_literal_plus_grouping/input.js
 template_string/template_string_with_predefined_constants/input.js
+typeof/duplicate_lambda_arg_name/input.js
 typeof/issue_2728_3/input.js
 typeof/issue_2728_4/input.js
 typeof/typeof_defun_1/input.js
