@@ -39,6 +39,7 @@ reduce_vars/unsafe_evaluate_array_2/input.js
 reduce_vars/unsafe_evaluate_array_4/input.js
 reduce_vars/var_assign_1/input.js
 reduce_vars/var_assign_2/input.js
+rename/function_iife_catch/input.js
 rename/mangle_catch_var_ie8_toplevel/input.js
 rename/mangle_catch_var_toplevel/input.js
 return_undefined/return_undefined/input.js
