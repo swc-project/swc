@@ -15,6 +15,7 @@ Cargo.lock
 
 .vscode/*
 !.vscode/settings.json
+*.swp
 
 /.idea
 *.iml
