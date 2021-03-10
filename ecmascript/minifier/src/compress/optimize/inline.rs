@@ -233,9 +233,6 @@ impl Optimizer<'_> {
             }
             _ => return,
         };
-        if i.sym == *"arguments" {
-            return;
-        }
 
         // Respect `top_retain`
         if self.ctx.in_top_level() && self.options.top_retain.contains(&i.sym) {
@@ -253,31 +250,35 @@ impl Optimizer<'_> {
 
             // Inline very simple functions.
             match decl {
-                Decl::Fn(f) if self.options.inline >= 2 => match &f.function.body {
-                    Some(body) => {
-                        if self.is_fn_body_simple_enough_to_inline(body) {
-                            log::trace!(
-                                "inline: Decided to inline function '{}{:?}' as it's very simple",
-                                f.ident.sym,
-                                f.ident.span.ctxt
-                            );
-                            self.lits.insert(
-                                i.to_id(),
-                                match decl {
-                                    Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
-                                        ident: Some(f.ident.clone()),
-                                        function: f.function.clone(),
-                                    })),
-                                    _ => {
-                                        unreachable!()
-                                    }
-                                },
-                            );
-                            return;
+                Decl::Fn(f) if self.options.inline >= 2 && f.ident.sym != *"arguments" => {
+                    match &f.function.body {
+                        Some(body) => {
+                            if self.is_fn_body_simple_enough_to_inline(body) {
+                                log::trace!(
+                                    "inline: Decided to inline function '{}{:?}' as it's very \
+                                     simple",
+                                    f.ident.sym,
+                                    f.ident.span.ctxt
+                                );
+
+                                self.lits.insert(
+                                    i.to_id(),
+                                    match decl {
+                                        Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
+                                            ident: Some(f.ident.clone()),
+                                            function: f.function.clone(),
+                                        })),
+                                        _ => {
+                                            unreachable!()
+                                        }
+                                    },
+                                );
+                                return;
+                            }
                         }
+                        None => {}
                     }
-                    None => {}
-                },
+                }
                 _ => {}
             }
 
