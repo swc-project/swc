@@ -233,6 +233,9 @@ impl Optimizer<'_> {
             }
             _ => return,
         };
+        if i.sym == *"arguments" {
+            return;
+        }
 
         // Respect `top_retain`
         if self.ctx.in_top_level() && self.options.top_retain.contains(&i.sym) {
