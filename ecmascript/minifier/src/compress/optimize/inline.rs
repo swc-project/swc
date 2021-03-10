@@ -322,22 +322,27 @@ impl Optimizer<'_> {
                     }
                     _ => {}
                 }
-                self.vars_for_inlining.insert(
-                    i.to_id(),
-                    match decl.take() {
-                        Decl::Class(c) => Box::new(Expr::Class(ClassExpr {
-                            ident: Some(c.ident),
-                            class: c.class,
-                        })),
-                        Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
-                            ident: Some(f.ident),
-                            function: f.function,
-                        })),
-                        _ => {
-                            unreachable!()
-                        }
-                    },
-                );
+                match decl.take() {
+                    Decl::Class(c) => {
+                        self.vars_for_inlining.insert(
+                            c.ident.to_id(),
+                            Box::new(Expr::Class(ClassExpr {
+                                ident: Some(c.ident),
+                                class: c.class,
+                            })),
+                        );
+                    }
+                    Decl::Fn(f) if f.ident.sym != *"arguments" => {
+                        self.vars_for_inlining.insert(
+                            f.ident.to_id(),
+                            Box::new(Expr::Fn(FnExpr {
+                                ident: Some(f.ident),
+                                function: f.function,
+                            })),
+                        );
+                    }
+                    _ => {}
+                }
                 return;
             }
         }
