@@ -955,6 +955,7 @@ regexp/regexp_simple/input.js
 regexp/regexp_slashes/input.js
 rename/function_catch_catch/input.js
 rename/function_catch_catch_ie8/input.js
+rename/function_iife_catch/input.js
 rename/issue_2120_2/input.js
 rename/mangle_catch_ie8/input.js
 rename/mangle_catch_redef_1/input.js
