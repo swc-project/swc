@@ -1,9 +1,9 @@
 use serde::{Serialize, Deserialize};
 
 use crate::ast::{
-    class::{ClassBody, ClassImpl, InterfaceExtends, Super},
+    class::{ClassBody, ClassImpl, Super},
     common::{BaseNode, SpreadElement, LVal, Identifier, PrivateName, MetaProperty, Arg, Callee, Param, Decorator, TypeAnnotOrNoop, TypeParamDeclOrNoop, SuperTypeParams},
-    flow::{TypeParameterInstantiation, TypeParameterDeclaration, TypeAnnotation},
+    flow::{TypeParameterInstantiation, TypeParameterDeclaration, TypeAnnotation, InterfaceExtends},
     jsx::{JSXElement, JSXFragment},
     lit::{StringLiteral, NumericLiteral, NullLiteral, BooleanLiteral, RegExpLiteral, TemplateLiteral, BigIntLiteral, DecimalLiteral},
     module::{Import, Program},
