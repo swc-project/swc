@@ -2,9 +2,9 @@ use serde::{Serialize, Deserialize};
 use serde_json::Value;
 
 use crate::ast::{
-    common::{BaseNode, Identifier, IdOrQualifiedId, Access, Param, Decorator, PrivateName, TypeAnnotOrNoop, TypeParamDeclOrNoop},
+    common::{BaseNode, Identifier, Access, Param, Decorator, PrivateName, TypeAnnotOrNoop, TypeParamDeclOrNoop, SuperTypeParams},
     expr::{Expression},
-    flow::{TypeParameterInstantiation},
+    flow::{ClassImplements, InterfaceExtends},
     object::{ObjectKey},
     stmt::{BlockStatement},
     typescript::{TSDeclareMethod, TSIndexSignature, TSExpressionWithTypeArguments},
@@ -166,17 +166,6 @@ pub struct ClassBody {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
-pub struct ClassImplements {
-    #[serde(flatten)]
-    pub base: BaseNode,
-    pub id: Identifier,
-    #[serde(default)]
-    pub type_parameters: Option<TypeParameterInstantiation>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
 pub enum ClassImpl {
     #[serde(rename = "TSExpressionWithTypeArguments")]
@@ -186,19 +175,35 @@ pub enum ClassImpl {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
-pub struct InterfaceExtends {
-    #[serde(flatten)]
-    pub base: BaseNode,
-    pub id: IdOrQualifiedId,
-    #[serde(default)]
-    pub type_parameters: Option<TypeParameterInstantiation>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
 pub struct Super {
     #[serde(flatten)]
     pub base: BaseNode,
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub struct ClassDeclaration {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub id: Identifier,
+    #[serde(default)]
+    pub super_class: Option<Expression>,
+    pub body: ClassBody,
+    #[serde(default)]
+    pub decorators: Option<Vec<Decorator>>,
+    #[serde(default, rename = "abstract")]
+    pub is_abstract: Option<bool>,
+    #[serde(default)]
+    pub declare: Option<bool>,
+    #[serde(default)]
+    pub implements: Option<ClassImpl>,
+    #[serde(default)]
+    pub mixins: Option<InterfaceExtends>,
+    #[serde(default)]
+    pub super_type_parameters: Option<SuperTypeParams>,
+    #[serde(default)]
+    pub type_parameters: Option<TypeParamDeclOrNoop>,
+}
+
