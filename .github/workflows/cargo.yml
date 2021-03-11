@@ -98,6 +98,11 @@ jobs:
         with:
           node-version: 14
 
+      - name: Handle line endings
+        shell: bash
+        run: |
+          git config --global core.eol lf
+
       - name: Checkout submodules
         shell: bash
         run: |
