@@ -37,7 +37,7 @@ jobs:
 
   test:
     name: test
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-18.04, macos-10.15, windows-2019]
     strategy:
       fail-fast: false
       matrix:
