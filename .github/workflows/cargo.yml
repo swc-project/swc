@@ -115,6 +115,7 @@ jobs:
           npm config set prefix ~/npm
           npm i browserslist regenerator-runtime sourcemap-validator progress
           npm i -g jest
+          echo $HOME/npm/bin >> $GITHUB_PATH
 
       - name: Cache
         uses: actions/cache@v2
@@ -126,7 +127,6 @@ jobs:
 
       - name: Run cargo test
         run: |
-          export PATH="$PATH:$HOME/npm/bin"
           cargo test --color always -p ${{ matrix.crate }}
 
   # We use travis for rustdocs
