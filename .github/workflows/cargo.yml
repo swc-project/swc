@@ -42,7 +42,7 @@ jobs:
       - name: Run cargo check for all targets
         run: cargo check --color always --all --all-targets
   test:
-    name: test
+    name: Test
     needs:
       - check
     runs-on: ${{ matrix.os }}
