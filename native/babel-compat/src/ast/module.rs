@@ -2,7 +2,7 @@ use serde::{Serialize, Deserialize};
 
 use crate::ast::{
     class::{ClassDeclaration},
-    common::{BaseNode, Identifier, IdOrString},
+    common::{BaseNode, Identifier, IdOrString, Directive},
     decl::{Declaration, FunctionDeclaration},
     expr::{Expression},
     lit::{StringLiteral},
@@ -12,28 +12,52 @@ use crate::ast::{
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
+pub enum ModuleDeclaration {
+    #[serde(rename = "ExportAllDeclaration")]
+    ExportAll(ExportAllDeclaration),
+    #[serde(rename = "ExportDefaultDeclaration")]
+    ExportDefault(ExportDefaultDeclaration),
+    #[serde(rename = "ExportNamedDeclaration")]
+    ExportNamed(ExportNamedDeclaration),
+    #[serde(rename = "ImportDeclaration")]
+    Import(ImportDeclaration),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum ExportDeclaration {
+    #[serde(rename = "ExportAllDeclaration")]
+    ExportAll(ExportAllDeclaration),
+    #[serde(rename = "ExportDefaultDeclaration")]
+    ExportDefault(ExportDefaultDeclaration),
+    #[serde(rename = "ExportNamedDeclaration")]
+    ExportNamed(ExportNamedDeclaration),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum ModuleSpecifier {
+    #[serde(rename = "ExportSpecifier")]
+    Export(ExportSpecifier),
+    #[serde(rename = "ImportDefaultSpecifier")]
+    ImportDefault(ImportDefaultSpecifier),
+    #[serde(rename = "ImportNamespaceSpecifier")]
+    ImportNamespace(ImportNamespaceSpecifier),
+    #[serde(rename = "ImportSpecifier")]
+    Import(ImportSpecifier),
+    #[serde(rename = "ExportNamespaceSpecifier")]
+    ExportNamespace(ExportNamespaceSpecifier),
+    #[serde(rename = "ExportDefaultSpecifier")]
+    ExportDefault(ExportDefaultSpecifier),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub struct InterpreterDirective {
     #[serde(flatten)]
     pub base: BaseNode,
     #[serde(default)]
     pub value: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
-pub struct DirectiveLiteral {
-    #[serde(flatten)]
-    pub base: BaseNode,
-    #[serde(default)]
-    pub value: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
-pub struct Directive {
-    #[serde(flatten)]
-    pub base: BaseNode,
-    pub value: DirectiveLiteral,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

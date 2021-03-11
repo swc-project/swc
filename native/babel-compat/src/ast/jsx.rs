@@ -10,6 +10,41 @@ use crate::ast::{
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
+pub enum JSX {
+    #[serde(rename = "JSXAttribute")]
+    Attr(JSXAttribute),
+    #[serde(rename = "JSXClosingElement")]
+    ClosingEl(JSXClosingElement),
+    #[serde(rename = "JSXElement")]
+    El(JSXElement),
+    #[serde(rename = "JSXEmptyExpression")]
+    EmptyExpr(JSXEmptyExpression),
+    #[serde(rename = "JSXExpressionContainer")]
+    ExprContainer(JSXExpressionContainer),
+    #[serde(rename = "JSXSpreadChild")]
+    SpreadChild(JSXSpreadChild),
+    #[serde(rename = "JSXIdentifier")]
+    Id(JSXIdentifier),
+    #[serde(rename = "JSXMemberExpression")]
+    MemberExpr(JSXMemberExpression),
+    #[serde(rename = "JSXNamespacedName")]
+    NamespacedName(JSXNamespacedName),
+    #[serde(rename = "JSXOpeningElement")]
+    OpeningEl(JSXOpeningElement),
+    #[serde(rename = "JSXSpreadAttribute")]
+    SpreadAttr(JSXSpreadAttribute),
+    #[serde(rename = "JSXText")]
+    Text(JSXText),
+    #[serde(rename = "JSXFragment")]
+    Fragment(JSXFragment),
+    #[serde(rename = "JSXOpeningFragment")]
+    OpeningFragment(JSXOpeningFragment),
+    #[serde(rename = "JSXClosingFragment")]
+    ClosingFragment(JSXClosingFragment),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum JSXAttrName {
     #[serde(rename = "JSXIdentifier")]
     Id(JSXIdentifier),

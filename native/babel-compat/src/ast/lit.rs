@@ -9,14 +9,22 @@ use crate::ast::{
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
 pub enum Literal {
-    StringLiteral(StringLiteral),
-    NumericLiteral(NumericLiteral),
-    NullLiteral(NullLiteral),
-    BooleanLiteral(BooleanLiteral),
-    RegExpLiteral(RegExpLiteral),
-    TemplateLiteral(TemplateLiteral),
-    BigIntLiteral(BigIntLiteral),
-    DecimalLiteral(DecimalLiteral),
+    #[serde(rename = "StringLiteral")]
+    String(StringLiteral),
+    #[serde(rename = "NumericLiteral")]
+    Numeric(NumericLiteral),
+    #[serde(rename = "NullLiteral")]
+    Null(NullLiteral),
+    #[serde(rename = "BooleanLiteral")]
+    Boolean(BooleanLiteral),
+    #[serde(rename = "RegExpLiteral")]
+    RegExp(RegExpLiteral),
+    #[serde(rename = "TemplateLiteral")]
+    Template(TemplateLiteral),
+    #[serde(rename = "BigIntLiteral")]
+    BigInt(BigIntLiteral),
+    #[serde(rename = "DecimalLiteral")]
+    Decimal(DecimalLiteral),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

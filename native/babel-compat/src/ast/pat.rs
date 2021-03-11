@@ -3,7 +3,7 @@ use serde::{Serialize, Deserialize};
 use crate::ast::{
     common::{BaseNode, Identifier, TypeAnnotOrNoop, RestElement, Decorator, PatternLike},
     expr::{Expression, MemberExpression},
-    object::{ObjectKey},
+    object::{ObjectProperty},
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -15,30 +15,6 @@ pub enum Pattern {
     Array(ArrayPattern),
     #[serde(rename = "ObjectPattern")]
     Object(ObjectPattern),
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
-pub enum ObjectPropVal {
-    #[serde(rename = "Expression")]
-    Expr(Expression),
-    #[serde(rename = "PatternLike")]
-    Pattern(PatternLike),
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
-pub struct ObjectProperty {
-    #[serde(flatten)]
-    pub base: BaseNode,
-    pub key: ObjectKey,
-    pub value: ObjectPropVal,
-    #[serde(default)]
-    pub computed: bool,
-    #[serde(default)]
-    pub shorthand: bool,
-    #[serde(default)]
-    pub decorators: Option<Vec<Decorator>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

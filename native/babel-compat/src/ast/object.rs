@@ -3,9 +3,31 @@ use serde::{Serialize, Deserialize};
 use crate::ast::{
     common::{BaseNode, Identifier, Decorator, Param, PatternLike, TypeAnnotOrNoop, TypeParamDeclOrNoop},
     expr::{Expression},
+    flow::{ObjectTypeSpreadProperty, ObjectTypeProperty, ObjectTypeInternalSlot, ObjectTypeCallProperty, ObjectTypeIndexer},
     lit::{StringLiteral, NumericLiteral},
     stmt::{BlockStatement},
 };
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum UserWhitespacable {
+    ObjectMethod(ObjectMethod),
+    ObjectProperty(ObjectProperty),
+    ObjectTypeInternalSlot(ObjectTypeInternalSlot),
+    ObjectTypeCallProperty(ObjectTypeCallProperty),
+    ObjectTypeIndexer(ObjectTypeIndexer),
+    ObjectTypeProperty(ObjectTypeProperty),
+    ObjectTypeSpreadProperty(ObjectTypeSpreadProperty),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum ObjectMember {
+    #[serde(rename = "ObjectMember")]
+    Method(ObjectMethod),
+    #[serde(rename = "ObjectProperty")]
+    Prop(ObjectProperty),
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]

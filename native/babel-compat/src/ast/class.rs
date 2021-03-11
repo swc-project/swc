@@ -3,12 +3,21 @@ use serde_json::Value;
 
 use crate::ast::{
     common::{BaseNode, Identifier, Access, Param, Decorator, PrivateName, TypeAnnotOrNoop, TypeParamDeclOrNoop, SuperTypeParams},
-    expr::{Expression},
+    expr::{Expression, ClassExpression},
     flow::{ClassImplements, InterfaceExtends},
     object::{ObjectKey},
     stmt::{BlockStatement},
     typescript::{TSDeclareMethod, TSIndexSignature, TSExpressionWithTypeArguments},
 };
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum Class {
+    #[serde(rename = "ClassExpression")]
+    Expr(ClassExpression),
+    #[serde(rename = "ClassDeclaration")]
+    Decl(ClassDeclaration),
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
@@ -172,13 +181,6 @@ pub enum ClassImpl {
     TSExpr(TSExpressionWithTypeArguments),
     #[serde(rename = "ClassImplements")]
     Implements(ClassImplements),
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
-pub struct Super {
-    #[serde(flatten)]
-    pub base: BaseNode,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
