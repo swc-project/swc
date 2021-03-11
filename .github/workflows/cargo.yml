@@ -26,17 +26,25 @@ jobs:
       - name: Run cargo fmt
         run: cargo fmt --all -- --check
 
-  check-all:
+  check:
     name: Compilability
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/
+            target
+          key: ${{ runner.os }}-cargo
       # Ensure that all components all compilable.
       - name: Run cargo check for all targets
         run: cargo check --color always --all --all-targets
-
   test:
     name: test
+    needs:
+      - check
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -108,7 +116,8 @@ jobs:
         with:
           path: |
             ~/.cargo/
-          key: ${{ runner.os }}-cargo-test-${{ matrix.crate }}
+            target
+          key: ${{ runner.os }}-cargo
 
       - name: Run cargo test
         run: |
