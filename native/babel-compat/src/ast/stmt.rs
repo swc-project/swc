@@ -2,7 +2,7 @@ use serde::{Serialize, Deserialize};
 
 use crate::ast::{
     class::{ClassDeclaration},
-    common::{BaseNode, Identifier, LVal},
+    common::{BaseNode, Identifier, LVal, Directive},
     decl::{VariableDeclaration, FunctionDeclaration, EnumDeclaration},
     expr::{Expression},
     flow::{DeclareClass, DeclareFunction, DeclareInterface, DeclareModule, DeclareModuleExports, DeclareTypeAlias, DeclareOpaqueType, DeclareVariable, DeclareExportDeclaration, DeclareExportAllDeclaration, InterfaceDeclaration, OpaqueType, TypeAlias},
@@ -109,6 +109,63 @@ pub enum Statement {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
+pub enum CompletionStatement {
+    #[serde(rename = "BreakStatement")]
+    Break(BreakStatement),
+    #[serde(rename = "ContinueStatement")]
+    Continue(ContinueStatement),
+    #[serde(rename = "ReturnStatement")]
+    Return(ReturnStatement),
+    #[serde(rename = "ThrowStatement")]
+    Throw(ThrowStatement),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum Loop {
+    #[serde(rename = "DoWhileStatement")]
+    DoWhile(DoWhileStatement),
+    #[serde(rename = "ForInStatement")]
+    ForIn(ForInStatement),
+    #[serde(rename = "ForStatement")]
+    For(ForStatement),
+    #[serde(rename = "WhileStatement")]
+    While(WhileStatement),
+    #[serde(rename = "ForOfStatement")]
+    ForOf(ForOfStatement),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum For {
+    #[serde(rename = "ForInStatement")]
+    InStmt(ForInStatement),
+    #[serde(rename = "ForStatement")]
+    Stmt(ForStatement),
+    #[serde(rename = "ForOfStatement")]
+    OfStmt(ForOfStatement),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum ForXStatement {
+    #[serde(rename = "ForInStatement")]
+    ForIn(ForInStatement),
+    #[serde(rename = "ForOfStatement")]
+    ForOf(ForOfStatement),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum While {
+    #[serde(rename = "DoWhileStatement")]
+    DoWhile(DoWhileStatement),
+    #[serde(rename = "WhileStatement")]
+    While(WhileStatement),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub struct BlockStatement {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -116,23 +173,6 @@ pub struct BlockStatement {
     pub body: Vec<Statement>,
     #[serde(default)]
     pub directives: Vec<Directive>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
-pub struct Directive {
-    #[serde(flatten)]
-    pub base: BaseNode,
-    pub value: DirectiveLiteral,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
-pub struct DirectiveLiteral {
-    #[serde(flatten)]
-    pub base: BaseNode,
-    #[serde(default)]
-    pub value: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -342,5 +382,14 @@ pub struct WithStatement {
     pub base: BaseNode,
     pub object: Expression,
     pub body: Box<Statement>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct StaticBlock {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    #[serde(default)]
+    pub body: Vec<Statement>,
 }
 

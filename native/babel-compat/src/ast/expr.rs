@@ -1,14 +1,14 @@
 use serde::{Serialize, Deserialize};
 
 use crate::ast::{
-    class::{ClassBody, ClassImpl, Super},
+    class::{ClassBody, ClassImpl},
     common::{BaseNode, SpreadElement, LVal, Identifier, PrivateName, MetaProperty, Arg, Callee, Param, Decorator, TypeAnnotOrNoop, TypeParamDeclOrNoop, SuperTypeParams},
     flow::{TypeParameterInstantiation, TypeParameterDeclaration, TypeAnnotation, InterfaceExtends},
     jsx::{JSXElement, JSXFragment},
     lit::{StringLiteral, NumericLiteral, NullLiteral, BooleanLiteral, RegExpLiteral, TemplateLiteral, BigIntLiteral, DecimalLiteral},
     module::{Import, Program},
     object::{ObjectMethod, ObjectProperty},
-    stmt::{BlockStatement},
+    stmt::{BlockStatement, ExpressionStatement},
     typescript::{TSTypeParameterInstantiation, TSTypeParameterDeclaration, TSAsExpression, TSTypeAssertion, TSNonNullExpression},
 };
 
@@ -94,6 +94,17 @@ pub enum Expression {
     TSTypeAssertion(TSTypeAssertion),
     #[serde(rename = "TSNonNullExpression")]
     TSNonNull(TSNonNullExpression),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum ExpressionWrapper {
+    #[serde(rename = "ExpressionStatement")]
+    Stmt(ExpressionStatement),
+    #[serde(rename = "ParenthesizedExpression")]
+    Parenthesized(ParenthesizedExpression),
+    #[serde(rename = "TypeCastExpression")]
+    TypeCast(TypeCastExpression),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -606,3 +617,9 @@ pub struct ModuleExpression {
     pub body: Program,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct Super {
+    #[serde(flatten)]
+    pub base: BaseNode,
+}
