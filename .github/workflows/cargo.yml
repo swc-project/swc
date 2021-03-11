@@ -38,7 +38,7 @@ jobs:
             ~/.cargo/
             target
           key: ${{ runner.os }}-cargo
-      # Ensure that all components all compilable.
+      # Ensure that all components are compilable.
       - name: Run cargo check for all targets
         run: cargo check --color always --all --all-targets
   test:
