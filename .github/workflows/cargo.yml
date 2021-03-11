@@ -37,10 +37,14 @@ jobs:
 
   test:
     name: test
-    runs-on: [ubuntu-18.04, macos-10.15, windows-2019]
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
+        os:
+          - ubuntu-18.04
+          - macos-10.15
+          - windows-2019
         crate:
           - ast_node
           - enum_kind
