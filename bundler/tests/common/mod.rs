@@ -54,6 +54,10 @@ fn load_url(url: Url) -> Result<String, Error> {
         _ => {}
     }
 
+    if let Ok("1") = std::env::var("CI").as_deref() {
+        panic!("The bundler test suite should not download files from CI")
+    }
+
     eprintln!("Storing `{}` at `{}`", url, cache_path.display());
 
     let resp = reqwest::blocking::get(url.clone())
