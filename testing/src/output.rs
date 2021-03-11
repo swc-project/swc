@@ -73,7 +73,13 @@ impl NormalizedOutput {
 
         let path_for_actual = paths::test_results_dir().join("ui").join(
             path.strip_prefix(&paths::manifest_dir())
-                .expect("failed to strip prefix: CARGO_MANIFEST_DIR"),
+                .unwrap_or_else(|_| {
+                    unreachable!(
+                        "failed to strip prefix: CARGO_MANIFEST_DIR\nPath: {}\nManifest dir: {}",
+                        path.display(),
+                        paths::manifest_dir().display()
+                    )
+                }),
         );
         eprintln!("{}:{}", path.display(), path_for_actual.display());
         if self.0 == expected {
