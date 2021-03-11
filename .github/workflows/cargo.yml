@@ -27,7 +27,7 @@ jobs:
         run: cargo fmt --all -- --check
 
   check:
-    name: Compilability
+    name: Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
