@@ -257,7 +257,7 @@ impl Resolve for NodeResolver {
         }
 
         let cwd = &Path::new(".");
-        let base_dir = base.parent().unwrap_or(&cwd);
+        let mut base_dir = base.parent().unwrap_or(&cwd);
 
         if target.starts_with("./") || target.starts_with("../") {
             let win_target;
@@ -265,6 +265,7 @@ impl Resolve for NodeResolver {
                 let t = if target.starts_with("./") {
                     &target[2..]
                 } else {
+                    base_dir = base_dir.parent().unwrap();
                     &target[3..]
                 };
                 win_target = t.replace("/", "\\");
