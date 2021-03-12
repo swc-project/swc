@@ -118,6 +118,7 @@ jobs:
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
 
       - name: Install node dependencies
+        shell: bash
         run: |
           npm config set prefix ~/npm
           npm i browserslist regenerator-runtime sourcemap-validator progress
@@ -133,6 +134,7 @@ jobs:
           key: ${{ runner.os }}-cargo
 
       - name: Run cargo test
+        shell: bash
         run: |
           cargo test --color always -p ${{ matrix.crate }}
 
