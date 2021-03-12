@@ -260,6 +260,16 @@ impl Resolve for NodeResolver {
         let base_dir = base.parent().unwrap_or(&cwd);
 
         if target.starts_with("./") || target.starts_with("../") {
+            let target = if cfg!(target_os = "windows") {
+                if target.starts_with("./") {
+                    &target[2..]
+                } else {
+                    &target[3..]
+                }
+            } else {
+                target
+            };
+
             let path = base_dir.join(target);
             return self
                 .resolve_as_file(&path)
