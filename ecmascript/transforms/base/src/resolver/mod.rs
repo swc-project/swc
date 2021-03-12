@@ -396,7 +396,6 @@ impl<'a> VisitMut for Resolver<'a> {
     typed_ref!(visit_mut_ts_type_query, TsTypeQuery);
     typed_ref!(visit_mut_ts_type_query_expr, TsTypeQueryExpr);
     typed_ref!(visit_mut_ts_type_operator, TsTypeOperator);
-    typed_ref!(visit_mut_ts_type_cast_expr, TsTypeCastExpr);
     typed_ref!(visit_mut_ts_type, TsType);
     typed_ref!(visit_mut_ts_type_ann, TsTypeAnn);
     typed_ref!(visit_mut_ts_type_assertion, TsTypeAssertion);
@@ -577,7 +576,9 @@ impl<'a> VisitMut for Resolver<'a> {
         child.in_type = true;
 
         n.type_params.visit_mut_with(&mut child);
-        n.key.visit_mut_with(&mut child);
+        if n.computed {
+            n.key.visit_mut_with(&mut child);
+        }
         n.params.visit_mut_with(&mut child);
         n.type_ann.visit_mut_with(&mut child);
     }
@@ -588,7 +589,9 @@ impl<'a> VisitMut for Resolver<'a> {
         }
 
         self.in_type = true;
-        n.key.visit_mut_with(self);
+        if n.computed {
+            n.key.visit_mut_with(self);
+        }
         let child_mark = Mark::fresh(self.mark);
         // Child folder
         let mut child = Resolver::new(

@@ -1,3 +1,5 @@
+use crate::hygiene::Config;
+
 use super::*;
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
@@ -61,7 +63,20 @@ where
     F: FnOnce() -> V,
     V: Fold,
 {
-    crate::tests::test_transform(syntax, |_| tr(), src, to, true);
+    crate::tests::test_transform(syntax, |_| tr(), src, to, true, Default::default());
+}
+
+fn run_test_with_config<F, V>(
+    syntax: Syntax,
+    tr: F,
+    src: &str,
+    to: &str,
+    config: crate::hygiene::Config,
+) where
+    F: FnOnce() -> V,
+    V: Fold,
+{
+    crate::tests::test_transform(syntax, |_| tr(), src, to, true, config);
 }
 
 macro_rules! to_ts {
@@ -1279,11 +1294,11 @@ const bar = {} as Foo;
     ",
     "
 interface Foo {
-    name: string;
+    name__0: string;
 }
 function foo() {
     interface Foo__2 {
-        name: string;
+        name__0: string;
     }
     const foo__2 = {
     } as Foo__2;
@@ -1873,10 +1888,10 @@ to_ts!(
     ",
     "
     interface A<T__2> {
-        x: T__2;
+        x__0: T__2;
     }
     interface B {
-        m: string;
+        m__0: string;
     }
     var x: any;
     var y = x as A<B>[];
@@ -1899,10 +1914,10 @@ to_ts!(
     "
     module Top {
         interface A__2<T__3> {
-            x: T__3;
+            x__0: T__3;
         }
         interface B__2 {
-            m: string;
+            m__0: string;
         }
         var x: any;
         var y = x as A__2<B__2>[];
@@ -2225,6 +2240,107 @@ to_ts!(
         }
         #bar__0(x__3) {
             use(x__3);
+        }
+    }
+    "
+);
+
+to_ts!(
+    tsc_conformance_types_type_aliases_type_aliases_1,
+    "
+    interface I6 { x : string }
+    type T6 = I6;
+    var x6: I6;
+    var x6: T6;
+    ",
+    "
+    interface I6 {
+        x__0: string;
+    }
+    type T6 = I6;
+    var x6: I6;
+    var x6: T6;
+    "
+);
+
+#[test]
+fn issue_1279_1() {
+    run_test_with_config(
+        Default::default(),
+        || resolver(),
+        "class Foo {
+            static f = 1;
+            static g = Foo.f;
+        }",
+        "
+        let Foo1 = class Foo {
+            static f = 1;
+            static g = Foo.f;
+        };
+        ",
+        Config {
+            keep_class_names: true,
+        },
+    );
+}
+
+#[test]
+fn issue_1279_2() {
+    run_test_with_config(
+        Default::default(),
+        || resolver(),
+        "class Foo {
+            static f = 1;
+            static g = Foo.f;
+            method() {
+                class Foo {
+                    static nested = 1;
+                    static nested2 = Foo.nested;
+                }
+            }
+        }",
+        "
+        let Foo1 = class Foo {
+            static f = 1;
+            static g = Foo.f;
+            method() {
+                let Foo2 = class Foo {
+                    static nested = 1;
+                    static nested2 = Foo.nested;
+                };
+            }
+        };
+        ",
+        Config {
+            keep_class_names: true,
+        },
+    );
+}
+
+to_ts!(
+    deno_9650_1,
+    "
+    export class X {
+        constructor() {
+        }
+        bad(target :number) {
+            const d = 1;
+            const min = 0;
+            const max = 100;
+            console.log('x', `duration ${d} not in range - ${min} ≥ ${d} && ${max} ≥ ${d}`);
+        }
+    }
+    ",
+    "
+    export class X {
+        constructor(){
+        }
+        bad(target__2: number) {
+            const d__2 = 1;
+            const min__2 = 0;
+            const max__2 = 100;
+            console.log('x', `duration ${d__2} not in range - ${min__2} ≥ ${d__2} && ${max__2} ≥ \
+     ${d__2}`);
         }
     }
     "

@@ -153,6 +153,7 @@ impl BlockScoping {
                     has_break: false,
                     has_return: false,
                     mutated,
+                    in_switch_case: false,
                 };
 
                 let mut body = match body.fold_with(&mut flow_helper) {
@@ -736,6 +737,7 @@ struct FlowHelper<'a> {
     has_return: bool,
     all: &'a Vec<Id>,
     mutated: HashMap<Id, SyntaxContext>,
+    in_switch_case: bool,
 }
 
 impl<'a> FlowHelper<'a> {
@@ -752,23 +754,20 @@ impl<'a> FlowHelper<'a> {
 impl Fold for FlowHelper<'_> {
     noop_fold_type!();
 
+    fn fold_switch_case(&mut self, n: SwitchCase) -> SwitchCase {
+        let old = self.in_switch_case;
+        self.in_switch_case = true;
+
+        let n = n.fold_children_with(self);
+
+        self.in_switch_case = old;
+
+        n
+    }
+
     /// noop
     fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
         f
-    }
-
-    /// noop
-    fn fold_function(&mut self, f: Function) -> Function {
-        f
-    }
-
-    fn fold_update_expr(&mut self, n: UpdateExpr) -> UpdateExpr {
-        match *n.arg {
-            Expr::Ident(ref i) => self.check(i.to_id()),
-            _ => {}
-        }
-
-        n.fold_children_with(self)
     }
 
     fn fold_assign_expr(&mut self, n: AssignExpr) -> AssignExpr {
@@ -791,6 +790,11 @@ impl Fold for FlowHelper<'_> {
         n.fold_children_with(self)
     }
 
+    /// noop
+    fn fold_function(&mut self, f: Function) -> Function {
+        f
+    }
+
     fn fold_stmt(&mut self, node: Stmt) -> Stmt {
         let span = node.span();
 
@@ -811,6 +815,9 @@ impl Fold for FlowHelper<'_> {
                 });
             }
             Stmt::Break(..) => {
+                if self.in_switch_case {
+                    return node;
+                }
                 self.has_break = true;
                 return Stmt::Return(ReturnStmt {
                     span,
@@ -845,6 +852,15 @@ impl Fold for FlowHelper<'_> {
             }
             _ => node.fold_children_with(self),
         }
+    }
+
+    fn fold_update_expr(&mut self, n: UpdateExpr) -> UpdateExpr {
+        match *n.arg {
+            Expr::Ident(ref i) => self.check(i.to_id()),
+            _ => {}
+        }
+
+        n.fold_children_with(self)
     }
 }
 
@@ -1155,52 +1171,49 @@ foo();"
     }
     return vars;
   };",
-        "module.exports = function(values) {
-    var _this = this, _loop = function(i) {
-        elem = _this.elements[i];
-        name = elem.name;
-        if (!name) return 'continue';
-        val = values[name];
-        if (val == null) val = '';
-        switch(elem.type){
-            case 'submit':
-                return 'break';
-            case 'radio':
-            case 'checkbox':
-                elem.checked = val.some(function(str) {
-                    return str.toString() == elem.value;
-                });
-                return 'break';
-            case 'select-multiple':
-                elem.fill(val);
-                return 'break';
-            case 'textarea':
-                elem.innerText = val;
-                return 'break';
-            case 'hidden':
-                return 'break';
-            default:
-                if (elem.fill) {
-                    elem.fill(val);
-                } else {
-                    elem.value = val;
+        "
+        module.exports = function(values) {
+            var _this = this, _loop = function(i) {
+                elem = _this.elements[i];
+                name = elem.name;
+                if (!name) return 'continue';
+                val = values[name];
+                if (val == null) val = '';
+                switch(elem.type){
+                    case 'submit':
+                        break;
+                    case 'radio':
+                    case 'checkbox':
+                        elem.checked = val.some(function(str) {
+                            return str.toString() == elem.value;
+                        });
+                        break;
+                    case 'select-multiple':
+                        elem.fill(val);
+                        break;
+                    case 'textarea':
+                        elem.innerText = val;
+                        break;
+                    case 'hidden':
+                        break;
+                    default:
+                        if (elem.fill) {
+                            elem.fill(val);
+                        } else {
+                            elem.value = val;
+                        }
+                        break;
                 }
-                return 'break';
-        }
-    };
-    var vars = [];
-    var elem = null, name, val;
-    for(var i = 0; i < this.elements.length; i++){
-        var _ret = _loop(i);
-        switch(_ret){
-            case 'break':
-                break;
-            case 'continue':
-                continue;
-        }
-    }
-    return vars;
-};"
+            };
+            var vars = [];
+            var elem = null, name, val;
+            for(var i = 0; i < this.elements.length; i++){
+                var _ret = _loop(i);
+                if (_ret === 'continue') continue;
+            }
+            return vars;
+        };
+        "
     );
 
     test_exec!(
@@ -1581,6 +1594,79 @@ expect(foo()).toBe(false);
         combineOverlappingMatches([
             1
         ]);
+        "
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| block_scoping(),
+        issue_1415_1,
+        "
+        export function test(items) {
+            const infoMap = new WeakMap();
+            for (let i = 0; i < items.length; i += 1) {
+              const item = items[i];
+              let info;
+              switch (item.type) {
+                case 'branch1':
+                  info = item.method1();
+                  break;
+                case 'branch2':
+                  info = item.method2();
+                  break;
+                case 'branch3':
+                  info = item.method3(
+                    Object.fromEntries(
+                      item.subItems.map((t) => [item.alias ?? t.name, getInfo(t)])
+                    )
+                  );
+                  break;
+                default:
+                  throw new Error('boom');
+              }
+              infoMap.set(item, info); // important
+            }
+          
+            function getInfo(item) {
+              if (!infoMap.has(item)) {
+                throw new Error('no info yet');
+              }
+              return infoMap.get(item);
+            }
+          }
+        ",
+        "
+        export function test(items) {
+            var infoMap = new WeakMap();
+            for(var i = 0; i < items.length; i += 1){
+                var item = items[i];
+                var info = void 0;
+                switch(item.type){
+                    case 'branch1':
+                        info = item.method1();
+                        break;
+                    case 'branch2':
+                        info = item.method2();
+                        break;
+                    case 'branch3':
+                        info = item.method3(Object.fromEntries(item.subItems.map((t)=>[
+                                item.alias ?? t.name,
+                                getInfo(t)
+                            ]
+                        )));
+                        break;
+                    default:
+                        throw new Error('boom');
+                }
+                infoMap.set(item, info);
+            }
+            function getInfo(item) {
+                if (!infoMap.has(item)) {
+                    throw new Error('no info yet');
+                }
+                return infoMap.get(item);
+            }
+        }
         "
     );
 }

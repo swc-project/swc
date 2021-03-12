@@ -1,0 +1,32 @@
+// Loaded from https://raw.githubusercontent.com/colinhacks/zod/654680afc2ede388e71e09104eac5a0088fe3207/deno/lib/ZodTypes.ts
+
+
+export enum ZodTypes {
+  string = "string",
+  number = "number",
+  bigint = "bigint",
+  boolean = "boolean",
+  date = "date",
+  undefined = "undefined",
+  null = "null",
+  array = "array",
+  object = "object",
+  union = "union",
+  intersection = "intersection",
+  tuple = "tuple",
+  record = "record",
+  map = "map",
+  function = "function",
+  lazy = "lazy",
+  literal = "literal",
+  enum = "enum",
+  nativeEnum = "nativeEnum",
+  promise = "promise",
+  any = "any",
+  unknown = "unknown",
+  never = "never",
+  void = "void",
+  transformer = "transformer",
+  optional = "optional",
+  nullable = "nullable",
+}

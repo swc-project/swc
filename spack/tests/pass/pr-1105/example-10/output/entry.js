@@ -1,22 +1,19 @@
+function a3(...d) {
+    return d.join(" ");
+}
 const mod = function() {
-    function a(...d) {
-        return d.join(" ");
-    }
     return {
-        a
+        a: a3
     };
 }();
-const _i = mod;
+function a1(...d) {
+    return d.join("/");
+}
 const mod1 = function() {
-    function a(...d) {
-        return d.join("/");
-    }
     return {
-        a
+        a: a1
     };
 }();
-const _j = mod1;
-const k = globalThis.value ? _i : _j;
+const k = globalThis.value ? mod : mod1;
 const { a: a2 ,  } = k;
-const a1 = a2;
-export { a1 as a, b as b };
+export { a2 as a, b as b };

@@ -1,5 +1,5 @@
 use super::merge::Unexporter;
-use crate::bundler::modules::Modules;
+use crate::modules::Modules;
 use crate::{
     bundler::{
         chunk::{merge::Ctx, plan::Dependancy},
@@ -80,13 +80,17 @@ where
                 dep.visit_mut_with(&mut DefaultHandler {
                     local_ctxt: dep_info.local_ctxt(),
                 });
+                dep.sort(info.id, &ctx.graph, &self.cm);
 
-                entry.prepend(ModuleItem::Stmt(wrap_module(
-                    SyntaxContext::empty(),
-                    dep_info.local_ctxt(),
-                    load_var,
-                    dep.into(),
-                )));
+                entry.prepend(
+                    info.id,
+                    ModuleItem::Stmt(wrap_module(
+                        SyntaxContext::empty(),
+                        dep_info.local_ctxt(),
+                        load_var,
+                        dep.into(),
+                    )),
+                );
 
                 log::warn!("Injecting load");
             }
@@ -103,7 +107,7 @@ where
                         false,
                         entry,
                         info,
-                        Modules::from((*dep_info.module).clone(), self.injected_ctxt),
+                        Modules::from(dep_info.id, (*dep_info.module).clone(), self.injected_ctxt),
                         &dep_info,
                         targets,
                     )?;
@@ -341,7 +345,7 @@ impl VisitMut for RequireReplacer {
 }
 
 fn drop_module_decls(modules: &mut Modules) {
-    modules.retain_mut(|i| match i {
+    modules.retain_mut(|_, i| match i {
         ModuleItem::ModuleDecl(..) => false,
         ModuleItem::Stmt(_) => true,
     })

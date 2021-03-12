@@ -1,0 +1,91 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 196,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 196,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 6,
+            "end": 196,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 6,
+              "end": 13,
+              "ctxt": 0
+            },
+            "value": "content",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "TemplateLiteral",
+            "span": {
+              "start": 16,
+              "end": 196,
+              "ctxt": 0
+            },
+            "expressions": [],
+            "quasis": [
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 17,
+                  "end": 195,
+                  "ctxt": 0
+                },
+                "tail": true,
+                "cooked": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 17,
+                    "end": 195,
+                    "ctxt": 0
+                  },
+                  "value": "--------------------------366796e1c748a2fb\r\nContent-Disposition: form-data; name=\"payload\"\r\nContent-Type: text/plain\r\n\r\nCONTENT\r\n--------------------------366796e1c748a2fb--",
+                  "hasEscape": true,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": false
+                  }
+                },
+                "raw": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 17,
+                    "end": 195,
+                    "ctxt": 0
+                  },
+                  "value": "--------------------------366796e1c748a2fb\\r\nContent-Disposition: form-data; name=\"payload\"\\r\nContent-Type: text/plain\\r\n\\r\nCONTENT\\r\n--------------------------366796e1c748a2fb--",
+                  "hasEscape": true,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": false
+                  }
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

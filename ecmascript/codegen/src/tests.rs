@@ -100,6 +100,8 @@ pub(crate) fn assert_min_typescript(from: &str, to: &str) {
 pub(crate) fn assert_pretty(from: &str, to: &str) {
     let out = parse_then_emit(from, Config { minify: false }, Syntax::default());
 
+    println!("Expected: {:?}", to);
+    println!("Actaul:   {:?}", out);
     assert_eq!(DebugUsingDisplay(&out.trim()), DebugUsingDisplay(to),);
 }
 
@@ -500,6 +502,22 @@ fn dneo_8541_1() {
 #[test]
 fn deno_8925() {
     assert_pretty("const 𝒫 = 2;", "const 𝒫 = 2;");
+}
+
+#[test]
+#[ignore = "Tested by a bundler test"]
+fn deno_9620() {
+    assert_pretty(
+        "const content = `--------------------------366796e1c748a2fb\r
+Content-Disposition: form-data; name=\"payload\"\r
+Content-Type: text/plain\r
+\r
+CONTENT\r
+--------------------------366796e1c748a2fb--`",
+        "`const content = `--------------------------366796e1c748a2fb\\r\\nContent-Disposition: \
+         form-data; name=\"payload\"\\r\\nContent-Type: \
+         text/plain\\r\\n\\r\\nCONTENT\\r\\n--------------------------366796e1c748a2fb--`;",
+    );
 }
 
 #[test]

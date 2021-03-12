@@ -1,6 +1,7 @@
 use anyhow::{bail, Context, Error};
 use reqwest::Url;
 use sha1::{Digest, Sha1};
+use std::io::Write;
 use std::{
     self, env,
     fs::{create_dir_all, read_to_string, write},
@@ -25,19 +26,35 @@ fn calc_hash(s: &str) -> String {
     hex::encode(sum)
 }
 
+fn calc_cache_path(cache_dir: &Path, url: &Url) -> PathBuf {
+    let hash = calc_hash(&url.to_string());
+    let s = url.to_string();
+    if s.starts_with("https://deno.land/") {
+        return cache_dir.join("deno").join(&hash);
+    }
+
+    cache_dir.join("untrusted").join(hash)
+}
+
 /// Load url. This method does caching.
 fn load_url(url: Url) -> Result<String, Error> {
-    let cache_dir = PathBuf::from(env!("OUT_DIR")).join("deno-cache");
-    create_dir_all(&cache_dir).context("failed to create cache dir")?;
+    let cache_dir = PathBuf::from(
+        env::var("CARGO_MANIFEST_DIR")
+            .expect("the test requires an environment variable named `CARGO_MANIFEST_DIR`"),
+    )
+    .join("tests")
+    .join(".cache");
 
-    let hash = calc_hash(&url.to_string());
+    let cache_path = calc_cache_path(&cache_dir, &url).with_extension("ts");
 
-    let cache_path = cache_dir.join(&hash);
+    create_dir_all(cache_path.parent().unwrap()).context("failed to create cache dir")?;
 
     match read_to_string(&cache_path) {
         Ok(v) => return Ok(v),
         _ => {}
     }
+
+    eprintln!("Storing `{}` at `{}`", url, cache_path.display());
 
     let resp = reqwest::blocking::get(url.clone())
         .with_context(|| format!("failed to fetch `{}`", url))?;
@@ -46,7 +63,11 @@ fn load_url(url: Url) -> Result<String, Error> {
         .bytes()
         .with_context(|| format!("failed to read data from `{}`", url))?;
 
-    write(&cache_path, &bytes)?;
+    let mut content = vec![];
+    write!(content, "// Loaded from {}\n\n\n", url).unwrap();
+    content.extend_from_slice(&bytes);
+
+    write(&cache_path, &content)?;
 
     return Ok(String::from_utf8_lossy(&bytes).to_string());
 }

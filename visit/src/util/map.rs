@@ -1,8 +1,12 @@
 use std::{mem, ptr};
 
-/// Copied from `syntax::ptr::P`
+/// Copied from `syntax::ptr::P` of rustc.
 pub trait Map<T> {
     /// Transform the inner value, consuming `self` and producing a new `P<T>`.
+    ///
+    /// # Memory leak
+    ///
+    /// This will leak `self` if the given closure panics.
     fn map<F>(self, f: F) -> Self
     where
         F: FnOnce(T) -> T;

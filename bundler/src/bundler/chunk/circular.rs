@@ -1,5 +1,5 @@
 use super::plan::CircularPlan;
-use crate::bundler::modules::Modules;
+use crate::modules::Modules;
 use crate::{bundler::chunk::merge::Ctx, id::Id, Bundler, Load, ModuleId, Resolve};
 use anyhow::{Context, Error};
 use swc_common::DUMMY_SP;
@@ -30,8 +30,9 @@ where
             log::debug!("[circular] skip: {:?}", entry_id);
             return Ok(Modules::empty(self.injected_ctxt));
         }
+        // TODO: Handle wrapped esms
 
-        log::debug!("[circular] Stsrting with: {:?}", entry_id);
+        log::debug!("[circular] Starting with: {:?}", entry_id);
 
         let entry_module = self.scope.get_module(entry_id).unwrap();
 
@@ -40,7 +41,7 @@ where
             .context("failed to merge dependency of a cyclic module")?;
 
         let mut exports = vec![];
-        for item in entry.iter_mut() {
+        for (_, item) in entry.iter_mut() {
             match item {
                 ModuleItem::ModuleDecl(decl) => match decl {
                     ModuleDecl::ExportDecl(export) => match &export.decl {
@@ -97,15 +98,16 @@ where
         entry = new_module;
 
         if !exports.is_empty() {
-            entry.inject(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                NamedExport {
+            entry.append(
+                entry_id,
+                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
                     span: DUMMY_SP.with_ctxt(self.synthesized_ctxt),
                     specifiers: exports,
                     src: None,
                     type_only: false,
                     asserts: None,
-                },
-            )));
+                })),
+            );
         }
 
         // print_hygiene("[circular] done", &self.cm, &entry);
@@ -135,14 +137,20 @@ where
 
             true
         });
-        deps.sort();
+        // deps.sort();
 
         self.run(|| {
-            for dep in deps {
-                let dep_info = self.scope.get_module(dep).unwrap();
-                let mut dep = self
-                    .merge_modules(ctx, dep, false, false)
-                    .context("failed to merge dependency of a cyclic module")?;
+            for dep_id in deps {
+                let dep_info = self.scope.get_module(dep_id).unwrap();
+                let mut dep = if self.scope.should_be_wrapped_with_a_fn(dep_id) {
+                    let mut dep: Modules = self.get_module_for_merging(ctx, dep_id, false)?;
+                    self.prepare(&dep_info, &mut dep);
+                    dep = self.wrap_esm(ctx, dep_id, dep.into())?.into();
+                    dep
+                } else {
+                    self.merge_modules(ctx, dep_id, false, false)
+                        .context("failed to merge dependency of a cyclic module")?
+                };
 
                 // print_hygiene("[circular] dep:init 1", &self.cm, &dep.clone().into());
 

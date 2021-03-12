@@ -13,6 +13,7 @@ use swc_ecma_utils::member_expr;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::quote_str;
+use swc_ecma_utils::IsDirective;
 use swc_ecma_utils::{var::VarCollector, DestructuringFinder, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
@@ -52,6 +53,10 @@ impl Fold for CommonJs {
             self.in_top_level = true;
 
             match item {
+                ModuleItem::Stmt(ref s) if s.is_use_strict() => {
+                    stmts.push(item);
+                }
+
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
                     self.scope.insert_import(import)
                 }

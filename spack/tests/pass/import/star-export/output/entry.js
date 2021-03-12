@@ -1,9 +1,8 @@
+class A {
+}
 const mod = function() {
-    class A {
-    }
     return {
-        A
+        A: A
     };
 }();
-const _a = mod;
-export { _a as a };
+export { mod as a };

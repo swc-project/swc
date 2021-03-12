@@ -237,7 +237,6 @@ macro_rules! noop_fold_type {
         noop_fold_type!(fold_ts_type_alias_decl, TsTypeAliasDecl);
         noop_fold_type!(fold_ts_type_ann, TsTypeAnn);
         noop_fold_type!(fold_ts_type_assertion, TsTypeAssertion);
-        noop_fold_type!(fold_ts_type_cast_expr, TsTypeCastExpr);
         noop_fold_type!(fold_ts_type_element, TsTypeElement);
         noop_fold_type!(fold_ts_type_lit, TsTypeLit);
         noop_fold_type!(fold_ts_type_operator, TsTypeOperator);
@@ -314,7 +313,6 @@ macro_rules! noop_visit_type {
         noop_visit_type!(visit_ts_type_alias_decl, TsTypeAliasDecl);
         noop_visit_type!(visit_ts_type_ann, TsTypeAnn);
         noop_visit_type!(visit_ts_type_assertion, TsTypeAssertion);
-        noop_visit_type!(visit_ts_type_cast_expr, TsTypeCastExpr);
         noop_visit_type!(visit_ts_type_element, TsTypeElement);
         noop_visit_type!(visit_ts_type_lit, TsTypeLit);
         noop_visit_type!(visit_ts_type_operator, TsTypeOperator);
@@ -394,7 +392,6 @@ macro_rules! noop_visit_mut_type {
         noop_visit_mut_type!(visit_mut_ts_type_alias_decl, TsTypeAliasDecl);
         noop_visit_mut_type!(visit_mut_ts_type_ann, TsTypeAnn);
         noop_visit_mut_type!(visit_mut_ts_type_assertion, TsTypeAssertion);
-        noop_visit_mut_type!(visit_mut_ts_type_cast_expr, TsTypeCastExpr);
         noop_visit_mut_type!(visit_mut_ts_type_element, TsTypeElement);
         noop_visit_mut_type!(visit_mut_ts_type_lit, TsTypeLit);
         noop_visit_mut_type!(visit_mut_ts_type_operator, TsTypeOperator);
@@ -573,7 +570,6 @@ define!({
         TsTypeAssertion(TsTypeAssertion),
         TsConstAssertion(TsConstAssertion),
         TsNonNull(TsNonNullExpr),
-        TsTypeCast(TsTypeCastExpr),
         TsAs(TsAsExpr),
         PrivateName(PrivateName),
         OptChain(OptChainExpr),
@@ -1283,11 +1279,6 @@ define!({
     pub struct TsTypeParamInstantiation {
         pub span: Span,
         pub params: Vec<Box<TsType>>,
-    }
-    pub struct TsTypeCastExpr {
-        pub span: Span,
-        pub expr: Box<Expr>,
-        pub type_ann: TsTypeAnn,
     }
     pub struct TsParamProp {
         pub span: Span,

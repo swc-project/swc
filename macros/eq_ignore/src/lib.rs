@@ -27,6 +27,7 @@ use syn::Path;
 use syn::Stmt;
 use syn::Token;
 
+/// Derives `swc_common::TypeEq`.
 ///
 /// - Field annotated with `#[use_eq]` will be compared using `==`.
 /// - Field annotated with `#[not_type]` will be ignored
@@ -49,7 +50,10 @@ pub fn derive_type_eq(item: proc_macro::TokenStream) -> proc_macro::TokenStream 
     .derive(item)
 }
 
-/// Fields annotated with `#[not_panned]` or `#[use_eq]` will use` ==` instead
+/// Derives `swc_common::EqIgnoreSpan`.
+///
+///
+/// Fields annotated with `#[not_spanned]` or `#[use_eq]` will use` ==` instead
 /// of `eq_ignore_span`.
 #[proc_macro_derive(EqIgnoreSpan, attributes(not_spanned, use_eq))]
 pub fn derive_eq_ignore_span(item: proc_macro::TokenStream) -> proc_macro::TokenStream {

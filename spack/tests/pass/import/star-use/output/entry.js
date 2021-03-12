@@ -1,9 +1,8 @@
+class A {
+}
 const mod = function() {
-    class A {
-    }
     return {
-        A
+        A: A
     };
 }();
-const a = mod;
-console.log(a);
+console.log(mod);

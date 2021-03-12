@@ -1,6 +1,6 @@
 {
   "name": "@swc/core",
-  "version": "1.2.48",
+  "version": "1.2.50",
   "description": "Super-fast alternative for babel",
   "homepage": "https://swc.rs",
   "main": "./index.js",
@@ -70,7 +70,7 @@
     "@types/node": "^14.0.5",
     "axios": "^0.21.1",
     "babel-plugin-transform-node-env-inline": "^0.4.3",
-    "browserslist": "^4.12.0",
+    "browserslist": "^4.16.3",
     "jest": "^23.6.0",
     "lodash": "^4.17.11",
     "progress": "^2.0.3",

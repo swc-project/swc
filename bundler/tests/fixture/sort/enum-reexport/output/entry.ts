@@ -1,8 +1,6 @@
-var Status3;
+var Status1;
 (function(Status1) {
     Status1[Status1["Continue"] = 100] = "Continue";
-})(Status3 || (Status3 = {
+})(Status1 || (Status1 = {
 }));
-const Status1 = Status3;
-const Status2 = Status1;
-export { Status2 as Status };
+export { Status1 as Status };

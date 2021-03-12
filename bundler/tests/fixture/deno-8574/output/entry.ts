@@ -1,14 +1,3 @@
-function lowercaseKeys(object) {
-    if (!object) {
-        return {
-        };
-    }
-    return Object.keys(object).reduce((newObj, key)=>{
-        newObj[key.toLowerCase()] = object[key];
-        return newObj;
-    }, {
-    });
-}
 function isObject(o) {
     return Object.prototype.toString.call(o) === "[object Object]";
 }
@@ -24,14 +13,236 @@ function isPlainObject(o) {
     }
     return true;
 }
-const isPlainObject1 = isPlainObject;
-const isPlainObject2 = isPlainObject1;
-const isPlainObject3 = isPlainObject1;
+function defaultSetTimout() {
+    throw new Error("setTimeout has not been defined");
+}
+function defaultClearTimeout() {
+    throw new Error("clearTimeout has not been defined");
+}
+var cachedSetTimeout = defaultSetTimout;
+var cachedClearTimeout = defaultClearTimeout;
+var globalContext;
+if (typeof window !== "undefined") {
+    globalContext = window;
+} else if (typeof self !== "undefined") {
+    globalContext = self;
+} else {
+    globalContext = {
+    };
+}
+if (typeof globalContext.setTimeout === "function") {
+    cachedSetTimeout = setTimeout;
+}
+if (typeof globalContext.clearTimeout === "function") {
+    cachedClearTimeout = clearTimeout;
+}
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        return setTimeout(fun, 0);
+    }
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        return cachedSetTimeout(fun, 0);
+    } catch (e) {
+        try {
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch (e2) {
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        return clearTimeout(marker);
+    }
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        return cachedClearTimeout(marker);
+    } catch (e) {
+        try {
+            return cachedClearTimeout.call(null, marker);
+        } catch (e2) {
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+    var len = queue.length;
+    while(len){
+        currentQueue = queue;
+        queue = [];
+        while((++queueIndex) < len){
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+function nextTick(fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for(var i = 1; i < arguments.length; i++){
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+}
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function() {
+    this.fun.apply(null, this.array);
+};
+var title = "browser";
+var platform = "browser";
+var browser = true;
+var argv = [];
+var version = "";
+var versions = {
+};
+var release = {
+};
+var config = {
+};
+function noop() {
+}
+var on = noop;
+var addListener = noop;
+var once1 = noop;
+var off = noop;
+var removeListener = noop;
+var removeAllListeners = noop;
+var emit = noop;
+function binding(name) {
+    throw new Error("process.binding is not supported");
+}
+function cwd() {
+    return "/";
+}
+function chdir(dir) {
+    throw new Error("process.chdir is not supported");
+}
+function umask() {
+    return 0;
+}
+var performance = globalContext.performance || {
+};
+var performanceNow = performance.now || performance.mozNow || performance.msNow || performance.oNow || performance.webkitNow || function() {
+    return new Date().getTime();
+};
+function hrtime(previousTimestamp) {
+    var clocktime = performanceNow.call(performance) * 0.001;
+    var seconds = Math.floor(clocktime);
+    var nanoseconds = Math.floor(clocktime % 1 * 1000000000);
+    if (previousTimestamp) {
+        seconds = seconds - previousTimestamp[0];
+        nanoseconds = nanoseconds - previousTimestamp[1];
+        if (nanoseconds < 0) {
+            seconds--;
+            nanoseconds += 1000000000;
+        }
+    }
+    return [
+        seconds,
+        nanoseconds
+    ];
+}
+var startTime = new Date();
+function uptime() {
+    var currentTime = new Date();
+    var dif = currentTime - startTime;
+    return dif / 1000;
+}
+var process = {
+    nextTick,
+    title,
+    browser,
+    env: {
+        NODE_ENV: "production"
+    },
+    argv,
+    version,
+    versions,
+    on,
+    addListener,
+    once: once1,
+    off,
+    removeListener,
+    removeAllListeners,
+    emit,
+    binding,
+    cwd,
+    chdir,
+    umask,
+    hrtime,
+    platform,
+    release,
+    config,
+    uptime
+};
+function getUserAgent() {
+    if (typeof navigator === "object" && "userAgent" in navigator) {
+        return navigator.userAgent;
+    }
+    if (typeof process === "object" && "version" in process) {
+        return `Node.js/${process.version.substr(1)} (${process.platform}; ${process.arch})`;
+    }
+    return "<environment undetectable>";
+}
+function lowercaseKeys(object) {
+    if (!object) {
+        return {
+        };
+    }
+    return Object.keys(object).reduce((newObj, key)=>{
+        newObj[key.toLowerCase()] = object[key];
+        return newObj;
+    }, {
+    });
+}
 function mergeDeep(defaults, options) {
     const result = Object.assign({
     }, defaults);
     Object.keys(options).forEach((key)=>{
-        if (isPlainObject3(options[key])) {
+        if (isPlainObject(options[key])) {
             if (!(key in defaults)) Object.assign(result, {
                 [key]: options[key]
             });
@@ -322,224 +533,7 @@ function withDefaults(oldDefaults, newDefaults) {
     });
 }
 const VERSION = "6.0.11";
-function defaultSetTimout() {
-    throw new Error("setTimeout has not been defined");
-}
-function defaultClearTimeout() {
-    throw new Error("clearTimeout has not been defined");
-}
-var cachedSetTimeout = defaultSetTimout;
-var cachedClearTimeout = defaultClearTimeout;
-var globalContext;
-if (typeof window !== "undefined") {
-    globalContext = window;
-} else if (typeof self !== "undefined") {
-    globalContext = self;
-} else {
-    globalContext = {
-    };
-}
-if (typeof globalContext.setTimeout === "function") {
-    cachedSetTimeout = setTimeout;
-}
-if (typeof globalContext.clearTimeout === "function") {
-    cachedClearTimeout = clearTimeout;
-}
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        return setTimeout(fun, 0);
-    }
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        return cachedSetTimeout(fun, 0);
-    } catch (e) {
-        try {
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch (e2) {
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        return clearTimeout(marker);
-    }
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        return cachedClearTimeout(marker);
-    } catch (e) {
-        try {
-            return cachedClearTimeout.call(null, marker);
-        } catch (e2) {
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-    var len = queue.length;
-    while(len){
-        currentQueue = queue;
-        queue = [];
-        while((++queueIndex) < len){
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-function nextTick(fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for(var i = 1; i < arguments.length; i++){
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-}
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function() {
-    this.fun.apply(null, this.array);
-};
-var title = "browser";
-var platform = "browser";
-var browser = true;
-var argv = [];
-var version = "";
-var versions = {
-};
-var release = {
-};
-var config = {
-};
-function noop() {
-}
-var on = noop;
-var addListener = noop;
-var once1 = noop;
-var off = noop;
-var removeListener = noop;
-var removeAllListeners = noop;
-var emit = noop;
-function binding(name) {
-    throw new Error("process.binding is not supported");
-}
-function cwd() {
-    return "/";
-}
-function chdir(dir) {
-    throw new Error("process.chdir is not supported");
-}
-function umask() {
-    return 0;
-}
-var performance = globalContext.performance || {
-};
-var performanceNow = performance.now || performance.mozNow || performance.msNow || performance.oNow || performance.webkitNow || function() {
-    return new Date().getTime();
-};
-function hrtime(previousTimestamp) {
-    var clocktime = performanceNow.call(performance) * 0.001;
-    var seconds = Math.floor(clocktime);
-    var nanoseconds = Math.floor(clocktime % 1 * 1000000000);
-    if (previousTimestamp) {
-        seconds = seconds - previousTimestamp[0];
-        nanoseconds = nanoseconds - previousTimestamp[1];
-        if (nanoseconds < 0) {
-            seconds--;
-            nanoseconds += 1000000000;
-        }
-    }
-    return [
-        seconds,
-        nanoseconds
-    ];
-}
-var startTime = new Date();
-function uptime() {
-    var currentTime = new Date();
-    var dif = currentTime - startTime;
-    return dif / 1000;
-}
-var process = {
-    nextTick,
-    title,
-    browser,
-    env: {
-        NODE_ENV: "production"
-    },
-    argv,
-    version,
-    versions,
-    on,
-    addListener,
-    once: once1,
-    off,
-    removeListener,
-    removeAllListeners,
-    emit,
-    binding,
-    cwd,
-    chdir,
-    umask,
-    hrtime,
-    platform,
-    release,
-    config,
-    uptime
-};
-function getUserAgent() {
-    if (typeof navigator === "object" && "userAgent" in navigator) {
-        return navigator.userAgent;
-    }
-    if (typeof process === "object" && "version" in process) {
-        return `Node.js/${process.version.substr(1)} (${process.platform}; ${process.arch})`;
-    }
-    return "<environment undetectable>";
-}
-const getUserAgent1 = getUserAgent;
-const getUserAgent2 = getUserAgent1;
-const getUserAgent3 = getUserAgent1;
-const userAgent = `octokit-endpoint.js/${VERSION} ${getUserAgent3()}`;
+const userAgent = `octokit-endpoint.js/${VERSION} ${getUserAgent()}`;
 const DEFAULTS = {
     method: "GET",
     baseUrl: "https://api.github.com",
@@ -553,8 +547,6 @@ const DEFAULTS = {
     }
 };
 const endpoint = withDefaults(null, DEFAULTS);
-const endpoint1 = endpoint;
-const endpoint2 = endpoint1;
 class Deprecation extends Error {
     constructor(message){
         super(message);
@@ -564,12 +556,7 @@ class Deprecation extends Error {
         this.name = "Deprecation";
     }
 }
-const Deprecation1 = Deprecation;
-const Deprecation2 = Deprecation1;
 var wrappy_1 = wrappy;
-const __default = wrappy_1;
-const __default1 = __default;
-const wrappy2 = __default1;
 function wrappy(fn, cb) {
     if (fn && cb) return wrappy(fn)(cb);
     if (typeof fn !== "function") throw new TypeError("need wrapper function");
@@ -592,8 +579,8 @@ function wrappy(fn, cb) {
         return ret;
     }
 }
-var once_1 = wrappy2(once2);
-var strict = wrappy2(onceStrict);
+var once_1 = wrappy_1(once2);
+var strict = wrappy_1(onceStrict);
 once2.proto = once2(function() {
     Object.defineProperty(Function.prototype, "once", {
         value: function() {
@@ -629,10 +616,7 @@ function onceStrict(fn) {
     return f;
 }
 once_1.strict = strict;
-const __default2 = once_1;
-const __default3 = __default2;
-const once21 = __default3;
-const logOnce = once21((deprecation2)=>console.warn(deprecation2)
+const logOnce = once_1((deprecation2)=>console.warn(deprecation2)
 );
 class RequestError extends Error {
     constructor(message1, statusCode, options){
@@ -644,7 +628,7 @@ class RequestError extends Error {
         this.status = statusCode;
         Object.defineProperty(this, "code", {
             get () {
-                logOnce(new Deprecation2("[@octokit/request-error] `error.code` is deprecated, use `error.status`."));
+                logOnce(new Deprecation("[@octokit/request-error] `error.code` is deprecated, use `error.status`."));
                 return statusCode;
             }
         });
@@ -662,8 +646,6 @@ class RequestError extends Error {
         this.request = requestCopy;
     }
 }
-const RequestError1 = RequestError;
-const RequestError2 = RequestError1;
 var getGlobal = function() {
     if (typeof self !== "undefined") {
         return self;
@@ -683,7 +665,7 @@ function getBufferResponse(response) {
     return response.arrayBuffer();
 }
 function fetchWrapper(requestOptions) {
-    if (isPlainObject2(requestOptions.body) || Array.isArray(requestOptions.body)) {
+    if (isPlainObject(requestOptions.body) || Array.isArray(requestOptions.body)) {
         requestOptions.body = JSON.stringify(requestOptions.body);
     }
     let headers = {
@@ -709,20 +691,20 @@ function fetchWrapper(requestOptions) {
             if (status < 400) {
                 return;
             }
-            throw new RequestError2(response.statusText, status, {
+            throw new RequestError(response.statusText, status, {
                 headers,
                 request: requestOptions
             });
         }
         if (status === 304) {
-            throw new RequestError2("Not modified", status, {
+            throw new RequestError("Not modified", status, {
                 headers,
                 request: requestOptions
             });
         }
         if (status >= 400) {
             return response.text().then((message2)=>{
-                const error = new RequestError2(message2, status, {
+                const error = new RequestError(message2, status, {
                     headers,
                     request: requestOptions
                 });
@@ -752,10 +734,10 @@ function fetchWrapper(requestOptions) {
             data
         };
     }).catch((error)=>{
-        if (error instanceof RequestError2) {
+        if (error instanceof RequestError) {
             throw error;
         }
-        throw new RequestError2(error.message, 500, {
+        throw new RequestError(error.message, 500, {
             headers,
             request: requestOptions
         });
@@ -782,15 +764,12 @@ function withDefaults1(oldEndpoint, newDefaults) {
         defaults: withDefaults1.bind(null, endpoint3)
     });
 }
-const request = withDefaults1(endpoint2, {
+const request = withDefaults1(endpoint, {
     headers: {
-        "user-agent": `octokit-request.js/${VERSION1} ${getUserAgent2()}`
+        "user-agent": `octokit-request.js/${VERSION1} ${getUserAgent()}`
     }
 });
-const request1 = request;
-const request2 = request1;
-const request3 = request2;
-const { data  } = await request3('GET /repos/{owner}/{repo}/license', {
+const { data  } = await request('GET /repos/{owner}/{repo}/license', {
     headers: {
         authorization: `token ${Deno.env.get('GITHUB_TOKEN')}`
     },

@@ -2,8 +2,6 @@
 
 Thank you for your interest in contributing to swc! Good places to start are this document, ARCHITECTURE.md, which describes the high-level structure of swc and E-easy bugs on the issue tracker.
 
-
-
 ## Code of Conduct
 
 All contributors are expected to follow our [Code of Conduct].
@@ -37,8 +35,8 @@ Please feel free to open an issue or to send a pr.
 
 ## Working on issues
 
-If you're looking for somewhere to start, check out the [E-easy][E-Easy] and
-[E-mentor][E-mentor] tags.
+If you're looking for somewhere to start, check out the [E-easy][e-easy] and
+[E-mentor][e-mentor] tags.
 
 Feel free to ask for guidelines on how to tackle a problem on [gitter][] or open a
 [new issue][new-issues]. This is especially important if you want to add new
@@ -60,22 +58,22 @@ passes the test-suite at all times.
 
 Your basic steps to get going:
 
-* Fork swc and create a branch from master for the issue you are working on.
-* Make sure you have the `make` utility installed, along with Rust and C/C++
+- Fork swc and create a branch from master for the issue you are working on.
+- Make sure you have the `make` utility installed, along with Rust and C/C++
   compilers.
-* Please adhere to the code style that you see around the location you are
-working on.
-* [Commit as you go][githelp].
-* Include tests that cover all non-trivial code. The existing tests
-in `test/` provide templates on how to test swc's behavior in a
-sandbox-environment. The internal crate `testing` provides a vast amount
-of helpers to minimize boilerplate.  See [`testing/lib.rs`] for an
-introduction to writing tests.
-* Make sure `cargo test` passes.
-* All code changes are expected to comply with the formatting suggested by `rustfmt`.
-You can use `rustup component add --toolchain nightly rustfmt-preview` to install `rustfmt` and use
-`rustfmt +nightly --unstable-features --skip-children` on the changed files to automatically format your code.
-* Push your commits to GitHub and create a pull request against swc's `master` branch.
+- Please adhere to the code style that you see around the location you are
+  working on.
+- [Commit as you go][githelp].
+- Include tests that cover all non-trivial code. The existing tests
+  in `test/` provide templates on how to test swc's behavior in a
+  sandbox-environment. The internal crate `testing` provides a vast amount
+  of helpers to minimize boilerplate. See [`testing/lib.rs`] for an
+  introduction to writing tests.
+- Make sure `cargo test` passes.
+- All code changes are expected to comply with the formatting suggested by `rustfmt`.
+  You can use `rustup component add --toolchain nightly rustfmt-preview` to install `rustfmt` and use
+  `rustfmt +nightly --unstable-features --skip-children` on the changed files to automatically format your code.
+- Push your commits to GitHub and create a pull request against swc's `master` branch.
 
 ## Getting your development environment set up
 
@@ -102,7 +100,11 @@ After cloning the project there are a few steps required to get the project runn
     export PATH="$PATH:$PWD/ecmascript/transforms/node_modules/.bin"
     ```
 
-4.  Run tests
+4.  Install deno, if you are going to work on the bundler.
+
+    See [official install guide of deno](https://deno.land/manual/getting_started/installation) to install it.
+
+5.  Run tests
 
     ```bash
     cargo test --all --all-features
@@ -147,35 +149,33 @@ updated sort][lru] is good for finding issues like this.
 Contributors with sufficient permissions on the Rust-repository can help by
 adding labels to triage issues:
 
-* Yellow, **A**-prefixed labels state which **area** of the project an issue
+- Yellow, **A**-prefixed labels state which **area** of the project an issue
   relates to.
 
-* Magenta, **B**-prefixed labels identify bugs which are **blockers**.
+- Magenta, **B**-prefixed labels identify bugs which are **blockers**.
 
-* Red, **C**-prefixed labels represent the **category** of an issue.
-  In particular, **C-feature-request** marks *proposals* for new features. If
+- Red, **C**-prefixed labels represent the **category** of an issue.
+  In particular, **C-feature-request** marks _proposals_ for new features. If
   an issue is **C-feature-request**, but is not **Feature accepted**,
   then it was not thoroughly discussed, and might need some additional design
   or perhaps should be implemented as an external subcommand first. Ping
   @swc-projcet/swc if you want to send a PR for an such issue.
 
-* Green, **E**-prefixed labels explain the level of **experience** or
-  **effort** necessary to fix the issue. [**E-mentor**][E-mentor] issues also
+- Green, **E**-prefixed labels explain the level of **experience** or
+  **effort** necessary to fix the issue. [**E-mentor**][e-mentor] issues also
   have some instructions on how to get started.
 
-* Purple gray, **O**-prefixed labels are the **operating system** or platform
+- Purple gray, **O**-prefixed labels are the **operating system** or platform
   that this issue is specific to.
 
-* Orange, **P**-prefixed labels indicate a bug's **priority**.
-  
-* Light orange, **L**-prefixed labels indicate language related to the bug.
-
+- Orange, **P**-prefixed labels indicate a bug's **priority**.
+- Light orange, **L**-prefixed labels indicate language related to the bug.
 
 [gist]: https://gist.github.com/
 [new-issues]: https://github.com/swc-project/swc/issues/new
-[E-easy]: https://github.com/swc-project/swc/labels/E-easy
-[E-mentor]: https://github.com/swc-project/swc/labels/E-mentor
-[Code of Conduct]: https://www.rust-lang.org/conduct.html
+[e-easy]: https://github.com/swc-project/swc/labels/E-easy
+[e-mentor]: https://github.com/swc-project/swc/labels/E-mentor
+[code of conduct]: https://www.rust-lang.org/conduct.html
 [gitter]: https://gitter.im/swcproject/Lobby
 [`testing/lib.rs`]: https://github.com/swc-project/swc/blob/master/testing/src/lib.rs
 [irlo]: https://internals.rust-lang.org/
