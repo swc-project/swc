@@ -59,6 +59,8 @@ passes the test-suite at all times.
 Your basic steps to get going:
 
 - Fork swc and create a branch from master for the issue you are working on.
+- Make sure you have the `make` utility installed, along with Rust and C/C++
+  compilers.
 - Please adhere to the code style that you see around the location you are
   working on.
 - [Commit as you go][githelp].
