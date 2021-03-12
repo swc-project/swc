@@ -260,12 +260,15 @@ impl Resolve for NodeResolver {
         let base_dir = base.parent().unwrap_or(&cwd);
 
         if target.starts_with("./") || target.starts_with("../") {
+            let win_target;
             let target = if cfg!(target_os = "windows") {
-                if target.starts_with("./") {
+                let t = if target.starts_with("./") {
                     &target[2..]
                 } else {
                     &target[3..]
-                }
+                };
+                win_target = t.replace("/", "\\");
+                &*win_target
             } else {
                 target
             };
