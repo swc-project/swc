@@ -118,7 +118,7 @@ impl From<String> for NormalizedOutput {
             return NormalizedOutput(s);
         }
 
-        let manifest_dir = format!("{}", paths::manifest_dir().display());
+        let manifest_dir = adjust_canonicalization(paths::manifest_dir());
 
         let s = s.replace("\r\n", "\n");
 
@@ -150,4 +150,20 @@ impl<R> TestOutput<Option<R>> {
     /// Expects **`result`** to be `None` and **`errors`** to be match content
     /// of `${path}.stderr`.
     pub fn expect_err(self, _path: &Path) {}
+}
+
+#[cfg(not(target_os = "windows"))]
+fn adjust_canonicalization<P: AsRef<Path>>(p: P) -> String {
+    p.as_ref().display().to_string()
+}
+
+#[cfg(target_os = "windows")]
+fn adjust_canonicalization<P: AsRef<Path>>(p: P) -> String {
+    const VERBATIM_PREFIX: &str = r#"\\?\"#;
+    let p = p.as_ref().display().to_string();
+    if p.starts_with(VERBATIM_PREFIX) {
+        p[VERBATIM_PREFIX.len()..].to_string()
+    } else {
+        p
+    }
 }
