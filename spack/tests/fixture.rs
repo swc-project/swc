@@ -289,7 +289,15 @@ impl swc_bundler::Hook for Hook {
                 key: PropName::Ident(Ident::new(js_word!("url"), span)),
                 value: Box::new(Expr::Lit(Lit::Str(Str {
                     span,
-                    value: module_record.file_name.to_string().into(),
+                    value: match &module_record.file_name {
+                        FileName::Real(f) => f
+                            .canonicalize()
+                            .unwrap()
+                            .to_string_lossy()
+                            .to_string()
+                            .into(),
+                        f => f.to_string().into(),
+                    },
                     has_escape: false,
                     kind: Default::default(),
                 }))),
