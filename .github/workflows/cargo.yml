@@ -121,6 +121,7 @@ jobs:
       - name: Install node dependencies
         shell: bash
         run: |
+          mkdir -p $HOME/npm
           npm config set prefix $HOME/npm
           npm i browserslist regenerator-runtime sourcemap-validator progress
           npm i -g jest
