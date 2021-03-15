@@ -132,7 +132,7 @@ jobs:
         shell: bash
         if: runner.os == 'Windows'
         run: |
-          echo 'C:\\npm\\prefix\\jest' >> $GITHUB_PATH
+          echo 'C:\\npm\\prefix' >> $GITHUB_PATH
 
       - name: Cache
         uses: actions/cache@v2
