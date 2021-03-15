@@ -125,7 +125,7 @@ jobs:
           npm i browserslist regenerator-runtime sourcemap-validator progress
           npm i -g jest
           echo $HOME
-          ll $HOME/npm/bin
+          ls -al $HOME/npm/bin
           echo $HOME/npm/bin >> $GITHUB_PATH
 
       - name: Cache
