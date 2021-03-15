@@ -102,7 +102,8 @@ jobs:
       - name: Handle line endings
         shell: bash
         run: |
-          git config --global core.eol lf
+          git config --system core.autocrlf false
+          git config --system core.eol lf
 
       - uses: actions/checkout@v2
 
