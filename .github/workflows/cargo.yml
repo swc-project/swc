@@ -121,11 +121,10 @@ jobs:
       - name: Install node dependencies
         shell: bash
         run: |
-          npm config set prefix ~/npm
+          npm config set prefix $HOME/npm
           npm i browserslist regenerator-runtime sourcemap-validator progress
           npm i -g jest
           echo $HOME/npm/bin >> $GITHUB_PATH
-          echo $HOME\\npm\\bin >> $GITHUB_PATH
 
       - name: Cache
         uses: actions/cache@v2
