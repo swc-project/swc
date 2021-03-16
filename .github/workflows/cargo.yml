@@ -137,7 +137,7 @@ jobs:
       - name: Verify dependencies
         shell: bash
         run: |
-          jest -V
+          jest -v
 
       - name: Cache
         uses: actions/cache@v2
