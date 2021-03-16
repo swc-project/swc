@@ -361,12 +361,14 @@ where
             input, src_without_helpers
         );
 
-        let status =
-            Command::new(find_executable("jest").expect("failed to find `jest` from path"))
-                .args(&["--testMatch", &format!("{}", path.display())])
-                .current_dir(root)
-                .status()
-                .expect("failed to run jest");
+        let jest_path = find_executable("jest").expect("failed to find `jest` from path");
+
+        let status = Command::new("node")
+            .arg(&jest_path)
+            .args(&["--testMatch", &format!("{}", path.display())])
+            .current_dir(root)
+            .status()
+            .expect("failed to run jest");
         if status.success() {
             return Ok(());
         }
