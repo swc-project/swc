@@ -28,6 +28,7 @@ use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::{as_folder, Fold, FoldWith};
 use tempfile::tempdir_in;
 use testing::assert_eq;
+use testing::find_executable;
 use testing::NormalizedOutput;
 
 pub struct Tester<'a> {
@@ -360,11 +361,12 @@ where
             input, src_without_helpers
         );
 
-        let status = Command::new("jest")
-            .args(&["--testMatch", &format!("{}", path.display())])
-            .current_dir(root)
-            .status()
-            .expect("failed to run jest");
+        let status =
+            Command::new(find_executable("jest").expect("failed to find `jest` from path"))
+                .args(&["--testMatch", &format!("{}", path.display())])
+                .current_dir(root)
+                .status()
+                .expect("failed to run jest");
         if status.success() {
             return Ok(());
         }
