@@ -150,6 +150,8 @@ jobs:
       - name: Run cargo test
         shell: bash
         run: |
+          echo "Path: $PATH"
+          jest -v
           cargo test --color always -p ${{ matrix.crate }}
 
   # We use travis for rustdocs
