@@ -148,9 +148,7 @@ jobs:
           key: ${{ runner.os }}-cargo
 
       - name: Run cargo test
-        shell: bash
         run: |
-          echo "Path: $PATH"
           jest -v
           cargo test --color always -p ${{ matrix.crate }}
 
