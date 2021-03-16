@@ -1061,8 +1061,9 @@ impl SourceMap {
                 pos,
                 linebpos,
             );
-            let chpos = { self.calc_extra_bytes(&f, &mut ch_start, pos) };
-            let linechpos = { self.calc_extra_bytes(&f, &mut line_ch_start, linebpos) };
+            let chpos = pos.to_u32() - self.calc_extra_bytes(&f, &mut ch_start, pos);
+            let linechpos =
+                linebpos.to_u32() - self.calc_extra_bytes(&f, &mut line_ch_start, linebpos);
 
             let mut col = max(chpos, linechpos) - min(chpos, linechpos);
 
