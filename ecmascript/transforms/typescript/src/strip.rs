@@ -6,6 +6,7 @@ use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::default_constructor;
+use swc_ecma_utils::member_expr;
 use swc_ecma_utils::prepend_stmts;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::var::VarCollector;
@@ -157,7 +158,72 @@ impl Strip {
         let mut preserved_members = vec![];
         for member in take(&mut class.body) {
             match member {
-                ClassMember::ClassProp(p) => {}
+                ClassMember::ClassProp(ClassProp {
+                    span,
+                    key,
+                    computed,
+                    value: Some(value),
+                    is_static: false,
+                    ..
+                }) => {
+                    let mut define_property_args = vec![];
+
+                    define_property_args.push(ThisExpr { span: class.span }.as_arg());
+                    define_property_args.push(match *key {
+                        Expr::Ident(key) if !computed => Lit::Str(Str {
+                            span: key.span,
+                            value: key.sym,
+                            has_escape: false,
+                            kind: StrKind::Normal {
+                                contains_quote: false,
+                            },
+                        })
+                        .as_arg(),
+                        _ => key.as_arg(),
+                    });
+                    define_property_args.push(
+                        ObjectLit {
+                            span: DUMMY_SP,
+                            props: {
+                                let mut props = vec![];
+
+                                // enumerable: true,
+                                props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                    KeyValueProp {},
+                                ))));
+                                // configurable: true,
+                                props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                    KeyValueProp {},
+                                ))));
+                                // writable: true,
+                                props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                    KeyValueProp {},
+                                ))));
+
+                                // value: initializer
+                                props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                    KeyValueProp {},
+                                ))));
+
+                                props
+                            },
+                        }
+                        .as_arg(),
+                    );
+
+                    let define_property_call = Box::new(Expr::Call(CallExpr {
+                        span: p.span,
+                        callee: member_expr!(p.span, Object.definedProperty).as_callee(),
+                        args: define_property_args,
+                        type_args: Default::default(),
+                    }));
+                    let stmt = Stmt::Expr(ExprStmt {
+                        span: p.span,
+                        expr: define_property_call,
+                    });
+
+                    define_property_stmts.push(stmt);
+                }
                 _ => {
                     preserved_members.push(member);
                 }
