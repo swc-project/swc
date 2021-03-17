@@ -143,6 +143,10 @@ impl Strip {
 
 impl Strip {
     /// Convert class properties to `defineProperty` calls from constructor.
+    ///
+    /// This should be called after handling constructor parameter properties.
+    /// This is because this method simply appends `definedProperty` calls to
+    /// constructor.
     fn convert_properties_to_define_property(&mut self, class: &mut Class) {
         if !self.config.use_define_for_class_fields {
             return;
@@ -846,8 +850,8 @@ impl VisitMut for Strip {
         n.implements = Default::default();
 
         n.decorators.visit_mut_with(self);
-        self.convert_properties_to_define_property(n);
         n.body.visit_mut_with(self);
+        self.convert_properties_to_define_property(n);
         n.super_class.visit_mut_with(self);
     }
 
