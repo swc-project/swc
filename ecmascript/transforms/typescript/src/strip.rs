@@ -9,6 +9,7 @@ use swc_ecma_utils::default_constructor;
 use swc_ecma_utils::member_expr;
 use swc_ecma_utils::prepend_stmts;
 use swc_ecma_utils::private_ident;
+use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::var::VarCollector;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
@@ -189,20 +190,41 @@ impl Strip {
 
                                 // enumerable: true,
                                 props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                    KeyValueProp {},
+                                    KeyValueProp {
+                                        key: PropName::Ident(quote_ident!("enumerable")),
+                                        value: Box::new(Expr::Lit(Lit::Bool(Bool {
+                                            span: DUMMY_SP,
+                                            value: true,
+                                        }))),
+                                    },
                                 ))));
                                 // configurable: true,
                                 props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                    KeyValueProp {},
+                                    KeyValueProp {
+                                        key: PropName::Ident(quote_ident!("configurable")),
+                                        value: Box::new(Expr::Lit(Lit::Bool(Bool {
+                                            span: DUMMY_SP,
+                                            value: true,
+                                        }))),
+                                    },
                                 ))));
                                 // writable: true,
                                 props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                    KeyValueProp {},
+                                    KeyValueProp {
+                                        key: PropName::Ident(quote_ident!("writable")),
+                                        value: Box::new(Expr::Lit(Lit::Bool(Bool {
+                                            span: DUMMY_SP,
+                                            value: true,
+                                        }))),
+                                    },
                                 ))));
 
                                 // value: initializer
                                 props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                    KeyValueProp {},
+                                    KeyValueProp {
+                                        key: PropName::Ident(quote_ident!("value")),
+                                        value,
+                                    },
                                 ))));
 
                                 props
@@ -212,13 +234,13 @@ impl Strip {
                     );
 
                     let define_property_call = Box::new(Expr::Call(CallExpr {
-                        span: p.span,
-                        callee: member_expr!(p.span, Object.definedProperty).as_callee(),
+                        span,
+                        callee: member_expr!(span, Object.definedProperty).as_callee(),
                         args: define_property_args,
                         type_args: Default::default(),
                     }));
                     let stmt = Stmt::Expr(ExprStmt {
-                        span: p.span,
+                        span,
                         expr: define_property_call,
                     });
 
