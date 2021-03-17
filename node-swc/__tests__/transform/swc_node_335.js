@@ -13,7 +13,8 @@ it("should handle es2019", () => {
     }
     `, {
       jsc: {
-        keepClassNames: true
+        keepClassNames: true,
+        target: 'es2017',
       }
     })
       .code.trim()
