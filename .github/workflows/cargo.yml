@@ -33,8 +33,8 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          # - ubuntu-latest
-          # - macos-10.15
+          - ubuntu-latest
+          - macos-10.15
           - windows-2019
     steps:
       - uses: actions/checkout@v2
@@ -57,8 +57,8 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          # - ubuntu-latest
-          # - macos-10.15
+          - ubuntu-latest
+          - macos-10.15
           - windows-2019
         crate:
           - ast_node
