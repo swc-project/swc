@@ -138,6 +138,12 @@ impl Strip {
 }
 
 impl Strip {
+    fn convert_properties_to_define_property(&mut self, class: &mut Class) {
+        if !self.config.use_define_for_class_fields {
+            return;
+        }
+    }
+
     /// Returns [Some] if the method should be called again.
     fn handle_expr<'a>(&mut self, n: &'a mut Expr) -> Vec<&'a mut Expr> {
         match n {
@@ -835,6 +841,7 @@ impl VisitMut for Strip {
         n.implements = Default::default();
 
         n.decorators.visit_mut_with(self);
+        self.convert_properties_to_define_property(n);
         n.body.visit_mut_with(self);
         n.super_class.visit_mut_with(self);
     }
