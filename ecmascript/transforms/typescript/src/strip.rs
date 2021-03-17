@@ -38,6 +38,10 @@ impl Default for ImportsNotUsedAsValues {
 pub struct Config {
     #[serde(default)]
     pub import_not_used_as_values: ImportsNotUsedAsValues,
+    /// Use `defineProperty` for class properties.
+    ///
+    ///
+    /// See https://github.com/swc-project/swc/issues/1472
     #[serde(default)]
     pub use_define_for_class_fields: bool,
 }
