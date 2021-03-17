@@ -17,26 +17,29 @@ type EnumValues = FxHashMap<Id, TsLit>;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[non_exhaustive]
-// TODO(nayeemrmn): The name should be `ImportsNotUsedAsValues`. Rename as a
-// breaking change.
-pub enum ImportNotUsedAsValues {
+pub enum ImportsNotUsedAsValues {
     #[serde(rename = "remove")]
     Remove,
     #[serde(rename = "preserve")]
     Preserve,
 }
 
+#[deprecated = "ImportNotUsedAsValues is renamed to ImportsNotUsedAsValues"]
+pub type ImportNotUsedAsValues = ImportsNotUsedAsValues;
+
 /// This value defaults to `Remove`
-impl Default for ImportNotUsedAsValues {
+impl Default for ImportsNotUsedAsValues {
     fn default() -> Self {
         Self::Remove
     }
 }
 
 #[derive(Debug, Default, Serialize, Deserialize)]
-#[non_exhaustive]
 pub struct Config {
-    pub import_not_used_as_values: ImportNotUsedAsValues,
+    #[serde(default)]
+    pub import_not_used_as_values: ImportsNotUsedAsValues,
+    #[serde(default)]
+    pub use_define_for_class_fields: bool,
 }
 
 pub fn strip_with_config(config: Config) -> impl Fold {
@@ -972,8 +975,8 @@ impl VisitMut for Strip {
 
         if import.specifiers.is_empty() && !self.is_side_effect_import {
             self.is_side_effect_import = match self.config.import_not_used_as_values {
-                ImportNotUsedAsValues::Remove => false,
-                ImportNotUsedAsValues::Preserve => true,
+                ImportsNotUsedAsValues::Remove => false,
+                ImportsNotUsedAsValues::Preserve => true,
             };
         }
     }
