@@ -110,13 +110,14 @@ jobs:
         run: |
           export PATH="$PATH:$HOME/npm/bin"
           cargo test --color always -p ${{ matrix.crate }}
-  #
-  deploy-docs:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
-    needs:
-      - test
-    steps:
-      - uses: actions/checkout@v2
-      - name: Create rustdoc
-        run: cargo doc
+
+  # We use travis for rustdocs
+  # deploy-docs:
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/master'
+  #   needs:
+  #     - test
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Create rustdoc
+  #       run: cargo doc
