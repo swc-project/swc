@@ -99,8 +99,9 @@ jobs:
           - testing_macros
 
     steps:
-      - name: Handle line endings
+      - name: Handle line endings (Windows only)
         shell: bash
+        if: runner.os == 'Windows'
         run: |
           git config --system core.autocrlf false
           git config --system core.eol lf
