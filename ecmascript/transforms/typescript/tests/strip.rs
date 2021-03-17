@@ -3085,7 +3085,7 @@ test!(
     }),
     |_| {
         let mut config = strip::Config::default();
-        config.import_not_used_as_values = strip::ImportNotUsedAsValues::Preserve;
+        config.import_not_used_as_values = strip::ImportsNotUsedAsValues::Preserve;
         strip_with_config(config)
     },
     deno_7413_3,
