@@ -5,6 +5,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::default_constructor;
 use swc_ecma_utils::prepend_stmts;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::var::VarCollector;
@@ -151,6 +152,46 @@ impl Strip {
         if !self.config.use_define_for_class_fields {
             return;
         }
+
+        let mut define_property_stmts = vec![];
+        let mut preserved_members = vec![];
+        for member in take(&mut class.body) {
+            match member {
+                ClassMember::ClassProp(p) => {}
+                _ => {
+                    preserved_members.push(member);
+                }
+            }
+        }
+
+        if !define_property_stmts.is_empty() {
+            // We should append `definedProperty` calls to a constructor.
+
+            // If user have defined a constructor, append to it.
+            for member in &mut preserved_members {
+                match member {
+                    ClassMember::Constructor(Constructor {
+                        body: Some(body), ..
+                    }) => {
+                        body.stmts.extend(take(&mut define_property_stmts));
+                    }
+                    _ => {}
+                }
+            }
+
+            // If there's no constructor, we create one.
+            if !define_property_stmts.is_empty() {
+                let mut c = default_constructor(class.super_class.is_some());
+                c.body
+                    .as_mut()
+                    .unwrap()
+                    .stmts
+                    .extend(take(&mut define_property_stmts));
+                preserved_members.push(ClassMember::Constructor(c));
+            }
+        }
+
+        class.body = preserved_members;
     }
 
     /// Returns [Some] if the method should be called again.
