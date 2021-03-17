@@ -138,6 +138,7 @@ impl Strip {
 }
 
 impl Strip {
+    /// Convert class properties to `defineProperty` calls from constructor.
     fn convert_properties_to_define_property(&mut self, class: &mut Class) {
         if !self.config.use_define_for_class_fields {
             return;
