@@ -3519,7 +3519,20 @@ test_with_config!(
         }
     }
     ",
-    ""
+    "
+    class A extends Object {
+        constructor(b = 2){
+            super();
+            this.b = b;
+            Object.definedProperty(this, 'a', {
+                enumerable: true,
+                configurable: true,
+                writable: true,
+                value: 1
+            });
+        }
+    }
+    "
 );
 
 test_with_config!(
@@ -3536,5 +3549,13 @@ test_with_config!(
         }
     }
     ",
-    ""
+    "
+    class A extends Object {
+        a = 1;
+        constructor(b = 2){
+            super();
+            this.b = b;
+        }
+    }
+    "
 );
