@@ -99,9 +99,8 @@ jobs:
           - testing_macros
 
     steps:
-      - name: Handle line endings (Windows only)
+      - name: Handle line endings
         shell: bash
-        if: runner.os == 'Windows'
         run: |
           git config --system core.autocrlf false
           git config --system core.eol lf
@@ -151,7 +150,7 @@ jobs:
       - name: Run cargo test
         run: |
           jest -v
-          cargo test --color always -p ${{ matrix.crate }}
+          cargo test --color always -p ${{ matrix.crate }} -- --nocapture
 
   # We use travis for rustdocs
   # deploy-docs:
