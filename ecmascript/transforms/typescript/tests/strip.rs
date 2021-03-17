@@ -33,6 +33,22 @@ macro_rules! to {
     };
 }
 
+macro_rules! test_with_config {
+    ($name:ident, $config:expr, $from:expr, $to:expr) => {
+        test!(
+            Syntax::Typescript(TsConfig {
+                decorators: true,
+                ..Default::default()
+            }),
+            |_| strip_with_config($config),
+            $name,
+            $from,
+            $to,
+            ok_if_code_eq
+        );
+    };
+}
+
 to!(
     constructor_01,
     "class Foo {
@@ -3487,4 +3503,38 @@ to!(
     ",
     "
     "
+);
+
+test_with_config!(
+    issue_1472_1_define,
+    strip::Config {
+        use_define_for_class_fields: true,
+        ..Default::default()
+    },
+    "
+    class A extends Object {
+        a = 1;
+        constructor(public b = 2) {
+          super();
+        }
+    }
+    ",
+    ""
+);
+
+test_with_config!(
+    issue_1472_1_no_define,
+    strip::Config {
+        use_define_for_class_fields: false,
+        ..Default::default()
+    },
+    "
+    class A extends Object {
+        a = 1;
+        constructor(public b = 2) {
+          super();
+        }
+    }
+    ",
+    ""
 );
