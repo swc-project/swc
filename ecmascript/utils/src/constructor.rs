@@ -13,6 +13,12 @@ pub fn inject_after_super(c: &mut Constructor, exprs: Vec<Box<Expr>>) {
 
     c.body = std::mem::take(&mut c.body).fold_with(&mut folder);
     if !folder.injected {
+        if c.body.is_none() {
+            c.body = Some(BlockStmt {
+                span: DUMMY_SP,
+                stmts: vec![],
+            });
+        }
         // there was no super() call
         prepend_stmts(
             &mut c.body.as_mut().unwrap().stmts,
