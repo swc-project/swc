@@ -14,6 +14,7 @@ use swc_common::SourceMap;
 use swc_common::Span;
 
 mod lit;
+mod operators;
 
 #[derive(Clone)]
 pub struct Context {
