@@ -1,21 +1,11 @@
-use std::collections::HashMap;
 use ahash::RandomState;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use serde_json::Value;
+use std::collections::HashMap;
 
 use crate::ast::{
-    class::*,
-    comment::Comment,
-    expr::*,
-    flow::*,
-    decl::*,
-    jsx::*,
-    lit::*,
-    module::*,
-    object::*,
-    pat::*,
-    stmt::*,
-    typescript::*,
+    class::*, comment::Comment, decl::*, expr::*, flow::*, jsx::*, lit::*, module::*, object::*,
+    pat::*, stmt::*, typescript::*,
 };
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
@@ -25,11 +15,26 @@ pub struct LineCol {
     pub column: usize,
 }
 
+impl LineCol {
+    pub(crate) fn dummy() -> Self {
+        LineCol { line: 0, column: 0 }
+    }
+}
+
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Loc {
     pub start: LineCol,
     pub end: LineCol,
+}
+
+impl Loc {
+    pub(crate) fn dummy() -> Self {
+        Loc {
+            start: LineCol::dummy(),
+            end: LineCol::dummy(),
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -52,7 +57,6 @@ pub struct BaseNode {
     #[serde(default)]
     pub extra: Option<HashMap<String, Value, RandomState>>,
 }
-
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
@@ -533,7 +537,7 @@ pub enum Scopable {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
-pub enum BlockParent  {
+pub enum BlockParent {
     #[serde(rename = "BlockStatement")]
     BlockStmt(BlockStatement),
     CatchClause(CatchClause),
@@ -721,7 +725,6 @@ pub enum Param {
     #[serde(rename = "TSParameterProperty")]
     TSProp(TSParameterProperty),
 }
-
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
