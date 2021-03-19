@@ -279,7 +279,7 @@ impl Decorators {
                         ClassMember::Constructor(c) => c,
                         _ => unreachable!(),
                     };
-                    c = inject_after_super(c, vec![initialize_call]);
+                    inject_after_super(&mut c, vec![initialize_call]);
 
                     ClassMember::Constructor(c)
                 }

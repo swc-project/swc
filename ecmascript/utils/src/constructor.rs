@@ -4,14 +4,14 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
-pub fn inject_after_super(mut c: Constructor, exprs: Vec<Box<Expr>>) -> Constructor {
+pub fn inject_after_super(c: &mut Constructor, exprs: Vec<Box<Expr>>) {
     // Allow using super multiple time
     let mut folder = Injector {
         exprs: &exprs,
         injected: false,
     };
 
-    c.body = c.body.fold_with(&mut folder);
+    c.body = std::mem::take(&mut c.body).fold_with(&mut folder);
     if !folder.injected {
         // there was no super() call
         prepend_stmts(
@@ -19,7 +19,6 @@ pub fn inject_after_super(mut c: Constructor, exprs: Vec<Box<Expr>>) -> Construc
             exprs.into_iter().map(|v| v.into_stmt()),
         );
     }
-    c
 }
 
 struct Injector<'a> {

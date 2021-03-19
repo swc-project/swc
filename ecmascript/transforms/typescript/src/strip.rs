@@ -5,13 +5,10 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::default_constructor;
-use swc_ecma_utils::member_expr;
-use swc_ecma_utils::prepend_stmts;
 use swc_ecma_utils::private_ident;
-use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::var::VarCollector;
 use swc_ecma_utils::ExprFactory;
+use swc_ecma_utils::{constructor::inject_after_super, default_constructor};
 use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
 use swc_ecma_visit::{as_folder, Fold, Node, Visit, VisitMut, VisitMutWith, VisitWith};
 
@@ -41,10 +38,21 @@ impl Default for ImportsNotUsedAsValues {
 pub struct Config {
     #[serde(default)]
     pub import_not_used_as_values: ImportsNotUsedAsValues,
-    /// Use `defineProperty` for class properties.
+    /// Align the semantics of TS class fields with TC39 class fields. Defaults
+    /// to `false`.
     ///
+    /// See https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html#the-usedefineforclassfields-flag-and-the-declare-property-modifier.
     ///
-    /// See https://github.com/swc-project/swc/issues/1472
+    /// When running `tsc` with configuration `"target": "ESNext",
+    /// "useDefineForClassFields": true`, TS class fields are preserved as JS
+    /// class fields. We target ESNext, so this our behavior with
+    /// `use_define_for_class_fields: true`.
+    ///
+    /// When running `tsc` with configuration `"target": "<ES6-ES2020>",
+    /// "useDefineForClassFields": true`, TS class fields are transformed to
+    /// `Object.defineProperty()` statements. You must additionally apply the
+    /// `swc_ecmascript::transforms::compat::es2020::class_properties()` pass to
+    /// get this backward-compatible output.
     #[serde(default)]
     pub use_define_for_class_fields: bool,
 }
@@ -145,141 +153,100 @@ impl Strip {
 }
 
 impl Strip {
-    /// Convert class properties to `defineProperty` calls from constructor.
-    ///
-    /// This should be called after handling constructor parameter properties.
-    /// This is because this method simply appends `definedProperty` calls to
-    /// constructor.
-    fn convert_properties_to_define_property(&mut self, class: &mut Class) {
-        if !self.config.use_define_for_class_fields {
-            return;
-        }
-
-        let mut define_property_stmts = vec![];
-        let mut preserved_members = vec![];
-        for member in take(&mut class.body) {
-            match member {
-                ClassMember::ClassProp(ClassProp {
-                    span,
-                    key,
-                    computed,
-                    value: Some(value),
-                    is_static: false,
-                    ..
-                }) => {
-                    let mut define_property_args = vec![];
-
-                    define_property_args.push(ThisExpr { span: class.span }.as_arg());
-                    define_property_args.push(match *key {
-                        Expr::Ident(key) if !computed => Lit::Str(Str {
-                            span: key.span,
-                            value: key.sym,
-                            has_escape: false,
-                            kind: StrKind::Normal {
-                                contains_quote: false,
-                            },
-                        })
-                        .as_arg(),
-                        _ => key.as_arg(),
-                    });
-                    define_property_args.push(
-                        ObjectLit {
-                            span: DUMMY_SP,
-                            props: {
-                                let mut props = vec![];
-
-                                // enumerable: true,
-                                props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                    KeyValueProp {
-                                        key: PropName::Ident(quote_ident!("enumerable")),
-                                        value: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                            span: DUMMY_SP,
-                                            value: true,
-                                        }))),
-                                    },
-                                ))));
-                                // configurable: true,
-                                props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                    KeyValueProp {
-                                        key: PropName::Ident(quote_ident!("configurable")),
-                                        value: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                            span: DUMMY_SP,
-                                            value: true,
-                                        }))),
-                                    },
-                                ))));
-                                // writable: true,
-                                props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                    KeyValueProp {
-                                        key: PropName::Ident(quote_ident!("writable")),
-                                        value: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                            span: DUMMY_SP,
-                                            value: true,
-                                        }))),
-                                    },
-                                ))));
-
-                                // value: initializer
-                                props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                    KeyValueProp {
-                                        key: PropName::Ident(quote_ident!("value")),
-                                        value,
-                                    },
-                                ))));
-
-                                props
-                            },
-                        }
-                        .as_arg(),
-                    );
-
-                    let define_property_call = Box::new(Expr::Call(CallExpr {
-                        span,
-                        callee: member_expr!(span, Object.definedProperty).as_callee(),
-                        args: define_property_args,
-                        type_args: Default::default(),
-                    }));
-                    let stmt = Stmt::Expr(ExprStmt {
-                        span,
-                        expr: define_property_call,
-                    });
-
-                    define_property_stmts.push(stmt);
-                }
-                _ => {
-                    preserved_members.push(member);
-                }
-            }
-        }
-
-        if !define_property_stmts.is_empty() {
-            // We should append `definedProperty` calls to a constructor.
-
-            // If user have defined a constructor, append to it.
-            for member in &mut preserved_members {
+    fn transform_class_fields(&mut self, class: &mut Class) {
+        if self.config.use_define_for_class_fields {
+            let mut param_class_fields = vec![];
+            for member in &class.body {
                 match member {
-                    ClassMember::Constructor(Constructor {
-                        body: Some(body), ..
-                    }) => {
-                        body.stmts.extend(take(&mut define_property_stmts));
+                    ClassMember::Constructor(constructor) => {
+                        for param in &constructor.params {
+                            match param {
+                                ParamOrTsParamProp::TsParamProp(param_prop) => {
+                                    let ident = match &param_prop.param {
+                                        TsParamPropParam::Ident(ident) => ident.id.clone(),
+                                        TsParamPropParam::Assign(pat) => {
+                                            pat.clone().left.ident().unwrap().id
+                                        }
+                                    };
+                                    let param_class_field = ClassMember::ClassProp(ClassProp {
+                                        span: class.span,
+                                        key: Box::new(Expr::Ident(ident)),
+                                        value: None,
+                                        type_ann: None,
+                                        is_static: false,
+                                        decorators: vec![],
+                                        computed: false,
+                                        accessibility: None,
+                                        is_abstract: false,
+                                        is_optional: false,
+                                        readonly: false,
+                                        declare: false,
+                                        definite: false,
+                                    });
+                                    param_class_fields.push(param_class_field);
+                                }
+                                _ => {}
+                            }
+                        }
+                        break;
                     }
                     _ => {}
                 }
             }
-
-            // If there's no constructor, we create one.
-            if !define_property_stmts.is_empty() {
-                let mut c = default_constructor(class.super_class.is_some());
-                c.body
-                    .as_mut()
-                    .unwrap()
-                    .stmts
-                    .extend(take(&mut define_property_stmts));
-                preserved_members.push(ClassMember::Constructor(c));
+            if !param_class_fields.is_empty() {
+                param_class_fields.append(&mut class.body.take());
+                class.body = param_class_fields;
+            }
+            return;
+        }
+        let mut assign_exprs = vec![];
+        let mut new_body = vec![];
+        for member in take(&mut class.body) {
+            match member {
+                ClassMember::ClassProp(class_field) if class_field.value.is_none() => {}
+                ClassMember::ClassProp(mut class_field) if !class_field.is_static => {
+                    let assign_lhs = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                        span: class_field.span,
+                        obj: ExprOrSuper::Expr(Box::new(Expr::This(ThisExpr { span: class.span }))),
+                        prop: class_field.key,
+                        computed: class_field.computed,
+                    })));
+                    let assign_expr = Box::new(Expr::Assign(AssignExpr {
+                        span: class_field.span,
+                        op: op!("="),
+                        left: assign_lhs,
+                        right: class_field.value.take().unwrap(),
+                    }));
+                    assign_exprs.push(assign_expr);
+                }
+                ClassMember::ClassProp(_) => {
+                    // TODO(nayeemrmn): Static fields should also be moved to
+                    // assignments after the class. Figure out how. They are
+                    // preserved for now.
+                    new_body.push(member);
+                }
+                _ => {
+                    new_body.push(member);
+                }
             }
         }
-
-        class.body = preserved_members;
+        if !assign_exprs.is_empty() {
+            for member in &mut new_body {
+                match member {
+                    ClassMember::Constructor(constructor) => {
+                        inject_after_super(constructor, take(&mut assign_exprs));
+                        break;
+                    }
+                    _ => {}
+                }
+            }
+            if !assign_exprs.is_empty() {
+                let mut constructor = default_constructor(class.super_class.is_some());
+                inject_after_super(&mut constructor, assign_exprs);
+                new_body.push(ClassMember::Constructor(constructor));
+            }
+        }
+        class.body = new_body;
     }
 
     /// Returns [Some] if the method should be called again.
@@ -978,16 +945,16 @@ impl VisitMut for Strip {
 
         n.implements = Default::default();
 
+        self.transform_class_fields(n);
         n.decorators.visit_mut_with(self);
         n.body.visit_mut_with(self);
-        self.convert_properties_to_define_property(n);
         n.super_class.visit_mut_with(self);
     }
 
     fn visit_mut_constructor(&mut self, n: &mut Constructor) {
         n.visit_mut_children_with(self);
 
-        let mut stmts = vec![];
+        let mut assign_exprs = vec![];
 
         n.params.map_with_mut(|params| {
             params.move_map(|param| match param {
@@ -1023,30 +990,22 @@ impl VisitMut for Strip {
                         }
                         _ => unreachable!("destructuring pattern inside TsParameterProperty"),
                     };
-                    stmts.push(
-                        AssignExpr {
-                            span: DUMMY_SP,
-                            left: PatOrExpr::Expr(Box::new(
-                                ThisExpr { span: DUMMY_SP }.make_member(ident.id.clone()),
-                            )),
-                            op: op!("="),
-                            right: Box::new(Expr::Ident(ident.id)),
-                        }
-                        .into_stmt(),
-                    );
+                    let assign_expr = Box::new(Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        left: PatOrExpr::Expr(Box::new(
+                            ThisExpr { span: DUMMY_SP }.make_member(ident.id.clone()),
+                        )),
+                        op: op!("="),
+                        right: Box::new(Expr::Ident(ident.id)),
+                    }));
+                    assign_exprs.push(assign_expr);
 
                     ParamOrTsParamProp::Param(param)
                 }
             })
         });
 
-        n.body = match n.body.take() {
-            Some(mut body) => {
-                prepend_stmts(&mut body.stmts, stmts.into_iter());
-                Some(body)
-            }
-            None => None,
-        };
+        inject_after_super(n, assign_exprs);
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
@@ -1249,7 +1208,7 @@ impl VisitMut for Strip {
                 value: None,
                 ref decorators,
                 ..
-            }) if decorators.is_empty() => false,
+            }) if decorators.is_empty() && !self.config.use_define_for_class_fields => false,
 
             _ => true,
         });
