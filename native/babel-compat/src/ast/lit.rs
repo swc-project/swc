@@ -1,9 +1,9 @@
 use serde::{Serialize, Deserialize};
 
 use crate::ast::{
-    common::{BaseNode},
-    expr::{Expression},
-    typescript::{TSType},
+    common::BaseNode,
+    expr::Expression,
+    typescript::TSType,
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
