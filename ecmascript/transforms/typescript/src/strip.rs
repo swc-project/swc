@@ -1,6 +1,6 @@
 use fxhash::FxHashMap;
 use serde::{Deserialize, Serialize};
-use std::mem::take;
+use std::{borrow::Borrow, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -205,19 +205,25 @@ impl Strip {
             match member {
                 ClassMember::ClassProp(class_field) if class_field.value.is_none() => {}
                 ClassMember::ClassProp(mut class_field) if !class_field.is_static => {
-                    let assign_lhs = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
-                        span: class_field.span,
-                        obj: ExprOrSuper::Expr(Box::new(Expr::This(ThisExpr { span: class.span }))),
-                        prop: class_field.key,
-                        computed: class_field.computed,
-                    })));
-                    let assign_expr = Box::new(Expr::Assign(AssignExpr {
-                        span: class_field.span,
-                        op: op!("="),
-                        left: assign_lhs,
-                        right: class_field.value.take().unwrap(),
-                    }));
-                    assign_exprs.push(assign_expr);
+                    if let Some(value) = class_field.value.take() {
+                        let computed = class_field.computed
+                            || !matches!(class_field.key.borrow(), Expr::Ident(_));
+                        let assign_lhs = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                            span: class_field.span,
+                            obj: ExprOrSuper::Expr(Box::new(Expr::This(ThisExpr {
+                                span: class.span,
+                            }))),
+                            prop: class_field.key,
+                            computed,
+                        })));
+                        let assign_expr = Box::new(Expr::Assign(AssignExpr {
+                            span: class_field.span,
+                            op: op!("="),
+                            left: assign_lhs,
+                            right: value,
+                        }));
+                        assign_exprs.push(assign_expr);
+                    }
                 }
                 ClassMember::ClassProp(_) => {
                     // TODO(nayeemrmn): Static fields should also be moved to
