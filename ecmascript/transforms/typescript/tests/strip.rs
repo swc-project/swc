@@ -33,6 +33,22 @@ macro_rules! to {
     };
 }
 
+macro_rules! test_with_config {
+    ($name:ident, $config:expr, $from:expr, $to:expr) => {
+        test!(
+            Syntax::Typescript(TsConfig {
+                decorators: true,
+                ..Default::default()
+            }),
+            |_| strip_with_config($config),
+            $name,
+            $from,
+            $to,
+            ok_if_code_eq
+        );
+    };
+}
+
 to!(
     constructor_01,
     "class Foo {
@@ -3085,7 +3101,7 @@ test!(
     }),
     |_| {
         let mut config = strip::Config::default();
-        config.import_not_used_as_values = strip::ImportNotUsedAsValues::Preserve;
+        config.import_not_used_as_values = strip::ImportsNotUsedAsValues::Preserve;
         strip_with_config(config)
     },
     deno_7413_3,
@@ -3486,5 +3502,60 @@ to!(
     export {}
     ",
     "
+    "
+);
+
+test_with_config!(
+    issue_1472_1_define,
+    strip::Config {
+        use_define_for_class_fields: true,
+        ..Default::default()
+    },
+    "
+    class A extends Object {
+        a = 1;
+        constructor(public b = 2) {
+          super();
+        }
+    }
+    ",
+    "
+    class A extends Object {
+        constructor(b = 2){
+            super();
+            this.b = b;
+            Object.definedProperty(this, 'a', {
+                enumerable: true,
+                configurable: true,
+                writable: true,
+                value: 1
+            });
+        }
+    }
+    "
+);
+
+test_with_config!(
+    issue_1472_1_no_define,
+    strip::Config {
+        use_define_for_class_fields: false,
+        ..Default::default()
+    },
+    "
+    class A extends Object {
+        a = 1;
+        constructor(public b = 2) {
+          super();
+        }
+    }
+    ",
+    "
+    class A extends Object {
+        a = 1;
+        constructor(b = 2){
+            super();
+            this.b = b;
+        }
+    }
     "
 );

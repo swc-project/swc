@@ -802,6 +802,7 @@ impl Merge for JscConfig {
         self.transform.merge(&from.transform);
         self.target.merge(&from.target);
         self.external_helpers.merge(&from.external_helpers);
+        self.keep_class_names.merge(&from.keep_class_names);
     }
 }
 

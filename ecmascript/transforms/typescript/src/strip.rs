@@ -5,8 +5,11 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::default_constructor;
+use swc_ecma_utils::member_expr;
 use swc_ecma_utils::prepend_stmts;
 use swc_ecma_utils::private_ident;
+use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::var::VarCollector;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
@@ -17,26 +20,33 @@ type EnumValues = FxHashMap<Id, TsLit>;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[non_exhaustive]
-// TODO(nayeemrmn): The name should be `ImportsNotUsedAsValues`. Rename as a
-// breaking change.
-pub enum ImportNotUsedAsValues {
+pub enum ImportsNotUsedAsValues {
     #[serde(rename = "remove")]
     Remove,
     #[serde(rename = "preserve")]
     Preserve,
 }
 
+#[deprecated = "ImportNotUsedAsValues is renamed to ImportsNotUsedAsValues"]
+pub type ImportNotUsedAsValues = ImportsNotUsedAsValues;
+
 /// This value defaults to `Remove`
-impl Default for ImportNotUsedAsValues {
+impl Default for ImportsNotUsedAsValues {
     fn default() -> Self {
         Self::Remove
     }
 }
 
 #[derive(Debug, Default, Serialize, Deserialize)]
-#[non_exhaustive]
 pub struct Config {
-    pub import_not_used_as_values: ImportNotUsedAsValues,
+    #[serde(default)]
+    pub import_not_used_as_values: ImportsNotUsedAsValues,
+    /// Use `defineProperty` for class properties.
+    ///
+    ///
+    /// See https://github.com/swc-project/swc/issues/1472
+    #[serde(default)]
+    pub use_define_for_class_fields: bool,
 }
 
 pub fn strip_with_config(config: Config) -> impl Fold {
@@ -135,6 +145,143 @@ impl Strip {
 }
 
 impl Strip {
+    /// Convert class properties to `defineProperty` calls from constructor.
+    ///
+    /// This should be called after handling constructor parameter properties.
+    /// This is because this method simply appends `definedProperty` calls to
+    /// constructor.
+    fn convert_properties_to_define_property(&mut self, class: &mut Class) {
+        if !self.config.use_define_for_class_fields {
+            return;
+        }
+
+        let mut define_property_stmts = vec![];
+        let mut preserved_members = vec![];
+        for member in take(&mut class.body) {
+            match member {
+                ClassMember::ClassProp(ClassProp {
+                    span,
+                    key,
+                    computed,
+                    value: Some(value),
+                    is_static: false,
+                    ..
+                }) => {
+                    let mut define_property_args = vec![];
+
+                    define_property_args.push(ThisExpr { span: class.span }.as_arg());
+                    define_property_args.push(match *key {
+                        Expr::Ident(key) if !computed => Lit::Str(Str {
+                            span: key.span,
+                            value: key.sym,
+                            has_escape: false,
+                            kind: StrKind::Normal {
+                                contains_quote: false,
+                            },
+                        })
+                        .as_arg(),
+                        _ => key.as_arg(),
+                    });
+                    define_property_args.push(
+                        ObjectLit {
+                            span: DUMMY_SP,
+                            props: {
+                                let mut props = vec![];
+
+                                // enumerable: true,
+                                props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                    KeyValueProp {
+                                        key: PropName::Ident(quote_ident!("enumerable")),
+                                        value: Box::new(Expr::Lit(Lit::Bool(Bool {
+                                            span: DUMMY_SP,
+                                            value: true,
+                                        }))),
+                                    },
+                                ))));
+                                // configurable: true,
+                                props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                    KeyValueProp {
+                                        key: PropName::Ident(quote_ident!("configurable")),
+                                        value: Box::new(Expr::Lit(Lit::Bool(Bool {
+                                            span: DUMMY_SP,
+                                            value: true,
+                                        }))),
+                                    },
+                                ))));
+                                // writable: true,
+                                props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                    KeyValueProp {
+                                        key: PropName::Ident(quote_ident!("writable")),
+                                        value: Box::new(Expr::Lit(Lit::Bool(Bool {
+                                            span: DUMMY_SP,
+                                            value: true,
+                                        }))),
+                                    },
+                                ))));
+
+                                // value: initializer
+                                props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                    KeyValueProp {
+                                        key: PropName::Ident(quote_ident!("value")),
+                                        value,
+                                    },
+                                ))));
+
+                                props
+                            },
+                        }
+                        .as_arg(),
+                    );
+
+                    let define_property_call = Box::new(Expr::Call(CallExpr {
+                        span,
+                        callee: member_expr!(span, Object.definedProperty).as_callee(),
+                        args: define_property_args,
+                        type_args: Default::default(),
+                    }));
+                    let stmt = Stmt::Expr(ExprStmt {
+                        span,
+                        expr: define_property_call,
+                    });
+
+                    define_property_stmts.push(stmt);
+                }
+                _ => {
+                    preserved_members.push(member);
+                }
+            }
+        }
+
+        if !define_property_stmts.is_empty() {
+            // We should append `definedProperty` calls to a constructor.
+
+            // If user have defined a constructor, append to it.
+            for member in &mut preserved_members {
+                match member {
+                    ClassMember::Constructor(Constructor {
+                        body: Some(body), ..
+                    }) => {
+                        body.stmts.extend(take(&mut define_property_stmts));
+                    }
+                    _ => {}
+                }
+            }
+
+            // If there's no constructor, we create one.
+            if !define_property_stmts.is_empty() {
+                let mut c = default_constructor(class.super_class.is_some());
+                c.body
+                    .as_mut()
+                    .unwrap()
+                    .stmts
+                    .extend(take(&mut define_property_stmts));
+                preserved_members.push(ClassMember::Constructor(c));
+            }
+        }
+
+        class.body = preserved_members;
+    }
+
     /// Returns [Some] if the method should be called again.
     fn handle_expr<'a>(&mut self, n: &'a mut Expr) -> Vec<&'a mut Expr> {
         match n {
@@ -833,6 +980,7 @@ impl VisitMut for Strip {
 
         n.decorators.visit_mut_with(self);
         n.body.visit_mut_with(self);
+        self.convert_properties_to_define_property(n);
         n.super_class.visit_mut_with(self);
     }
 
@@ -972,8 +1120,8 @@ impl VisitMut for Strip {
 
         if import.specifiers.is_empty() && !self.is_side_effect_import {
             self.is_side_effect_import = match self.config.import_not_used_as_values {
-                ImportNotUsedAsValues::Remove => false,
-                ImportNotUsedAsValues::Preserve => true,
+                ImportsNotUsedAsValues::Remove => false,
+                ImportsNotUsedAsValues::Preserve => true,
             };
         }
     }
