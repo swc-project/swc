@@ -137,7 +137,7 @@ impl From<String> for NormalizedOutput {
                 for dir in &manifest_dirs {
                     s = s.replace(&**dir, "$DIR");
                 }
-                s = s.replace("\\", "/");
+                s = s.replace("\\\\", "\\").replace("\\", "/");
                 let s = if cfg!(target_os = "windows") {
                     s.replace("//?/$DIR", "$DIR")
                 } else {
