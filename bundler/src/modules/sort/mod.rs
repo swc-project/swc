@@ -19,6 +19,8 @@ impl Modules {
     ///
     /// TODO: Change this to return [Module].
     pub fn sort(&mut self, entry_id: ModuleId, module_graph: &ModuleGraph, cm: &Lrc<SourceMap>) {
+        log::debug!("Sorting {:?}", entry_id);
+
         let injected_ctxt = self.injected_ctxt;
         let chunks = self.take_chunks(entry_id, module_graph, cm);
 
