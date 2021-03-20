@@ -127,7 +127,7 @@ impl From<String> for NormalizedOutput {
         for line in s.lines() {
             let modified;
             let line = if cfg!(target_os = "windows") && line.contains("\\\\?\\") {
-                modified = s.replace("\\\\", "\\");
+                modified = line.replace("\\\\", "\\");
                 &modified
             } else {
                 line
