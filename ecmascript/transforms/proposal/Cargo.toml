@@ -10,6 +10,10 @@ version = "0.8.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[features]
+default = []
+multi-module = ["swc_ecma_loader"]
+
 [dependencies]
 either = "1.6.1"
 fxhash = "0.2.1"
@@ -18,6 +22,7 @@ smallvec = "1.6.0"
 swc_atoms = {version = "0.2", path = "../../../atoms"}
 swc_common = {version = "0.10.10", path = "../../../common"}
 swc_ecma_ast = {version = "0.40.0", path = "../../ast"}
+swc_ecma_loader = {version = "0.1.0", path = "../../loader", optional = true}
 swc_ecma_parser = {version = "0.50.0", path = "../../parser"}
 swc_ecma_transforms_base = {version = "0.7.0", path = "../base"}
 swc_ecma_utils = {version = "0.30.0", path = "../../utils"}
