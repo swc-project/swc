@@ -118,18 +118,26 @@ impl From<String> for NormalizedOutput {
             return NormalizedOutput(s);
         }
 
-        let manifest_dir1 = adjust_canonicalization(paths::manifest_dir());
-        let manifest_dir2 = paths::manifest_dir().to_string_lossy().to_string();
+        let manifest_dirs = vec![
+            adjust_canonicalization(paths::manifest_dir()),
+            paths::manifest_dir().to_string_lossy().to_string(),
+            adjust_canonicalization(paths::manifest_dir()).replace("\\", "\\\\"),
+            paths::manifest_dir()
+                .to_string_lossy()
+                .replace("\\", "\\\\"),
+        ];
 
         let s = s.replace("\r\n", "\n");
 
         let mut buf = String::new();
         for line in s.lines() {
-            if line.contains(&manifest_dir1) || line.contains(&manifest_dir2) {
-                let s = line
-                    .replace(&manifest_dir1, "$DIR")
-                    .replace(&manifest_dir2, "$DIR")
-                    .replace("\\", "/");
+            if manifest_dirs.iter().any(|dir| line.contains(&**dir)) {
+                let mut s = line.to_string();
+
+                for dir in &manifest_dirs {
+                    s = s.replace(&**dir, "$DIR");
+                }
+                s = s.replace("\\", "/");
                 let s = if cfg!(target_os = "windows") {
                     s.replace("//?/$DIR", "$DIR")
                 } else {
