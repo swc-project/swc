@@ -125,14 +125,6 @@ impl From<String> for NormalizedOutput {
 
         let mut buf = String::new();
         for line in s.lines() {
-            let modified;
-            let line = if cfg!(target_os = "windows") && line.contains("\\\\?\\") {
-                modified = line.replace("\\\\", "\\");
-                &modified
-            } else {
-                line
-            };
-
             if line.contains(&manifest_dir1) || line.contains(&manifest_dir2) {
                 let s = line
                     .replace(&manifest_dir1, "$DIR")
