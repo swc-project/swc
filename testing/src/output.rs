@@ -139,7 +139,7 @@ impl From<String> for NormalizedOutput {
                 }
                 s = s.replace("\\\\", "\\").replace("\\", "/");
                 let s = if cfg!(target_os = "windows") {
-                    s.replace("//?/$DIR", "$DIR")
+                    s.replace("//?/$DIR", "$DIR").replace("/?/$DIR", "$DIR")
                 } else {
                     s
                 };
