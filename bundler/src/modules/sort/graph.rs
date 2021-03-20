@@ -3,6 +3,7 @@ use ahash::AHashSet;
 use petgraph::EdgeDirection;
 use petgraph::EdgeDirection::Incoming;
 use petgraph::EdgeDirection::Outgoing;
+use std::collections::VecDeque;
 use std::iter::repeat;
 
 /// Is dependancy between nodes hard?
@@ -43,6 +44,26 @@ impl StmtDepGraph {
         self.insert_transitives(a, b);
     }
 
+    fn calc_transitives(&self, id: usize, dir: EdgeDirection) -> AHashSet<usize> {
+        let mut set = AHashSet::default();
+
+        let mut queue = VecDeque::default();
+        queue.push_front(id);
+
+        while let Some(id) = queue.pop_front() {
+            // Already processed
+            if !set.insert(id) {
+                continue;
+            }
+
+            for transitive in self.inner.neighbors_directed(id, dir) {
+                queue.push_back(transitive);
+            }
+        }
+
+        set
+    }
+
     fn insert_transitives(&mut self, from: usize, to: usize) {
         if self.paths.len() <= from {
             self.paths
@@ -52,19 +73,11 @@ impl StmtDepGraph {
             return;
         }
 
-        for transitive in self
-            .inner
-            .neighbors_directed(to, Outgoing)
-            .collect::<Vec<_>>()
-        {
+        for transitive in self.calc_transitives(to, Outgoing) {
             self.insert_transitives(from, transitive)
         }
 
-        for transitive in self
-            .inner
-            .neighbors_directed(from, Incoming)
-            .collect::<Vec<_>>()
-        {
+        for transitive in self.calc_transitives(from, Incoming) {
             self.insert_transitives(transitive, to)
         }
     }
