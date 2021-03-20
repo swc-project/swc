@@ -67,6 +67,8 @@ pub(super) fn sort_stmts(
 
     let mut id_graph = calc_deps(&stmts);
 
+    log::debug!("Analyzed dependencies between statements");
+
     let orders = iter(
         &mut id_graph,
         &same_module_ranges,
@@ -75,6 +77,8 @@ pub(super) fn sort_stmts(
         &stmts,
     )
     .collect::<Vec<_>>();
+
+    log::debug!("Sorted statements");
 
     debug_assert_eq!(total_len, orders.len());
 
@@ -636,6 +640,7 @@ impl Visit for RequirementCalculartor {
 }
 
 fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
+    log::debug!("Analyzing dependencies between statements");
     let mut graph = StmtDepGraph::default();
 
     let mut declared_by = AHashMap::<Id, Vec<usize>>::default();
