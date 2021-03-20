@@ -20,7 +20,7 @@ mod common;
 #[testing::fixture("typescript/**/*.ts")]
 #[testing::fixture("typescript/**/*.tsx")]
 fn spec(file: PathBuf) {
-    let file_name = file.display().to_string();
+    let file_name = file.display().to_string().replace("\\\\", "/");
 
     // Ignore some useless tests
     let ignore = file_name.contains("tsc/es6/functionDeclarations/FunctionDeclaration7_es6")
