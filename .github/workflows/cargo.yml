@@ -150,7 +150,7 @@ jobs:
       - name: Run cargo test
         run: |
           jest -v
-          cargo test --color always -p ${{ matrix.crate }} -- --nocapture
+          cargo test --color always -p ${{ matrix.crate }}
 
   # We use travis for rustdocs
   # deploy-docs:
