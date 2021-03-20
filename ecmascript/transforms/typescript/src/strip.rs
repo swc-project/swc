@@ -203,7 +203,6 @@ impl Strip {
         let mut new_body = vec![];
         for member in take(&mut class.body) {
             match member {
-                ClassMember::ClassProp(class_field) if class_field.value.is_none() => {}
                 // This handling is for non-static fields only. Also preserve
                 // fields with decorators for now, these should be transformed
                 // differently during the `decorators()` pass.
