@@ -174,12 +174,12 @@ impl Strip {
                                         value: None,
                                         type_ann: None,
                                         is_static: false,
-                                        decorators: vec![],
+                                        decorators: param_prop.decorators.clone(),
                                         computed: false,
-                                        accessibility: None,
+                                        accessibility: param_prop.accessibility.clone(),
                                         is_abstract: false,
                                         is_optional: false,
-                                        readonly: false,
+                                        readonly: param_prop.readonly,
                                         declare: false,
                                         definite: false,
                                     });
@@ -204,7 +204,12 @@ impl Strip {
         for member in take(&mut class.body) {
             match member {
                 ClassMember::ClassProp(class_field) if class_field.value.is_none() => {}
-                ClassMember::ClassProp(mut class_field) if !class_field.is_static => {
+                // This handling is for non-static fields only. Also preserve
+                // fields with decorators for now, these should be transformed
+                // differently during the `decorators()` pass.
+                ClassMember::ClassProp(mut class_field)
+                    if !class_field.is_static && class_field.decorators.is_empty() =>
+                {
                     if let Some(value) = class_field.value.take() {
                         let computed = class_field.computed
                             || !matches!(class_field.key.borrow(), Expr::Ident(_));
@@ -225,12 +230,10 @@ impl Strip {
                         assign_exprs.push(assign_expr);
                     }
                 }
-                ClassMember::ClassProp(_) => {
-                    // TODO(nayeemrmn): Static fields should also be moved to
-                    // assignments after the class. Figure out how. They are
-                    // preserved for now.
-                    new_body.push(member);
-                }
+                // TODO(nayeemrmn): Static fields should also be moved to
+                // assignments after the class. Figure out how. They are
+                // preserved for now.
+                // ClassMember::ClassProp(_) => { ... }
                 _ => {
                     new_body.push(member);
                 }
