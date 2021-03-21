@@ -13,8 +13,12 @@ use swc_common::SourceFile;
 use swc_common::SourceMap;
 use swc_common::Span;
 
+mod function;
+mod ident;
 mod lit;
 mod operators;
+mod pat;
+mod typescript;
 
 #[derive(Clone)]
 pub struct Context {
