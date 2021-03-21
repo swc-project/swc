@@ -1904,6 +1904,428 @@ class Info {
         };
     }
 }
+const lowOrderMatrix = {
+    weeks: {
+        days: 7,
+        hours: 7 * 24,
+        minutes: 7 * 24 * 60,
+        seconds: 7 * 24 * 60 * 60,
+        milliseconds: 7 * 24 * 60 * 60 * 1000
+    },
+    days: {
+        hours: 24,
+        minutes: 24 * 60,
+        seconds: 24 * 60 * 60,
+        milliseconds: 24 * 60 * 60 * 1000
+    },
+    hours: {
+        minutes: 60,
+        seconds: 60 * 60,
+        milliseconds: 60 * 60 * 1000
+    },
+    minutes: {
+        seconds: 60,
+        milliseconds: 60 * 1000
+    },
+    seconds: {
+        milliseconds: 1000
+    }
+}, casualMatrix = Object.assign({
+    years: {
+        quarters: 4,
+        months: 12,
+        weeks: 52,
+        days: 365,
+        hours: 365 * 24,
+        minutes: 365 * 24 * 60,
+        seconds: 365 * 24 * 60 * 60,
+        milliseconds: 365 * 24 * 60 * 60 * 1000
+    },
+    quarters: {
+        months: 3,
+        weeks: 13,
+        days: 91,
+        hours: 91 * 24,
+        minutes: 91 * 24 * 60,
+        seconds: 91 * 24 * 60 * 60,
+        milliseconds: 91 * 24 * 60 * 60 * 1000
+    },
+    months: {
+        weeks: 4,
+        days: 30,
+        hours: 30 * 24,
+        minutes: 30 * 24 * 60,
+        seconds: 30 * 24 * 60 * 60,
+        milliseconds: 30 * 24 * 60 * 60 * 1000
+    }
+}, lowOrderMatrix), daysInYearAccurate = 146097 / 400, daysInMonthAccurate = 146097 / 4800, accurateMatrix = Object.assign({
+    years: {
+        quarters: 4,
+        months: 12,
+        weeks: daysInYearAccurate / 7,
+        days: daysInYearAccurate,
+        hours: daysInYearAccurate * 24,
+        minutes: daysInYearAccurate * 24 * 60,
+        seconds: daysInYearAccurate * 24 * 60 * 60,
+        milliseconds: daysInYearAccurate * 24 * 60 * 60 * 1000
+    },
+    quarters: {
+        months: 3,
+        weeks: daysInYearAccurate / 28,
+        days: daysInYearAccurate / 4,
+        hours: daysInYearAccurate * 24 / 4,
+        minutes: daysInYearAccurate * 24 * 60 / 4,
+        seconds: daysInYearAccurate * 24 * 60 * 60 / 4,
+        milliseconds: daysInYearAccurate * 24 * 60 * 60 * 1000 / 4
+    },
+    months: {
+        weeks: daysInMonthAccurate / 7,
+        days: daysInMonthAccurate,
+        hours: daysInMonthAccurate * 24,
+        minutes: daysInMonthAccurate * 24 * 60,
+        seconds: daysInMonthAccurate * 24 * 60 * 60,
+        milliseconds: daysInMonthAccurate * 24 * 60 * 60 * 1000
+    }
+}, lowOrderMatrix);
+const orderedUnits = [
+    "years",
+    "quarters",
+    "months",
+    "weeks",
+    "days",
+    "hours",
+    "minutes",
+    "seconds",
+    "milliseconds"
+];
+const reverseUnits = orderedUnits.slice(0).reverse();
+function clone(dur, alts, clear = false) {
+    const conf = {
+        values: clear ? alts.values : Object.assign({
+        }, dur.values, alts.values || {
+        }),
+        loc: dur.loc.clone(alts.loc),
+        conversionAccuracy: alts.conversionAccuracy || dur.conversionAccuracy
+    };
+    return new Duration(conf);
+}
+function antiTrunc(n2) {
+    return n2 < 0 ? Math.floor(n2) : Math.ceil(n2);
+}
+function convert(matrix, fromMap, fromUnit, toMap, toUnit) {
+    const conv = matrix[toUnit][fromUnit], raw = fromMap[fromUnit] / conv, sameSign = Math.sign(raw) === Math.sign(toMap[toUnit]), added = !sameSign && toMap[toUnit] !== 0 && Math.abs(raw) <= 1 ? antiTrunc(raw) : Math.trunc(raw);
+    toMap[toUnit] += added;
+    fromMap[fromUnit] -= added * conv;
+}
+function normalizeValues(matrix, vals) {
+    reverseUnits.reduce((previous, current)=>{
+        if (!isUndefined(vals[current])) {
+            if (previous) {
+                convert(matrix, vals, previous, vals, current);
+            }
+            return current;
+        } else {
+            return previous;
+        }
+    }, null);
+}
+class Duration {
+    constructor(config){
+        const accurate = config.conversionAccuracy === "longterm" || false;
+        this.values = config.values;
+        this.loc = config.loc || Locale.create();
+        this.conversionAccuracy = accurate ? "longterm" : "casual";
+        this.invalid = config.invalid || null;
+        this.matrix = accurate ? accurateMatrix : casualMatrix;
+        this.isLuxonDuration = true;
+    }
+    static fromMillis(count, opts) {
+        return Duration.fromObject(Object.assign({
+            milliseconds: count
+        }, opts));
+    }
+    static fromObject(obj) {
+        if (obj == null || typeof obj !== "object") {
+            throw new InvalidArgumentError(`Duration.fromObject: argument expected to be an object, got ${obj === null ? "null" : typeof obj}`);
+        }
+        return new Duration({
+            values: normalizeObject(obj, Duration.normalizeUnit, [
+                "locale",
+                "numberingSystem",
+                "conversionAccuracy",
+                "zone"
+            ]),
+            loc: Locale.fromObject(obj),
+            conversionAccuracy: obj.conversionAccuracy
+        });
+    }
+    static fromISO(text, opts) {
+        const [parsed] = parseISODuration(text);
+        if (parsed) {
+            const obj = Object.assign(parsed, opts);
+            return Duration.fromObject(obj);
+        } else {
+            return Duration.invalid("unparsable", `the input "${text}" can't be parsed as ISO 8601`);
+        }
+    }
+    static invalid(reason, explanation = null) {
+        if (!reason) {
+            throw new InvalidArgumentError("need to specify a reason the Duration is invalid");
+        }
+        const invalid = reason instanceof Invalid ? reason : new Invalid(reason, explanation);
+        if (Settings.throwOnInvalid) {
+            throw new InvalidDurationError(invalid);
+        } else {
+            return new Duration({
+                invalid
+            });
+        }
+    }
+    static normalizeUnit(unit) {
+        const normalized = {
+            year: "years",
+            years: "years",
+            quarter: "quarters",
+            quarters: "quarters",
+            month: "months",
+            months: "months",
+            week: "weeks",
+            weeks: "weeks",
+            day: "days",
+            days: "days",
+            hour: "hours",
+            hours: "hours",
+            minute: "minutes",
+            minutes: "minutes",
+            second: "seconds",
+            seconds: "seconds",
+            millisecond: "milliseconds",
+            milliseconds: "milliseconds"
+        }[unit ? unit.toLowerCase() : unit];
+        if (!normalized) throw new InvalidUnitError(unit);
+        return normalized;
+    }
+    static isDuration(o) {
+        return o && o.isLuxonDuration || false;
+    }
+    get locale() {
+        return this.isValid ? this.loc.locale : null;
+    }
+    get numberingSystem() {
+        return this.isValid ? this.loc.numberingSystem : null;
+    }
+    toFormat(fmt, opts = {
+    }) {
+        const fmtOpts = Object.assign({
+        }, opts, {
+            floor: opts.round !== false && opts.floor !== false
+        });
+        return this.isValid ? Formatter.create(this.loc, fmtOpts).formatDurationFromString(this, fmt) : INVALID1;
+    }
+    toObject(opts = {
+    }) {
+        if (!this.isValid) return {
+        };
+        const base = Object.assign({
+        }, this.values);
+        if (opts.includeConfig) {
+            base.conversionAccuracy = this.conversionAccuracy;
+            base.numberingSystem = this.loc.numberingSystem;
+            base.locale = this.loc.locale;
+        }
+        return base;
+    }
+    toISO() {
+        if (!this.isValid) return null;
+        let s2 = "P";
+        if (this.years !== 0) s2 += this.years + "Y";
+        if (this.months !== 0 || this.quarters !== 0) s2 += this.months + this.quarters * 3 + "M";
+        if (this.weeks !== 0) s2 += this.weeks + "W";
+        if (this.days !== 0) s2 += this.days + "D";
+        if (this.hours !== 0 || this.minutes !== 0 || this.seconds !== 0 || this.milliseconds !== 0) s2 += "T";
+        if (this.hours !== 0) s2 += this.hours + "H";
+        if (this.minutes !== 0) s2 += this.minutes + "M";
+        if (this.seconds !== 0 || this.milliseconds !== 0) s2 += roundTo(this.seconds + this.milliseconds / 1000, 3) + "S";
+        if (s2 === "P") s2 += "T0S";
+        return s2;
+    }
+    toJSON() {
+        return this.toISO();
+    }
+    toString() {
+        return this.toISO();
+    }
+    valueOf() {
+        return this.as("milliseconds");
+    }
+    plus(duration) {
+        if (!this.isValid) return this;
+        const dur = friendlyDuration(duration), result = {
+        };
+        for (const k of orderedUnits){
+            if (hasOwnProperty(dur.values, k) || hasOwnProperty(this.values, k)) {
+                result[k] = dur.get(k) + this.get(k);
+            }
+        }
+        return clone(this, {
+            values: result
+        }, true);
+    }
+    minus(duration) {
+        if (!this.isValid) return this;
+        const dur = friendlyDuration(duration);
+        return this.plus(dur.negate());
+    }
+    mapUnits(fn) {
+        if (!this.isValid) return this;
+        const result = {
+        };
+        for (const k of Object.keys(this.values)){
+            result[k] = asNumber(fn(this.values[k], k));
+        }
+        return clone(this, {
+            values: result
+        }, true);
+    }
+    get(unit) {
+        return this[Duration.normalizeUnit(unit)];
+    }
+    set(values) {
+        if (!this.isValid) return this;
+        const mixed = Object.assign(this.values, normalizeObject(values, Duration.normalizeUnit, []));
+        return clone(this, {
+            values: mixed
+        });
+    }
+    reconfigure({ locale , numberingSystem , conversionAccuracy  } = {
+    }) {
+        const loc = this.loc.clone({
+            locale,
+            numberingSystem
+        }), opts = {
+            loc
+        };
+        if (conversionAccuracy) {
+            opts.conversionAccuracy = conversionAccuracy;
+        }
+        return clone(this, opts);
+    }
+    as(unit) {
+        return this.isValid ? this.shiftTo(unit).get(unit) : NaN;
+    }
+    normalize() {
+        if (!this.isValid) return this;
+        const vals = this.toObject();
+        normalizeValues(this.matrix, vals);
+        return clone(this, {
+            values: vals
+        }, true);
+    }
+    shiftTo(...units) {
+        if (!this.isValid) return this;
+        if (units.length === 0) {
+            return this;
+        }
+        units = units.map((u)=>Duration.normalizeUnit(u)
+        );
+        const built = {
+        }, accumulated = {
+        }, vals = this.toObject();
+        let lastUnit;
+        for (const k of orderedUnits){
+            if (units.indexOf(k) >= 0) {
+                lastUnit = k;
+                let own = 0;
+                for(const ak in accumulated){
+                    own += this.matrix[ak][k] * accumulated[ak];
+                    accumulated[ak] = 0;
+                }
+                if (isNumber(vals[k])) {
+                    own += vals[k];
+                }
+                const i = Math.trunc(own);
+                built[k] = i;
+                accumulated[k] = own - i;
+                for(const down in vals){
+                    if (orderedUnits.indexOf(down) > orderedUnits.indexOf(k)) {
+                        convert(this.matrix, vals, down, built, k);
+                    }
+                }
+            } else if (isNumber(vals[k])) {
+                accumulated[k] = vals[k];
+            }
+        }
+        for(const key in accumulated){
+            if (accumulated[key] !== 0) {
+                built[lastUnit] += key === lastUnit ? accumulated[key] : accumulated[key] / this.matrix[lastUnit][key];
+            }
+        }
+        return clone(this, {
+            values: built
+        }, true).normalize();
+    }
+    negate() {
+        if (!this.isValid) return this;
+        const negated = {
+        };
+        for (const k of Object.keys(this.values)){
+            negated[k] = -this.values[k];
+        }
+        return clone(this, {
+            values: negated
+        }, true);
+    }
+    get years() {
+        return this.isValid ? this.values.years || 0 : NaN;
+    }
+    get quarters() {
+        return this.isValid ? this.values.quarters || 0 : NaN;
+    }
+    get months() {
+        return this.isValid ? this.values.months || 0 : NaN;
+    }
+    get weeks() {
+        return this.isValid ? this.values.weeks || 0 : NaN;
+    }
+    get days() {
+        return this.isValid ? this.values.days || 0 : NaN;
+    }
+    get hours() {
+        return this.isValid ? this.values.hours || 0 : NaN;
+    }
+    get minutes() {
+        return this.isValid ? this.values.minutes || 0 : NaN;
+    }
+    get seconds() {
+        return this.isValid ? this.values.seconds || 0 : NaN;
+    }
+    get milliseconds() {
+        return this.isValid ? this.values.milliseconds || 0 : NaN;
+    }
+    get isValid() {
+        return this.invalid === null;
+    }
+    get invalidReason() {
+        return this.invalid ? this.invalid.reason : null;
+    }
+    get invalidExplanation() {
+        return this.invalid ? this.invalid.explanation : null;
+    }
+    equals(other) {
+        if (!this.isValid || !other.isValid) {
+            return false;
+        }
+        if (!this.loc.equals(other.loc)) {
+            return false;
+        }
+        for (const u of orderedUnits){
+            if (this.values[u] !== other.values[u]) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
 function dayDiff(earlier, later) {
     const utcDayStart = (dt)=>dt.toUTC(0, {
             keepLocalTime: true
@@ -1922,7 +2344,7 @@ function possiblyCachedWeekData(dt) {
     }
     return dt.weekData;
 }
-function clone(inst, alts) {
+function clone1(inst, alts) {
     const current = {
         ts: inst.ts,
         zone: inst.zone,
@@ -2058,7 +2480,7 @@ const defaultUnitValues = {
     second: 0,
     millisecond: 0
 };
-const orderedUnits = [
+const orderedUnits1 = [
     "year",
     "month",
     "day",
@@ -2082,7 +2504,7 @@ const orderedUnits = [
     "second",
     "millisecond"
 ];
-function normalizeUnit(unit1) {
+function normalizeUnit(unit2) {
     const normalized = {
         year: "year",
         years: "year",
@@ -2108,12 +2530,12 @@ function normalizeUnit(unit1) {
         weekyear: "weekYear",
         weekyears: "weekYear",
         ordinal: "ordinal"
-    }[unit1.toLowerCase()];
-    if (!normalized) throw new InvalidUnitError(unit1);
+    }[unit2.toLowerCase()];
+    if (!normalized) throw new InvalidUnitError(unit2);
     return normalized;
 }
 function quickDT(obj, zone) {
-    for (const u of orderedUnits){
+    for (const u of orderedUnits1){
         if (isUndefined(obj[u])) {
             obj[u] = defaultUnitValues[u];
         }
@@ -2130,42 +2552,42 @@ function quickDT(obj, zone) {
     });
 }
 function diffRelative(start, end, opts) {
-    const round = isUndefined(opts.round) ? true : opts.round, format = (c, unit1)=>{
+    const round = isUndefined(opts.round) ? true : opts.round, format = (c, unit2)=>{
         c = roundTo(c, round || opts.calendary ? 0 : 2, true);
         const formatter = end.loc.clone(opts).relFormatter(opts);
-        return formatter.format(c, unit1);
-    }, differ = (unit1)=>{
+        return formatter.format(c, unit2);
+    }, differ = (unit2)=>{
         if (opts.calendary) {
-            if (!end.hasSame(start, unit1)) {
-                return end.startOf(unit1).diff(start.startOf(unit1), unit1).get(unit1);
+            if (!end.hasSame(start, unit2)) {
+                return end.startOf(unit2).diff(start.startOf(unit2), unit2).get(unit2);
             } else return 0;
         } else {
-            return end.diff(start, unit1).get(unit1);
+            return end.diff(start, unit2).get(unit2);
         }
     };
     if (opts.unit) {
         return format(differ(opts.unit), opts.unit);
     }
-    for (const unit1 of opts.units){
-        const count = differ(unit1);
+    for (const unit2 of opts.units){
+        const count = differ(unit2);
         if (Math.abs(count) >= 1) {
-            return format(count, unit1);
+            return format(count, unit2);
         }
     }
     return format(0, opts.units[opts.units.length - 1]);
 }
 class DateTime {
-    constructor(config){
-        const zone1 = config.zone || Settings.defaultZone;
-        let invalid = config.invalid || (Number.isNaN(config.ts) ? new Invalid("invalid input") : null) || (!zone1.isValid ? unsupportedZone(zone1) : null);
-        this.ts = isUndefined(config.ts) ? Settings.now() : config.ts;
+    constructor(config1){
+        const zone1 = config1.zone || Settings.defaultZone;
+        let invalid = config1.invalid || (Number.isNaN(config1.ts) ? new Invalid("invalid input") : null) || (!zone1.isValid ? unsupportedZone(zone1) : null);
+        this.ts = isUndefined(config1.ts) ? Settings.now() : config1.ts;
         let c = null, o1 = null;
         if (!invalid) {
-            const unchanged = config.old && config.old.ts === this.ts && config.old.zone.equals(zone1);
+            const unchanged = config1.old && config1.old.ts === this.ts && config1.old.zone.equals(zone1);
             if (unchanged) {
                 [c, o1] = [
-                    config.old.c,
-                    config.old.o
+                    config1.old.c,
+                    config1.old.o
                 ];
             } else {
                 const ot = zone1.offset(this.ts);
@@ -2176,7 +2598,7 @@ class DateTime {
             }
         }
         this._zone = zone1;
-        this.loc = config.loc || Locale.create();
+        this.loc = config1.loc || Locale.create();
         this.invalid = invalid;
         this.weekData = null;
         this.c = c;
@@ -2288,7 +2710,7 @@ class DateTime {
             defaultValues = defaultOrdinalUnitValues;
             objNow = gregorianToOrdinal(objNow);
         } else {
-            units = orderedUnits;
+            units = orderedUnits1;
             defaultValues = defaultUnitValues;
         }
         let foundFirst = false;
@@ -2535,7 +2957,7 @@ class DateTime {
                 const asObj = this.toObject();
                 [newTS] = objToTS(asObj, offsetGuess, zone);
             }
-            return clone(this, {
+            return clone1(this, {
                 ts: newTS,
                 zone
             });
@@ -2548,7 +2970,7 @@ class DateTime {
             numberingSystem,
             outputCalendar
         });
-        return clone(this, {
+        return clone1(this, {
             loc
         });
     }
@@ -2572,7 +2994,7 @@ class DateTime {
             }
         }
         const [ts, o2] = objToTS(mixed, this.o, this.zone);
-        return clone(this, {
+        return clone1(this, {
             ts,
             o: o2
         });
@@ -2580,12 +3002,12 @@ class DateTime {
     plus(duration) {
         if (!this.isValid) return this;
         const dur = friendlyDuration(duration);
-        return clone(this, adjustTime(this, dur));
+        return clone1(this, adjustTime(this, dur));
     }
     minus(duration) {
         if (!this.isValid) return this;
         const dur = friendlyDuration(duration).negate();
-        return clone(this, adjustTime(this, dur));
+        return clone1(this, adjustTime(this, dur));
     }
     startOf(unit) {
         if (!this.isValid) return this;
@@ -3286,428 +3708,6 @@ class Locale {
     }
     equals(other) {
         return this.locale === other.locale && this.numberingSystem === other.numberingSystem && this.outputCalendar === other.outputCalendar;
-    }
-}
-const lowOrderMatrix = {
-    weeks: {
-        days: 7,
-        hours: 7 * 24,
-        minutes: 7 * 24 * 60,
-        seconds: 7 * 24 * 60 * 60,
-        milliseconds: 7 * 24 * 60 * 60 * 1000
-    },
-    days: {
-        hours: 24,
-        minutes: 24 * 60,
-        seconds: 24 * 60 * 60,
-        milliseconds: 24 * 60 * 60 * 1000
-    },
-    hours: {
-        minutes: 60,
-        seconds: 60 * 60,
-        milliseconds: 60 * 60 * 1000
-    },
-    minutes: {
-        seconds: 60,
-        milliseconds: 60 * 1000
-    },
-    seconds: {
-        milliseconds: 1000
-    }
-}, casualMatrix = Object.assign({
-    years: {
-        quarters: 4,
-        months: 12,
-        weeks: 52,
-        days: 365,
-        hours: 365 * 24,
-        minutes: 365 * 24 * 60,
-        seconds: 365 * 24 * 60 * 60,
-        milliseconds: 365 * 24 * 60 * 60 * 1000
-    },
-    quarters: {
-        months: 3,
-        weeks: 13,
-        days: 91,
-        hours: 91 * 24,
-        minutes: 91 * 24 * 60,
-        seconds: 91 * 24 * 60 * 60,
-        milliseconds: 91 * 24 * 60 * 60 * 1000
-    },
-    months: {
-        weeks: 4,
-        days: 30,
-        hours: 30 * 24,
-        minutes: 30 * 24 * 60,
-        seconds: 30 * 24 * 60 * 60,
-        milliseconds: 30 * 24 * 60 * 60 * 1000
-    }
-}, lowOrderMatrix), daysInYearAccurate = 146097 / 400, daysInMonthAccurate = 146097 / 4800, accurateMatrix = Object.assign({
-    years: {
-        quarters: 4,
-        months: 12,
-        weeks: daysInYearAccurate / 7,
-        days: daysInYearAccurate,
-        hours: daysInYearAccurate * 24,
-        minutes: daysInYearAccurate * 24 * 60,
-        seconds: daysInYearAccurate * 24 * 60 * 60,
-        milliseconds: daysInYearAccurate * 24 * 60 * 60 * 1000
-    },
-    quarters: {
-        months: 3,
-        weeks: daysInYearAccurate / 28,
-        days: daysInYearAccurate / 4,
-        hours: daysInYearAccurate * 24 / 4,
-        minutes: daysInYearAccurate * 24 * 60 / 4,
-        seconds: daysInYearAccurate * 24 * 60 * 60 / 4,
-        milliseconds: daysInYearAccurate * 24 * 60 * 60 * 1000 / 4
-    },
-    months: {
-        weeks: daysInMonthAccurate / 7,
-        days: daysInMonthAccurate,
-        hours: daysInMonthAccurate * 24,
-        minutes: daysInMonthAccurate * 24 * 60,
-        seconds: daysInMonthAccurate * 24 * 60 * 60,
-        milliseconds: daysInMonthAccurate * 24 * 60 * 60 * 1000
-    }
-}, lowOrderMatrix);
-const orderedUnits1 = [
-    "years",
-    "quarters",
-    "months",
-    "weeks",
-    "days",
-    "hours",
-    "minutes",
-    "seconds",
-    "milliseconds"
-];
-const reverseUnits = orderedUnits1.slice(0).reverse();
-function clone1(dur, alts, clear = false) {
-    const conf = {
-        values: clear ? alts.values : Object.assign({
-        }, dur.values, alts.values || {
-        }),
-        loc: dur.loc.clone(alts.loc),
-        conversionAccuracy: alts.conversionAccuracy || dur.conversionAccuracy
-    };
-    return new Duration(conf);
-}
-function antiTrunc(n2) {
-    return n2 < 0 ? Math.floor(n2) : Math.ceil(n2);
-}
-function convert(matrix, fromMap, fromUnit, toMap, toUnit) {
-    const conv = matrix[toUnit][fromUnit], raw = fromMap[fromUnit] / conv, sameSign = Math.sign(raw) === Math.sign(toMap[toUnit]), added = !sameSign && toMap[toUnit] !== 0 && Math.abs(raw) <= 1 ? antiTrunc(raw) : Math.trunc(raw);
-    toMap[toUnit] += added;
-    fromMap[fromUnit] -= added * conv;
-}
-function normalizeValues(matrix, vals) {
-    reverseUnits.reduce((previous, current)=>{
-        if (!isUndefined(vals[current])) {
-            if (previous) {
-                convert(matrix, vals, previous, vals, current);
-            }
-            return current;
-        } else {
-            return previous;
-        }
-    }, null);
-}
-class Duration {
-    constructor(config1){
-        const accurate = config1.conversionAccuracy === "longterm" || false;
-        this.values = config1.values;
-        this.loc = config1.loc || Locale.create();
-        this.conversionAccuracy = accurate ? "longterm" : "casual";
-        this.invalid = config1.invalid || null;
-        this.matrix = accurate ? accurateMatrix : casualMatrix;
-        this.isLuxonDuration = true;
-    }
-    static fromMillis(count, opts) {
-        return Duration.fromObject(Object.assign({
-            milliseconds: count
-        }, opts));
-    }
-    static fromObject(obj) {
-        if (obj == null || typeof obj !== "object") {
-            throw new InvalidArgumentError(`Duration.fromObject: argument expected to be an object, got ${obj === null ? "null" : typeof obj}`);
-        }
-        return new Duration({
-            values: normalizeObject(obj, Duration.normalizeUnit, [
-                "locale",
-                "numberingSystem",
-                "conversionAccuracy",
-                "zone"
-            ]),
-            loc: Locale.fromObject(obj),
-            conversionAccuracy: obj.conversionAccuracy
-        });
-    }
-    static fromISO(text, opts) {
-        const [parsed] = parseISODuration(text);
-        if (parsed) {
-            const obj = Object.assign(parsed, opts);
-            return Duration.fromObject(obj);
-        } else {
-            return Duration.invalid("unparsable", `the input "${text}" can't be parsed as ISO 8601`);
-        }
-    }
-    static invalid(reason, explanation = null) {
-        if (!reason) {
-            throw new InvalidArgumentError("need to specify a reason the Duration is invalid");
-        }
-        const invalid1 = reason instanceof Invalid ? reason : new Invalid(reason, explanation);
-        if (Settings.throwOnInvalid) {
-            throw new InvalidDurationError(invalid1);
-        } else {
-            return new Duration({
-                invalid: invalid1
-            });
-        }
-    }
-    static normalizeUnit(unit) {
-        const normalized = {
-            year: "years",
-            years: "years",
-            quarter: "quarters",
-            quarters: "quarters",
-            month: "months",
-            months: "months",
-            week: "weeks",
-            weeks: "weeks",
-            day: "days",
-            days: "days",
-            hour: "hours",
-            hours: "hours",
-            minute: "minutes",
-            minutes: "minutes",
-            second: "seconds",
-            seconds: "seconds",
-            millisecond: "milliseconds",
-            milliseconds: "milliseconds"
-        }[unit ? unit.toLowerCase() : unit];
-        if (!normalized) throw new InvalidUnitError(unit);
-        return normalized;
-    }
-    static isDuration(o) {
-        return o && o.isLuxonDuration || false;
-    }
-    get locale() {
-        return this.isValid ? this.loc.locale : null;
-    }
-    get numberingSystem() {
-        return this.isValid ? this.loc.numberingSystem : null;
-    }
-    toFormat(fmt, opts = {
-    }) {
-        const fmtOpts = Object.assign({
-        }, opts, {
-            floor: opts.round !== false && opts.floor !== false
-        });
-        return this.isValid ? Formatter.create(this.loc, fmtOpts).formatDurationFromString(this, fmt) : INVALID1;
-    }
-    toObject(opts = {
-    }) {
-        if (!this.isValid) return {
-        };
-        const base = Object.assign({
-        }, this.values);
-        if (opts.includeConfig) {
-            base.conversionAccuracy = this.conversionAccuracy;
-            base.numberingSystem = this.loc.numberingSystem;
-            base.locale = this.loc.locale;
-        }
-        return base;
-    }
-    toISO() {
-        if (!this.isValid) return null;
-        let s2 = "P";
-        if (this.years !== 0) s2 += this.years + "Y";
-        if (this.months !== 0 || this.quarters !== 0) s2 += this.months + this.quarters * 3 + "M";
-        if (this.weeks !== 0) s2 += this.weeks + "W";
-        if (this.days !== 0) s2 += this.days + "D";
-        if (this.hours !== 0 || this.minutes !== 0 || this.seconds !== 0 || this.milliseconds !== 0) s2 += "T";
-        if (this.hours !== 0) s2 += this.hours + "H";
-        if (this.minutes !== 0) s2 += this.minutes + "M";
-        if (this.seconds !== 0 || this.milliseconds !== 0) s2 += roundTo(this.seconds + this.milliseconds / 1000, 3) + "S";
-        if (s2 === "P") s2 += "T0S";
-        return s2;
-    }
-    toJSON() {
-        return this.toISO();
-    }
-    toString() {
-        return this.toISO();
-    }
-    valueOf() {
-        return this.as("milliseconds");
-    }
-    plus(duration) {
-        if (!this.isValid) return this;
-        const dur = friendlyDuration(duration), result = {
-        };
-        for (const k of orderedUnits1){
-            if (hasOwnProperty(dur.values, k) || hasOwnProperty(this.values, k)) {
-                result[k] = dur.get(k) + this.get(k);
-            }
-        }
-        return clone1(this, {
-            values: result
-        }, true);
-    }
-    minus(duration) {
-        if (!this.isValid) return this;
-        const dur = friendlyDuration(duration);
-        return this.plus(dur.negate());
-    }
-    mapUnits(fn) {
-        if (!this.isValid) return this;
-        const result = {
-        };
-        for (const k of Object.keys(this.values)){
-            result[k] = asNumber(fn(this.values[k], k));
-        }
-        return clone1(this, {
-            values: result
-        }, true);
-    }
-    get(unit) {
-        return this[Duration.normalizeUnit(unit)];
-    }
-    set(values) {
-        if (!this.isValid) return this;
-        const mixed = Object.assign(this.values, normalizeObject(values, Duration.normalizeUnit, []));
-        return clone1(this, {
-            values: mixed
-        });
-    }
-    reconfigure({ locale , numberingSystem , conversionAccuracy  } = {
-    }) {
-        const loc = this.loc.clone({
-            locale,
-            numberingSystem
-        }), opts4 = {
-            loc
-        };
-        if (conversionAccuracy) {
-            opts4.conversionAccuracy = conversionAccuracy;
-        }
-        return clone1(this, opts4);
-    }
-    as(unit) {
-        return this.isValid ? this.shiftTo(unit).get(unit) : NaN;
-    }
-    normalize() {
-        if (!this.isValid) return this;
-        const vals = this.toObject();
-        normalizeValues(this.matrix, vals);
-        return clone1(this, {
-            values: vals
-        }, true);
-    }
-    shiftTo(...units) {
-        if (!this.isValid) return this;
-        if (units.length === 0) {
-            return this;
-        }
-        units = units.map((u)=>Duration.normalizeUnit(u)
-        );
-        const built = {
-        }, accumulated = {
-        }, vals = this.toObject();
-        let lastUnit;
-        for (const k of orderedUnits1){
-            if (units.indexOf(k) >= 0) {
-                lastUnit = k;
-                let own = 0;
-                for(const ak in accumulated){
-                    own += this.matrix[ak][k] * accumulated[ak];
-                    accumulated[ak] = 0;
-                }
-                if (isNumber(vals[k])) {
-                    own += vals[k];
-                }
-                const i = Math.trunc(own);
-                built[k] = i;
-                accumulated[k] = own - i;
-                for(const down in vals){
-                    if (orderedUnits1.indexOf(down) > orderedUnits1.indexOf(k)) {
-                        convert(this.matrix, vals, down, built, k);
-                    }
-                }
-            } else if (isNumber(vals[k])) {
-                accumulated[k] = vals[k];
-            }
-        }
-        for(const key in accumulated){
-            if (accumulated[key] !== 0) {
-                built[lastUnit] += key === lastUnit ? accumulated[key] : accumulated[key] / this.matrix[lastUnit][key];
-            }
-        }
-        return clone1(this, {
-            values: built
-        }, true).normalize();
-    }
-    negate() {
-        if (!this.isValid) return this;
-        const negated = {
-        };
-        for (const k of Object.keys(this.values)){
-            negated[k] = -this.values[k];
-        }
-        return clone1(this, {
-            values: negated
-        }, true);
-    }
-    get years() {
-        return this.isValid ? this.values.years || 0 : NaN;
-    }
-    get quarters() {
-        return this.isValid ? this.values.quarters || 0 : NaN;
-    }
-    get months() {
-        return this.isValid ? this.values.months || 0 : NaN;
-    }
-    get weeks() {
-        return this.isValid ? this.values.weeks || 0 : NaN;
-    }
-    get days() {
-        return this.isValid ? this.values.days || 0 : NaN;
-    }
-    get hours() {
-        return this.isValid ? this.values.hours || 0 : NaN;
-    }
-    get minutes() {
-        return this.isValid ? this.values.minutes || 0 : NaN;
-    }
-    get seconds() {
-        return this.isValid ? this.values.seconds || 0 : NaN;
-    }
-    get milliseconds() {
-        return this.isValid ? this.values.milliseconds || 0 : NaN;
-    }
-    get isValid() {
-        return this.invalid === null;
-    }
-    get invalidReason() {
-        return this.invalid ? this.invalid.reason : null;
-    }
-    get invalidExplanation() {
-        return this.invalid ? this.invalid.explanation : null;
-    }
-    equals(other) {
-        if (!this.isValid || !other.isValid) {
-            return false;
-        }
-        if (!this.loc.equals(other.loc)) {
-            return false;
-        }
-        for (const u of orderedUnits1){
-            if (this.values[u] !== other.values[u]) {
-                return false;
-            }
-        }
-        return true;
     }
 }
 function friendlyDuration(durationish) {
