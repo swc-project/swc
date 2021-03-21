@@ -1327,7 +1327,7 @@ function common(paths, sep2 = SEP) {
     const prefix = parts.slice(0, endOfPrefix).join(sep2);
     return prefix.endsWith(sep2) ? prefix : `${prefix}${sep2}`;
 }
-const path1 = isWindows ? mod1 : mod2;
+const path = isWindows ? mod1 : mod2;
 const regExpEscapeChars = [
     "!",
     "$",
@@ -1344,7 +1344,7 @@ const regExpEscapeChars = [
     "{",
     "|"
 ];
-const { basename: basename2 , delimiter: delimiter2 , dirname: dirname2 , extname: extname2 , format: format2 , fromFileUrl: fromFileUrl2 , isAbsolute: isAbsolute2 , join: join2 , normalize: normalize2 , parse: parse3 , relative: relative2 , resolve: resolve2 , sep: sep2 , toFileUrl: toFileUrl2 , toNamespacedPath: toNamespacedPath2 ,  } = path1;
+const { basename: basename2 , delimiter: delimiter2 , dirname: dirname2 , extname: extname2 , format: format2 , fromFileUrl: fromFileUrl2 , isAbsolute: isAbsolute2 , join: join2 , normalize: normalize2 , parse: parse3 , relative: relative2 , resolve: resolve2 , sep: sep2 , toFileUrl: toFileUrl2 , toNamespacedPath: toNamespacedPath2 ,  } = path;
 const rangeEscapeChars = [
     "-",
     "\\",
@@ -1851,26 +1851,26 @@ const MIN_BUF_SIZE = 16;
 const CR = "\r".charCodeAt(0);
 const LF = "\n".charCodeAt(0);
 class BufferFullError extends Error {
-    name = "BufferFullError";
     constructor(partial){
         super("Buffer full");
         this.partial = partial;
+        this.name = "BufferFullError";
     }
 }
 class PartialReadError extends Deno.errors.UnexpectedEof {
-    name = "PartialReadError";
     constructor(){
         super("Encountered UnexpectedEof, data only partially read");
+        this.name = "PartialReadError";
     }
 }
 class BufReader {
-    r = 0;
-    w = 0;
-    eof = false;
     static create(r, size = 4096) {
         return r instanceof BufReader ? r : new BufReader(r, size);
     }
     constructor(rd1, size1 = 4096){
+        this.r = 0;
+        this.w = 0;
+        this.eof = false;
         if (size1 < 16) {
             size1 = MIN_BUF_SIZE;
         }
@@ -2073,8 +2073,6 @@ class BufReader {
     }
 }
 class AbstractBufBase {
-    usedBufferBytes = 0;
-    err = null;
     size() {
         return this.buf.byteLength;
     }
@@ -2083,6 +2081,10 @@ class AbstractBufBase {
     }
     buffered() {
         return this.usedBufferBytes;
+    }
+    constructor(){
+        this.usedBufferBytes = 0;
+        this.err = null;
     }
 }
 class BufWriter extends AbstractBufBase {
@@ -2257,11 +2259,11 @@ class WriterHandler extends BaseHandler {
     #encoder=new TextEncoder();
 }
 class FileHandler extends WriterHandler {
-    _encoder = new TextEncoder();
     #unloadCallback=()=>this.destroy()
     ;
     constructor(levelName3, options3){
         super(levelName3, options3);
+        this._encoder = new TextEncoder();
         this._filename = options3.filename;
         this._mode = options3.mode ? options3.mode : "a";
         this._openOptions = {
@@ -5925,10 +5927,10 @@ class ADLMap {
     }
 }
 class Manifest {
-    jsonBinding = createJsonBinding(RESOLVER, texprManifest());
-    tasks = new ADLMap([], (k1, k2)=>k1 === k2
-    );
     constructor(dir, filename = ".manifest.json"){
+        this.jsonBinding = createJsonBinding(RESOLVER, texprManifest());
+        this.tasks = new ADLMap([], (k1, k2)=>k1 === k2
+        );
         this.filename = mod3.join(dir, filename);
     }
     async load() {
@@ -5957,10 +5959,10 @@ class Manifest {
     }
 }
 class TaskManifest {
-    lastExecution = null;
-    trackedFiles = new ADLMap([], (k1, k2)=>k1 === k2
-    );
     constructor(data1){
+        this.lastExecution = null;
+        this.trackedFiles = new ADLMap([], (k1, k2)=>k1 === k2
+        );
         this.trackedFiles = new ADLMap(data1.trackedFiles, (k1, k2)=>k1 === k2
         );
         this.lastExecution = data1.lastExecution;
@@ -5982,9 +5984,9 @@ class TaskManifest {
     }
 }
 class AsyncQueue {
-    inProgress = 0;
-    queue = [];
     constructor(concurrency){
+        this.inProgress = 0;
+        this.queue = [];
         this.concurrency = concurrency;
     }
     async schedule(t) {
@@ -6017,16 +6019,16 @@ class AsyncQueue {
     }
 }
 class ExecContext {
-    taskRegister = new Map();
-    targetRegister = new Map();
-    doneTasks = new Set();
-    inprogressTasks = new Set();
-    internalLogger = mod4.getLogger("internal");
-    taskLogger = mod4.getLogger("task");
-    userLogger = mod4.getLogger("user");
     constructor(manifest, args){
         this.manifest = manifest;
         this.args = args;
+        this.taskRegister = new Map();
+        this.targetRegister = new Map();
+        this.doneTasks = new Set();
+        this.inprogressTasks = new Set();
+        this.internalLogger = mod4.getLogger("internal");
+        this.taskLogger = mod4.getLogger("task");
+        this.userLogger = mod4.getLogger("user");
         if (args["verbose"] !== undefined) {
             this.internalLogger.levelName = "INFO";
         }
@@ -6071,8 +6073,8 @@ async function statPath(path1) {
     }
 }
 class Task {
-    taskManifest = null;
     constructor(taskParams){
+        this.taskManifest = null;
         this.name = taskParams.name;
         this.action = taskParams.action;
         this.description = taskParams.description;
@@ -6199,11 +6201,11 @@ class Task {
     }
 }
 class TrackedFile {
-    path = "";
     #getHash;
     #getTimestamp;
-    fromTask = null;
     constructor(fileParams){
+        this.path = "";
+        this.fromTask = null;
         this.path = mod3.posix.resolve(fileParams.path);
         this.#getHash = fileParams.getHash || getFileSha1Sum;
         this.#getTimestamp = fileParams.getTimestamp || getFileTimestamp;
@@ -6293,9 +6295,9 @@ class TrackedFile {
     }
 }
 class TrackedFilesAsync {
-    kind = 'trackedfilesasync';
     constructor(gen){
         this.gen = gen;
+        this.kind = 'trackedfilesasync';
     }
     async getTrackedFiles() {
         return this.gen();

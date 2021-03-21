@@ -684,7 +684,9 @@ to!(
     readonly newLine = encoder.encode("\r\n");
 }"#,
     r#"export class MultipartReader {
-    newLine = encoder.encode("\r\n");
+      constructor(){
+          this.newLine = encoder.encode("\r\n");
+      }
 }"#
 );
 
@@ -729,7 +731,7 @@ to!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| chain!(typescript_class_properties(), tr()),
+    |_| tr(),
     issue_930_instance,
     "class A {
         b = this.a;
@@ -746,6 +748,8 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    // TODO(nayeemrmn): This output should be achieved without
+    // `typescript_class_properties()`.
     |_| chain!(typescript_class_properties(), tr()),
     issue_930_static,
     "class A {
@@ -762,7 +766,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| chain!(typescript_class_properties(), tr()),
+    |_| tr(),
     typescript_001,
     "class A {
         foo = new Subject()
@@ -781,7 +785,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| chain!(typescript_class_properties(), tr()),
+    |_| tr(),
     typescript_002,
     "class A extends B {
             foo = 'foo'
@@ -810,7 +814,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| chain!(typescript_class_properties(), tr()),
+    |_| tr(),
     issue_958,
     "export class Test {
         constructor(readonly test?: string) {}
@@ -3151,9 +3155,9 @@ test!(
           return a.toUpperCase() === a;
         })();
       }
-    
+
     }
-    
+
     _asyncToGenerator(function* () {
       yield new Service().is('ABC');
     })();
@@ -3185,27 +3189,27 @@ test!(
     interface SuperSubmission {
         [key: string]: any;
     }
-      
+
     const normalizedQuestionSet: any = {};
-      
+
     const submissions: SuperSubmission[] = (
         normalizedQuestionSet.submissionIds ?? []
     ).map(
         (id, index): SuperSubmission => {
           const submission = normalizedQuestionSet.submissions?.[id];
-      
+
           const submissionAnswers = (submission.answers ?? []).map(
             (answerId) => normalizedQuestionSet.answers?.[answerId]
           );
-      
+
           console.log(id, index);
-      
+
           return {
             type: "super-submission",
           };
         }
       );
-      
+
       console.log(submissions);
     "#,
     r#"
@@ -3231,7 +3235,14 @@ test!(
     Syntax::Typescript(TsConfig {
         ..Default::default()
     }),
-    |_| chain!(strip(), class_properties()),
+    |_| chain!(
+        strip_with_config({
+            let mut config = strip::Config::default();
+            config.use_define_for_class_fields = true;
+            config
+        }),
+        class_properties()
+    ),
     compile_to_class_constructor_collision_ignores_types,
     r#"
 class C {
@@ -3246,6 +3257,7 @@ class C {
 class C {
   // Output should not use `_initialiseProps`
   constructor(T) {
+    _defineProperty(this, "x", void 0);
     _defineProperty(this, "y", 0);
   }
 
@@ -3354,11 +3366,11 @@ to!(
         };
 
         export const getValues = (obj: any) => {
-            
+
         };
 
         export const objectValues = (obj: any) => {
-            
+
         };
     }
     ",
@@ -3435,7 +3447,7 @@ to!(
             B = 'B',
         }
       }
-      
+
     console(Test.DummyValues.A);
     ",
     "
@@ -3463,7 +3475,7 @@ to!(
             return args.param1;
         }
     }
-    
+
     declare namespace TestClass {
         export interface TestArgs {
             param1: boolean;
@@ -3498,7 +3510,7 @@ to!(
     declare global {
         const process: Process;
     }
-      
+
     export {}
     ",
     "
@@ -3521,15 +3533,11 @@ test_with_config!(
     ",
     "
     class A extends Object {
+        b;
+        a = 1;
         constructor(b = 2){
             super();
             this.b = b;
-            Object.definedProperty(this, 'a', {
-                enumerable: true,
-                configurable: true,
-                writable: true,
-                value: 1
-            });
         }
     }
     "
@@ -3551,10 +3559,10 @@ test_with_config!(
     ",
     "
     class A extends Object {
-        a = 1;
         constructor(b = 2){
             super();
             this.b = b;
+            this.a = 1;
         }
     }
     "
