@@ -43,7 +43,7 @@ script:
   - true
 
 before_deploy:
-  - CARGO_TARGET_DIR=$HOME/cargo-target cargo doc --color always
+  - CARGO_TARGET_DIR=$HOME/cargo-target cargo doc --all --exclude node --color always
 
 deploy:
   local_dir: $HOME/cargo-target/doc

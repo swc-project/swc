@@ -1,6 +1,6 @@
-//! Ported from [babel/bablyon][]
+//! Ported from [babel/babylon][]
 //!
-//! [babel/bablyon]:https://github.com/babel/babel/blob/2d378d076eb0c5fe63234a8b509886005c01d7ee/packages/babylon/src/tokenizer/types.js
+//! [babel/babylon]:https://github.com/babel/babel/blob/2d378d076eb0c5fe63234a8b509886005c01d7ee/packages/babylon/src/tokenizer/types.js
 pub(crate) use self::{AssignOpToken::*, BinOpToken::*, Keyword::*, Token::*};
 use crate::error::Error;
 use enum_kind::Kind;
@@ -10,7 +10,7 @@ use std::{
     fmt::{self, Debug, Display, Formatter},
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 pub(crate) use swc_ecma_ast::AssignOp as AssignOpToken;
 use swc_ecma_ast::BinaryOp;
 
@@ -70,7 +70,7 @@ pub enum Token {
     BackQuote,
     Template {
         raw: JsWord,
-        cooked: JsWord,
+        cooked: Option<JsWord>,
         has_escape: bool,
     },
     /// ':'
@@ -105,11 +105,11 @@ pub enum Token {
     #[kind(before_expr, starts_expr)]
     Tilde,
 
-    /// String literal.
+    /// String literal. Span of this token contains quote.
     #[kind(starts_expr)]
     Str {
         value: JsWord,
-        /// This field exsits because 'use\x20strict' is **not** an use strict
+        /// This field exists because 'use\x20strict' is **not** an use strict
         /// directive.
         has_escape: bool,
     },
@@ -216,6 +216,13 @@ pub struct TokenAndSpan {
     /// Had a line break before this token?
     pub had_line_break: bool,
     pub span: Span,
+}
+
+impl Spanned for TokenAndSpan {
+    #[inline(always)]
+    fn span(&self) -> Span {
+        self.span
+    }
 }
 
 #[derive(Kind, Clone, PartialEq, Eq, Hash)]

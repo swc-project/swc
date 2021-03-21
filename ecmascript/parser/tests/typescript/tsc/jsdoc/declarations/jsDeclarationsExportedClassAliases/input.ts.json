@@ -1,0 +1,427 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 106,
+    "end": 392,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 112,
+          "end": 122,
+          "ctxt": 0
+        },
+        "value": "FancyError",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 106,
+        "end": 218,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "Constructor",
+          "span": {
+            "start": 143,
+            "end": 216,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 143,
+              "end": 154,
+              "ctxt": 0
+            },
+            "value": "constructor",
+            "optional": false
+          },
+          "params": [
+            {
+              "type": "Parameter",
+              "span": {
+                "start": 155,
+                "end": 161,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "pat": {
+                "type": "Identifier",
+                "span": {
+                  "start": 155,
+                  "end": 161,
+                  "ctxt": 0
+                },
+                "value": "status",
+                "optional": false,
+                "typeAnnotation": null
+              }
+            }
+          ],
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 163,
+              "end": 216,
+              "ctxt": 0
+            },
+            "stmts": [
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 173,
+                  "end": 210,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "CallExpression",
+                  "span": {
+                    "start": 173,
+                    "end": 209,
+                    "ctxt": 0
+                  },
+                  "callee": {
+                    "type": "Super",
+                    "span": {
+                      "start": 173,
+                      "end": 178,
+                      "ctxt": 0
+                    }
+                  },
+                  "arguments": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "TemplateLiteral",
+                        "span": {
+                          "start": 179,
+                          "end": 208,
+                          "ctxt": 0
+                        },
+                        "expressions": [
+                          {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 200,
+                              "end": 206,
+                              "ctxt": 0
+                            },
+                            "value": "status",
+                            "optional": false
+                          }
+                        ],
+                        "quasis": [
+                          {
+                            "type": "TemplateElement",
+                            "span": {
+                              "start": 180,
+                              "end": 198,
+                              "ctxt": 0
+                            },
+                            "tail": false,
+                            "cooked": {
+                              "type": "StringLiteral",
+                              "span": {
+                                "start": 180,
+                                "end": 198,
+                                "ctxt": 0
+                              },
+                              "value": "error with status ",
+                              "hasEscape": false,
+                              "kind": {
+                                "type": "normal",
+                                "containsQuote": false
+                              }
+                            },
+                            "raw": {
+                              "type": "StringLiteral",
+                              "span": {
+                                "start": 180,
+                                "end": 198,
+                                "ctxt": 0
+                              },
+                              "value": "error with status ",
+                              "hasEscape": false,
+                              "kind": {
+                                "type": "normal",
+                                "containsQuote": false
+                              }
+                            }
+                          },
+                          {
+                            "type": "TemplateElement",
+                            "span": {
+                              "start": 207,
+                              "end": 207,
+                              "ctxt": 0
+                            },
+                            "tail": true,
+                            "cooked": {
+                              "type": "StringLiteral",
+                              "span": {
+                                "start": 207,
+                                "end": 207,
+                                "ctxt": 0
+                              },
+                              "value": "",
+                              "hasEscape": false,
+                              "kind": {
+                                "type": "normal",
+                                "containsQuote": false
+                              }
+                            },
+                            "raw": {
+                              "type": "StringLiteral",
+                              "span": {
+                                "start": 207,
+                                "end": 207,
+                                "ctxt": 0
+                              },
+                              "value": "",
+                              "hasEscape": false,
+                              "kind": {
+                                "type": "normal",
+                                "containsQuote": false
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "typeArguments": null
+                }
+              }
+            ]
+          },
+          "accessibility": null,
+          "isOptional": false
+        }
+      ],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 131,
+          "end": 136,
+          "ctxt": 0
+        },
+        "value": "Error",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 220,
+        "end": 256,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 220,
+          "end": 255,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 220,
+            "end": 234,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 220,
+              "end": 226,
+              "ctxt": 0
+            },
+            "value": "module",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 227,
+              "end": 234,
+              "ctxt": 0
+            },
+            "value": "exports",
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "span": {
+            "start": 237,
+            "end": 255,
+            "ctxt": 0
+          },
+          "properties": [
+            {
+              "type": "Identifier",
+              "span": {
+                "start": 243,
+                "end": 253,
+                "ctxt": 0
+              },
+              "value": "FancyError",
+              "optional": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 323,
+        "end": 358,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 329,
+            "end": 357,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 329,
+              "end": 335,
+              "ctxt": 0
+            },
+            "value": "errors",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 338,
+              "end": 357,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 338,
+                "end": 345,
+                "ctxt": 0
+              },
+              "value": "require",
+              "optional": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 346,
+                    "end": 356,
+                    "ctxt": 0
+                  },
+                  "value": "./errors",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 360,
+        "end": 392,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 360,
+          "end": 391,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 360,
+            "end": 374,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 360,
+              "end": 366,
+              "ctxt": 0
+            },
+            "value": "module",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 367,
+              "end": 374,
+              "ctxt": 0
+            },
+            "value": "exports",
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "span": {
+            "start": 377,
+            "end": 391,
+            "ctxt": 0
+          },
+          "properties": [
+            {
+              "type": "Identifier",
+              "span": {
+                "start": 383,
+                "end": 389,
+                "ctxt": 0
+              },
+              "value": "errors",
+              "optional": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

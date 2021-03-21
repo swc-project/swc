@@ -620,6 +620,7 @@ in
 infer
 instanceof
 interface
+intrinsic
 is
 iterator
 key

@@ -1,0 +1,519 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 60,
+    "end": 404,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ForStatement",
+      "span": {
+        "start": 60,
+        "end": 84,
+        "ctxt": 0
+      },
+      "init": null,
+      "test": null,
+      "update": null,
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 70,
+          "end": 84,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "BreakStatement",
+            "span": {
+              "start": 76,
+              "end": 82,
+              "ctxt": 0
+            },
+            "label": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 86,
+        "end": 119,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 86,
+          "end": 89,
+          "ctxt": 0
+        },
+        "value": "ONE",
+        "optional": false
+      },
+      "body": {
+        "type": "ForStatement",
+        "span": {
+          "start": 91,
+          "end": 119,
+          "ctxt": 0
+        },
+        "init": null,
+        "test": null,
+        "update": null,
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 101,
+            "end": 119,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "BreakStatement",
+              "span": {
+                "start": 107,
+                "end": 117,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 113,
+                  "end": 116,
+                  "ctxt": 0
+                },
+                "value": "ONE",
+                "optional": false
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 121,
+        "end": 163,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 121,
+          "end": 124,
+          "ctxt": 0
+        },
+        "value": "TWO",
+        "optional": false
+      },
+      "body": {
+        "type": "LabeledStatement",
+        "span": {
+          "start": 126,
+          "end": 163,
+          "ctxt": 0
+        },
+        "label": {
+          "type": "Identifier",
+          "span": {
+            "start": 126,
+            "end": 131,
+            "ctxt": 0
+          },
+          "value": "THREE",
+          "optional": false
+        },
+        "body": {
+          "type": "ForStatement",
+          "span": {
+            "start": 133,
+            "end": 163,
+            "ctxt": 0
+          },
+          "init": null,
+          "test": null,
+          "update": null,
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 143,
+              "end": 163,
+              "ctxt": 0
+            },
+            "stmts": [
+              {
+                "type": "BreakStatement",
+                "span": {
+                  "start": 149,
+                  "end": 161,
+                  "ctxt": 0
+                },
+                "label": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 155,
+                    "end": 160,
+                    "ctxt": 0
+                  },
+                  "value": "THREE",
+                  "optional": false
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 165,
+        "end": 236,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 165,
+          "end": 169,
+          "ctxt": 0
+        },
+        "value": "FOUR",
+        "optional": false
+      },
+      "body": {
+        "type": "ForStatement",
+        "span": {
+          "start": 171,
+          "end": 236,
+          "ctxt": 0
+        },
+        "init": null,
+        "test": null,
+        "update": null,
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 181,
+            "end": 236,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "LabeledStatement",
+              "span": {
+                "start": 187,
+                "end": 234,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 187,
+                  "end": 191,
+                  "ctxt": 0
+                },
+                "value": "FIVE",
+                "optional": false
+              },
+              "body": {
+                "type": "ForStatement",
+                "span": {
+                  "start": 197,
+                  "end": 234,
+                  "ctxt": 0
+                },
+                "init": null,
+                "test": null,
+                "update": null,
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 207,
+                    "end": 234,
+                    "ctxt": 0
+                  },
+                  "stmts": [
+                    {
+                      "type": "BreakStatement",
+                      "span": {
+                        "start": 217,
+                        "end": 228,
+                        "ctxt": 0
+                      },
+                      "label": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 223,
+                          "end": 227,
+                          "ctxt": 0
+                        },
+                        "value": "FOUR",
+                        "optional": false
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "ForStatement",
+      "span": {
+        "start": 238,
+        "end": 285,
+        "ctxt": 0
+      },
+      "init": null,
+      "test": null,
+      "update": null,
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 248,
+          "end": 285,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "LabeledStatement",
+            "span": {
+              "start": 254,
+              "end": 283,
+              "ctxt": 0
+            },
+            "label": {
+              "type": "Identifier",
+              "span": {
+                "start": 254,
+                "end": 257,
+                "ctxt": 0
+              },
+              "value": "SIX",
+              "optional": false
+            },
+            "body": {
+              "type": "ForStatement",
+              "span": {
+                "start": 263,
+                "end": 283,
+                "ctxt": 0
+              },
+              "init": null,
+              "test": null,
+              "update": null,
+              "body": {
+                "type": "BreakStatement",
+                "span": {
+                  "start": 273,
+                  "end": 283,
+                  "ctxt": 0
+                },
+                "label": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 279,
+                    "end": 282,
+                    "ctxt": 0
+                  },
+                  "value": "SIX",
+                  "optional": false
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 287,
+        "end": 336,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 287,
+          "end": 292,
+          "ctxt": 0
+        },
+        "value": "SEVEN",
+        "optional": false
+      },
+      "body": {
+        "type": "ForStatement",
+        "span": {
+          "start": 294,
+          "end": 336,
+          "ctxt": 0
+        },
+        "init": null,
+        "test": null,
+        "update": null,
+        "body": {
+          "type": "ForStatement",
+          "span": {
+            "start": 304,
+            "end": 336,
+            "ctxt": 0
+          },
+          "init": null,
+          "test": null,
+          "update": null,
+          "body": {
+            "type": "ForStatement",
+            "span": {
+              "start": 314,
+              "end": 336,
+              "ctxt": 0
+            },
+            "init": null,
+            "test": null,
+            "update": null,
+            "body": {
+              "type": "BreakStatement",
+              "span": {
+                "start": 324,
+                "end": 336,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 330,
+                  "end": 335,
+                  "ctxt": 0
+                },
+                "value": "SEVEN",
+                "optional": false
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 338,
+        "end": 404,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 338,
+          "end": 343,
+          "ctxt": 0
+        },
+        "value": "EIGHT",
+        "optional": false
+      },
+      "body": {
+        "type": "ForStatement",
+        "span": {
+          "start": 345,
+          "end": 404,
+          "ctxt": 0
+        },
+        "init": null,
+        "test": null,
+        "update": null,
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 355,
+            "end": 404,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 361,
+                "end": 385,
+                "ctxt": 0
+              },
+              "kind": "var",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 365,
+                    "end": 385,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 365,
+                      "end": 367,
+                      "ctxt": 0
+                    },
+                    "value": "fn",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "FunctionExpression",
+                    "identifier": null,
+                    "params": [],
+                    "decorators": [],
+                    "span": {
+                      "start": 370,
+                      "end": 385,
+                      "ctxt": 0
+                    },
+                    "body": {
+                      "type": "BlockStatement",
+                      "span": {
+                        "start": 382,
+                        "end": 385,
+                        "ctxt": 0
+                      },
+                      "stmts": []
+                    },
+                    "generator": false,
+                    "async": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  },
+                  "definite": false
+                }
+              ]
+            },
+            {
+              "type": "BreakStatement",
+              "span": {
+                "start": 390,
+                "end": 402,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 396,
+                  "end": 401,
+                  "ctxt": 0
+                },
+                "value": "EIGHT",
+                "optional": false
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

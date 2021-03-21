@@ -1,0 +1,124 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 19,
+    "end": 77,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 19,
+        "end": 40,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 23,
+            "end": 39,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 23,
+              "end": 32,
+              "ctxt": 0
+            },
+            "value": "CustomTag",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 35,
+              "end": 39,
+              "ctxt": 0
+            },
+            "value": "h1",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 41,
+        "end": 77,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "JSXElement",
+        "span": {
+          "start": 41,
+          "end": 77,
+          "ctxt": 0
+        },
+        "opening": {
+          "type": "JSXOpeningElement",
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 42,
+              "end": 51,
+              "ctxt": 0
+            },
+            "value": "CustomTag",
+            "optional": false
+          },
+          "span": {
+            "start": 41,
+            "end": 52,
+            "ctxt": 0
+          },
+          "attributes": [],
+          "selfClosing": false,
+          "typeArguments": null
+        },
+        "children": [
+          {
+            "type": "JSXText",
+            "span": {
+              "start": 52,
+              "end": 65,
+              "ctxt": 0
+            },
+            "value": " Hello World ",
+            "raw": " Hello World "
+          }
+        ],
+        "closing": {
+          "type": "JSXClosingElement",
+          "span": {
+            "start": 65,
+            "end": 77,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 67,
+              "end": 76,
+              "ctxt": 0
+            },
+            "value": "CustomTag",
+            "optional": false
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

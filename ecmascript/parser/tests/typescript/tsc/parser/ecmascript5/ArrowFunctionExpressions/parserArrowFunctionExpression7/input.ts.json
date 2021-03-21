@@ -1,0 +1,91 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 19,
+    "end": 58,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 19,
+        "end": 58,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 19,
+          "end": 57,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "ObjectExpression",
+          "span": {
+            "start": 20,
+            "end": 56,
+            "ctxt": 0
+          },
+          "properties": [
+            {
+              "type": "MethodProperty",
+              "key": {
+                "type": "Identifier",
+                "span": {
+                  "start": 29,
+                  "end": 30,
+                  "ctxt": 0
+                },
+                "value": "m",
+                "optional": false
+              },
+              "params": [],
+              "decorators": [],
+              "span": {
+                "start": 23,
+                "end": 54,
+                "ctxt": 0
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 33,
+                  "end": 54,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "ForStatement",
+                    "span": {
+                      "start": 37,
+                      "end": 51,
+                      "ctxt": 0
+                    },
+                    "init": null,
+                    "test": null,
+                    "update": null,
+                    "body": {
+                      "type": "BlockStatement",
+                      "span": {
+                        "start": 46,
+                        "end": 51,
+                        "ctxt": 0
+                      },
+                      "stmts": []
+                    }
+                  }
+                ]
+              },
+              "generator": false,
+              "async": true,
+              "typeParameters": null,
+              "returnType": null
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

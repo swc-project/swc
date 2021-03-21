@@ -1,10 +1,13 @@
 extern crate test;
 
 use super::{
-    state::{lex, lex_module, lex_tokens, with_lexer},
+    state::{lex, lex_module_errors, lex_tokens, lex_tokens_with_target, with_lexer},
     *,
 };
-use crate::error::{Error, SyntaxError};
+use crate::{
+    error::{Error, SyntaxError},
+    lexer::state::lex_errors,
+};
 use std::{ops::Range, str};
 use test::{black_box, Bencher};
 
@@ -123,36 +126,30 @@ impl WithSpan for AssignOpToken {
 #[test]
 fn module_legacy_decimal() {
     assert_eq!(
-        lex_module(Syntax::default(), "08"),
-        vec![Token::Error(Error {
+        lex_module_errors(Syntax::default(), "08"),
+        vec![Error {
             error: Box::new((sp(0..2), SyntaxError::LegacyDecimal)),
-        })
-        .span(0..2)
-        .lb(),]
+        }]
     );
 }
 
 #[test]
 fn module_legacy_comment_1() {
     assert_eq!(
-        lex_module(Syntax::default(), "<!-- foo oo"),
-        vec![Token::Error(Error {
+        lex_module_errors(Syntax::default(), "<!-- foo oo"),
+        vec![Error {
             error: Box::new((sp(0..11), SyntaxError::LegacyCommentInModule)),
-        })
-        .span(0..11)
-        .lb(),]
+        }]
     )
 }
 
 #[test]
 fn module_legacy_comment_2() {
     assert_eq!(
-        lex_module(Syntax::default(), "-->"),
-        vec![Token::Error(Error {
+        lex_module_errors(Syntax::default(), "-->"),
+        vec![Error {
             error: Box::new((sp(0..3), SyntaxError::LegacyCommentInModule)),
-        })
-        .span(0..3)
-        .lb(),]
+        }]
     )
 }
 
@@ -233,7 +230,7 @@ multiline`"
         vec![
             tok!('`'),
             Token::Template {
-                cooked: "this\nis\nmultiline".into(),
+                cooked: Some("this\nis\nmultiline".into()),
                 raw: "this\nis\nmultiline".into(),
                 has_escape: false
             },
@@ -249,13 +246,44 @@ fn tpl_raw_unicode_escape() {
         vec![
             tok!('`'),
             Token::Template {
-                cooked: format!("{}", '\u{0010}').into(),
+                cooked: Some(format!("{}", '\u{0010}').into()),
                 raw: "\\u{0010}".into(),
                 has_escape: true
             },
             tok!('`'),
         ]
     );
+}
+
+#[test]
+fn tpl_invalid_unicode_escape() {
+    assert_eq!(
+        lex_tokens_with_target(Syntax::default(), JscTarget::Es2018, r"`\unicode`"),
+        vec![
+            tok!('`'),
+            Token::Template {
+                cooked: None,
+                raw: "\\unicode".into(),
+                has_escape: true
+            },
+            tok!('`'),
+        ]
+    );
+    assert_eq!(
+        lex_tokens_with_target(Syntax::default(), JscTarget::Es2017, r"`\unicode`"),
+        vec![
+            tok!('`'),
+            Token::Error(Error {
+                error: Box::new((sp(1..3), SyntaxError::ExpectedHexChars { count: 4 })),
+            }),
+            Token::Template {
+                cooked: Some("nicode".into()),
+                raw: "nicode".into(),
+                has_escape: false,
+            },
+            tok!('`')
+        ]
+    )
 }
 
 #[test]
@@ -658,7 +686,7 @@ fn tpl_empty() {
             tok!('`'),
             Template {
                 raw: "".into(),
-                cooked: "".into(),
+                cooked: Some("".into()),
                 has_escape: false
             },
             tok!('`')
@@ -674,7 +702,7 @@ fn tpl() {
             tok!('`'),
             Template {
                 raw: "".into(),
-                cooked: "".into(),
+                cooked: Some("".into()),
                 has_escape: false
             },
             tok!("${"),
@@ -682,7 +710,7 @@ fn tpl() {
             tok!('}'),
             Template {
                 raw: "".into(),
-                cooked: "".into(),
+                cooked: Some("".into()),
                 has_escape: false
             },
             tok!('`'),
@@ -851,7 +879,7 @@ fn issue_191() {
             tok!('`'),
             Token::Template {
                 raw: "".into(),
-                cooked: "".into(),
+                cooked: Some("".into()),
                 has_escape: false,
             },
             tok!("${"),
@@ -859,7 +887,7 @@ fn issue_191() {
             tok!('}'),
             Token::Template {
                 raw: "<bar>".into(),
-                cooked: "<bar>".into(),
+                cooked: Some("<bar>".into()),
                 has_escape: false,
             },
             tok!('`')
@@ -1079,6 +1107,7 @@ fn lex_colors_js(b: &mut Bencher) {
     b.iter(|| {
         let _ = with_lexer(
             Syntax::default(),
+            Default::default(),
             include_str!("../../colors.js"),
             |lexer| {
                 for t in lexer {
@@ -1097,6 +1126,7 @@ fn lex_colors_ts(b: &mut Bencher) {
     b.iter(|| {
         let _ = with_lexer(
             Syntax::Typescript(Default::default()),
+            Default::default(),
             include_str!("../../colors.js"),
             |lexer| {
                 for t in lexer {
@@ -1118,7 +1148,7 @@ fn bench(b: &mut Bencher, syntax: Syntax, s: &str) {
     b.bytes = s.len() as _;
 
     b.iter(|| {
-        let _ = with_lexer(syntax, s, |lexer| {
+        let _ = with_lexer(syntax, Default::default(), s, |lexer| {
             for t in lexer {
                 black_box(t);
             }
@@ -1157,7 +1187,7 @@ fn lex_escaped_char(b: &mut Bencher) {
 }
 
 #[bench]
-fn lex_legact_octal_lit(b: &mut Bencher) {
+fn lex_legacy_octal_lit(b: &mut Bencher) {
     bench_simple(
         b,
         "01756123617;01756123617;01756123617;01756123617;01756123617;01756123617;01756123617;\
@@ -1247,5 +1277,48 @@ fn lex_semicolons(b: &mut Bencher) {
          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
+    );
+}
+
+#[test]
+fn issue_1272_1_ts() {
+    let (tokens, errors) = lex_errors(crate::Syntax::Typescript(Default::default()), "\\u{16}");
+    assert_eq!(tokens.len(), 1);
+    assert_ne!(errors, vec![]);
+}
+
+#[test]
+fn issue_1272_1_js() {
+    let (tokens, errors) = lex_errors(crate::Syntax::Es(Default::default()), "\\u{16}");
+    assert_eq!(tokens.len(), 1);
+    assert_ne!(errors, vec![]);
+}
+
+#[test]
+fn issue_1272_2_ts() {
+    // Not recoverable yet
+    let (tokens, errors) = lex_errors(crate::Syntax::Typescript(Default::default()), "\u{16}");
+    assert_eq!(tokens.len(), 1);
+    assert_eq!(errors, vec![]);
+}
+
+#[test]
+fn issue_1272_2_js() {
+    // Not recoverable yet
+    let (tokens, errors) = lex_errors(crate::Syntax::Es(Default::default()), "\u{16}");
+    assert_eq!(tokens.len(), 1);
+    assert_eq!(errors, vec![]);
+}
+
+#[test]
+#[ignore = "Raw token should be different. See https://github.com/denoland/deno/issues/9620"]
+fn normalize_tpl_carriage_return() {
+    assert_eq!(
+        lex_tokens(Syntax::default(), "`\r\n`"),
+        lex_tokens(Syntax::default(), "`\n`")
+    );
+    assert_eq!(
+        lex_tokens(Syntax::default(), "`\r`"),
+        lex_tokens(Syntax::default(), "`\n`")
     );
 }

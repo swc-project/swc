@@ -7,13 +7,14 @@ use self::{
     text_writer::WriteJs,
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
-use std::{borrow::Cow, fmt::Write, io, sync::Arc};
+use std::{fmt::Write, io, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{
     comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
+use swc_ecma_parser::JscTarget;
 
 #[macro_use]
 pub mod macros;
@@ -128,7 +129,7 @@ impl<'a> Emitter<'a> {
         keyword!("default");
         space!();
         emit!(node.expr);
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -144,7 +145,7 @@ impl<'a> Emitter<'a> {
             DefaultDecl::Fn(ref n) => emit!(n),
             DefaultDecl::TsInterfaceDecl(ref n) => emit!(n),
         }
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -209,7 +210,7 @@ impl<'a> Emitter<'a> {
 
         formatting_space!();
         emit!(node.src);
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -329,7 +330,7 @@ impl<'a> Emitter<'a> {
             formatting_space!();
             emit!(src);
         }
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -343,7 +344,7 @@ impl<'a> Emitter<'a> {
         keyword!("from");
         space!();
         emit!(node.src);
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -382,28 +383,39 @@ impl<'a> Emitter<'a> {
     fn emit_str_lit(&mut self, node: &Str) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
-        let single_quote = if let Ok(s) = self.cm.span_to_snippet(node.span) {
-            s.starts_with("'")
-        } else {
-            true
-        };
+        let (single_quote, value) = match node.kind {
+            StrKind::Normal { contains_quote } => {
+                let single_quote = if contains_quote {
+                    is_single_quote(&self.cm, node.span)
+                } else {
+                    None
+                };
 
-        // if let Some(s) = get_text_of_node(&self.cm, node, false) {
-        //     self.wr.write_str_lit(node.span, &s)?;
-        //     return Ok(());
-        // }
-        let value = escape(&node.value);
-        // let value = node.value.replace("\n", "\\n");
+                let value = escape_with_source(
+                    &self.cm,
+                    self.wr.target(),
+                    node.span,
+                    &node.value,
+                    single_quote,
+                );
+
+                (single_quote.unwrap_or(false), value)
+            }
+            StrKind::Synthesized => {
+                let single_quote = false;
+                let value = escape_without_source(&node.value, self.wr.target(), single_quote);
+
+                (single_quote, value)
+            }
+        };
 
         if single_quote {
             punct!("'");
-            self.wr
-                .write_str_lit(node.span, &value.replace("'", "\\'"))?;
+            self.wr.write_str_lit(node.span, &value)?;
             punct!("'");
         } else {
             punct!("\"");
-            self.wr
-                .write_str_lit(node.span, &value.replace("\"", "\\\""))?;
+            self.wr.write_str_lit(node.span, &value)?;
             punct!("\"");
         }
     }
@@ -509,7 +521,6 @@ impl<'a> Emitter<'a> {
             Expr::TsNonNull(ref n) => emit!(n),
             Expr::TsTypeAssertion(ref n) => emit!(n),
             Expr::TsConstAssertion(ref n) => emit!(n),
-            Expr::TsTypeCast(ref n) => emit!(n),
             Expr::OptChain(ref n) => emit!(n),
             Expr::Invalid(ref n) => emit!(n),
         }
@@ -637,16 +648,40 @@ impl<'a> Emitter<'a> {
     fn emit_arrow_expr(&mut self, node: &ArrowExpr) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
+        let space = !self.cfg.minify
+            || match node.params.as_slice() {
+                [Pat::Ident(_)] => true,
+                _ => false,
+            };
+
         if node.is_async {
             keyword!("async");
-            formatting_space!();
+            if space {
+                space!();
+            } else {
+                formatting_space!();
+            }
         }
         if node.is_generator {
             punct!("*")
         }
-        punct!("(");
+
+        let parens = !self.cfg.minify
+            || match node.params.as_slice() {
+                [Pat::Ident(_)] => false,
+                _ => true,
+            };
+
+        emit!(node.type_params);
+
+        if parens {
+            punct!("(");
+        }
+
         self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
-        punct!(")");
+        if parens {
+            punct!(")");
+        }
 
         punct!("=>");
         emit!(node.body);
@@ -864,7 +899,7 @@ impl<'a> Emitter<'a> {
         if n.value {
             keyword!(n.span, "true")
         } else {
-            keyword!(n.span, "falsee")
+            keyword!(n.span, "false")
         }
     }
 
@@ -904,6 +939,10 @@ impl<'a> Emitter<'a> {
             }
         }
 
+        if let Some(type_params) = &n.function.type_params {
+            emit!(type_params);
+        }
+
         punct!("(");
         self.emit_list(
             n.function.span,
@@ -922,7 +961,7 @@ impl<'a> Emitter<'a> {
             formatting_space!();
             emit!(body);
         } else {
-            semi!()
+            formatting_semi!()
         }
     }
 
@@ -951,7 +990,7 @@ impl<'a> Emitter<'a> {
             emit!(value);
         }
 
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -994,7 +1033,7 @@ impl<'a> Emitter<'a> {
             emit!(v);
         }
 
-        semi!();
+        formatting_semi!();
     }
 
     fn emit_accesibility(&mut self, n: Option<Accessibility>) -> Result {
@@ -1024,7 +1063,7 @@ impl<'a> Emitter<'a> {
         if let Some(body) = &n.body {
             emit!(body);
         } else {
-            semi!();
+            formatting_semi!();
         }
     }
 
@@ -1034,6 +1073,7 @@ impl<'a> Emitter<'a> {
             PropName::Ident(ref n) => emit!(n),
             PropName::Str(ref n) => emit!(n),
             PropName::Num(ref n) => emit!(n),
+            PropName::BigInt(ref n) => emit!(n),
             PropName::Computed(ref n) => emit!(n),
         }
     }
@@ -1102,7 +1142,7 @@ impl<'a> Emitter<'a> {
             formatting_space!();
             emit!(body);
         } else {
-            semi!()
+            formatting_semi!()
         }
     }
 
@@ -1114,7 +1154,9 @@ impl<'a> Emitter<'a> {
                 self.wr.increase_indent()?;
                 emit!(expr);
                 self.wr.decrease_indent()?;
-                self.wr.write_line()?;
+                if !self.cfg.minify {
+                    self.wr.write_line()?;
+                }
             }
         }
     }
@@ -1382,33 +1424,30 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
+    fn emit_binding_ident(&mut self, ident: &BindingIdent) -> Result {
+        emit!(ident.id);
+
+        if let Some(ty) = &ident.type_ann {
+            punct!(":");
+            formatting_space!();
+            emit!(ty);
+        }
+
+        // Call emitList directly since it could be an array of
+        // TypeParameterDeclarations _or_ type arguments
+
+        // emitList(node, node.typeArguments, ListFormat::TypeParameters);
+    }
+
+    #[emitter]
     fn emit_ident(&mut self, ident: &Ident) -> Result {
         // TODO: Use write_symbol when ident is a symbol.
         self.emit_leading_comments_of_pos(ident.span.lo())?;
 
-        let symbol: Option<String> = None;
-        if let Some(sym) = symbol {
-            //            self.wr.write_symbol(
-            //     &get_text_of_node(, &ident, /* includeTrivia */ false),
-            //     sym,
-            // )?;
-            unimplemented!()
-        } else {
-            // TODO: span
-            self.wr.write_symbol(ident.span, &ident.sym)?;
-            if ident.optional {
-                punct!("?");
-            }
-
-            if let Some(ty) = &ident.type_ann {
-                punct!(":");
-                formatting_space!();
-                emit!(ty);
-            }
-
-            // self.wr
-            //     .write(get_text_of_node(&self.cm, &ident, /* includeTrivia */
-            // false).as_bytes())?;
+        // TODO: span
+        self.wr.write_symbol(ident.span, &ident.sym)?;
+        if ident.optional {
+            punct!("?");
         }
 
         // Call emitList directly since it could be an array of
@@ -1573,15 +1612,19 @@ impl<'a> Emitter<'a> {
 
             // Write a trailing comma, if requested.
             let has_trailing_comma = format.contains(ListFormat::AllowTrailingComma) && {
-                match self.cm.span_to_snippet(parent_node) {
-                    Ok(snippet) => {
-                        if snippet.len() < 3 {
-                            false
-                        } else {
-                            snippet[..snippet.len() - 1].trim().ends_with(',')
+                if parent_node.is_dummy() {
+                    false
+                } else {
+                    match self.cm.span_to_snippet(parent_node) {
+                        Ok(snippet) => {
+                            if snippet.len() < 3 {
+                                false
+                            } else {
+                                snippet[..snippet.len() - 1].trim().ends_with(',')
+                            }
                         }
+                        _ => false,
                     }
-                    _ => false,
                 }
             };
 
@@ -1793,7 +1836,7 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
         emit!(node.key);
-        space!();
+        formatting_space!();
         if let Some(ref value) = node.value {
             punct!("=");
             emit!(node.value);
@@ -1848,7 +1891,7 @@ impl<'a> Emitter<'a> {
     #[emitter]
     fn emit_expr_stmt(&mut self, e: &ExprStmt) -> Result {
         emit!(e.expr);
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -1868,7 +1911,7 @@ impl<'a> Emitter<'a> {
     fn emit_empty_stmt(&mut self, node: &EmptyStmt) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
-        punct!(";");
+        semi!();
     }
 
     #[emitter]
@@ -1876,7 +1919,7 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
         keyword!("debugger");
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -1914,7 +1957,7 @@ impl<'a> Emitter<'a> {
                 punct!(")");
             }
         }
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -1935,7 +1978,7 @@ impl<'a> Emitter<'a> {
             space!();
             emit!(label);
         }
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -1945,7 +1988,7 @@ impl<'a> Emitter<'a> {
             space!();
             emit!(label);
         }
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -2053,7 +2096,7 @@ impl<'a> Emitter<'a> {
         keyword!("throw");
         space!();
         emit!(node.arg);
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -2387,52 +2430,227 @@ fn unescape(s: &str) -> String {
     result
 }
 
-fn escape(s: &str) -> Cow<str> {
-    // let patterns = &[
-    //     "\\", "\u{0008}", "\u{000C}", "\n", "\r", "\t", "\u{000B}", "\00", "\01",
-    // "\02", "\03",     "\04", "\05", "\06", "\07", "\08", "\09", "\0",
-    // ];
-    // let replace_with = &[
-    //     "\\\\", "\\b", "\\f", "\\n", "\\r", "\\t", "\\v", "\\x000", "\\x001",
-    // "\\x002", "\\x003",     "\\x004", "\\x005", "\\x006", "\\x007", "\\x008",
-    // "\\x009", "\\0", ];
+fn escape_without_source(v: &str, target: JscTarget, single_quote: bool) -> String {
+    let mut buf = String::with_capacity(v.len());
+
+    for c in v.chars() {
+        match c {
+            '\u{0008}' => buf.push_str("\\b"),
+            '\u{000c}' => buf.push_str("\\f"),
+            '\n' => buf.push_str("\\n"),
+            '\r' => buf.push_str("\\r"),
+            '\t' => buf.push_str("\\t"),
+            '\u{000b}' => buf.push_str("\\v"),
+            '\0' => buf.push_str("\\0"),
+
+            '\\' => buf.push_str("\\\\"),
+
+            '\'' if single_quote => buf.push_str("\\'"),
+            '"' if !single_quote => buf.push_str("\\\""),
+
+            '\x01'..='\x0f' => {
+                let _ = write!(buf, "\\x0{:x}", c as u8);
+            }
+            '\x10'..='\x1f' => {
+                let _ = write!(buf, "\\x{:x}", c as u8);
+            }
+
+            '\x20'..='\x7e' => {
+                //
+                buf.push(c);
+            }
+            '\u{7f}'..='\u{ff}' => {
+                let _ = write!(buf, "\\x{:x}", c as u8);
+            }
+
+            _ => {
+                let escaped = c.escape_unicode().to_string();
+
+                if escaped.starts_with('\\') {
+                    buf.push_str("\\u");
+                    if escaped.len() == 8 {
+                        buf.push_str(&escaped[3..=6]);
+                    } else {
+                        buf.push_str(&escaped[2..]);
+                    }
+                }
+            }
+        }
+    }
+
+    buf
+}
+
+fn escape_with_source<'s>(
+    cm: &SourceMap,
+    target: JscTarget,
+    span: Span,
+    s: &'s str,
+    single_quote: Option<bool>,
+) -> String {
+    if target <= JscTarget::Es5 {
+        return escape_without_source(s, target, single_quote.unwrap_or(false));
+    }
+
+    if span.is_dummy() {
+        return escape_without_source(s, target, single_quote.unwrap_or(false));
+    }
+
     //
-    // {
-    //     let mut found = false;
-    //     for pat in patterns {
-    //         if s.contains(pat) {
-    //             found = true;
-    //             break;
-    //         }
-    //     }
-    //     if !found {
-    //         return Cow::Borrowed(s);
-    //     }
-    // }
-    //
-    // let ac = AhoCorasick::new(patterns);
-    //
-    // Cow::Owned(ac.replace_all(s, replace_with))
-    Cow::Owned(
-        s.replace("\\", "\\\\")
-            .replace('\u{0008}', "\\b")
-            .replace('\u{000C}', "\\f")
-            .replace("\n", "\\n")
-            .replace("\r", "\\r")
-            .replace("\t", "\\t")
-            .replace('\u{000B}', "\\v")
-            .replace("\00", "\\x000")
-            .replace("\01", "\\x001")
-            .replace("\02", "\\x002")
-            .replace("\03", "\\x003")
-            .replace("\04", "\\x004")
-            .replace("\05", "\\x005")
-            .replace("\06", "\\x006")
-            .replace("\07", "\\x007")
-            .replace("\08", "\\x008")
-            .replace("\09", "\\x009")
-            .replace("\0", "\\0"),
-    )
+    let orig = cm.span_to_snippet(span);
+    let orig = match orig {
+        Ok(orig) => orig,
+        Err(v) => {
+            return escape_without_source(s, target, single_quote.unwrap_or(false));
+        }
+    };
+
+    if single_quote.is_some() && orig.len() <= 2 {
+        return escape_without_source(s, target, single_quote.unwrap_or(false));
+    }
+
+    let mut orig = &*orig;
+
+    if (single_quote == Some(true) && orig.starts_with('\''))
+        || (single_quote == Some(false) && orig.starts_with('"'))
+    {
+        orig = &orig[1..orig.len() - 1];
+    } else {
+        if single_quote.is_some() {
+            return escape_without_source(s, target, single_quote.unwrap_or(false));
+        }
+    }
+
+    let mut buf = String::with_capacity(s.len());
+    let mut orig_iter = orig.chars().peekable();
+    let mut s_iter = s.chars();
+
+    while let Some(orig_c) = orig_iter.next() {
+        // Javascript literal should not contain newlines
+        if orig_c == '\n' {
+            s_iter.next();
+            s_iter.next();
+            buf.push_str("\\n");
+            continue;
+        }
+
+        if single_quote.is_none() && orig_c == '"' {
+            s_iter.next();
+            s_iter.next();
+            buf.push_str("\\\"");
+            continue;
+        }
+
+        if orig_c == '\\' {
+            buf.push('\\');
+            match orig_iter.next() {
+                Some('\\') => {
+                    buf.push('\\');
+                    s_iter.next();
+                    continue;
+                }
+                Some(escaper) => {
+                    buf.push(escaper);
+                    match escaper {
+                        'x' => {
+                            buf.extend(orig_iter.next());
+                            buf.extend(orig_iter.next());
+                            s_iter.next();
+                        }
+                        'u' => match orig_iter.next() {
+                            Some('{') => {
+                                buf.push('{');
+                                loop {
+                                    let ch = orig_iter.next();
+                                    buf.extend(ch);
+                                    if ch == Some('}') {
+                                        break;
+                                    }
+                                }
+                                s_iter.next();
+                            }
+                            Some(ch) => {
+                                buf.push(ch);
+                                buf.extend(orig_iter.next());
+                                buf.extend(orig_iter.next());
+                                buf.extend(orig_iter.next());
+                                s_iter.next();
+                            }
+                            None => break,
+                        },
+                        'b' | 'f' | 'n' | 'r' | 't' | 'v' | '0' => {
+                            s_iter.next();
+                        }
+
+                        '\'' if single_quote == Some(true) => {
+                            s_iter.next();
+                        }
+
+                        '"' if single_quote == Some(false) => {
+                            s_iter.next();
+                        }
+
+                        _ => {
+                            s_iter.next();
+                        }
+                    }
+
+                    continue;
+                }
+                _ => {}
+            }
+        }
+
+        s_iter.next();
+        buf.push(orig_c);
+    }
+
+    buf.extend(s_iter);
+
+    buf
+}
+
+/// Returns [Some] if the span points to a string literal written by user.
+///
+/// Returns [None] if the span is created from a pass of swc. For example,
+/// spans of string literals created from [TplElement] do not have `starting`
+/// quote.
+fn is_single_quote(cm: &SourceMap, span: Span) -> Option<bool> {
+    let start = cm.lookup_byte_offset(span.lo);
+    let end = cm.lookup_byte_offset(span.hi);
+
+    if start.sf.start_pos != end.sf.start_pos {
+        return None;
+    }
+
+    // Empty file
+    if start.sf.start_pos == start.sf.end_pos {
+        return None;
+    }
+
+    let start_index = start.pos.0;
+    let end_index = end.pos.0;
+    let source_len = (start.sf.end_pos - start.sf.start_pos).0;
+
+    if start_index > end_index || end_index > source_len {
+        return None;
+    }
+
+    let src = &start.sf.src;
+    let single_quote = match src.as_bytes()[start_index as usize] {
+        b'\'' => true,
+        b'"' => false,
+        _ => return None,
+    };
+    if end_index == 0 {
+        return None;
+    }
+
+    if src.as_bytes()[start_index as usize] != src.as_bytes()[(end_index - 1) as usize] {
+        return None;
+    }
+
+    Some(single_quote)
 }
 
 #[cold]

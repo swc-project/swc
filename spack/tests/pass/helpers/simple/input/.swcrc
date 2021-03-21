@@ -1,0 +1,8 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "decorators": true
+    }
+  }
+}

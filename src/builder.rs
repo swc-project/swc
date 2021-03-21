@@ -1,11 +1,13 @@
 use crate::config::{GlobalPassOption, JscTarget, ModuleConfig};
+use compat::es2020::export_namespace_from;
 use either::Either;
 use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{chain, comments::Comments, errors::Handler, Mark, SourceMap};
 use swc_ecma_parser::Syntax;
+use swc_ecma_transforms::hygiene::hygiene_with_config;
 use swc_ecma_transforms::{
-    compat, const_modules, fixer, helpers, hygiene, modules, pass::Optional,
+    compat, fixer, helpers, hygiene, modules, optimization::const_modules, pass::Optional,
     proposals::import_assertions, typescript,
 };
 
@@ -18,8 +20,9 @@ pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
     global_mark: Mark,
     target: JscTarget,
     loose: bool,
-    hygiene: bool,
+    hygiene: Option<hygiene::Config>,
     fixer: bool,
+    inject_helpers: bool,
 }
 
 impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
@@ -37,9 +40,10 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             target: JscTarget::Es5,
             global_mark,
             loose,
-            hygiene: true,
+            hygiene: Some(Default::default()),
             env: None,
             fixer: true,
+            inject_helpers: true,
         }
     }
 
@@ -58,7 +62,13 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             env: self.env,
             global_mark: self.global_mark,
             fixer: self.fixer,
+            inject_helpers: self.inject_helpers,
         }
+    }
+
+    pub fn skip_helper_injection(mut self, skip: bool) -> Self {
+        self.inject_helpers = !skip;
+        self
     }
 
     /// Note: fixer is enabled by default.
@@ -68,8 +78,10 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
     }
 
     /// Note: hygiene is enabled by default.
-    pub fn hygiene(mut self, enable: bool) -> Self {
-        self.hygiene = enable;
+    ///
+    /// If you pass [None] to this method, the `hygiene` pass will be disabled.
+    pub fn hygiene(mut self, config: Option<hygiene::Config>) -> Self {
+        self.hygiene = config;
         self
     }
 
@@ -168,14 +180,18 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             self.pass,
             compat_pass,
             compat::reserved_words::reserved_words(),
+            Optional::new(export_namespace_from(), need_interop_analysis),
             // module / helper
             Optional::new(
                 modules::import_analysis::import_analyzer(),
                 need_interop_analysis
             ),
-            helpers::inject_helpers(),
+            Optional::new(helpers::inject_helpers(), self.inject_helpers),
             ModuleConfig::build(self.cm.clone(), self.global_mark, module),
-            Optional::new(hygiene(), self.hygiene),
+            Optional::new(
+                hygiene_with_config(self.hygiene.clone().unwrap_or_default()),
+                self.hygiene.is_some()
+            ),
             Optional::new(fixer(comments), self.fixer),
         )
     }

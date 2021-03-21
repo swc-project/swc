@@ -1,0 +1,91 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 60,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDefaultExpression",
+      "span": {
+        "start": 0,
+        "end": 29,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ObjectExpression",
+        "span": {
+          "start": 15,
+          "end": 29,
+          "ctxt": 0
+        },
+        "properties": [
+          {
+            "type": "KeyValueProperty",
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 21,
+                "end": 24,
+                "ctxt": 0
+              },
+              "value": "lol",
+              "optional": false
+            },
+            "value": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 26,
+                "end": 27,
+                "ctxt": 0
+              },
+              "value": 1.0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExportDefaultExpression",
+      "span": {
+        "start": 31,
+        "end": 60,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ObjectExpression",
+        "span": {
+          "start": 46,
+          "end": 60,
+          "ctxt": 0
+        },
+        "properties": [
+          {
+            "type": "KeyValueProperty",
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 52,
+                "end": 55,
+                "ctxt": 0
+              },
+              "value": "lol",
+              "optional": false
+            },
+            "value": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 57,
+                "end": 58,
+                "ctxt": 0
+              },
+              "value": 2.0
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

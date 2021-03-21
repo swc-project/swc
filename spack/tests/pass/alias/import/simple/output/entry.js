@@ -1,6 +1,6 @@
-function foo() {
+function a() {
     console.log("a()");
 }
-function a() {
+function a1() {
 }
-console.log(a(), foo());
+console.log(a1(), a());

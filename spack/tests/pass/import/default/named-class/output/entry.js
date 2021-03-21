@@ -1,3 +1,3 @@
-const A = class {
-};
-console.log(A);
+class MyClass {
+}
+console.log(MyClass);

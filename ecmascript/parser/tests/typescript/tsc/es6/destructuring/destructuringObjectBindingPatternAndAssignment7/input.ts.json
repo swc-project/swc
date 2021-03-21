@@ -1,0 +1,463 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 24,
+    "end": 168,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 24,
+        "end": 59,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 29,
+          "end": 30,
+          "ctxt": 0
+        },
+        "value": "K",
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 37,
+            "end": 44,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 37,
+              "end": 38,
+              "ctxt": 0
+            },
+            "value": "a",
+            "optional": false
+          },
+          "init": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 41,
+              "end": 44,
+              "ctxt": 0
+            },
+            "value": "a",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 50,
+            "end": 57,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 50,
+              "end": 51,
+              "ctxt": 0
+            },
+            "value": "b",
+            "optional": false
+          },
+          "init": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 54,
+              "end": 57,
+              "ctxt": 0
+            },
+            "value": "b",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 60,
+        "end": 143,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 66,
+            "end": 142,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "ObjectPattern",
+            "span": {
+              "start": 66,
+              "end": 94,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValuePatternProperty",
+                "key": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 68,
+                    "end": 73,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 69,
+                      "end": 72,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 69,
+                        "end": 70,
+                        "ctxt": 0
+                      },
+                      "value": "K",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 71,
+                        "end": 72,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "optional": false
+                    },
+                    "computed": false
+                  }
+                },
+                "value": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 75,
+                    "end": 79,
+                    "ctxt": 0
+                  },
+                  "value": "aVal",
+                  "optional": false,
+                  "typeAnnotation": null
+                }
+              },
+              {
+                "type": "KeyValuePatternProperty",
+                "key": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 81,
+                    "end": 86,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 82,
+                      "end": 85,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 82,
+                        "end": 83,
+                        "ctxt": 0
+                      },
+                      "value": "K",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 84,
+                        "end": 85,
+                        "ctxt": 0
+                      },
+                      "value": "b",
+                      "optional": false
+                    },
+                    "computed": false
+                  }
+                },
+                "value": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 88,
+                    "end": 92,
+                    "ctxt": 0
+                  },
+                  "value": "bVal",
+                  "optional": false,
+                  "typeAnnotation": null
+                }
+              }
+            ],
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 97,
+              "end": 142,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "ParenthesisExpression",
+              "span": {
+                "start": 97,
+                "end": 140,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "ArrowFunctionExpression",
+                "span": {
+                  "start": 98,
+                  "end": 139,
+                  "ctxt": 0
+                },
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 104,
+                    "end": 139,
+                    "ctxt": 0
+                  },
+                  "stmts": [
+                    {
+                      "type": "ReturnStatement",
+                      "span": {
+                        "start": 107,
+                        "end": 137,
+                        "ctxt": 0
+                      },
+                      "argument": {
+                        "type": "ObjectExpression",
+                        "span": {
+                          "start": 114,
+                          "end": 136,
+                          "ctxt": 0
+                        },
+                        "properties": [
+                          {
+                            "type": "KeyValueProperty",
+                            "key": {
+                              "type": "Computed",
+                              "span": {
+                                "start": 116,
+                                "end": 121,
+                                "ctxt": 0
+                              },
+                              "expression": {
+                                "type": "MemberExpression",
+                                "span": {
+                                  "start": 117,
+                                  "end": 120,
+                                  "ctxt": 0
+                                },
+                                "object": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 117,
+                                    "end": 118,
+                                    "ctxt": 0
+                                  },
+                                  "value": "K",
+                                  "optional": false
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 119,
+                                    "end": 120,
+                                    "ctxt": 0
+                                  },
+                                  "value": "a",
+                                  "optional": false
+                                },
+                                "computed": false
+                              }
+                            },
+                            "value": {
+                              "type": "NumericLiteral",
+                              "span": {
+                                "start": 123,
+                                "end": 124,
+                                "ctxt": 0
+                              },
+                              "value": 1.0
+                            }
+                          },
+                          {
+                            "type": "KeyValueProperty",
+                            "key": {
+                              "type": "Computed",
+                              "span": {
+                                "start": 126,
+                                "end": 131,
+                                "ctxt": 0
+                              },
+                              "expression": {
+                                "type": "MemberExpression",
+                                "span": {
+                                  "start": 127,
+                                  "end": 130,
+                                  "ctxt": 0
+                                },
+                                "object": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 127,
+                                    "end": 128,
+                                    "ctxt": 0
+                                  },
+                                  "value": "K",
+                                  "optional": false
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 129,
+                                    "end": 130,
+                                    "ctxt": 0
+                                  },
+                                  "value": "b",
+                                  "optional": false
+                                },
+                                "computed": false
+                              }
+                            },
+                            "value": {
+                              "type": "NumericLiteral",
+                              "span": {
+                                "start": 133,
+                                "end": 134,
+                                "ctxt": 0
+                              },
+                              "value": 1.0
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "async": false,
+                "generator": false,
+                "typeParameters": null,
+                "returnType": null
+              }
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 144,
+        "end": 168,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 144,
+          "end": 167,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 144,
+            "end": 155,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 144,
+              "end": 151,
+              "ctxt": 0
+            },
+            "value": "console",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 152,
+              "end": 155,
+              "ctxt": 0
+            },
+            "value": "log",
+            "optional": false
+          },
+          "computed": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 156,
+                "end": 160,
+                "ctxt": 0
+              },
+              "value": "aVal",
+              "optional": false
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 162,
+                "end": 166,
+                "ctxt": 0
+              },
+              "value": "bVal",
+              "optional": false
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

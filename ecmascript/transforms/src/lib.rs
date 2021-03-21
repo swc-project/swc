@@ -1,43 +1,27 @@
-#![cfg_attr(test, feature(test))]
-#![recursion_limit = "1024"]
 #![deny(unused)]
 
-#[macro_use]
-extern crate swc_ecma_utils;
-
-#[cfg(feature = "const-modules")]
-pub use self::const_modules::const_modules;
 pub use self::{
     fixer::fixer,
     hygiene::hygiene,
     resolver::{resolver, resolver_with_mark},
 };
-
-#[macro_use]
-mod macros;
-mod ext;
-#[cfg(test)]
-#[macro_use]
-mod tests;
-#[macro_use]
-mod quote;
-#[macro_use]
-pub mod helpers;
-#[macro_use]
-mod hygiene;
-pub mod compat;
-mod const_modules;
-pub mod debug;
-mod fixer;
-pub mod modules;
-pub mod optimization;
-pub mod pass;
-mod perf;
-pub mod proposals;
-pub mod react;
-pub mod resolver;
-pub mod scope;
-pub mod typescript;
-pub mod util {
-    pub use swc_ecma_utils::*;
-}
+pub use swc_ecma_transforms_base::fixer;
+pub use swc_ecma_transforms_base::helpers;
+pub use swc_ecma_transforms_base::hygiene;
+pub use swc_ecma_transforms_base::pass;
+pub use swc_ecma_transforms_base::perf;
+pub use swc_ecma_transforms_base::resolver;
+#[cfg(feature = "swc_ecma_transforms_compat")]
+pub use swc_ecma_transforms_compat as compat;
+#[cfg(feature = "swc_ecma_transforms_module")]
+pub use swc_ecma_transforms_module as modules;
+#[cfg(feature = "swc_ecma_transforms_optimization")]
+pub use swc_ecma_transforms_optimization as optimization;
+#[cfg(feature = "swc_ecma_transforms_optimization")]
+pub use swc_ecma_transforms_optimization::const_modules;
+#[cfg(feature = "swc_ecma_transforms_proposal")]
+pub use swc_ecma_transforms_proposal as proposals;
+#[cfg(feature = "swc_ecma_transforms_react")]
+pub use swc_ecma_transforms_react as react;
+#[cfg(feature = "swc_ecma_transforms_typescript")]
+pub use swc_ecma_transforms_typescript as typescript;

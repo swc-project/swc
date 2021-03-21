@@ -72,7 +72,7 @@ it("(async) should handle module input", async () => {
 
 it("(sync) should handle plugin", () => {
     const out = swc.transformSync("class Foo {}", {
-        plugin: m => ({...m, body: []})
+        plugin: m => ({ ...m, body: [] })
     });
 
     expect(out.code).toBe("");
@@ -80,7 +80,7 @@ it("(sync) should handle plugin", () => {
 
 it("(async) should handle plugin", async () => {
     const out = await swc.transform("class Foo {}", {
-        plugin: m => ({...m, body: []})
+        plugin: m => ({ ...m, body: [] })
     });
 
     expect(out.code).toBe("");
@@ -123,4 +123,26 @@ it("should handle for of statement in an async function", async () => {
     );
 
     expect(out.code).toBeTruthy()
+});
+
+
+it("should respect isModule = false", async () => {
+    const out = swc.transformSync(
+        `const five = 005`,
+        {
+            isModule: false,
+        }
+    );
+
+    expect(out.code.trim()).toEqual(`var five = 5;`)
+});
+
+it("should respect isModule = true", async () => {
+    const f = () => swc.transformSync(
+        `const five = 005`,
+        {
+            isModule: true,
+        }
+    );
+    expect(f).toThrowError(`failed to parse module: error was recoverable, but proceeding would result in wrong codegen`)
 });

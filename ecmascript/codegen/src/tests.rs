@@ -1,6 +1,7 @@
 use self::swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax};
 use super::*;
 use crate::config::Config;
+use crate::text_writer::omit_trailing_semi;
 use std::{
     fmt::{self, Debug, Display, Formatter},
     io::Write,
@@ -20,10 +21,17 @@ impl Builder {
     where
         F: FnOnce(&mut Emitter<'_>) -> Ret,
     {
+        let writer = text_writer::JsWriter::new(self.cm.clone(), "\n", s, None);
+        let writer: Box<dyn WriteJs> = if self.cfg.minify {
+            Box::new(omit_trailing_semi(writer))
+        } else {
+            Box::new(writer)
+        };
+
         let mut e = Emitter {
             cfg: self.cfg,
             cm: self.cm.clone(),
-            wr: Box::new(text_writer::JsWriter::new(self.cm.clone(), "\n", s, None)),
+            wr: writer,
             comments: Some(&self.comments),
         };
 
@@ -78,12 +86,26 @@ pub(crate) fn assert_min(from: &str, to: &str) {
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);
 }
 
+/// Clone of the regular `assert_min` function but with TypeScript syntax.
+pub(crate) fn assert_min_typescript(from: &str, to: &str) {
+    let out = parse_then_emit(
+        from,
+        Config { minify: true },
+        Syntax::Typescript(Default::default()),
+    );
+
+    assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);
+}
+
 pub(crate) fn assert_pretty(from: &str, to: &str) {
     let out = parse_then_emit(from, Config { minify: false }, Syntax::default());
 
+    println!("Expected: {:?}", to);
+    println!("Actaul:   {:?}", out);
     assert_eq!(DebugUsingDisplay(&out.trim()), DebugUsingDisplay(to),);
 }
 
+#[track_caller]
 fn test_from_to(from: &str, expected: &str) {
     let out = parse_then_emit(from, Default::default(), Syntax::default());
 
@@ -166,7 +188,7 @@ fn no_octal_escape() {
 '\x000';
 '\x001';
 '\x009'"#,
-        r#"'\0a';
+        r#"'\x00a';
 '\x000';
 '\x001';
 '\x009';"#,
@@ -429,6 +451,114 @@ fn jsx_1() {
             ..Default::default()
         }),
     );
+}
+
+#[test]
+fn deno_8162() {
+    test_from_to(
+        r#""\x00\r\n\x85\u2028\u2029";"#,
+        r#""\x00\r\n\x85\u2028\u2029";"#,
+    );
+}
+
+#[test]
+fn integration_01() {
+    test_from_to(
+        r#"
+    `Unexpected ${unexpectedKeys.length > 1 ? 'keys' : 'key'} ` +
+    `"${unexpectedKeys.join('", "')}" found in ${argumentName}. ` +
+    `Expected to find one of the known reducer keys instead: ` +
+    `"${reducerKeys.join('", "')}". Unexpected keys will be ignored.`
+    "#,
+        "
+    `Unexpected ${unexpectedKeys.length > 1 ? 'keys' : 'key'} ` + `\"${unexpectedKeys.join('\", \
+         \"')}\" found in ${argumentName}. ` + `Expected to find one of the known reducer keys \
+         instead: ` + `\"${reducerKeys.join('\", \"')}\". Unexpected keys will be ignored.`;
+        ",
+    );
+}
+
+#[test]
+fn integration_01_reduced_01() {
+    test_from_to(
+        r#"
+    `Unexpected ${unexpectedKeys.length > 1 ? 'keys' : 'key'} ` +
+    `"${unexpectedKeys.join('", "')}" found in ${argumentName}. `
+    "#,
+        "
+    `Unexpected ${unexpectedKeys.length > 1 ? 'keys' : 'key'} ` + `\"${unexpectedKeys.join('\", \
+         \"')}\" found in ${argumentName}. `;",
+    );
+}
+
+#[test]
+fn dneo_8541_1() {
+    test_from_to(
+        "React.createElement('span', null, '\\u{b7}');",
+        "React.createElement('span', null, '\\u{b7}');",
+    );
+}
+
+#[test]
+fn deno_8925() {
+    assert_pretty("const 𝒫 = 2;", "const 𝒫 = 2;");
+}
+
+#[test]
+#[ignore = "Tested by a bundler test"]
+fn deno_9620() {
+    assert_pretty(
+        "const content = `--------------------------366796e1c748a2fb\r
+Content-Disposition: form-data; name=\"payload\"\r
+Content-Type: text/plain\r
+\r
+CONTENT\r
+--------------------------366796e1c748a2fb--`",
+        "`const content = `--------------------------366796e1c748a2fb\\r\\nContent-Disposition: \
+         form-data; name=\"payload\"\\r\\nContent-Type: \
+         text/plain\\r\\n\\r\\nCONTENT\\r\\n--------------------------366796e1c748a2fb--`;",
+    );
+}
+
+#[test]
+fn test_escape_without_source() {
+    fn es2020(src: &str, expected: &str) {
+        assert_eq!(
+            super::escape_without_source(src, JscTarget::Es2020, true),
+            expected
+        )
+    }
+
+    es2020("abcde", "abcde");
+    es2020(
+        "\x00\r\n\u{85}\u{2028}\u{2029};",
+        "\\0\\r\\n\\x85\\u2028\\u2029;",
+    );
+
+    es2020("\n", "\\n");
+    es2020("\t", "\\t");
+
+    es2020("'string'", "\\'string\\'");
+
+    es2020("\u{0}", "\\0");
+    es2020("\u{1}", "\\x01");
+
+    es2020("\u{1000}", "\\u1000");
+    es2020("\u{ff}", "\\xff");
+    es2020("\u{10ffff}", "\\u{10ffff}");
+}
+
+#[test]
+fn deno_8541_2() {
+    test_from_to(
+        "React.createElement('span', null, '\\u00b7');",
+        "React.createElement('span', null, '\\u00b7');",
+    );
+}
+
+#[test]
+fn issue_1452_1() {
+    assert_min("async foo => 0", "async foo=>0");
 }
 
 #[derive(Debug, Clone)]

@@ -1,0 +1,100 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 60,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 0,
+        "end": 60,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "M",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 9,
+          "end": 60,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsModuleDeclaration",
+            "span": {
+              "start": 13,
+              "end": 58,
+              "ctxt": 0
+            },
+            "declare": true,
+            "global": false,
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 28,
+                "end": 30,
+                "ctxt": 0
+              },
+              "value": "M1",
+              "optional": false
+            },
+            "body": {
+              "type": "TsModuleBlock",
+              "span": {
+                "start": 31,
+                "end": 58,
+                "ctxt": 0
+              },
+              "body": [
+                {
+                  "type": "TsModuleDeclaration",
+                  "span": {
+                    "start": 37,
+                    "end": 54,
+                    "ctxt": 0
+                  },
+                  "declare": false,
+                  "global": false,
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 44,
+                      "end": 46,
+                      "ctxt": 0
+                    },
+                    "value": "M2",
+                    "optional": false
+                  },
+                  "body": {
+                    "type": "TsModuleBlock",
+                    "span": {
+                      "start": 47,
+                      "end": 54,
+                      "ctxt": 0
+                    },
+                    "body": []
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

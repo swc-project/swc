@@ -1,0 +1,58 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 47,
+    "end": 89,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "SwitchStatement",
+      "span": {
+        "start": 47,
+        "end": 89,
+        "ctxt": 0
+      },
+      "discriminant": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 55,
+          "end": 57,
+          "ctxt": 0
+        },
+        "value": 12.0
+      },
+      "cases": [
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 65,
+            "end": 87,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 70,
+              "end": 71,
+              "ctxt": 0
+            },
+            "value": 5.0
+          },
+          "consequent": [
+            {
+              "type": "BreakStatement",
+              "span": {
+                "start": 81,
+                "end": 87,
+                "ctxt": 0
+              },
+              "label": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

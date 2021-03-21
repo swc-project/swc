@@ -1,0 +1,117 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 15,
+    "end": 45,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 15,
+        "end": 45,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 19,
+            "end": 44,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "ObjectPattern",
+            "span": {
+              "start": 19,
+              "end": 24,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "AssignmentPatternProperty",
+                "span": {
+                  "start": 21,
+                  "end": 22,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 21,
+                    "end": 22,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false
+                },
+                "value": null
+              }
+            ],
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "TsTypeAssertion",
+            "span": {
+              "start": 27,
+              "end": 44,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "TsTypeAssertion",
+              "span": {
+                "start": 32,
+                "end": 44,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "NewExpression",
+                "span": {
+                  "start": 37,
+                  "end": 44,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 41,
+                    "end": 44,
+                    "ctxt": 0
+                  },
+                  "value": "Foo",
+                  "optional": false
+                },
+                "arguments": null,
+                "typeArguments": null
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 33,
+                  "end": 36,
+                  "ctxt": 0
+                },
+                "kind": "any"
+              }
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 28,
+                "end": 31,
+                "ctxt": 0
+              },
+              "kind": "any"
+            }
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

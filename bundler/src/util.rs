@@ -1,6 +1,210 @@
-use std::hash::Hash;
-use swc_common::{Span, SyntaxContext};
+use std::{clone::Clone, cmp::Eq, hash::Hash, mem::replace};
+use swc_atoms::js_word;
+use swc_common::{Span, SyntaxContext, DUMMY_SP};
+use swc_ecma_ast::*;
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
+
+pub(crate) mod fast_graph;
+
+const TRACK: bool = false;
+
+pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
+    fn into_module_item(self, injected_ctxt: SyntaxContext, name: &str) -> ModuleItem {
+        ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+            span: DUMMY_SP.with_ctxt(injected_ctxt),
+            kind: VarDeclKind::Const,
+            declare: false,
+            decls: if TRACK {
+                vec![
+                    self.into(),
+                    Str {
+                        span: DUMMY_SP,
+                        value: name.into(),
+                        has_escape: false,
+                        kind: Default::default(),
+                    }
+                    .assign_to(Ident::new("INJECTED_FROM".into(), DUMMY_SP)),
+                ]
+            } else {
+                vec![self.into()]
+            },
+        })))
+    }
+}
+
+impl<T> VarDeclaratorExt for T where T: Into<VarDeclarator> {}
+
+pub(crate) trait ExprExt: Into<Expr> {
+    #[track_caller]
+    fn assign_to<T>(self, lhs: T) -> VarDeclarator
+    where
+        T: IdentLike,
+    {
+        let init = self.into();
+        let lhs = lhs.into_id();
+
+        if cfg!(debug_assertions) {
+            match &init {
+                Expr::Ident(rhs) => {
+                    debug_assert_ne!(lhs, rhs.to_id());
+                }
+                _ => {}
+            }
+        }
+
+        VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::Ident(Ident::new(lhs.0, DUMMY_SP.with_ctxt(lhs.1)).into()),
+            init: Some(Box::new(init)),
+            definite: false,
+        }
+    }
+}
+
+impl<T> ExprExt for T where T: Into<Expr> {}
+
+/// Helper for migration from [Fold] to [VisitMut]
+pub(crate) trait MapWithMut: Sized {
+    fn dummy() -> Self;
+
+    fn take(&mut self) -> Self {
+        replace(self, Self::dummy())
+    }
+
+    #[inline]
+    fn map_with_mut<F>(&mut self, op: F)
+    where
+        F: FnOnce(Self) -> Self,
+    {
+        let dummy = Self::dummy();
+        let v = replace(self, dummy);
+        let v = op(v);
+        let _dummy = replace(self, v);
+    }
+}
+
+impl MapWithMut for ModuleItem {
+    #[inline(always)]
+    fn dummy() -> Self {
+        ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+    }
+}
+
+impl MapWithMut for Stmt {
+    #[inline(always)]
+    fn dummy() -> Self {
+        Stmt::Empty(EmptyStmt { span: DUMMY_SP })
+    }
+}
+
+impl MapWithMut for Expr {
+    #[inline(always)]
+    fn dummy() -> Self {
+        Expr::Invalid(Invalid { span: DUMMY_SP })
+    }
+}
+
+impl MapWithMut for Pat {
+    #[inline(always)]
+    fn dummy() -> Self {
+        Pat::Invalid(Invalid { span: DUMMY_SP })
+    }
+}
+
+impl<T> MapWithMut for Option<T> {
+    #[inline(always)]
+    fn dummy() -> Self {
+        None
+    }
+}
+
+impl<T> MapWithMut for Vec<T> {
+    #[inline(always)]
+    fn dummy() -> Self {
+        Vec::new()
+    }
+}
+
+impl<T> MapWithMut for Box<T>
+where
+    T: MapWithMut,
+{
+    #[inline(always)]
+    fn dummy() -> Self {
+        Box::new(T::dummy())
+    }
+}
+
+impl MapWithMut for Ident {
+    fn dummy() -> Self {
+        Ident::new(js_word!(""), DUMMY_SP)
+    }
+}
+
+impl MapWithMut for ObjectPatProp {
+    fn dummy() -> Self {
+        ObjectPatProp::Assign(AssignPatProp {
+            span: DUMMY_SP,
+            key: Ident::dummy(),
+            value: None,
+        })
+    }
+}
+
+impl MapWithMut for PatOrExpr {
+    fn dummy() -> Self {
+        PatOrExpr::Pat(Box::new(Pat::Ident(Ident::dummy().into())))
+    }
+}
+
+impl MapWithMut for ClassExpr {
+    fn dummy() -> Self {
+        ClassExpr {
+            ident: None,
+            class: MapWithMut::dummy(),
+        }
+    }
+}
+
+impl MapWithMut for FnExpr {
+    fn dummy() -> Self {
+        FnExpr {
+            ident: None,
+            function: MapWithMut::dummy(),
+        }
+    }
+}
+
+impl MapWithMut for Class {
+    fn dummy() -> Self {
+        Class {
+            span: Default::default(),
+            decorators: Default::default(),
+            body: Default::default(),
+            super_class: Default::default(),
+            is_abstract: Default::default(),
+            type_params: Default::default(),
+            super_type_params: Default::default(),
+            implements: Default::default(),
+        }
+    }
+}
+
+impl MapWithMut for Function {
+    fn dummy() -> Self {
+        Function {
+            params: Default::default(),
+            decorators: Default::default(),
+            span: Default::default(),
+            body: Default::default(),
+            is_generator: Default::default(),
+            is_async: Default::default(),
+            type_params: Default::default(),
+            return_type: Default::default(),
+        }
+    }
+}
 
 #[derive(Debug)]
 pub(crate) struct CHashSet<V>

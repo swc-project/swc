@@ -1,0 +1,74 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 29,
+    "end": 39,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 29,
+        "end": 35,
+        "ctxt": 0
+      },
+      "stmts": [
+        {
+          "type": "LabeledStatement",
+          "span": {
+            "start": 30,
+            "end": 34,
+            "ctxt": 0
+          },
+          "label": {
+            "type": "Identifier",
+            "span": {
+              "start": 30,
+              "end": 31,
+              "ctxt": 0
+            },
+            "value": "a",
+            "optional": false
+          },
+          "body": {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 33,
+              "end": 34,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 33,
+                "end": 34,
+                "ctxt": 0
+              },
+              "value": 3.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 36,
+        "end": 39,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "RegExpLiteral",
+        "span": {
+          "start": 36,
+          "end": 39,
+          "ctxt": 0
+        },
+        "pattern": "x",
+        "flags": ""
+      }
+    }
+  ],
+  "interpreter": null
+}

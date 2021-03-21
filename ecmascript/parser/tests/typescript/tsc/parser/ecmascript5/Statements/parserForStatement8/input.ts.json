@@ -1,0 +1,46 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 19,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ForInStatement",
+      "span": {
+        "start": 0,
+        "end": 19,
+        "ctxt": 0
+      },
+      "left": {
+        "type": "ThisExpression",
+        "span": {
+          "start": 5,
+          "end": 9,
+          "ctxt": 0
+        }
+      },
+      "right": {
+        "type": "Identifier",
+        "span": {
+          "start": 13,
+          "end": 14,
+          "ctxt": 0
+        },
+        "value": "b",
+        "optional": false
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 16,
+          "end": 19,
+          "ctxt": 0
+        },
+        "stmts": []
+      }
+    }
+  ],
+  "interpreter": null
+}

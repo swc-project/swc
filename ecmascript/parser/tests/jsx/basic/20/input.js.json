@@ -30,7 +30,6 @@
               "ctxt": 0
             },
             "value": "A",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -54,7 +53,6 @@
                   "ctxt": 0
                 },
                 "value": "aa",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -86,7 +84,6 @@
                         "ctxt": 0
                       },
                       "value": "aa",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -97,7 +94,6 @@
                         "ctxt": 0
                       },
                       "value": "bb",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -110,7 +106,6 @@
                       "ctxt": 0
                     },
                     "value": "cc",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -132,7 +127,6 @@
                   "ctxt": 0
                 },
                 "value": "bb",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -164,7 +158,6 @@
                         "ctxt": 0
                       },
                       "value": "bb",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -175,7 +168,6 @@
                         "ctxt": 0
                       },
                       "value": "cc",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -188,7 +180,6 @@
                       "ctxt": 0
                     },
                     "value": "dd",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -217,7 +208,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -252,7 +242,6 @@
                       "ctxt": 0
                     },
                     "value": "aa",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -263,7 +252,6 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -285,7 +273,6 @@
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -306,7 +293,6 @@
               "ctxt": 0
             },
             "value": "A",
-            "typeAnnotation": null,
             "optional": false
           }
         }

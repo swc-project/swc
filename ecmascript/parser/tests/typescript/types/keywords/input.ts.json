@@ -1,8 +1,8 @@
 {
-  "type": "Module",
+  "type": "Script",
   "span": {
     "start": 0,
-    "end": 184,
+    "end": 202,
     "ctxt": 0
   },
   "body": [
@@ -31,6 +31,7 @@
               "ctxt": 0
             },
             "value": "a",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -47,8 +48,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -80,6 +80,7 @@
               "ctxt": 0
             },
             "value": "un",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -96,8 +97,7 @@
                 },
                 "kind": "unknown"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -129,6 +129,7 @@
               "ctxt": 0
             },
             "value": "b",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -145,8 +146,7 @@
                 },
                 "kind": "boolean"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -178,6 +178,7 @@
               "ctxt": 0
             },
             "value": "ne",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -194,8 +195,7 @@
                 },
                 "kind": "never"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -227,6 +227,7 @@
               "ctxt": 0
             },
             "value": "nul",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -243,8 +244,7 @@
                 },
                 "kind": "null"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -276,6 +276,7 @@
               "ctxt": 0
             },
             "value": "num",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -292,8 +293,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -325,6 +325,7 @@
               "ctxt": 0
             },
             "value": "o",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -341,8 +342,7 @@
                 },
                 "kind": "object"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -374,6 +374,7 @@
               "ctxt": 0
             },
             "value": "st",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -390,8 +391,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -423,6 +423,7 @@
               "ctxt": 0
             },
             "value": "sy",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -439,8 +440,7 @@
                 },
                 "kind": "symbol"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -472,6 +472,7 @@
               "ctxt": 0
             },
             "value": "u",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -488,8 +489,7 @@
                 },
                 "kind": "undefined"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -521,6 +521,7 @@
               "ctxt": 0
             },
             "value": "v",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -537,8 +538,7 @@
                 },
                 "kind": "void"
               }
-            },
-            "optional": false
+            }
           },
           "init": null,
           "definite": false
@@ -570,6 +570,7 @@
               "ctxt": 0
             },
             "value": "n",
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -586,8 +587,56 @@
                 },
                 "kind": "bigint"
               }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 185,
+        "end": 202,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 189,
+            "end": 201,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 189,
+              "end": 190,
+              "ctxt": 0
             },
-            "optional": false
+            "value": "i",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 190,
+                "end": 201,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 192,
+                  "end": 201,
+                  "ctxt": 0
+                },
+                "kind": "intrinsic"
+              }
+            }
           },
           "init": null,
           "definite": false

@@ -1,18 +1,20 @@
 use super::{load::TransformedModule, Bundler};
-use crate::{id::ModuleId, load::Load, resolve::Resolve, util::IntoParallelIterator, Bundle};
+use crate::{
+    bundler::chunk::merge::Ctx, id::ModuleId, load::Load, resolve::Resolve,
+    util::IntoParallelIterator, Bundle,
+};
+use ahash::AHashMap;
+use ahash::AHashSet;
 use anyhow::{Context, Error};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
-use std::collections::{HashMap, HashSet};
-use swc_ecma_transforms::{hygiene, optimization::simplify::dce};
-use swc_ecma_visit::FoldWith;
 
 mod circular;
 mod cjs;
+mod computed_key;
 mod export;
 mod merge;
 mod plan;
-mod remark;
 
 #[derive(Debug)]
 struct InternalEntry {
@@ -24,9 +26,9 @@ struct InternalEntry {
 
 #[derive(Debug, Default)]
 struct State {
-    synchronously_included: HashSet<ModuleId>,
-    dynamic_entries: HashSet<ModuleId>,
-    common_libs: HashSet<ModuleId>,
+    synchronously_included: AHashSet<ModuleId>,
+    dynamic_entries: AHashSet<ModuleId>,
+    common_libs: AHashSet<ModuleId>,
 }
 
 impl<L, R> Bundler<'_, L, R>
@@ -41,16 +43,23 @@ where
     /// For first, we load all dependencies and determine all entries.
     pub(super) fn chunk(
         &self,
-        entries: HashMap<String, TransformedModule>,
+        entries: AHashMap<String, TransformedModule>,
     ) -> Result<Vec<Bundle>, Error> {
-        let plan = self.determine_entries(entries).context("failed to plan")?;
-        let merged = Default::default();
+        let (plan, graph) = self.determine_entries(entries).context("failed to plan")?;
+        let ctx = Ctx {
+            plan,
+            graph,
+            merged: Default::default(),
+            transitive_remap: Default::default(),
+            export_stars_in_wrapped: Default::default(),
+        };
 
-        Ok((&*plan.entries)
+        Ok((&*ctx.plan.entries)
             .into_par_iter()
             .map(|&entry| {
                 self.run(|| {
-                    let kind = plan
+                    let kind = ctx
+                        .plan
                         .bundle_kinds
                         .get(&entry)
                         .unwrap_or_else(|| {
@@ -59,18 +68,14 @@ where
                         .clone();
 
                     let module = self
-                        .merge_modules(&plan, entry, true, false, &merged)
+                        .merge_modules(&ctx, entry, true, true)
                         .context("failed to merge module")
                         .unwrap(); // TODO
-
-                    let module = module
-                        .fold_with(&mut dce::dce(Default::default()))
-                        .fold_with(&mut hygiene());
 
                     Bundle {
                         kind,
                         id: entry,
-                        module,
+                        module: module.into(),
                     }
                 })
             })
@@ -102,7 +107,7 @@ mod tests {
                     .bundler
                     .load_transformed(&FileName::Real("main.js".into()))?
                     .unwrap();
-                let mut entries = HashMap::default();
+                let mut entries = AHashMap::default();
                 entries.insert("main.js".to_string(), module);
 
                 let chunked = t.bundler.chunk(entries)?;

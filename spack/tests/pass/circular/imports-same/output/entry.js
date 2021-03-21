@@ -1,4 +1,4 @@
 const foo = 1;
-const foo1 = foo;
-console.log('a', foo1);
-export const a = foo1 + 1;
+console.log('a', foo);
+const a1 = foo + 1;
+export { a1 as a };

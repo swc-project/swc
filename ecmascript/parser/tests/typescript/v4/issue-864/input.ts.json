@@ -1,5 +1,5 @@
 {
-  "type": "Module",
+  "type": "Script",
   "span": {
     "start": 0,
     "end": 148,
@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "Strings",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -89,7 +88,6 @@
           "ctxt": 0
         },
         "value": "Numbers",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -156,7 +154,6 @@
           "ctxt": 0
         },
         "value": "StrStrNumNum",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -198,7 +195,6 @@
                     "ctxt": 0
                   },
                   "value": "Strings",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -235,7 +231,6 @@
                     "ctxt": 0
                   },
                   "value": "Numbers",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null

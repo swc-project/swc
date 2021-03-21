@@ -4,18 +4,50 @@ on: [push, pull_request]
 
 env:
   CARGO_INCREMENTAL: 0
-  CI: "1"
 
 jobs:
-  integration-test:
-    name: test
+  publish-test:
+    name: node-api
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v2-beta
+      - uses: actions/setup-node@v2
         with:
-          node-version: "12"
+          node-version: 14
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/
+            **/target/
+          key: ${{ runner.os }}-node-api-test
+
+      - name: Set platform name
+        run: |
+          export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
+          echo "PLATFORM_NAME=$NODE_PLATFORM_NAME" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Prepare
+        run: |
+          npm config set prefix ~/npm
+          npm i
+          export PATH="$PATH:$HOME/npm/bin"
+
+          npm run build:dev
+          npm test
+
+  integration-test:
+    name: swc-cli
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
 
       - name: Cache
         uses: actions/cache@v2
@@ -28,7 +60,7 @@ jobs:
       - name: Set platform name
         run: |
           export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
-          echo "::set-env name=PLATFORM_NAME::$NODE_PLATFORM_NAME"
+          echo "PLATFORM_NAME=$NODE_PLATFORM_NAME" >> $GITHUB_ENV
         shell: bash
 
       - name: Prepare
@@ -38,7 +70,7 @@ jobs:
           export PATH="$PATH:$HOME/npm/bin"
 
           npm run build:dev
-          npm i -g @swc/cli
+          npm i -g @swc/cli@0.1.33
           npm link
 
       - name: (swc) three.js
@@ -55,7 +87,6 @@ jobs:
           # swc integration-tests/three-js/repo/test/unit/**/*.js -d integration-tests/three-js/repo/test/unit/build/
 
           (cd integration-tests/three-js/build/test && qunit -r failonlyreporter unit/three.source.unit.js)
-
 
         # terser: contains with statement in test
         # Rome.js: I forgot the cause, but it didn't work.

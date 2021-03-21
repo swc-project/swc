@@ -1,0 +1,46 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 15,
+    "end": 32,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 21,
+          "end": 22,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 15,
+        "end": 32,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "EmptyStatement",
+          "span": {
+            "start": 29,
+            "end": 30,
+            "ctxt": 0
+          }
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

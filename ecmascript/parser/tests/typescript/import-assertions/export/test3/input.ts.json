@@ -1,0 +1,70 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 55,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportAllDeclaration",
+      "span": {
+        "start": 0,
+        "end": 55,
+        "ctxt": 0
+      },
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 14,
+          "end": 24,
+          "ctxt": 0
+        },
+        "value": "./foo.js",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "asserts": {
+        "type": "ObjectExpression",
+        "span": {
+          "start": 32,
+          "end": 54,
+          "ctxt": 0
+        },
+        "properties": [
+          {
+            "type": "KeyValueProperty",
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 34,
+                "end": 38,
+                "ctxt": 0
+              },
+              "value": "type",
+              "optional": false
+            },
+            "value": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 40,
+                "end": 52,
+                "ctxt": 0
+              },
+              "value": "javascript",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

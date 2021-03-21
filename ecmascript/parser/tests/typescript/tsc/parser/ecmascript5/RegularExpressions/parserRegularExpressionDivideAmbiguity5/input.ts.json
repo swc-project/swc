@@ -1,0 +1,209 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 66,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 66,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 0,
+          "end": 65,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 0,
+            "end": 12,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 0,
+              "end": 5,
+              "ctxt": 0
+            },
+            "value": "model",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 6,
+              "end": 12,
+              "ctxt": 0
+            },
+            "value": "rotate",
+            "optional": false
+          },
+          "computed": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 13,
+                "end": 14,
+                "ctxt": 0
+              },
+              "value": 0.0
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 16,
+                "end": 39,
+                "ctxt": 0
+              },
+              "operator": "/",
+              "left": {
+                "type": "BinaryExpression",
+                "span": {
+                  "start": 16,
+                  "end": 33,
+                  "ctxt": 0
+                },
+                "operator": "*",
+                "left": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 16,
+                    "end": 23,
+                    "ctxt": 0
+                  },
+                  "value": "rotateY",
+                  "optional": false
+                },
+                "right": {
+                  "type": "MemberExpression",
+                  "span": {
+                    "start": 26,
+                    "end": 33,
+                    "ctxt": 0
+                  },
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 26,
+                      "end": 30,
+                      "ctxt": 0
+                    },
+                    "value": "Math",
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 31,
+                      "end": 33,
+                      "ctxt": 0
+                    },
+                    "value": "PI",
+                    "optional": false
+                  },
+                  "computed": false
+                }
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 36,
+                  "end": 39,
+                  "ctxt": 0
+                },
+                "value": 180.0
+              }
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 41,
+                "end": 64,
+                "ctxt": 0
+              },
+              "operator": "/",
+              "left": {
+                "type": "BinaryExpression",
+                "span": {
+                  "start": 41,
+                  "end": 58,
+                  "ctxt": 0
+                },
+                "operator": "*",
+                "left": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 41,
+                    "end": 48,
+                    "ctxt": 0
+                  },
+                  "value": "rotateZ",
+                  "optional": false
+                },
+                "right": {
+                  "type": "MemberExpression",
+                  "span": {
+                    "start": 51,
+                    "end": 58,
+                    "ctxt": 0
+                  },
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 51,
+                      "end": 55,
+                      "ctxt": 0
+                    },
+                    "value": "Math",
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 56,
+                      "end": 58,
+                      "ctxt": 0
+                    },
+                    "value": "PI",
+                    "optional": false
+                  },
+                  "computed": false
+                }
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 61,
+                  "end": 64,
+                  "ctxt": 0
+                },
+                "value": 180.0
+              }
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

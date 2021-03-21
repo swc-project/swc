@@ -1,3 +1,3 @@
-export const a = 1;
+export const unnamed = 1;
 
-export default a;
+export default unnamed;

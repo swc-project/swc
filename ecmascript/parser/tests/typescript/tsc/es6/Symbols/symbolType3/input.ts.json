@@ -1,0 +1,468 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 15,
+    "end": 185,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 15,
+        "end": 32,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 19,
+            "end": 31,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 19,
+              "end": 20,
+              "ctxt": 0
+            },
+            "value": "s",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 23,
+              "end": 31,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 23,
+                "end": 29,
+                "ctxt": 0
+              },
+              "value": "Symbol",
+              "optional": false
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 33,
+        "end": 56,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UnaryExpression",
+        "span": {
+          "start": 33,
+          "end": 55,
+          "ctxt": 0
+        },
+        "operator": "delete",
+        "argument": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 40,
+            "end": 55,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 40,
+              "end": 46,
+              "ctxt": 0
+            },
+            "value": "Symbol",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 47,
+              "end": 55,
+              "ctxt": 0
+            },
+            "value": "iterator",
+            "optional": false
+          },
+          "computed": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 57,
+        "end": 81,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UnaryExpression",
+        "span": {
+          "start": 57,
+          "end": 80,
+          "ctxt": 0
+        },
+        "operator": "void",
+        "argument": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 62,
+            "end": 80,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 62,
+              "end": 68,
+              "ctxt": 0
+            },
+            "value": "Symbol",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 69,
+              "end": 80,
+              "ctxt": 0
+            },
+            "value": "toPrimitive",
+            "optional": false
+          },
+          "computed": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 82,
+        "end": 108,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UnaryExpression",
+        "span": {
+          "start": 82,
+          "end": 107,
+          "ctxt": 0
+        },
+        "operator": "typeof",
+        "argument": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 89,
+            "end": 107,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 89,
+              "end": 95,
+              "ctxt": 0
+            },
+            "value": "Symbol",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 96,
+              "end": 107,
+              "ctxt": 0
+            },
+            "value": "toStringTag",
+            "optional": false
+          },
+          "computed": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 109,
+        "end": 113,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UpdateExpression",
+        "span": {
+          "start": 109,
+          "end": 112,
+          "ctxt": 0
+        },
+        "operator": "++",
+        "prefix": true,
+        "argument": {
+          "type": "Identifier",
+          "span": {
+            "start": 111,
+            "end": 112,
+            "ctxt": 0
+          },
+          "value": "s",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 114,
+        "end": 118,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UpdateExpression",
+        "span": {
+          "start": 114,
+          "end": 117,
+          "ctxt": 0
+        },
+        "operator": "--",
+        "prefix": true,
+        "argument": {
+          "type": "Identifier",
+          "span": {
+            "start": 116,
+            "end": 117,
+            "ctxt": 0
+          },
+          "value": "s",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 119,
+        "end": 130,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UnaryExpression",
+        "span": {
+          "start": 119,
+          "end": 129,
+          "ctxt": 0
+        },
+        "operator": "+",
+        "argument": {
+          "type": "CallExpression",
+          "span": {
+            "start": 121,
+            "end": 129,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 121,
+              "end": 127,
+              "ctxt": 0
+            },
+            "value": "Symbol",
+            "optional": false
+          },
+          "arguments": [],
+          "typeArguments": null
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 131,
+        "end": 142,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UnaryExpression",
+        "span": {
+          "start": 131,
+          "end": 141,
+          "ctxt": 0
+        },
+        "operator": "-",
+        "argument": {
+          "type": "CallExpression",
+          "span": {
+            "start": 133,
+            "end": 141,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 133,
+              "end": 139,
+              "ctxt": 0
+            },
+            "value": "Symbol",
+            "optional": false
+          },
+          "arguments": [],
+          "typeArguments": null
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 143,
+        "end": 154,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UnaryExpression",
+        "span": {
+          "start": 143,
+          "end": 153,
+          "ctxt": 0
+        },
+        "operator": "~",
+        "argument": {
+          "type": "CallExpression",
+          "span": {
+            "start": 145,
+            "end": 153,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 145,
+              "end": 151,
+              "ctxt": 0
+            },
+            "value": "Symbol",
+            "optional": false
+          },
+          "arguments": [],
+          "typeArguments": null
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 155,
+        "end": 166,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UnaryExpression",
+        "span": {
+          "start": 155,
+          "end": 165,
+          "ctxt": 0
+        },
+        "operator": "!",
+        "argument": {
+          "type": "CallExpression",
+          "span": {
+            "start": 157,
+            "end": 165,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 157,
+              "end": 163,
+              "ctxt": 0
+            },
+            "value": "Symbol",
+            "optional": false
+          },
+          "arguments": [],
+          "typeArguments": null
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 168,
+        "end": 185,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UnaryExpression",
+        "span": {
+          "start": 168,
+          "end": 184,
+          "ctxt": 0
+        },
+        "operator": "+",
+        "argument": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 169,
+            "end": 184,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 170,
+              "end": 183,
+              "ctxt": 0
+            },
+            "operator": "||",
+            "left": {
+              "type": "CallExpression",
+              "span": {
+                "start": 170,
+                "end": 178,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 170,
+                  "end": 176,
+                  "ctxt": 0
+                },
+                "value": "Symbol",
+                "optional": false
+              },
+              "arguments": [],
+              "typeArguments": null
+            },
+            "right": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 182,
+                "end": 183,
+                "ctxt": 0
+              },
+              "value": 0.0
+            }
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

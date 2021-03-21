@@ -1,0 +1,103 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 136,
+    "end": 235,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 142,
+          "end": 143,
+          "ctxt": 0
+        },
+        "value": "A",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 136,
+        "end": 146,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 195,
+        "end": 216,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 202,
+          "end": 216,
+          "ctxt": 0
+        },
+        "kind": "let",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 206,
+              "end": 215,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 206,
+                "end": 208,
+                "ctxt": 0
+              },
+              "value": "el",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "NullLiteral",
+              "span": {
+                "start": 211,
+                "end": 215,
+                "ctxt": 0
+              }
+            },
+            "definite": false
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExportDefaultExpression",
+      "span": {
+        "start": 218,
+        "end": 235,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 233,
+          "end": 234,
+          "ctxt": 0
+        },
+        "value": "A",
+        "optional": false
+      }
+    }
+  ],
+  "interpreter": null
+}

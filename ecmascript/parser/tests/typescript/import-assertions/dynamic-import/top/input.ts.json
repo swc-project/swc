@@ -1,5 +1,5 @@
 {
-  "type": "Module",
+  "type": "Script",
   "span": {
     "start": 0,
     "end": 85,
@@ -42,7 +42,6 @@
                 "ctxt": 0
               },
               "value": "import",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [
@@ -56,7 +55,11 @@
                     "ctxt": 0
                   },
                   "value": "./lazy",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
               },
               {
@@ -79,7 +82,6 @@
                           "ctxt": 0
                         },
                         "value": "assert",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "value": {
@@ -100,7 +102,6 @@
                                 "ctxt": 0
                               },
                               "value": "type",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": {
@@ -111,7 +112,11 @@
                                 "ctxt": 0
                               },
                               "value": "json",
-                              "hasEscape": false
+                              "hasEscape": false,
+                              "kind": {
+                                "type": "normal",
+                                "containsQuote": true
+                              }
                             }
                           }
                         ]
@@ -131,7 +136,6 @@
               "ctxt": 0
             },
             "value": "then",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -155,8 +159,8 @@
                     "ctxt": 0
                   },
                   "value": "lazy",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               ],
               "body": {
@@ -181,7 +185,6 @@
                       "ctxt": 0
                     },
                     "value": "console",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -192,7 +195,6 @@
                       "ctxt": 0
                     },
                     "value": "log",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -208,7 +210,6 @@
                         "ctxt": 0
                       },
                       "value": "lazy",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }

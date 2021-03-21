@@ -1,0 +1,13 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true,
+      "dynamicImport": true,
+      "decorators": false
+    }
+  },
+  "module": {
+    "type": "commonjs"
+  }
+}

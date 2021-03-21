@@ -19,14 +19,14 @@ pub use self::{
         TaggedTpl, ThisExpr, Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
     },
     function::{Function, Param, ParamOrTsParamProp},
-    ident::{Ident, IdentExt, PrivateName},
+    ident::{BindingIdent, Ident, IdentExt, PrivateName},
     jsx::{
         JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement, JSXClosingFragment,
         JSXElement, JSXElementChild, JSXElementName, JSXEmptyExpr, JSXExpr, JSXExprContainer,
         JSXFragment, JSXMemberExpr, JSXNamespacedName, JSXObject, JSXOpeningElement,
         JSXOpeningFragment, JSXSpreadChild, JSXText,
     },
-    lit::{BigInt, Bool, Lit, Null, Number, Regex, Str},
+    lit::{BigInt, Bool, Lit, Null, Number, Regex, Str, StrKind},
     module::{Module, ModuleItem, Program, Script},
     module_decl::{
         DefaultDecl, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
@@ -58,12 +58,15 @@ pub use self::{
         TsModuleName, TsModuleRef, TsNamespaceBody, TsNamespaceDecl, TsNamespaceExportDecl,
         TsNonNullExpr, TsOptionalType, TsParamProp, TsParamPropParam, TsParenthesizedType,
         TsPropertySignature, TsQualifiedName, TsRestType, TsSignatureDecl, TsThisType,
-        TsThisTypeOrIdent, TsTupleElement, TsTupleType, TsType, TsTypeAliasDecl, TsTypeAnn,
-        TsTypeAssertion, TsTypeCastExpr, TsTypeElement, TsTypeLit, TsTypeOperator,
-        TsTypeOperatorOp, TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate,
-        TsTypeQuery, TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
+        TsThisTypeOrIdent, TsTplLitType, TsTupleElement, TsTupleType, TsType, TsTypeAliasDecl,
+        TsTypeAnn, TsTypeAssertion, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp,
+        TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate, TsTypeQuery,
+        TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
     },
 };
+use serde::Deserialize;
+use serde::Serialize;
+use swc_common::EqIgnoreSpan;
 use swc_common::{ast_node, Span};
 
 #[macro_use]
@@ -85,7 +88,42 @@ mod typescript;
 
 /// Represents a invalid node.
 #[ast_node("Invalid")]
-#[derive(Eq, Hash, Copy)]
+#[derive(Eq, Hash, Copy, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Invalid {
     pub span: Span,
+}
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialOrd, Ord, PartialEq, Eq, Hash)]
+pub enum EsVersion {
+    #[serde(rename = "es3")]
+    Es3,
+    #[serde(rename = "es5")]
+    Es5,
+    #[serde(rename = "es2015")]
+    Es2015,
+    #[serde(rename = "es2016")]
+    Es2016,
+    #[serde(rename = "es2017")]
+    Es2017,
+    #[serde(rename = "es2018")]
+    Es2018,
+    #[serde(rename = "es2019")]
+    Es2019,
+    #[serde(rename = "es2020")]
+    Es2020,
+}
+
+impl EsVersion {
+    /// Get the latest version. This is `es2020` for now, but it will be changed
+    /// if a new version of specification is released.
+    pub const fn latest() -> Self {
+        EsVersion::Es2020
+    }
+}
+
+impl Default for EsVersion {
+    fn default() -> Self {
+        EsVersion::Es5
+    }
 }

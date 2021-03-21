@@ -1,11 +1,9 @@
 #![recursion_limit = "2048"]
 
 #[macro_use]
-extern crate napi;
-#[macro_use]
 extern crate napi_derive;
 
-#[cfg(all(unix, not(target_env = "musl")))]
+#[cfg(all(unix, not(target_env = "musl"), not(target_arch = "aarch64")))]
 #[global_allocator]
 static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 
@@ -14,7 +12,7 @@ static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 use backtrace::Backtrace;
-use napi::{CallContext, Env, JsFunction, JsObject, JsUndefined, Module};
+use napi::{CallContext, Env, JsFunction, JsObject, JsUndefined};
 use std::{env, panic::set_hook, sync::Arc};
 use swc::{Compiler, TransformOutput};
 use swc_common::{
@@ -30,10 +28,6 @@ mod print;
 mod transform;
 mod util;
 
-// #[cfg(all(unix, not(target_env = "musl")))]
-// #[global_allocator]
-// static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
-
 static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
     let handler = Arc::new(Handler::with_tty_emitter(
@@ -46,9 +40,8 @@ static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
     Arc::new(Compiler::new(cm.clone(), handler))
 });
 
-register_module!(swc, init);
-
-fn init(m: &mut Module) -> napi::Result<()> {
+#[module_exports]
+fn init(mut exports: JsObject) -> napi::Result<()> {
     if cfg!(debug_assertions) || env::var("SWC_DEBUG").unwrap_or_else(|_| String::new()) == "1" {
         set_hook(Box::new(|_panic_info| {
             let backtrace = Backtrace::new();
@@ -56,22 +49,22 @@ fn init(m: &mut Module) -> napi::Result<()> {
         }));
     }
 
-    m.create_named_method("define", define_compiler_class)?;
+    exports.create_named_method("define", define_compiler_class)?;
 
-    m.create_named_method("transform", transform::transform)?;
-    m.create_named_method("transformSync", transform::transform_sync)?;
-    m.create_named_method("transformFile", transform::transform_file)?;
-    m.create_named_method("transformFileSync", transform::transform_file_sync)?;
+    exports.create_named_method("transform", transform::transform)?;
+    exports.create_named_method("transformSync", transform::transform_sync)?;
+    exports.create_named_method("transformFile", transform::transform_file)?;
+    exports.create_named_method("transformFileSync", transform::transform_file_sync)?;
 
-    m.create_named_method("parse", parse::parse)?;
-    m.create_named_method("parseSync", parse::parse_sync)?;
-    m.create_named_method("parseFile", parse::parse_file)?;
-    m.create_named_method("parseFileSync", parse::parse_file_sync)?;
+    exports.create_named_method("parse", parse::parse)?;
+    exports.create_named_method("parseSync", parse::parse_sync)?;
+    exports.create_named_method("parseFile", parse::parse_file)?;
+    exports.create_named_method("parseFileSync", parse::parse_file_sync)?;
 
-    m.create_named_method("print", print::print)?;
-    m.create_named_method("printSync", print::print_sync)?;
+    exports.create_named_method("print", print::print)?;
+    exports.create_named_method("printSync", print::print_sync)?;
 
-    m.create_named_method("bundle", bundle::bundle)?;
+    exports.create_named_method("bundle", bundle::bundle)?;
 
     Ok(())
 }
@@ -87,7 +80,7 @@ fn define_compiler_class(ctx: CallContext) -> napi::Result<JsFunction> {
 }
 
 #[js_function]
-fn construct_compiler(ctx: CallContext<JsObject>) -> napi::Result<JsUndefined> {
+fn construct_compiler(ctx: CallContext) -> napi::Result<JsUndefined> {
     // TODO: Assign swc::Compiler
     ctx.env.get_undefined()
 }

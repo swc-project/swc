@@ -1,0 +1,176 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 17,
+    "end": 125,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 26,
+          "end": 27,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 17,
+        "end": 125,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 30,
+          "end": 125,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "IfStatement",
+            "span": {
+              "start": 36,
+              "end": 123,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "CallExpression",
+              "span": {
+                "start": 40,
+                "end": 53,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 40,
+                  "end": 51,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 40,
+                    "end": 44,
+                    "ctxt": 0
+                  },
+                  "value": "Math",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 45,
+                    "end": 51,
+                    "ctxt": 0
+                  },
+                  "value": "random",
+                  "optional": false
+                },
+                "computed": false
+              },
+              "arguments": [],
+              "typeArguments": null
+            },
+            "consequent": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 55,
+                "end": 123,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "VariableDeclaration",
+                  "span": {
+                    "start": 65,
+                    "end": 85,
+                    "ctxt": 0
+                  },
+                  "kind": "let",
+                  "declare": false,
+                  "declarations": [
+                    {
+                      "type": "VariableDeclarator",
+                      "span": {
+                        "start": 69,
+                        "end": 84,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 69,
+                          "end": 78,
+                          "ctxt": 0
+                        },
+                        "value": "arguments",
+                        "optional": false,
+                        "typeAnnotation": null
+                      },
+                      "init": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 81,
+                          "end": 84,
+                          "ctxt": 0
+                        },
+                        "value": 100.0
+                      },
+                      "definite": false
+                    }
+                  ]
+                },
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 94,
+                    "end": 117,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "ArrowFunctionExpression",
+                    "span": {
+                      "start": 101,
+                      "end": 116,
+                      "ctxt": 0
+                    },
+                    "params": [],
+                    "body": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 107,
+                        "end": 116,
+                        "ctxt": 0
+                      },
+                      "value": "arguments",
+                      "optional": false
+                    },
+                    "async": false,
+                    "generator": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  }
+                }
+              ]
+            },
+            "alternate": null
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

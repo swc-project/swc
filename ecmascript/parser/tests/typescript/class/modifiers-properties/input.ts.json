@@ -1,5 +1,5 @@
 {
-  "type": "Module",
+  "type": "Script",
   "span": {
     "start": 0,
     "end": 509,
@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "r",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -72,8 +70,7 @@
               "ctxt": 0
             },
             "value": "r2",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": true
           },
           "value": null,
           "typeAnnotation": {
@@ -118,7 +115,6 @@
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -148,7 +144,6 @@
               "ctxt": 0
             },
             "value": "s",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -178,7 +173,6 @@
               "ctxt": 0
             },
             "value": "pu",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -208,7 +202,6 @@
               "ctxt": 0
             },
             "value": "po",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -238,7 +231,6 @@
               "ctxt": 0
             },
             "value": "pi",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -268,7 +260,6 @@
               "ctxt": 0
             },
             "value": "ra",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -298,7 +289,6 @@
               "ctxt": 0
             },
             "value": "ar",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -328,7 +318,6 @@
               "ctxt": 0
             },
             "value": "sr",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -358,7 +347,6 @@
               "ctxt": 0
             },
             "value": "pur",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -388,7 +376,6 @@
               "ctxt": 0
             },
             "value": "pua",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -418,7 +405,6 @@
               "ctxt": 0
             },
             "value": "pus",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -448,7 +434,6 @@
               "ctxt": 0
             },
             "value": "pura",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -478,7 +463,6 @@
               "ctxt": 0
             },
             "value": "puar",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -508,7 +492,6 @@
               "ctxt": 0
             },
             "value": "pusr",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -538,7 +521,6 @@
               "ctxt": 0
             },
             "value": "dpur",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -568,7 +550,6 @@
               "ctxt": 0
             },
             "value": "dpisr",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -598,7 +579,6 @@
               "ctxt": 0
             },
             "value": "d",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,
@@ -628,7 +608,6 @@
               "ctxt": 0
             },
             "value": "declare",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": null,

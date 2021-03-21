@@ -29,7 +29,6 @@
               "ctxt": 0
             },
             "value": "Bar",
-            "typeAnnotation": null,
             "optional": false
           },
           "imported": {
@@ -40,7 +39,6 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -53,7 +51,11 @@
           "ctxt": 0
         },
         "value": "foo",
-        "hasEscape": false
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
       },
       "typeOnly": true,
       "asserts": null

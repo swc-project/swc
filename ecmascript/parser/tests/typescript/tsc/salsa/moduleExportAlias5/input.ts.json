@@ -1,0 +1,253 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 89,
+    "end": 220,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 89,
+        "end": 119,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 95,
+            "end": 119,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 95,
+              "end": 102,
+              "ctxt": 0
+            },
+            "value": "webpack",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "FunctionExpression",
+            "identifier": null,
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 105,
+              "end": 119,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 116,
+                "end": 119,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 120,
+        "end": 155,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 120,
+          "end": 154,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 120,
+            "end": 127,
+            "ctxt": 0
+          },
+          "value": "exports",
+          "optional": false,
+          "typeAnnotation": null
+        },
+        "right": {
+          "type": "AssignmentExpression",
+          "span": {
+            "start": 130,
+            "end": 154,
+            "ctxt": 0
+          },
+          "operator": "=",
+          "left": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 130,
+              "end": 144,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 130,
+                "end": 136,
+                "ctxt": 0
+              },
+              "value": "module",
+              "optional": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 137,
+                "end": 144,
+                "ctxt": 0
+              },
+              "value": "exports",
+              "optional": false
+            },
+            "computed": false
+          },
+          "right": {
+            "type": "Identifier",
+            "span": {
+              "start": 147,
+              "end": 154,
+              "ctxt": 0
+            },
+            "value": "webpack",
+            "optional": false
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 156,
+        "end": 179,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 156,
+          "end": 178,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 156,
+            "end": 171,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 156,
+              "end": 163,
+              "ctxt": 0
+            },
+            "value": "exports",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 164,
+              "end": 171,
+              "ctxt": 0
+            },
+            "value": "version",
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 174,
+            "end": 178,
+            "ctxt": 0
+          },
+          "value": 1001.0
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 181,
+        "end": 220,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 181,
+          "end": 219,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 181,
+            "end": 212,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 181,
+              "end": 188,
+              "ctxt": 0
+            },
+            "value": "webpack",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 189,
+              "end": 212,
+              "ctxt": 0
+            },
+            "value": "WebpackOptionsDefaulter",
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 215,
+            "end": 219,
+            "ctxt": 0
+          },
+          "value": 1111.0
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

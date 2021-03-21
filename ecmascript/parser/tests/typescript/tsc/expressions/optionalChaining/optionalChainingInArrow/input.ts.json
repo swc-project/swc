@@ -1,0 +1,183 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 100,
+    "end": 187,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 100,
+        "end": 187,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 106,
+            "end": 186,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 106,
+              "end": 110,
+              "ctxt": 0
+            },
+            "value": "test",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 113,
+              "end": 186,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 114,
+                  "end": 129,
+                  "ctxt": 0
+                },
+                "value": "names",
+                "optional": false,
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 119,
+                    "end": 129,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsArrayType",
+                    "span": {
+                      "start": 121,
+                      "end": 129,
+                      "ctxt": 0
+                    },
+                    "elemType": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 121,
+                        "end": 127,
+                        "ctxt": 0
+                      },
+                      "kind": "string"
+                    }
+                  }
+                }
+              }
+            ],
+            "body": {
+              "type": "CallExpression",
+              "span": {
+                "start": 165,
+                "end": 186,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "OptionalChainingExpression",
+                "span": {
+                  "start": 165,
+                  "end": 178,
+                  "ctxt": 0
+                },
+                "questionDotToken": {
+                  "start": 170,
+                  "end": 171,
+                  "ctxt": 0
+                },
+                "expr": {
+                  "type": "MemberExpression",
+                  "span": {
+                    "start": 165,
+                    "end": 178,
+                    "ctxt": 0
+                  },
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 165,
+                      "end": 170,
+                      "ctxt": 0
+                    },
+                    "value": "names",
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 172,
+                      "end": 178,
+                      "ctxt": 0
+                    },
+                    "value": "filter",
+                    "optional": false
+                  },
+                  "computed": false
+                }
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "ArrowFunctionExpression",
+                    "span": {
+                      "start": 179,
+                      "end": 185,
+                      "ctxt": 0
+                    },
+                    "params": [
+                      {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 179,
+                          "end": 180,
+                          "ctxt": 0
+                        },
+                        "value": "x",
+                        "optional": false,
+                        "typeAnnotation": null
+                      }
+                    ],
+                    "body": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 184,
+                        "end": 185,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "optional": false
+                    },
+                    "async": false,
+                    "generator": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  }
+                }
+              ],
+              "typeArguments": null
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

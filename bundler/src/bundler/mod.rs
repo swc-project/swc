@@ -1,5 +1,6 @@
 use self::scope::Scope;
 use crate::{Hook, Load, ModuleId, Resolve};
+use ahash::AHashMap;
 use anyhow::{Context, Error};
 use std::collections::HashMap;
 use swc_atoms::JsWord;
@@ -7,16 +8,16 @@ use swc_common::{sync::Lrc, FileName, Globals, Mark, SourceMap, SyntaxContext, D
 use swc_ecma_ast::Module;
 
 mod chunk;
-mod computed_key;
 mod export;
 mod finalize;
 mod helpers;
 mod import;
+mod keywords;
 mod load;
 mod optimize;
 mod scope;
 #[cfg(test)]
-mod tests;
+pub(crate) mod tests;
 
 #[derive(Debug, Default)]
 pub struct Config {
@@ -31,6 +32,21 @@ pub struct Config {
 
     /// List of modules which should be preserved.
     pub external_modules: Vec<JsWord>,
+
+    /// Type of emitted module
+    pub module: ModuleType,
+}
+
+#[derive(Debug, PartialEq, Eq, Hash)]
+pub enum ModuleType {
+    Es,
+    Iife,
+}
+
+impl Default for ModuleType {
+    fn default() -> Self {
+        ModuleType::Es
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -67,6 +83,14 @@ where
     /// [Mark] used while tree shaking
     used_mark: Mark,
     _helper_ctxt: SyntaxContext,
+    /// Used to mark nodes as synthesized.
+    ///
+    /// We can check if a span is a dummy for now, but in future we may improve
+    /// spans.
+    synthesized_ctxt: SyntaxContext,
+
+    /// Used to mark a variable declaration as injected.
+    pub(crate) injected_ctxt: SyntaxContext,
 
     scope: Scope,
 
@@ -91,6 +115,10 @@ where
             log::debug!("Used mark: {:?}", DUMMY_SP.apply_mark(used_mark).ctxt());
             let helper_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
             log::debug!("Helper ctxt: {:?}", helper_ctxt);
+            let synthesized_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+            log::debug!("Synthesized ctxt: {:?}", synthesized_ctxt);
+            let injected_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+            log::debug!("Injected ctxt: {:?}", injected_ctxt);
 
             Bundler {
                 config,
@@ -100,6 +128,8 @@ where
                 resolver,
                 used_mark,
                 _helper_ctxt: helper_ctxt,
+                synthesized_ctxt,
+                injected_ctxt,
                 scope: Default::default(),
                 hook,
             }
@@ -127,7 +157,7 @@ where
         // TODO: Handle dynamic imports
 
         let local = {
-            let mut output = HashMap::default();
+            let mut output = AHashMap::default();
 
             for res in results {
                 let (name, m) = res?;

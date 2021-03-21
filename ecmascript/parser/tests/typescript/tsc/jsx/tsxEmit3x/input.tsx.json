@@ -1,0 +1,764 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 59,
+    "end": 513,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 59,
+        "end": 137,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 74,
+          "end": 77,
+          "ctxt": 0
+        },
+        "value": "JSX",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 78,
+          "end": 137,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsInterfaceDeclaration",
+            "span": {
+              "start": 81,
+              "end": 102,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 91,
+                "end": 98,
+                "ctxt": 0
+              },
+              "value": "Element",
+              "optional": false
+            },
+            "declare": false,
+            "typeParams": null,
+            "extends": [],
+            "body": {
+              "type": "TsInterfaceBody",
+              "span": {
+                "start": 99,
+                "end": 102,
+                "ctxt": 0
+              },
+              "body": []
+            }
+          },
+          {
+            "type": "TsInterfaceDeclaration",
+            "span": {
+              "start": 104,
+              "end": 135,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 114,
+                "end": 131,
+                "ctxt": 0
+              },
+              "value": "IntrinsicElements",
+              "optional": false
+            },
+            "declare": false,
+            "typeParams": null,
+            "extends": [],
+            "body": {
+              "type": "TsInterfaceBody",
+              "span": {
+                "start": 132,
+                "end": 135,
+                "ctxt": 0
+              },
+              "body": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 139,
+        "end": 270,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 146,
+          "end": 147,
+          "ctxt": 0
+        },
+        "value": "M",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 148,
+          "end": 270,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 151,
+              "end": 189,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "ClassDeclaration",
+              "identifier": {
+                "type": "Identifier",
+                "span": {
+                  "start": 164,
+                  "end": 167,
+                  "ctxt": 0
+                },
+                "value": "Foo",
+                "optional": false
+              },
+              "declare": false,
+              "span": {
+                "start": 158,
+                "end": 189,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "body": [
+                {
+                  "type": "Constructor",
+                  "span": {
+                    "start": 170,
+                    "end": 187,
+                    "ctxt": 0
+                  },
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 170,
+                      "end": 181,
+                      "ctxt": 0
+                    },
+                    "value": "constructor",
+                    "optional": false
+                  },
+                  "params": [],
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 184,
+                      "end": 187,
+                      "ctxt": 0
+                    },
+                    "stmts": []
+                  },
+                  "accessibility": null,
+                  "isOptional": false
+                }
+              ],
+              "superClass": null,
+              "isAbstract": false,
+              "typeParams": null,
+              "superTypeParams": null,
+              "implements": []
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 191,
+              "end": 268,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "TsModuleDeclaration",
+              "span": {
+                "start": 198,
+                "end": 268,
+                "ctxt": 0
+              },
+              "declare": false,
+              "global": false,
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 205,
+                  "end": 206,
+                  "ctxt": 0
+                },
+                "value": "S",
+                "optional": false
+              },
+              "body": {
+                "type": "TsModuleBlock",
+                "span": {
+                  "start": 207,
+                  "end": 268,
+                  "ctxt": 0
+                },
+                "body": [
+                  {
+                    "type": "ExportDeclaration",
+                    "span": {
+                      "start": 211,
+                      "end": 231,
+                      "ctxt": 0
+                    },
+                    "declaration": {
+                      "type": "ClassDeclaration",
+                      "identifier": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 224,
+                          "end": 227,
+                          "ctxt": 0
+                        },
+                        "value": "Bar",
+                        "optional": false
+                      },
+                      "declare": false,
+                      "span": {
+                        "start": 218,
+                        "end": 231,
+                        "ctxt": 0
+                      },
+                      "decorators": [],
+                      "body": [],
+                      "superClass": null,
+                      "isAbstract": false,
+                      "typeParams": null,
+                      "superTypeParams": null,
+                      "implements": []
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 272,
+        "end": 403,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 279,
+          "end": 280,
+          "ctxt": 0
+        },
+        "value": "M",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 281,
+          "end": 403,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 299,
+              "end": 312,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "SequenceExpression",
+              "span": {
+                "start": 299,
+                "end": 311,
+                "ctxt": 0
+              },
+              "expressions": [
+                {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 299,
+                    "end": 302,
+                    "ctxt": 0
+                  },
+                  "value": "Foo",
+                  "optional": false
+                },
+                {
+                  "type": "JSXElement",
+                  "span": {
+                    "start": 304,
+                    "end": 311,
+                    "ctxt": 0
+                  },
+                  "opening": {
+                    "type": "JSXOpeningElement",
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 305,
+                        "end": 308,
+                        "ctxt": 0
+                      },
+                      "value": "Foo",
+                      "optional": false
+                    },
+                    "span": {
+                      "start": 304,
+                      "end": 311,
+                      "ctxt": 0
+                    },
+                    "attributes": [],
+                    "selfClosing": true,
+                    "typeArguments": null
+                  },
+                  "children": [],
+                  "closing": null
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 315,
+              "end": 400,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "TsModuleDeclaration",
+              "span": {
+                "start": 322,
+                "end": 400,
+                "ctxt": 0
+              },
+              "declare": false,
+              "global": false,
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 329,
+                  "end": 330,
+                  "ctxt": 0
+                },
+                "value": "S",
+                "optional": false
+              },
+              "body": {
+                "type": "TsModuleBlock",
+                "span": {
+                  "start": 331,
+                  "end": 400,
+                  "ctxt": 0
+                },
+                "body": [
+                  {
+                    "type": "ExpressionStatement",
+                    "span": {
+                      "start": 351,
+                      "end": 364,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "SequenceExpression",
+                      "span": {
+                        "start": 351,
+                        "end": 363,
+                        "ctxt": 0
+                      },
+                      "expressions": [
+                        {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 351,
+                            "end": 354,
+                            "ctxt": 0
+                          },
+                          "value": "Foo",
+                          "optional": false
+                        },
+                        {
+                          "type": "JSXElement",
+                          "span": {
+                            "start": 356,
+                            "end": 363,
+                            "ctxt": 0
+                          },
+                          "opening": {
+                            "type": "JSXOpeningElement",
+                            "name": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 357,
+                                "end": 360,
+                                "ctxt": 0
+                              },
+                              "value": "Foo",
+                              "optional": false
+                            },
+                            "span": {
+                              "start": 356,
+                              "end": 363,
+                              "ctxt": 0
+                            },
+                            "attributes": [],
+                            "selfClosing": true,
+                            "typeArguments": null
+                          },
+                          "children": [],
+                          "closing": null
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "ExpressionStatement",
+                    "span": {
+                      "start": 384,
+                      "end": 397,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "SequenceExpression",
+                      "span": {
+                        "start": 384,
+                        "end": 396,
+                        "ctxt": 0
+                      },
+                      "expressions": [
+                        {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 384,
+                            "end": 387,
+                            "ctxt": 0
+                          },
+                          "value": "Bar",
+                          "optional": false
+                        },
+                        {
+                          "type": "JSXElement",
+                          "span": {
+                            "start": 389,
+                            "end": 396,
+                            "ctxt": 0
+                          },
+                          "opening": {
+                            "type": "JSXOpeningElement",
+                            "name": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 390,
+                                "end": 393,
+                                "ctxt": 0
+                              },
+                              "value": "Bar",
+                              "optional": false
+                            },
+                            "span": {
+                              "start": 389,
+                              "end": 396,
+                              "ctxt": 0
+                            },
+                            "attributes": [],
+                            "selfClosing": true,
+                            "typeArguments": null
+                          },
+                          "children": [],
+                          "closing": null
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 405,
+        "end": 453,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 412,
+          "end": 413,
+          "ctxt": 0
+        },
+        "value": "M",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 414,
+          "end": 453,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 434,
+              "end": 451,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "SequenceExpression",
+              "span": {
+                "start": 434,
+                "end": 450,
+                "ctxt": 0
+              },
+              "expressions": [
+                {
+                  "type": "MemberExpression",
+                  "span": {
+                    "start": 434,
+                    "end": 439,
+                    "ctxt": 0
+                  },
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 434,
+                      "end": 435,
+                      "ctxt": 0
+                    },
+                    "value": "S",
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 436,
+                      "end": 439,
+                      "ctxt": 0
+                    },
+                    "value": "Bar",
+                    "optional": false
+                  },
+                  "computed": false
+                },
+                {
+                  "type": "JSXElement",
+                  "span": {
+                    "start": 441,
+                    "end": 450,
+                    "ctxt": 0
+                  },
+                  "opening": {
+                    "type": "JSXOpeningElement",
+                    "name": {
+                      "type": "JSXMemberExpression",
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 442,
+                          "end": 443,
+                          "ctxt": 0
+                        },
+                        "value": "S",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 444,
+                          "end": 447,
+                          "ctxt": 0
+                        },
+                        "value": "Bar",
+                        "optional": false
+                      }
+                    },
+                    "span": {
+                      "start": 441,
+                      "end": 450,
+                      "ctxt": 0
+                    },
+                    "attributes": [],
+                    "selfClosing": true,
+                    "typeArguments": null
+                  },
+                  "children": [],
+                  "closing": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 455,
+        "end": 513,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 462,
+          "end": 463,
+          "ctxt": 0
+        },
+        "value": "M",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 464,
+          "end": 513,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 467,
+              "end": 479,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 471,
+                  "end": 478,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 471,
+                    "end": 472,
+                    "ctxt": 0
+                  },
+                  "value": "M",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 475,
+                    "end": 478,
+                    "ctxt": 0
+                  },
+                  "value": 100.0
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 498,
+              "end": 511,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "SequenceExpression",
+              "span": {
+                "start": 498,
+                "end": 510,
+                "ctxt": 0
+              },
+              "expressions": [
+                {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 498,
+                    "end": 501,
+                    "ctxt": 0
+                  },
+                  "value": "Foo",
+                  "optional": false
+                },
+                {
+                  "type": "JSXElement",
+                  "span": {
+                    "start": 503,
+                    "end": 510,
+                    "ctxt": 0
+                  },
+                  "opening": {
+                    "type": "JSXOpeningElement",
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 504,
+                        "end": 507,
+                        "ctxt": 0
+                      },
+                      "value": "Foo",
+                      "optional": false
+                    },
+                    "span": {
+                      "start": 503,
+                      "end": 510,
+                      "ctxt": 0
+                    },
+                    "attributes": [],
+                    "selfClosing": true,
+                    "typeArguments": null
+                  },
+                  "children": [],
+                  "closing": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

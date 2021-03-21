@@ -1,0 +1,264 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 214,
+    "end": 289,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 223,
+          "end": 224,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 225,
+            "end": 227,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 225,
+              "end": 227,
+              "ctxt": 0
+            },
+            "value": "p1",
+            "optional": false,
+            "typeAnnotation": null
+          }
+        },
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 229,
+            "end": 231,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 229,
+              "end": 231,
+              "ctxt": 0
+            },
+            "value": "p2",
+            "optional": false,
+            "typeAnnotation": null
+          }
+        },
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 233,
+            "end": 235,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 233,
+              "end": 235,
+              "ctxt": 0
+            },
+            "value": "p3",
+            "optional": false,
+            "typeAnnotation": null
+          }
+        },
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 237,
+            "end": 239,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 237,
+              "end": 239,
+              "ctxt": 0
+            },
+            "value": "p4",
+            "optional": false,
+            "typeAnnotation": null
+          }
+        },
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 241,
+            "end": 243,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 241,
+              "end": 243,
+              "ctxt": 0
+            },
+            "value": "p5",
+            "optional": false,
+            "typeAnnotation": null
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 214,
+        "end": 289,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 245,
+          "end": 289,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 251,
+              "end": 287,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 258,
+                "end": 286,
+                "ctxt": 0
+              },
+              "operator": "+",
+              "left": {
+                "type": "BinaryExpression",
+                "span": {
+                  "start": 258,
+                  "end": 280,
+                  "ctxt": 0
+                },
+                "operator": "+",
+                "left": {
+                  "type": "BinaryExpression",
+                  "span": {
+                    "start": 258,
+                    "end": 275,
+                    "ctxt": 0
+                  },
+                  "operator": "+",
+                  "left": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 258,
+                      "end": 270,
+                      "ctxt": 0
+                    },
+                    "operator": "+",
+                    "left": {
+                      "type": "BinaryExpression",
+                      "span": {
+                        "start": 258,
+                        "end": 265,
+                        "ctxt": 0
+                      },
+                      "operator": "+",
+                      "left": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 258,
+                          "end": 260,
+                          "ctxt": 0
+                        },
+                        "value": "p1",
+                        "optional": false
+                      },
+                      "right": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 263,
+                          "end": 265,
+                          "ctxt": 0
+                        },
+                        "value": "p2",
+                        "optional": false
+                      }
+                    },
+                    "right": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 268,
+                        "end": 270,
+                        "ctxt": 0
+                      },
+                      "value": "p3",
+                      "optional": false
+                    }
+                  },
+                  "right": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 273,
+                      "end": 275,
+                      "ctxt": 0
+                    },
+                    "value": "p4",
+                    "optional": false
+                  }
+                },
+                "right": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 278,
+                    "end": 280,
+                    "ctxt": 0
+                  },
+                  "value": "p5",
+                  "optional": false
+                }
+              },
+              "right": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 283,
+                  "end": 286,
+                  "ctxt": 0
+                },
+                "value": ".",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

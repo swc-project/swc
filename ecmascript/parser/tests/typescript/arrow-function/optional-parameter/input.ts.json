@@ -1,5 +1,5 @@
 {
-  "type": "Module",
+  "type": "Script",
   "span": {
     "start": 0,
     "end": 23,
@@ -29,6 +29,7 @@
               "ctxt": 0
             },
             "value": "x",
+            "optional": true,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -45,8 +46,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "optional": true
+            }
           }
         ],
         "body": {
@@ -57,7 +57,6 @@
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "async": false,

@@ -1,0 +1,97 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 88,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDefaultDeclaration",
+      "span": {
+        "start": 15,
+        "end": 38,
+        "ctxt": 0
+      },
+      "decl": {
+        "type": "FunctionExpression",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 24,
+            "end": 27,
+            "ctxt": 0
+          },
+          "value": "Foo",
+          "optional": false
+        },
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 15,
+          "end": 38,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 30,
+            "end": 38,
+            "ctxt": 0
+          },
+          "stmts": []
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "ExportDefaultExpression",
+      "span": {
+        "start": 40,
+        "end": 88,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ObjectExpression",
+        "span": {
+          "start": 55,
+          "end": 87,
+          "ctxt": 0
+        },
+        "properties": [
+          {
+            "type": "KeyValueProperty",
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 61,
+                "end": 65,
+                "ctxt": 0
+              },
+              "value": "uhoh",
+              "optional": false
+            },
+            "value": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 67,
+                "end": 84,
+                "ctxt": 0
+              },
+              "value": "another default",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

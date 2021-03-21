@@ -1,5 +1,5 @@
 {
-  "type": "Module",
+  "type": "Script",
   "span": {
     "start": 0,
     "end": 60,
@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "Foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -49,8 +48,8 @@
                 "ctxt": 0
               },
               "value": "first",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "ty": {
               "type": "TsKeywordType",
@@ -77,8 +76,8 @@
                 "ctxt": 0
               },
               "value": "second",
-              "typeAnnotation": null,
-              "optional": true
+              "optional": true,
+              "typeAnnotation": null
             },
             "ty": {
               "type": "TsKeywordType",
@@ -117,8 +116,8 @@
                   "ctxt": 0
                 },
                 "value": "rest",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               },
               "typeAnnotation": null
             },

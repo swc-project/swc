@@ -1,5 +1,5 @@
 {
-  "type": "Module",
+  "type": "Script",
   "span": {
     "start": 0,
     "end": 50,
@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "tty",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "TsAsExpression",
@@ -56,7 +56,6 @@
                   "ctxt": 0
                 },
                 "value": "require",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -70,7 +69,11 @@
                       "ctxt": 0
                     },
                     "value": "tty",
-                    "hasEscape": false
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
                   }
                 }
               ],
@@ -98,7 +101,11 @@
                     "ctxt": 0
                   },
                   "value": "tty",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 },
                 "qualifier": null,
                 "typeArguments": null

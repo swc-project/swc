@@ -1,11 +1,13 @@
+use crate::loaders::json::load_json_as_module;
 use anyhow::{bail, Context, Error};
 use helpers::Helpers;
 use std::{collections::HashMap, env, sync::Arc};
 use swc::config::{InputSourceMap, JscConfig, TransformConfig};
 use swc_atoms::JsWord;
-use swc_bundler::Load;
-use swc_common::{FileName, SourceFile, DUMMY_SP};
-use swc_ecma_ast::{Expr, Lit, Module, Program, Str};
+use swc_bundler::{Load, ModuleData};
+use swc_common::{FileName, DUMMY_SP};
+use swc_ecma_ast::Module;
+use swc_ecma_ast::{Expr, Lit, Program, Str};
 use swc_ecma_parser::JscTarget;
 use swc_ecma_transforms::{
     helpers,
@@ -33,8 +35,29 @@ impl SwcLoader {
 }
 
 impl Load for SwcLoader {
-    fn load(&self, name: &FileName) -> Result<(Arc<SourceFile>, Module), Error> {
+    fn load(&self, name: &FileName) -> Result<ModuleData, Error> {
         log::debug!("JsLoader.load({})", name);
+        let helpers = Helpers::new(false);
+
+        match name {
+            // Handle built-in modules
+            FileName::Custom(..) => {
+                let fm = self
+                    .compiler
+                    .cm
+                    .new_source_file(name.clone(), "".to_string());
+                return Ok(ModuleData {
+                    fm,
+                    module: Module {
+                        span: DUMMY_SP,
+                        body: Default::default(),
+                        shebang: Default::default(),
+                    },
+                    helpers: Default::default(),
+                });
+            }
+            _ => {}
+        }
 
         let fm = self
             .compiler
@@ -44,6 +67,23 @@ impl Load for SwcLoader {
                 _ => bail!("swc-loader only accepts path. Got `{}`", name),
             })
             .with_context(|| format!("failed to load file `{}`", name))?;
+
+        match name {
+            FileName::Real(path) => {
+                if let Some(ext) = path.extension() {
+                    if ext == "json" {
+                        let module = load_json_as_module(&fm)
+                            .with_context(|| format!("failed to load json file at {}", fm.name))?;
+                        return Ok(ModuleData {
+                            fm: fm.clone(),
+                            module,
+                            helpers: Default::default(),
+                        });
+                    }
+                }
+            }
+            _ => {}
+        }
 
         log::trace!("JsLoader.load: loaded");
 
@@ -55,7 +95,7 @@ impl Load for SwcLoader {
                 true,
                 true,
             )?;
-            let program = helpers::HELPERS.set(&Helpers::new(true), || {
+            let program = helpers::HELPERS.set(&helpers, || {
                 swc_ecma_utils::HANDLER.set(&self.compiler.handler, || {
                     let program =
                         program.fold_with(&mut inline_globals(env_map(), Default::default()));
@@ -68,7 +108,7 @@ impl Load for SwcLoader {
 
             program
         } else {
-            let mut config = self.compiler.config_for_file(
+            let config = self.compiler.config_for_file(
                 &swc::config::Options {
                     config: {
                         if let Some(c) = &self.options.config {
@@ -99,6 +139,7 @@ impl Load for SwcLoader {
                             None
                         }
                     },
+                    skip_helper_injection: true,
                     disable_hygiene: false,
                     disable_fixer: true,
                     global_mark: self.options.global_mark,
@@ -128,25 +169,38 @@ impl Load for SwcLoader {
             // We run transform at this phase to strip out unused dependencies.
             //
             // Note that we don't apply compat transform at loading phase.
-            let program =
-                self.compiler
-                    .parse_js(fm.clone(), JscTarget::Es2020, config.syntax, true, true)?;
+            let program = self.compiler.parse_js(
+                fm.clone(),
+                JscTarget::Es2020,
+                config.as_ref().map(|v| v.syntax).unwrap_or_default(),
+                true,
+                true,
+            );
+            let program = if config.is_some() {
+                program?
+            } else {
+                program.context("tried to parse as ecmascript as it's excluded by .swcrc")?
+            };
 
             log::trace!("JsLoader.load: parsed");
 
             // Fold module
-            let program = helpers::HELPERS.set(&Helpers::new(true), || {
-                swc_ecma_utils::HANDLER.set(&self.compiler.handler, || {
-                    let program =
-                        program.fold_with(&mut inline_globals(env_map(), Default::default()));
-                    let program = program.fold_with(&mut expr_simplifier());
-                    let program = program.fold_with(&mut dead_branch_remover());
+            let program = if let Some(mut config) = config {
+                helpers::HELPERS.set(&helpers, || {
+                    swc_ecma_utils::HANDLER.set(&self.compiler.handler, || {
+                        let program =
+                            program.fold_with(&mut inline_globals(env_map(), Default::default()));
+                        let program = program.fold_with(&mut expr_simplifier());
+                        let program = program.fold_with(&mut dead_branch_remover());
 
-                    let program = program.fold_with(&mut config.pass);
+                        let program = program.fold_with(&mut config.pass);
 
-                    program
+                        program
+                    })
                 })
-            });
+            } else {
+                program
+            };
 
             log::trace!("JsLoader.load: applied transforms");
 
@@ -154,7 +208,11 @@ impl Load for SwcLoader {
         };
 
         match program {
-            Program::Module(module) => Ok((fm, module)),
+            Program::Module(module) => Ok(ModuleData {
+                fm,
+                module,
+                helpers,
+            }),
             _ => unreachable!(),
         }
     }
@@ -174,6 +232,7 @@ fn env_map() -> HashMap<JsWord, Expr> {
                 span: DUMMY_SP,
                 value: s,
                 has_escape: false,
+                kind: Default::default(),
             })),
         );
     }

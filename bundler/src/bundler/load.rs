@@ -2,6 +2,7 @@ use super::{export::Exports, helpers::Helpers, Bundler};
 use crate::{
     bundler::{export::RawExports, import::RawImports},
     id::{Id, ModuleId},
+    load::ModuleData,
     util,
     util::IntoParallelIterator,
     Load, Resolve,
@@ -11,7 +12,7 @@ use is_macro::Is;
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
 use swc_atoms::js_word;
-use swc_common::{sync::Lrc, FileName, Mark, SourceFile, SyntaxContext, DUMMY_SP};
+use swc_common::{sync::Lrc, FileName, SourceFile, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
     CallExpr, Expr, ExprOrSuper, Ident, ImportDecl, ImportSpecifier, Invalid, MemberExpr, Module,
     ModuleDecl, Str,
@@ -20,7 +21,7 @@ use swc_ecma_transforms::resolver_with_mark;
 use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitWith};
 /// Module after applying transformations.
 #[derive(Debug, Clone)]
-pub(super) struct TransformedModule {
+pub(crate) struct TransformedModule {
     pub id: ModuleId,
     pub fm: Lrc<SourceFile>,
     pub module: Lrc<Module>,
@@ -33,17 +34,21 @@ pub(super) struct TransformedModule {
     /// Used helpers
     pub helpers: Lrc<Helpers>,
 
-    mark: Mark,
+    pub swc_helpers: Lrc<swc_ecma_transforms::helpers::Helpers>,
+
+    local_ctxt: SyntaxContext,
+    export_ctxt: SyntaxContext,
 }
 
 impl TransformedModule {
-    /// THe marker for the module's top-level identifiers.
-    pub fn mark(&self) -> Mark {
-        self.mark
+    /// [SyntaxContext] for exported items.
+    pub fn export_ctxt(&self) -> SyntaxContext {
+        self.export_ctxt
     }
 
-    pub fn ctxt(&self) -> SyntaxContext {
-        SyntaxContext::empty().apply_mark(self.mark)
+    /// Top level contexts.
+    pub fn local_ctxt(&self) -> SyntaxContext {
+        self.local_ctxt
     }
 }
 
@@ -69,13 +74,19 @@ where
                 return Ok(Some(cached));
             }
 
-            let (_, fm, module) = self.load(&file_name).context("Bundler.load() failed")?;
+            let (_, data) = self.load(&file_name).context("Bundler.load() failed")?;
             let (v, mut files) = self
-                .analyze(&file_name, fm.clone(), module)
+                .analyze(&file_name, data)
                 .context("failed to analyze module")?;
             files.dedup_by_key(|v| v.1.clone());
 
-            log::debug!("({}) Storing module: {}", v.id, file_name);
+            log::debug!(
+                "({:?}, {:?}, {:?}) Storing module: {}",
+                v.id,
+                v.local_ctxt(),
+                v.export_ctxt(),
+                file_name
+            );
             self.scope.store_module(v.clone());
 
             // Load dependencies and store them in the `Scope`
@@ -96,16 +107,16 @@ where
         })
     }
 
-    fn load(&self, file_name: &FileName) -> Result<(ModuleId, Lrc<SourceFile>, Module), Error> {
+    fn load(&self, file_name: &FileName) -> Result<(ModuleId, ModuleData), Error> {
         self.run(|| {
-            let (module_id, _) = self.scope.module_id_gen.gen(file_name);
+            let (module_id, _, _) = self.scope.module_id_gen.gen(file_name);
 
-            let (fm, module) = self
+            let data = self
                 .loader
                 .load(&file_name)
                 .with_context(|| format!("Bundler.loader.load({}) failed", file_name))?;
             self.scope.mark_as_loaded(module_id);
-            Ok((module_id, fm, module))
+            Ok((module_id, data))
         })
     }
 
@@ -113,14 +124,13 @@ where
     fn analyze(
         &self,
         file_name: &FileName,
-        fm: Lrc<SourceFile>,
-        mut module: Module,
+        data: ModuleData,
     ) -> Result<(TransformedModule, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
-            log::trace!("transform_module({})", fm.name);
-            let (id, mark) = self.scope.module_id_gen.gen(file_name);
+            log::trace!("transform_module({})", data.fm.name);
+            let (id, local_mark, export_mark) = self.scope.module_id_gen.gen(file_name);
 
-            module = module.fold_with(&mut resolver_with_mark(mark));
+            let mut module = data.module.fold_with(&mut resolver_with_mark(local_mark));
 
             // {
             //     let code = self
@@ -137,7 +147,7 @@ where
             //     println!("Resolved:\n{}\n\n", code);
             // }
 
-            let imports = self.extract_import_info(file_name, &mut module, mark);
+            let imports = self.extract_import_info(file_name, &mut module, local_mark);
 
             // {
             //     let code = self
@@ -154,7 +164,11 @@ where
             //     println!("After imports:\n{}\n", code,);
             // }
 
-            let exports = self.extract_export_info(file_name, &mut module);
+            let exports = self.extract_export_info(
+                file_name,
+                &mut module,
+                SyntaxContext::empty().apply_mark(export_mark),
+            );
 
             let is_es6 = if !self.config.require {
                 true
@@ -180,13 +194,15 @@ where
             Ok((
                 TransformedModule {
                     id,
-                    fm,
+                    fm: data.fm,
                     module,
                     imports: Lrc::new(imports),
                     exports: Lrc::new(exports),
                     is_es6,
                     helpers: Default::default(),
-                    mark,
+                    swc_helpers: Lrc::new(data.helpers),
+                    local_ctxt: SyntaxContext::empty().apply_mark(local_mark),
+                    export_ctxt: SyntaxContext::empty().apply_mark(export_mark),
                 },
                 import_files,
             ))
@@ -213,8 +229,9 @@ where
                         let info = match src {
                             Some(src) => {
                                 let name = self.resolve(base, &src.value)?;
-                                let (id, mark) = self.scope.module_id_gen.gen(&name);
-                                Some((id, mark, name, src))
+                                let (id, local_mark, export_mark) =
+                                    self.scope.module_id_gen.gen(&name);
+                                Some((id, local_mark, export_mark, name, src))
                             }
                             None => None,
                         };
@@ -229,13 +246,14 @@ where
 
                 match info {
                     None => exports.items.extend(specifiers),
-                    Some((id, mark, name, src)) => {
+                    Some((id, local_mark, export_mark, name, src)) => {
                         //
                         let src = Source {
                             is_loaded_synchronously: true,
                             is_unconditional: false,
                             module_id: id,
-                            ctxt: SyntaxContext::empty().apply_mark(mark),
+                            local_ctxt: SyntaxContext::empty().apply_mark(local_mark),
+                            export_ctxt: SyntaxContext::empty().apply_mark(export_mark),
                             src,
                         };
                         exports.reexports.push((src.clone(), specifiers));
@@ -287,22 +305,33 @@ where
                     self.run(|| {
                         //
                         let file_name = self.resolve(base, &decl.src.value)?;
-                        let (id, mark) = self.scope.module_id_gen.gen(&file_name);
+                        let (id, local_mark, export_mark) =
+                            self.scope.module_id_gen.gen(&file_name);
 
-                        Ok((id, mark, file_name, decl, dynamic, unconditional))
+                        Ok((
+                            id,
+                            local_mark,
+                            export_mark,
+                            file_name,
+                            decl,
+                            dynamic,
+                            unconditional,
+                        ))
                     })
                 })
                 .collect::<Vec<_>>();
 
             for res in loaded {
                 // TODO: Report error and proceed instead of returning an error
-                let (id, mark, file_name, decl, is_dynamic, is_unconditional) = res?;
+                let (id, local_mark, export_mark, file_name, decl, is_dynamic, is_unconditional) =
+                    res?;
 
                 let src = Source {
                     is_loaded_synchronously: !is_dynamic,
                     is_unconditional,
                     module_id: id,
-                    ctxt: SyntaxContext::empty().apply_mark(mark),
+                    local_ctxt: SyntaxContext::empty().apply_mark(local_mark),
+                    export_ctxt: SyntaxContext::empty().apply_mark(export_mark),
                     src: decl.src,
                 };
                 files.push((src.clone(), file_name));
@@ -337,14 +366,14 @@ where
 }
 
 #[derive(Debug, Default)]
-pub(super) struct Imports {
+pub(crate) struct Imports {
     /// If imported ids are empty, it is a side-effect import.
     pub specifiers: Vec<(Source, Vec<Specifier>)>,
 }
 
 /// Clone is relatively cheap
 #[derive(Debug, Clone, Is)]
-pub(super) enum Specifier {
+pub(crate) enum Specifier {
     Specific {
         local: Id,
         alias: Option<Id>,
@@ -357,12 +386,13 @@ pub(super) enum Specifier {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
-pub(super) struct Source {
+pub(crate) struct Source {
     pub is_loaded_synchronously: bool,
     pub is_unconditional: bool,
 
     pub module_id: ModuleId,
-    pub ctxt: SyntaxContext,
+    pub local_ctxt: SyntaxContext,
+    pub export_ctxt: SyntaxContext,
 
     // Clone is relatively cheap, thanks to string_cache.
     pub src: Str,

@@ -1,0 +1,99 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 60,
+    "end": 111,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 60,
+        "end": 84,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 60,
+          "end": 66,
+          "ctxt": 0
+        },
+        "value": "target",
+        "optional": false
+      },
+      "body": {
+        "type": "WhileStatement",
+        "span": {
+          "start": 68,
+          "end": 84,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 75,
+            "end": 79,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 81,
+            "end": 84,
+            "ctxt": 0
+          },
+          "stmts": []
+        }
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 86,
+        "end": 111,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 86,
+          "end": 92,
+          "ctxt": 0
+        },
+        "value": "target",
+        "optional": false
+      },
+      "body": {
+        "type": "WhileStatement",
+        "span": {
+          "start": 95,
+          "end": 111,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 102,
+            "end": 106,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 108,
+            "end": 111,
+            "ctxt": 0
+          },
+          "stmts": []
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

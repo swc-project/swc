@@ -38,8 +38,8 @@
                 "ctxt": 0
               },
               "value": "assertEachNode",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "init": {
               "type": "ConditionalExpression",
@@ -63,7 +63,6 @@
                     "ctxt": 0
                   },
                   "value": "shouldAssert",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "arguments": [
@@ -84,7 +83,6 @@
                           "ctxt": 0
                         },
                         "value": "AssertionLevel",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "property": {
@@ -95,7 +93,6 @@
                           "ctxt": 0
                         },
                         "value": "Normal",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -120,6 +117,7 @@
                       "ctxt": 0
                     },
                     "value": "nodes",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -149,14 +147,12 @@
                               "ctxt": 0
                             },
                             "value": "Node",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "typeParams": null
                         }
                       }
-                    },
-                    "optional": false
+                    }
                   },
                   {
                     "type": "Identifier",
@@ -166,6 +162,7 @@
                       "ctxt": 0
                     },
                     "value": "test",
+                    "optional": false,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -189,6 +186,7 @@
                               "ctxt": 0
                             },
                             "value": "node",
+                            "optional": false,
                             "typeAnnotation": {
                               "type": "TsTypeAnnotation",
                               "span": {
@@ -211,13 +209,11 @@
                                     "ctxt": 0
                                   },
                                   "value": "Node",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "typeParams": null
                               }
-                            },
-                            "optional": false
+                            }
                           }
                         ],
                         "typeParams": null,
@@ -239,8 +235,7 @@
                           }
                         }
                       }
-                    },
-                    "optional": false
+                    }
                   },
                   {
                     "type": "Identifier",
@@ -250,6 +245,7 @@
                       "ctxt": 0
                     },
                     "value": "message",
+                    "optional": true,
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -266,8 +262,7 @@
                         },
                         "kind": "string"
                       }
-                    },
-                    "optional": true
+                    }
                   }
                 ],
                 "body": {
@@ -285,7 +280,6 @@
                       "ctxt": 0
                     },
                     "value": "assert",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "arguments": [
@@ -315,7 +309,6 @@
                               "ctxt": 0
                             },
                             "value": "test",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "right": {
@@ -326,7 +319,6 @@
                               "ctxt": 0
                             },
                             "value": "undefined",
-                            "typeAnnotation": null,
                             "optional": false
                           }
                         },
@@ -345,7 +337,6 @@
                               "ctxt": 0
                             },
                             "value": "every",
-                            "typeAnnotation": null,
                             "optional": false
                           },
                           "arguments": [
@@ -359,7 +350,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "nodes",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             },
@@ -373,7 +363,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "test",
-                                "typeAnnotation": null,
                                 "optional": false
                               }
                             }
@@ -400,7 +389,6 @@
                             "ctxt": 0
                           },
                           "value": "message",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "right": {
@@ -411,7 +399,11 @@
                             "ctxt": 0
                           },
                           "value": "Unexpected node.",
-                          "hasEscape": false
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": true
+                          }
                         }
                       }
                     },
@@ -448,7 +440,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "getFunctionName",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "arguments": [
@@ -462,7 +453,6 @@
                                       "ctxt": 0
                                     },
                                     "value": "test",
-                                    "typeAnnotation": null,
                                     "optional": false
                                   }
                                 }
@@ -487,7 +477,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "Node array did not pass test '",
-                                "hasEscape": false
+                                "hasEscape": false,
+                                "kind": {
+                                  "type": "normal",
+                                  "containsQuote": false
+                                }
                               },
                               "raw": {
                                 "type": "StringLiteral",
@@ -497,7 +491,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "Node array did not pass test '",
-                                "hasEscape": false
+                                "hasEscape": false,
+                                "kind": {
+                                  "type": "normal",
+                                  "containsQuote": false
+                                }
                               }
                             },
                             {
@@ -516,7 +514,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "'.",
-                                "hasEscape": false
+                                "hasEscape": false,
+                                "kind": {
+                                  "type": "normal",
+                                  "containsQuote": false
+                                }
                               },
                               "raw": {
                                 "type": "StringLiteral",
@@ -526,7 +528,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "'.",
-                                "hasEscape": false
+                                "hasEscape": false,
+                                "kind": {
+                                  "type": "normal",
+                                  "containsQuote": false
+                                }
                               }
                             }
                           ]
@@ -547,7 +553,6 @@
                           "ctxt": 0
                         },
                         "value": "assertEachNode",
-                        "typeAnnotation": null,
                         "optional": false
                       }
                     }
@@ -583,7 +588,6 @@
                   "ctxt": 0
                 },
                 "value": "noop",
-                "typeAnnotation": null,
                 "optional": false
               }
             },

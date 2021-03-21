@@ -1,0 +1,6 @@
+error: Spread children are not supported in React.
+ --> input.js:1:6
+  |
+1 | <div>{...children}</div>;
+  |      ^^^^^^^^^^^^^
+

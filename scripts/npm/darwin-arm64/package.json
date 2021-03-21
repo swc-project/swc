@@ -1,0 +1,41 @@
+{
+  "name": "@swc/core-darwin-arm64",
+  "version": "1.2.46",
+  "os": [
+    "darwin"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "main": "swc.darwin-arm64.node",
+  "files": [
+    "swc.darwin-arm64.node"
+  ],
+  "description": "Super-fast alternative for babel",
+  "keywords": [
+    "swc",
+    "spack",
+    "babel",
+    "typescript",
+    "rust",
+    "webpack",
+    "tsc"
+  ],
+  "author": "강동윤 <kdy1997.dev@gmail.com>",
+  "homepage": "https://swc.rs",
+  "license": "MIT",
+  "engines": {
+    "node": ">=10"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swc-project/swc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/swc-project/swc/issues"
+  }
+}

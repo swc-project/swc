@@ -1,26 +1,27 @@
 //! Utilities for testing.
 use super::{load::TransformedModule, Bundler, Config};
-use crate::{util::HygieneRemover, Load, ModuleId, Resolve};
+use crate::{load::ModuleData, util::HygieneRemover, Load, ModuleId, ModuleRecord, Resolve};
 use anyhow::Error;
-use std::{collections::HashMap, path::PathBuf};
-use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, Span, GLOBALS};
+use indexmap::IndexMap;
+use std::path::PathBuf;
+use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::VisitMutWith;
 
-pub(super) struct Tester<'a> {
+pub(crate) struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
     pub bundler: Bundler<'a, Loader, Resolver>,
 }
 
 pub struct Loader {
     cm: Lrc<SourceMap>,
-    files: HashMap<String, String>,
+    files: IndexMap<String, String>,
 }
 
 impl Load for Loader {
-    fn load(&self, f: &FileName) -> Result<(Lrc<SourceFile>, Module), Error> {
+    fn load(&self, f: &FileName) -> Result<ModuleData, Error> {
         eprintln!("load: {}", f);
         let v = self.files.get(&f.to_string());
         let v = v.unwrap();
@@ -37,7 +38,11 @@ impl Load for Loader {
         let mut parser = Parser::new_from(lexer);
         let module = parser.parse_module().unwrap();
 
-        Ok((fm, module))
+        Ok(ModuleData {
+            fm,
+            module,
+            helpers: Default::default(),
+        })
     }
 }
 
@@ -70,6 +75,7 @@ impl<'a> Tester<'a> {
             .unwrap_or_else(|| panic!("failed to find module named {}", name))
     }
 
+    #[allow(dead_code)]
     pub fn parse(&self, s: &str) -> Module {
         let fm = self
             .cm
@@ -85,6 +91,7 @@ impl<'a> Tester<'a> {
         parser.parse_module().unwrap()
     }
 
+    #[allow(dead_code)]
     pub fn assert_eq(&self, m: &Module, expected: &str) {
         let expected = self.parse(expected);
 
@@ -97,13 +104,13 @@ impl<'a> Tester<'a> {
         assert_eq!(m, expected)
     }
 }
-pub(super) fn suite() -> TestBuilder {
+pub(crate) fn suite() -> TestBuilder {
     TestBuilder::default()
 }
 
 #[derive(Default)]
-pub(super) struct TestBuilder {
-    files: HashMap<String, String>,
+pub(crate) struct TestBuilder {
+    files: IndexMap<String, String>,
 }
 
 impl TestBuilder {
@@ -123,16 +130,23 @@ impl TestBuilder {
                     cm.clone(),
                     Loader {
                         cm: cm.clone(),
-                        files: self.files,
+                        files: self.files.clone(),
                     },
                     Default::default(),
                     Config {
                         require: true,
                         disable_inliner: true,
                         external_modules: vec![],
+                        module: Default::default(),
                     },
                     Box::new(Hook),
                 );
+
+                for (name, _) in self.files {
+                    bundler
+                        .load_transformed(&FileName::Real(name.clone().into()))
+                        .unwrap();
+                }
 
                 let mut t = Tester {
                     cm: cm.clone(),
@@ -151,7 +165,7 @@ impl TestBuilder {
 struct Hook;
 
 impl crate::Hook for Hook {
-    fn get_import_meta_url(&self, _: Span, _: &FileName) -> Result<Option<Expr>, Error> {
+    fn get_import_meta_props(&self, _: Span, _: &ModuleRecord) -> Result<Vec<KeyValueProp>, Error> {
         unreachable!()
     }
 }

@@ -18,6 +18,7 @@ use swc_common::{
     sync::Lrc,
     FilePathMapping, SourceMap,
 };
+pub use testing_macros::fixture;
 
 #[macro_use]
 mod macros;

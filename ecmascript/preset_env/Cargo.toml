@@ -1,9 +1,11 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "preset-env for the swc"
+documentation = "https://swc.rs/rustdoc/swc_ecma_preset_env/"
 edition = "2018"
+license = "Apache-2.0/MIT"
 name = "swc_ecma_preset_env"
-publish = false
-version = "0.1.0"
+version = "0.11.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -15,16 +17,17 @@ semver = {version = "0.9.0", features = ["serde"]}
 serde = {version = "1", features = ["derive"]}
 serde_json = "1"
 st-map = "0.1.2"
-string_enum = {path = "../../macros/string_enum"}
-swc_atoms = {path = "../../atoms"}
-swc_common = {path = "../../common"}
-swc_ecma_ast = {path = "../ast"}
-swc_ecma_transforms = {path = "../transforms"}
-swc_ecma_visit = {path = "../visit"}
+string_enum = {version = "0.3.1", path = "../../macros/string_enum"}
+swc_atoms = {version = "0.2", path = "../../atoms"}
+swc_common = {version = "0.10.10", path = "../../common"}
+swc_ecma_ast = {version = "0.40.0", path = "../ast"}
+swc_ecma_transforms = {version = "0.41.0", path = "../transforms", features = ["compat", "proposal"]}
+swc_ecma_utils = {version = "0.31.0", path = "../utils"}
+swc_ecma_visit = {version = "0.26.0", path = "../visit"}
 walkdir = "2"
 
 [dev-dependencies]
 pretty_assertions = "0.6"
-swc_ecma_codegen = {path = "../codegen"}
-swc_ecma_parser = {path = "../parser"}
-testing = {path = "../../testing"}
+swc_ecma_codegen = {version = "0.48.0", path = "../codegen"}
+swc_ecma_parser = {version = "0.50.0", path = "../parser"}
+testing = {version = "0.10.3", path = "../../testing"}

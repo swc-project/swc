@@ -1,0 +1,152 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 116,
+    "end": 244,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 116,
+        "end": 137,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 129,
+            "end": 134,
+            "ctxt": 0
+          },
+          "value": "Thing",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 123,
+          "end": 137,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 138,
+        "end": 164,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 151,
+            "end": 161,
+            "ctxt": 0
+          },
+          "value": "OtherThing",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 145,
+          "end": 164,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 188,
+        "end": 244,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 197,
+            "end": 202,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 197,
+              "end": 202,
+              "ctxt": 0
+            },
+            "value": "Thing",
+            "optional": false
+          },
+          "exported": null
+        },
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 204,
+            "end": 225,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 204,
+              "end": 214,
+              "ctxt": 0
+            },
+            "value": "OtherThing",
+            "optional": false
+          },
+          "exported": {
+            "type": "Identifier",
+            "span": {
+              "start": 218,
+              "end": 225,
+              "ctxt": 0
+            },
+            "value": "default",
+            "optional": false
+          }
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 233,
+          "end": 243,
+          "ctxt": 0
+        },
+        "value": "./source",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    }
+  ],
+  "interpreter": null
+}

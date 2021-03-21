@@ -1,5 +1,5 @@
 {
-  "type": "Module",
+  "type": "Script",
   "span": {
     "start": 0,
     "end": 42,
@@ -22,7 +22,6 @@
           "ctxt": 0
         },
         "value": "Range",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -49,8 +48,8 @@
                 "ctxt": 0
               },
               "value": "start",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "ty": {
               "type": "TsKeywordType",
@@ -77,8 +76,8 @@
                 "ctxt": 0
               },
               "value": "end",
-              "typeAnnotation": null,
-              "optional": false
+              "optional": false,
+              "typeAnnotation": null
             },
             "ty": {
               "type": "TsKeywordType",

@@ -13,8 +13,9 @@ env:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-18.04, macos-latest, windows-latest]
 
     name: Build - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -22,44 +23,20 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
-          node-version: 12
-
-      - name: Cache
-        uses: actions/cache@v2
+          node-version: 14
+      
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
         with:
-          path: |
-            ~/.cargo/
-            **/target/
-          key: ${{ runner.os }}-publish-integration
-
-      - name: Set platform name
-        run: |
-          export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
-          echo "::set-env name=PLATFORM_NAME::$NODE_PLATFORM_NAME"
-        shell: bash
-
-      - name: Install llvm
-        if: matrix.os == 'windows-latest'
-        run: choco install -y llvm
-
-      - name: Set llvm path
-        if: matrix.os == 'windows-latest'
-        uses: allenevans/set-env@v1.0.0
-        with:
-          LIBCLANG_PATH: 'C:\\Program Files\\LLVM\\bin'
+          profile: minimal
+          override: true
 
       - name: Install node dependencies
         run: npm i
 
       - name: Build
-        if: matrix.os != 'macos-latest'
-        shell: bash
-        run: npm run build
-
-      - name: Build
-        if: matrix.os == 'macos-latest'
         shell: bash
         run: npm run build
         env:
@@ -69,17 +46,62 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: bindings
-          path: swc.${{ env.PLATFORM_NAME }}.node
-
-      - name: List packages
-        run: ls -R ./scripts/npm/
-        shell: bash
+          path: swc.*.node
 
       - name: Test bindings
         run: npm test
 
-  build_musl:
-    name: stable - linux-musl - node@12
+      - name: Test in lts docker
+        if: matrix.os == 'ubuntu-18.04'
+        run: docker run --rm -v $(pwd):/swc -w /swc node:10-slim sh -c "yarn test"
+
+  build-windows-i686:
+    name: stable - windows-i686 - node@14
+    runs-on: windows-latest
+    env:
+      CARGO_PROFILE_RELEASE_CODEGEN_UNITS: 32
+      CARGO_PROFILE_RELEASE_LTO: 'false'
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install node x86
+        run: |
+          choco install nodejs-lts --x86 -y --force
+          refreshenv
+
+      - name: Set 32bit NodeJS path
+        run: |
+          echo "C:\\Program Files (x86)\\nodejs" >> $GITHUB_PATH
+        shell: bash
+
+      - name: NodeJS arch
+        run: node -e "console.log(process.arch)"
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          override: true
+          target: i686-pc-windows-msvc
+
+      - name: Install node dependencies
+        run: npm i
+
+      - name: Build
+        shell: bash
+        run: yarn build --target i686-pc-windows-msvc
+
+      - name: Test bindings
+        run: npm test
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bindings
+          path: swc.*.node
+
+  build-linux-musl:
+    name: stable - linux-musl - node@10
     runs-on: ubuntu-latest
 
     steps:
@@ -93,45 +115,214 @@ jobs:
           DOCKER_USERNAME: ${{ github.actor }}
           DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            target/
+          key: linux-musl-publish-integration
+
       - name: Pull docker image
         run: |
-          docker pull docker.pkg.github.com/napi-rs/napi-rs/rust-nodejs-alpine:lts
-          docker tag docker.pkg.github.com/napi-rs/napi-rs/rust-nodejs-alpine:lts builder
+          docker pull docker.pkg.github.com/napi-rs/napi-rs/nodejs-rust:10-alpine
+          docker tag docker.pkg.github.com/napi-rs/napi-rs/nodejs-rust:10-alpine builder
+
       - name: "Install dependencies"
-        run: yarn install --frozen-lockfile --registry https://registry.npmjs.org
+        run: npm i
 
       - name: "Build"
         run: |
-          docker run --rm -v $(pwd)/.cargo:/root/.cargo -v $(pwd):/node-rs -w /node-rs builder sh -c "cargo build -p node --release"
-          docker run --rm -v $(pwd)/.cargo:/root/.cargo -v $(pwd):/node-rs -w /node-rs builder sh -c "./node_modules/.bin/napi build --platform --cargo-name node --musl --release -c ./package.json ./scripts/npm"
-
-      - name: List packages
-        run: ls -R ./scripts/npm/
-        shell: bash
+          docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/swc -w /swc builder sh -c "./node_modules/.bin/napi build --platform --cargo-name node --release -c ./package.json --cargo-flags='-p node'"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: bindings
-          path: scripts/npm/swc.linux-musl.node
+          path: swc.*.node
+
+  build-apple-silicon:
+    name: stable - aarch64-apple-darwin - node@14
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          override: true
+          target: aarch64-apple-darwin
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            target/
+          key: aarch64-apple-darwin-publish-integration
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Cross build aarch64
+        run: yarn build --target aarch64-apple-darwin
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bindings
+          path: swc.*.node
+
+  build-linux-aarch64:
+    name: stable - aarch64-unknown-linux-gnu - node@14
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
+
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          override: true
+          target: aarch64-unknown-linux-gnu
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            target/
+          key: aarch64-linux-gnu-publish-integration
+
+      - name: Install cross compile toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu -y
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Cross build aarch64
+        run: yarn build --target aarch64-unknown-linux-gnu
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bindings
+          path: swc.*.node
+  
+  build-linux-arm7:
+    name: stable - arm7-unknown-linux-gnu - node@14
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
+
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          override: true
+          target: armv7-unknown-linux-gnueabihf
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            target/
+          key: arm7-linux-gnu-publish-integration
+
+      - name: Install cross compile toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install gcc-arm-linux-gnueabihf -y
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Cross build aarch64
+        run: yarn build --target armv7-unknown-linux-gnueabihf
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bindings
+          path: swc.*.node
+
+  build-android-aarch64:
+    name: Build - Android - aarch64
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          override: true
+          target: aarch64-linux-android
+
+      - name: Install node dependencies
+        run: npm i
+
+      - name: Build
+        shell: bash
+        run: |
+          export CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-android24-clang"
+          yarn build --target aarch64-linux-android
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bindings
+          path: swc.*.node
+
   publish:
     name: npm
     runs-on: ubuntu-latest
     needs:
       - build
-      - build_musl
+      - build-windows-i686
+      - build-linux-musl
+      - build-linux-arm7
+      - build-linux-aarch64
+      - build-apple-silicon
+      - build-android-aarch64
     steps:
       - uses: actions/checkout@v2
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Set release name
-        run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF#refs/*/}
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
-      # Do not cache node_modules, or yarn workspace links broken
       - name: Install dependencies
         run: npm i
 
@@ -148,10 +339,14 @@ jobs:
         shell: bash
         run: npm run artifacts
 
+      - name: List npm
+        run: ls -R ./scripts/npm
+        shell: bash
+
       - name: Publish
         run: |
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-          npm publish
+          npm publish --access public
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

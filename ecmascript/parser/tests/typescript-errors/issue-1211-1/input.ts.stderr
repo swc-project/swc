@@ -1,0 +1,6 @@
+error: private names are now allowed in interface
+ --> $DIR/tests/typescript-errors/issue-1211-1/input.ts:2:5
+  |
+2 |     #bar()
+  |     ^^^^
+

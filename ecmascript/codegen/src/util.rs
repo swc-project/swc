@@ -197,12 +197,20 @@ impl StartsWithAlphaNum for Expr {
                 _ => false,
             },
 
-            // TODO(kdy1): Support `v => {}`
-            Expr::Arrow(ArrowExpr { .. }) => false,
+            Expr::Arrow(ref expr) => match expr.params.as_slice() {
+                [p] => p.starts_with_alpha_num(),
+                _ => false,
+            },
 
-            Expr::Tpl(_) | Expr::Update(_) | Expr::Array(_) | Expr::Object(_) | Expr::Paren(_) => {
-                false
+            Expr::Update(ref expr) => {
+                if expr.prefix {
+                    false
+                } else {
+                    expr.arg.starts_with_alpha_num()
+                }
             }
+
+            Expr::Tpl(_) | Expr::Array(_) | Expr::Object(_) | Expr::Paren(_) => false,
 
             Expr::TaggedTpl(TaggedTpl { ref tag, .. }) => tag.starts_with_alpha_num(),
 
@@ -220,8 +228,6 @@ impl StartsWithAlphaNum for Expr {
                 expr.starts_with_alpha_num()
             }
 
-            // TODO
-            Expr::TsTypeCast(..) => true,
             Expr::OptChain(ref e) => e.expr.starts_with_alpha_num(),
 
             Expr::Invalid(..) => true,

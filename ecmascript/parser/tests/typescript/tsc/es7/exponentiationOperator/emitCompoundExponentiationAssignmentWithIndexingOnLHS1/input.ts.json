@@ -1,0 +1,968 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 17,
+    "end": 315,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 17,
+        "end": 39,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 21,
+            "end": 39,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 21,
+              "end": 27,
+              "ctxt": 0
+            },
+            "value": "array0",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrayExpression",
+            "span": {
+              "start": 30,
+              "end": 39,
+              "ctxt": 0
+            },
+            "elements": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 31,
+                    "end": 32,
+                    "ctxt": 0
+                  },
+                  "value": 1.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 34,
+                    "end": 35,
+                    "ctxt": 0
+                  },
+                  "value": 2.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 37,
+                    "end": 38,
+                    "ctxt": 0
+                  },
+                  "value": 3.0
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 40,
+        "end": 51,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 44,
+            "end": 50,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 44,
+              "end": 46,
+              "ctxt": 0
+            },
+            "value": "i0",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 49,
+              "end": 50,
+              "ctxt": 0
+            },
+            "value": 0.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 52,
+        "end": 71,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 52,
+          "end": 70,
+          "ctxt": 0
+        },
+        "operator": "**=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 52,
+            "end": 64,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 52,
+              "end": 58,
+              "ctxt": 0
+            },
+            "value": "array0",
+            "optional": false
+          },
+          "property": {
+            "type": "UpdateExpression",
+            "span": {
+              "start": 59,
+              "end": 63,
+              "ctxt": 0
+            },
+            "operator": "++",
+            "prefix": true,
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 61,
+                "end": 63,
+                "ctxt": 0
+              },
+              "value": "i0",
+              "optional": false
+            }
+          },
+          "computed": true
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 69,
+            "end": 70,
+            "ctxt": 0
+          },
+          "value": 2.0
+        }
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 73,
+        "end": 95,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 77,
+            "end": 95,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 77,
+              "end": 83,
+              "ctxt": 0
+            },
+            "value": "array1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrayExpression",
+            "span": {
+              "start": 86,
+              "end": 95,
+              "ctxt": 0
+            },
+            "elements": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 87,
+                    "end": 88,
+                    "ctxt": 0
+                  },
+                  "value": 1.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 90,
+                    "end": 91,
+                    "ctxt": 0
+                  },
+                  "value": 2.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 93,
+                    "end": 94,
+                    "ctxt": 0
+                  },
+                  "value": 3.0
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 96,
+        "end": 107,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 100,
+            "end": 106,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 100,
+              "end": 102,
+              "ctxt": 0
+            },
+            "value": "i1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 105,
+              "end": 106,
+              "ctxt": 0
+            },
+            "value": 0.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 108,
+        "end": 144,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 108,
+          "end": 143,
+          "ctxt": 0
+        },
+        "operator": "**=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 108,
+            "end": 120,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 108,
+              "end": 114,
+              "ctxt": 0
+            },
+            "value": "array1",
+            "optional": false
+          },
+          "property": {
+            "type": "UpdateExpression",
+            "span": {
+              "start": 115,
+              "end": 119,
+              "ctxt": 0
+            },
+            "operator": "++",
+            "prefix": true,
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 117,
+                "end": 119,
+                "ctxt": 0
+              },
+              "value": "i1",
+              "optional": false
+            }
+          },
+          "computed": true
+        },
+        "right": {
+          "type": "AssignmentExpression",
+          "span": {
+            "start": 125,
+            "end": 143,
+            "ctxt": 0
+          },
+          "operator": "**=",
+          "left": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 125,
+              "end": 137,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 125,
+                "end": 131,
+                "ctxt": 0
+              },
+              "value": "array1",
+              "optional": false
+            },
+            "property": {
+              "type": "UpdateExpression",
+              "span": {
+                "start": 132,
+                "end": 136,
+                "ctxt": 0
+              },
+              "operator": "++",
+              "prefix": true,
+              "argument": {
+                "type": "Identifier",
+                "span": {
+                  "start": 134,
+                  "end": 136,
+                  "ctxt": 0
+                },
+                "value": "i1",
+                "optional": false
+              }
+            },
+            "computed": true
+          },
+          "right": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 142,
+              "end": 143,
+              "ctxt": 0
+            },
+            "value": 2.0
+          }
+        }
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 146,
+        "end": 168,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 150,
+            "end": 168,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 150,
+              "end": 156,
+              "ctxt": 0
+            },
+            "value": "array2",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrayExpression",
+            "span": {
+              "start": 159,
+              "end": 168,
+              "ctxt": 0
+            },
+            "elements": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 160,
+                    "end": 161,
+                    "ctxt": 0
+                  },
+                  "value": 1.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 163,
+                    "end": 164,
+                    "ctxt": 0
+                  },
+                  "value": 2.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 166,
+                    "end": 167,
+                    "ctxt": 0
+                  },
+                  "value": 3.0
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 169,
+        "end": 180,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 173,
+            "end": 179,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 173,
+              "end": 175,
+              "ctxt": 0
+            },
+            "value": "i2",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 178,
+              "end": 179,
+              "ctxt": 0
+            },
+            "value": 0.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 181,
+        "end": 216,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 181,
+          "end": 215,
+          "ctxt": 0
+        },
+        "operator": "**=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 181,
+            "end": 193,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 181,
+              "end": 187,
+              "ctxt": 0
+            },
+            "value": "array2",
+            "optional": false
+          },
+          "property": {
+            "type": "UpdateExpression",
+            "span": {
+              "start": 188,
+              "end": 192,
+              "ctxt": 0
+            },
+            "operator": "++",
+            "prefix": true,
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 190,
+                "end": 192,
+                "ctxt": 0
+              },
+              "value": "i2",
+              "optional": false
+            }
+          },
+          "computed": true
+        },
+        "right": {
+          "type": "BinaryExpression",
+          "span": {
+            "start": 198,
+            "end": 215,
+            "ctxt": 0
+          },
+          "operator": "**",
+          "left": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 198,
+              "end": 210,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 198,
+                "end": 204,
+                "ctxt": 0
+              },
+              "value": "array2",
+              "optional": false
+            },
+            "property": {
+              "type": "UpdateExpression",
+              "span": {
+                "start": 205,
+                "end": 209,
+                "ctxt": 0
+              },
+              "operator": "++",
+              "prefix": true,
+              "argument": {
+                "type": "Identifier",
+                "span": {
+                  "start": 207,
+                  "end": 209,
+                  "ctxt": 0
+                },
+                "value": "i2",
+                "optional": false
+              }
+            },
+            "computed": true
+          },
+          "right": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 214,
+              "end": 215,
+              "ctxt": 0
+            },
+            "value": 2.0
+          }
+        }
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 218,
+        "end": 241,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 222,
+            "end": 240,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 222,
+              "end": 228,
+              "ctxt": 0
+            },
+            "value": "array3",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrayExpression",
+            "span": {
+              "start": 231,
+              "end": 240,
+              "ctxt": 0
+            },
+            "elements": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 232,
+                    "end": 233,
+                    "ctxt": 0
+                  },
+                  "value": 2.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 235,
+                    "end": 236,
+                    "ctxt": 0
+                  },
+                  "value": 2.0
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 238,
+                    "end": 239,
+                    "ctxt": 0
+                  },
+                  "value": 3.0
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 242,
+        "end": 261,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 246,
+            "end": 252,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 246,
+              "end": 248,
+              "ctxt": 0
+            },
+            "value": "j0",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 251,
+              "end": 252,
+              "ctxt": 0
+            },
+            "value": 0.0
+          },
+          "definite": false
+        },
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 254,
+            "end": 260,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 254,
+              "end": 256,
+              "ctxt": 0
+            },
+            "value": "j1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 259,
+              "end": 260,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 262,
+        "end": 315,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 262,
+          "end": 314,
+          "ctxt": 0
+        },
+        "operator": "**=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 262,
+            "end": 274,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 262,
+              "end": 268,
+              "ctxt": 0
+            },
+            "value": "array3",
+            "optional": false
+          },
+          "property": {
+            "type": "UpdateExpression",
+            "span": {
+              "start": 269,
+              "end": 273,
+              "ctxt": 0
+            },
+            "operator": "++",
+            "prefix": false,
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 269,
+                "end": 271,
+                "ctxt": 0
+              },
+              "value": "j0",
+              "optional": false
+            }
+          },
+          "computed": true
+        },
+        "right": {
+          "type": "AssignmentExpression",
+          "span": {
+            "start": 279,
+            "end": 314,
+            "ctxt": 0
+          },
+          "operator": "**=",
+          "left": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 279,
+              "end": 291,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 279,
+                "end": 285,
+                "ctxt": 0
+              },
+              "value": "array3",
+              "optional": false
+            },
+            "property": {
+              "type": "UpdateExpression",
+              "span": {
+                "start": 286,
+                "end": 290,
+                "ctxt": 0
+              },
+              "operator": "++",
+              "prefix": false,
+              "argument": {
+                "type": "Identifier",
+                "span": {
+                  "start": 286,
+                  "end": 288,
+                  "ctxt": 0
+                },
+                "value": "j1",
+                "optional": false
+              }
+            },
+            "computed": true
+          },
+          "right": {
+            "type": "AssignmentExpression",
+            "span": {
+              "start": 296,
+              "end": 314,
+              "ctxt": 0
+            },
+            "operator": "**=",
+            "left": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 296,
+                "end": 308,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 296,
+                  "end": 302,
+                  "ctxt": 0
+                },
+                "value": "array3",
+                "optional": false
+              },
+              "property": {
+                "type": "UpdateExpression",
+                "span": {
+                  "start": 303,
+                  "end": 307,
+                  "ctxt": 0
+                },
+                "operator": "++",
+                "prefix": false,
+                "argument": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 303,
+                    "end": 305,
+                    "ctxt": 0
+                  },
+                  "value": "j0",
+                  "optional": false
+                }
+              },
+              "computed": true
+            },
+            "right": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 313,
+                "end": 314,
+                "ctxt": 0
+              },
+              "value": 1.0
+            }
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

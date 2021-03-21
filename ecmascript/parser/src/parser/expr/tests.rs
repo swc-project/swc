@@ -34,6 +34,46 @@ fn expr(s: &'static str) -> Box<Expr> {
         })
     })
 }
+fn regex_expr() -> Box<Expr> {
+    Box::new(Expr::Assign(AssignExpr {
+        span,
+        left: PatOrExpr::Pat(Box::new(Pat::Ident(Ident::new("re".into(), span).into()))),
+        op: AssignOp::Assign,
+        right: Box::new(Expr::Lit(Lit::Regex(Regex {
+            span,
+            exp: "w+".into(),
+            flags: "".into(),
+        }))),
+    }))
+}
+#[test]
+fn regex_single_line_comment() {
+    assert_eq_ignore_span!(
+        expr(
+            r#"re = // ... 
+            /w+/"#
+        ),
+        regex_expr()
+    )
+}
+
+#[test]
+fn regex_multi_line_comment() {
+    assert_eq_ignore_span!(expr(r#"re = /* ... *//w+/"#), regex_expr())
+}
+#[test]
+fn regex_multi_line_comment_with_lines() {
+    assert_eq_ignore_span!(
+        expr(
+            r#"re = 
+            /*
+             ...
+             */
+             /w+/"#
+        ),
+        regex_expr()
+    )
+}
 
 #[test]
 fn arrow_assign() {
@@ -91,7 +131,7 @@ fn object_rest_pat() {
                 props: vec![ObjectPatProp::Rest(RestPat {
                     span,
                     dot3_token: span,
-                    arg: Box::new(Pat::Ident(Ident::new("a34".into(), span))),
+                    arg: Box::new(Pat::Ident(Ident::new("a34".into(), span).into())),
                     type_ann: None,
                 })],
                 type_ann: None
@@ -112,7 +152,7 @@ fn object_spread() {
         expr("foo = {a, ...bar, b}"),
         Box::new(Expr::Assign(AssignExpr {
             span,
-            left: PatOrExpr::Pat(Box::new(Pat::Ident(Ident::new("foo".into(), span)))),
+            left: PatOrExpr::Pat(Box::new(Pat::Ident(Ident::new("foo".into(), span).into()))),
             op: op!("="),
             right: Box::new(Expr::Object(ObjectLit {
                 span,
@@ -190,7 +230,7 @@ fn arrow_fn() {
             span,
             is_async: false,
             is_generator: false,
-            params: vec![Pat::Ident(Ident::new("a".into(), span))],
+            params: vec![Pat::Ident(Ident::new("a".into(), span).into())],
             body: BlockStmtOrExpr::Expr(expr("1")),
             return_type: None,
             type_params: None,
@@ -208,7 +248,7 @@ fn arrow_fn_rest() {
             params: vec![Pat::Rest(RestPat {
                 span,
                 dot3_token: span,
-                arg: Box::new(Pat::Ident(Ident::new("a".into(), span))),
+                arg: Box::new(Pat::Ident(Ident::new("a".into(), span).into())),
                 type_ann: None
             })],
             body: BlockStmtOrExpr::Expr(expr("1")),
@@ -225,7 +265,7 @@ fn arrow_fn_no_paren() {
             span,
             is_async: false,
             is_generator: false,
-            params: vec![Pat::Ident(Ident::new("a".into(), span))],
+            params: vec![Pat::Ident(Ident::new("a".into(), span).into())],
             body: BlockStmtOrExpr::Expr(expr("1")),
             type_params: None,
             return_type: None,
@@ -349,7 +389,10 @@ fn issue_328() {
                     expr: Box::new(Expr::Lit(Lit::Str(Str {
                         span,
                         value: "test".into(),
-                        has_escape: false
+                        has_escape: false,
+                        kind: StrKind::Normal {
+                            contains_quote: true
+                        }
                     }))),
                 }],
                 type_args: Default::default(),
@@ -379,6 +422,9 @@ hehe.";"#,
             span,
             value: "okokhehe.".into(),
             has_escape: true,
+            kind: StrKind::Normal {
+                contains_quote: true
+            }
         })))
     );
 }

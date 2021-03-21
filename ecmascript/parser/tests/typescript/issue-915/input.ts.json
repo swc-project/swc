@@ -23,7 +23,6 @@
             "ctxt": 0
           },
           "value": "MultipartReader",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
@@ -49,7 +48,6 @@
                 "ctxt": 0
               },
               "value": "newLine",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": {
@@ -74,7 +72,6 @@
                     "ctxt": 0
                   },
                   "value": "encoder",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -85,7 +82,6 @@
                     "ctxt": 0
                   },
                   "value": "encode",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -101,7 +97,11 @@
                       "ctxt": 0
                     },
                     "value": "\r\n",
-                    "hasEscape": true
+                    "hasEscape": true,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
                   }
                 }
               ],

@@ -1,0 +1,221 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 131,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 0,
+        "end": 131,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 7,
+          "end": 131,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 13,
+              "end": 130,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 13,
+                "end": 17,
+                "ctxt": 0
+              },
+              "value": "test",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "ArrowFunctionExpression",
+              "span": {
+                "start": 20,
+                "end": 130,
+                "ctxt": 0
+              },
+              "params": [
+                {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 21,
+                    "end": 44,
+                    "ctxt": 0
+                  },
+                  "value": "str",
+                  "optional": false,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 24,
+                      "end": 44,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsUnionType",
+                      "span": {
+                        "start": 26,
+                        "end": 44,
+                        "ctxt": 0
+                      },
+                      "types": [
+                        {
+                          "type": "TsKeywordType",
+                          "span": {
+                            "start": 26,
+                            "end": 32,
+                            "ctxt": 0
+                          },
+                          "kind": "string"
+                        },
+                        {
+                          "type": "TsKeywordType",
+                          "span": {
+                            "start": 35,
+                            "end": 44,
+                            "ctxt": 0
+                          },
+                          "kind": "undefined"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 79,
+                  "end": 130,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "ReturnStatement",
+                    "span": {
+                      "start": 85,
+                      "end": 128,
+                      "ctxt": 0
+                    },
+                    "argument": {
+                      "type": "ConditionalExpression",
+                      "span": {
+                        "start": 92,
+                        "end": 127,
+                        "ctxt": 0
+                      },
+                      "test": {
+                        "type": "BinaryExpression",
+                        "span": {
+                          "start": 92,
+                          "end": 109,
+                          "ctxt": 0
+                        },
+                        "operator": "===",
+                        "left": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 92,
+                            "end": 95,
+                            "ctxt": 0
+                          },
+                          "value": "str",
+                          "optional": false
+                        },
+                        "right": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 100,
+                            "end": 109,
+                            "ctxt": 0
+                          },
+                          "value": "undefined",
+                          "optional": false
+                        }
+                      },
+                      "consequent": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 112,
+                          "end": 121,
+                          "ctxt": 0
+                        },
+                        "value": "undefined",
+                        "optional": false
+                      },
+                      "alternate": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 124,
+                          "end": 127,
+                          "ctxt": 0
+                        },
+                        "value": "str",
+                        "optional": false
+                      }
+                    }
+                  }
+                ]
+              },
+              "async": false,
+              "generator": false,
+              "typeParameters": null,
+              "returnType": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 45,
+                  "end": 75,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsUnionType",
+                  "span": {
+                    "start": 51,
+                    "end": 75,
+                    "ctxt": 0
+                  },
+                  "types": [
+                    {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 53,
+                        "end": 59,
+                        "ctxt": 0
+                      },
+                      "kind": "string"
+                    },
+                    {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 66,
+                        "end": 75,
+                        "ctxt": 0
+                      },
+                      "kind": "undefined"
+                    }
+                  ]
+                }
+              }
+            },
+            "definite": false
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

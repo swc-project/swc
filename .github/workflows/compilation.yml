@@ -38,6 +38,10 @@ jobs:
         run: |
           (cd common && cargo hack check --feature-powerset --no-dev-deps)
 
+      - name: Check swc_ecma_ast
+        run: |
+          (cd ecmascript/ast && cargo hack check --feature-powerset --no-dev-deps)
+
       - name: Check swc_ecma_transforms
         run: |
           (cd ecmascript/transforms && cargo hack check --feature-powerset --no-dev-deps)

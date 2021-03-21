@@ -4,22 +4,27 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
-pub fn inject_after_super(mut c: Constructor, exprs: Vec<Box<Expr>>) -> Constructor {
+pub fn inject_after_super(c: &mut Constructor, exprs: Vec<Box<Expr>>) {
     // Allow using super multiple time
     let mut folder = Injector {
         exprs: &exprs,
         injected: false,
     };
 
-    c.body = c.body.fold_with(&mut folder);
+    c.body = std::mem::take(&mut c.body).fold_with(&mut folder);
     if !folder.injected {
+        if c.body.is_none() {
+            c.body = Some(BlockStmt {
+                span: DUMMY_SP,
+                stmts: vec![],
+            });
+        }
         // there was no super() call
         prepend_stmts(
             &mut c.body.as_mut().unwrap().stmts,
             exprs.into_iter().map(|v| v.into_stmt()),
         );
     }
-    c
 }
 
 struct Injector<'a> {
@@ -89,7 +94,7 @@ impl<'a> Fold for Injector<'a> {
                         kind: VarDeclKind::Var,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(ident),
+                            name: Pat::Ident(ident.into()),
                             init: None,
                             definite: false,
                         }],
@@ -141,7 +146,7 @@ impl VisitMut for ExprInjector<'_> {
                     exprs: iter::once(Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                            self.injected_tmp.as_ref().cloned().unwrap(),
+                            self.injected_tmp.as_ref().cloned().unwrap().into(),
                         ))),
                         op: op!("="),
                         right: Box::new(e),

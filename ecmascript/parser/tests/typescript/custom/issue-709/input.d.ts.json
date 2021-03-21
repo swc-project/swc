@@ -1,5 +1,5 @@
 {
-  "type": "Module",
+  "type": "Script",
   "span": {
     "start": 0,
     "end": 359,
@@ -23,7 +23,6 @@
           "ctxt": 0
         },
         "value": "__event",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -51,7 +50,6 @@
                   "ctxt": 0
                 },
                 "value": "EventInit",
-                "typeAnnotation": null,
                 "optional": false
               },
               "declare": false,
@@ -77,7 +75,6 @@
                       "ctxt": 0
                     },
                     "value": "constructor",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "params": [
@@ -112,7 +109,6 @@
                                 "ctxt": 0
                               },
                               "value": "bubbles",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": null
@@ -132,7 +128,6 @@
                                 "ctxt": 0
                               },
                               "value": "cancelable",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": null
@@ -152,7 +147,6 @@
                                 "ctxt": 0
                               },
                               "value": "composed",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "value": null
@@ -190,7 +184,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "bubbles",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false,
@@ -251,7 +244,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "cancelable",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false,
@@ -312,7 +304,6 @@
                                     "ctxt": 0
                                   },
                                   "value": "composed",
-                                  "typeAnnotation": null,
                                   "optional": false
                                 },
                                 "computed": false,

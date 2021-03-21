@@ -30,7 +30,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -54,7 +53,6 @@
                   "ctxt": 0
                 },
                 "value": "pre",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -65,7 +63,11 @@
                   "ctxt": 0
                 },
                 "value": "leading",
-                "hasEscape": false
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
             },
             {
@@ -83,7 +85,6 @@
                   "ctxt": 0
                 },
                 "value": "pre2",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -94,7 +95,11 @@
                   "ctxt": 0
                 },
                 "value": "attribute",
-                "hasEscape": false
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
             },
             {
@@ -112,7 +117,6 @@
                   "ctxt": 0
                 },
                 "value": "props",
-                "typeAnnotation": null,
                 "optional": false
               }
             }
@@ -136,7 +140,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           }
         }

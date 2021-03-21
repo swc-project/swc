@@ -1,0 +1,1550 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 788,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 9,
+          "end": 21,
+          "ctxt": 0
+        },
+        "value": "ExpandoMerge",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 22,
+            "end": 31,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 22,
+              "end": 31,
+              "ctxt": 0
+            },
+            "value": "n",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 23,
+                "end": 31,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 25,
+                  "end": 31,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 0,
+        "end": 50,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 33,
+          "end": 50,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 39,
+              "end": 48,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 46,
+                "end": 47,
+                "ctxt": 0
+              },
+              "value": "n",
+              "optional": false
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 51,
+        "end": 72,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 51,
+          "end": 72,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 51,
+            "end": 66,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 51,
+              "end": 63,
+              "ctxt": 0
+            },
+            "value": "ExpandoMerge",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 64,
+              "end": 66,
+              "ctxt": 0
+            },
+            "value": "p1",
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 69,
+            "end": 72,
+            "ctxt": 0
+          },
+          "value": 111.0
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 73,
+        "end": 131,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 73,
+          "end": 131,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 73,
+            "end": 87,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 73,
+              "end": 85,
+              "ctxt": 0
+            },
+            "value": "ExpandoMerge",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 86,
+              "end": 87,
+              "ctxt": 0
+            },
+            "value": "m",
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "FunctionExpression",
+          "identifier": null,
+          "params": [
+            {
+              "type": "Parameter",
+              "span": {
+                "start": 99,
+                "end": 108,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "pat": {
+                "type": "Identifier",
+                "span": {
+                  "start": 99,
+                  "end": 108,
+                  "ctxt": 0
+                },
+                "value": "n",
+                "optional": false,
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 100,
+                    "end": 108,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 102,
+                      "end": 108,
+                      "ctxt": 0
+                    },
+                    "kind": "number"
+                  }
+                }
+              }
+            }
+          ],
+          "decorators": [],
+          "span": {
+            "start": 90,
+            "end": 131,
+            "ctxt": 0
+          },
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 110,
+              "end": 131,
+              "ctxt": 0
+            },
+            "stmts": [
+              {
+                "type": "ReturnStatement",
+                "span": {
+                  "start": 116,
+                  "end": 129,
+                  "ctxt": 0
+                },
+                "argument": {
+                  "type": "BinaryExpression",
+                  "span": {
+                    "start": 123,
+                    "end": 128,
+                    "ctxt": 0
+                  },
+                  "operator": "+",
+                  "left": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 123,
+                      "end": 124,
+                      "ctxt": 0
+                    },
+                    "value": "n",
+                    "optional": false
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 127,
+                      "end": 128,
+                      "ctxt": 0
+                    },
+                    "value": 1.0
+                  }
+                }
+              }
+            ]
+          },
+          "generator": false,
+          "async": false,
+          "typeParameters": null,
+          "returnType": null
+        }
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 132,
+        "end": 183,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 142,
+          "end": 154,
+          "ctxt": 0
+        },
+        "value": "ExpandoMerge",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 155,
+          "end": 183,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 161,
+              "end": 181,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 168,
+                "end": 181,
+                "ctxt": 0
+              },
+              "kind": "var",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 172,
+                    "end": 180,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 172,
+                      "end": 174,
+                      "ctxt": 0
+                    },
+                    "value": "p2",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 177,
+                      "end": 180,
+                      "ctxt": 0
+                    },
+                    "value": 222.0
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 184,
+        "end": 208,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 184,
+          "end": 207,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 184,
+            "end": 199,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 184,
+              "end": 196,
+              "ctxt": 0
+            },
+            "value": "ExpandoMerge",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 197,
+              "end": 199,
+              "ctxt": 0
+            },
+            "value": "p4",
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 202,
+            "end": 207,
+            "ctxt": 0
+          },
+          "value": 44444.0
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 215,
+        "end": 239,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 215,
+          "end": 238,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 215,
+            "end": 230,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 215,
+              "end": 227,
+              "ctxt": 0
+            },
+            "value": "ExpandoMerge",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 228,
+              "end": 230,
+              "ctxt": 0
+            },
+            "value": "p6",
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 233,
+            "end": 238,
+            "ctxt": 0
+          },
+          "value": 66666.0
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 246,
+        "end": 270,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 246,
+          "end": 269,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 246,
+            "end": 261,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 246,
+              "end": 258,
+              "ctxt": 0
+            },
+            "value": "ExpandoMerge",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 259,
+              "end": 261,
+              "ctxt": 0
+            },
+            "value": "p8",
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 264,
+            "end": 269,
+            "ctxt": 0
+          },
+          "value": false
+        }
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 285,
+        "end": 474,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 295,
+          "end": 307,
+          "ctxt": 0
+        },
+        "value": "ExpandoMerge",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 308,
+          "end": 474,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 314,
+              "end": 334,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 321,
+                "end": 334,
+                "ctxt": 0
+              },
+              "kind": "var",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 325,
+                    "end": 333,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 325,
+                      "end": 327,
+                      "ctxt": 0
+                    },
+                    "value": "p3",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 330,
+                      "end": 333,
+                      "ctxt": 0
+                    },
+                    "value": 333.0
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 339,
+              "end": 357,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 346,
+                "end": 357,
+                "ctxt": 0
+              },
+              "kind": "var",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 350,
+                    "end": 356,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 350,
+                      "end": 352,
+                      "ctxt": 0
+                    },
+                    "value": "p4",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 355,
+                      "end": 356,
+                      "ctxt": 0
+                    },
+                    "value": 4.0
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 362,
+              "end": 380,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 369,
+                "end": 380,
+                "ctxt": 0
+              },
+              "kind": "var",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 373,
+                    "end": 379,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 373,
+                      "end": 375,
+                      "ctxt": 0
+                    },
+                    "value": "p5",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 378,
+                      "end": 379,
+                      "ctxt": 0
+                    },
+                    "value": 5.0
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 385,
+              "end": 403,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 392,
+                "end": 403,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 396,
+                    "end": 402,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 396,
+                      "end": 398,
+                      "ctxt": 0
+                    },
+                    "value": "p6",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 401,
+                      "end": 402,
+                      "ctxt": 0
+                    },
+                    "value": 6.0
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 408,
+              "end": 426,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 415,
+                "end": 426,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 419,
+                    "end": 425,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 419,
+                      "end": 421,
+                      "ctxt": 0
+                    },
+                    "value": "p7",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 424,
+                      "end": 425,
+                      "ctxt": 0
+                    },
+                    "value": 7.0
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 431,
+              "end": 449,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 438,
+                "end": 449,
+                "ctxt": 0
+              },
+              "kind": "var",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 442,
+                    "end": 448,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 442,
+                      "end": 444,
+                      "ctxt": 0
+                    },
+                    "value": "p8",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 447,
+                      "end": 448,
+                      "ctxt": 0
+                    },
+                    "value": 6.0
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 454,
+              "end": 472,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 461,
+                "end": 472,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 465,
+                    "end": 471,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 465,
+                      "end": 467,
+                      "ctxt": 0
+                    },
+                    "value": "p9",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 470,
+                      "end": 471,
+                      "ctxt": 0
+                    },
+                    "value": 7.0
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 475,
+        "end": 500,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 475,
+          "end": 499,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 475,
+            "end": 490,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 475,
+              "end": 487,
+              "ctxt": 0
+            },
+            "value": "ExpandoMerge",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 488,
+              "end": 490,
+              "ctxt": 0
+            },
+            "value": "p5",
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 493,
+            "end": 499,
+            "ctxt": 0
+          },
+          "value": 555555.0
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 507,
+        "end": 532,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 507,
+          "end": 531,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 507,
+            "end": 522,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 507,
+              "end": 519,
+              "ctxt": 0
+            },
+            "value": "ExpandoMerge",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 520,
+              "end": 522,
+              "ctxt": 0
+            },
+            "value": "p7",
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 525,
+            "end": 531,
+            "ctxt": 0
+          },
+          "value": 777777.0
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 539,
+        "end": 563,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 539,
+          "end": 562,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 539,
+            "end": 554,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 539,
+              "end": 551,
+              "ctxt": 0
+            },
+            "value": "ExpandoMerge",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 552,
+              "end": 554,
+              "ctxt": 0
+            },
+            "value": "p9",
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 557,
+            "end": 562,
+            "ctxt": 0
+          },
+          "value": false
+        }
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 578,
+        "end": 788,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 582,
+            "end": 787,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 582,
+              "end": 583,
+              "ctxt": 0
+            },
+            "value": "n",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 586,
+              "end": 787,
+              "ctxt": 0
+            },
+            "operator": "+",
+            "left": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 586,
+                "end": 766,
+                "ctxt": 0
+              },
+              "operator": "+",
+              "left": {
+                "type": "BinaryExpression",
+                "span": {
+                  "start": 586,
+                  "end": 745,
+                  "ctxt": 0
+                },
+                "operator": "+",
+                "left": {
+                  "type": "BinaryExpression",
+                  "span": {
+                    "start": 586,
+                    "end": 727,
+                    "ctxt": 0
+                  },
+                  "operator": "+",
+                  "left": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 586,
+                      "end": 709,
+                      "ctxt": 0
+                    },
+                    "operator": "+",
+                    "left": {
+                      "type": "BinaryExpression",
+                      "span": {
+                        "start": 586,
+                        "end": 691,
+                        "ctxt": 0
+                      },
+                      "operator": "+",
+                      "left": {
+                        "type": "BinaryExpression",
+                        "span": {
+                          "start": 586,
+                          "end": 673,
+                          "ctxt": 0
+                        },
+                        "operator": "+",
+                        "left": {
+                          "type": "BinaryExpression",
+                          "span": {
+                            "start": 586,
+                            "end": 655,
+                            "ctxt": 0
+                          },
+                          "operator": "+",
+                          "left": {
+                            "type": "BinaryExpression",
+                            "span": {
+                              "start": 586,
+                              "end": 637,
+                              "ctxt": 0
+                            },
+                            "operator": "+",
+                            "left": {
+                              "type": "BinaryExpression",
+                              "span": {
+                                "start": 586,
+                                "end": 619,
+                                "ctxt": 0
+                              },
+                              "operator": "+",
+                              "left": {
+                                "type": "MemberExpression",
+                                "span": {
+                                  "start": 586,
+                                  "end": 601,
+                                  "ctxt": 0
+                                },
+                                "object": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 586,
+                                    "end": 598,
+                                    "ctxt": 0
+                                  },
+                                  "value": "ExpandoMerge",
+                                  "optional": false
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 599,
+                                    "end": 601,
+                                    "ctxt": 0
+                                  },
+                                  "value": "p1",
+                                  "optional": false
+                                },
+                                "computed": false
+                              },
+                              "right": {
+                                "type": "MemberExpression",
+                                "span": {
+                                  "start": 604,
+                                  "end": 619,
+                                  "ctxt": 0
+                                },
+                                "object": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 604,
+                                    "end": 616,
+                                    "ctxt": 0
+                                  },
+                                  "value": "ExpandoMerge",
+                                  "optional": false
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 617,
+                                    "end": 619,
+                                    "ctxt": 0
+                                  },
+                                  "value": "p2",
+                                  "optional": false
+                                },
+                                "computed": false
+                              }
+                            },
+                            "right": {
+                              "type": "MemberExpression",
+                              "span": {
+                                "start": 622,
+                                "end": 637,
+                                "ctxt": 0
+                              },
+                              "object": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 622,
+                                  "end": 634,
+                                  "ctxt": 0
+                                },
+                                "value": "ExpandoMerge",
+                                "optional": false
+                              },
+                              "property": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 635,
+                                  "end": 637,
+                                  "ctxt": 0
+                                },
+                                "value": "p3",
+                                "optional": false
+                              },
+                              "computed": false
+                            }
+                          },
+                          "right": {
+                            "type": "MemberExpression",
+                            "span": {
+                              "start": 640,
+                              "end": 655,
+                              "ctxt": 0
+                            },
+                            "object": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 640,
+                                "end": 652,
+                                "ctxt": 0
+                              },
+                              "value": "ExpandoMerge",
+                              "optional": false
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 653,
+                                "end": 655,
+                                "ctxt": 0
+                              },
+                              "value": "p4",
+                              "optional": false
+                            },
+                            "computed": false
+                          }
+                        },
+                        "right": {
+                          "type": "MemberExpression",
+                          "span": {
+                            "start": 658,
+                            "end": 673,
+                            "ctxt": 0
+                          },
+                          "object": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 658,
+                              "end": 670,
+                              "ctxt": 0
+                            },
+                            "value": "ExpandoMerge",
+                            "optional": false
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 671,
+                              "end": 673,
+                              "ctxt": 0
+                            },
+                            "value": "p5",
+                            "optional": false
+                          },
+                          "computed": false
+                        }
+                      },
+                      "right": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 676,
+                          "end": 691,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 676,
+                            "end": 688,
+                            "ctxt": 0
+                          },
+                          "value": "ExpandoMerge",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 689,
+                            "end": 691,
+                            "ctxt": 0
+                          },
+                          "value": "p6",
+                          "optional": false
+                        },
+                        "computed": false
+                      }
+                    },
+                    "right": {
+                      "type": "MemberExpression",
+                      "span": {
+                        "start": 694,
+                        "end": 709,
+                        "ctxt": 0
+                      },
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 694,
+                          "end": 706,
+                          "ctxt": 0
+                        },
+                        "value": "ExpandoMerge",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 707,
+                          "end": 709,
+                          "ctxt": 0
+                        },
+                        "value": "p7",
+                        "optional": false
+                      },
+                      "computed": false
+                    }
+                  },
+                  "right": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 712,
+                      "end": 727,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 712,
+                        "end": 724,
+                        "ctxt": 0
+                      },
+                      "value": "ExpandoMerge",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 725,
+                        "end": 727,
+                        "ctxt": 0
+                      },
+                      "value": "p8",
+                      "optional": false
+                    },
+                    "computed": false
+                  }
+                },
+                "right": {
+                  "type": "MemberExpression",
+                  "span": {
+                    "start": 730,
+                    "end": 745,
+                    "ctxt": 0
+                  },
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 730,
+                      "end": 742,
+                      "ctxt": 0
+                    },
+                    "value": "ExpandoMerge",
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 743,
+                      "end": 745,
+                      "ctxt": 0
+                    },
+                    "value": "p9",
+                    "optional": false
+                  },
+                  "computed": false
+                }
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 748,
+                  "end": 766,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "MemberExpression",
+                  "span": {
+                    "start": 748,
+                    "end": 762,
+                    "ctxt": 0
+                  },
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 748,
+                      "end": 760,
+                      "ctxt": 0
+                    },
+                    "value": "ExpandoMerge",
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 761,
+                      "end": 762,
+                      "ctxt": 0
+                    },
+                    "value": "m",
+                    "optional": false
+                  },
+                  "computed": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 763,
+                        "end": 765,
+                        "ctxt": 0
+                      },
+                      "value": 12.0
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            },
+            "right": {
+              "type": "CallExpression",
+              "span": {
+                "start": 769,
+                "end": 787,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 769,
+                  "end": 781,
+                  "ctxt": 0
+                },
+                "value": "ExpandoMerge",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 782,
+                      "end": 786,
+                      "ctxt": 0
+                    },
+                    "value": 1001.0
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

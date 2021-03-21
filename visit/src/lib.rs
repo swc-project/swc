@@ -3,6 +3,14 @@ pub use swc_visit_macros::define;
 
 pub mod util;
 
+/// Visit all children nodes. This converts `VisitAll` to `Visit`. The type
+/// parameter `V` should implement `VisitAll` and `All<V>` implements `Visit`.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct All<V> {
+    pub visitor: V,
+}
+
+/// A visitor which visits node only if `enabled` is true.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Optional<V> {
     pub enabled: bool,
@@ -15,6 +23,9 @@ impl<V> Optional<V> {
     }
 }
 
+/// Trait for a pass which is designed to invoked multiple time to same input.
+///
+/// See [Repeat].
 pub trait Repeated {
     /// Should run again?
     fn changed(&self) -> bool;
@@ -23,12 +34,14 @@ pub trait Repeated {
     fn reset(&mut self);
 }
 
+/// A visitor which applies `A` and then `B`.
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub struct AndThen<A, B> {
     pub first: A,
     pub second: B,
 }
 
+/// Chains multiple visitor.
 #[macro_export]
 macro_rules! chain {
     ($a:expr, $b:expr) => {{
@@ -54,6 +67,13 @@ macro_rules! chain {
     }};
 }
 
+/// A visitor which applies `V` again and again if `V` modifies the node.
+///
+/// # Note
+/// `V` should return `true` from `changed()` to make the pass run multiple
+/// time.
+///
+/// See: [Repeated]
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub struct Repeat<V>
 where

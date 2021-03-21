@@ -1,0 +1,86 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 18,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 18,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 0,
+          "end": 18,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BinaryExpression",
+          "span": {
+            "start": 0,
+            "end": 10,
+            "ctxt": 0
+          },
+          "operator": "<",
+          "left": {
+            "type": "NewExpression",
+            "span": {
+              "start": 0,
+              "end": 8,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 4,
+                "end": 8,
+                "ctxt": 0
+              },
+              "value": "Date",
+              "optional": false
+            },
+            "arguments": null,
+            "typeArguments": null
+          },
+          "right": {
+            "type": "Identifier",
+            "span": {
+              "start": 9,
+              "end": 10,
+              "ctxt": 0
+            },
+            "value": "A",
+            "optional": false
+          }
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 13,
+            "end": 14,
+            "ctxt": 0
+          },
+          "value": "B",
+          "optional": false
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 17,
+            "end": 18,
+            "ctxt": 0
+          },
+          "value": "C",
+          "optional": false
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

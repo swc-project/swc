@@ -30,7 +30,6 @@
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -54,7 +53,6 @@
                   "ctxt": 0
                 },
                 "value": "props",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -73,7 +71,6 @@
                   "ctxt": 0
                 },
                 "value": "post",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -84,7 +81,11 @@
                   "ctxt": 0
                 },
                 "value": "attribute",
-                "hasEscape": false
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
             }
           ],

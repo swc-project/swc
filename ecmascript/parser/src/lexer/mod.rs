@@ -18,6 +18,7 @@ use swc_common::{
     comments::{Comment, Comments},
     BytePos, Span,
 };
+use swc_ecma_ast::op;
 
 pub mod input;
 mod jsx;
@@ -108,6 +109,7 @@ pub struct Lexer<'a, I: Input> {
     pub(crate) target: JscTarget,
 
     errors: Rc<RefCell<Vec<Error>>>,
+    module_errors: Rc<RefCell<Vec<Error>>>,
 
     buf: String,
 }
@@ -122,19 +124,20 @@ impl<'a, I: Input> Lexer<'a, I> {
         comments: Option<&'a dyn Comments>,
     ) -> Self {
         Lexer {
+            comments,
             leading_comments_buffer: if comments.is_some() {
                 Some(Default::default())
             } else {
                 None
             },
-            comments,
+            ctx: Default::default(),
             input,
             last_comment_pos: Rc::new(RefCell::new(BytePos(0))),
             state: State::new(syntax),
-            ctx: Default::default(),
             syntax,
             target,
             errors: Default::default(),
+            module_errors: Default::default(),
             buf: String::with_capacity(16),
         }
     }
@@ -215,7 +218,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                     '{' => LBrace,
                     '}' => RBrace,
                     '@' => At,
-                    '?' => QuestionMark,
                     _ => unreachable!(),
                 }));
             }
@@ -224,7 +226,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 Some('?') => {
                     self.input.bump();
                     self.input.bump();
-                    if self.syntax.typescript() && self.input.cur() == Some('=') {
+                    if self.input.cur() == Some('=') {
                         self.input.bump();
                         return Ok(Some(tok!("??=")));
                     }
@@ -335,11 +337,11 @@ impl<'a, I: Input> Lexer<'a, I> {
                 if self.input.cur() == Some(c) {
                     self.input.bump();
 
-                    if self.syntax.typescript() && self.input.cur() == Some('=') {
+                    if self.input.cur() == Some('=') {
                         self.input.bump();
                         return Ok(Some(AssignOp(match token {
-                            BitAnd => AndAssign,
-                            BitOr => OrAssign,
+                            BitAnd => op!("&&="),
+                            BitOr => op!("||="),
                             _ => unreachable!(),
                         })));
                     }
@@ -373,9 +375,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                     // Handle -->
                     if self.state.had_line_break && c == '-' && self.eat(b'>') {
-                        if self.ctx.module {
-                            return self.error(start, SyntaxError::LegacyCommentInModule)?;
-                        }
+                        self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
                         self.skip_line_comment(0);
                         self.skip_space()?;
                         return self.read_token();
@@ -432,7 +432,10 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
 
             // unexpected character
-            c => self.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?,
+            c => {
+                self.input.bump();
+                self.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
+            }
         };
 
         Ok(Some(token))
@@ -479,7 +482,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
     }
 
-    /// Read an escaped charater for string literal.
+    /// Read an escaped character for string literal.
     ///
     /// In template literal, we should preserve raw string.
     fn read_escaped_char(&mut self, raw: &mut Raw) -> LexResult<Option<Char>> {
@@ -559,9 +562,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     self.error(start, SyntaxError::LegacyOctal)?
                 }
 
-                if self.ctx.strict {
-                    self.error(start, SyntaxError::LegacyOctal)?
-                }
+                self.emit_strict_mode_error(start, SyntaxError::LegacyOctal);
 
                 let mut value: u8 = first_c.to_digit(8).unwrap() as u8;
                 macro_rules! one {
@@ -632,9 +633,8 @@ impl<'a, I: Input> Lexer<'a, I> {
         if c == '<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-') {
             self.skip_line_comment(3);
             self.skip_space()?;
-            if self.ctx.module {
-                self.error(start, SyntaxError::LegacyCommentInModule)?;
-            }
+            self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
+
             return self.read_token();
         }
 
@@ -787,7 +787,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                         };
 
                         if !valid {
-                            l.error(start, SyntaxError::InvalidIdentChar)?
+                            l.emit_error(start, SyntaxError::InvalidIdentChar);
                         }
                         buf.extend(c);
                     }
@@ -828,7 +828,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     ///
     ///
-    /// THis method returns [Char] as non-utf8 character is valid in javsacript.
+    /// This method returns [Char] as non-utf8 character is valid in JavaScript.
     /// See https://github.com/swc-project/swc/issues/261
     fn read_hex_char(&mut self, start: BytePos, count: u8, raw: &mut Raw) -> LexResult<Char> {
         debug_assert!(count == 2 || count == 4);
@@ -921,7 +921,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     match c {
                         '[' => in_class = true,
                         ']' if in_class => in_class = false,
-                        // Termniates content part of regex literal
+                        // Terminates content part of regex literal
                         '/' if !in_class => break,
                         _ => {}
                     }
@@ -972,7 +972,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         // TODO: Optimize
         let mut has_escape = false;
-        let mut cooked = String::new();
+        let mut cooked = Some(String::new());
         let mut raw = String::new();
 
         while let Some(c) = self.cur() {
@@ -990,7 +990,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 // TODO: Handle error
                 return Ok(Template {
-                    cooked: cooked.into(),
+                    cooked: cooked.map(|cooked| cooked.into()),
                     raw: raw.into(),
                     has_escape,
                 });
@@ -1000,32 +1000,47 @@ impl<'a, I: Input> Lexer<'a, I> {
                 has_escape = true;
                 raw.push('\\');
                 let mut wrapped = Raw(Some(raw));
-                let ch = self.read_escaped_char(&mut wrapped)?;
-                raw = wrapped.0.unwrap();
-                if let Some(s) = ch {
-                    cooked.extend(s);
+                match self.read_escaped_char(&mut wrapped) {
+                    Ok(Some(s)) => {
+                        if let Some(ref mut cooked) = cooked {
+                            cooked.extend(s);
+                        }
+                    }
+                    Ok(None) => {}
+                    Err(error) => {
+                        if self.target < JscTarget::Es2018 {
+                            return Err(error);
+                        } else {
+                            cooked = None;
+                        }
+                    }
                 }
+                raw = wrapped.0.unwrap();
             } else if c.is_line_break() {
                 self.state.had_line_break = true;
                 let c = if c == '\r' && self.peek() == Some('\n') {
-                    raw.push_str("\\r\\n");
+                    raw.push('\r');
                     self.bump(); // '\r'
                     '\n'
                 } else {
                     match c {
-                        '\n' => raw.push_str("\n"),
-                        '\r' => raw.push_str("\r"),
-                        '\u{2028}' => raw.push_str("\u{2028}"),
-                        '\u{2029}' => raw.push_str("\u{2029}"),
+                        '\n' => '\n',
+                        '\r' => '\n',
+                        '\u{2028}' => '\u{2028}',
+                        '\u{2029}' => '\u{2029}',
                         _ => unreachable!(),
                     }
-                    c
                 };
                 self.bump();
-                cooked.push(c);
+                if let Some(ref mut cooked) = cooked {
+                    cooked.push(c);
+                }
+                raw.push(c);
             } else {
                 self.bump();
-                cooked.push(c);
+                if let Some(ref mut cooked) = cooked {
+                    cooked.push(c);
+                }
                 raw.push(c);
             }
         }

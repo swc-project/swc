@@ -1,8 +1,8 @@
-const _a = function() {
-    class A {
-    }
+class A {
+}
+const mod = function() {
     return {
-        A
+        A: A
     };
 }();
-export { _a as a };
+export { mod as a };

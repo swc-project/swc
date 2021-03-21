@@ -1,0 +1,1176 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 2487,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 16,
+        "end": 35,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 20,
+            "end": 34,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 20,
+              "end": 24,
+              "ctxt": 0
+            },
+            "value": "oct1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 27,
+              "end": 34,
+              "ctxt": 0
+            },
+            "value": 19230.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 36,
+        "end": 55,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 40,
+            "end": 54,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 40,
+              "end": 44,
+              "ctxt": 0
+            },
+            "value": "oct2",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 47,
+              "end": 54,
+              "ctxt": 0
+            },
+            "value": 19230.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 56,
+        "end": 644,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 60,
+            "end": 643,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 60,
+              "end": 64,
+              "ctxt": 0
+            },
+            "value": "oct3",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 67,
+              "end": 643,
+              "ctxt": 0
+            },
+            "value": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 645,
+        "end": 930,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 649,
+            "end": 929,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 649,
+              "end": 653,
+              "ctxt": 0
+            },
+            "value": "oct4",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 656,
+              "end": 929,
+              "ctxt": 0
+            },
+            "value": 5.462437423415177e244
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 932,
+        "end": 1595,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 936,
+            "end": 1595,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 936,
+              "end": 940,
+              "ctxt": 0
+            },
+            "value": "obj1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 943,
+              "end": 1595,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 949,
+                    "end": 956,
+                    "ctxt": 0
+                  },
+                  "value": 19230.0
+                },
+                "value": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 958,
+                    "end": 965,
+                    "ctxt": 0
+                  },
+                  "value": "Hello",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              },
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 971,
+                    "end": 972,
+                    "ctxt": 0
+                  },
+                  "value": "a",
+                  "optional": false
+                },
+                "value": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 974,
+                    "end": 981,
+                    "ctxt": 0
+                  },
+                  "value": 19230.0
+                }
+              },
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 988,
+                    "end": 989,
+                    "ctxt": 0
+                  },
+                  "value": "b",
+                  "optional": false
+                },
+                "value": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 991,
+                    "end": 995,
+                    "ctxt": 0
+                  },
+                  "value": "oct1",
+                  "optional": false
+                }
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 1001,
+                  "end": 1005,
+                  "ctxt": 0
+                },
+                "value": "oct1",
+                "optional": false
+              },
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 1011,
+                    "end": 1587,
+                    "ctxt": 0
+                  },
+                  "value": null
+                },
+                "value": {
+                  "type": "BooleanLiteral",
+                  "span": {
+                    "start": 1589,
+                    "end": 1593,
+                    "ctxt": 0
+                  },
+                  "value": true
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1597,
+        "end": 1956,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1601,
+            "end": 1956,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1601,
+              "end": 1605,
+              "ctxt": 0
+            },
+            "value": "obj2",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 1608,
+              "end": 1956,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 1614,
+                    "end": 1621,
+                    "ctxt": 0
+                  },
+                  "value": 19230.0
+                },
+                "value": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 1623,
+                    "end": 1627,
+                    "ctxt": 0
+                  },
+                  "value": "hi",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              },
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1633,
+                    "end": 1634,
+                    "ctxt": 0
+                  },
+                  "value": "a",
+                  "optional": false
+                },
+                "value": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 1636,
+                    "end": 1643,
+                    "ctxt": 0
+                  },
+                  "value": 19230.0
+                }
+              },
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1650,
+                    "end": 1651,
+                    "ctxt": 0
+                  },
+                  "value": "b",
+                  "optional": false
+                },
+                "value": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1653,
+                    "end": 1657,
+                    "ctxt": 0
+                  },
+                  "value": "oct2",
+                  "optional": false
+                }
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 1663,
+                  "end": 1667,
+                  "ctxt": 0
+                },
+                "value": "oct2",
+                "optional": false
+              },
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 1673,
+                    "end": 1946,
+                    "ctxt": 0
+                  },
+                  "value": 5.462437423415177e244
+                },
+                "value": {
+                  "type": "BooleanLiteral",
+                  "span": {
+                    "start": 1948,
+                    "end": 1953,
+                    "ctxt": 0
+                  },
+                  "value": false
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1958,
+        "end": 1972,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 1958,
+          "end": 1971,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 1958,
+            "end": 1962,
+            "ctxt": 0
+          },
+          "value": "obj1",
+          "optional": false
+        },
+        "property": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1963,
+            "end": 1970,
+            "ctxt": 0
+          },
+          "value": 19230.0
+        },
+        "computed": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1987,
+        "end": 2003,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 1987,
+          "end": 2002,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 1987,
+            "end": 1991,
+            "ctxt": 0
+          },
+          "value": "obj1",
+          "optional": false
+        },
+        "property": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 1992,
+            "end": 2001,
+            "ctxt": 0
+          },
+          "value": "0o45436",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        },
+        "computed": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2013,
+        "end": 2027,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 2013,
+          "end": 2026,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 2013,
+            "end": 2017,
+            "ctxt": 0
+          },
+          "value": "obj1",
+          "optional": false
+        },
+        "property": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 2018,
+            "end": 2025,
+            "ctxt": 0
+          },
+          "value": "19230",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        },
+        "computed": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2042,
+        "end": 2054,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 2042,
+          "end": 2053,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 2042,
+            "end": 2046,
+            "ctxt": 0
+          },
+          "value": "obj1",
+          "optional": false
+        },
+        "property": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 2047,
+            "end": 2052,
+            "ctxt": 0
+          },
+          "value": 19230.0
+        },
+        "computed": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2071,
+        "end": 2081,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 2071,
+          "end": 2080,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 2071,
+            "end": 2075,
+            "ctxt": 0
+          },
+          "value": "obj1",
+          "optional": false
+        },
+        "property": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 2076,
+            "end": 2079,
+            "ctxt": 0
+          },
+          "value": "a",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        },
+        "computed": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2100,
+        "end": 2110,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 2100,
+          "end": 2109,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 2100,
+            "end": 2104,
+            "ctxt": 0
+          },
+          "value": "obj1",
+          "optional": false
+        },
+        "property": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 2105,
+            "end": 2108,
+            "ctxt": 0
+          },
+          "value": "b",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        },
+        "computed": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2129,
+        "end": 2142,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 2129,
+          "end": 2141,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 2129,
+            "end": 2133,
+            "ctxt": 0
+          },
+          "value": "obj1",
+          "optional": false
+        },
+        "property": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 2134,
+            "end": 2140,
+            "ctxt": 0
+          },
+          "value": "oct1",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        },
+        "computed": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2158,
+        "end": 2175,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 2158,
+          "end": 2174,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 2158,
+            "end": 2162,
+            "ctxt": 0
+          },
+          "value": "obj1",
+          "optional": false
+        },
+        "property": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 2163,
+            "end": 2173,
+            "ctxt": 0
+          },
+          "value": "Infinity",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        },
+        "computed": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2189,
+        "end": 2203,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 2189,
+          "end": 2202,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 2189,
+            "end": 2193,
+            "ctxt": 0
+          },
+          "value": "obj2",
+          "optional": false
+        },
+        "property": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 2194,
+            "end": 2201,
+            "ctxt": 0
+          },
+          "value": 19230.0
+        },
+        "computed": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2217,
+        "end": 2233,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 2217,
+          "end": 2232,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 2217,
+            "end": 2221,
+            "ctxt": 0
+          },
+          "value": "obj2",
+          "optional": false
+        },
+        "property": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 2222,
+            "end": 2231,
+            "ctxt": 0
+          },
+          "value": "0O45436",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        },
+        "computed": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2242,
+        "end": 2256,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 2242,
+          "end": 2255,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 2242,
+            "end": 2246,
+            "ctxt": 0
+          },
+          "value": "obj2",
+          "optional": false
+        },
+        "property": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 2247,
+            "end": 2254,
+            "ctxt": 0
+          },
+          "value": "19230",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        },
+        "computed": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2270,
+        "end": 2282,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 2270,
+          "end": 2281,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 2270,
+            "end": 2274,
+            "ctxt": 0
+          },
+          "value": "obj2",
+          "optional": false
+        },
+        "property": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 2275,
+            "end": 2280,
+            "ctxt": 0
+          },
+          "value": 19230.0
+        },
+        "computed": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2298,
+        "end": 2308,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 2298,
+          "end": 2307,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 2298,
+            "end": 2302,
+            "ctxt": 0
+          },
+          "value": "obj2",
+          "optional": false
+        },
+        "property": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 2303,
+            "end": 2306,
+            "ctxt": 0
+          },
+          "value": "a",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        },
+        "computed": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2326,
+        "end": 2336,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 2326,
+          "end": 2335,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 2326,
+            "end": 2330,
+            "ctxt": 0
+          },
+          "value": "obj2",
+          "optional": false
+        },
+        "property": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 2331,
+            "end": 2334,
+            "ctxt": 0
+          },
+          "value": "b",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        },
+        "computed": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2354,
+        "end": 2367,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 2354,
+          "end": 2366,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 2354,
+            "end": 2358,
+            "ctxt": 0
+          },
+          "value": "obj2",
+          "optional": false
+        },
+        "property": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 2359,
+            "end": 2365,
+            "ctxt": 0
+          },
+          "value": "oct2",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        },
+        "computed": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2382,
+        "end": 2411,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 2382,
+          "end": 2410,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 2382,
+            "end": 2386,
+            "ctxt": 0
+          },
+          "value": "obj2",
+          "optional": false
+        },
+        "property": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 2387,
+            "end": 2409,
+            "ctxt": 0
+          },
+          "value": 5.462437423415177e244
+        },
+        "computed": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2426,
+        "end": 2457,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 2426,
+          "end": 2456,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 2426,
+            "end": 2430,
+            "ctxt": 0
+          },
+          "value": "obj2",
+          "optional": false
+        },
+        "property": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 2431,
+            "end": 2455,
+            "ctxt": 0
+          },
+          "value": "5.462437423415177e+244",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        },
+        "computed": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2470,
+        "end": 2487,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 2470,
+          "end": 2486,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 2470,
+            "end": 2474,
+            "ctxt": 0
+          },
+          "value": "obj2",
+          "optional": false
+        },
+        "property": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 2475,
+            "end": 2485,
+            "ctxt": 0
+          },
+          "value": "Infinity",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        },
+        "computed": true
+      }
+    }
+  ],
+  "interpreter": null
+}

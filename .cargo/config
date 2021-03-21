@@ -2,11 +2,32 @@
 [build]
 rustflags = [
     "--cfg", "procmacro2_semver_exempt",
-    "-Z", "thinlto=no",
-    "-C", "target-feature=+sse2",
+    "-C", "target-feature=+sse2,+aes",
 ]
  
 rustdocflags = [
+    "--cfg", "procmacro2_semver_exempt",
+]
+
+[target.aarch64-apple-darwin]
+rustflags = [
+    "--cfg", "procmacro2_semver_exempt",
+]
+
+[target.aarch64-unknown-linux-gnu]
+rustflags = [
+    "--cfg", "procmacro2_semver_exempt",
+]
+linker = "aarch64-linux-gnu-gcc"
+
+[target.armv7-unknown-linux-gnueabihf]
+rustflags = [
+    "--cfg", "procmacro2_semver_exempt",
+]
+linker = "arm-linux-gnueabihf-gcc"
+
+[target.aarch64-linux-android]
+rustflags = [
     "--cfg", "procmacro2_semver_exempt",
 ]
 

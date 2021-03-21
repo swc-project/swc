@@ -29,7 +29,6 @@
               "ctxt": 0
             },
             "value": "json",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -42,7 +41,11 @@
           "ctxt": 0
         },
         "value": "./foo.json",
-        "hasEscape": false
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
       },
       "typeOnly": false,
       "asserts": {
@@ -63,7 +66,6 @@
                 "ctxt": 0
               },
               "value": "type",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": {
@@ -74,7 +76,11 @@
                 "ctxt": 0
               },
               "value": "json",
-              "hasEscape": false
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
             }
           }
         ]

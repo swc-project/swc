@@ -1,0 +1,54 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 50,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsImportEqualsDeclaration",
+      "span": {
+        "start": 0,
+        "end": 50,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isExport": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 17,
+          "ctxt": 0
+        },
+        "value": "TypeScript",
+        "optional": false
+      },
+      "moduleRef": {
+        "type": "TsQualifiedName",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 20,
+            "end": 38,
+            "ctxt": 0
+          },
+          "value": "TypeScriptServices",
+          "optional": false
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 39,
+            "end": 49,
+            "ctxt": 0
+          },
+          "value": "TypeScript",
+          "optional": false
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

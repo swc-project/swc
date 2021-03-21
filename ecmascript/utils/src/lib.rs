@@ -237,7 +237,7 @@ pub trait StmtExt {
                 .into_iter()
                 .map(|i| VarDeclarator {
                     span: i.span,
-                    name: Pat::Ident(i),
+                    name: Pat::Ident(i.into()),
                     init: None,
                     definite: false,
                 })
@@ -285,7 +285,7 @@ impl Visit for Hoister {
         p.visit_children_with(self);
 
         match *p {
-            Pat::Ident(ref i) => self.vars.push(i.clone()),
+            Pat::Ident(ref i) => self.vars.push(i.id.clone()),
             _ => {}
         }
     }
@@ -333,8 +333,7 @@ pub trait ExprExt {
                 op: op!("void"),
                 ref arg,
                 ..
-            })
-            | Expr::TsTypeCast(TsTypeCastExpr { expr: ref arg, .. }) => arg.is_immutable_value(),
+            }) => arg.is_immutable_value(),
 
             Expr::Ident(ref i) => {
                 i.sym == js_word!("undefined")
@@ -948,8 +947,9 @@ pub trait ExprExt {
 
             Expr::TsAs(TsAsExpr { ref expr, .. })
             | Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
-            | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
-            | Expr::TsTypeCast(TsTypeCastExpr { ref expr, .. }) => expr.may_have_side_effects(),
+            | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. }) => {
+                expr.may_have_side_effects()
+            }
             Expr::OptChain(ref e) => e.expr.may_have_side_effects(),
 
             Expr::Invalid(..) => unreachable!(),
@@ -1281,6 +1281,7 @@ impl Visit for LiteralVisitor {
                     self.is_lit = false
                 }
             }
+            PropName::BigInt(_) => self.is_lit = false,
             PropName::Computed(..) => self.is_lit = false,
         }
     }
@@ -1351,10 +1352,11 @@ pub fn prop_name_to_expr(p: PropName) -> Expr {
         PropName::Ident(i) => Expr::Ident(i),
         PropName::Str(s) => Expr::Lit(Lit::Str(s)),
         PropName::Num(n) => Expr::Lit(Lit::Num(n)),
+        PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b)),
         PropName::Computed(c) => *c.expr,
     }
 }
-/// Simillar to `prop_name_to_expr`, but used for value position.
+/// Similar to `prop_name_to_expr`, but used for value position.
 ///
 /// e.g. value from `{ key: value }`
 pub fn prop_name_to_expr_value(p: PropName) -> Expr {
@@ -1363,9 +1365,11 @@ pub fn prop_name_to_expr_value(p: PropName) -> Expr {
             span: i.span,
             value: i.sym,
             has_escape: false,
+            kind: Default::default(),
         })),
         PropName::Str(s) => Expr::Lit(Lit::Str(s)),
         PropName::Num(n) => Expr::Lit(Lit::Num(n)),
+        PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b)),
         PropName::Computed(c) => *c.expr,
     }
 }
@@ -1385,7 +1389,7 @@ pub fn default_constructor(has_super: bool) -> Constructor {
                 pat: Pat::Rest(RestPat {
                     span: DUMMY_SP,
                     dot3_token: DUMMY_SP,
-                    arg: Box::new(Pat::Ident(quote_ident!(span, "args"))),
+                    arg: Box::new(Pat::Ident(quote_ident!(span, "args").into())),
                     type_ann: Default::default(),
                 }),
             })]
@@ -1483,7 +1487,7 @@ pub fn prepend_stmts<T: StmtLike>(
         .unwrap_or(to.len());
 
     let mut buf = Vec::with_capacity(to.len() + stmts.len());
-    // TODO: Optimze (maybe unsafe)
+    // TODO: Optimize (maybe unsafe)
 
     buf.extend(to.drain(..idx));
     buf.extend(stmts);
@@ -1775,11 +1779,10 @@ where
             | Expr::JSXNamespacedName(..)
             | Expr::JSXEmpty(..)
             | Expr::JSXElement(..)
-            | Expr::JSXFragment(..) => unreachable!("simplyfing jsx"),
+            | Expr::JSXFragment(..) => unreachable!("simplifying jsx"),
 
             Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
             | Expr::TsNonNull(TsNonNullExpr { expr, .. })
-            | Expr::TsTypeCast(TsTypeCastExpr { expr, .. })
             | Expr::TsAs(TsAsExpr { expr, .. })
             | Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => add_effects(v, expr),
             Expr::OptChain(e) => add_effects(v, e.expr),
@@ -1807,6 +1810,7 @@ pub fn prop_name_eq(p: &PropName, key: &str) -> bool {
         PropName::Ident(i) => i.sym == *key,
         PropName::Str(s) => s.value == *key,
         PropName::Num(_) => false,
+        PropName::BigInt(_) => false,
         PropName::Computed(e) => match &*e.expr {
             Expr::Lit(Lit::Str(Str { value, .. })) => *value == *key,
             _ => false,

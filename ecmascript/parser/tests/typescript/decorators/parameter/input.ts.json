@@ -1,5 +1,5 @@
 {
-  "type": "Module",
+  "type": "Script",
   "span": {
     "start": 0,
     "end": 116,
@@ -16,7 +16,6 @@
           "ctxt": 0
         },
         "value": "Test",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -42,7 +41,6 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
@@ -69,7 +67,6 @@
                       "ctxt": 0
                     },
                     "value": "p1",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -82,8 +79,8 @@
                   "ctxt": 0
                 },
                 "value": "t1",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             },
             {
@@ -109,7 +106,6 @@
                       "ctxt": 0
                     },
                     "value": "p2",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -124,8 +120,8 @@
                   "ctxt": 0
                 },
                 "value": "t2",
-                "typeAnnotation": null,
-                "optional": false
+                "optional": false,
+                "typeAnnotation": null
               }
             },
             {
@@ -151,7 +147,6 @@
                       "ctxt": 0
                     },
                     "value": "p3",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }
@@ -176,8 +171,8 @@
                     "ctxt": 0
                   },
                   "value": "t3",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "typeAnnotation": null
               }
@@ -210,7 +205,6 @@
               "ctxt": 0
             },
             "value": "method",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
@@ -238,7 +232,6 @@
                         "ctxt": 0
                       },
                       "value": "p1",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -251,8 +244,8 @@
                     "ctxt": 0
                   },
                   "value": "t1",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 }
               },
               {
@@ -278,7 +271,6 @@
                         "ctxt": 0
                       },
                       "value": "p1",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   },
@@ -297,7 +289,6 @@
                         "ctxt": 0
                       },
                       "value": "p2",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -322,8 +313,8 @@
                       "ctxt": 0
                     },
                     "value": "t2",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "typeAnnotation": null
                 }

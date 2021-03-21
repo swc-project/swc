@@ -1,6 +1,9 @@
+//! This module reexports items from `swc_visit` with some swc-specific traits.
+
 use std::borrow::Cow;
 pub use swc_visit::*;
 
+/// A named compiler pass.
 pub trait CompilerPass {
     ///
     /// - name should follow hyphen-case.

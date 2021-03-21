@@ -1,0 +1,12 @@
+error: Expected ,, got :
+ --> output.js:3:15
+  |
+3 |     data-value: "a value",
+  |               ^
+
+error: Expression expected
+ --> output.js:3:9
+  |
+3 |     data-value: "a value",
+  |         ^
+

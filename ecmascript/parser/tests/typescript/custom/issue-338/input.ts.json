@@ -1,5 +1,5 @@
 {
-  "type": "Module",
+  "type": "Script",
   "span": {
     "start": 0,
     "end": 37,
@@ -31,8 +31,8 @@
               "ctxt": 0
             },
             "value": "bar",
-            "typeAnnotation": null,
-            "optional": false
+            "optional": false,
+            "typeAnnotation": null
           },
           "init": {
             "type": "TsAsExpression",
@@ -49,7 +49,6 @@
                 "ctxt": 0
               },
               "value": "bas",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeAnnotation": {
@@ -69,7 +68,6 @@
                     "ctxt": 0
                   },
                   "value": "beep",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -80,7 +78,6 @@
                     "ctxt": 0
                   },
                   "value": "delete",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }

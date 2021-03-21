@@ -29,7 +29,6 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -42,7 +41,11 @@
           "ctxt": 0
         },
         "value": "foo",
-        "hasEscape": false
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
       },
       "typeOnly": true,
       "asserts": null
@@ -70,7 +73,6 @@
               "ctxt": 0
             },
             "value": "type",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -83,7 +85,11 @@
           "ctxt": 0
         },
         "value": "./a",
-        "hasEscape": false
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
       },
       "typeOnly": false,
       "asserts": null

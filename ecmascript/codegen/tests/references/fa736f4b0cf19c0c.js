@@ -1,1 +1,1 @@
-"HelloWorld";
+"Hello\1World";

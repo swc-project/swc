@@ -1,5 +1,9 @@
 use rayon::prelude::*;
-use std::{path::Path, sync::Arc};
+use std::{
+    fs::create_dir_all,
+    path::{Path, PathBuf},
+    sync::Arc,
+};
 use swc::{
     config::{Config, JscConfig, ModuleConfig, Options, SourceMapsConfig, TransformConfig},
     Compiler,
@@ -63,6 +67,22 @@ fn project(dir: &str) {
                 }
 
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
+
+                if c.config_for_file(
+                    &Options {
+                        swcrc: true,
+                        is_module: true,
+
+                        ..Default::default()
+                    },
+                    &fm.name,
+                )
+                .expect("failed to read config")
+                .is_none()
+                {
+                    continue;
+                }
+
                 match c.process_js_file(
                     fm,
                     &Options {
@@ -269,9 +289,9 @@ fn issue_528() {
 [
 //foo
 a,
-//baz
 //bar
-b
+(//baz
+b)
 ];"
     );
 }
@@ -556,4 +576,69 @@ fn issue_1052() {
     println!("{}", f);
 
     assert!(!f.contains("_new"))
+}
+
+#[test]
+fn issue_1203() {
+    let f = file("tests/projects/issue-1203/input.js").unwrap();
+    println!("{}", f);
+
+    assert!(!f.contains("return //"))
+}
+
+#[test]
+fn codegen_1() {
+    let f = file("tests/projects/codegen-1/input.js").unwrap();
+    println!("{}", f);
+
+    assert_eq!(f.to_string(), "\"\\\"\";\n");
+}
+
+#[testing::fixture("fixture/**/input/")]
+fn tests(dir: PathBuf) {
+    let output = dir.parent().unwrap().join("output");
+    let _ = create_dir_all(&output);
+
+    Tester::new()
+        .print_errors(|cm, handler| {
+            let c = Compiler::new(cm.clone(), Arc::new(handler));
+
+            for entry in WalkDir::new(&dir) {
+                let entry = entry.unwrap();
+                if entry.metadata().unwrap().is_dir() {
+                    continue;
+                }
+                println!("File: {}", entry.path().to_string_lossy());
+
+                if !entry.file_name().to_string_lossy().ends_with(".ts")
+                    && !entry.file_name().to_string_lossy().ends_with(".js")
+                    && !entry.file_name().to_string_lossy().ends_with(".tsx")
+                {
+                    continue;
+                }
+
+                let fm = cm.load_file(entry.path()).expect("failed to load file");
+                match c.process_js_file(
+                    fm,
+                    &Options {
+                        swcrc: true,
+                        is_module: true,
+
+                        ..Default::default()
+                    },
+                ) {
+                    Ok(v) => {
+                        NormalizedOutput::from(v.code)
+                            .compare_to_file(output.join(entry.file_name()))
+                            .unwrap();
+                    }
+                    Err(ref err) if format!("{:?}", err).contains("not matched") => {}
+                    Err(err) => panic!("Error: {:?}", err),
+                }
+            }
+
+            Ok(())
+        })
+        .map(|_| ())
+        .expect("failed");
 }

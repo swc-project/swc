@@ -12,9 +12,12 @@ use std::{
     sync::Arc,
 };
 use swc::{config::SourceMapsConfig, Compiler, TransformOutput};
-use swc_bundler::{BundleKind, Bundler, Load, Resolve};
-use swc_common::{FileName, Span};
-use swc_ecma_ast::{Expr, Lit, Str};
+use swc_atoms::js_word;
+use swc_bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve};
+use swc_common::Span;
+use swc_ecma_ast::{
+    Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
+};
 
 struct ConfigItem {
     loader: Box<dyn Load>,
@@ -41,6 +44,14 @@ impl Task for BundleTask {
     type JsValue = JsObject;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
+        // Defaults to es3
+        let codegen_target = self
+            .config
+            .static_items
+            .config
+            .codegen_target()
+            .unwrap_or_default();
+
         let res = catch_unwind(AssertUnwindSafe(|| {
             let bundler = Bundler::new(
                 self.swc.globals(),
@@ -122,9 +133,13 @@ impl Task for BundleTask {
                             })
                             .unwrap_or(false);
 
-                        let output =
-                            self.swc
-                                .print(&m, SourceMapsConfig::Bool(true), None, minify)?;
+                        let output = self.swc.print(
+                            &m,
+                            codegen_target,
+                            SourceMapsConfig::Bool(true),
+                            None,
+                            minify,
+                        )?;
 
                         Ok((k, output))
                     })
@@ -153,7 +168,7 @@ impl Task for BundleTask {
         ))
     }
 
-    fn resolve(&self, env: &mut Env, output: Self::Output) -> napi::Result<Self::JsValue> {
+    fn resolve(self, env: Env, output: Self::Output) -> napi::Result<Self::JsValue> {
         env.to_js_value(&output)?.coerce_to_object()
     }
 }
@@ -176,24 +191,52 @@ pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
             }),
     ));
 
-    cx.env.spawn(BundleTask {
-        swc: c.clone(),
-        config: ConfigItem {
-            loader,
-            resolver: Box::new(NodeResolver::new()) as Box<_>,
-            static_items,
-        },
-    })
+    cx.env
+        .spawn(BundleTask {
+            swc: c.clone(),
+            config: ConfigItem {
+                loader,
+                resolver: Box::new(NodeResolver::new()) as Box<_>,
+                static_items,
+            },
+        })
+        .map(|t| t.promise_object())
 }
 
 struct Hook;
 
 impl swc_bundler::Hook for Hook {
-    fn get_import_meta_url(&self, span: Span, file: &FileName) -> Result<Option<Expr>, Error> {
-        Ok(Some(Expr::Lit(Lit::Str(Str {
-            span,
-            value: file.to_string().into(),
-            has_escape: false,
-        }))))
+    fn get_import_meta_props(
+        &self,
+        span: Span,
+        module_record: &ModuleRecord,
+    ) -> Result<Vec<KeyValueProp>, Error> {
+        Ok(vec![
+            KeyValueProp {
+                key: PropName::Ident(Ident::new(js_word!("url"), span)),
+                value: Box::new(Expr::Lit(Lit::Str(Str {
+                    span,
+                    value: module_record.file_name.to_string().into(),
+                    has_escape: false,
+                    kind: Default::default(),
+                }))),
+            },
+            KeyValueProp {
+                key: PropName::Ident(Ident::new(js_word!("main"), span)),
+                value: Box::new(if module_record.is_entry {
+                    Expr::Member(MemberExpr {
+                        span,
+                        obj: ExprOrSuper::Expr(Box::new(Expr::MetaProp(MetaPropExpr {
+                            meta: Ident::new(js_word!("import"), span),
+                            prop: Ident::new(js_word!("meta"), span),
+                        }))),
+                        prop: Box::new(Expr::Ident(Ident::new(js_word!("main"), span))),
+                        computed: false,
+                    })
+                } else {
+                    Expr::Lit(Lit::Bool(Bool { span, value: false }))
+                }),
+            },
+        ])
     }
 }

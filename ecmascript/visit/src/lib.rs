@@ -237,7 +237,6 @@ macro_rules! noop_fold_type {
         noop_fold_type!(fold_ts_type_alias_decl, TsTypeAliasDecl);
         noop_fold_type!(fold_ts_type_ann, TsTypeAnn);
         noop_fold_type!(fold_ts_type_assertion, TsTypeAssertion);
-        noop_fold_type!(fold_ts_type_cast_expr, TsTypeCastExpr);
         noop_fold_type!(fold_ts_type_element, TsTypeElement);
         noop_fold_type!(fold_ts_type_lit, TsTypeLit);
         noop_fold_type!(fold_ts_type_operator, TsTypeOperator);
@@ -314,7 +313,6 @@ macro_rules! noop_visit_type {
         noop_visit_type!(visit_ts_type_alias_decl, TsTypeAliasDecl);
         noop_visit_type!(visit_ts_type_ann, TsTypeAnn);
         noop_visit_type!(visit_ts_type_assertion, TsTypeAssertion);
-        noop_visit_type!(visit_ts_type_cast_expr, TsTypeCastExpr);
         noop_visit_type!(visit_ts_type_element, TsTypeElement);
         noop_visit_type!(visit_ts_type_lit, TsTypeLit);
         noop_visit_type!(visit_ts_type_operator, TsTypeOperator);
@@ -394,7 +392,6 @@ macro_rules! noop_visit_mut_type {
         noop_visit_mut_type!(visit_mut_ts_type_alias_decl, TsTypeAliasDecl);
         noop_visit_mut_type!(visit_mut_ts_type_ann, TsTypeAnn);
         noop_visit_mut_type!(visit_mut_ts_type_assertion, TsTypeAssertion);
-        noop_visit_mut_type!(visit_mut_ts_type_cast_expr, TsTypeCastExpr);
         noop_visit_mut_type!(visit_mut_ts_type_element, TsTypeElement);
         noop_visit_mut_type!(visit_mut_ts_type_lit, TsTypeLit);
         noop_visit_mut_type!(visit_mut_ts_type_operator, TsTypeOperator);
@@ -573,7 +570,6 @@ define!({
         TsTypeAssertion(TsTypeAssertion),
         TsConstAssertion(TsConstAssertion),
         TsNonNull(TsNonNullExpr),
-        TsTypeCast(TsTypeCastExpr),
         TsAs(TsAsExpr),
         PrivateName(PrivateName),
         OptChain(OptChainExpr),
@@ -744,16 +740,22 @@ define!({
         Param(Param),
     }
 
+    pub struct BindingIdent {
+        pub id: Ident,
+        pub type_ann: Option<TsTypeAnn>,
+    }
+
     pub struct Ident {
         pub span: Span,
         pub sym: JsWord,
-        pub type_ann: Option<TsTypeAnn>,
         pub optional: bool,
     }
+
     pub struct PrivateName {
         pub span: Span,
         pub id: Ident,
     }
+
     pub enum JSXObject {
         JSXMemberExpr(Box<JSXMemberExpr>),
         Ident(Ident),
@@ -866,6 +868,7 @@ define!({
         pub span: Span,
         pub value: JsWord,
         pub has_escape: bool,
+        pub kind: StrKind,
     }
     pub struct Bool {
         pub span: Span,
@@ -930,12 +933,14 @@ define!({
     pub struct ExportAll {
         pub span: Span,
         pub src: Str,
+        pub asserts: Option<ObjectLit>,
     }
     pub struct NamedExport {
         pub span: Span,
         pub specifiers: Vec<ExportSpecifier>,
         pub src: Option<Str>,
         pub type_only: bool,
+        pub asserts: Option<ObjectLit>,
     }
     pub struct ExportDefaultDecl {
         pub span: Span,
@@ -1041,7 +1046,7 @@ define!({
         Delete,
     }
     pub enum Pat {
-        Ident(Ident),
+        Ident(BindingIdent),
         Array(ArrayPat),
         Rest(RestPat),
         Object(ObjectPat),
@@ -1123,6 +1128,7 @@ define!({
         Ident(Ident),
         Str(Str),
         Num(Number),
+        BigInt(BigInt),
         Computed(ComputedPropName),
     }
     pub struct ComputedPropName {
@@ -1273,11 +1279,6 @@ define!({
         pub span: Span,
         pub params: Vec<Box<TsType>>,
     }
-    pub struct TsTypeCastExpr {
-        pub span: Span,
-        pub expr: Box<Expr>,
-        pub type_ann: TsTypeAnn,
-    }
     pub struct TsParamProp {
         pub span: Span,
         pub decorators: Vec<Decorator>,
@@ -1286,7 +1287,7 @@ define!({
         pub param: TsParamPropParam,
     }
     pub enum TsParamPropParam {
-        Ident(Ident),
+        Ident(BindingIdent),
         Assign(AssignPat),
     }
     pub struct TsQualifiedName {
@@ -1393,12 +1394,13 @@ define!({
         TsUndefinedKeyword,
         TsNullKeyword,
         TsNeverKeyword,
+        TsIntrinsicKeyword,
     }
     pub struct TsThisType {
         pub span: Span,
     }
     pub enum TsFnParam {
-        Ident(Ident),
+        Ident(BindingIdent),
         Array(ArrayPat),
         Rest(RestPat),
         Object(ObjectPat),
@@ -1414,6 +1416,7 @@ define!({
         pub params: Vec<TsFnParam>,
         pub type_params: Option<TsTypeParamDecl>,
         pub type_ann: TsTypeAnn,
+        pub is_abstract: bool,
     }
     pub struct TsTypeRef {
         pub span: Span,
@@ -1524,6 +1527,7 @@ define!({
         pub span: Span,
         pub readonly: Option<TruePlusMinus>,
         pub type_param: TsTypeParam,
+        pub name_type: Option<Box<TsType>>,
         pub optional: Option<TruePlusMinus>,
         pub type_ann: Option<Box<TsType>>,
     }
@@ -1536,7 +1540,12 @@ define!({
         Number(Number),
         Str(Str),
         Bool(Bool),
-        Tpl(Tpl),
+        Tpl(TsTplLitType),
+    }
+    pub struct TsTplLitType {
+        pub span: Span,
+        pub types: Vec<Box<TsType>>,
+        pub quasis: Vec<TplElement>,
     }
     pub struct TsInterfaceDecl {
         pub span: Span,

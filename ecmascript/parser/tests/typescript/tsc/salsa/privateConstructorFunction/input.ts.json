@@ -1,0 +1,137 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 120,
+    "end": 319,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 120,
+        "end": 319,
+        "ctxt": 0
+      },
+      "stmts": [
+        {
+          "type": "FunctionDeclaration",
+          "identifier": {
+            "type": "Identifier",
+            "span": {
+              "start": 275,
+              "end": 276,
+              "ctxt": 0
+            },
+            "value": "C",
+            "optional": false
+          },
+          "declare": false,
+          "params": [],
+          "decorators": [],
+          "span": {
+            "start": 266,
+            "end": 305,
+            "ctxt": 0
+          },
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 279,
+              "end": 305,
+              "ctxt": 0
+            },
+            "stmts": [
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 289,
+                  "end": 299,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 289,
+                    "end": 299,
+                    "ctxt": 0
+                  },
+                  "operator": "=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 289,
+                      "end": 295,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "ThisExpression",
+                      "span": {
+                        "start": 289,
+                        "end": 293,
+                        "ctxt": 0
+                      }
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 294,
+                        "end": 295,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "optional": false
+                    },
+                    "computed": false
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 298,
+                      "end": 299,
+                      "ctxt": 0
+                    },
+                    "value": 1.0
+                  }
+                }
+              }
+            ]
+          },
+          "generator": false,
+          "async": false,
+          "typeParameters": null,
+          "returnType": null
+        },
+        {
+          "type": "ExpressionStatement",
+          "span": {
+            "start": 310,
+            "end": 317,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "NewExpression",
+            "span": {
+              "start": 310,
+              "end": 317,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 314,
+                "end": 315,
+                "ctxt": 0
+              },
+              "value": "C",
+              "optional": false
+            },
+            "arguments": [],
+            "typeArguments": null
+          }
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

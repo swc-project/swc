@@ -161,21 +161,6 @@ export interface Options extends Config {
   inputSourceMap?: boolean | string;
 
   /**
-   * - true to generate a sourcemap for the code and include it in the result object.
-   * - "inline" to generate a sourcemap and append it as a data URL to the end of the code, but not include it in the result object.
-   * - "both" is the same as inline, but will include the map in the result object.
-   *
-   * `swc-cli` overloads some of these to also affect how maps are written to disk:
-   *
-   * - true will write the map to a .map file on disk
-   * - "inline" will write the file directly, so it will have a data: containing the map
-   * - "both" will write the file with a data: URL and also a .map.
-   * - Note: These options are bit weird, so it may make the most sense to just use true
-   *  and handle the rest in your own code, depending on your use case.
-   */
-  sourceMaps?: boolean | "inline" | "both";
-
-  /**
    * The name to use for the file inside the source map object.
    *
    * Defaults to `path.basename(opts.filenameRelative)` when available, or `"unknown"`.
@@ -215,6 +200,21 @@ export interface Config {
   jsc?: JscConfig;
   module?: ModuleConfig;
   minify?: boolean;
+
+  /**
+   * - true to generate a sourcemap for the code and include it in the result object.
+   * - "inline" to generate a sourcemap and append it as a data URL to the end of the code, but not include it in the result object.
+   * - "both" is the same as inline, but will include the map in the result object.
+   *
+   * `swc-cli` overloads some of these to also affect how maps are written to disk:
+   *
+   * - true will write the map to a .map file on disk
+   * - "inline" will write the file directly, so it will have a data: containing the map
+   * - "both" will write the file with a data: URL and also a .map.
+   * - Note: These options are bit weird, so it may make the most sense to just use true
+   *  and handle the rest in your own code, depending on your use case.
+   */
+  sourceMaps?: boolean | "inline" | "both";
 }
 
 /**
@@ -244,6 +244,8 @@ export interface EnvConfig {
   coreJs?: string;
 
   targets?: any;
+
+  path?: string;
 
   shippedProposals?: boolean;
 
@@ -279,7 +281,8 @@ export type JscTarget =
   | "es2016"
   | "es2017"
   | "es2018"
-  | "es2019";
+  | "es2019"
+  | "es2020";
 
 export type ParserConfig = TsParserConfig | EsParserConfig;
 export interface TsParserConfig {
@@ -306,7 +309,7 @@ export interface EsParserConfig {
   jsx?: boolean;
   /**
    * Defaults to `false`.
-   * 
+   *
    * @deprecated Always true because it's in ecmascript spec.
    */
   numericSeparator?: boolean;
@@ -316,7 +319,7 @@ export interface EsParserConfig {
   classPrivateProperty?: boolean;
   /**
    * Defaults to `false`
-   * 
+   *
    * @deprecated Always true because it's in ecmascript spec.
    */
   privateMethod?: boolean;
@@ -342,22 +345,22 @@ export interface EsParserConfig {
   dynamicImport?: boolean;
   /**
    * Defaults to `false`
-   * 
+   *
    * @deprecated Always true because it's in ecmascript spec.
    */
   nullishCoalescing?: boolean;
   /**
    * Defaults to `false`
    */
-  exportDefaultFrom?: boolean,
+  exportDefaultFrom?: boolean;
   /**
    * Defaults to `false`
    */
-  exportNamespaceFrom?: boolean,
+  exportNamespaceFrom?: boolean;
   /**
    * Defaults to `false`
    */
-  importMeta?: boolean,
+  importMeta?: boolean;
 }
 
 /**
@@ -379,12 +382,12 @@ export interface TransformConfig {
   /**
    * https://swc.rs/docs/configuring-swc.html#jsctransformlegacydecorator
    */
-  legacyDecorator?: boolean
+  legacyDecorator?: boolean;
 
   /**
    * https://swc.rs/docs/configuring-swc.html#jsctransformdecoratormetadata
    */
-  decoratorMetadata?: boolean
+  decoratorMetadata?: boolean;
 }
 
 export interface ReactConfig {
@@ -441,7 +444,7 @@ export interface OptimizerConfig {
   /// https://swc.rs/docs/configuring-swc.html#jsctransformoptimizerglobals
   globals?: GlobalPassOption;
   /// https://swc.rs/docs/configuring-swc.html#jsctransformoptimizerjsonify
-  jsonify?: { minCost: number }
+  jsonify?: { minCost: number };
 }
 
 /**
@@ -638,8 +641,8 @@ export interface PrivateProperty extends ClassPropertyBase {
 }
 
 export interface Param extends Node, HasSpan, HasDecorator {
-  type: 'Parameter'
-  pat: Pattern
+  type: "Parameter";
+  pat: Pattern;
 }
 
 export interface Constructor extends Node, HasSpan {
@@ -770,7 +773,6 @@ export type Expression =
   | JSXFragment
   | TsTypeAssertion
   | TsNonNullExpression
-  | TsTypeCastExpression
   | TsAsExpression
   | PrivateName
   | OptionalChainingExpression
@@ -1202,15 +1204,10 @@ export interface ExportDeclaration extends Node, HasSpan {
 export interface ImportDeclaration extends Node, HasSpan {
   type: "ImportDeclaration";
 
-  specifiers: ImporSpecifier[];
+  specifiers: ImportSpecifier[];
 
   source: StringLiteral;
 }
-
-export type ImporSpecifier =
-  | ImportDefaultSpecifier
-  | NamedImportSpecifier
-  | ImportNamespaceSpecifier;
 
 export interface ExportAllDeclaration extends Node, HasSpan {
   type: "ExportAllDeclaration";
@@ -1693,13 +1690,6 @@ export interface TsTypeParameterInstantiation extends Node, HasSpan {
   params: TsType[];
 }
 
-export interface TsTypeCastExpression extends Node, HasSpan {
-  type: "TsTypeCastExpression";
-
-  expression: Expression;
-  typeAnnotation: TsTypeAnnotation;
-}
-
 export interface TsParameterProperty extends Node, HasSpan, HasDecorator {
   type: "TsParameterProperty";
 
@@ -1985,7 +1975,11 @@ export interface TsLiteralType extends Node, HasSpan {
   literal: TsLiteral;
 }
 
-export type TsLiteral = NumericLiteral | StringLiteral | BooleanLiteral | TemplateLiteral;
+export type TsLiteral =
+  | NumericLiteral
+  | StringLiteral
+  | BooleanLiteral
+  | TemplateLiteral;
 
 // // ================
 // // TypeScript declarations

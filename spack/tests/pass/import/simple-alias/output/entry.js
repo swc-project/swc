@@ -1,3 +1,2 @@
-const a = 1;
-const a1 = a;
-console.log(a1);
+const unnamed = 1;
+console.log(unnamed);

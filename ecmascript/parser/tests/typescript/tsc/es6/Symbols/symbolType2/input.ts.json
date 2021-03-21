@@ -1,0 +1,126 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 15,
+    "end": 73,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 15,
+        "end": 47,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 15,
+          "end": 46,
+          "ctxt": 0
+        },
+        "operator": "in",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 15,
+            "end": 40,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 15,
+              "end": 21,
+              "ctxt": 0
+            },
+            "value": "Symbol",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 22,
+              "end": 40,
+              "ctxt": 0
+            },
+            "value": "isConcatSpreadable",
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "span": {
+            "start": 44,
+            "end": 46,
+            "ctxt": 0
+          },
+          "properties": []
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 48,
+        "end": 73,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 48,
+          "end": 72,
+          "ctxt": 0
+        },
+        "operator": "in",
+        "left": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 48,
+            "end": 50,
+            "ctxt": 0
+          },
+          "value": "",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        },
+        "right": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 54,
+            "end": 72,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 54,
+              "end": 60,
+              "ctxt": 0
+            },
+            "value": "Symbol",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 61,
+              "end": 72,
+              "ctxt": 0
+            },
+            "value": "toPrimitive",
+            "optional": false
+          },
+          "computed": false
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

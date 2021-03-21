@@ -5,7 +5,6 @@ use swc_common::Spanned;
 
 mod module_item;
 
-#[parser]
 impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_block_body<Type>(
         &mut self,
@@ -17,13 +16,13 @@ impl<'a, I: Tokens> Parser<I> {
         Self: StmtLikeParser<'a, Type>,
         Type: IsDirective + From<Stmt>,
     {
-        trace_cur!(parse_block_body);
+        trace_cur!(self, parse_block_body);
 
         let old_ctx = self.ctx();
 
         let mut stmts = vec![];
         while {
-            let c = cur!(false).ok();
+            let c = cur!(self, false).ok();
             c != end
         } {
             let stmt = self.parse_stmt_like(true, top_level)?;
@@ -36,7 +35,7 @@ impl<'a, I: Tokens> Parser<I> {
                     };
                     self.set_ctx(ctx);
 
-                    if self.input.knows_cur() && !is!(';') {
+                    if self.input.knows_cur() && !is!(self, ';') {
                         unreachable!(
                             "'use strict'; directive requires parser.input.cur to be empty or \
                              '}}', but current token was: {:?}",
@@ -50,7 +49,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if end.is_some() {
-            bump!();
+            bump!(self);
         }
 
         self.set_ctx(old_ctx);
@@ -59,12 +58,12 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     pub fn parse_stmt(&mut self, top_level: bool) -> PResult<Stmt> {
-        trace_cur!(parse_stmt);
+        trace_cur!(self, parse_stmt);
         self.parse_stmt_like(false, top_level)
     }
 
     fn parse_stmt_list_item(&mut self, top_level: bool) -> PResult<Stmt> {
-        trace_cur!(parse_stmt_list_item);
+        trace_cur!(self, parse_stmt_list_item);
         self.parse_stmt_like(true, top_level)
     }
 
@@ -74,11 +73,11 @@ impl<'a, I: Tokens> Parser<I> {
         Self: StmtLikeParser<'a, Type>,
         Type: IsDirective + From<Stmt>,
     {
-        trace_cur!(parse_stmt_like);
-        let start = cur_pos!();
+        trace_cur!(self, parse_stmt_like);
+        let start = cur_pos!(self);
         let decorators = self.parse_decorators(true)?;
 
-        if is_one_of!("import", "export") {
+        if is_one_of!(self, "import", "export") {
             return self.handle_import_export(top_level, decorators);
         }
 
@@ -95,9 +94,9 @@ impl<'a, I: Tokens> Parser<I> {
         top_level: bool,
         decorators: Vec<Decorator>,
     ) -> PResult<Stmt> {
-        trace_cur!(parse_stmt_internal);
+        trace_cur!(self, parse_stmt_internal);
 
-        if top_level && is!("await") {
+        if top_level && is!(self, "await") {
             let valid = self.target() >= JscTarget::Es2017 && self.syntax().top_level_await();
 
             if !valid {
@@ -105,35 +104,35 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             let expr = self.parse_await_expr()?;
-            eat!(';');
+            eat!(self, ';');
 
-            let span = span!(start);
+            let span = span!(self, start);
             return Ok(Stmt::Expr(ExprStmt { span, expr }));
         }
 
-        if self.input.syntax().typescript() && is!("const") && peeked_is!("enum") {
-            assert_and_bump!("const");
-            assert_and_bump!("enum");
+        if self.input.syntax().typescript() && is!(self, "const") && peeked_is!(self, "enum") {
+            assert_and_bump!(self, "const");
+            assert_and_bump!(self, "enum");
             return self
                 .parse_ts_enum_decl(start, true)
                 .map(Decl::from)
                 .map(Stmt::from);
         }
 
-        match cur!(true)? {
+        match cur!(self, true)? {
             tok!("break") | tok!("continue") => {
-                let is_break = is!("break");
-                bump!();
+                let is_break = is!(self, "break");
+                bump!(self);
 
-                let label = if eat!(';') {
+                let label = if eat!(self, ';') {
                     None
                 } else {
                     let i = self.parse_label_ident().map(Some)?;
-                    expect!(';');
+                    expect!(self, ';');
                     i
                 };
 
-                let span = span!(start);
+                let span = span!(self, start);
                 if is_break {
                     if label.is_some() && !self.state.labels.contains(&label.as_ref().unwrap().sym)
                     {
@@ -159,9 +158,11 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             tok!("debugger") => {
-                bump!();
-                expect!(';');
-                return Ok(Stmt::Debugger(DebuggerStmt { span: span!(start) }));
+                bump!(self);
+                expect!(self, ';');
+                return Ok(Stmt::Debugger(DebuggerStmt {
+                    span: span!(self, start),
+                }));
             }
 
             tok!("do") => {
@@ -257,7 +258,7 @@ impl<'a, I: Tokens> Parser<I> {
             // 'let' can start an identifier reference.
             tok!("let") if include_decl => {
                 let strict = self.ctx().strict;
-                let is_keyword = match peek!() {
+                let is_keyword = match peek!(self) {
                     Ok(t) => t.follows_keyword_let(strict),
                     _ => false,
                 };
@@ -275,13 +276,15 @@ impl<'a, I: Tokens> Parser<I> {
             _ => {}
         }
 
-        if eat_exact!(';') {
-            return Ok(Stmt::Empty(EmptyStmt { span: span!(start) }));
+        if eat_exact!(self, ';') {
+            return Ok(Stmt::Empty(EmptyStmt {
+                span: span!(self, start),
+            }));
         }
 
         // Handle async function foo() {}
-        if is!("async")
-            && peeked_is!("function")
+        if is!(self, "async")
+            && peeked_is!(self, "function")
             && !self.input.has_linebreak_between_cur_and_peeked()
         {
             return self.parse_async_fn_decl(decorators).map(From::from);
@@ -296,7 +299,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let expr = match *expr {
             Expr::Ident(ident) => {
-                if eat!(':') {
+                if eat!(self, ':') {
                     return self.parse_labelled_stmt(ident);
                 }
                 Box::new(Expr::Ident(ident))
@@ -304,16 +307,13 @@ impl<'a, I: Tokens> Parser<I> {
             _ => self.verify_expr(expr)?,
         };
         if let Expr::Ident(ref ident) = *expr {
-            if *ident.sym == js_word!("interface")
-                && self.input.had_line_break_before_cur()
-                && self.ctx().strict
-            {
-                self.emit_err(ident.span, SyntaxError::InvalidIdentInStrict);
+            if *ident.sym == js_word!("interface") && self.input.had_line_break_before_cur() {
+                self.emit_strict_mode_err(ident.span, SyntaxError::InvalidIdentInStrict);
 
-                eat!(';');
+                eat!(self, ';');
 
                 return Ok(Stmt::Expr(ExprStmt {
-                    span: span!(start),
+                    span: span!(self, start),
                     expr,
                 }));
             }
@@ -325,23 +325,21 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        if self.ctx().strict {
-            match *expr {
-                Expr::Ident(Ident { ref sym, span, .. }) => match *sym {
-                    js_word!("enum") | js_word!("interface") => {
-                        self.emit_err(span, SyntaxError::InvalidIdentInStrict);
-                    }
-                    _ => {}
-                },
+        match *expr {
+            Expr::Ident(Ident { ref sym, span, .. }) => match *sym {
+                js_word!("enum") | js_word!("interface") => {
+                    self.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict);
+                }
                 _ => {}
-            }
+            },
+            _ => {}
         }
 
         if self.syntax().typescript() {
             match *expr {
                 Expr::Ident(ref i) => match i.sym {
                     js_word!("public") | js_word!("static") | js_word!("abstract") => {
-                        if eat!("interface") {
+                        if eat!(self, "interface") {
                             self.emit_err(i.span, SyntaxError::TS2427);
                             return self
                                 .parse_ts_interface_decl(start)
@@ -355,18 +353,18 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        if eat!(';') {
+        if eat!(self, ';') {
             Ok(Stmt::Expr(ExprStmt {
-                span: span!(start),
+                span: span!(self, start),
                 expr,
             }))
         } else {
-            match *cur!(false)? {
+            match *cur!(self, false)? {
                 Token::BinOp(..) => {
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
                     let expr = self.parse_bin_op_recursively(expr, 0)?;
                     return Ok(ExprStmt {
-                        span: span!(start),
+                        span: span!(self, start),
                         expr,
                     }
                     .into());
@@ -375,21 +373,24 @@ impl<'a, I: Tokens> Parser<I> {
                 _ => {}
             }
 
-            syntax_error!(SyntaxError::ExpectedSemiForExprStmt { expr: expr.span() });
+            syntax_error!(
+                self,
+                SyntaxError::ExpectedSemiForExprStmt { expr: expr.span() }
+            );
         }
     }
 
     fn parse_if_stmt(&mut self) -> PResult<Stmt> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
-        assert_and_bump!("if");
+        assert_and_bump!(self, "if");
 
-        expect!('(');
+        expect!(self, '(');
         let test = self.include_in_expr(true).parse_expr()?;
-        if !eat!(')') {
+        if !eat!(self, ')') {
             self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
 
-            let span = span!(start);
+            let span = span!(self, start);
             return Ok(Stmt::If(IfStmt {
                 span,
                 test,
@@ -403,19 +404,19 @@ impl<'a, I: Tokens> Parser<I> {
 
         let cons = {
             // Annex B
-            if !self.ctx().strict && is!("function") {
+            if !self.ctx().strict && is!(self, "function") {
                 // TODO: report error?
             }
             self.parse_stmt(false).map(Box::new)?
         };
 
-        let alt = if eat!("else") {
+        let alt = if eat!(self, "else") {
             Some(self.parse_stmt(false).map(Box::new)?)
         } else {
             None
         };
 
-        let span = span!(start);
+        let span = span!(self, start);
         Ok(Stmt::If(IfStmt {
             span,
             test,
@@ -425,25 +426,25 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_return_stmt(&mut self) -> PResult<Stmt> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         let stmt = self.parse_with(|p| {
-            assert_and_bump!("return");
+            assert_and_bump!(p, "return");
 
-            let arg = if is!(';') {
+            let arg = if is!(p, ';') {
                 None
             } else {
                 p.include_in_expr(true).parse_expr().map(Some)?
             };
-            expect!(';');
+            expect!(p, ';');
             Ok(Stmt::Return(ReturnStmt {
-                span: span!(start),
+                span: span!(p, start),
                 arg,
             }))
         });
 
         if !self.ctx().in_function {
-            self.emit_err(span!(start), SyntaxError::ReturnNotAllowed);
+            self.emit_err(span!(self, start), SyntaxError::ReturnNotAllowed);
         }
 
         stmt
@@ -451,29 +452,29 @@ impl<'a, I: Tokens> Parser<I> {
 
     #[allow(clippy::cognitive_complexity)]
     fn parse_switch_stmt(&mut self) -> PResult<Stmt> {
-        let switch_start = cur_pos!();
+        let switch_start = cur_pos!(self);
 
-        assert_and_bump!("switch");
+        assert_and_bump!(self, "switch");
 
-        expect!('(');
+        expect!(self, '(');
         let discriminant = self.include_in_expr(true).parse_expr()?;
-        expect!(')');
+        expect!(self, ')');
 
         let mut cases = vec![];
         let mut span_of_previous_default = None;
 
-        expect!('{');
+        expect!(self, '{');
         let ctx = Context {
             is_break_allowed: true,
             ..self.ctx()
         };
 
         self.with_ctx(ctx).parse_with(|p| {
-            while is_one_of!("case", "default") {
+            while is_one_of!(p, "case", "default") {
                 let mut cons = vec![];
-                let is_case = is!("case");
-                let case_start = cur_pos!();
-                bump!();
+                let is_case = is!(p, "case");
+                let case_start = cur_pos!(p);
+                bump!(p);
                 let ctx = Context {
                     in_case_cond: true,
                     ..p.ctx()
@@ -485,15 +486,15 @@ impl<'a, I: Tokens> Parser<I> {
                         .map(Some)?
                 } else {
                     if let Some(previous) = span_of_previous_default {
-                        syntax_error!(SyntaxError::MultipleDefault { previous });
+                        syntax_error!(p, SyntaxError::MultipleDefault { previous });
                     }
-                    span_of_previous_default = Some(span!(case_start));
+                    span_of_previous_default = Some(span!(p, case_start));
 
                     None
                 };
-                expect!(':');
+                expect!(p, ':');
 
-                while !eof!() && !is_one_of!("case", "default", '}') {
+                while !eof!(p) && !is_one_of!(p, "case", "default", '}') {
                     cons.push(p.parse_stmt_list_item(false)?);
                 }
 
@@ -508,47 +509,47 @@ impl<'a, I: Tokens> Parser<I> {
         })?;
 
         // eof or rbrace
-        expect!('}');
+        expect!(self, '}');
 
         Ok(Stmt::Switch(SwitchStmt {
-            span: span!(switch_start),
+            span: span!(self, switch_start),
             discriminant,
             cases,
         }))
     }
 
     fn parse_throw_stmt(&mut self) -> PResult<Stmt> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
-        assert_and_bump!("throw");
+        assert_and_bump!(self, "throw");
 
         if self.input.had_line_break_before_cur() {
             // TODO: Suggest throw arg;
-            syntax_error!(SyntaxError::LineBreakInThrow);
+            syntax_error!(self, SyntaxError::LineBreakInThrow);
         }
 
         let arg = self.include_in_expr(true).parse_expr()?;
-        expect!(';');
+        expect!(self, ';');
 
-        let span = span!(start);
+        let span = span!(self, start);
         Ok(Stmt::Throw(ThrowStmt { span, arg }))
     }
 
     fn parse_try_stmt(&mut self) -> PResult<Stmt> {
-        let start = cur_pos!();
-        assert_and_bump!("try");
+        let start = cur_pos!(self);
+        assert_and_bump!(self, "try");
 
         let block = self.parse_block(false)?;
 
-        let catch_start = cur_pos!();
+        let catch_start = cur_pos!(self);
         let handler = self.parse_catch_clause()?;
         let finalizer = self.parse_finally_block()?;
 
         if handler.is_none() && finalizer.is_none() {
-            self.emit_err(span!(catch_start), SyntaxError::TS1005);
+            self.emit_err(span!(self, catch_start), SyntaxError::TS1005);
         }
 
-        let span = span!(start);
+        let span = span!(self, start);
         Ok(Stmt::Try(TryStmt {
             span,
             block,
@@ -558,14 +559,14 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_catch_clause(&mut self) -> PResult<Option<CatchClause>> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
-        Ok(if eat!("catch") {
+        Ok(if eat!(self, "catch") {
             let param = self.parse_catch_param()?;
 
             self.parse_block(false)
                 .map(|body| CatchClause {
-                    span: span!(start),
+                    span: span!(self, start),
                     param,
                     body,
                 })
@@ -576,7 +577,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_finally_block(&mut self) -> PResult<Option<BlockStmt>> {
-        Ok(if eat!("finally") {
+        Ok(if eat!(self, "finally") {
             self.parse_block(false).map(Some)?
         } else {
             None
@@ -585,12 +586,12 @@ impl<'a, I: Tokens> Parser<I> {
 
     /// It's optional since es2019
     fn parse_catch_param(&mut self) -> PResult<Option<Pat>> {
-        if eat!('(') {
+        if eat!(self, '(') {
             let mut pat = self.parse_binding_pat_or_ident()?;
 
-            let type_ann_start = cur_pos!();
+            let type_ann_start = cur_pos!(self);
 
-            if self.syntax().typescript() && eat!(':') {
+            if self.syntax().typescript() && eat!(self, ':') {
                 let ctx = Context {
                     in_type: true,
                     ..self.ctx()
@@ -600,13 +601,13 @@ impl<'a, I: Tokens> Parser<I> {
                 // self.emit_err(ty.span(), SyntaxError::TS1196);
 
                 match &mut pat {
-                    Pat::Ident(Ident { type_ann, .. })
+                    Pat::Ident(BindingIdent { type_ann, .. })
                     | Pat::Array(ArrayPat { type_ann, .. })
                     | Pat::Rest(RestPat { type_ann, .. })
                     | Pat::Object(ObjectPat { type_ann, .. })
                     | Pat::Assign(AssignPat { type_ann, .. }) => {
                         *type_ann = Some(TsTypeAnn {
-                            span: span!(type_ann_start),
+                            span: span!(self, type_ann_start),
                             type_ann: ty,
                         });
                     }
@@ -614,7 +615,7 @@ impl<'a, I: Tokens> Parser<I> {
                     Pat::Expr(_) => {}
                 }
             }
-            expect!(')');
+            expect!(self, ')');
             Ok(Some(pat))
         } else {
             Ok(None)
@@ -622,26 +623,26 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     pub(super) fn parse_var_stmt(&mut self, for_loop: bool) -> PResult<VarDecl> {
-        let start = cur_pos!();
-        let kind = match bump!() {
+        let start = cur_pos!(self);
+        let kind = match bump!(self) {
             tok!("const") => VarDeclKind::Const,
             tok!("let") => VarDeclKind::Let,
             tok!("var") => VarDeclKind::Var,
             _ => unreachable!(),
         };
-        let var_span = span!(start);
+        let var_span = span!(self, start);
         let should_include_in = kind != VarDeclKind::Var || !for_loop;
 
         if self.syntax().typescript() && for_loop {
-            let res = if is_one_of!("in", "of") {
+            let res = if is_one_of!(self, "in", "of") {
                 self.ts_look_ahead(|p| {
                     //
-                    if !eat!("of") && !eat!("in") {
+                    if !eat!(p, "of") && !eat!(p, "in") {
                         return Ok(false);
                     }
 
                     p.parse_assignment_expr()?;
-                    expect!(')');
+                    expect!(p, ')');
 
                     Ok(true)
                 })
@@ -656,7 +657,7 @@ impl<'a, I: Tokens> Parser<I> {
                     self.emit_err(span, SyntaxError::TS1123);
 
                     return Ok(VarDecl {
-                        span: span!(start),
+                        span: span!(self, start),
                         kind,
                         declare: false,
                         decls: vec![],
@@ -669,7 +670,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let mut decls = vec![];
         let mut first = true;
-        while first || eat!(',') {
+        while first || eat!(self, ',') {
             if first {
                 first = false;
             }
@@ -687,7 +688,7 @@ impl<'a, I: Tokens> Parser<I> {
             //      var a,;
             //
             // NewLine is ok
-            if is_exact!(';') || eof!() {
+            if is_exact!(self, ';') || eof!(self) {
                 let prev_span = self.input.prev_span();
                 let span = if prev_span == var_span {
                     Span::new(prev_span.hi, prev_span.hi, Default::default())
@@ -702,19 +703,19 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if !for_loop {
-            if !eat!(';') {
+            if !eat!(self, ';') {
                 self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
 
                 let _ = self.parse_expr();
 
-                while !eat!(';') {
-                    bump!();
+                while !eat!(self, ';') {
+                    bump!(self);
                 }
             }
         }
 
         Ok(VarDecl {
-            span: span!(start),
+            span: span!(self, start),
             declare: false,
             kind,
             decls,
@@ -722,13 +723,13 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_var_declarator(&mut self, for_loop: bool) -> PResult<VarDeclarator> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         let mut name = self.parse_binding_pat_or_ident()?;
 
         let definite = if self.input.syntax().typescript() {
             match name {
-                Pat::Ident(..) => eat!('!'),
+                Pat::Ident(..) => eat!(self, '!'),
                 _ => false,
             }
         } else {
@@ -736,7 +737,7 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         // Typescript extension
-        if self.input.syntax().typescript() && is!(':') {
+        if self.input.syntax().typescript() && is!(self, ':') {
             let type_annotation = self.try_parse_ts_type_ann()?;
             match name {
                 Pat::Array(ArrayPat {
@@ -745,7 +746,7 @@ impl<'a, I: Tokens> Parser<I> {
                 | Pat::Assign(AssignPat {
                     ref mut type_ann, ..
                 })
-                | Pat::Ident(Ident {
+                | Pat::Ident(BindingIdent {
                     ref mut type_ann, ..
                 })
                 | Pat::Object(ObjectPat {
@@ -761,8 +762,8 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         //FIXME: This is wrong. Should check in/of only on first loop.
-        let init = if !for_loop || !is_one_of!("in", "of") {
-            if eat!('=') {
+        let init = if !for_loop || !is_one_of!(self, "in", "of") {
+            if eat!(self, '=') {
                 let expr = self.parse_assignment_expr()?;
                 let expr = self.verify_expr(expr)?;
 
@@ -775,7 +776,9 @@ impl<'a, I: Tokens> Parser<I> {
                 } else {
                     match name {
                         Pat::Ident(..) => None,
-                        _ => syntax_error!(span!(start), SyntaxError::PatVarWithoutInit),
+                        _ => {
+                            syntax_error!(self, span!(self, start), SyntaxError::PatVarWithoutInit)
+                        }
                     }
                 }
             }
@@ -785,7 +788,7 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         Ok(VarDeclarator {
-            span: span!(start),
+            span: span!(self, start),
             name,
             init,
             definite,
@@ -794,9 +797,9 @@ impl<'a, I: Tokens> Parser<I> {
 
     #[allow(clippy::cognitive_complexity)]
     fn parse_do_stmt(&mut self) -> PResult<Stmt> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
-        assert_and_bump!("do");
+        assert_and_bump!(self, "do");
 
         let ctx = Context {
             is_break_allowed: true,
@@ -804,26 +807,26 @@ impl<'a, I: Tokens> Parser<I> {
             ..self.ctx()
         };
         let body = self.with_ctx(ctx).parse_stmt(false).map(Box::new)?;
-        expect!("while");
-        expect!('(');
+        expect!(self, "while");
+        expect!(self, '(');
         let test = self.include_in_expr(true).parse_expr()?;
-        expect!(')');
+        expect!(self, ')');
         // We *may* eat semicolon.
-        let _ = eat!(';');
+        let _ = eat!(self, ';');
 
-        let span = span!(start);
+        let span = span!(self, start);
 
         Ok(Stmt::DoWhile(DoWhileStmt { span, test, body }))
     }
 
     fn parse_while_stmt(&mut self) -> PResult<Stmt> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
-        assert_and_bump!("while");
+        assert_and_bump!(self, "while");
 
-        expect!('(');
+        expect!(self, '(');
         let test = self.include_in_expr(true).parse_expr()?;
-        expect!(')');
+        expect!(self, ')');
 
         let ctx = Context {
             is_break_allowed: true,
@@ -832,7 +835,7 @@ impl<'a, I: Tokens> Parser<I> {
         };
         let body = self.with_ctx(ctx).parse_stmt(false).map(Box::new)?;
 
-        let span = span!(start);
+        let span = span!(self, start);
         Ok(Stmt::While(WhileStmt { span, test, body }))
     }
 
@@ -842,18 +845,18 @@ impl<'a, I: Tokens> Parser<I> {
             self.emit_err(span, SyntaxError::TS2410);
         }
 
-        if self.ctx().strict {
+        {
             let span = self.input.cur_span();
-            self.emit_err(span, SyntaxError::WithInStrict);
+            self.emit_strict_mode_err(span, SyntaxError::WithInStrict);
         }
 
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
-        assert_and_bump!("with");
+        assert_and_bump!(self, "with");
 
-        expect!('(');
+        expect!(self, '(');
         let obj = self.include_in_expr(true).parse_expr()?;
-        expect!(')');
+        expect!(self, ')');
 
         let ctx = Context {
             in_function: true,
@@ -861,18 +864,18 @@ impl<'a, I: Tokens> Parser<I> {
         };
         let body = self.with_ctx(ctx).parse_stmt(false).map(Box::new)?;
 
-        let span = span!(start);
+        let span = span!(self, start);
         Ok(Stmt::With(WithStmt { span, obj, body }))
     }
 
     pub(super) fn parse_block(&mut self, allow_directives: bool) -> PResult<BlockStmt> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
-        expect!('{');
+        expect!(self, '{');
 
         let stmts = self.parse_block_body(allow_directives, false, Some(&tok!('}')))?;
 
-        let span = span!(start);
+        let span = span!(self, start);
         Ok(BlockStmt { span, stmts })
     }
 
@@ -891,7 +894,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             p.state.labels.push(l.sym.clone());
 
-            let body = Box::new(if is!("function") {
+            let body = Box::new(if is!(p, "function") {
                 let f = p.parse_fn_decl(vec![])?;
                 match f {
                     Decl::Fn(FnDecl {
@@ -902,7 +905,7 @@ impl<'a, I: Tokens> Parser<I> {
                                 ..
                             },
                         ..
-                    }) => syntax_error!(span, SyntaxError::LabelledGenerator),
+                    }) => syntax_error!(p, span, SyntaxError::LabelledGenerator),
                     _ => {}
                 }
 
@@ -919,7 +922,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             Ok(Stmt::Labeled(LabeledStmt {
-                span: span!(start),
+                span: span!(p, start),
                 label: l,
                 body,
             }))
@@ -927,18 +930,18 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_for_stmt(&mut self) -> PResult<Stmt> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
-        assert_and_bump!("for");
-        let await_start = cur_pos!();
-        let await_token = if eat!("await") {
-            Some(span!(await_start))
+        assert_and_bump!(self, "for");
+        let await_start = cur_pos!(self);
+        let await_token = if eat!(self, "await") {
+            Some(span!(self, await_start))
         } else {
             None
         };
-        expect!('(');
+        expect!(self, '(');
         let head = self.parse_for_head()?;
-        expect!(')');
+        expect!(self, ')');
         let ctx = Context {
             is_break_allowed: true,
             is_continue_allowed: true,
@@ -946,11 +949,11 @@ impl<'a, I: Tokens> Parser<I> {
         };
         let body = self.with_ctx(ctx).parse_stmt(false).map(Box::new)?;
 
-        let span = span!(start);
+        let span = span!(self, start);
         Ok(match head {
             ForHead::For { init, test, update } => {
                 if let Some(await_token) = await_token {
-                    syntax_error!(await_token, SyntaxError::AwaitForStmt);
+                    syntax_error!(self, await_token, SyntaxError::AwaitForStmt);
                 }
 
                 Stmt::For(ForStmt {
@@ -963,7 +966,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             ForHead::ForIn { left, right } => {
                 if let Some(await_token) = await_token {
-                    syntax_error!(await_token, SyntaxError::AwaitForStmt);
+                    syntax_error!(self, await_token, SyntaxError::AwaitForStmt);
                 }
 
                 Stmt::ForIn(ForInStmt {
@@ -984,14 +987,16 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_for_head(&mut self) -> PResult<ForHead> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         let strict = self.ctx().strict;
 
-        if is_one_of!("const", "var") || (is!("let") && peek!()?.follows_keyword_let(strict)) {
+        if is_one_of!(self, "const", "var")
+            || (is!(self, "let") && peek!(self)?.follows_keyword_let(strict))
+        {
             let decl = self.parse_var_stmt(true)?;
 
-            if is_one_of!("of", "in") {
-                let is_in = is!("in");
+            if is_one_of!(self, "of", "in") {
+                let is_in = is!(self, "in");
 
                 if decl.decls.len() != 1 {
                     for d in decl.decls.iter().skip(1) {
@@ -1026,19 +1031,19 @@ impl<'a, I: Tokens> Parser<I> {
                 return self.parse_for_each_head(VarDeclOrPat::VarDecl(decl));
             }
 
-            expect_exact!(';');
+            expect_exact!(self, ';');
             return self.parse_normal_for_head(Some(VarDeclOrExpr::VarDecl(decl)));
         }
 
-        let init = if eat_exact!(';') {
+        let init = if eat_exact!(self, ';') {
             return self.parse_normal_for_head(None);
         } else {
             self.include_in_expr(false).parse_expr_or_pat()?
         };
 
         // for (a of b)
-        if is_one_of!("of", "in") {
-            let is_in = is!("in");
+        if is_one_of!(self, "of", "in") {
+            let is_in = is!(self, "in");
 
             let pat = self.reparse_expr_as_pat(PatType::AssignPat, init)?;
 
@@ -1054,14 +1059,14 @@ impl<'a, I: Tokens> Parser<I> {
             return self.parse_for_each_head(VarDeclOrPat::Pat(pat));
         }
 
-        expect_exact!(';');
+        expect_exact!(self, ';');
 
         let init = self.verify_expr(init)?;
         self.parse_normal_for_head(Some(VarDeclOrExpr::Expr(init)))
     }
 
     fn parse_for_each_head(&mut self, left: VarDeclOrPat) -> PResult<ForHead> {
-        let of = bump!() == tok!("of");
+        let of = bump!(self) == tok!("of");
         if of {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
             Ok(ForHead::ForOf { left, right })
@@ -1072,15 +1077,15 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_normal_for_head(&mut self, init: Option<VarDeclOrExpr>) -> PResult<ForHead> {
-        let test = if eat_exact!(';') {
+        let test = if eat_exact!(self, ';') {
             None
         } else {
             let test = self.include_in_expr(true).parse_expr().map(Some)?;
-            expect_exact!(';');
+            expect_exact!(self, ';');
             test
         };
 
-        let update = if is!(')') {
+        let update = if is!(self, ')') {
             None
         } else {
             self.include_in_expr(true).parse_expr().map(Some)?
@@ -1137,35 +1142,34 @@ pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
     ) -> PResult<Type>;
 }
 
-#[parser]
 impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
     fn handle_import_export(&mut self, top_level: bool, _: Vec<Decorator>) -> PResult<Stmt> {
-        let start = cur_pos!();
-        if self.input.syntax().dynamic_import() && is!("import") {
+        let start = cur_pos!(self);
+        if self.input.syntax().dynamic_import() && is!(self, "import") {
             let expr = self.parse_expr()?;
 
-            eat!(';');
+            eat!(self, ';');
 
             return Ok(ExprStmt {
-                span: span!(start),
+                span: span!(self, start),
                 expr,
             }
             .into());
         }
 
-        if self.input.syntax().import_meta() && is!("import") && peeked_is!('.') {
+        if self.input.syntax().import_meta() && is!(self, "import") && peeked_is!(self, '.') {
             let expr = self.parse_expr()?;
 
-            eat!(';');
+            eat!(self, ';');
 
             return Ok(ExprStmt {
-                span: span!(start),
+                span: span!(self, start),
                 expr,
             }
             .into());
         }
 
-        syntax_error!(SyntaxError::ImportExportInScript);
+        syntax_error!(self, SyntaxError::ImportExportInScript);
     }
 }
 
@@ -1216,7 +1220,7 @@ mod tests {
                         props: vec![ObjectPatProp::Rest(RestPat {
                             span,
                             dot3_token: span,
-                            arg: Box::new(Pat::Ident(Ident::new("a34".into(), span))),
+                            arg: Box::new(Pat::Ident(Ident::new("a34".into(), span).into())),
                             type_ann: None
                         })],
                         type_ann: None,
@@ -1256,7 +1260,7 @@ mod tests {
                     decls: vec![VarDeclarator {
                         span,
                         init: None,
-                        name: Pat::Ident(Ident::new("a".into(), span)),
+                        name: Pat::Ident(Ident::new("a".into(), span).into()),
                         definite: false,
                     }],
                     declare: false,
@@ -1717,5 +1721,70 @@ export default function waitUntil(callback, options = {}) {
         let (leading, trailing) = c.take_all();
         assert!(trailing.borrow().is_empty());
         assert_eq!(leading.borrow().len(), 1);
+    }
+    fn parse_for_head(str: &'static str) -> ForHead {
+        test_parser(str, Syntax::default(), |p| p.parse_for_head())
+    }
+
+    #[test]
+    fn for_array_binding_pattern() {
+        match parse_for_head("let [, , t] = simple_array; t < 10; t++") {
+            ForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
+                v,
+                VarDeclOrExpr::VarDecl(VarDecl {
+                    span,
+                    declare: false,
+                    kind: VarDeclKind::Let,
+                    decls: vec![VarDeclarator {
+                        span,
+                        name: Pat::Array(ArrayPat {
+                            span,
+                            type_ann: None,
+                            optional: false,
+                            elems: vec![
+                                None,
+                                None,
+                                Some(Pat::Ident(Ident::new("t".into(), span).into()))
+                            ]
+                        }),
+                        init: Some(Box::new(Expr::Ident(Ident::new(
+                            "simple_array".into(),
+                            span
+                        )))),
+                        definite: false
+                    }]
+                })
+            ),
+            _ => assert!(false),
+        }
+    }
+    #[test]
+    fn for_object_binding_pattern() {
+        match parse_for_head("let {num} = obj; num < 11; num++") {
+            ForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
+                v,
+                VarDeclOrExpr::VarDecl(VarDecl {
+                    span,
+                    declare: false,
+                    kind: VarDeclKind::Let,
+                    decls: vec![VarDeclarator {
+                        span,
+                        name: Pat::Object(ObjectPat {
+                            optional: false,
+                            type_ann: None,
+                            span,
+                            props: vec![ObjectPatProp::Assign(AssignPatProp {
+                                span,
+                                key: Ident::new("num".into(), span),
+                                value: None
+                            })]
+                        }),
+                        init: Some(Box::new(Expr::Ident(Ident::new("obj".into(), span)))),
+                        definite: false
+                    }]
+                })
+            ),
+            _ => assert!(false),
+        }
     }
 }

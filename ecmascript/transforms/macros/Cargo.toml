@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecma_transforms_macros"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.1.1"
+version = "0.2.1"
 
 [lib]
 proc-macro = true
@@ -15,5 +15,5 @@ proc-macro = true
 pmutil = "0.5.1"
 proc-macro2 = "1"
 quote = "1"
-swc_macros_common = {version = "0.3", path = "../../../macros/common"}
+swc_macros_common = {version = "0.3.2", path = "../../../macros/common"}
 syn = {version = "1", features = ["fold", "parsing", "full"]}

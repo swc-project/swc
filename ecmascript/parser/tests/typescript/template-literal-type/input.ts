@@ -5,3 +5,5 @@ type OtherAlias =
 type MultiLine = `
 some value
 `;
+type WithTypes = `with-a-${string}`;
+type WithTypes2 = `with-a-${MyAlias}-end`;

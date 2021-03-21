@@ -4,9 +4,3 @@ error: Destructuring bindings require initializers
 1 | "use strict"; for (let {a: b = let};;) {}
   |                        ^^^^^^^^^^^^
 
-error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
- --> $DIR/tests/test262-parser/fail/d17d3aebb6a3cf43.js:1:32
-  |
-1 | "use strict"; for (let {a: b = let};;) {}
-  |                                ^^^
-

@@ -29,14 +29,14 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": null
         }
       ],
       "source": null,
-      "typeOnly": true
+      "typeOnly": true,
+      "asserts": null
     }
   ],
   "interpreter": null

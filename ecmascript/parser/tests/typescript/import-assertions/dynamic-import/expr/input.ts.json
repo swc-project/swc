@@ -1,5 +1,5 @@
 {
-  "type": "Module",
+  "type": "Script",
   "span": {
     "start": 0,
     "end": 51,
@@ -28,7 +28,6 @@
             "ctxt": 0
           },
           "value": "foo",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [
@@ -49,7 +48,6 @@
                   "ctxt": 0
                 },
                 "value": "import",
-                "typeAnnotation": null,
                 "optional": false
               },
               "arguments": [
@@ -63,7 +61,11 @@
                       "ctxt": 0
                     },
                     "value": "./lazy",
-                    "hasEscape": false
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
                   }
                 },
                 {
@@ -86,7 +88,6 @@
                             "ctxt": 0
                           },
                           "value": "assert",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "value": {
@@ -107,7 +108,6 @@
                                   "ctxt": 0
                                 },
                                 "value": "type",
-                                "typeAnnotation": null,
                                 "optional": false
                               },
                               "value": {
@@ -118,7 +118,11 @@
                                   "ctxt": 0
                                 },
                                 "value": "json",
-                                "hasEscape": false
+                                "hasEscape": false,
+                                "kind": {
+                                  "type": "normal",
+                                  "containsQuote": true
+                                }
                               }
                             }
                           ]

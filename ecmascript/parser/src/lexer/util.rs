@@ -6,7 +6,10 @@
 //!
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
 use super::{input::Input, Char, LexResult, Lexer};
-use crate::error::{Error, SyntaxError};
+use crate::{
+    error::{Error, SyntaxError},
+    Tokens,
+};
 use std::char;
 use swc_common::{
     comments::{Comment, CommentKind},
@@ -117,6 +120,47 @@ impl<'a, I: Input> Lexer<'a, I> {
             error: Box::new((span, kind)),
         };
         self.errors.borrow_mut().push(err);
+    }
+
+    #[cold]
+    #[inline(never)]
+    pub(super) fn emit_strict_mode_error(&mut self, start: BytePos, kind: SyntaxError) {
+        let span = self.span(start);
+        self.emit_strict_mode_error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
+    }
+
+    #[cold]
+    #[inline(never)]
+    pub(super) fn emit_strict_mode_error_span(&mut self, span: Span, kind: SyntaxError) {
+        if self.ctx.strict {
+            self.emit_error_span(span, kind);
+            return;
+        }
+
+        let err = Error {
+            error: Box::new((span, kind)),
+        };
+
+        self.add_module_mode_error(err);
+    }
+
+    #[cold]
+    #[inline(never)]
+    pub(super) fn emit_module_mode_error(&mut self, start: BytePos, kind: SyntaxError) {
+        let span = self.span(start);
+        self.emit_module_mode_error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
+    }
+
+    /// Some codes are valid in a strict mode script  but invalid in module
+    /// code.
+    #[cold]
+    #[inline(never)]
+    pub(super) fn emit_module_mode_error_span(&mut self, span: Span, kind: SyntaxError) {
+        let err = Error {
+            error: Box::new((span, kind)),
+        };
+
+        self.add_module_mode_error(err);
     }
 
     /// Skip comments or whitespaces.

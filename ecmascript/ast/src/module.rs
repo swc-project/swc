@@ -1,10 +1,12 @@
 use crate::{module_decl::ModuleDecl, stmt::Stmt};
 use is_macro::Is;
 use swc_atoms::JsWord;
+use swc_common::EqIgnoreSpan;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Program {
     #[tag("Module")]
     Module(Module),
@@ -13,7 +15,7 @@ pub enum Program {
 }
 
 #[ast_node("Module")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Module {
     pub span: Span,
 
@@ -23,8 +25,21 @@ pub struct Module {
     pub shebang: Option<JsWord>,
 }
 
+#[cfg(feature = "arbitrary")]
+impl arbitrary::Arbitrary for Module {
+    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+        let span = u.arbitrary()?;
+        let body = u.arbitrary()?;
+        Ok(Self {
+            span,
+            body,
+            shebang: None,
+        })
+    }
+}
+
 #[ast_node("Script")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Script {
     pub span: Span,
 
@@ -34,8 +49,22 @@ pub struct Script {
     pub shebang: Option<JsWord>,
 }
 
+#[cfg(feature = "arbitrary")]
+impl arbitrary::Arbitrary for Script {
+    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+        let span = u.arbitrary()?;
+        let body = u.arbitrary()?;
+        Ok(Self {
+            span,
+            body,
+            shebang: None,
+        })
+    }
+}
+
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ModuleItem {
     #[tag("ImportDeclaration")]
     #[tag("ExportDeclaration")]

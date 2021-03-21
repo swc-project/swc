@@ -1,12 +1,21 @@
+use crate::ident::BindingIdent;
 use crate::{expr::Expr, ident::Ident, prop::PropName, typescript::TsTypeAnn, Invalid};
 use is_macro::Is;
+use swc_common::EqIgnoreSpan;
 use swc_common::{ast_node, Span};
 
+impl From<Ident> for Pat {
+    fn from(i: Ident) -> Self {
+        BindingIdent::from(i).into()
+    }
+}
+
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Pat {
     #[tag("Identifier")]
-    Ident(Ident),
+    Ident(BindingIdent),
 
     #[tag("ArrayPattern")]
     Array(ArrayPat),
@@ -23,13 +32,14 @@ pub enum Pat {
     #[tag("Invalid")]
     Invalid(Invalid),
 
-    /// Only for for-in / for-of loops. This is *syntatically* valid.
+    /// Only for for-in / for-of loops. This is *syntactically* valid.
     #[tag("*")]
     Expr(Box<Expr>),
 }
 
 #[ast_node("ArrayPattern")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ArrayPat {
     pub span: Span,
 
@@ -45,7 +55,8 @@ pub struct ArrayPat {
 }
 
 #[ast_node("ObjectPattern")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ObjectPat {
     pub span: Span,
 
@@ -61,7 +72,8 @@ pub struct ObjectPat {
 }
 
 #[ast_node("AssignmentPattern")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct AssignPat {
     pub span: Span,
 
@@ -75,7 +87,8 @@ pub struct AssignPat {
 
 /// EsTree `RestElement`
 #[ast_node("RestElement")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct RestPat {
     pub span: Span,
 
@@ -90,7 +103,8 @@ pub struct RestPat {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ObjectPatProp {
     #[tag("KeyValuePatternProperty")]
     KeyValue(KeyValuePatProp),
@@ -104,7 +118,8 @@ pub enum ObjectPatProp {
 
 /// `{key: value}`
 #[ast_node("KeyValuePatternProperty")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct KeyValuePatProp {
     #[span(lo)]
     pub key: PropName,
@@ -114,7 +129,8 @@ pub struct KeyValuePatProp {
 }
 /// `{key}` or `{key = value}`
 #[ast_node("AssignmentPatternProperty")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct AssignPatProp {
     pub span: Span,
     pub key: Ident,

@@ -14,13 +14,13 @@ mod analyze_source_file;
 pub mod hygiene;
 
 /// Spans represent a region of code, used for error reporting. Positions in
-/// spans are *absolute* positions from the beginning of the source_map, not
-/// positions relative to SourceFiles. Methods on the SourceMap can be used to
-/// relate spans back to the original source.
+/// spans are *absolute* positions from the beginning of the `source_map`, not
+/// positions relative to `SourceFile`s. Methods on the `SourceMap` can be used
+/// to relate spans back to the original source.
 /// You must be careful if the span crosses more than one file - you will not be
-/// able to use many of the functions on spans in source_map and you cannot
-/// assume that the length of the span = hi - lo; there may be space in the
-/// BytePos range between files.
+/// able to use many of the functions on spans in `source_map` and you cannot
+/// assume that the length of the `span = hi - lo`; there may be space in the
+/// `BytePos` range between files.
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, Ord, PartialOrd, Serialize, Deserialize)]
 pub struct Span {
     #[serde(rename = "start")]
@@ -30,6 +30,16 @@ pub struct Span {
     /// Information about where the macro came from, if this piece of
     /// code was created by a macro expansion.
     pub ctxt: SyntaxContext,
+}
+
+#[cfg(feature = "arbitrary")]
+impl arbitrary::Arbitrary for Span {
+    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+        let lo = u.arbitrary::<BytePos>()?;
+        let hi = u.arbitrary::<BytePos>()?;
+
+        Ok(Self::new(lo, hi, Default::default()))
+    }
 }
 
 /// Dummy span, both position and length are zero, syntax context is zero as
@@ -549,24 +559,25 @@ impl Sub<BytePos> for NonNarrowChar {
 /// A single source in the SourceMap.
 #[derive(Clone)]
 pub struct SourceFile {
-    /// The name of the file that the source came from, source that doesn't
+    /// The name of the file that the source came from. Source that doesn't
     /// originate from files has names between angle brackets by convention,
     /// e.g. `<anon>`
     pub name: FileName,
-    /// True if the `name` field above has been modified by --remap-path-prefix
+    /// True if the `name` field above has been modified by
+    /// `--remap-path-prefix`
     pub name_was_remapped: bool,
     /// The unmapped path of the file that the source came from.
-    /// Set to `None` if the SourceFile was imported from an external crate.
+    /// Set to `None` if the `SourceFile` was imported from an external crate.
     pub unmapped_path: Option<FileName>,
-    /// Indicates which crate this SourceFile was imported from.
+    /// Indicates which crate this `SourceFile` was imported from.
     pub crate_of_origin: u32,
     /// The complete source code
     pub src: Lrc<String>,
     /// The source code's hash
     pub src_hash: u128,
-    /// The start position of this source in the SourceMap
+    /// The start position of this source in the `SourceMap`
     pub start_pos: BytePos,
-    /// The end position of this source in the SourceMap
+    /// The end position of this source in the `SourceMap`
     pub end_pos: BytePos,
     /// Locations of lines beginnings in the source code
     pub lines: Vec<BytePos>,
@@ -671,8 +682,8 @@ impl SourceFile {
 
     /// Find the line containing the given position. The return value is the
     /// index into the `lines` array of this SourceFile, not the 1-based line
-    /// number. If the source_file is empty or the position is located before
-    /// the first line, None is returned.
+    /// number. If the `source_file` is empty or the position is located before
+    /// the first line, `None` is returned.
     pub fn lookup_line(&self, pos: BytePos) -> Option<usize> {
         if self.lines.is_empty() {
             return None;
@@ -728,6 +739,7 @@ pub trait Pos {
 /// a lot of them.
 #[derive(Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Debug, Serialize, Deserialize)]
 #[serde(transparent)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct BytePos(pub u32);
 
 /// A character offset. Because of multibyte utf8 characters, a byte offset
@@ -836,7 +848,7 @@ pub struct Loc {
     pub col_display: usize,
 }
 
-/// A source code location used as the result of lookup_char_pos_adj
+/// A source code location used as the result of `lookup_char_pos_adj`
 // Actually, *none* of the clients use the filename *or* file field;
 // perhaps they should just be removed.
 #[derive(Debug)]

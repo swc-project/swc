@@ -32,7 +32,6 @@
                 "ctxt": 0
               },
               "value": "Foo",
-              "typeAnnotation": null,
               "optional": false
             },
             "name": {
@@ -43,7 +42,6 @@
                 "ctxt": 0
               },
               "value": "Bar",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -86,7 +84,6 @@
                 "ctxt": 0
               },
               "value": "Foo",
-              "typeAnnotation": null,
               "optional": false
             },
             "name": {
@@ -97,7 +94,6 @@
                 "ctxt": 0
               },
               "value": "Bar",
-              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -128,7 +124,6 @@
                 "ctxt": 0
               },
               "value": "Foo",
-              "typeAnnotation": null,
               "optional": false
             },
             "name": {
@@ -139,7 +134,6 @@
                 "ctxt": 0
               },
               "value": "Bar",
-              "typeAnnotation": null,
               "optional": false
             }
           }

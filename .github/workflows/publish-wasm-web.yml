@@ -1,0 +1,56 @@
+name: Publish (wasm for web)
+
+env:
+  CARGO_INCREMENTAL: 0
+  CI: "1"
+
+on:
+  create:
+    tags:
+      - v*
+
+jobs:
+  build:
+    name: Build - wasm for web
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/
+            **/target/
+          key: ${{ runner.os }}-publish-integration
+
+      - name: Install node dependencies
+        run: npm i
+
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: Build
+        run: (cd wasm && wasm-pack build  --release --scope=swc)
+
+      - name: Rename
+        run: |
+          sed -i'' -e 's/"name": "@swc\/wasm"/"name": "@swc\/wasm-web"/g' package.json
+        working-directory: wasm/pkg
+
+      - name: Include *_bg files
+        run: jq '.files += ["wasm_bg.js", "wasm_bg.wasm.d.ts"]' package.json > package.json
+        working-directory: wasm/pkg
+
+      - name: Publish
+        run: |
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+          (cd wasm/pkg && npm publish --access public)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

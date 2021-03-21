@@ -7,13 +7,12 @@
 // <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
-#[cfg(feature = "tty-emitter")]
-pub use self::emitter::EmitterWriter;
+
 use self::Level::*;
 pub use self::{
     diagnostic::{Diagnostic, DiagnosticId, DiagnosticStyledString, SubDiagnostic},
     diagnostic_builder::DiagnosticBuilder,
-    emitter::{ColorConfig, Emitter},
+    emitter::{ColorConfig, Emitter, EmitterWriter},
 };
 #[cfg(feature = "tty-emitter")]
 use crate::sync::Lrc;
@@ -280,7 +279,7 @@ pub struct Handler {
 
     // This set contains the `DiagnosticId` of all emitted diagnostics to avoid
     // emitting the same diagnostic with extended help (`--teach`) twice, which
-    // would be uneccessary repetition.
+    // would be unnecessary repetition.
     taught_diagnostics: Lock<HashSet<DiagnosticId>>,
 
     /// Used to suggest rustc --explain <error code>
@@ -546,7 +545,7 @@ impl Handler {
     }
     pub fn span_bug<S: Into<MultiSpan>>(&self, sp: S, msg: &str) -> ! {
         self.emit(&sp.into(), msg, Bug);
-        panic!(ExplicitBug);
+        panic!("{}", ExplicitBug);
     }
     pub fn delay_span_bug<S: Into<MultiSpan>>(&self, sp: S, msg: &str) {
         if self.flags.treat_err_as_bug {
@@ -605,7 +604,7 @@ impl Handler {
     pub fn bug(&self, msg: &str) -> ! {
         let mut db = DiagnosticBuilder::new(self, Bug, msg);
         db.emit();
-        panic!(ExplicitBug);
+        panic!("{}", ExplicitBug);
     }
     pub fn unimpl(&self, msg: &str) -> ! {
         self.bug(&format!("unimplemented {}", msg));

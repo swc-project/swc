@@ -1,0 +1,303 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 119,
+    "end": 325,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 129,
+          "end": 130,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 119,
+        "end": 191,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 133,
+          "end": 191,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 139,
+              "end": 144,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 143,
+                  "end": 144,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 143,
+                    "end": 144,
+                    "ctxt": 0
+                  },
+                  "value": "o",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": null,
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "WhileStatement",
+            "span": {
+              "start": 149,
+              "end": 189,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "BooleanLiteral",
+              "span": {
+                "start": 156,
+                "end": 160,
+                "ctxt": 0
+              },
+              "value": true
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 162,
+                "end": 189,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 172,
+                    "end": 183,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "AssignmentExpression",
+                    "span": {
+                      "start": 172,
+                      "end": 183,
+                      "ctxt": 0
+                    },
+                    "operator": "=",
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 172,
+                        "end": 173,
+                        "ctxt": 0
+                      },
+                      "value": "o",
+                      "optional": false,
+                      "typeAnnotation": null
+                    },
+                    "right": {
+                      "type": "YieldExpression",
+                      "span": {
+                        "start": 176,
+                        "end": 183,
+                        "ctxt": 0
+                      },
+                      "argument": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 182,
+                          "end": 183,
+                          "ctxt": 0
+                        },
+                        "value": "o",
+                        "optional": false
+                      },
+                      "delegate": false
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 257,
+          "end": 258,
+          "ctxt": 0
+        },
+        "value": "g",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 247,
+        "end": 325,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 261,
+          "end": 325,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 267,
+              "end": 277,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 271,
+                  "end": 277,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 271,
+                    "end": 272,
+                    "ctxt": 0
+                  },
+                  "value": "o",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "ArrayExpression",
+                  "span": {
+                    "start": 275,
+                    "end": 277,
+                    "ctxt": 0
+                  },
+                  "elements": []
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "WhileStatement",
+            "span": {
+              "start": 282,
+              "end": 323,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "BooleanLiteral",
+              "span": {
+                "start": 289,
+                "end": 293,
+                "ctxt": 0
+              },
+              "value": true
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 295,
+                "end": 323,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 305,
+                    "end": 317,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "AssignmentExpression",
+                    "span": {
+                      "start": 305,
+                      "end": 317,
+                      "ctxt": 0
+                    },
+                    "operator": "=",
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 305,
+                        "end": 306,
+                        "ctxt": 0
+                      },
+                      "value": "o",
+                      "optional": false,
+                      "typeAnnotation": null
+                    },
+                    "right": {
+                      "type": "YieldExpression",
+                      "span": {
+                        "start": 309,
+                        "end": 317,
+                        "ctxt": 0
+                      },
+                      "argument": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 316,
+                          "end": 317,
+                          "ctxt": 0
+                        },
+                        "value": "o",
+                        "optional": false
+                      },
+                      "delegate": true
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

@@ -30,7 +30,6 @@
               "ctxt": 0
             },
             "value": "LeftRight",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -54,7 +53,6 @@
                   "ctxt": 0
                 },
                 "value": "left",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -74,7 +72,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "span": {
@@ -105,7 +102,6 @@
                   "ctxt": 0
                 },
                 "value": "right",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -125,7 +121,6 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "span": {
@@ -164,7 +159,6 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "typeAnnotation": null,
                     "optional": false
                   }
                 }

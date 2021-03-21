@@ -1,0 +1,399 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 38,
+    "end": 304,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 38,
+        "end": 69,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 52,
+            "end": 55,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 52,
+              "end": 55,
+              "ctxt": 0
+            },
+            "value": "ns2",
+            "optional": false
+          },
+          "imported": null
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 63,
+          "end": 68,
+          "ctxt": 0
+        },
+        "value": "./b",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": true,
+      "asserts": null
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 70,
+        "end": 160,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsModuleDeclaration",
+        "span": {
+          "start": 77,
+          "end": 160,
+          "ctxt": 0
+        },
+        "declare": false,
+        "global": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 87,
+            "end": 90,
+            "ctxt": 0
+          },
+          "value": "ns1",
+          "optional": false
+        },
+        "body": {
+          "type": "TsModuleBlock",
+          "span": {
+            "start": 91,
+            "end": 160,
+            "ctxt": 0
+          },
+          "body": [
+            {
+              "type": "ExportDeclaration",
+              "span": {
+                "start": 95,
+                "end": 158,
+                "ctxt": 0
+              },
+              "declaration": {
+                "type": "TsModuleDeclaration",
+                "span": {
+                  "start": 102,
+                  "end": 158,
+                  "ctxt": 0
+                },
+                "declare": false,
+                "global": false,
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 112,
+                    "end": 118,
+                    "ctxt": 0
+                  },
+                  "value": "nested",
+                  "optional": false
+                },
+                "body": {
+                  "type": "TsModuleBlock",
+                  "span": {
+                    "start": 119,
+                    "end": 158,
+                    "ctxt": 0
+                  },
+                  "body": [
+                    {
+                      "type": "ExportDeclaration",
+                      "span": {
+                        "start": 125,
+                        "end": 154,
+                        "ctxt": 0
+                      },
+                      "declaration": {
+                        "type": "TsTypeAliasDeclaration",
+                        "span": {
+                          "start": 132,
+                          "end": 154,
+                          "ctxt": 0
+                        },
+                        "declare": false,
+                        "id": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 137,
+                            "end": 138,
+                            "ctxt": 0
+                          },
+                          "value": "T",
+                          "optional": false
+                        },
+                        "typeParams": null,
+                        "typeAnnotation": {
+                          "type": "TsTypeReference",
+                          "span": {
+                            "start": 141,
+                            "end": 153,
+                            "ctxt": 0
+                          },
+                          "typeName": {
+                            "type": "TsQualifiedName",
+                            "left": {
+                              "type": "TsQualifiedName",
+                              "left": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 141,
+                                  "end": 144,
+                                  "ctxt": 0
+                                },
+                                "value": "ns2",
+                                "optional": false
+                              },
+                              "right": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 145,
+                                  "end": 151,
+                                  "ctxt": 0
+                                },
+                                "value": "nested",
+                                "optional": false
+                              }
+                            },
+                            "right": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 152,
+                                "end": 153,
+                                "ctxt": 0
+                              },
+                              "value": "T",
+                              "optional": false
+                            }
+                          },
+                          "typeParams": null
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 182,
+        "end": 213,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 196,
+            "end": 199,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 196,
+              "end": 199,
+              "ctxt": 0
+            },
+            "value": "ns1",
+            "optional": false
+          },
+          "imported": null
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 207,
+          "end": 212,
+          "ctxt": 0
+        },
+        "value": "./a",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": true,
+      "asserts": null
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 214,
+        "end": 304,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsModuleDeclaration",
+        "span": {
+          "start": 221,
+          "end": 304,
+          "ctxt": 0
+        },
+        "declare": false,
+        "global": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 231,
+            "end": 234,
+            "ctxt": 0
+          },
+          "value": "ns2",
+          "optional": false
+        },
+        "body": {
+          "type": "TsModuleBlock",
+          "span": {
+            "start": 235,
+            "end": 304,
+            "ctxt": 0
+          },
+          "body": [
+            {
+              "type": "ExportDeclaration",
+              "span": {
+                "start": 239,
+                "end": 302,
+                "ctxt": 0
+              },
+              "declaration": {
+                "type": "TsModuleDeclaration",
+                "span": {
+                  "start": 246,
+                  "end": 302,
+                  "ctxt": 0
+                },
+                "declare": false,
+                "global": false,
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 256,
+                    "end": 262,
+                    "ctxt": 0
+                  },
+                  "value": "nested",
+                  "optional": false
+                },
+                "body": {
+                  "type": "TsModuleBlock",
+                  "span": {
+                    "start": 263,
+                    "end": 302,
+                    "ctxt": 0
+                  },
+                  "body": [
+                    {
+                      "type": "ExportDeclaration",
+                      "span": {
+                        "start": 269,
+                        "end": 298,
+                        "ctxt": 0
+                      },
+                      "declaration": {
+                        "type": "TsTypeAliasDeclaration",
+                        "span": {
+                          "start": 276,
+                          "end": 298,
+                          "ctxt": 0
+                        },
+                        "declare": false,
+                        "id": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 281,
+                            "end": 282,
+                            "ctxt": 0
+                          },
+                          "value": "T",
+                          "optional": false
+                        },
+                        "typeParams": null,
+                        "typeAnnotation": {
+                          "type": "TsTypeReference",
+                          "span": {
+                            "start": 285,
+                            "end": 297,
+                            "ctxt": 0
+                          },
+                          "typeName": {
+                            "type": "TsQualifiedName",
+                            "left": {
+                              "type": "TsQualifiedName",
+                              "left": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 285,
+                                  "end": 288,
+                                  "ctxt": 0
+                                },
+                                "value": "ns1",
+                                "optional": false
+                              },
+                              "right": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 289,
+                                  "end": 295,
+                                  "ctxt": 0
+                                },
+                                "value": "nested",
+                                "optional": false
+                              }
+                            },
+                            "right": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 296,
+                                "end": 297,
+                                "ctxt": 0
+                              },
+                              "value": "T",
+                              "optional": false
+                            }
+                          },
+                          "typeParams": null
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

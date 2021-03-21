@@ -1,5 +1,5 @@
 {
-  "type": "Module",
+  "type": "Script",
   "span": {
     "start": 0,
     "end": 70,
@@ -35,7 +35,6 @@
               "ctxt": 0
             },
             "value": "router",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
@@ -46,7 +45,6 @@
               "ctxt": 0
             },
             "value": "on",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -62,7 +60,11 @@
                 "ctxt": 0
               },
               "value": "routeWillChange",
-              "hasEscape": false
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
             }
           },
           {
@@ -98,8 +100,8 @@
                       "ctxt": 0
                     },
                     "value": "routerTransitionsPending",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "right": {
                     "type": "BooleanLiteral",

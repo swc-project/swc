@@ -1,4 +1,4 @@
-error: Declatation is now allowed
+error: Declaration is now allowed
  --> $DIR/tests/test262-parser/fail/e808e347646c2670.js:1:13
   |
 1 | for(a of b) function c(){}

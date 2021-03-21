@@ -47,7 +47,7 @@ impl<'a> Emitter<'a> {
 
         if let Some(type_ann) = &n.type_ann {
             space!();
-            punct!("=>");
+            punct!(":");
             space!();
 
             emit!(type_ann);
@@ -82,12 +82,21 @@ impl<'a> Emitter<'a> {
     fn emit_ts_constructor_signature_decl(&mut self, n: &TsConstructSignatureDecl) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_constructor_signature_decl")
+        keyword!("constructor");
+
+        punct!("(");
+        self.emit_list(n.span, Some(&n.params), ListFormat::Parameters)?;
+        punct!(")");
     }
 
     #[emitter]
     fn emit_ts_constructor_type(&mut self, n: &TsConstructorType) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
+
+        if n.is_abstract {
+            keyword!("abstract");
+            space!();
+        }
 
         keyword!("new");
         space!();
@@ -113,7 +122,6 @@ impl<'a> Emitter<'a> {
         match n {
             TsEntityName::TsQualifiedName(n) => {
                 emit!(n);
-                punct!(".");
             }
             TsEntityName::Ident(n) => emit!(n),
         }
@@ -172,7 +180,11 @@ impl<'a> Emitter<'a> {
     fn emit_ts_export_assignment(&mut self, n: &TsExportAssignment) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_export_assignment")
+        keyword!("export");
+        formatting_space!();
+        punct!("=");
+        formatting_space!();
+        emit!(n.expr);
     }
 
     #[emitter]
@@ -253,10 +265,11 @@ impl<'a> Emitter<'a> {
         self.emit_list(n.span, Some(&n.params), ListFormat::Parameters)?;
         punct!("]");
 
-        punct!(":");
-        formatting_space!();
-        emit!(n.type_ann);
-        semi!();
+        if let Some(type_ann) = &n.type_ann {
+            punct!(":");
+            formatting_space!();
+            emit!(type_ann);
+        }
     }
 
     #[emitter]
@@ -304,6 +317,10 @@ impl<'a> Emitter<'a> {
 
         emit!(n.id);
 
+        if let Some(type_params) = &n.type_params {
+            emit!(type_params);
+        }
+
         if !n.extends.is_empty() {
             space!();
 
@@ -347,6 +364,7 @@ impl<'a> Emitter<'a> {
             TsKeywordTypeKind::TsUndefinedKeyword => keyword!(n.span, "undefined"),
             TsKeywordTypeKind::TsNullKeyword => keyword!(n.span, "null"),
             TsKeywordTypeKind::TsNeverKeyword => keyword!(n.span, "never"),
+            TsKeywordTypeKind::TsIntrinsicKeyword => keyword!(n.span, "intrinsic"),
         }
     }
 
@@ -359,6 +377,28 @@ impl<'a> Emitter<'a> {
             TsLit::Bool(n) => emit!(n),
             TsLit::Tpl(n) => emit!(n),
         }
+    }
+
+    #[emitter]
+    fn emit_ts_tpl_lit(&mut self, node: &TsTplLitType) -> Result {
+        debug_assert!(node.quasis.len() == node.types.len() + 1);
+
+        self.emit_leading_comments_of_pos(node.span().lo())?;
+
+        punct!("`");
+        let i = 0;
+
+        for i in 0..(node.quasis.len() + node.types.len()) {
+            if i % 2 == 0 {
+                emit!(node.quasis[i / 2]);
+            } else {
+                punct!("${");
+                emit!(node.types[i / 2]);
+                punct!("}");
+            }
+        }
+
+        punct!("`");
     }
 
     #[emitter]
@@ -436,7 +476,7 @@ impl<'a> Emitter<'a> {
         punct!(":");
         space!();
         emit!(n.type_ann);
-        semi!();
+        formatting_semi!();
 
         self.wr.write_line()?;
         self.wr.decrease_indent()?;
@@ -543,14 +583,19 @@ impl<'a> Emitter<'a> {
     fn emit_ts_ns_export_decl(&mut self, n: &TsNamespaceExportDecl) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_ns_export_decl")
+        keyword!("export");
+        space!();
+        punct!("=");
+        space!();
+        emit!(n.id);
     }
 
     #[emitter]
     fn emit_ts_non_null_expr(&mut self, n: &TsNonNullExpr) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_non_null_expr")
+        emit!(n.expr);
+        punct!("!")
     }
 
     #[emitter]
@@ -656,7 +701,23 @@ impl<'a> Emitter<'a> {
     fn emit_ts_signature_decl(&mut self, n: &TsSignatureDecl) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_signature_decl")
+        match n {
+            TsSignatureDecl::TsCallSignatureDecl(n) => {
+                emit!(n);
+            }
+            TsSignatureDecl::TsConstructSignatureDecl(n) => {
+                emit!(n);
+            }
+            TsSignatureDecl::TsMethodSignature(n) => {
+                emit!(n);
+            }
+            TsSignatureDecl::TsFnType(n) => {
+                emit!(n);
+            }
+            TsSignatureDecl::TsConstructorType(n) => {
+                emit!(n);
+            }
+        }
     }
 
     #[emitter]
@@ -770,7 +831,7 @@ impl<'a> Emitter<'a> {
 
         emit!(n.type_ann);
 
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -784,7 +845,13 @@ impl<'a> Emitter<'a> {
     fn emit_ts_type_assertion(&mut self, n: &TsTypeAssertion) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_type_assertion")
+        keyword!("asserts");
+        space!();
+        emit!(n.expr);
+        space!();
+        keyword!("is");
+        space!();
+        emit!(n.type_ann);
     }
 
     #[emitter]
@@ -800,13 +867,6 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    fn emit_ts_type_cast_expr(&mut self, n: &TsTypeCastExpr) -> Result {
-        self.emit_leading_comments_of_pos(n.span().lo())?;
-
-        unimplemented!("emit_ts_type_cast_expr")
-    }
-
-    #[emitter]
     fn emit_ts_type_element(&mut self, n: &TsTypeElement) -> Result {
         match n {
             TsTypeElement::TsCallSignatureDecl(n) => emit!(n),
@@ -815,7 +875,7 @@ impl<'a> Emitter<'a> {
             TsTypeElement::TsMethodSignature(n) => emit!(n),
             TsTypeElement::TsIndexSignature(n) => emit!(n),
         }
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -948,5 +1008,18 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
         self.emit_list(n.span, Some(&n.types), ListFormat::UnionTypeConstituents)?;
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::tests::assert_min_typescript;
+
+    #[test]
+    fn qualified_type() {
+        assert_min_typescript(
+            "var memory: WebAssembly.Memory;",
+            "var memory:WebAssembly.Memory",
+        );
     }
 }

@@ -1,5 +1,5 @@
 {
-  "type": "Module",
+  "type": "Script",
   "span": {
     "start": 0,
     "end": 27,
@@ -80,7 +80,6 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "property": {
@@ -91,7 +90,6 @@
                         "ctxt": 0
                       },
                       "value": "b",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false
@@ -105,7 +103,6 @@
                     "ctxt": 0
                   },
                   "value": "c",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -118,7 +115,6 @@
                   "ctxt": 0
                 },
                 "value": "d",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -131,7 +127,6 @@
                 "ctxt": 0
               },
               "value": "e",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -144,7 +139,6 @@
               "ctxt": 0
             },
             "value": "f",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -213,7 +207,6 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -224,7 +217,6 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -237,7 +229,6 @@
                     "ctxt": 0
                   },
                   "value": "c",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -250,7 +241,6 @@
                   "ctxt": 0
                 },
                 "value": "d",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -264,7 +254,6 @@
               "ctxt": 0
             },
             "value": "e",
-            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -277,7 +266,6 @@
             "ctxt": 0
           },
           "value": "f",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false

@@ -29,7 +29,6 @@ use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use swc_ecma_transforms::{
     helpers::{self, Helpers},
     pass::noop,
-    util,
 };
 use swc_ecma_visit::FoldWith;
 
@@ -86,11 +85,42 @@ impl Compiler {
             match input_src_map {
                 InputSourceMap::Bool(false) => Ok(None),
                 InputSourceMap::Bool(true) => {
+                    let s = "sourceMappingURL=";
+                    let idx = fm.src.rfind(s);
+                    let src_mapping_url = match idx {
+                        None => None,
+                        Some(idx) => Some(&fm.src[idx + s.len()..]),
+                    };
+
                     // Load original source map if possible
                     match &name {
                         FileName::Real(filename) => {
-                            let path = format!("{}.map", filename.display());
+                            let dir = match filename.parent() {
+                                Some(v) => v,
+                                None => {
+                                    bail!("unexpected: root directory is given as a input file")
+                                }
+                            };
+
+                            let path = match src_mapping_url {
+                                Some(src_mapping_url) => {
+                                    dir.join(src_mapping_url).display().to_string()
+                                }
+                                None => {
+                                    format!("{}.map", dir.join(filename).display())
+                                }
+                            };
+
                             let file = File::open(&path)
+                                .or_else(|err| {
+                                    // Old behavior. This check would prevent regressions.
+                                    let f = format!("{}.map", filename.display());
+
+                                    match File::open(&f) {
+                                        Ok(v) => Ok(v),
+                                        Err(_) => Err(err),
+                                    }
+                                })
                                 .context("failed to open input source map file")?;
                             Ok(Some(sourcemap::SourceMap::from_reader(file).with_context(
                                 || format!("failed to read input source map from file at {}", path),
@@ -114,7 +144,7 @@ impl Compiler {
                             ),
                             Some(v) => v,
                         };
-                        let encoded = &s[idx + s.len()..];
+                        let encoded = &fm.src[idx + s.len()..];
 
                         let res = base64::decode(encoded.as_bytes())
                             .context("failed to decode base64-encoded source map")?;
@@ -156,11 +186,13 @@ impl Compiler {
                 },
             );
             let mut parser = Parser::new_from(lexer);
+            let mut error = false;
             let program = if is_module {
                 let m = parser.parse_module();
 
                 for e in parser.take_errors() {
                     e.into_diagnostic(&self.handler).emit();
+                    error = true;
                 }
 
                 m.map_err(|e| {
@@ -173,6 +205,7 @@ impl Compiler {
 
                 for e in parser.take_errors() {
                     e.into_diagnostic(&self.handler).emit();
+                    error = true;
                 }
 
                 s.map_err(|e| {
@@ -182,6 +215,13 @@ impl Compiler {
                 .map(Program::Script)?
             };
 
+            if error {
+                bail!(
+                    "failed to parse module: error was recoverable, but proceeding would result \
+                     in wrong codegen"
+                )
+            }
+
             Ok(program)
         })
     }
@@ -189,6 +229,7 @@ impl Compiler {
     pub fn print<T>(
         &self,
         node: &T,
+        target: JscTarget,
         source_map: SourceMapsConfig,
         orig: Option<&sourcemap::SourceMap>,
         minify: bool,
@@ -206,7 +247,7 @@ impl Compiler {
                         cfg: swc_ecma_codegen::Config { minify },
                         comments: if minify { None } else { Some(&self.comments) },
                         cm: self.cm.clone(),
-                        wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+                        wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::with_target(
                             self.cm.clone(),
                             "\n",
                             &mut buf,
@@ -215,6 +256,7 @@ impl Compiler {
                             } else {
                                 None
                             },
+                            target,
                         )),
                     };
 
@@ -276,7 +318,7 @@ impl Compiler {
         }
     }
 
-    pub fn read_config(&self, opts: &Options, name: &FileName) -> Result<Config, Error> {
+    pub fn read_config(&self, opts: &Options, name: &FileName) -> Result<Option<Config>, Error> {
         self.run(|| -> Result<_, Error> {
             let Options {
                 ref root,
@@ -335,14 +377,23 @@ impl Compiler {
                 _ => {}
             }
 
-            Ok(match config_file {
+            let config = match config_file {
                 Some(config_file) => config_file.into_config(None)?,
                 None => Rc::default().into_config(None)?,
-            })
+            };
+
+            match config {
+                Some(config) => Ok(Some(config)),
+                None => {
+                    bail!("no config matched for file ({})", name)
+                }
+            }
         })
-        .with_context(|| format!("failed to read swcrc file ('{:?}')", name))
+        .with_context(|| format!("failed to read swcrc file ({})", name))
     }
 
+    /// This method returns [None] if a file should be skipped.
+    ///
     /// This method handles merging of config.
     ///
     /// This method does **not** parse module.
@@ -350,9 +401,13 @@ impl Compiler {
         &'a self,
         opts: &Options,
         name: &FileName,
-    ) -> Result<BuiltConfig<impl 'a + swc_ecma_visit::Fold>, Error> {
+    ) -> Result<Option<BuiltConfig<impl 'a + swc_ecma_visit::Fold>>, Error> {
         self.run(|| -> Result<_, Error> {
             let config = self.read_config(opts, name)?;
+            let config = match config {
+                Some(v) => v,
+                None => return Ok(None),
+            };
             let built = opts.build(
                 &self.cm,
                 &self.handler,
@@ -360,7 +415,7 @@ impl Compiler {
                 Some(config),
                 Some(&self.comments),
             );
-            Ok(built)
+            Ok(Some(built))
         })
         .with_context(|| format!("failed to load config for file '{:?}'", name))
     }
@@ -371,7 +426,7 @@ impl Compiler {
     {
         self.run(|| {
             helpers::HELPERS.set(&Helpers::new(external_helpers), || {
-                util::HANDLER.set(&self.handler, || op())
+                swc_ecma_utils::HANDLER.set(&self.handler, || op())
             })
         })
     }
@@ -400,6 +455,12 @@ impl Compiler {
     {
         self.run(|| -> Result<_, Error> {
             let config = self.run(|| self.config_for_file(opts, &fm.name))?;
+            let config = match config {
+                Some(v) => v,
+                None => {
+                    bail!("cannot process file because it's ignored by .swcrc")
+                }
+            };
             let config = BuiltConfig {
                 pass: chain!(config.pass, custom_after_pass),
                 syntax: config.syntax,
@@ -443,6 +504,13 @@ impl Compiler {
 
             let config = self.run(|| self.config_for_file(opts, &fm.name))?;
 
+            let config = match config {
+                Some(v) => v,
+                None => {
+                    bail!("cannot process file because it's ignored by .swcrc")
+                }
+            };
+
             self.process_js_inner(program, orig.as_ref(), config)
         })
         .context("failed to process js module")
@@ -465,13 +533,19 @@ impl Compiler {
             }
             let mut pass = config.pass;
             let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
-                util::HANDLER.set(&self.handler, || {
+                swc_ecma_utils::HANDLER.set(&self.handler, || {
                     // Fold module
                     program.fold_with(&mut pass)
                 })
             });
 
-            self.print(&program, config.source_maps, orig, config.minify)
+            self.print(
+                &program,
+                config.target,
+                config.source_maps,
+                orig,
+                config.minify,
+            )
         })
     }
 }

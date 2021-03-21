@@ -1,0 +1,12 @@
+error: Expected a semicolon
+ --> $DIR/tests/typescript-errors/issue-1170-1/input.ts:1:24
+  |
+1 | const toString: (local)(this: Function) => string) = undefined;
+  |                        ^
+
+error: Not a pattern
+ --> $DIR/tests/typescript-errors/issue-1170-1/input.ts:1:25
+  |
+1 | const toString: (local)(this: Function) => string) = undefined;
+  |                         ^^^^
+

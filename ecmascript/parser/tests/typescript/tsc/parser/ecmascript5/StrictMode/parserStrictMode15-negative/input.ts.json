@@ -1,0 +1,79 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 26,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 13,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 0,
+          "end": 12,
+          "ctxt": 0
+        },
+        "value": "use strict",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 14,
+        "end": 26,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UnaryExpression",
+        "span": {
+          "start": 14,
+          "end": 25,
+          "ctxt": 0
+        },
+        "operator": "delete",
+        "argument": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 21,
+            "end": 25,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 21,
+              "end": 22,
+              "ctxt": 0
+            },
+            "value": "a",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 23,
+              "end": 24,
+              "ctxt": 0
+            },
+            "value": "b",
+            "optional": false
+          },
+          "computed": true
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

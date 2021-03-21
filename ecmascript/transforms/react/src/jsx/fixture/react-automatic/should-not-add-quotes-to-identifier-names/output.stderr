@@ -1,0 +1,12 @@
+error: Expected ,, got :
+ --> output.js:8:12
+  |
+8 |     foo-bar: true
+  |            ^
+
+error: Expression expected
+ --> output.js:8:8
+  |
+8 |     foo-bar: true
+  |        ^
+

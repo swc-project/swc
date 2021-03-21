@@ -21,8 +21,13 @@
           "ctxt": 0
         },
         "value": "test",
-        "hasEscape": false
-      }
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "asserts": null
     },
     {
       "type": "ImportDeclaration",
@@ -40,7 +45,11 @@
           "ctxt": 0
         },
         "value": "test",
-        "hasEscape": false
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
       },
       "typeOnly": false,
       "asserts": null
@@ -68,7 +77,6 @@
               "ctxt": 0
             },
             "value": "Test",
-            "typeAnnotation": null,
             "optional": false
           }
         }
@@ -81,7 +89,11 @@
           "ctxt": 0
         },
         "value": "test",
-        "hasEscape": false
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
       },
       "typeOnly": false,
       "asserts": null

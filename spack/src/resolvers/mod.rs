@@ -3,14 +3,31 @@
 //! See: https://github.com/goto-bus-stop/node-resolve
 
 use anyhow::{bail, Context, Error};
+use lru::LruCache;
+#[cfg(windows)]
+use normpath::BasePath;
+// use path_slash::{PathBufExt, PathExt};
 use serde::Deserialize;
 use std::{
     fs::File,
     io::BufReader,
-    path::{Path, PathBuf},
+    path::{Component, Path, PathBuf},
+    sync::Mutex,
 };
+
 use swc_bundler::Resolve;
 use swc_common::FileName;
+
+pub(crate) fn is_core_module(s: &str) -> bool {
+    match s {
+        "assert" | "buffer" | "child_process" | "console" | "cluster" | "crypto" | "dgram"
+        | "dns" | "events" | "fs" | "http" | "http2" | "https" | "net" | "os" | "path"
+        | "perf_hooks" | "process" | "querystring" | "readline" | "repl" | "stream"
+        | "string_decoder" | "timers" | "tls" | "tty" | "url" | "util" | "v8" | "vm" | "wasi"
+        | "worker" | "zlib" => true,
+        _ => false,
+    }
+}
 
 #[derive(Deserialize)]
 struct PackageJson {
@@ -22,19 +39,23 @@ struct PackageJson {
     main: Option<String>,
 }
 
-pub struct NodeResolver;
+pub struct NodeResolver {
+    cache: Mutex<LruCache<(PathBuf, String), PathBuf>>,
+}
 
 static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node"];
 
 impl NodeResolver {
     pub fn new() -> Self {
-        Self
+        Self {
+            cache: Mutex::new(LruCache::new(40)),
+        }
     }
 
-    fn wrap(&self, path: PathBuf) -> Result<FileName, Error> {
-        Ok(FileName::Real(
-            path.canonicalize().context("failaed to canonicalize")?,
-        ))
+    fn wrap(&self, base: &PathBuf, target: &str, path: PathBuf) -> Result<FileName, Error> {
+        let path = path.canonicalize().context("failed to canonicalize")?;
+        self.store(base, target, path.clone());
+        Ok(FileName::Real(path))
     }
 
     /// Resolve a path as a file. If `path` refers to a file, it is returned;
@@ -73,9 +94,7 @@ impl NodeResolver {
 
     /// Resolve using the package.json "main" key.
     fn resolve_package_main(&self, pkg_path: &PathBuf) -> Result<PathBuf, Error> {
-        // TODO how to not always initialise this here?
-        let root = PathBuf::from("/");
-        let pkg_dir = pkg_path.parent().unwrap_or(&root);
+        let pkg_dir = pkg_path.parent().unwrap_or_else(|| Path::new("/"));
         let file = File::open(pkg_path)?;
         let reader = BufReader::new(file);
         let pkg: PackageJson =
@@ -126,38 +145,74 @@ impl NodeResolver {
             None => bail!("not found"),
         }
     }
+
+    fn store(&self, base: &PathBuf, target: &str, result: PathBuf) {
+        let lock = self.cache.lock();
+        match lock {
+            Ok(mut lock) => {
+                lock.put((base.clone(), target.to_string()), result.to_path_buf());
+            }
+            Err(_) => {}
+        }
+    }
 }
 
 impl Resolve for NodeResolver {
     fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
+        if is_core_module(target) {
+            return Ok(FileName::Custom(target.to_string()));
+        }
+
         let base = match base {
             FileName::Real(v) => v,
             _ => bail!("node-resolver supports only files"),
         };
 
-        // Absolute path
-        if target.starts_with("/") {
-            let base_dir = &Path::new("/");
+        {
+            let lock = self.cache.lock();
+            match lock {
+                Ok(mut lock) => {
+                    //
+                    if let Some(v) = lock.get(&(base.clone(), target.to_string())) {
+                        return Ok(FileName::Real(v.clone()));
+                    }
+                }
+                Err(_) => {}
+            }
+        }
+        let target_path = Path::new(target);
 
-            let path = base_dir.join(target);
+        if target_path.is_absolute() {
+            let path = PathBuf::from(target_path);
             return self
                 .resolve_as_file(&path)
                 .or_else(|_| self.resolve_as_directory(&path))
-                .and_then(|p| self.wrap(p));
+                .and_then(|p| self.wrap(base, target, p));
         }
 
         let cwd = &Path::new(".");
         let base_dir = base.parent().unwrap_or(&cwd);
+        let mut components = target_path.components();
 
-        if target.starts_with("./") || target.starts_with("../") {
+        if let Some(Component::CurDir | Component::ParentDir) = components.next() {
+            #[cfg(windows)]
+            let path = {
+                let base_dir = BasePath::new(base_dir).unwrap();
+                base_dir
+                    .join(target.replace('/', "\\"))
+                    .normalize_virtually()
+                    .unwrap()
+                    .into_path_buf()
+            };
+            #[cfg(not(windows))]
             let path = base_dir.join(target);
             return self
                 .resolve_as_file(&path)
                 .or_else(|_| self.resolve_as_directory(&path))
-                .and_then(|p| self.wrap(p));
+                .and_then(|p| self.wrap(base, target, p));
         }
 
         self.resolve_node_modules(base_dir, target)
-            .and_then(|p| self.wrap(p))
+            .and_then(|p| self.wrap(base, target, p))
     }
 }

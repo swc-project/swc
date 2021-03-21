@@ -101,6 +101,10 @@ impl<'a> From<&'a Token> for TokenType {
 
 impl<I: Input> Tokens for Lexer<'_, I> {
     fn set_ctx(&mut self, ctx: Context) {
+        if ctx.module && !self.module_errors.borrow().is_empty() {
+            let mut module_errors = self.module_errors.borrow_mut();
+            self.errors.borrow_mut().append(&mut *module_errors);
+        }
         self.ctx = ctx
     }
 
@@ -136,6 +140,14 @@ impl<I: Input> Tokens for Lexer<'_, I> {
 
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
+    }
+
+    fn add_module_mode_error(&self, error: Error) {
+        if self.ctx.module {
+            self.add_error(error);
+            return;
+        }
+        self.module_errors.borrow_mut().push(error);
     }
 }
 
@@ -207,7 +219,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                 }
             }
 
-            if self.syntax.jsx() && !self.ctx.in_property_name {
+            if self.syntax.jsx() && !self.ctx.in_property_name && !self.ctx.in_type {
                 //jsx
                 if self.state.context.current() == Some(TokenContext::JSXExpr) {
                     return self.read_jsx_token();
@@ -608,7 +620,7 @@ impl TokenContexts {
 /// given point in the program is loosely based on sweet.js' approach.
 /// See https://github.com/mozilla/sweet.js/wiki/design
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Kind)]
-#[kind(fucntion(is_expr = "bool", preserve_space = "bool"))]
+#[kind(function(is_expr = "bool", preserve_space = "bool"))]
 pub enum TokenContext {
     BraceStmt,
     #[kind(is_expr)]
@@ -636,7 +648,8 @@ pub enum TokenContext {
 
 #[cfg(test)]
 pub(crate) fn with_lexer<F, Ret>(
-    syntax: crate::Syntax,
+    syntax: Syntax,
+    target: JscTarget,
     s: &str,
     f: F,
 ) -> Result<Ret, ::testing::StdErr>
@@ -644,7 +657,7 @@ where
     F: FnOnce(&mut Lexer<'_, crate::lexer::input::StringInput<'_>>) -> Result<Ret, ()>,
 {
     crate::with_test_sess(s, |_, fm| {
-        let mut l = Lexer::new(syntax, Default::default(), fm, None);
+        let mut l = Lexer::new(syntax, target, fm, None);
         let res = f(&mut l);
 
         let c = vec![TokenContext::BraceStmt];
@@ -656,22 +669,48 @@ where
 
 #[cfg(test)]
 pub(crate) fn lex(syntax: Syntax, s: &'static str) -> Vec<TokenAndSpan> {
-    with_lexer(syntax, s, |l| Ok(l.collect())).unwrap()
+    with_lexer(syntax, Default::default(), s, |l| Ok(l.collect())).unwrap()
 }
 
 /// lex `s` within module context.
 #[cfg(test)]
-pub(crate) fn lex_module(syntax: Syntax, s: &'static str) -> Vec<TokenAndSpan> {
-    with_lexer(syntax, s, |l| {
+pub(crate) fn lex_module_errors(syntax: Syntax, s: &'static str) -> Vec<Error> {
+    with_lexer(syntax, Default::default(), s, |l| {
         l.ctx.strict = true;
         l.ctx.module = true;
 
-        Ok(l.collect())
+        let _: Vec<_> = l.collect();
+
+        Ok(l.take_errors())
     })
     .unwrap()
 }
 
 #[cfg(test)]
 pub(crate) fn lex_tokens(syntax: Syntax, s: &'static str) -> Vec<Token> {
-    with_lexer(syntax, s, |l| Ok(l.map(|ts| ts.token).collect())).unwrap()
+    with_lexer(syntax, Default::default(), s, |l| {
+        Ok(l.map(|ts| ts.token).collect())
+    })
+    .unwrap()
+}
+
+#[cfg(test)]
+pub(crate) fn lex_tokens_with_target(
+    syntax: Syntax,
+    target: JscTarget,
+    s: &'static str,
+) -> Vec<Token> {
+    with_lexer(syntax, target, s, |l| Ok(l.map(|ts| ts.token).collect())).unwrap()
+}
+
+/// Returns `(tokens, recovered_errors)`. `(tokens)` may contain an error token
+/// if the lexer fails to recover from it.
+#[cfg(test)]
+pub(crate) fn lex_errors(syntax: Syntax, s: &'static str) -> (Vec<Token>, Vec<Error>) {
+    with_lexer(syntax, JscTarget::Es2020, s, |l| {
+        let tokens = l.map(|ts| ts.token).collect();
+        let errors = l.take_errors();
+        Ok((tokens, errors))
+    })
+    .unwrap()
 }

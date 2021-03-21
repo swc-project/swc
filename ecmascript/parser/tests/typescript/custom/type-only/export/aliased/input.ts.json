@@ -29,7 +29,6 @@
               "ctxt": 0
             },
             "value": "Foo",
-            "typeAnnotation": null,
             "optional": false
           },
           "exported": {
@@ -40,13 +39,13 @@
               "ctxt": 0
             },
             "value": "Bar",
-            "typeAnnotation": null,
             "optional": false
           }
         }
       ],
       "source": null,
-      "typeOnly": true
+      "typeOnly": true,
+      "asserts": null
     }
   ],
   "interpreter": null

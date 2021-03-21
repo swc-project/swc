@@ -1,0 +1,362 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 145,
+    "end": 457,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 145,
+        "end": 178,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 152,
+          "end": 178,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 158,
+              "end": 178,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 158,
+                "end": 165,
+                "ctxt": 0
+              },
+              "value": "inlined",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "ArrowFunctionExpression",
+              "span": {
+                "start": 168,
+                "end": 178,
+                "ctxt": 0
+              },
+              "params": [],
+              "body": {
+                "type": "BooleanLiteral",
+                "span": {
+                  "start": 174,
+                  "end": 178,
+                  "ctxt": 0
+                },
+                "value": true
+              },
+              "async": false,
+              "generator": false,
+              "typeParameters": null,
+              "returnType": null
+            },
+            "definite": false
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 179,
+        "end": 196,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 179,
+          "end": 196,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 179,
+            "end": 190,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 179,
+              "end": 186,
+              "ctxt": 0
+            },
+            "value": "inlined",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 187,
+              "end": 190,
+              "ctxt": 0
+            },
+            "value": "nuo",
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 193,
+            "end": 196,
+            "ctxt": 0
+          },
+          "value": 789.0
+        }
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 239,
+        "end": 275,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 246,
+          "end": 275,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 252,
+              "end": 275,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 252,
+                "end": 262,
+                "ctxt": 0
+              },
+              "value": "duplicated",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "ArrowFunctionExpression",
+              "span": {
+                "start": 265,
+                "end": 275,
+                "ctxt": 0
+              },
+              "params": [],
+              "body": {
+                "type": "BooleanLiteral",
+                "span": {
+                  "start": 271,
+                  "end": 275,
+                  "ctxt": 0
+                },
+                "value": true
+              },
+              "async": false,
+              "generator": false,
+              "typeParameters": null,
+              "returnType": null
+            },
+            "definite": false
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 295,
+        "end": 315,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 295,
+          "end": 315,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 295,
+            "end": 309,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 295,
+              "end": 305,
+              "ctxt": 0
+            },
+            "value": "duplicated",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 306,
+              "end": 309,
+              "ctxt": 0
+            },
+            "value": "nuo",
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 312,
+            "end": 315,
+            "ctxt": 0
+          },
+          "value": 789.0
+        }
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 358,
+        "end": 405,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 365,
+          "end": 405,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 371,
+              "end": 405,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 371,
+                "end": 392,
+                "ctxt": 0
+              },
+              "value": "conflictingDuplicated",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "ArrowFunctionExpression",
+              "span": {
+                "start": 395,
+                "end": 405,
+                "ctxt": 0
+              },
+              "params": [],
+              "body": {
+                "type": "BooleanLiteral",
+                "span": {
+                  "start": 401,
+                  "end": 405,
+                  "ctxt": 0
+                },
+                "value": true
+              },
+              "async": false,
+              "generator": false,
+              "typeParameters": null,
+              "returnType": null
+            },
+            "definite": false
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 426,
+        "end": 457,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 426,
+          "end": 457,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 426,
+            "end": 451,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 426,
+              "end": 447,
+              "ctxt": 0
+            },
+            "value": "conflictingDuplicated",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 448,
+              "end": 451,
+              "ctxt": 0
+            },
+            "value": "nuo",
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 454,
+            "end": 457,
+            "ctxt": 0
+          },
+          "value": 789.0
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

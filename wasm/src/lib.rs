@@ -5,7 +5,7 @@ use std::{
     sync::{Arc, RwLock},
 };
 use swc::{
-    config::{Options, ParseOptions, SourceMapsConfig},
+    config::{JscTarget, Options, ParseOptions, SourceMapsConfig},
     Compiler,
 };
 use swc_common::{
@@ -50,6 +50,7 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
     let s = c
         .print(
             &program,
+            opts.codegen_target().unwrap_or(JscTarget::Es2020),
             opts.source_maps
                 .clone()
                 .unwrap_or(SourceMapsConfig::Bool(false)),
@@ -101,15 +102,15 @@ fn codemap() -> Arc<SourceMap> {
 fn new_handler(_cm: Arc<SourceMapperDyn>) -> (Arc<Handler>, BufferedError) {
     let e = BufferedError::default();
 
-    let handler = Handler::with_emitter(true, false, Box::new(MyEmiter::default()));
+    let handler = Handler::with_emitter(true, false, Box::new(MyEmitter::default()));
 
     (Arc::new(handler), e)
 }
 
 #[derive(Clone, Default)]
-struct MyEmiter(BufferedError);
+struct MyEmitter(BufferedError);
 
-impl Emitter for MyEmiter {
+impl Emitter for MyEmitter {
     fn emit(&mut self, db: &DiagnosticBuilder<'_>) {
         let z = &(self.0).0;
         for msg in &db.message {

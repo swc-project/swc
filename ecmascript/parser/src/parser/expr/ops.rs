@@ -4,7 +4,6 @@ use crate::token::Keyword;
 use log::trace;
 use swc_common::Spanned;
 
-#[parser]
 impl<'a, I: Tokens> Parser<I> {
     /// Name from spec: 'LogicalORExpression'
     pub(super) fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
@@ -12,7 +11,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let left = match self.parse_unary_expr() {
             Ok(v) => v,
-            Err(err) => match cur!(true)? {
+            Err(err) => match cur!(self, true)? {
                 &Word(Word::Keyword(Keyword::In)) if ctx.include_in_expr => {
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
 
@@ -27,7 +26,7 @@ impl<'a, I: Tokens> Parser<I> {
             },
         };
 
-        return_if_arrow!(left);
+        return_if_arrow!(self, left);
         self.parse_bin_op_recursively(left, 0)
     }
 
@@ -88,22 +87,22 @@ impl<'a, I: Tokens> Parser<I> {
         if self.input.syntax().typescript()
             && PREC_OF_IN > min_prec
             && !self.input.had_line_break_before_cur()
-            && is!("as")
+            && is!(self, "as")
         {
             let start = left.span().lo();
             let expr = left;
-            let node = if peeked_is!("const") {
-                bump!(); // as
-                let _ = cur!(false);
-                bump!(); // const
+            let node = if peeked_is!(self, "const") {
+                bump!(self); // as
+                let _ = cur!(self, false);
+                bump!(self); // const
                 Box::new(Expr::TsConstAssertion(TsConstAssertion {
-                    span: span!(start),
+                    span: span!(self, start),
                     expr,
                 }))
             } else {
                 let type_ann = self.next_then_parse_ts_type()?;
                 Box::new(Expr::TsAs(TsAsExpr {
-                    span: span!(start),
+                    span: span!(self, start),
                     expr,
                     type_ann,
                 }))
@@ -114,7 +113,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let ctx = self.ctx();
         // Return left on eof
-        let word = match cur!(false) {
+        let word = match cur!(self, false) {
             Ok(cur) => cur,
             Err(..) => return Ok((left, None)),
         };
@@ -142,7 +141,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             return Ok((left, None));
         }
-        bump!();
+        bump!(self);
         trace!(
             "parsing binary op {:?} min_prec={}, prec={}",
             op,
@@ -157,11 +156,14 @@ impl<'a, I: Tokens> Parser<I> {
                 // returning "unexpected token '**'" on next.
                 // But it's not useful error message.
 
-                syntax_error!(SyntaxError::UnaryInExp {
-                    // FIXME: Use display
-                    left: format!("{:?}", left),
-                    left_span: left.span(),
-                })
+                syntax_error!(
+                    self,
+                    SyntaxError::UnaryInExp {
+                        // FIXME: Use display
+                        left: format!("{:?}", left),
+                        left_span: left.span(),
+                    }
+                )
             }
             _ => {}
         }
@@ -220,14 +222,14 @@ impl<'a, I: Tokens> Parser<I> {
     ///
     /// spec: 'UnaryExpression'
     pub(in crate::parser) fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
-        if !self.input.syntax().jsx() && self.input.syntax().typescript() && eat!('<') {
-            if eat!("const") {
-                expect!('>');
+        if !self.input.syntax().jsx() && self.input.syntax().typescript() && eat!(self, '<') {
+            if eat!(self, "const") {
+                expect!(self, '>');
                 let expr = self.parse_unary_expr()?;
                 return Ok(Box::new(Expr::TsConstAssertion(TsConstAssertion {
-                    span: span!(start),
+                    span: span!(self, start),
                     expr,
                 })));
             }
@@ -239,8 +241,8 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         // Parse update expression
-        if is!("++") || is!("--") {
-            let op = if bump!() == tok!("++") {
+        if is!(self, "++") || is!(self, "--") {
+            let op = if bump!(self) == tok!("++") {
                 op!("++")
             } else {
                 op!("--")
@@ -259,8 +261,8 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         // Parse unary expression
-        if is_one_of!("delete", "void", "typeof", '+', '-', '~', '!') {
-            let op = match bump!() {
+        if is_one_of!(self, "delete", "void", "typeof", '+', '-', '~', '!') {
+            let op = match bump!(self) {
                 tok!("delete") => op!("delete"),
                 tok!("void") => op!("void"),
                 tok!("typeof") => op!("typeof"),
@@ -270,7 +272,7 @@ impl<'a, I: Tokens> Parser<I> {
                 tok!('!') => op!("!"),
                 _ => unreachable!(),
             };
-            let arg_start = cur_pos!() - BytePos(1);
+            let arg_start = cur_pos!(self) - BytePos(1);
             let arg = match self.parse_unary_expr() {
                 Ok(expr) => expr,
                 Err(err) => {
@@ -282,12 +284,10 @@ impl<'a, I: Tokens> Parser<I> {
             };
             let span = Span::new(start, arg.span().hi(), Default::default());
 
-            if self.ctx().strict {
-                if op == op!("delete") {
-                    match *arg {
-                        Expr::Ident(ref i) => self.emit_err(i.span, SyntaxError::TS1102),
-                        _ => {}
-                    }
+            if op == op!("delete") {
+                match *arg {
+                    Expr::Ident(ref i) => self.emit_strict_mode_err(i.span, SyntaxError::TS1102),
+                    _ => {}
                 }
             }
 
@@ -316,31 +316,31 @@ impl<'a, I: Tokens> Parser<I> {
             })));
         }
 
-        if (self.ctx().in_async || self.syntax().top_level_await()) && is!("await") {
+        if (self.ctx().in_async || self.syntax().top_level_await()) && is!(self, "await") {
             return self.parse_await_expr();
         }
 
         // UpdateExpression
         let expr = self.parse_lhs_expr()?;
-        return_if_arrow!(expr);
+        return_if_arrow!(self, expr);
 
         // Line terminator isn't allowed here.
         if self.input.had_line_break_before_cur() {
             return Ok(expr);
         }
 
-        if is_one_of!("++", "--") {
+        if is_one_of!(self, "++", "--") {
             self.check_assign_target(&expr, false);
 
-            let start = cur_pos!();
-            let op = if bump!() == tok!("++") {
+            let start = cur_pos!(self);
+            let op = if bump!(self) == tok!("++") {
                 op!("++")
             } else {
                 op!("--")
             };
 
             return Ok(Box::new(Expr::Update(UpdateExpr {
-                span: span!(expr.span().lo()),
+                span: span!(self, expr.span().lo()),
                 prefix: false,
                 op,
                 arg: expr,
@@ -350,24 +350,24 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     pub(crate) fn parse_await_expr(&mut self) -> PResult<Box<Expr>> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
-        assert_and_bump!("await");
+        assert_and_bump!(self, "await");
 
-        if is!('*') {
-            syntax_error!(SyntaxError::AwaitStar);
+        if is!(self, '*') {
+            syntax_error!(self, SyntaxError::AwaitStar);
         }
 
-        if is_one_of!(')', ']') && !self.ctx().in_async {
+        if is_one_of!(self, ')', ']') && !self.ctx().in_async {
             return Ok(Box::new(Expr::Ident(Ident::new(
                 js_word!("await"),
-                span!(start),
+                span!(self, start),
             ))));
         }
 
         let arg = self.parse_unary_expr()?;
         Ok(Box::new(Expr::Await(AwaitExpr {
-            span: span!(start),
+            span: span!(self, start),
             arg,
         })))
     }

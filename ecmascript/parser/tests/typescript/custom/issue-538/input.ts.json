@@ -23,14 +23,13 @@
             "ctxt": 0
           },
           "value": "test",
-          "typeAnnotation": null,
           "optional": false
         },
         "declare": true,
         "params": [],
         "decorators": [],
         "span": {
-          "start": 15,
+          "start": 7,
           "end": 39,
           "ctxt": 0
         },
