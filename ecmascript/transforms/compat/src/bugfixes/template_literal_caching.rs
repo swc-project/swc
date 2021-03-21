@@ -135,7 +135,8 @@ impl Fold for TemplateLiteralCaching {
                     }]
                     .into_iter()
                     .chain(
-                        n.tpl.exprs
+                        n.tpl
+                            .exprs
                             .into_iter()
                             .map(|expr| ExprOrSpread { expr, spread: None }),
                     )
