@@ -60,11 +60,12 @@ impl NormalizedOutput {
     {
         let path = path.as_ref();
         let path = path.canonicalize().unwrap_or_else(|err| {
-            panic!(
+            eprintln!(
                 "compare_to_file: failed to canonicalize outfile path `{}`: {:?}",
                 path.display(),
                 err
-            )
+            );
+            path.to_path_buf()
         });
 
         let expected = File::open(&path)
