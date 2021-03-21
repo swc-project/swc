@@ -58,10 +58,14 @@ impl NormalizedOutput {
     where
         P: AsRef<Path>,
     {
-        let path = path
-            .as_ref()
-            .canonicalize()
-            .expect("compare_to_file: failed to canonicalize outfile path");
+        let path = path.as_ref();
+        let path = path.canonicalize().unwrap_or_else(|err| {
+            panic!(
+                "compare_to_file: failed to canonicalize outfile path `{}`: {:?}",
+                path.display(),
+                err
+            )
+        });
 
         let expected = File::open(&path)
             .map(|mut file| {
