@@ -9,11 +9,13 @@ function d() {
     return Object.assign(promise, methods);
 }
 class A {
-    s = d();
     a() {
         this.s.resolve();
     }
     b() {
+        this.s = d();
+    }
+    constructor(){
         this.s = d();
     }
 }

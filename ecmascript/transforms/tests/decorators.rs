@@ -470,7 +470,7 @@ class B {
 class B {
   bar() {}
   constructor() {
-    _defineProperty(this, "foo", 2);
+    this.foo = 2;
   }
 
 }
