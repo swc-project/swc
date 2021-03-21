@@ -126,8 +126,8 @@ class StringReader extends Deno.Buffer {
     }
 }
 class MultiReader {
-    currentIndex = 0;
     constructor(...readers){
+        this.currentIndex = 0;
         this.readers = readers;
     }
     async read(p) {
@@ -1225,26 +1225,26 @@ const MIN_BUF_SIZE = 16;
 const CR = "\r".charCodeAt(0);
 const LF = "\n".charCodeAt(0);
 class BufferFullError extends Error {
-    name = "BufferFullError";
     constructor(partial){
         super("Buffer full");
         this.partial = partial;
+        this.name = "BufferFullError";
     }
 }
 class PartialReadError extends Deno.errors.UnexpectedEof {
-    name = "PartialReadError";
     constructor(){
         super("Encountered UnexpectedEof, data only partially read");
+        this.name = "PartialReadError";
     }
 }
 class BufReader {
-    r = 0;
-    w = 0;
-    eof = false;
     static create(r, size = 4096) {
         return r instanceof BufReader ? r : new BufReader(r, size);
     }
     constructor(rd1, size1 = 4096){
+        this.r = 0;
+        this.w = 0;
+        this.eof = false;
         if (size1 < 16) {
             size1 = MIN_BUF_SIZE;
         }
@@ -1447,8 +1447,6 @@ class BufReader {
     }
 }
 class AbstractBufBase {
-    usedBufferBytes = 0;
-    err = null;
     size() {
         return this.buf.byteLength;
     }
@@ -1457,6 +1455,10 @@ class AbstractBufBase {
     }
     buffered() {
         return this.usedBufferBytes;
+    }
+    constructor(){
+        this.usedBufferBytes = 0;
+        this.err = null;
     }
 }
 class BufWriter extends AbstractBufBase {
@@ -1704,11 +1706,11 @@ function scanUntilBoundary(buf, dashBoundary, newLineDashBoundary, total, eof) {
     return buf.length;
 }
 class PartReader {
-    n = 0;
-    total = 0;
     constructor(mr, headers2){
         this.mr = mr;
         this.headers = headers2;
+        this.n = 0;
+        this.total = 0;
     }
     async read(p) {
         const br = this.mr.bufReader;
@@ -1785,12 +1787,13 @@ function skipLWSPChar(u) {
     return ret.slice(0, j);
 }
 class MultipartReader {
-    newLine = encoder.encode("\r\n");
-    newLineDashBoundary = encoder.encode(`\r\n--${this.boundary}`);
-    dashBoundaryDash = encoder.encode(`--${this.boundary}--`);
-    dashBoundary = encoder.encode(`--${this.boundary}`);
     constructor(reader1, boundary){
         this.boundary = boundary;
+        this.newLine = encoder.encode("\r\n");
+        this.newLineDashBoundary = encoder.encode(`\r\n--${this.boundary}`);
+        this.dashBoundaryDash = encoder.encode(`--${this.boundary}--`);
+        this.dashBoundary = encoder.encode(`--${this.boundary}`);
+        this.partsRead = 0;
         this.bufReader = new BufReader(reader1);
     }
     async readForm(maxMemory = 10 << 20) {
@@ -1872,7 +1875,6 @@ class MultipartReader {
         }
         return multipartFormData(fileMap, valueMap);
     }
-    partsRead = 0;
     async nextPart() {
         if (this.currentPart) {
             this.currentPart.close();
@@ -1965,12 +1967,12 @@ function multipartFormData(fileMap, valueMap) {
     };
 }
 class PartWriter {
-    closed = false;
-    headersWritten = false;
     constructor(writer3, boundary1, headers1, isFirstBoundary){
         this.writer = writer3;
         this.boundary = boundary1;
         this.headers = headers1;
+        this.closed = false;
+        this.headersWritten = false;
         let buf = "";
         if (isFirstBoundary) {
             buf += `--${boundary1}\r\n`;
@@ -2014,9 +2016,9 @@ class MultipartWriter {
     get boundary() {
         return this._boundary;
     }
-    isClosed = false;
     constructor(writer4, boundary2){
         this.writer = writer4;
+        this.isClosed = false;
         if (boundary2 !== void 0) {
             this._boundary = checkBoundary(boundary2);
         } else {

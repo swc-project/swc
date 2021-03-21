@@ -758,9 +758,10 @@ impl ClassProperties {
                 }
             });
 
-        if let Some(c) = constructor {
+        if let Some(mut c) = constructor {
             // Prepend properties
-            Some(inject_after_super(c, constructor_exprs))
+            inject_after_super(&mut c, constructor_exprs);
+            Some(c)
         } else {
             None
         }
