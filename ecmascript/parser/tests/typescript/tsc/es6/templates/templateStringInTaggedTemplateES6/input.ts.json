@@ -240,99 +240,107 @@
             }
           ]
         },
-        "expressions": [
-          {
-            "type": "StringLiteral",
-            "span": {
-              "start": 63,
-              "end": 67,
-              "ctxt": 0
-            },
-            "value": "AM",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
-          }
-        ],
-        "quasis": [
-          {
-            "type": "TemplateElement",
-            "span": {
-              "start": 58,
-              "end": 60,
-              "ctxt": 0
-            },
-            "tail": false,
-            "cooked": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 58,
-                "end": 60,
-                "ctxt": 0
-              },
-              "value": "I ",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": false
-              }
-            },
-            "raw": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 58,
-                "end": 60,
-                "ctxt": 0
-              },
-              "value": "I ",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": false
-              }
-            }
+        "typeParameters": null,
+        "template": {
+          "type": "TemplateLiteral",
+          "span": {
+            "start": 57,
+            "end": 91,
+            "ctxt": 0
           },
-          {
-            "type": "TemplateElement",
-            "span": {
-              "start": 69,
-              "end": 90,
-              "ctxt": 0
-            },
-            "tail": true,
-            "cooked": {
+          "expressions": [
+            {
               "type": "StringLiteral",
               "span": {
-                "start": 69,
-                "end": 90,
+                "start": 63,
+                "end": 67,
                 "ctxt": 0
               },
-              "value": " THE TEMPLATE PORTION",
+              "value": "AM",
               "hasEscape": false,
               "kind": {
                 "type": "normal",
-                "containsQuote": false
-              }
-            },
-            "raw": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 69,
-                "end": 90,
-                "ctxt": 0
-              },
-              "value": " THE TEMPLATE PORTION",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": false
+                "containsQuote": true
               }
             }
-          }
-        ],
-        "typeParameters": null
+          ],
+          "quasis": [
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 58,
+                "end": 60,
+                "ctxt": 0
+              },
+              "tail": false,
+              "cooked": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 58,
+                  "end": 60,
+                  "ctxt": 0
+                },
+                "value": "I ",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": false
+                }
+              },
+              "raw": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 58,
+                  "end": 60,
+                  "ctxt": 0
+                },
+                "value": "I ",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": false
+                }
+              }
+            },
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 69,
+                "end": 90,
+                "ctxt": 0
+              },
+              "tail": true,
+              "cooked": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 69,
+                  "end": 90,
+                  "ctxt": 0
+                },
+                "value": " THE TEMPLATE PORTION",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": false
+                }
+              },
+              "raw": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 69,
+                  "end": 90,
+                  "ctxt": 0
+                },
+                "value": " THE TEMPLATE PORTION",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": false
+                }
+              }
+            }
+          ]
+        }
       }
     }
   ],

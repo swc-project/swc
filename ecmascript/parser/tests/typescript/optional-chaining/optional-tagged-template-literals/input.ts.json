@@ -88,7 +88,11 @@
                   "ctxt": 0
                 },
                 "value": "foo",
-                "hasEscape": false
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": false
+                }
               },
               "raw": {
                 "type": "StringLiteral",
@@ -98,26 +102,11 @@
                   "ctxt": 0
                 },
                 "value": "foo",
-                "hasEscape": false
-              "value": "foo",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": false
-              }
-            },
-            "raw": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 5,
-                "end": 8,
-                "ctxt": 0
-              },
-              "value": "foo",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": false
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": false
+                }
               }
             }
           ]

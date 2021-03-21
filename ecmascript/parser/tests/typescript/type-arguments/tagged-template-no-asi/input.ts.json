@@ -37,46 +37,6 @@
             "value": "C",
             "optional": false
           },
-          "expressions": [],
-          "quasis": [
-            {
-              "type": "TemplateElement",
-              "span": {
-                "start": 10,
-                "end": 10,
-                "ctxt": 0
-              },
-              "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 10,
-                  "end": 10,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 10,
-                  "end": 10,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
-            }
-          ],
           "typeParameters": {
             "type": "TsTypeParameterInstantiation",
             "span": {
@@ -131,7 +91,11 @@
                     "ctxt": 0
                   },
                   "value": "",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": false
+                  }
                 },
                 "raw": {
                   "type": "StringLiteral",
@@ -141,7 +105,11 @@
                     "ctxt": 0
                   },
                   "value": "",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": false
+                  }
                 }
               }
             ]
