@@ -74,11 +74,11 @@ impl StmtDepGraph {
         }
 
         for transitive in self.calc_transitives(to, Outgoing) {
-            self.insert_transitives(from, transitive)
+            self.paths[from].insert(transitive);
         }
 
         for transitive in self.calc_transitives(from, Incoming) {
-            self.insert_transitives(transitive, to)
+            self.paths[transitive].insert(to);
         }
     }
 
