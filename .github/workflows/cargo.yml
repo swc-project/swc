@@ -99,6 +99,9 @@ jobs:
           - swc_visit_macros
           - testing
           - testing_macros
+      exclude:
+        - os: windows-2019
+          crate: spack
 
     steps:
       - name: Handle line endings
