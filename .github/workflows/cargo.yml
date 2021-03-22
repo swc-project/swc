@@ -99,7 +99,7 @@ jobs:
           - swc_visit_macros
           - testing
           - testing_macros
-      exclude:
+      excludes:
         - os: windows-2019
           crate: spack
 
