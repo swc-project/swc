@@ -75,6 +75,7 @@ fn toposort_real_modules<'a>(
         if ids.is_empty() {
             continue;
         }
+        eprintln!("IDS: {:?}", ids);
 
         let mut stmts = vec![];
 
@@ -166,7 +167,7 @@ fn toposort_real_module_ids<'a>(
             if done.contains(&id) {
                 continue;
             }
-            // dbg!(id);
+            dbg!(id);
 
             let deps = graph
                 .neighbors_directed(id, Outgoing)
@@ -181,7 +182,7 @@ fn toposort_real_module_ids<'a>(
                 return Some(vec![id]);
             }
 
-            // dbg!(&deps);
+            dbg!(&deps);
 
             let mut all_modules_in_circle =
                 all_modules_in_circle(id, &done, &mut Default::default(), graph);
