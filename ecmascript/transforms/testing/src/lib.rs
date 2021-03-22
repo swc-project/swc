@@ -365,14 +365,13 @@ where
 
         let mut base_cmd = if cfg!(target_os = "windows") {
             let mut c = Command::new("cmd");
-            c.arg("/C");
+            c.arg("/C").arg(&jest_path);
             c
         } else {
             Command::new(&jest_path)
         };
 
         let status = base_cmd
-            .arg(&jest_path)
             .args(&["--testMatch", &format!("{}", path.display())])
             .current_dir(root)
             .status()
