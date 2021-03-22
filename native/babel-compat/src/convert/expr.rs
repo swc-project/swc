@@ -5,47 +5,39 @@ use super::Context;
 //     object::{ObjectProperty, ObjectPropVal},
 //     pat::{ArrayPattern, ObjectPattern, ObjectPatternProp, AssignmentPattern},
 // };
-use crate::ast::expr::Expression;
+use crate::ast::{
+    common::{SpreadElement as BabelSpreadElement, PrivateName},
+    expr::{
+        Expression, ThisExpression, ArrayExpression, ArrayExprEl, ObjectExpression, ObjectExprProp,
+        UnaryExpression, UpdateExpression, BinaryExpression, BinaryExprLeft,
+    },
+};
 use crate::convert::Babelify;
-use swc_ecma_ast::Expr;
-// use swc_common::Spanned;
-// use serde::{Serialize, Deserialize};
+use swc_ecma_ast::{
+    Expr, ThisExpr, ArrayLit, ObjectLit, FnExpr, UnaryExpr, UpdateExpr, BinExpr, AssignExpr,
+    MemberExpr, CondExpr, CallExpr, NewExpr, SeqExpr, Tpl, TaggedTpl, ArrowExpr, ClassExpr,
+    YieldExpr, AwaitExpr, ParenExpr, OptChainExpr, ExprOrSpread, PropOrSpread, SpreadElement,
+};
+use swc_common::Spanned;
+use serde::{Serialize, Deserialize};
 
-// TODO(dwoznicki): impelement
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum ExprOutput {
+    Expr(Expression),
+    Private(PrivateName),
+}
+
 impl Babelify for Expr {
-    type Output = Expression;
+    type Output = ExprOutput;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        panic!("unimplemented");
+        match self {
+            // Expr::This(t) => Expression::This(t.babelify(ctx)),
+            _ => panic!(), // TODO(dwoznicki)
+        }
     }
 }
 
-
-
-
-
-// #![allow(clippy::vec_box)]
-// use crate::{
-//     class::Class,
-//     function::Function,
-//     ident::{Ident, PrivateName},
-//     jsx::{JSXElement, JSXEmptyExpr, JSXFragment, JSXMemberExpr, JSXNamespacedName},
-//     lit::{Bool, Lit, Number, Str},
-//     operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
-//     pat::Pat,
-//     prop::Prop,
-//     stmt::BlockStmt,
-//     typescript::{
-//         TsAsExpr, TsConstAssertion, TsNonNullExpr, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
-//         TsTypeParamInstantiation,
-//     },
-//     Invalid,
-// };
-// use is_macro::Is;
-// use serde::{self, Deserialize, Serialize};
-// use swc_common::EqIgnoreSpan;
-// use swc_common::{ast_node, Span, Spanned, DUMMY_SP};
-//
 // #[ast_node]
 // #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 // #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -179,88 +171,118 @@ impl Babelify for Expr {
 //     Invalid(Invalid),
 // }
 //
-// #[ast_node("ThisExpression")]
-// #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct ThisExpr {
-//     pub span: Span,
-// }
-//
-// /// Array literal.
-// #[ast_node("ArrayExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct ArrayLit {
-//     pub span: Span,
-//
-//     #[serde(default, rename = "elements")]
-//     pub elems: Vec<Option<ExprOrSpread>>,
-// }
-//
-// /// Object literal.
-// #[ast_node("ObjectExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct ObjectLit {
-//     pub span: Span,
-//
-//     #[serde(default, rename = "properties")]
-//     pub props: Vec<PropOrSpread>,
-// }
-//
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum PropOrSpread {
-//     /// Spread properties, e.g., `{a: 1, ...obj, b: 2}`.
-//     #[tag("SpreadElement")]
-//     Spread(SpreadElement),
-//
-//     #[tag("*")]
-//     Prop(Box<Prop>),
-// }
-//
-// #[ast_node("SpreadElement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct SpreadElement {
-//     #[serde(rename = "spread")]
-//     #[span(lo)]
-//     pub dot3_token: Span,
-//
-//     #[serde(rename = "arguments")]
-//     #[span(hi)]
-//     pub expr: Box<Expr>,
-// }
-//
-// #[ast_node("UnaryExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct UnaryExpr {
-//     pub span: Span,
-//
-//     #[serde(rename = "operator")]
-//     pub op: UnaryOp,
-//
-//     #[serde(rename = "argument")]
-//     pub arg: Box<Expr>,
-// }
-//
-// #[ast_node("UpdateExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct UpdateExpr {
-//     pub span: Span,
-//
-//     #[serde(rename = "operator")]
-//     pub op: UpdateOp,
-//
-//     pub prefix: bool,
-//
-//     #[serde(rename = "argument")]
-//     pub arg: Box<Expr>,
-// }
-//
+
+impl From<ExprOutput> for Expression {
+    fn from(o: ExprOutput) -> Self {
+        match o {
+            ExprOutput::Private(_) => panic!("illegal conversion"), // TODO(dwoznicki): how to handle?
+            ExprOutput::Expr(expr) => expr,
+        }
+    }
+}
+
+impl From<ExprOutput> for BinaryExprLeft {
+    fn from(o: ExprOutput) -> Self {
+        match o {
+            ExprOutput::Expr(e) => BinaryExprLeft::Expr(e),
+            ExprOutput::Private(p) => BinaryExprLeft::Private(p),
+        }
+    }
+}
+
+impl Babelify for ThisExpr {
+    type Output = ThisExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        ThisExpression {
+            base: ctx.base(self.span),
+        }
+    }
+}
+
+impl Babelify for ArrayLit {
+    type Output = ArrayExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        ArrayExpression {
+            base: ctx.base(self.span),
+            elements: self.elems.iter().map(|opt| opt.as_ref().map(|el| el.clone().babelify(ctx))).collect(), // TODO(dwoznicki): is clone() best solution?
+        }
+    }
+}
+
+impl Babelify for ObjectLit {
+    type Output = ObjectExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        ObjectExpression {
+            base: ctx.base(self.span),
+            properties: self.props.iter().map(|prop| prop.clone().babelify(ctx)).collect(),
+        }
+    }
+}
+
+impl Babelify for PropOrSpread {
+    type Output = ObjectExprProp;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            PropOrSpread::Spread(s) => ObjectExprProp::Spread(s.babelify(ctx)),
+            PropOrSpread::Prop(p) => ObjectExprProp::Prop(p.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for SpreadElement {
+    type Output = BabelSpreadElement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        BabelSpreadElement {
+            base: ctx.base(self.span()),
+            argument: self.expr.babelify(ctx).into(),
+        }
+    }
+}
+
+impl Babelify for UnaryExpr {
+    type Output = UnaryExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        UnaryExpression {
+            base: ctx.base(self.span),
+            operator: self.op.babelify(ctx), // TODO(dwoznicki): missing `throw` op
+            argument: Box::new(self.arg.babelify(ctx).into()),
+            prefix: Default::default(),
+        }
+    }
+}
+
+impl Babelify for UpdateExpr {
+    type Output = UpdateExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        UpdateExpression {
+            base: ctx.base(self.span),
+            operator: self.op.babelify(ctx),
+            prefix: self.prefix,
+            argument: Box::new(self.arg.babelify(ctx).into()),
+        }
+    }
+}
+
+impl Babelify for BinExpr {
+    type Output = BinaryExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        BinaryExpression {
+            base: ctx.base(self.span),
+            operator: self.op.babelify(ctx).into(),
+            left: Box::new(self.left.babelify(ctx).into()),
+            right: Box::new(self.right.babelify(ctx).into()),
+        }
+    }
+}
+
 // #[ast_node("BinaryExpression")]
 // #[derive(Eq, Hash, EqIgnoreSpan)]
 // #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -513,6 +535,21 @@ impl Babelify for Expr {
 //     pub span: Span,
 // }
 //
+
+impl Babelify for ExprOrSpread {
+    type Output = ArrayExprEl;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self.spread {
+            Some(s) => ArrayExprEl::Spread(BabelSpreadElement {
+                base: ctx.base(self.span()),
+                argument: self.expr.babelify(ctx).into(),
+            }),
+            None => ArrayExprEl::Expr(self.expr.babelify(ctx).into()),
+        }
+    }
+}
+
 // #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Eq, Hash, EqIgnoreSpan)]
 // #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 // pub struct ExprOrSpread {

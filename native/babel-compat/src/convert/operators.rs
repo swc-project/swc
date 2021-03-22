@@ -10,6 +10,15 @@ pub enum BinaryOpOutput {
     LogicOp(LogicalExprOp),
 }
 
+impl From<BinaryOpOutput> for BinaryExprOp {
+    fn from(o: BinaryOpOutput) -> Self {
+        match o {
+            BinaryOpOutput::LogicOp(_) => panic!("illegal conversion"), // TODO(dwoznicki): how to handle?
+            BinaryOpOutput::BinOp(op) => op,
+        }
+    }
+}
+
 impl Babelify for BinaryOp {
     type Output = BinaryOpOutput;
 
@@ -86,6 +95,7 @@ impl Babelify for UnaryOp {
 
     fn babelify(self, _ctx: &Context) -> Self::Output {
         match self {
+            // TODO(dwoznicki): missing `throw` op
             UnaryOp::Minus => UnaryExprOp::Negation,
             UnaryOp::Plus => UnaryExprOp::Plus,
             UnaryOp::Bang => UnaryExprOp::LogicalNot,

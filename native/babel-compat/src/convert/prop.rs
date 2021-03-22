@@ -8,10 +8,10 @@ use crate::ast::{
     common::Identifier,
     expr::Expression,
     lit::{StringLiteral, NumericLiteral},
-    object::{ObjectKey},
+    object::{ObjectKey, ObjectProperty},
 };
 use crate::convert::Babelify;
-use swc_ecma_ast::{PropName, ComputedPropName};
+use swc_ecma_ast::{Prop, PropName, ComputedPropName};
 // use swc_common::Spanned;
 use serde::{Serialize, Deserialize};
 
@@ -67,15 +67,14 @@ impl Babelify for PropName {
 // }
 //
 
-impl Babelify for ComputedPropName {
-    type Output = Expression;
+// TODO(dwoznicki): implement
+impl Babelify for Prop {
+    type Output = ObjectProperty;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        // TODO(dwoznicki): implement
-        panic!("unimplemented");
+        panic!();
     }
 }
-
 
 // #[ast_node]
 // #[derive(Eq, Hash, Is, EqIgnoreSpan)]
@@ -173,6 +172,16 @@ impl Babelify for ComputedPropName {
 //     #[tag("BigInt")]
 //     BigInt(BigInt),
 // }
+
+impl Babelify for ComputedPropName {
+    type Output = Expression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        // TODO(dwoznicki): implement
+        panic!("unimplemented");
+    }
+}
+
 //
 // #[ast_node("Computed")]
 // #[derive(Eq, Hash, EqIgnoreSpan)]

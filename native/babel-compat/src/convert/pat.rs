@@ -40,7 +40,7 @@ impl Babelify for Pat {
             Pat::Object(o) => PatOutput::Object(o.babelify(ctx)),
             Pat::Assign(a) => PatOutput::Assign(a.babelify(ctx)),
             Pat::Invalid(_) => panic!("unimplemnted"), // TODO(dwoznicki): find corresponding babel node
-            Pat::Expr(e) => PatOutput::Expr(e.babelify(ctx)),
+            Pat::Expr(e) => PatOutput::Expr(e.babelify(ctx).into()),
         }
     }
 }
@@ -159,7 +159,7 @@ impl Babelify for AssignPat {
         AssignmentPattern {
             base: ctx.base(self.span),
             left: self.left.babelify(ctx).into(),
-            right: self.right.babelify(ctx),
+            right: self.right.babelify(ctx).into(),
             type_annotation: self.type_ann.map(|a| a.babelify(ctx).into()),
             decorators: Default::default(),
         }
