@@ -1,11 +1,13 @@
 use super::Context;
 use crate::ast::{
     common::{LVal, PatternLike, RestElement, Identifier},
-    object::{ObjectProperty, ObjectKey, ObjectPropVal},
-    pat::{ArrayPattern, ObjectPattern, ObjectPatternProp, AssignmentPattern},
+    expr::Expression,
+    object::{ObjectProperty, ObjectPropVal},
+    pat::{ArrayPattern, ObjectPattern, ObjectPatternProp, AssignmentPattern, AssignmentPatternLeft},
 };
 use crate::convert::Babelify;
-use swc_ecma_ast::{Pat, RestPat, ArrayPat, ObjectPat, ObjectPatProp, KeyValuePatProp};
+use swc_ecma_ast::{Pat, RestPat, ArrayPat, ObjectPat, ObjectPatProp, KeyValuePatProp, AssignPat};
+use swc_common::Spanned;
 use serde::{Serialize, Deserialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -15,6 +17,16 @@ pub enum PatOutput {
     Rest(RestElement),
     Object(ObjectPattern),
     Assign(AssignmentPattern),
+    Expr(Expression),
+}
+
+impl From<PatOutput> for ObjectPropVal {
+    fn from(p: PatOutput) -> Self {
+        match p {
+            PatOutput::Expr(e) => ObjectPropVal::Expr(e),
+            o => o.into(),
+        }
+    }
 }
 
 impl Babelify for Pat {
@@ -28,8 +40,7 @@ impl Babelify for Pat {
             Pat::Object(o) => PatOutput::Object(o.babelify(ctx)),
             Pat::Assign(a) => PatOutput::Assign(a.babelify(ctx)),
             Pat::Invalid(_) => panic!("unimplemnted"), // TODO(dwoznicki): find corresponding babel node
-            Pat::Expr(_) => panic!("unimplemented"), // TODO(dwoznicki): find corresponding babel node
-            _ => panic!()
+            Pat::Expr(e) => PatOutput::Expr(e.babelify(ctx)),
         }
     }
 }
@@ -42,6 +53,7 @@ impl From<PatOutput> for LVal {
             PatOutput::Rest(r) => LVal::RestEl(r),
             PatOutput::Object(o) => LVal::ObjectPat(o),
             PatOutput::Assign(a) => LVal::AssignmentPat(a),
+            PatOutput::Expr(_) => panic!("unimplemented"), // TODO(dwoznick): implement MemberExpression
         }
     }
 }
@@ -54,6 +66,20 @@ impl From<PatOutput> for PatternLike {
             PatOutput::Rest(r) => PatternLike::RestEl(r),
             PatOutput::Object(o) => PatternLike::ObjectPat(o),
             PatOutput::Assign(a) => PatternLike::AssignmentPat(a),
+            PatOutput::Expr(_) => panic!("illegal conversion"), // TODO(dwoznicki): how to handle?
+        }
+    }
+}
+
+impl From<PatOutput> for AssignmentPatternLeft {
+    fn from(pat: PatOutput) -> Self {
+        match pat {
+            PatOutput::Id(i) => AssignmentPatternLeft::Id(i),
+            PatOutput::Array(a) => AssignmentPatternLeft::Array(a),
+            PatOutput::Rest(_) => panic!("illegal conversion"), // TODO(dwoznicki): how to handle?
+            PatOutput::Object(o) => AssignmentPatternLeft::Object(o),
+            PatOutput::Assign(_) => panic!("illegal conversion"), // TODO(dwoznicki): how to handle?
+            PatOutput::Expr(_) => panic!("unimplemented"), // TODO(dwoznicki): implement MemberExpression
         }
     }
 }
@@ -77,7 +103,7 @@ impl Babelify for ObjectPat {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ObjectPattern {
             base: ctx.base(self.span),
-            properties: self.props.iter().map(|p| p.babelify(ctx)).collect(),
+            properties: self.props.iter().map(|p| p.clone().babelify(ctx)).collect(), // TODO(dwoznick): is clone() best solution?
             type_annotation: self.type_ann.map(|a| a.babelify(ctx).into()),
             decorators: Default::default(),
         }
@@ -91,7 +117,9 @@ impl Babelify for ObjectPatProp {
         match self {
             ObjectPatProp::KeyValue(p) => ObjectPatternProp::Prop(p.babelify(ctx)),
             ObjectPatProp::Rest(r) => ObjectPatternProp::Rest(r.babelify(ctx)),
-            ObjectPatProp::Assign(_) => panic!("unimplemented"), // TODO(dwoznicki): find best babel node
+            ObjectPatProp::Assign(_) => panic!("unimplemented"), // TODO(dwoznicki): what is this supposed to represent?
+            // #[tag("AssignmentPatternProperty")]
+            // Assign(AssignPatProp),
         }
     }
 }
@@ -101,8 +129,8 @@ impl Babelify for KeyValuePatProp {
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         ObjectProperty {
-            base: ctx.base(self.span),
-            key: self.key.babelify(ctx),
+            base: ctx.base(self.span()),
+            key: self.key.babelify(ctx).into(),
             value: self.value.babelify(ctx).into(),
             computed: Default::default(),
             shorthand: Default::default(),
@@ -110,18 +138,6 @@ impl Babelify for KeyValuePatProp {
         }
     }
 }
-
-// /// `{key: value}`
-// #[ast_node("KeyValuePatternProperty")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct KeyValuePatProp {
-//     #[span(lo)]
-//     pub key: PropName,
-//
-//     #[span(hi)]
-//     pub value: Box<Pat>,
-// }
 
 impl Babelify for RestPat {
     type Output = RestElement;
@@ -136,61 +152,20 @@ impl Babelify for RestPat {
     }
 }
 
-//
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct AssignPat {
-//     pub span: Span,
-//
-//     pub left: Box<Pat>,
-//
-//     pub right: Box<Expr>,
-//
-//     #[serde(default, rename = "typeAnnotation")]
-//     pub type_ann: Option<TsTypeAnn>,
-// }
-//
-// /// EsTree `RestElement`
-// #[ast_node("RestElement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct RestPat {
-//     pub span: Span,
-//
-//     #[serde(rename = "rest")]
-//     pub dot3_token: Span,
-//
-//     #[serde(rename = "argument")]
-//     pub arg: Box<Pat>,
-//
-//     #[serde(default, rename = "typeAnnotation")]
-//     pub type_ann: Option<TsTypeAnn>,
-// }
-//
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum ObjectPatProp {
-//     #[tag("KeyValuePatternProperty")]
-//     KeyValue(KeyValuePatProp),
-//
-//     #[tag("AssignmentPatternProperty")]
-//     Assign(AssignPatProp),
-//
-//     #[tag("RestElement")]
-//     Rest(RestPat),
-// }
-//
-// /// `{key: value}`
-// #[ast_node("KeyValuePatternProperty")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct KeyValuePatProp {
-//     #[span(lo)]
-//     pub key: PropName,
-//
-//     #[span(hi)]
-//     pub value: Box<Pat>,
-// }
+impl Babelify for AssignPat {
+    type Output = AssignmentPattern;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        AssignmentPattern {
+            base: ctx.base(self.span),
+            left: self.left.babelify(ctx).into(),
+            right: self.right.babelify(ctx),
+            type_annotation: self.type_ann.map(|a| a.babelify(ctx).into()),
+            decorators: Default::default(),
+        }
+    }
+}
+
 // /// `{key}` or `{key = value}`
 // #[ast_node("AssignmentPatternProperty")]
 // #[derive(Eq, Hash, EqIgnoreSpan)]
