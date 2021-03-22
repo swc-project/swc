@@ -34,8 +34,8 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          # - ubuntu-latest
-          # - macos-10.15
+          - ubuntu-latest
+          - macos-10.15
           - windows-2019
     steps:
       - uses: actions/checkout@v2
@@ -58,8 +58,8 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          # - ubuntu-latest
-          # - macos-10.15
+          - ubuntu-latest
+          - macos-10.15
           - windows-2019
         crate:
           - ast_node
@@ -77,6 +77,7 @@ jobs:
           - swc_ecma_codegen_macros
           - swc_ecma_dep_graph
           - swc_ecma_ext_transforms
+          - swc_ecma_loader
           - swc_ecma_parser
           - swc_ecma_preset_env
           - swc_ecma_transforms
