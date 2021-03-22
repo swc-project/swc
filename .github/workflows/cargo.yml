@@ -106,6 +106,7 @@ jobs:
     steps:
       - name: Handle line endings
         shell: bash
+        if: runner.os == 'Windows'
         run: |
           git config --system core.autocrlf false
           git config --system core.eol lf
