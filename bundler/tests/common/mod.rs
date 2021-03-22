@@ -54,6 +54,10 @@ fn load_url(url: Url) -> Result<String, Error> {
         _ => {}
     }
 
+    if let Ok("1") = std::env::var("CI").as_deref() {
+        panic!("The bundler test suite should not download files from CI")
+    }
+
     eprintln!("Storing `{}` at `{}`", url, cache_path.display());
 
     let resp = reqwest::blocking::get(url.clone())
@@ -253,9 +257,23 @@ impl Resolve for NodeResolver {
         }
 
         let cwd = &Path::new(".");
-        let base_dir = base.parent().unwrap_or(&cwd);
+        let mut base_dir = base.parent().unwrap_or(&cwd);
 
         if target.starts_with("./") || target.starts_with("../") {
+            let win_target;
+            let target = if cfg!(target_os = "windows") {
+                let t = if target.starts_with("./") {
+                    &target[2..]
+                } else {
+                    base_dir = base_dir.parent().unwrap();
+                    &target[3..]
+                };
+                win_target = t.replace("/", "\\");
+                &*win_target
+            } else {
+                target
+            };
+
             let path = base_dir.join(target);
             return self
                 .resolve_as_file(&path)

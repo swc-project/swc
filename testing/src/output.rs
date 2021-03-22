@@ -59,8 +59,16 @@ impl NormalizedOutput {
         P: AsRef<Path>,
     {
         let path = path.as_ref();
+        let path = path.canonicalize().unwrap_or_else(|err| {
+            eprintln!(
+                "compare_to_file: failed to canonicalize outfile path `{}`: {:?}",
+                path.display(),
+                err
+            );
+            path.to_path_buf()
+        });
 
-        let expected = File::open(path)
+        let expected = File::open(&path)
             .map(|mut file| {
                 let mut buf = String::new();
                 file.read_to_string(&mut buf).unwrap();
@@ -73,7 +81,13 @@ impl NormalizedOutput {
 
         let path_for_actual = paths::test_results_dir().join("ui").join(
             path.strip_prefix(&paths::manifest_dir())
-                .expect("failed to strip prefix: CARGO_MANIFEST_DIR"),
+                .unwrap_or_else(|_| {
+                    unreachable!(
+                        "failed to strip prefix: CARGO_MANIFEST_DIR\nPath: {}\nManifest dir: {}",
+                        path.display(),
+                        paths::manifest_dir().display()
+                    )
+                }),
         );
         eprintln!("{}:{}", path.display(), path_for_actual.display());
         if self.0 == expected {
@@ -109,16 +123,34 @@ impl From<String> for NormalizedOutput {
             return NormalizedOutput(s);
         }
 
-        let manifest_dir = format!("{}", paths::manifest_dir().display());
+        let manifest_dirs = vec![
+            adjust_canonicalization(paths::manifest_dir()),
+            paths::manifest_dir().to_string_lossy().to_string(),
+            adjust_canonicalization(paths::manifest_dir()).replace("\\", "\\\\"),
+            paths::manifest_dir()
+                .to_string_lossy()
+                .replace("\\", "\\\\"),
+        ];
 
         let s = s.replace("\r\n", "\n");
 
         let mut buf = String::new();
         for line in s.lines() {
-            if line.contains(&manifest_dir) {
-                buf.push_str(&line.replace(&manifest_dir, "$DIR").replace("\\", "/"))
+            if manifest_dirs.iter().any(|dir| line.contains(&**dir)) {
+                let mut s = line.to_string();
+
+                for dir in &manifest_dirs {
+                    s = s.replace(&**dir, "$DIR");
+                }
+                s = s.replace("\\\\", "\\").replace("\\", "/");
+                let s = if cfg!(target_os = "windows") {
+                    s.replace("//?/$DIR", "$DIR").replace("/?/$DIR", "$DIR")
+                } else {
+                    s
+                };
+                buf.push_str(&s)
             } else {
-                buf.push_str(&line)
+                buf.push_str(&line);
             }
             buf.push('\n')
         }
@@ -141,4 +173,20 @@ impl<R> TestOutput<Option<R>> {
     /// Expects **`result`** to be `None` and **`errors`** to be match content
     /// of `${path}.stderr`.
     pub fn expect_err(self, _path: &Path) {}
+}
+
+#[cfg(not(target_os = "windows"))]
+fn adjust_canonicalization<P: AsRef<Path>>(p: P) -> String {
+    p.as_ref().display().to_string()
+}
+
+#[cfg(target_os = "windows")]
+fn adjust_canonicalization<P: AsRef<Path>>(p: P) -> String {
+    const VERBATIM_PREFIX: &str = r#"\\?\"#;
+    let p = p.as_ref().display().to_string();
+    if p.starts_with(VERBATIM_PREFIX) {
+        p[VERBATIM_PREFIX.len()..].to_string()
+    } else {
+        p
+    }
 }
