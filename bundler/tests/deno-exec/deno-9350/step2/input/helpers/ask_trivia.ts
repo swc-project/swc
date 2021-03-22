@@ -1,5 +1,5 @@
-import { TRIVIA } from "../types/mod";
-import { getUserInput, printQuestion } from "./mod";
+import { TRIVIA } from "../types/mod.ts`";
+import { getUserInput, printQuestion } from "./mod.ts";
 
 export async function askTriviaQuestion(
   selectedTrivia: TRIVIA,

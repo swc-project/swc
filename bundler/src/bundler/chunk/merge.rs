@@ -726,6 +726,7 @@ where
     }
 
     fn finalize_merging_of_entry(&self, ctx: &Ctx, id: ModuleId, entry: &mut Modules) {
+        log::debug!("All modules are merged");
         self.handle_reexport_of_entry(ctx, id, entry);
 
         // print_hygiene("before sort", &self.cm, &entry.clone().into());

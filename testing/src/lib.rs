@@ -5,6 +5,10 @@ use difference::Changeset;
 use once_cell::sync::Lazy;
 pub use pretty_assertions::{assert_eq, assert_ne};
 use regex::Regex;
+use std::collections::HashMap;
+use std::env;
+use std::path::PathBuf;
+use std::sync::RwLock;
 use std::{
     fmt,
     fmt::Debug,
@@ -60,6 +64,37 @@ pub fn init() {
             writeln!(f, " {} > {}", level, record.args(),)
         })
         .try_init();
+}
+
+pub fn find_executable(name: &str) -> Option<PathBuf> {
+    static CACHE: Lazy<RwLock<HashMap<String, PathBuf>>> = Lazy::new(|| Default::default());
+
+    {
+        let locked = CACHE.read().unwrap();
+        if let Some(cached) = locked.get(name) {
+            return Some(cached.clone());
+        }
+    }
+
+    let path = env::var_os("PATH").and_then(|paths| {
+        env::split_paths(&paths)
+            .filter_map(|dir| {
+                let full_path = dir.join(&name);
+                if full_path.is_file() {
+                    Some(full_path)
+                } else {
+                    None
+                }
+            })
+            .next()
+    });
+
+    if let Some(path) = path.clone() {
+        let mut locked = CACHE.write().unwrap();
+        locked.insert(name.to_string(), path);
+    }
+
+    path
 }
 
 /// Run test and print errors.
