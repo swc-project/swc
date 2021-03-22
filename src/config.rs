@@ -494,7 +494,13 @@ impl FileMatcher {
 
                 let re = CACHE.get(&*s).unwrap();
 
-                Ok(re.is_match(&filename.to_string_lossy()))
+                let filename = if cfg!(target_os = "windows") {
+                    filename.to_string_lossy().replace("\\", "/")
+                } else {
+                    filename.to_string_lossy().to_string()
+                };
+
+                Ok(re.is_match(&filename))
             }
             FileMatcher::Multi(ref v) => {
                 //

@@ -1,3 +1,5 @@
+use std::path::Component;
+
 use anyhow::{Context, Error};
 use glob::glob;
 use pmutil::q;
@@ -127,7 +129,10 @@ pub fn expand(test_file: &SourceFile, callee: &Ident, attr: Config) -> Result<Ve
             }
         }
 
-        let ignored = path_str.starts_with(".") || path_str.contains("/.");
+        let ignored = path.components().any(|c| match c {
+            Component::Normal(s) => s.to_string_lossy().starts_with("."),
+            _ => false,
+        });
         let test_name = format!(
             "{}_{}",
             callee,

@@ -1,5 +1,5 @@
-import { generateTVSource } from "../helpers/mod";
-import { TRIVIA } from "../types/mod";
+import { generateTVSource } from "../helpers/mod.ts";
+import { TRIVIA } from "../types/mod.ts";
 
 const trivia: TRIVIA[] = [{
   question: "Where did episode 1 take place",

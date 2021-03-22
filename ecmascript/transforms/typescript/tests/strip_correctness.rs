@@ -62,7 +62,8 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
             .expect("failed to strip prefix")
             .to_str()
             .expect("to_str() failed")
-            .to_string();
+            .replace("\\\\", "/")
+            .replace("\\", "/");
 
         let ext = entry
             .path()
