@@ -13,6 +13,7 @@ use swc_common::SourceFile;
 use swc_common::SourceMap;
 use swc_common::Span;
 
+mod class;
 mod expr;
 mod function;
 mod ident;
@@ -20,6 +21,7 @@ mod lit;
 mod operators;
 mod pat;
 mod prop;
+mod stmt;
 mod typescript;
 
 #[derive(Clone)]
