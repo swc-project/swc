@@ -1,17 +1,17 @@
 use super::Context;
 use crate::ast::{
-    common::{IdOrRest, TypeAnnotOrNoop},
+    common::{IdOrRest, TypeAnnotOrNoop, TypeParamDeclOrNoop},
     typescript::{
         TSTypeAnnotation, TSType, TSAnyKeyword, TSUnknownKeyword, TSNumberKeyword, TSObjectKeyword,
         TSBooleanKeyword, TSBigIntKeyword, TSStringKeyword, TSSymbolKeyword, TSVoidKeyword,
         TSUndefinedKeyword, TSNullKeyword, TSNeverKeyword, TSIntrinsicKeyword, TSThisType,
-        TSFunctionType, TSConstructorType,
+        TSFunctionType, TSConstructorType, TSTypeParameterDeclaration, TSTypeParameter,
     },
 };
 use crate::convert::Babelify;
 use swc_ecma_ast::{
     TsTypeAnn, TsType, TsKeywordType, TsKeywordTypeKind, TsThisType, TsFnOrConstructorType,
-    TsFnType, TsFnParam,
+    TsFnType, TsFnParam, TsTypeParamDecl, TsTypeParam,
 };
 use serde::{Serialize, Deserialize};
 
@@ -285,6 +285,23 @@ impl Babelify for TsFnParam {
 // }
 //
 
+impl Babelify for TsTypeParamDecl {
+    type Output = TSTypeParameterDeclaration;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSTypeParameterDeclaration {
+            base: ctx.base(self.span),
+            params: self.params.iter().map(|p| p.clone().babelify(ctx)).collect(), // TODO(dwoznicki): clone()?
+        }
+    }
+}
+
+impl From<TSTypeParameterDeclaration> for TypeParamDeclOrNoop {
+    fn from(decl: TSTypeParameterDeclaration) -> Self {
+        TypeParamDeclOrNoop::TS(decl)
+    }
+}
+
 // #[ast_node("TsTypeParameterDeclaration")]
 // #[derive(Eq, Hash, EqIgnoreSpan)]
 // #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -293,6 +310,20 @@ impl Babelify for TsFnParam {
 //     #[serde(rename = "parameters")]
 //     pub params: Vec<TsTypeParam>,
 // }
+
+impl Babelify for TsTypeParam {
+    type Output = TSTypeParameter;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSTypeParameter {
+            base: ctx.base(self.span),
+            name: self.name.sym.to_string(),
+            constraint: self.constraint.map(|c| Box::new(c.babelify(ctx))),
+            default: self.default.map(|d| Box::new(d.babelify(ctx))),
+        }
+    }
+}
+
 //
 // #[ast_node("TsTypeParameter")]
 // #[derive(Eq, Hash, EqIgnoreSpan)]

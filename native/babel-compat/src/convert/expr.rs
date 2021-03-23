@@ -1,15 +1,10 @@
 use super::Context;
-// use crate::ast::{
-//     common::{LVal, PatternLike, RestElement, Identifier},
-//     expr::Expression,
-//     object::{ObjectProperty, ObjectPropVal},
-//     pat::{ArrayPattern, ObjectPattern, ObjectPatternProp, AssignmentPattern},
-// };
 use crate::ast::{
     common::{SpreadElement as BabelSpreadElement, PrivateName},
     expr::{
         Expression, ThisExpression, ArrayExpression, ArrayExprEl, ObjectExpression, ObjectExprProp,
-        UnaryExpression, UpdateExpression, BinaryExpression, BinaryExprLeft,
+        UnaryExpression, UpdateExpression, BinaryExpression, BinaryExprLeft, FunctionExpression,
+        ClassExpression,
     },
 };
 use crate::convert::Babelify;
@@ -283,33 +278,28 @@ impl Babelify for BinExpr {
     }
 }
 
-// #[ast_node("BinaryExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct BinExpr {
-//     pub span: Span,
-//
-//     #[serde(rename = "operator")]
-//     pub op: BinaryOp,
-//
-//     pub left: Box<Expr>,
-//
-//     pub right: Box<Expr>,
-// }
-//
-// /// Function expression.
-// #[ast_node("FunctionExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct FnExpr {
-//     #[serde(default, rename = "identifier")]
-//     pub ident: Option<Ident>,
-//
-//     #[serde(flatten)]
-//     #[span]
-//     pub function: Function,
-// }
-//
+impl Babelify for FnExpr {
+    type Output = FunctionExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        FunctionExpression {
+            id: self.ident.map(|id| id.babelify(ctx)),
+            ..self.function.babelify(ctx)
+        }
+    }
+}
+
+impl Babelify for ClassExpr {
+    type Output = ClassExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        ClassExpression {
+            id: self.ident.map(|id| id.babelify(ctx)),
+            ..self.class.babelify(ctx)
+        }
+    }
+}
+
 // /// Class expression.
 // #[ast_node("ClassExpression")]
 // #[derive(Eq, Hash, EqIgnoreSpan)]
