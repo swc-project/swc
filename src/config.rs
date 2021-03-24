@@ -251,7 +251,6 @@ impl Options {
                 }),
                 syntax.decorators()
             ),
-            Optional::new(typescript_class_properties(), syntax.typescript()),
             Optional::new(typescript::strip(), syntax.typescript()),
             resolver_with_mark(root_mark),
             const_modules,
