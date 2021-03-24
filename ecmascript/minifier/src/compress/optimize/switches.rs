@@ -15,6 +15,8 @@ use swc_ecma_visit::VisitWith;
 
 /// Methods related to option `switches`.
 impl Optimizer<'_> {
+    /// Handle switches in the case where we can know which branch will be
+    /// taken.
     pub(super) fn optimize_const_switches(&mut self, s: &mut Stmt) {
         if !self.options.switches || self.ctx.stmt_lablled {
             return;

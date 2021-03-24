@@ -13,9 +13,16 @@ use swc_ecma_utils::Value;
 use Value::Known;
 
 impl Optimizer<'_> {
+    ///
+    /// - `1 == 1` => `true`
     pub(super) fn optimize_lit_cmp(&mut self, n: &mut BinExpr) -> Option<Expr> {
         match n.op {
             op!("==") | op!("!=") => {
+                // Abort if types differ, or one of them is unknown.
+                if n.left.get_type().opt()? != n.right.get_type().opt()? {
+                    return None;
+                }
+
                 let l = n.left.as_pure_bool().opt()?;
                 let r = n.right.as_pure_bool().opt()?;
 
@@ -72,6 +79,7 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Convert expressions to string literal if possible.
     pub(super) fn optimize_expr_in_str_ctx(&mut self, n: &mut Expr) {
         match n {
             Expr::Lit(Lit::Str(..)) => return,

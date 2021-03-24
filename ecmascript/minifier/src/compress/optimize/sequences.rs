@@ -250,6 +250,9 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Lift sequence expressions in an assign expression.
+    ///
+    /// - `(a = (f, 4)) => (f, a = 4)`
     pub(super) fn lift_seqs_of_assign(&mut self, e: &mut SeqExpr) {
         if !self.options.sequences() {
             return;
@@ -329,6 +332,8 @@ impl Optimizer<'_> {
     }
 
     /// Move `var` in subscope to current scope.
+    ///
+    /// This mehod acutally `hoist`s [VarDecl]s declared with `var`.
     fn extract_vars(&mut self, s: &mut Stmt) {
         let mut found_other = false;
         match s {

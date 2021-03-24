@@ -14,6 +14,26 @@ use swc_ecma_visit::VisitWith;
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.
 impl Optimizer<'_> {
+    /// Merge simple return statements in if statements.
+    ///
+    /// # Example
+    ///
+    /// ## Input
+    ///
+    /// ```js
+    /// function foo() {
+    ///     if (a) return foo();
+    ///     return bar()
+    /// }
+    /// ```
+    ///
+    /// ## Output
+    ///
+    /// ```js
+    /// function foo() {
+    ///     return a ? foo() : bar();
+    /// }
+    /// ```
     pub(super) fn merge_if_returns<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,

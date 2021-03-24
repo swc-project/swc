@@ -5,6 +5,11 @@ use swc_ecma_utils::StmtLike;
 
 /// Methods related to option `join_vars`.
 impl Optimizer<'_> {
+    /// Join variables.
+    ///
+    /// This method may move variables to head of for statements like
+    ///
+    /// `var a; for(var b;;);` => `for(var a, b;;);`
     pub(super) fn join_vars<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,

@@ -8,6 +8,9 @@ use swc_ecma_utils::Value::Known;
 
 /// Methods related to the option `loops`.
 impl Optimizer<'_> {
+    ///
+    /// - `while(test);` => `for(;;test);
+    /// - `do; while(true)` => `for(;;);
     pub(super) fn loop_to_for_stmt(&mut self, s: &mut Stmt) {
         if !self.options.loops {
             return;
@@ -44,6 +47,7 @@ impl Optimizer<'_> {
         }
     }
 
+    /// `for(a;b;c;) break;` => `a;b;`
     pub(super) fn optimize_loops_with_break(&mut self, s: &mut Stmt) {
         if !self.options.loops {
             return;
@@ -79,6 +83,8 @@ impl Optimizer<'_> {
         *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP })
     }
 
+    ///
+    /// - `while(false) { var a; foo() }` => `var a;`
     pub(super) fn optiimze_loops_if_cond_is_false(&mut self, stmt: &mut Stmt) {
         if !self.options.loops {
             return;
@@ -152,6 +158,8 @@ impl Optimizer<'_> {
         }
     }
 
+    /// 
+    /// - `for (a(), 5; b(); c())` => `for (a(); b(); c())`
     pub(super) fn optimize_init_of_for_stmt(&mut self, s: &mut ForStmt) {
         if !self.options.side_effects {
             return;

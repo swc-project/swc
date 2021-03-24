@@ -4,6 +4,8 @@ use swc_ecma_utils::ident::IdentLike;
 
 /// Methods related to the option `hoist_props`.
 impl Optimizer<'_> {
+    /// Store values of properties so we can replace property accesses with the
+    /// values.
     pub(super) fn store_var_for_prop_hoisting(&mut self, n: &mut VarDeclarator) {
         if !self.options.hoist_props && !self.options.reduce_vars {
             return;
@@ -145,6 +147,7 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Replace property accesses to known values.
     pub(super) fn replace_props(&mut self, e: &mut Expr) {
         let member = match e {
             Expr::Member(m) => m,

@@ -139,10 +139,12 @@ impl Optimizer<'_> {
 
         match decl {
             Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+                // We should skip if the name of decl is arguments.
                 if ident.sym == js_word!("arguments") {
                     return;
                 }
 
+                // If it is not used, drop it.
                 if self
                     .data
                     .as_ref()
@@ -233,6 +235,7 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Make `name` [None] if the name is not used.
     pub(super) fn remove_name_if_not_used(&mut self, name: &mut Option<Ident>) {
         if !self.options.unused {
             return;

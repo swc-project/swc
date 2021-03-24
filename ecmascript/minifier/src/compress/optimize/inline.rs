@@ -8,6 +8,10 @@ use swc_ecma_utils::ExprExt;
 
 /// Methods related to option `inline`.
 impl Optimizer<'_> {
+    /// Stores the value of a variable to inline it.
+    ///
+    /// This method may remove value of initializer. It mean that the value will
+    /// be inlined and should be removed from [Vec<VarDeclarator>].
     pub(super) fn store_var_for_inining(&mut self, var: &mut VarDeclarator) {
         let init = match &mut var.init {
             Some(v) => v,
@@ -151,6 +155,7 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Check if the body of a function is simple enough to inline.
     fn is_fn_body_simple_enough_to_inline(&self, body: &BlockStmt) -> bool {
         if body.stmts.len() == 1 {
             match &body.stmts[0] {
@@ -171,6 +176,7 @@ impl Optimizer<'_> {
         false
     }
 
+    /// Stores `typeof` of [ClassDecl] and [FnDecl].
     pub(super) fn store_typeofs(&mut self, decl: &mut Decl) {
         if !self.options.reduce_vars || !self.options.typeofs {
             return;
@@ -205,7 +211,7 @@ impl Optimizer<'_> {
         }
     }
 
-    /// This method handles only class decl and fn decl. Var decl should be
+    /// This method handles only [ClassDecl] and [FnDecl]. [VarDecl] should be
     /// handled specially.
     pub(super) fn store_decl_for_inlining(&mut self, decl: &mut Decl) {
         if self.options.inline == 0 && !self.options.reduce_vars {
@@ -343,6 +349,7 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Actually inlines variables.
     pub(super) fn inline(&mut self, e: &mut Expr) {
         if self.ctx.inline_prevented {
             return;

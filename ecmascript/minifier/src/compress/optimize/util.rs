@@ -87,6 +87,7 @@ impl<'b> Optimizer<'b> {
         }
     }
 
+    /// RAII guard to change context temporarically
     #[inline]
     pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<'_, 'b> {
         let orig_ctx = self.ctx;

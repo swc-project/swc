@@ -85,17 +85,28 @@ pub(super) fn optimizer<'a>(
     }
 }
 
+/// Syntactic context.
+///
+/// This should not be modified directly. Use `.with_ctx()` instead.
 #[derive(Debug, Default, Clone, Copy)]
 struct Ctx {
     /// `true` if the [VarDecl] has const annotation.
     has_const_ann: bool,
 
+    /// `true` if we should not inline values.
     inline_prevented: bool,
+    /// `true` if we are in the strict mode. This will be set to `true` for
+    /// statements **after** `'use strict'`
     in_strict: bool,
+    /// `true` if we are try block. `true` means we cannot be sure about control
+    /// flow.
     in_try_block: bool,
+    /// `true` while handling `test` of if / while / for.
     in_cond: bool,
 
+    /// `true` if we are in `arg` of `delete arg`.
     is_delete_arg: bool,
+    /// `true` if we are in `arg` of `++arg` or `--arg`.
     is_update_arg: bool,
     is_lhs_of_assign: bool,
 
@@ -135,7 +146,9 @@ struct Optimizer<'a> {
     changed: bool,
     options: CompressOptions,
 
+    /// Statements prepended to the current statement.
     prepend_stmts: Vec<Stmt>,
+    /// Statements appended to the current statement.
     append_stmts: Vec<Stmt>,
 
     /// Cheap to clone.
@@ -148,8 +161,13 @@ struct Optimizer<'a> {
     simple_props: FxHashMap<(Id, JsWord), Box<Expr>>,
     simple_array_values: FxHashMap<(Id, usize), Box<Expr>>,
     typeofs: FxHashMap<Id, JsWord>,
+    /// This information is created by analyzing identifier usages.
+    ///
+    /// This is calculated multiple time, but only once per one
+    /// `visit_mut_module`.
     data: Option<ProgramData>,
     ctx: Ctx,
+    /// In future: This will be used to `mark` node as done.
     done: Mark,
     done_ctxt: SyntaxContext,
 }

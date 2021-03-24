@@ -2,6 +2,7 @@ use super::Optimizer;
 use swc_ecma_ast::*;
 
 impl Optimizer<'_> {
+    /// Converts template literals to string if `exprs` of [Tpl] is empty.
     pub(super) fn convert_tpl_to_str(&mut self, e: &mut Expr) {
         match e {
             Expr::Tpl(t) if t.quasis.len() == 1 && t.exprs.is_empty() => {
