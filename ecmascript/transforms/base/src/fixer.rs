@@ -95,7 +95,7 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
 
         match &*expr.arg {
-            Expr::Cond(..) => self.wrap(&mut expr.arg),
+            Expr::Cond(..) | Expr::Assign(..) => self.wrap(&mut expr.arg),
             _ => {}
         }
     }
@@ -1064,4 +1064,6 @@ var store = global[SHARED] || (global[SHARED] = {});
         issue_1397,
         "const main = async () => await (await server)()"
     );
+
+    identical!(deno_9810, "await (bar = Promise.resolve(2));");
 }
