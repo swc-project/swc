@@ -21,7 +21,6 @@ pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::hygiene;
 use swc_ecma_transforms::{
-    compat::es2020::typescript_class_properties,
     modules,
     optimization::const_modules,
     optimization::{inline_globals, json_parse, simplifier},
