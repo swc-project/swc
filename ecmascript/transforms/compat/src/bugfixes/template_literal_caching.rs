@@ -90,16 +90,19 @@ impl Fold for TemplateLiteralCaching {
                 let template = TaggedTpl {
                     span: DUMMY_SP,
                     tag: Box::new(Expr::Ident(helper_ident.clone())),
-                    quasis: n.quasis,
-                    exprs: (&n.exprs)
-                        .into_iter()
-                        .map(|_| {
-                            Box::new(Expr::Lit(Lit::Num(Number {
-                                span: DUMMY_SP,
-                                value: 0.0,
-                            })))
-                        })
-                        .collect(),
+                    tpl: Tpl {
+                        span: DUMMY_SP,
+                        quasis: n.tpl.quasis,
+                        exprs: (&n.tpl.exprs)
+                            .into_iter()
+                            .map(|_| {
+                                Box::new(Expr::Lit(Lit::Num(Number {
+                                    span: DUMMY_SP,
+                                    value: 0.0,
+                                })))
+                            })
+                            .collect(),
+                    },
                     type_params: None,
                 };
 
@@ -132,7 +135,8 @@ impl Fold for TemplateLiteralCaching {
                     }]
                     .into_iter()
                     .chain(
-                        n.exprs
+                        n.tpl
+                            .exprs
                             .into_iter()
                             .map(|expr| ExprOrSpread { expr, spread: None }),
                     )

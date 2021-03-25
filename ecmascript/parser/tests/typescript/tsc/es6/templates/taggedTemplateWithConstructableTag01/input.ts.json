@@ -56,47 +56,55 @@
           "value": "CtorTag",
           "optional": false
         },
-        "expressions": [],
-        "quasis": [
-          {
-            "type": "TemplateElement",
-            "span": {
-              "start": 28,
-              "end": 40,
-              "ctxt": 0
-            },
-            "tail": true,
-            "cooked": {
-              "type": "StringLiteral",
+        "typeParameters": null,
+        "template": {
+          "type": "TemplateLiteral",
+          "span": {
+            "start": 27,
+            "end": 41,
+            "ctxt": 0
+          },
+          "expressions": [],
+          "quasis": [
+            {
+              "type": "TemplateElement",
               "span": {
                 "start": 28,
                 "end": 40,
                 "ctxt": 0
               },
-              "value": "Hello world!",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": false
-              }
-            },
-            "raw": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 28,
-                "end": 40,
-                "ctxt": 0
+              "tail": true,
+              "cooked": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 28,
+                  "end": 40,
+                  "ctxt": 0
+                },
+                "value": "Hello world!",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": false
+                }
               },
-              "value": "Hello world!",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": false
+              "raw": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 28,
+                  "end": 40,
+                  "ctxt": 0
+                },
+                "value": "Hello world!",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": false
+                }
               }
             }
-          }
-        ],
-        "typeParameters": null
+          ]
+        }
       }
     }
   ],
