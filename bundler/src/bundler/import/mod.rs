@@ -548,7 +548,8 @@ where
             Some(exported) => {
                 debug_assert_eq!(
                     exported.span.ctxt, self.module_ctxt,
-                    "Exported names should have same (local) context as top-level module items"
+                    "Exported names should have same (local) context as top-level module items\n{}",
+                    self.path
                 );
             }
             None => {
