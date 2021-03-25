@@ -773,15 +773,12 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     #[allow(clippy::vec_box)]
-    fn parse_tpl_elements(
-        &mut self,
-        is_tagged: bool,
-    ) -> PResult<(Vec<Box<Expr>>, Vec<TplElement>)> {
+    fn parse_tpl_elements(&mut self) -> PResult<(Vec<Box<Expr>>, Vec<TplElement>)> {
         trace_cur!(self, parse_tpl_elements);
 
         let mut exprs = vec![];
 
-        let cur_elem = self.parse_tpl_element(is_tagged)?;
+        let cur_elem = self.parse_tpl_element()?;
         let mut is_tail = cur_elem.tail;
         let mut quasis = vec![cur_elem];
 
@@ -789,7 +786,7 @@ impl<'a, I: Tokens> Parser<I> {
             expect!(self, "${");
             exprs.push(self.include_in_expr(true).parse_expr()?);
             expect!(self, '}');
-            let elem = self.parse_tpl_element(is_tagged)?;
+            let elem = self.parse_tpl_element()?;
             is_tail = elem.tail;
             quasis.push(elem);
         }
@@ -805,19 +802,14 @@ impl<'a, I: Tokens> Parser<I> {
         let tagged_tpl_start = tag.span().lo();
         trace_cur!(self, parse_tagged_tpl);
 
-        assert_and_bump!(self, '`');
-
-        let (exprs, quasis) = self.parse_tpl_elements(false)?;
-
-        expect!(self, '`');
+        let tpl = self.parse_tpl()?;
 
         let span = span!(self, tagged_tpl_start);
         Ok(TaggedTpl {
             span,
             tag,
-            exprs,
             type_params,
-            quasis,
+            tpl,
         })
     }
 
@@ -827,7 +819,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         assert_and_bump!(self, '`');
 
-        let (exprs, quasis) = self.parse_tpl_elements(false)?;
+        let (exprs, quasis) = self.parse_tpl_elements()?;
 
         expect!(self, '`');
 
@@ -839,7 +831,7 @@ impl<'a, I: Tokens> Parser<I> {
         })
     }
 
-    pub(super) fn parse_tpl_element(&mut self, is_tagged: bool) -> PResult<TplElement> {
+    pub(super) fn parse_tpl_element(&mut self) -> PResult<TplElement> {
         let start = cur_pos!(self);
 
         let (raw, cooked) = match *cur!(self, true)? {

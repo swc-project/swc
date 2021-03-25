@@ -811,7 +811,7 @@ impl VisitMut for Dce<'_> {
     normal!(visit_mut_rest_pat, RestPat, arg);
     normal!(visit_mut_seq_expr, SeqExpr, [], [exprs]);
     normal!(visit_mut_setter_prop, SetterProp, key, param, body);
-    normal!(visit_mut_tagged_tpl, TaggedTpl, [tag], [exprs]);
+    normal!(visit_mut_tagged_tpl, TaggedTpl, tag, tpl);
     normal!(visit_mut_tpl, Tpl, [], [exprs]);
     normal!(visit_mut_yield_expr, YieldExpr, arg);
 }
