@@ -328,7 +328,10 @@ impl Strip {
                                         specifiers: vec![ExportNamedSpecifier {
                                             span: DUMMY_SP,
                                             orig: ident,
-                                            exported: Some(private_ident!("default")),
+                                            exported: Some(Ident::new(
+                                                js_word!("default"),
+                                                DUMMY_SP,
+                                            )),
                                         }
                                         .into()],
                                         src: None,
