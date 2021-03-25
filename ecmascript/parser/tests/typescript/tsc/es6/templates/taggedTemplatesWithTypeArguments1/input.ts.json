@@ -464,320 +464,6 @@
                 "value": "f",
                 "optional": false
               },
-              "expressions": [
-                {
-                  "type": "ArrowFunctionExpression",
-                  "span": {
-                    "start": 225,
-                    "end": 241,
-                    "ctxt": 0
-                  },
-                  "params": [
-                    {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 225,
-                        "end": 230,
-                        "ctxt": 0
-                      },
-                      "value": "stuff",
-                      "optional": false,
-                      "typeAnnotation": null
-                    }
-                  ],
-                  "body": {
-                    "type": "MemberExpression",
-                    "span": {
-                      "start": 234,
-                      "end": 241,
-                      "ctxt": 0
-                    },
-                    "object": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 234,
-                        "end": 239,
-                        "ctxt": 0
-                      },
-                      "value": "stuff",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 240,
-                        "end": 241,
-                        "ctxt": 0
-                      },
-                      "value": "x",
-                      "optional": false
-                    },
-                    "computed": false
-                  },
-                  "async": false,
-                  "generator": false,
-                  "typeParameters": null,
-                  "returnType": null
-                },
-                {
-                  "type": "ArrowFunctionExpression",
-                  "span": {
-                    "start": 259,
-                    "end": 275,
-                    "ctxt": 0
-                  },
-                  "params": [
-                    {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 259,
-                        "end": 264,
-                        "ctxt": 0
-                      },
-                      "value": "stuff",
-                      "optional": false,
-                      "typeAnnotation": null
-                    }
-                  ],
-                  "body": {
-                    "type": "MemberExpression",
-                    "span": {
-                      "start": 268,
-                      "end": 275,
-                      "ctxt": 0
-                    },
-                    "object": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 268,
-                        "end": 273,
-                        "ctxt": 0
-                      },
-                      "value": "stuff",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 274,
-                        "end": 275,
-                        "ctxt": 0
-                      },
-                      "value": "y",
-                      "optional": false
-                    },
-                    "computed": false
-                  },
-                  "async": false,
-                  "generator": false,
-                  "typeParameters": null,
-                  "returnType": null
-                },
-                {
-                  "type": "ArrowFunctionExpression",
-                  "span": {
-                    "start": 293,
-                    "end": 309,
-                    "ctxt": 0
-                  },
-                  "params": [
-                    {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 293,
-                        "end": 298,
-                        "ctxt": 0
-                      },
-                      "value": "stuff",
-                      "optional": false,
-                      "typeAnnotation": null
-                    }
-                  ],
-                  "body": {
-                    "type": "MemberExpression",
-                    "span": {
-                      "start": 302,
-                      "end": 309,
-                      "ctxt": 0
-                    },
-                    "object": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 302,
-                        "end": 307,
-                        "ctxt": 0
-                      },
-                      "value": "stuff",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 308,
-                        "end": 309,
-                        "ctxt": 0
-                      },
-                      "value": "z",
-                      "optional": false
-                    },
-                    "computed": false
-                  },
-                  "async": false,
-                  "generator": false,
-                  "typeParameters": null,
-                  "returnType": null
-                }
-              ],
-              "quasis": [
-                {
-                  "type": "TemplateElement",
-                  "span": {
-                    "start": 208,
-                    "end": 223,
-                    "ctxt": 0
-                  },
-                  "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 208,
-                      "end": 223,
-                      "ctxt": 0
-                    },
-                    "value": "\n    hello\n    ",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 208,
-                      "end": 223,
-                      "ctxt": 0
-                    },
-                    "value": "\n    hello\n    ",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
-                },
-                {
-                  "type": "TemplateElement",
-                  "span": {
-                    "start": 242,
-                    "end": 257,
-                    "ctxt": 0
-                  },
-                  "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 242,
-                      "end": 257,
-                      "ctxt": 0
-                    },
-                    "value": "\n    brave\n    ",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 242,
-                      "end": 257,
-                      "ctxt": 0
-                    },
-                    "value": "\n    brave\n    ",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
-                },
-                {
-                  "type": "TemplateElement",
-                  "span": {
-                    "start": 276,
-                    "end": 291,
-                    "ctxt": 0
-                  },
-                  "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 276,
-                      "end": 291,
-                      "ctxt": 0
-                    },
-                    "value": "\n    world\n    ",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 276,
-                      "end": 291,
-                      "ctxt": 0
-                    },
-                    "value": "\n    world\n    ",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
-                },
-                {
-                  "type": "TemplateElement",
-                  "span": {
-                    "start": 310,
-                    "end": 311,
-                    "ctxt": 0
-                  },
-                  "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 310,
-                      "end": 311,
-                      "ctxt": 0
-                    },
-                    "value": "\n",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 310,
-                      "end": 311,
-                      "ctxt": 0
-                    },
-                    "value": "\n",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
-                }
-              ],
               "typeParameters": {
                 "type": "TsTypeParameterInstantiation",
                 "span": {
@@ -804,6 +490,328 @@
                       "optional": false
                     },
                     "typeParams": null
+                  }
+                ]
+              },
+              "template": {
+                "type": "TemplateLiteral",
+                "span": {
+                  "start": 207,
+                  "end": 312,
+                  "ctxt": 0
+                },
+                "expressions": [
+                  {
+                    "type": "ArrowFunctionExpression",
+                    "span": {
+                      "start": 225,
+                      "end": 241,
+                      "ctxt": 0
+                    },
+                    "params": [
+                      {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 225,
+                          "end": 230,
+                          "ctxt": 0
+                        },
+                        "value": "stuff",
+                        "optional": false,
+                        "typeAnnotation": null
+                      }
+                    ],
+                    "body": {
+                      "type": "MemberExpression",
+                      "span": {
+                        "start": 234,
+                        "end": 241,
+                        "ctxt": 0
+                      },
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 234,
+                          "end": 239,
+                          "ctxt": 0
+                        },
+                        "value": "stuff",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 240,
+                          "end": 241,
+                          "ctxt": 0
+                        },
+                        "value": "x",
+                        "optional": false
+                      },
+                      "computed": false
+                    },
+                    "async": false,
+                    "generator": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  },
+                  {
+                    "type": "ArrowFunctionExpression",
+                    "span": {
+                      "start": 259,
+                      "end": 275,
+                      "ctxt": 0
+                    },
+                    "params": [
+                      {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 259,
+                          "end": 264,
+                          "ctxt": 0
+                        },
+                        "value": "stuff",
+                        "optional": false,
+                        "typeAnnotation": null
+                      }
+                    ],
+                    "body": {
+                      "type": "MemberExpression",
+                      "span": {
+                        "start": 268,
+                        "end": 275,
+                        "ctxt": 0
+                      },
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 268,
+                          "end": 273,
+                          "ctxt": 0
+                        },
+                        "value": "stuff",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 274,
+                          "end": 275,
+                          "ctxt": 0
+                        },
+                        "value": "y",
+                        "optional": false
+                      },
+                      "computed": false
+                    },
+                    "async": false,
+                    "generator": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  },
+                  {
+                    "type": "ArrowFunctionExpression",
+                    "span": {
+                      "start": 293,
+                      "end": 309,
+                      "ctxt": 0
+                    },
+                    "params": [
+                      {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 293,
+                          "end": 298,
+                          "ctxt": 0
+                        },
+                        "value": "stuff",
+                        "optional": false,
+                        "typeAnnotation": null
+                      }
+                    ],
+                    "body": {
+                      "type": "MemberExpression",
+                      "span": {
+                        "start": 302,
+                        "end": 309,
+                        "ctxt": 0
+                      },
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 302,
+                          "end": 307,
+                          "ctxt": 0
+                        },
+                        "value": "stuff",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 308,
+                          "end": 309,
+                          "ctxt": 0
+                        },
+                        "value": "z",
+                        "optional": false
+                      },
+                      "computed": false
+                    },
+                    "async": false,
+                    "generator": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  }
+                ],
+                "quasis": [
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 208,
+                      "end": 223,
+                      "ctxt": 0
+                    },
+                    "tail": false,
+                    "cooked": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 208,
+                        "end": 223,
+                        "ctxt": 0
+                      },
+                      "value": "\n    hello\n    ",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    },
+                    "raw": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 208,
+                        "end": 223,
+                        "ctxt": 0
+                      },
+                      "value": "\n    hello\n    ",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    }
+                  },
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 242,
+                      "end": 257,
+                      "ctxt": 0
+                    },
+                    "tail": false,
+                    "cooked": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 242,
+                        "end": 257,
+                        "ctxt": 0
+                      },
+                      "value": "\n    brave\n    ",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    },
+                    "raw": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 242,
+                        "end": 257,
+                        "ctxt": 0
+                      },
+                      "value": "\n    brave\n    ",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    }
+                  },
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 276,
+                      "end": 291,
+                      "ctxt": 0
+                    },
+                    "tail": false,
+                    "cooked": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 276,
+                        "end": 291,
+                        "ctxt": 0
+                      },
+                      "value": "\n    world\n    ",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    },
+                    "raw": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 276,
+                        "end": 291,
+                        "ctxt": 0
+                      },
+                      "value": "\n    world\n    ",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    }
+                  },
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 310,
+                      "end": 311,
+                      "ctxt": 0
+                    },
+                    "tail": true,
+                    "cooked": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 310,
+                        "end": 311,
+                        "ctxt": 0
+                      },
+                      "value": "\n",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    },
+                    "raw": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 310,
+                        "end": 311,
+                        "ctxt": 0
+                      },
+                      "value": "\n",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    }
                   }
                 ]
               }
@@ -1407,320 +1415,6 @@
                 "value": "g",
                 "optional": false
               },
-              "expressions": [
-                {
-                  "type": "ArrowFunctionExpression",
-                  "span": {
-                    "start": 529,
-                    "end": 545,
-                    "ctxt": 0
-                  },
-                  "params": [
-                    {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 529,
-                        "end": 534,
-                        "ctxt": 0
-                      },
-                      "value": "stuff",
-                      "optional": false,
-                      "typeAnnotation": null
-                    }
-                  ],
-                  "body": {
-                    "type": "MemberExpression",
-                    "span": {
-                      "start": 538,
-                      "end": 545,
-                      "ctxt": 0
-                    },
-                    "object": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 538,
-                        "end": 543,
-                        "ctxt": 0
-                      },
-                      "value": "stuff",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 544,
-                        "end": 545,
-                        "ctxt": 0
-                      },
-                      "value": "x",
-                      "optional": false
-                    },
-                    "computed": false
-                  },
-                  "async": false,
-                  "generator": false,
-                  "typeParameters": null,
-                  "returnType": null
-                },
-                {
-                  "type": "ArrowFunctionExpression",
-                  "span": {
-                    "start": 563,
-                    "end": 579,
-                    "ctxt": 0
-                  },
-                  "params": [
-                    {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 563,
-                        "end": 568,
-                        "ctxt": 0
-                      },
-                      "value": "stuff",
-                      "optional": false,
-                      "typeAnnotation": null
-                    }
-                  ],
-                  "body": {
-                    "type": "MemberExpression",
-                    "span": {
-                      "start": 572,
-                      "end": 579,
-                      "ctxt": 0
-                    },
-                    "object": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 572,
-                        "end": 577,
-                        "ctxt": 0
-                      },
-                      "value": "stuff",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 578,
-                        "end": 579,
-                        "ctxt": 0
-                      },
-                      "value": "y",
-                      "optional": false
-                    },
-                    "computed": false
-                  },
-                  "async": false,
-                  "generator": false,
-                  "typeParameters": null,
-                  "returnType": null
-                },
-                {
-                  "type": "ArrowFunctionExpression",
-                  "span": {
-                    "start": 597,
-                    "end": 613,
-                    "ctxt": 0
-                  },
-                  "params": [
-                    {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 597,
-                        "end": 602,
-                        "ctxt": 0
-                      },
-                      "value": "stuff",
-                      "optional": false,
-                      "typeAnnotation": null
-                    }
-                  ],
-                  "body": {
-                    "type": "MemberExpression",
-                    "span": {
-                      "start": 606,
-                      "end": 613,
-                      "ctxt": 0
-                    },
-                    "object": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 606,
-                        "end": 611,
-                        "ctxt": 0
-                      },
-                      "value": "stuff",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 612,
-                        "end": 613,
-                        "ctxt": 0
-                      },
-                      "value": "z",
-                      "optional": false
-                    },
-                    "computed": false
-                  },
-                  "async": false,
-                  "generator": false,
-                  "typeParameters": null,
-                  "returnType": null
-                }
-              ],
-              "quasis": [
-                {
-                  "type": "TemplateElement",
-                  "span": {
-                    "start": 512,
-                    "end": 527,
-                    "ctxt": 0
-                  },
-                  "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 512,
-                      "end": 527,
-                      "ctxt": 0
-                    },
-                    "value": "\n    hello\n    ",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 512,
-                      "end": 527,
-                      "ctxt": 0
-                    },
-                    "value": "\n    hello\n    ",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
-                },
-                {
-                  "type": "TemplateElement",
-                  "span": {
-                    "start": 546,
-                    "end": 561,
-                    "ctxt": 0
-                  },
-                  "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 546,
-                      "end": 561,
-                      "ctxt": 0
-                    },
-                    "value": "\n    brave\n    ",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 546,
-                      "end": 561,
-                      "ctxt": 0
-                    },
-                    "value": "\n    brave\n    ",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
-                },
-                {
-                  "type": "TemplateElement",
-                  "span": {
-                    "start": 580,
-                    "end": 595,
-                    "ctxt": 0
-                  },
-                  "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 580,
-                      "end": 595,
-                      "ctxt": 0
-                    },
-                    "value": "\n    world\n    ",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 580,
-                      "end": 595,
-                      "ctxt": 0
-                    },
-                    "value": "\n    world\n    ",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
-                },
-                {
-                  "type": "TemplateElement",
-                  "span": {
-                    "start": 614,
-                    "end": 615,
-                    "ctxt": 0
-                  },
-                  "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 614,
-                      "end": 615,
-                      "ctxt": 0
-                    },
-                    "value": "\n",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 614,
-                      "end": 615,
-                      "ctxt": 0
-                    },
-                    "value": "\n",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
-                }
-              ],
               "typeParameters": {
                 "type": "TsTypeParameterInstantiation",
                 "span": {
@@ -1774,6 +1468,328 @@
                       "ctxt": 0
                     },
                     "kind": "boolean"
+                  }
+                ]
+              },
+              "template": {
+                "type": "TemplateLiteral",
+                "span": {
+                  "start": 511,
+                  "end": 616,
+                  "ctxt": 0
+                },
+                "expressions": [
+                  {
+                    "type": "ArrowFunctionExpression",
+                    "span": {
+                      "start": 529,
+                      "end": 545,
+                      "ctxt": 0
+                    },
+                    "params": [
+                      {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 529,
+                          "end": 534,
+                          "ctxt": 0
+                        },
+                        "value": "stuff",
+                        "optional": false,
+                        "typeAnnotation": null
+                      }
+                    ],
+                    "body": {
+                      "type": "MemberExpression",
+                      "span": {
+                        "start": 538,
+                        "end": 545,
+                        "ctxt": 0
+                      },
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 538,
+                          "end": 543,
+                          "ctxt": 0
+                        },
+                        "value": "stuff",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 544,
+                          "end": 545,
+                          "ctxt": 0
+                        },
+                        "value": "x",
+                        "optional": false
+                      },
+                      "computed": false
+                    },
+                    "async": false,
+                    "generator": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  },
+                  {
+                    "type": "ArrowFunctionExpression",
+                    "span": {
+                      "start": 563,
+                      "end": 579,
+                      "ctxt": 0
+                    },
+                    "params": [
+                      {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 563,
+                          "end": 568,
+                          "ctxt": 0
+                        },
+                        "value": "stuff",
+                        "optional": false,
+                        "typeAnnotation": null
+                      }
+                    ],
+                    "body": {
+                      "type": "MemberExpression",
+                      "span": {
+                        "start": 572,
+                        "end": 579,
+                        "ctxt": 0
+                      },
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 572,
+                          "end": 577,
+                          "ctxt": 0
+                        },
+                        "value": "stuff",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 578,
+                          "end": 579,
+                          "ctxt": 0
+                        },
+                        "value": "y",
+                        "optional": false
+                      },
+                      "computed": false
+                    },
+                    "async": false,
+                    "generator": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  },
+                  {
+                    "type": "ArrowFunctionExpression",
+                    "span": {
+                      "start": 597,
+                      "end": 613,
+                      "ctxt": 0
+                    },
+                    "params": [
+                      {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 597,
+                          "end": 602,
+                          "ctxt": 0
+                        },
+                        "value": "stuff",
+                        "optional": false,
+                        "typeAnnotation": null
+                      }
+                    ],
+                    "body": {
+                      "type": "MemberExpression",
+                      "span": {
+                        "start": 606,
+                        "end": 613,
+                        "ctxt": 0
+                      },
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 606,
+                          "end": 611,
+                          "ctxt": 0
+                        },
+                        "value": "stuff",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 612,
+                          "end": 613,
+                          "ctxt": 0
+                        },
+                        "value": "z",
+                        "optional": false
+                      },
+                      "computed": false
+                    },
+                    "async": false,
+                    "generator": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  }
+                ],
+                "quasis": [
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 512,
+                      "end": 527,
+                      "ctxt": 0
+                    },
+                    "tail": false,
+                    "cooked": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 512,
+                        "end": 527,
+                        "ctxt": 0
+                      },
+                      "value": "\n    hello\n    ",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    },
+                    "raw": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 512,
+                        "end": 527,
+                        "ctxt": 0
+                      },
+                      "value": "\n    hello\n    ",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    }
+                  },
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 546,
+                      "end": 561,
+                      "ctxt": 0
+                    },
+                    "tail": false,
+                    "cooked": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 546,
+                        "end": 561,
+                        "ctxt": 0
+                      },
+                      "value": "\n    brave\n    ",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    },
+                    "raw": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 546,
+                        "end": 561,
+                        "ctxt": 0
+                      },
+                      "value": "\n    brave\n    ",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    }
+                  },
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 580,
+                      "end": 595,
+                      "ctxt": 0
+                    },
+                    "tail": false,
+                    "cooked": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 580,
+                        "end": 595,
+                        "ctxt": 0
+                      },
+                      "value": "\n    world\n    ",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    },
+                    "raw": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 580,
+                        "end": 595,
+                        "ctxt": 0
+                      },
+                      "value": "\n    world\n    ",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    }
+                  },
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 614,
+                      "end": 615,
+                      "ctxt": 0
+                    },
+                    "tail": true,
+                    "cooked": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 614,
+                        "end": 615,
+                        "ctxt": 0
+                      },
+                      "value": "\n",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    },
+                    "raw": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 614,
+                        "end": 615,
+                        "ctxt": 0
+                      },
+                      "value": "\n",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    }
                   }
                 ]
               }
@@ -2179,145 +2195,6 @@
                 },
                 "computed": true
               },
-              "expressions": [
-                {
-                  "type": "ArrowFunctionExpression",
-                  "span": {
-                    "start": 778,
-                    "end": 803,
-                    "ctxt": 0
-                  },
-                  "params": [
-                    {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 779,
-                        "end": 784,
-                        "ctxt": 0
-                      },
-                      "value": "input",
-                      "optional": false,
-                      "typeAnnotation": null
-                    }
-                  ],
-                  "body": {
-                    "type": "ParenthesisExpression",
-                    "span": {
-                      "start": 789,
-                      "end": 803,
-                      "ctxt": 0
-                    },
-                    "expression": {
-                      "type": "ObjectExpression",
-                      "span": {
-                        "start": 790,
-                        "end": 802,
-                        "ctxt": 0
-                      },
-                      "properties": [
-                        {
-                          "type": "SpreadElement",
-                          "spread": {
-                            "start": 792,
-                            "end": 795,
-                            "ctxt": 0
-                          },
-                          "arguments": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 795,
-                              "end": 800,
-                              "ctxt": 0
-                            },
-                            "value": "input",
-                            "optional": false
-                          }
-                        }
-                      ]
-                    }
-                  },
-                  "async": false,
-                  "generator": false,
-                  "typeParameters": null,
-                  "returnType": null
-                }
-              ],
-              "quasis": [
-                {
-                  "type": "TemplateElement",
-                  "span": {
-                    "start": 776,
-                    "end": 776,
-                    "ctxt": 0
-                  },
-                  "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 776,
-                      "end": 776,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 776,
-                      "end": 776,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
-                },
-                {
-                  "type": "TemplateElement",
-                  "span": {
-                    "start": 804,
-                    "end": 804,
-                    "ctxt": 0
-                  },
-                  "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 804,
-                      "end": 804,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 804,
-                      "end": 804,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
-                }
-              ],
               "typeParameters": {
                 "type": "TsTypeParameterInstantiation",
                 "span": {
@@ -2344,6 +2221,153 @@
                       "optional": false
                     },
                     "typeParams": null
+                  }
+                ]
+              },
+              "template": {
+                "type": "TemplateLiteral",
+                "span": {
+                  "start": 775,
+                  "end": 805,
+                  "ctxt": 0
+                },
+                "expressions": [
+                  {
+                    "type": "ArrowFunctionExpression",
+                    "span": {
+                      "start": 778,
+                      "end": 803,
+                      "ctxt": 0
+                    },
+                    "params": [
+                      {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 779,
+                          "end": 784,
+                          "ctxt": 0
+                        },
+                        "value": "input",
+                        "optional": false,
+                        "typeAnnotation": null
+                      }
+                    ],
+                    "body": {
+                      "type": "ParenthesisExpression",
+                      "span": {
+                        "start": 789,
+                        "end": 803,
+                        "ctxt": 0
+                      },
+                      "expression": {
+                        "type": "ObjectExpression",
+                        "span": {
+                          "start": 790,
+                          "end": 802,
+                          "ctxt": 0
+                        },
+                        "properties": [
+                          {
+                            "type": "SpreadElement",
+                            "spread": {
+                              "start": 792,
+                              "end": 795,
+                              "ctxt": 0
+                            },
+                            "arguments": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 795,
+                                "end": 800,
+                                "ctxt": 0
+                              },
+                              "value": "input",
+                              "optional": false
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    "async": false,
+                    "generator": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  }
+                ],
+                "quasis": [
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 776,
+                      "end": 776,
+                      "ctxt": 0
+                    },
+                    "tail": false,
+                    "cooked": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 776,
+                        "end": 776,
+                        "ctxt": 0
+                      },
+                      "value": "",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    },
+                    "raw": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 776,
+                        "end": 776,
+                        "ctxt": 0
+                      },
+                      "value": "",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    }
+                  },
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 804,
+                      "end": 804,
+                      "ctxt": 0
+                    },
+                    "tail": true,
+                    "cooked": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 804,
+                        "end": 804,
+                        "ctxt": 0
+                      },
+                      "value": "",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    },
+                    "raw": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 804,
+                        "end": 804,
+                        "ctxt": 0
+                      },
+                      "value": "",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": false
+                      }
+                    }
                   }
                 ]
               }
@@ -2583,145 +2607,6 @@
             },
             "computed": false
           },
-          "expressions": [
-            {
-              "type": "ArrowFunctionExpression",
-              "span": {
-                "start": 893,
-                "end": 918,
-                "ctxt": 0
-              },
-              "params": [
-                {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 894,
-                    "end": 899,
-                    "ctxt": 0
-                  },
-                  "value": "input",
-                  "optional": false,
-                  "typeAnnotation": null
-                }
-              ],
-              "body": {
-                "type": "ParenthesisExpression",
-                "span": {
-                  "start": 904,
-                  "end": 918,
-                  "ctxt": 0
-                },
-                "expression": {
-                  "type": "ObjectExpression",
-                  "span": {
-                    "start": 905,
-                    "end": 917,
-                    "ctxt": 0
-                  },
-                  "properties": [
-                    {
-                      "type": "SpreadElement",
-                      "spread": {
-                        "start": 907,
-                        "end": 910,
-                        "ctxt": 0
-                      },
-                      "arguments": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 910,
-                          "end": 915,
-                          "ctxt": 0
-                        },
-                        "value": "input",
-                        "optional": false
-                      }
-                    }
-                  ]
-                }
-              },
-              "async": false,
-              "generator": false,
-              "typeParameters": null,
-              "returnType": null
-            }
-          ],
-          "quasis": [
-            {
-              "type": "TemplateElement",
-              "span": {
-                "start": 891,
-                "end": 891,
-                "ctxt": 0
-              },
-              "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 891,
-                  "end": 891,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 891,
-                  "end": 891,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
-            },
-            {
-              "type": "TemplateElement",
-              "span": {
-                "start": 919,
-                "end": 919,
-                "ctxt": 0
-              },
-              "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 919,
-                  "end": 919,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 919,
-                  "end": 919,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
-            }
-          ],
           "typeParameters": {
             "type": "TsTypeParameterInstantiation",
             "span": {
@@ -2748,6 +2633,153 @@
                   "optional": false
                 },
                 "typeParams": null
+              }
+            ]
+          },
+          "template": {
+            "type": "TemplateLiteral",
+            "span": {
+              "start": 890,
+              "end": 920,
+              "ctxt": 0
+            },
+            "expressions": [
+              {
+                "type": "ArrowFunctionExpression",
+                "span": {
+                  "start": 893,
+                  "end": 918,
+                  "ctxt": 0
+                },
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 894,
+                      "end": 899,
+                      "ctxt": 0
+                    },
+                    "value": "input",
+                    "optional": false,
+                    "typeAnnotation": null
+                  }
+                ],
+                "body": {
+                  "type": "ParenthesisExpression",
+                  "span": {
+                    "start": 904,
+                    "end": 918,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "ObjectExpression",
+                    "span": {
+                      "start": 905,
+                      "end": 917,
+                      "ctxt": 0
+                    },
+                    "properties": [
+                      {
+                        "type": "SpreadElement",
+                        "spread": {
+                          "start": 907,
+                          "end": 910,
+                          "ctxt": 0
+                        },
+                        "arguments": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 910,
+                            "end": 915,
+                            "ctxt": 0
+                          },
+                          "value": "input",
+                          "optional": false
+                        }
+                      }
+                    ]
+                  }
+                },
+                "async": false,
+                "generator": false,
+                "typeParameters": null,
+                "returnType": null
+              }
+            ],
+            "quasis": [
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 891,
+                  "end": 891,
+                  "ctxt": 0
+                },
+                "tail": false,
+                "cooked": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 891,
+                    "end": 891,
+                    "ctxt": 0
+                  },
+                  "value": "",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": false
+                  }
+                },
+                "raw": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 891,
+                    "end": 891,
+                    "ctxt": 0
+                  },
+                  "value": "",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": false
+                  }
+                }
+              },
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 919,
+                  "end": 919,
+                  "ctxt": 0
+                },
+                "tail": true,
+                "cooked": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 919,
+                    "end": 919,
+                    "ctxt": 0
+                  },
+                  "value": "",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": false
+                  }
+                },
+                "raw": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 919,
+                    "end": 919,
+                    "ctxt": 0
+                  },
+                  "value": "",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": false
+                  }
+                }
               }
             ]
           }

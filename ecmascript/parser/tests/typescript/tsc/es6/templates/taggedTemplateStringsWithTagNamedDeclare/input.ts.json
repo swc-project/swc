@@ -159,94 +159,102 @@
           "value": "declare",
           "optional": false
         },
-        "expressions": [
-          {
-            "type": "NumericLiteral",
-            "span": {
-              "start": 63,
-              "end": 64,
-              "ctxt": 0
-            },
-            "value": 0.0
-          }
-        ],
-        "quasis": [
-          {
-            "type": "TemplateElement",
-            "span": {
-              "start": 55,
-              "end": 61,
-              "ctxt": 0
-            },
-            "tail": false,
-            "cooked": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 55,
-                "end": 61,
-                "ctxt": 0
-              },
-              "value": "Hello ",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": false
-              }
-            },
-            "raw": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 55,
-                "end": 61,
-                "ctxt": 0
-              },
-              "value": "Hello ",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": false
-              }
-            }
+        "typeParameters": null,
+        "template": {
+          "type": "TemplateLiteral",
+          "span": {
+            "start": 54,
+            "end": 73,
+            "ctxt": 0
           },
-          {
-            "type": "TemplateElement",
-            "span": {
-              "start": 65,
-              "end": 72,
-              "ctxt": 0
-            },
-            "tail": true,
-            "cooked": {
-              "type": "StringLiteral",
+          "expressions": [
+            {
+              "type": "NumericLiteral",
               "span": {
-                "start": 65,
-                "end": 72,
+                "start": 63,
+                "end": 64,
                 "ctxt": 0
               },
-              "value": " world!",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": false
+              "value": 0.0
+            }
+          ],
+          "quasis": [
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 55,
+                "end": 61,
+                "ctxt": 0
+              },
+              "tail": false,
+              "cooked": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 55,
+                  "end": 61,
+                  "ctxt": 0
+                },
+                "value": "Hello ",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": false
+                }
+              },
+              "raw": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 55,
+                  "end": 61,
+                  "ctxt": 0
+                },
+                "value": "Hello ",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": false
+                }
               }
             },
-            "raw": {
-              "type": "StringLiteral",
+            {
+              "type": "TemplateElement",
               "span": {
                 "start": 65,
                 "end": 72,
                 "ctxt": 0
               },
-              "value": " world!",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": false
+              "tail": true,
+              "cooked": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 65,
+                  "end": 72,
+                  "ctxt": 0
+                },
+                "value": " world!",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": false
+                }
+              },
+              "raw": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 65,
+                  "end": 72,
+                  "ctxt": 0
+                },
+                "value": " world!",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": false
+                }
               }
             }
-          }
-        ],
-        "typeParameters": null
+          ]
+        }
       }
     }
   ],
