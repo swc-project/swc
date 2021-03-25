@@ -451,7 +451,7 @@ pub struct ClassExpression {
     #[serde(default)]
     pub decorators: Option<Vec<Decorator>>,
     #[serde(default)]
-    pub implements: Option<ClassImpl>,
+    pub implements: Option<Vec<ClassImpl>>,
     #[serde(default)]
     pub mixins: Option<InterfaceExtends>,
     #[serde(default)]

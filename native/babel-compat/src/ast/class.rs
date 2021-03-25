@@ -143,7 +143,7 @@ pub struct ClassProperty {
     #[serde(default)]
     pub definite: Option<bool>,
     #[serde(default)]
-    pub optinoal: Option<bool>,
+    pub optional: Option<bool>,
     #[serde(default)]
     pub readonly: Option<bool>,
 }
