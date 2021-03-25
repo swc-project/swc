@@ -22,8 +22,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install rustfmt
-        run: rustup component add rustfmt
+
+      # We explicitly do this to cache properly.
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          components: rustfmt
+
       - name: Run cargo fmt
         run: cargo fmt --all -- --check
 
@@ -39,6 +45,13 @@ jobs:
           - windows-2019
     steps:
       - uses: actions/checkout@v2
+
+      # We explicitly do this to cache properly.
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
       - name: Cache
         uses: actions/cache@v2
         with:
@@ -112,6 +125,12 @@ jobs:
           git config --system core.eol lf
 
       - uses: actions/checkout@v2
+
+      # We explicitly do this to cache properly.
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
 
       - uses: actions/setup-node@v2
         with:

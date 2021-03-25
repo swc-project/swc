@@ -23,6 +23,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # We explicitly do this to cache properly.
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
       - name: Cache
         uses: actions/cache@v2
         with:
