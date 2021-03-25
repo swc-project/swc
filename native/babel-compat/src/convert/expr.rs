@@ -6,6 +6,7 @@ use crate::ast::{
         UnaryExpression, UpdateExpression, BinaryExpression, BinaryExprLeft, FunctionExpression,
         ClassExpression,
     },
+    object::ObjectKey,
 };
 use crate::convert::Babelify;
 use swc_ecma_ast::{
@@ -181,6 +182,15 @@ impl From<ExprOutput> for BinaryExprLeft {
         match o {
             ExprOutput::Expr(e) => BinaryExprLeft::Expr(e),
             ExprOutput::Private(p) => BinaryExprLeft::Private(p),
+        }
+    }
+}
+
+impl From<ExprOutput> for ObjectKey {
+    fn from(o: ExprOutput) -> Self {
+        match o {
+            ExprOutput::Expr(e) => ObjectKey::Expr(e),
+            _ => panic!("illegal conversion"), // TODO(dwoznicki): how to handle?
         }
     }
 }

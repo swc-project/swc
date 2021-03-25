@@ -121,6 +121,17 @@ impl Context {
             extra: Default::default(),
         }
     }
+
+    fn base_reduce(&self, spans: Vec<Span>) -> BaseNode {
+        // TODO(dwoznicki): verify this actually works
+        // TODO(dwoznicki): do we really need to sort this vector?
+        let mut new_spans = spans.to_vec();
+        new_spans.sort_by(|a, b| a.lo().0.cmp(&b.lo().0));
+        let first = new_spans.first().unwrap(); // TODO(dwoznicki): unwrap()?
+        let last = new_spans.last().unwrap();
+
+        self.base(first.with_hi(last.hi()))
+    }
 }
 
 pub trait Babelify {
