@@ -1,18 +1,28 @@
 use super::Context;
 use crate::ast::{
-    common::{IdOrRest, TypeAnnotOrNoop, TypeParamDeclOrNoop},
+    common::{
+        IdOrRest, TypeAnnotOrNoop, TypeParamDeclOrNoop, Access, RestElement, Identifier,
+        SuperTypeParams,
+    },
+    class::ClassImpl,
     typescript::{
         TSTypeAnnotation, TSType, TSAnyKeyword, TSUnknownKeyword, TSNumberKeyword, TSObjectKeyword,
         TSBooleanKeyword, TSBigIntKeyword, TSStringKeyword, TSSymbolKeyword, TSVoidKeyword,
         TSUndefinedKeyword, TSNullKeyword, TSNeverKeyword, TSIntrinsicKeyword, TSThisType,
         TSFunctionType, TSConstructorType, TSTypeParameterDeclaration, TSTypeParameter,
+        TSIndexSignature, TSExpressionWithTypeArguments, TSTypeParameterInstantiation, TSEntityName,
+        TSQualifiedName, TSParameterProperty, TSParamPropParam,
     },
+    pat::{ArrayPattern, ObjectPattern},
 };
 use crate::convert::Babelify;
 use swc_ecma_ast::{
     TsTypeAnn, TsType, TsKeywordType, TsKeywordTypeKind, TsThisType, TsFnOrConstructorType,
-    TsFnType, TsFnParam, TsTypeParamDecl, TsTypeParam,
+    TsFnType, TsFnParam, TsTypeParamDecl, TsTypeParam, Accessibility, TsIndexSignature,
+    TsConstructorType, TsExprWithTypeArgs, TsTypeParamInstantiation, TsEntityName, TsQualifiedName,
+    TsParamProp, TsParamPropParam,
 };
+use swc_common::Spanned;
 use serde::{Serialize, Deserialize};
 
 impl Babelify for TsTypeAnn {
@@ -214,9 +224,23 @@ impl Babelify for TsFnOrConstructorType {
     type Output = TsFnOrConstructorTypeOutput;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        panic!()
+        match self {
+            TsFnOrConstructorType::TsFnType(t) => TsFnOrConstructorTypeOutput::Func(t.babelify(ctx)),
+            TsFnOrConstructorType::TsConstructorType(t) => TsFnOrConstructorTypeOutput::Constructor(t.babelify(ctx)),
+        }
     }
 }
+
+// #[ast_node]
+// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
+// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+// pub enum TsFnOrConstructorType {
+//     #[tag("TsFunctionType")]
+//     TsFnType(TsFnType),
+//     #[tag("TsConstructorType")]
+//     TsConstructorType(TsConstructorType),
+// }
+//
 
 impl Babelify for TsFnType {
     type Output = TSFunctionType;
@@ -224,21 +248,63 @@ impl Babelify for TsFnType {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSFunctionType {
             base: ctx.base(self.span),
-            parameters: self.params.iter().map(|p| p.clone().babelify(ctx)).collect(),
-            type_parameters: Default::default(), // TODO
-            type_annotation: Default::default(), // TODO
+            parameters: self.params.iter().map(|p| p.clone().babelify(ctx).into()).collect(),
+            type_parameters: self.type_params.map(|decl| decl.babelify(ctx)),
+            type_annotation: Some(Box::new(self.type_ann.babelify(ctx))),
+        }
+    }
+}
+
+// #[ast_node("TsFunctionType")]
+// #[derive(Eq, Hash, EqIgnoreSpan)]
+// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+// pub struct TsFnType {
+//     pub span: Span,
+//     pub params: Vec<TsFnParam>,
+//
+//     #[serde(default)]
+//     pub type_params: Option<TsTypeParamDecl>,
+//     #[serde(rename = "typeAnnotation")]
+//     pub type_ann: TsTypeAnn,
+// }
+
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum TsFnParamOutput {
+    Id(Identifier),
+    Array(ArrayPattern),
+    Rest(RestElement),
+    Object(ObjectPattern),
+}
+
+impl From<TsFnParamOutput> for IdOrRest {
+    fn from(o: TsFnParamOutput) -> Self {
+        match o {
+            TsFnParamOutput::Id(i) => IdOrRest::Id(i),
+            TsFnParamOutput::Rest(r) => IdOrRest::Rest(r),
+            _ => panic!("illegal conversion"), // TODO(dwoznicki): how to handle?
+        }
+    }
+}
+
+impl From<TsFnParamOutput> for Identifier {
+    fn from(o: TsFnParamOutput) -> Self {
+        match o {
+            TsFnParamOutput::Id(i) => i,
+            _ => panic!("illegal conversion"), // TODO(dwoznicki): how to handle?
         }
     }
 }
 
 impl Babelify for TsFnParam {
-    type Output = IdOrRest;
+    type Output = TsFnParamOutput;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
-            TsFnParam::Ident(b) => IdOrRest::Id(b.babelify(ctx)),
-            TsFnParam::Rest(r) => IdOrRest::Rest(r.babelify(ctx)),
-            _ => panic!() // TODO(dwoznicki): how to handle Array/Object?
+            TsFnParam::Ident(i) => TsFnParamOutput::Id(i.babelify(ctx)),
+            TsFnParam::Array(a) => TsFnParamOutput::Array(a.babelify(ctx)),
+            TsFnParam::Rest(r) => TsFnParamOutput::Rest(r.babelify(ctx)),
+            TsFnParam::Object(o) => TsFnParamOutput::Object(o.babelify(ctx)),
         }
     }
 }
@@ -261,29 +327,6 @@ impl Babelify for TsFnParam {
 // }
 //
 
-// #[ast_node("TsFunctionType")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsFnType {
-//     pub span: Span,
-//     pub params: Vec<TsFnParam>,
-//
-//     #[serde(default)]
-//     pub type_params: Option<TsTypeParamDecl>,
-//     #[serde(rename = "typeAnnotation")]
-//     pub type_ann: TsTypeAnn,
-// }
-
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TsFnOrConstructorType {
-//     #[tag("TsFunctionType")]
-//     TsFnType(TsFnType),
-//     #[tag("TsConstructorType")]
-//     TsConstructorType(TsConstructorType),
-// }
-//
 
 impl Babelify for TsTypeParamDecl {
     type Output = TSTypeParameterDeclaration;
@@ -291,7 +334,7 @@ impl Babelify for TsTypeParamDecl {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSTypeParameterDeclaration {
             base: ctx.base(self.span),
-            params: self.params.iter().map(|p| p.clone().babelify(ctx)).collect(), // TODO(dwoznicki): clone()?
+            params: self.params.iter().map(|p| p.clone().babelify(ctx)).collect(),
         }
     }
 }
@@ -339,6 +382,24 @@ impl Babelify for TsTypeParam {
 //     pub default: Option<Box<TsType>>,
 // }
 //
+
+impl Babelify for TsTypeParamInstantiation {
+    type Output = TSTypeParameterInstantiation;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSTypeParameterInstantiation {
+            base: ctx.base(self.span),
+            params: self.params.iter().map(|param| param.clone().babelify(ctx)).collect(),
+        }
+    }
+}
+
+impl From<TSTypeParameterInstantiation> for SuperTypeParams {
+    fn from(param: TSTypeParameterInstantiation) -> Self {
+        SuperTypeParams::TS(param)
+    }
+}
+
 // #[ast_node("TsTypeParameterInstantiation")]
 // #[derive(Eq, Hash, EqIgnoreSpan)]
 // #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -347,31 +408,43 @@ impl Babelify for TsTypeParam {
 //     pub params: Vec<Box<TsType>>,
 // }
 //
-// #[ast_node("TsParameterProperty")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsParamProp {
-//     pub span: Span,
-//     #[serde(default)]
-//     pub decorators: Vec<Decorator>,
-//     /// At least one of `accessibility` or `readonly` must be set.
-//     #[serde(default)]
-//     pub accessibility: Option<Accessibility>,
-//     pub readonly: bool,
-//     pub param: TsParamPropParam,
-// }
-//
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TsParamPropParam {
-//     #[tag("Identifier")]
-//     Ident(BindingIdent),
-//
-//     #[tag("AssignmentPattern")]
-//     Assign(AssignPat),
-// }
-//
+
+impl Babelify for TsParamProp {
+    type Output = TSParameterProperty;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSParameterProperty {
+            base: ctx.base(self.span),
+            parameter: self.param.babelify(ctx),
+            accessibility: self.accessibility.map(|access| access.babelify(ctx)),
+            readonly: Some(self.readonly),
+        }
+    }
+}
+
+impl Babelify for TsParamPropParam {
+    type Output = TSParamPropParam;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            TsParamPropParam::Ident(i) => TSParamPropParam::Id(i.babelify(ctx)),
+            TsParamPropParam::Assign(a) => TSParamPropParam::Assignment(a.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for TsQualifiedName {
+    type Output = TSQualifiedName;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSQualifiedName {
+            base: ctx.base(self.span()),
+            left: Box::new(self.left.babelify(ctx)),
+            right: self.right.babelify(ctx),
+        }
+    }
+}
+
 // #[ast_node("TsQualifiedName")]
 // #[derive(Eq, Hash, EqIgnoreSpan)]
 // #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -382,6 +455,18 @@ impl Babelify for TsTypeParam {
 //     pub right: Ident,
 // }
 //
+
+impl Babelify for TsEntityName {
+    type Output = TSEntityName;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            TsEntityName::TsQualifiedName(n) => TSEntityName::Qualified(n.babelify(ctx)),
+            TsEntityName::Ident(i) => TSEntityName::Id(i.babelify(ctx)),
+        }
+    }
+}
+
 // #[ast_node]
 // #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 // #[allow(variant_size_differences)]
@@ -495,6 +580,20 @@ impl Babelify for TsTypeParam {
 //     #[serde(default)]
 //     pub type_params: Option<TsTypeParamDecl>,
 // }
+
+impl Babelify for TsIndexSignature {
+    type Output = TSIndexSignature;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSIndexSignature {
+            base: ctx.base(self.span),
+            paramters: self.params.iter().map(|param| param.clone().babelify(ctx).into()).collect(),
+            type_annotation: self.type_ann.map(|ann| ann.babelify(ctx)),
+            readonly: Some(self.readonly),
+        }
+    }
+}
+
 //
 // #[ast_node("TsIndexSignature")]
 // #[derive(Eq, Hash, EqIgnoreSpan)]
@@ -700,6 +799,21 @@ impl Babelify for TsTypeParam {
 //     #[serde(rename = "typeAnnotation")]
 //     pub type_ann: TsTypeAnn,
 // }
+
+impl Babelify for TsConstructorType {
+    type Output = TSConstructorType;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSConstructorType {
+            base: ctx.base(self.span),
+            parameters: self.params.iter().map(|param| param.clone().babelify(ctx).into()).collect(),
+            type_parameters: self.type_params.map(|decl| decl.babelify(ctx)),
+            type_annotation: Some(Box::new(self.type_ann.babelify(ctx))),
+            is_abstract: Some(self.is_abstract),
+        }
+    }
+}
+
 //
 // #[ast_node("TsConstructorType")]
 // #[derive(Eq, Hash, EqIgnoreSpan)]
@@ -1061,6 +1175,25 @@ impl Babelify for TsTypeParam {
 //     pub body: Vec<TsTypeElement>,
 // }
 //
+
+impl Babelify for TsExprWithTypeArgs {
+    type Output = TSExpressionWithTypeArguments;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSExpressionWithTypeArguments {
+            base: ctx.base(self.span),
+            expression: self.expr.babelify(ctx),
+            type_parameters: self.type_args.map(|arg| arg.babelify(ctx)),
+        }
+    }
+}
+
+impl From<TSExpressionWithTypeArguments> for ClassImpl {
+    fn from(expr: TSExpressionWithTypeArguments) -> Self {
+        ClassImpl::TSExpr(expr)
+    }
+}
+
 // #[ast_node("TsExpressionWithTypeArguments")]
 // #[derive(Eq, Hash, EqIgnoreSpan)]
 // #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -1263,6 +1396,20 @@ impl Babelify for TsTypeParam {
 //     pub expr: Box<Expr>,
 // }
 //
+
+impl Babelify for Accessibility {
+    type Output = Access;
+
+    fn babelify(self, _ctx: &Context) -> Self::Output {
+        match self {
+            Accessibility::Public => Access::Public,
+            Accessibility::Protected => Access::Protected,
+            Accessibility::Private => Access::Private,
+        }
+    }
+}
+
+
 // #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Eq, Hash, EqIgnoreSpan)]
 // #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 // pub enum Accessibility {

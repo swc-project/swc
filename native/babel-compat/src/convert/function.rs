@@ -1,10 +1,11 @@
 use super::Context;
 use crate::ast::{
-    common::Param as BabelParam,
+    common::{Param as BabelParam, Identifier, RestElement},
     expr::FunctionExpression,
+    pat::{Pattern, ArrayPattern, ObjectPattern, AssignmentPattern},
 };
 use crate::convert::Babelify;
-use swc_ecma_ast::{Function, Param, ParamOrTsParamProp};
+use swc_ecma_ast::{Function, Param, ParamOrTsParamProp, Pat};
 // use serde::{Serialize, Deserialize};
 
 impl Babelify for Function {
@@ -13,7 +14,7 @@ impl Babelify for Function {
     fn babelify(self, ctx: &Context) -> Self::Output {
         FunctionExpression {
             base: ctx.base(self.span),
-            params: self.params.iter().map(|p| p.clone().babelify(ctx)).collect(), // TODO(dwoznick): clone()?
+            params: self.params.iter().map(|param| param.clone().babelify(ctx)).collect(),
             body: self.body.unwrap().babelify(ctx), // TODO(dwoznick): unwrap()?
             generator: Some(self.is_generator),
             is_async: Some(self.is_async),
@@ -24,69 +25,50 @@ impl Babelify for Function {
     }
 }
 
-// /// Common parts of function and method.
-// #[ast_node]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct Function {
-//     pub params: Vec<Param>,
-//
-//     #[serde(default)]
-//     pub decorators: Vec<Decorator>,
-//
-//     pub span: Span,
-//
-//     #[serde(default)]
-//     pub body: Option<BlockStmt>,
-//
-//     /// if it's a generator.
-//     #[serde(default, rename = "generator")]
-//     pub is_generator: bool,
-//
-//     /// if it's an async function.
-//     #[serde(default, rename = "async")]
-//     pub is_async: bool,
-//
-//     #[serde(default, rename = "typeParameters")]
-//     pub type_params: Option<TsTypeParamDecl>,
-//
-//     #[serde(default)]
-//     pub return_type: Option<TsTypeAnn>,
-// }
-
 impl Babelify for Param {
     type Output = BabelParam;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        panic!("unimplemented"); // TODO(dwoznick): how to convert this??
+        match self.pat {
+            Pat::Ident(i) => BabelParam::Id(Identifier {
+                base: ctx.base(self.span),
+                decorators: Some(self.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
+                ..i.babelify(ctx)
+            }),
+            Pat::Array(a) => BabelParam::Pat(Pattern::Array(ArrayPattern {
+                base: ctx.base(self.span),
+                decorators: Some(self.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
+                ..a.babelify(ctx)
+            })),
+            Pat::Rest(r) => BabelParam::Rest(RestElement {
+                base: ctx.base(self.span),
+                decorators: Some(self.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
+                ..r.babelify(ctx)
+            }),
+            Pat::Object(o) => BabelParam::Pat(Pattern::Object(ObjectPattern {
+                base: ctx.base(self.span),
+                decorators: Some(self.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
+                ..o.babelify(ctx)
+            })),
+            Pat::Assign(a) => BabelParam::Pat(Pattern::Assignment(AssignmentPattern {
+                base: ctx.base(self.span),
+                decorators: Some(self.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
+                ..a.babelify(ctx)
+            })),
+            Pat::Expr(_) => panic!("unimplemented"),
+            Pat::Invalid(_) => panic!("illegal conversion"), // TODO(dwoznicki): how to handle?
+        }
     }
 }
-
-//
-// #[ast_node("Parameter")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct Param {
-//     pub span: Span,
-//     pub decorators: Vec<Decorator>,
-//     pub pat: Pat,
-// }
 
 impl Babelify for ParamOrTsParamProp {
     type Output = BabelParam;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        panic!("unimplemented"); // TODO(dwoznicki): how to conver this??
+        match self {
+            ParamOrTsParamProp::TsParamProp(p) => BabelParam::TSProp(p.babelify(ctx)),
+            ParamOrTsParamProp::Param(p) => p.babelify(ctx),
+        }
     }
 }
 
-//
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum ParamOrTsParamProp {
-//     #[tag("TsParameterProperty")]
-//     TsParamProp(TsParamProp),
-//     #[tag("Parameter")]
-//     Param(Param),
-// }

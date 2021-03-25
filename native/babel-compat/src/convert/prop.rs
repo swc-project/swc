@@ -43,7 +43,7 @@ impl Babelify for PropName {
             PropName::Str(s) => PropNameOutput::String(s.babelify(ctx)),
             PropName::Num(n) => PropNameOutput::Numeric(n.babelify(ctx)),
             PropName::Computed(c) => PropNameOutput::Computed(c.babelify(ctx)),
-            PropName::BigInt(_) => panic!(), // TODO(dwoznick): how to handle?
+            PropName::BigInt(_) => panic!("illegal conversion"), // TODO(dwoznick): how to handle?
         }
     }
 }
