@@ -1,0 +1,1 @@
+{"version":3,"sources":["$DIR/tests/fixture/issue-1309/case1/input/index.ts"],"sourcesContent":["/n/nexport const foo = 1;"],"names":[],"mappings":";;;;;MAEa,GAAG,GAAG,CAAC;QAAP,GAAG,GAAH,GAAG"}
