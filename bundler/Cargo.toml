@@ -9,7 +9,7 @@ include = ["Cargo.toml", "build.rs", "src/**/*.rs", "src/**/*.js"]
 license = "Apache-2.0/MIT"
 name = "swc_bundler"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.29.0"
+version = "0.29.1"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [features]
@@ -35,7 +35,7 @@ swc_common = {version = "0.10.10", path = "../common"}
 swc_ecma_ast = {version = "0.41.0", path = "../ecmascript/ast"}
 swc_ecma_codegen = {version = "0.49.0", path = "../ecmascript/codegen"}
 swc_ecma_parser = {version = "0.51.0", path = "../ecmascript/parser"}
-swc_ecma_transforms = {version = "0.42.0", path = "../ecmascript/transforms", features = ["optimization"]}
+swc_ecma_transforms = {version = "0.42.1", path = "../ecmascript/transforms", features = ["optimization"]}
 swc_ecma_utils = {version = "0.32.0", path = "../ecmascript/utils"}
 swc_ecma_visit = {version = "0.27.0", path = "../ecmascript/visit"}
 
@@ -44,7 +44,7 @@ hex = "0.4"
 ntest = "0.7.2"
 reqwest = {version = "0.10.8", features = ["blocking"]}
 sha-1 = "0.9"
-swc_ecma_transforms = {version = "0.42.0", path = "../ecmascript/transforms", features = ["react", "typescript"]}
+swc_ecma_transforms = {version = "0.42.1", path = "../ecmascript/transforms", features = ["react", "typescript"]}
 tempfile = "3.1.0"
 testing = {version = "0.10.3", path = "../testing"}
 url = "2.1.1"
