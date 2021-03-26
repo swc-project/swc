@@ -126,7 +126,7 @@ impl VisitMut for Inliner {
             Prop::Shorthand(i) => {
                 let orig = i.clone();
                 i.visit_mut_with(self);
-                if i.span.ctxt != orig.span.ctxt {
+                if i.span.ctxt == orig.span.ctxt {
                     return;
                 }
                 if i.sym != orig.sym {
