@@ -17,6 +17,25 @@ env:
   RUST_LOG: "debug"
 
 jobs:
+  check-license:
+    name: Check license
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
+      - name: Install required tools
+        run: |
+          cargo install cargo-deny
+
+      - name: Check licenses
+        run: |
+          cargo deny check
+
   fmt:
     name: fmt
     runs-on: ubuntu-latest
