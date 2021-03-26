@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecma_transforms_typescript"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.11.0"
+version = "0.11.1"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -22,9 +22,9 @@ swc_ecma_visit = {version = "0.27.0", path = "../../visit"}
 
 [dev-dependencies]
 swc_ecma_codegen = {version = "0.49.0", path = "../../codegen"}
-swc_ecma_transforms_compat = {version = "0.10.0", path = "../compat"}
-swc_ecma_transforms_module = {version = "0.10.0", path = "../module"}
-swc_ecma_transforms_proposal = {version = "0.10.0", path = "../proposal/"}
+swc_ecma_transforms_compat = {version = "0.10.1", path = "../compat"}
+swc_ecma_transforms_module = {version = "0.10.1", path = "../module"}
+swc_ecma_transforms_proposal = {version = "0.10.1", path = "../proposal/"}
 swc_ecma_transforms_testing = {version = "0.9.0", path = "../testing"}
 testing = {version = "0.10.3", path = "../../../testing"}
 walkdir = "2.3.1"

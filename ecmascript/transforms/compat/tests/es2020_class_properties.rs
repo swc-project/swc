@@ -1,4 +1,6 @@
 #![feature(test)]
+#![allow(deprecated)]
+
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;

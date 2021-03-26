@@ -9,7 +9,7 @@ use swc_ecma_utils::private_ident;
 use swc_ecma_utils::var::VarCollector;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::{constructor::inject_after_super, default_constructor};
-use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
+use swc_ecma_utils::{ident::IdentLike, Id, ModuleItemLike, StmtLike};
 use swc_ecma_visit::{as_folder, Fold, Node, Visit, VisitMut, VisitMutWith, VisitWith};
 
 /// Value does not contain TsLit::Bool
@@ -153,7 +153,13 @@ impl Strip {
 }
 
 impl Strip {
-    fn transform_class_fields(&mut self, class: &mut Class) {
+    fn fold_class_as_decl(&mut self, ident: Ident, mut class: Class) -> (Decl, Vec<Stmt>) {
+        class.is_abstract = false;
+        class.type_params = None;
+        class.super_type_params = None;
+        class.implements = Default::default();
+
+        let mut extra_stmts = vec![];
         if self.config.use_define_for_class_fields {
             let mut param_class_fields = vec![];
             for member in &class.body {
@@ -197,68 +203,236 @@ impl Strip {
                 param_class_fields.append(&mut class.body.take());
                 class.body = param_class_fields;
             }
-            return;
-        }
-        let mut assign_exprs = vec![];
-        let mut new_body = vec![];
-        for member in take(&mut class.body) {
-            match member {
-                // This handling is for non-static fields only. Also preserve
-                // fields with decorators for now, these should be transformed
-                // differently during the `decorators()` pass.
-                ClassMember::ClassProp(mut class_field)
-                    if !class_field.is_static && class_field.decorators.is_empty() =>
-                {
-                    if let Some(value) = class_field.value.take() {
-                        let computed = class_field.computed
-                            || !matches!(class_field.key.borrow(), Expr::Ident(_));
-                        let assign_lhs = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
-                            span: class_field.span,
-                            obj: ExprOrSuper::Expr(Box::new(Expr::This(ThisExpr {
-                                span: class.span,
-                            }))),
-                            prop: class_field.key,
-                            computed,
-                        })));
-                        let assign_expr = Box::new(Expr::Assign(AssignExpr {
-                            span: class_field.span,
-                            op: op!("="),
-                            left: assign_lhs,
-                            right: value,
-                        }));
-                        assign_exprs.push(assign_expr);
-                    }
-                }
-                // TODO(nayeemrmn): Static fields should also be moved to
-                // assignments after the class. Figure out how. They are
-                // preserved for now.
-                // ClassMember::ClassProp(_) => { ... }
-                _ => {
-                    new_body.push(member);
-                }
-            }
-        }
-        if !assign_exprs.is_empty() {
-            for member in &mut new_body {
+        } else {
+            let mut assign_exprs = vec![];
+            let mut new_body = vec![];
+            for member in take(&mut class.body) {
                 match member {
-                    ClassMember::Constructor(constructor) => {
-                        inject_after_super(constructor, take(&mut assign_exprs));
-                        break;
+                    ClassMember::ClassProp(mut class_field)
+                        if !class_field.is_static && class_field.decorators.is_empty() =>
+                    {
+                        if let Some(value) = class_field.value.take() {
+                            let computed = class_field.computed
+                                || !matches!(class_field.key.borrow(), Expr::Ident(_));
+                            let assign_lhs = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                                span: class_field.span,
+                                obj: ExprOrSuper::Expr(Box::new(Expr::This(ThisExpr {
+                                    span: class.span,
+                                }))),
+                                prop: class_field.key,
+                                computed,
+                            })));
+                            let assign_expr = Box::new(Expr::Assign(AssignExpr {
+                                span: class_field.span,
+                                op: op!("="),
+                                left: assign_lhs,
+                                right: value,
+                            }));
+                            assign_exprs.push(assign_expr);
+                        }
                     }
-                    _ => {}
+                    ClassMember::ClassProp(mut class_field)
+                        if class_field.is_static && class_field.decorators.is_empty() =>
+                    {
+                        if let Some(value) = class_field.value.take() {
+                            let computed = class_field.computed
+                                || !matches!(class_field.key.borrow(), Expr::Ident(_));
+                            let assign_lhs = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                                span: DUMMY_SP,
+                                obj: ident.clone().as_obj(),
+                                prop: class_field.key,
+                                computed,
+                            })));
+                            extra_stmts.push(
+                                AssignExpr {
+                                    span: DUMMY_SP,
+                                    op: op!("="),
+                                    left: assign_lhs,
+                                    right: value,
+                                }
+                                .into_stmt(),
+                            );
+                        }
+                    }
+                    _ => {
+                        new_body.push(member);
+                    }
                 }
             }
             if !assign_exprs.is_empty() {
-                let mut constructor = default_constructor(class.super_class.is_some());
-                inject_after_super(&mut constructor, assign_exprs);
-                new_body.push(ClassMember::Constructor(constructor));
+                for member in &mut new_body {
+                    match member {
+                        ClassMember::Constructor(constructor) => {
+                            inject_after_super(constructor, take(&mut assign_exprs));
+                            break;
+                        }
+                        _ => {}
+                    }
+                }
+                if !assign_exprs.is_empty() {
+                    let mut constructor = default_constructor(class.super_class.is_some());
+                    inject_after_super(&mut constructor, assign_exprs);
+                    new_body.push(ClassMember::Constructor(constructor));
+                }
+            }
+            class.body = new_body;
+        }
+
+        class.decorators.visit_mut_with(self);
+        class.body.visit_mut_with(self);
+        class.super_class.visit_mut_with(self);
+        extra_stmts.visit_mut_with(self);
+        (
+            Decl::Class(ClassDecl {
+                ident,
+                declare: false,
+                class,
+            }),
+            extra_stmts,
+        )
+    }
+
+    fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike + ModuleItemLike + VisitMutWith<Self>,
+    {
+        for stmt in take(stmts) {
+            match T::try_into_stmt(stmt) {
+                Ok(stmt) => match stmt {
+                    Stmt::Decl(Decl::Class(ClassDecl {
+                        ident,
+                        declare: false,
+                        class,
+                    })) => {
+                        let (decl, extra_stmts) = self.fold_class_as_decl(ident, class);
+                        stmts.push(T::from_stmt(Stmt::Decl(decl)));
+                        stmts.extend(extra_stmts.into_iter().map(T::from_stmt));
+                    }
+                    _ => stmts.push(T::from_stmt(stmt)),
+                },
+                Err(node) => match node.try_into_module_decl() {
+                    Ok(decl) => match decl {
+                        ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                            span,
+                            decl: DefaultDecl::Class(ClassExpr { ident, class }),
+                            ..
+                        }) => {
+                            let ident = ident.unwrap_or_else(|| private_ident!("_class"));
+                            let (decl, extra_stmts) = self.fold_class_as_decl(ident.clone(), class);
+                            stmts.push(T::from_stmt(Stmt::Decl(decl)));
+                            stmts.extend(extra_stmts.into_iter().map(T::from_stmt));
+                            stmts.push(
+                                match T::try_from_module_decl(ModuleDecl::ExportNamed(
+                                    NamedExport {
+                                        span,
+                                        specifiers: vec![ExportNamedSpecifier {
+                                            span: DUMMY_SP,
+                                            orig: ident,
+                                            exported: Some(Ident::new(
+                                                js_word!("default"),
+                                                DUMMY_SP,
+                                            )),
+                                        }
+                                        .into()],
+                                        src: None,
+                                        type_only: false,
+                                        asserts: None,
+                                    },
+                                )) {
+                                    Ok(t) => t,
+                                    Err(..) => unreachable!(),
+                                },
+                            );
+                        }
+                        ModuleDecl::ExportDecl(ExportDecl {
+                            span,
+                            decl:
+                                Decl::Class(ClassDecl {
+                                    ident,
+                                    declare: false,
+                                    class,
+                                }),
+                            ..
+                        }) => {
+                            let (decl, extra_stmts) = self.fold_class_as_decl(ident, class);
+                            stmts.push(
+                                match T::try_from_module_decl(ModuleDecl::ExportDecl(ExportDecl {
+                                    span,
+                                    decl,
+                                })) {
+                                    Ok(t) => t,
+                                    Err(..) => unreachable!(),
+                                },
+                            );
+                            stmts.extend(extra_stmts.into_iter().map(T::from_stmt));
+                        }
+                        _ => stmts.push(match T::try_from_module_decl(decl) {
+                            Ok(t) => t,
+                            Err(..) => unreachable!(),
+                        }),
+                    },
+                    Err(_) => unreachable!(),
+                },
             }
         }
-        class.body = new_body;
     }
 
     /// Returns [Some] if the method should be called again.
     fn handle_expr<'a>(&mut self, n: &'a mut Expr) -> Vec<&'a mut Expr> {
+        if n.is_class() {
+            // TODO(kdy1): Make it generate smaller code.
+            //
+            // We currently creates a iife for a class expression.
+            // Although this results in a large code, but it's ok as class expression is
+            // rarely used in wild.
+            let ClassExpr {
+                ident: old_ident,
+                class,
+            } = n.take().class().unwrap();
+            let ident = old_ident
+                .clone()
+                .unwrap_or_else(|| private_ident!("_class"));
+            let (decl, extra_stmts) = self.fold_class_as_decl(ident.clone(), class);
+            if extra_stmts.is_empty() {
+                *n = Expr::Class(ClassExpr {
+                    ident: old_ident,
+                    class: decl.class().unwrap().class,
+                });
+            } else {
+                let mut stmts = vec![];
+                stmts.push(Stmt::Decl(decl));
+                stmts.extend(extra_stmts);
+                stmts.push(Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(Box::new(Expr::Ident(ident))),
+                }));
+                *n = Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: FnExpr {
+                        ident: None,
+                        function: Function {
+                            span: DUMMY_SP,
+                            decorators: vec![],
+                            is_async: false,
+                            is_generator: false,
+                            params: vec![],
+
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts,
+                            }),
+
+                            type_params: Default::default(),
+                            return_type: Default::default(),
+                        },
+                    }
+                    .as_callee(),
+                    args: vec![],
+                    type_args: Default::default(),
+                });
+            }
+            return vec![];
+        }
         match n {
             Expr::Bin(BinExpr { left, right, .. }) => return vec![&mut **left, &mut **right],
 
@@ -939,24 +1113,27 @@ macro_rules! type_to_none {
 }
 
 impl VisitMut for Strip {
+    fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
+        match n {
+            BlockStmtOrExpr::Expr(expr) if expr.is_class() => {
+                let ClassExpr { ident, class } = expr.take().class().unwrap();
+                let ident = ident.unwrap_or_else(|| private_ident!("_class"));
+                let (decl, extra_stmts) = self.fold_class_as_decl(ident, class);
+                let mut stmts = vec![];
+                stmts.push(Stmt::Decl(decl));
+                stmts.extend(extra_stmts);
+                *n = BlockStmtOrExpr::BlockStmt(BlockStmt {
+                    span: n.span(),
+                    stmts,
+                });
+            }
+            _ => n.visit_mut_children_with(self),
+        };
+    }
+
     fn visit_mut_array_pat(&mut self, n: &mut ArrayPat) {
         n.visit_mut_children_with(self);
         n.optional = false;
-    }
-
-    fn visit_mut_class(&mut self, n: &mut Class) {
-        n.is_abstract = false;
-
-        n.type_params = None;
-
-        n.super_type_params = None;
-
-        n.implements = Default::default();
-
-        self.transform_class_fields(n);
-        n.decorators.visit_mut_with(self);
-        n.body.visit_mut_with(self);
-        n.super_class.visit_mut_with(self);
     }
 
     fn visit_mut_constructor(&mut self, n: &mut Constructor) {
@@ -1130,6 +1307,7 @@ impl VisitMut for Strip {
     }
 
     fn visit_mut_stmts(&mut self, orig: &mut Vec<Stmt>) {
+        self.visit_mut_stmt_like(orig);
         // Second pass
         let mut stmts = Vec::with_capacity(orig.len());
         for mut item in take(orig) {
@@ -1244,6 +1422,7 @@ impl VisitMut for Strip {
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        self.visit_mut_stmt_like(items);
         items.visit_with(&Invalid { span: DUMMY_SP }, self);
 
         let mut stmts = Vec::with_capacity(items.len());

@@ -5,7 +5,6 @@ use swc_ecma_transforms_compat::es2017::async_to_generator;
 use swc_ecma_transforms_compat::es2020::class_properties;
 use swc_ecma_transforms_compat::es2020::nullish_coalescing;
 use swc_ecma_transforms_compat::es2020::optional_chaining;
-use swc_ecma_transforms_compat::es2020::typescript_class_properties;
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::test_exec;
@@ -604,11 +603,12 @@ to!(
         console.log(a)
     }
 }",
-    "export default class FeatureSet {
+    "class FeatureSet {
     log(a) {
         console.log(a)
     }
-}"
+}
+export { FeatureSet as default };"
 );
 
 to!(
@@ -748,9 +748,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    // TODO(nayeemrmn): This output should be achieved without
-    // `typescript_class_properties()`.
-    |_| chain!(typescript_class_properties(), tr()),
+    |_| tr(),
     issue_930_static,
     "class A {
         static b = 'foo';
@@ -3271,12 +3269,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(
-        strip(),
-        resolver(),
-        decorators(Default::default()),
-        class_properties()
-    ),
+    |_| chain!(resolver(), decorators(Default::default()), strip()),
     issue_367,
     "
 

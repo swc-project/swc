@@ -41,6 +41,7 @@ pub fn class_properties() -> impl Fold {
 }
 
 /// Class properties pass for the typescript.
+#[deprecated = "The logic is merged into typescript::strip"]
 pub fn typescript_class_properties() -> impl Fold {
     ClassProperties {
         typescript: true,
