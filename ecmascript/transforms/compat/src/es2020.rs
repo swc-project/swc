@@ -1,3 +1,4 @@
+#[allow(deprecated)]
 pub use self::{
     class_properties::{class_properties, typescript_class_properties},
     export_namespace_from::export_namespace_from,

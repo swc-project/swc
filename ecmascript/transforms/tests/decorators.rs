@@ -43,18 +43,17 @@ fn tr() -> impl Fold {
 
 fn ts_transform() -> impl Fold {
     chain!(
-        strip(),
         decorators(Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(),
+        strip(),
     )
 }
 
 /// Folder for `transformation_*` tests
 fn transformation() -> impl Fold {
-    chain!(strip(), decorators(Default::default()), class_properties(),)
+    chain!(decorators(Default::default()), strip(),)
 }
 
 // transformation_declaration
@@ -2034,11 +2033,11 @@ expect(typeof Parent.prototype.child).toBe("function");
 test!(
     syntax(true),
     |_| chain!(
-        strip(),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
-        })
+        }),
+        strip()
     ),
     legacy_regression_10264,
     r#"
@@ -4273,11 +4272,11 @@ test!(
         ..Default::default()
     }),
     |_| chain!(
-        strip(),
         decorators(Config {
             legacy: true,
             ..Default::default()
-        })
+        }),
+        strip()
     ),
     issue_823_1,
     "import {Debounce} from 'lodash-decorators';
@@ -4294,12 +4293,15 @@ const p = new Person();
 p.save();",
     "var _class, _dec;
 import { Debounce } from 'lodash-decorators';
-let Person = ((_class = class Person {
-    static debounceTime = 500;
-    save() {
-        console.log('Hello World!');
+let Person = ((_class = function() {
+    class Person {
+        save() {
+            console.log('Hello World!');
+        }
     }
-}) || _class, _dec = Debounce(_class.debounceTime), _applyDecoratedDescriptor(_class.prototype, \
+    Person.debounceTime = 500;
+    return Person;
+}()) || _class, _dec = Debounce(_class.debounceTime), _applyDecoratedDescriptor(_class.prototype, \
      'save', [
     _dec
 ], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
@@ -4313,12 +4315,11 @@ test!(
         ..Default::default()
     }),
     |_| chain!(
-        strip(),
         decorators(Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(),
+        strip(),
         // classes(),
     ),
     issue_823_2,
@@ -4342,7 +4343,7 @@ let Person = ((_class = function() {
             console.log('Hello World!');
         }
     }
-    _defineProperty(Person, 'debounceTime', 500);
+    Person.debounceTime = 500;
     return Person;
 }()) || _class, _dec = Debounce(_class.debounceTime), _applyDecoratedDescriptor(_class.prototype, \
      'save', [
@@ -4359,12 +4360,11 @@ test!(
         ..Default::default()
     }),
     |_| chain!(
-        strip(),
         decorators(Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(),
+        strip(),
         classes(),
     ),
     issue_823_3,
@@ -4398,7 +4398,7 @@ let Person = ((_class = function() {
         ]);
         return Person;
     }();
-    _defineProperty(Person, 'debounceTime', 500);
+    Person.debounceTime = 500;
     return Person;
 }()) || _class, _dec = Debounce(_class.debounceTime), _applyDecoratedDescriptor(_class.prototype, \
      'save', [
@@ -4444,20 +4444,17 @@ var _dec = PrimaryGeneratedColumn('uuid'), _dec1 = Column(), _dec2 = Column({
 ), _dec5 = OneToMany(()=>Discount
 , (discount)=>discount.product
 ), _dec6 = Entity();
-export let Product = _class = _dec6(((_class = function() {
-    class Product extends TimestampedEntity {
-        constructor(...args){
-            super(...args);
-            _initializerDefineProperty(this, 'id', _descriptor, this);
-            _initializerDefineProperty(this, 'price', _descriptor1, this);
-            _initializerDefineProperty(this, 'type', _descriptor2, this);
-            _initializerDefineProperty(this, 'productEntityId', _descriptor3, this);
-            _initializerDefineProperty(this, 'orders', _descriptor4, this);
-            _initializerDefineProperty(this, 'discounts', _descriptor5, this);
-        }
-    }
-    return Product;
-}()) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'id', [
+export let Product = _class = _dec6(((_class = class Product extends TimestampedEntity {
+    constructor(...args){
+        super(...args);
+        _initializerDefineProperty(this, 'id', _descriptor, this);
+        _initializerDefineProperty(this, 'price', _descriptor1, this);
+        _initializerDefineProperty(this, 'type', _descriptor2, this);
+        _initializerDefineProperty(this, 'productEntityId', _descriptor3, this);
+        _initializerDefineProperty(this, 'orders', _descriptor4, this);
+        _initializerDefineProperty(this, 'discounts', _descriptor5, this);
+      }
+  }) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'id', [
     _dec
 ], {
     configurable: true,
@@ -4515,15 +4512,12 @@ export class Product extends TimestampedEntity {
 ",
     "var _class, _descriptor;
     var _dec = PrimaryGeneratedColumn(\"uuid\"), _dec1 = Entity();
-    export let Product = _class = _dec1(((_class = function() {
-    class Product extends TimestampedEntity {
+    export let Product = _class = _dec1(((_class = class Product extends TimestampedEntity {
         constructor(...args){
             super(...args);
             _initializerDefineProperty(this, 'id', _descriptor, this);
         }
-    }
-    return Product;
-}()) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'id', [
+    }) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'id', [
     _dec
 ], {
     configurable: true,
@@ -4572,13 +4566,10 @@ test!(
   }
 }",
     " var _class, _dec;
-let ProductController = ((_class = function() {
-    class ProductController {
-        findById(id) {
-        }
+let ProductController = ((_class = class ProductController {
+    findById(id) {
     }
-    return ProductController;
-}()) || _class, foo()(_class.prototype, 'findById', 0), _dec = bar(), \
+}) || _class, foo()(_class.prototype, 'findById', 0), _dec = bar(), \
      _applyDecoratedDescriptor(_class.prototype, 'findById', [
     _dec
 ], Object.getOwnPropertyDescriptor(_class.prototype, 'findById'), _class.prototype), _class);"
@@ -4621,13 +4612,12 @@ c.findById(100);
 test!(
     ts(),
     |_| chain!(
-        strip(),
         inlining::inlining(inlining::Config {}),
         decorators(Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(),
+        strip(),
     ),
     issue_879_1,
     "export default class X {
@@ -4635,14 +4625,11 @@ test!(
     prop: string = '';
 }",
     "var _class, _descriptor;
-let X = ((_class = function() {
-    class X {
-        constructor(){
-            _initializerDefineProperty(this, 'prop', _descriptor, this);
-        }
+let X = ((_class = class X {
+    constructor(){
+        _initializerDefineProperty(this, 'prop', _descriptor, this);
     }
-    return X;
-}()) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'prop', [
+}) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'prop', [
     networked
 ], {
     configurable: true,
