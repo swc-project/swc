@@ -1,11 +1,18 @@
 use super::Context;
 use crate::ast::{
-    common::{SpreadElement as BabelSpreadElement, PrivateName},
+    common::{
+        SpreadElement as BabelSpreadElement, PrivateName, LVal, Identifier, Callee, Arg,
+        MetaProperty,
+    },
     expr::{
         Expression, ThisExpression, ArrayExpression, ArrayExprEl, ObjectExpression, ObjectExprProp,
         UnaryExpression, UpdateExpression, BinaryExpression, BinaryExprLeft, FunctionExpression,
-        ClassExpression,
+        ClassExpression, AssignmentExpression, MemberExpression, Super as BabelSuper,
+        MemberExprProp, ConditionalExpression, CallExpression, NewExpression, SequenceExpression,
+        ArrowFunctionExpression, ArrowFuncExprBody, YieldExpression, AwaitExpression,
+        TaggedTemplateExpression, TaggedTemplateExprTypeParams, ParenthesizedExpression,
     },
+    lit::{TemplateLiteral, TemplateLiteralExpr, TemplateElement, TemplateElVal},
     object::ObjectKey,
 };
 use crate::convert::Babelify;
@@ -13,6 +20,7 @@ use swc_ecma_ast::{
     Expr, ThisExpr, ArrayLit, ObjectLit, FnExpr, UnaryExpr, UpdateExpr, BinExpr, AssignExpr,
     MemberExpr, CondExpr, CallExpr, NewExpr, SeqExpr, Tpl, TaggedTpl, ArrowExpr, ClassExpr,
     YieldExpr, AwaitExpr, ParenExpr, OptChainExpr, ExprOrSpread, PropOrSpread, SpreadElement,
+    PatOrExpr, Pat, ExprOrSuper, Super, BlockStmtOrExpr, MetaPropExpr, TplElement, Lit,
 };
 use swc_common::Spanned;
 use serde::{Serialize, Deserialize};
@@ -28,7 +36,40 @@ impl Babelify for Expr {
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
-            // Expr::This(t) => Expression::This(t.babelify(ctx)),
+            Expr::PrivateName(p) => ExprOutput::Private(p.babelify(ctx)),
+            Expr::This(t) => ExprOutput::Expr(Expression::This(t.babelify(ctx))),
+            Expr::Array(a) => ExprOutput::Expr(Expression::Array(a.babelify(ctx))),
+            Expr::Object(o) => ExprOutput::Expr(Expression::Object(o.babelify(ctx))),
+            Expr::Fn(f) => ExprOutput::Expr(Expression::Func(f.babelify(ctx))),
+            Expr::Unary(u) => ExprOutput::Expr(Expression::Unary(u.babelify(ctx))),
+            Expr::Update(u) => ExprOutput::Expr(Expression::Update(u.babelify(ctx))),
+            Expr::Bin(b) => ExprOutput::Expr(Expression::Binary(b.babelify(ctx))),
+            Expr::Assign(a) => ExprOutput::Expr(Expression::Assignment(a.babelify(ctx))),
+            Expr::Member(m) => ExprOutput::Expr(Expression::Member(m.babelify(ctx))),
+            Expr::Cond(c) => ExprOutput::Expr(Expression::Conditional(c.babelify(ctx))),
+            Expr::Call(c) => ExprOutput::Expr(Expression::Call(c.babelify(ctx))),
+            Expr::New(n) => ExprOutput::Expr(Expression::New(n.babelify(ctx))),
+            Expr::Seq(s) => ExprOutput::Expr(Expression::Sequence(s.babelify(ctx))),
+            Expr::Ident(i) => ExprOutput::Expr(Expression::Id(i.babelify(ctx))),
+            Expr::Lit(lit) => {
+                match lit {
+                    Lit::Str(s) => ExprOutput::Expr(Expression::StringLiteral(s.babelify(ctx))),
+                    Lit::Bool(b) => ExprOutput::Expr(Expression::BooleanLiteral(b.babelify(ctx))),
+                    Lit::Null(n) => ExprOutput::Expr(Expression::NullLiteral(n.babelify(ctx))),
+                    Lit::Num(n) => ExprOutput::Expr(Expression::NumericLiteral(n.babelify(ctx))),
+                    Lit::BigInt(i) => ExprOutput::Expr(Expression::BigIntLiteral(i.babelify(ctx))),
+                    Lit::Regex(r) => ExprOutput::Expr(Expression::RegExpLiteral(r.babelify(ctx))),
+                    Lit::JSXText(_) => panic!("illegal conversion"), // TODO(dwoznicki): is this really illegal?
+                }
+            },
+            Expr::Tpl(t) => ExprOutput::Expr(Expression::TemplateLiteral(t.babelify(ctx))),
+            Expr::TaggedTpl(t) => ExprOutput::Expr(Expression::TaggedTemplate(t.babelify(ctx))),
+            Expr::Arrow(a) => ExprOutput::Expr(Expression::ArrowFunc(a.babelify(ctx))),
+            Expr::Class(c) => ExprOutput::Expr(Expression::Class(c.babelify(ctx))),
+            Expr::Yield(y) => ExprOutput::Expr(Expression::Yield(y.babelify(ctx))),
+            Expr::MetaProp(m) => ExprOutput::Expr(Expression::MetaProp(m.babelify(ctx))),
+            Expr::Await(a) => ExprOutput::Expr(Expression::Await(a.babelify(ctx))),
+            Expr::Paren(p) => ExprOutput::Expr(Expression::Parenthesized(p.babelify(ctx))),
             _ => panic!(), // TODO(dwoznicki)
         }
     }
@@ -38,98 +79,6 @@ impl Babelify for Expr {
 // #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 // #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 // pub enum Expr {
-//     #[tag("ThisExpression")]
-//     This(ThisExpr),
-//
-//     #[tag("ArrayExpression")]
-//     Array(ArrayLit),
-//
-//     #[tag("ObjectExpression")]
-//     Object(ObjectLit),
-//
-//     #[tag("FunctionExpression")]
-//     #[is(name = "fn_expr")]
-//     Fn(FnExpr),
-//
-//     #[tag("UnaryExpression")]
-//     Unary(UnaryExpr),
-//
-//     /// `++v`, `--v`, `v++`, `v--`
-//     #[tag("UpdateExpression")]
-//     Update(UpdateExpr),
-//
-//     #[tag("BinaryExpression")]
-//     Bin(BinExpr),
-//
-//     #[tag("AssignmentExpression")]
-//     Assign(AssignExpr),
-//
-//     //
-//     // Logical {
-//     //
-//     //     op: LogicalOp,
-//     //     left: Box<Expr>,
-//     //     right: Box<Expr>,
-//     // },
-//     /// A member expression. If computed is true, the node corresponds to a
-//     /// computed (a[b]) member expression and property is an Expression. If
-//     /// computed is false, the node corresponds to a static (a.b) member
-//     /// expression and property is an Identifier.
-//     #[tag("MemberExpression")]
-//     Member(MemberExpr),
-//
-//     /// true ? 'a' : 'b'
-//     #[tag("ConditionalExpression")]
-//     Cond(CondExpr),
-//
-//     #[tag("CallExpression")]
-//     Call(CallExpr),
-//
-//     /// `new Cat()`
-//     #[tag("NewExpression")]
-//     New(NewExpr),
-//
-//     #[tag("SequenceExpression")]
-//     Seq(SeqExpr),
-//
-//     #[tag("Identifier")]
-//     Ident(Ident),
-//
-//     #[tag("StringLiteral")]
-//     #[tag("BooleanLiteral")]
-//     #[tag("NullLiteral")]
-//     #[tag("NumericLiteral")]
-//     #[tag("RegExpLiteral")]
-//     #[tag("JSXText")]
-//     #[tag("BigIntLiteral")]
-//     Lit(Lit),
-//
-//     #[tag("TemplateLiteral")]
-//     Tpl(Tpl),
-//
-//     #[tag("TaggedTemplateExpression")]
-//     TaggedTpl(TaggedTpl),
-//
-//     #[tag("ArrowFunctionExpression")]
-//     Arrow(ArrowExpr),
-//
-//     #[tag("ClassExpression")]
-//     Class(ClassExpr),
-//
-//     #[tag("YieldExpression")]
-//     #[is(name = "yield_expr")]
-//     Yield(YieldExpr),
-//
-//     #[tag("MetaProperty")]
-//     MetaProp(MetaPropExpr),
-//
-//     #[tag("AwaitExpression")]
-//     #[is(name = "await_expr")]
-//     Await(AwaitExpr),
-//
-//     #[tag("ParenthesisExpression")]
-//     Paren(ParenExpr),
-//
 //     #[tag("JSXMemberExpression")]
 //     JSXMember(JSXMemberExpr),
 //
@@ -191,6 +140,20 @@ impl From<ExprOutput> for ObjectKey {
         match o {
             ExprOutput::Expr(e) => ObjectKey::Expr(e),
             _ => panic!("illegal conversion"), // TODO(dwoznicki): how to handle?
+        }
+    }
+}
+
+impl From<ExprOutput> for MemberExprProp {
+    fn from(o: ExprOutput) -> Self {
+        match o {
+            ExprOutput::Private(p) => MemberExprProp::PrivateName(p),
+            ExprOutput::Expr(e) => {
+                match e {
+                    Expression::Id(i) => MemberExprProp::Id(i),
+                    _ => MemberExprProp::Expr(e),
+                }
+            },
         }
     }
 }
@@ -310,231 +273,229 @@ impl Babelify for ClassExpr {
     }
 }
 
-// /// Class expression.
-// #[ast_node("ClassExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct ClassExpr {
-//     #[serde(default, rename = "identifier")]
-//     pub ident: Option<Ident>,
-//
-//     #[serde(flatten)]
-//     #[span]
-//     pub class: Class,
-// }
-//
-// #[ast_node("AssignmentExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct AssignExpr {
-//     pub span: Span,
-//
-//     #[serde(rename = "operator")]
-//     pub op: AssignOp,
-//
-//     pub left: PatOrExpr,
-//
-//     pub right: Box<Expr>,
-// }
-//
-// #[ast_node("MemberExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct MemberExpr {
-//     pub span: Span,
-//
-//     #[serde(rename = "object")]
-//     pub obj: ExprOrSuper,
-//
-//     #[serde(rename = "property")]
-//     pub prop: Box<Expr>,
-//
-//     pub computed: bool,
-// }
-//
-// #[ast_node("ConditionalExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct CondExpr {
-//     pub span: Span,
-//
-//     pub test: Box<Expr>,
-//
-//     #[serde(rename = "consequent")]
-//     pub cons: Box<Expr>,
-//
-//     #[serde(rename = "alternate")]
-//     pub alt: Box<Expr>,
-// }
-//
-// #[ast_node("CallExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct CallExpr {
-//     pub span: Span,
-//
-//     pub callee: ExprOrSuper,
-//
-//     #[serde(default, rename = "arguments")]
-//     pub args: Vec<ExprOrSpread>,
-//
-//     #[serde(default, rename = "typeArguments")]
-//     pub type_args: Option<TsTypeParamInstantiation>,
-//     // pub type_params: Option<TsTypeParamInstantiation>,
-// }
-//
-// #[ast_node("NewExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct NewExpr {
-//     pub span: Span,
-//
-//     pub callee: Box<Expr>,
-//
-//     #[serde(default, rename = "arguments")]
-//     pub args: Option<Vec<ExprOrSpread>>,
-//
-//     #[serde(default, rename = "typeArguments")]
-//     pub type_args: Option<TsTypeParamInstantiation>,
-//     // pub type_params: Option<TsTypeParamInstantiation>,
-// }
-//
-// #[ast_node("SequenceExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct SeqExpr {
-//     pub span: Span,
-//
-//     #[serde(rename = "expressions")]
-//     pub exprs: Vec<Box<Expr>>,
-// }
-//
-// #[ast_node("ArrowFunctionExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct ArrowExpr {
-//     pub span: Span,
-//
-//     pub params: Vec<Pat>,
-//
-//     pub body: BlockStmtOrExpr,
-//
-//     #[serde(default, rename = "async")]
-//     pub is_async: bool,
-//
-//     #[serde(default, rename = "generator")]
-//     pub is_generator: bool,
-//
-//     #[serde(default, rename = "typeParameters")]
-//     pub type_params: Option<TsTypeParamDecl>,
-//
-//     #[serde(default)]
-//     pub return_type: Option<TsTypeAnn>,
-// }
-//
-// #[ast_node("YieldExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct YieldExpr {
-//     pub span: Span,
-//
-//     #[serde(default, rename = "argument")]
-//     pub arg: Option<Box<Expr>>,
-//
-//     #[serde(default)]
-//     pub delegate: bool,
-// }
-//
-// #[ast_node("MetaProperty")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct MetaPropExpr {
-//     #[span(lo)]
-//     pub meta: Ident,
-//
-//     #[serde(rename = "property")]
-//     #[span(hi)]
-//     pub prop: Ident,
-// }
-//
-// #[ast_node("AwaitExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct AwaitExpr {
-//     pub span: Span,
-//
-//     #[serde(rename = "argument")]
-//     pub arg: Box<Expr>,
-// }
-//
-// #[ast_node("TemplateLiteral")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct Tpl {
-//     pub span: Span,
-//
-//     #[serde(rename = "expressions")]
-//     pub exprs: Vec<Box<Expr>>,
-//
-//     pub quasis: Vec<TplElement>,
-// }
-//
-// #[ast_node("TaggedTemplateExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TaggedTpl {
-//     pub span: Span,
-//
-//     pub tag: Box<Expr>,
-//
-//     #[serde(rename = "expressions")]
-//     pub exprs: Vec<Box<Expr>>,
-//     pub quasis: Vec<TplElement>,
-//
-//     #[serde(default, rename = "typeParameters")]
-//     pub type_params: Option<TsTypeParamInstantiation>,
-// }
-//
-// #[ast_node("TemplateElement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TplElement {
-//     pub span: Span,
-//     pub tail: bool,
-//     pub cooked: Option<Str>,
-//     pub raw: Str,
-// }
-//
-// #[ast_node("ParenthesisExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct ParenExpr {
-//     pub span: Span,
-//
-//     #[serde(rename = "expression")]
-//     pub expr: Box<Expr>,
-// }
-//
-// #[ast_node]
-// #[allow(variant_size_differences)]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum ExprOrSuper {
-//     #[tag("Super")]
-//     #[is(name = "super_")]
-//     Super(Super),
-//
-//     #[tag("*")]
-//     Expr(Box<Expr>),
-// }
-//
-// #[ast_node("Super")]
-// #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct Super {
-//     pub span: Span,
-// }
-//
+impl Babelify for AssignExpr {
+    type Output = AssignmentExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        AssignmentExpression {
+            base: ctx.base(self.span),
+            operator: self.op.to_string(),
+            left: Box::new(self.left.babelify(ctx)),
+            right: Box::new(self.right.babelify(ctx).into()),
+        }
+    }
+}
+
+impl Babelify for MemberExpr {
+    type Output = MemberExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        MemberExpression {
+            base: ctx.base(self.span),
+            object: Box::new(self.obj.babelify(ctx)),
+            property: Box::new(self.prop.babelify(ctx).into()),
+            computed: self.computed,
+            optional: Default::default(),
+        }
+    }
+}
+
+impl Babelify for CondExpr {
+    type Output = ConditionalExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        ConditionalExpression {
+            base: ctx.base(self.span),
+            test: Box::new(self.test.babelify(ctx).into()),
+            consequent: Box::new(self.cons.babelify(ctx).into()),
+            alternate: Box::new(self.alt.babelify(ctx).into()),
+        }
+    }
+}
+
+impl Babelify for CallExpr {
+    type Output = CallExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        CallExpression {
+            base: ctx.base(self.span),
+            callee: Box::new(self.callee.babelify(ctx).into()),
+            arguments: self.args.iter().map(|arg| arg.clone().babelify(ctx).into()).collect(),
+            type_parameters: self.type_args.map(|t| t.babelify(ctx)),
+            type_arguments: Default::default(),
+            optional: Default::default(),
+        }
+    }
+}
+
+impl Babelify for NewExpr {
+    type Output = NewExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        NewExpression {
+            base: ctx.base(self.span),
+            callee: Box::new(Callee::Expr(self.callee.babelify(ctx).into())),
+            arguments: match self.args {
+                Some(args) => args.iter().map(|arg| arg.clone().babelify(ctx).into()).collect(),
+                None => vec![],
+            },
+            type_parameters: self.type_args.map(|t| t.babelify(ctx)),
+            type_arguments: Default::default(),
+            optional: Default::default(),
+        }
+    }
+}
+
+impl Babelify for SeqExpr {
+    type Output = SequenceExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        SequenceExpression {
+            base: ctx.base(self.span),
+            expressions: self.exprs.iter().map(|expr| expr.clone().babelify(ctx).into()).collect(),
+        }
+    }
+}
+
+impl Babelify for ArrowExpr {
+    type Output = ArrowFunctionExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        ArrowFunctionExpression {
+            base: ctx.base(self.span),
+            params: self.params.iter().map(|p| p.clone().babelify(ctx).into()).collect(),
+            body: Box::new(self.body.babelify(ctx)),
+            is_async: self.is_async,
+            generator: self.is_generator,
+            expression: Default::default(),
+            type_parameters: self.type_params.map(|t| t.babelify(ctx).into()),
+            return_type: self.return_type.map(|t| t.babelify(ctx).into()),
+        }
+    }
+}
+
+impl Babelify for YieldExpr {
+    type Output = YieldExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        YieldExpression {
+            base: ctx.base(self.span),
+            argument: self.arg.map(|a| Box::new(a.babelify(ctx).into())),
+            delegate: self.delegate,
+        }
+    }
+}
+
+impl Babelify for MetaPropExpr {
+    type Output = MetaProperty;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        MetaProperty {
+            base: ctx.base(self.span()),
+            meta: self.meta.babelify(ctx),
+            property: self.prop.babelify(ctx),
+        }
+    }
+}
+
+impl Babelify for AwaitExpr {
+    type Output = AwaitExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        AwaitExpression {
+            base: ctx.base(self.span),
+            argument: Box::new(self.arg.babelify(ctx).into()),
+        }
+    }
+}
+
+impl Babelify for Tpl {
+    type Output = TemplateLiteral;
+    
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TemplateLiteral {
+            base: ctx.base(self.span),
+            expressions: self.exprs.iter().map(|e| {
+                TemplateLiteralExpr::Expr(e.clone().babelify(ctx).into())
+            }).collect(),
+            quasis: self.quasis.iter().map(|q| q.clone().babelify(ctx)).collect(),
+        }
+    }
+}
+
+impl Babelify for TaggedTpl {
+    type Output = TaggedTemplateExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TaggedTemplateExpression {
+            base: ctx.base(self.span),
+            tag: Box::new(self.tag.babelify(ctx).into()),
+            quasi: TemplateLiteral {
+                base: ctx.base(self.span), // TODO(dwoznicki): is this right?
+                expressions: self.exprs.iter().map(|e| {
+                    TemplateLiteralExpr::Expr(e.clone().babelify(ctx).into())
+                }).collect(),
+                quasis: self.quasis.iter().map(|q| q.clone().babelify(ctx)).collect(),
+            },
+            type_parameters: self.type_params.map(|t| {
+                TaggedTemplateExprTypeParams::TS(t.babelify(ctx))
+            }),
+        }
+    }
+}
+
+impl Babelify for TplElement {
+    type Output = TemplateElement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TemplateElement {
+            base: ctx.base(self.span),
+            tail: self.tail,
+            value: TemplateElVal {
+                raw: self.raw.value.to_string(),
+                cooked: self.cooked.map(|s| s.value.to_string()),
+            },
+        }
+    }
+}
+
+impl Babelify for ParenExpr {
+    type Output = ParenthesizedExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        ParenthesizedExpression {
+            base: ctx.base(self.span),
+            expression: Box::new(self.expr.babelify(ctx).into()),
+        }
+    }
+}
+
+impl Babelify for ExprOrSuper {
+    type Output = Expression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            ExprOrSuper::Expr(e) => e.babelify(ctx).into(),
+            ExprOrSuper::Super(s) => Expression::Super(s.babelify(ctx)),
+        }
+    }
+}
+
+impl From<Expression> for Callee {
+    fn from(expr: Expression) -> Self {
+        Callee::Expr(expr)
+    }
+}
+
+impl Babelify for Super {
+    type Output = BabelSuper;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        BabelSuper {
+            base: ctx.base(self.span),
+        }
+    }
+}
 
 impl Babelify for ExprOrSpread {
     type Output = ArrayExprEl;
@@ -550,119 +511,45 @@ impl Babelify for ExprOrSpread {
     }
 }
 
-// #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct ExprOrSpread {
-//     #[serde(default)]
-//     pub spread: Option<Span>,
-//
-//     #[serde(rename = "expression")]
-//     pub expr: Box<Expr>,
-// }
-//
-// impl Spanned for ExprOrSpread {
-//     fn span(&self) -> Span {
-//         let expr = self.expr.span();
-//         match self.spread {
-//             Some(spread) => expr.with_lo(spread.lo()),
-//             None => expr,
-//         }
-//     }
-// }
-//
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[allow(variant_size_differences)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum BlockStmtOrExpr {
-//     #[tag("BlockStatement")]
-//     BlockStmt(BlockStmt),
-//     #[tag("*")]
-//     Expr(Box<Expr>),
-// }
-//
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum PatOrExpr {
-//     #[tag("ThisExpression")]
-//     #[tag("ArrayExpression")]
-//     #[tag("ObjectExpression")]
-//     #[tag("FunctionExpression")]
-//     #[tag("UnaryExpression")]
-//     #[tag("UpdateExpression")]
-//     #[tag("BinaryExpression")]
-//     #[tag("AssignmentExpression")]
-//     #[tag("MemberExpression")]
-//     #[tag("ConditionalExpression")]
-//     #[tag("CallExpression")]
-//     #[tag("NewExpression")]
-//     #[tag("SequenceExpression")]
-//     #[tag("StringLiteral")]
-//     #[tag("BooleanLiteral")]
-//     #[tag("NullLiteral")]
-//     #[tag("NumericLiteral")]
-//     #[tag("RegExpLiteral")]
-//     #[tag("JSXText")]
-//     #[tag("TemplateLiteral")]
-//     #[tag("TaggedTemplateLiteral")]
-//     #[tag("ArrowFunctionExpression")]
-//     #[tag("ClassExpression")]
-//     #[tag("YieldExpression")]
-//     #[tag("MetaProperty")]
-//     #[tag("AwaitExpression")]
-//     #[tag("ParenthesisExpression")]
-//     #[tag("JSXMemberExpression")]
-//     #[tag("JSXNamespacedName")]
-//     #[tag("JSXEmptyExpression")]
-//     #[tag("JSXElement")]
-//     #[tag("JSXFragment")]
-//     #[tag("TsTypeAssertion")]
-//     #[tag("TsConstAssertion")]
-//     #[tag("TsNonNullExpression")]
-//     #[tag("TsAsExpression")]
-//     #[tag("PrivateName")]
-//     Expr(Box<Expr>),
-//     #[tag("*")]
-//     Pat(Box<Pat>),
-// }
-//
-// impl From<bool> for Expr {
-//     fn from(value: bool) -> Self {
-//         Expr::Lit(Lit::Bool(Bool {
-//             span: DUMMY_SP,
-//             value,
-//         }))
-//     }
-// }
-//
-// impl From<f64> for Expr {
-//     fn from(value: f64) -> Self {
-//         Expr::Lit(Lit::Num(Number {
-//             span: DUMMY_SP,
-//             value,
-//         }))
-//     }
-// }
-//
-// impl From<Bool> for Expr {
-//     fn from(v: Bool) -> Self {
-//         Expr::Lit(Lit::Bool(v))
-//     }
-// }
-//
-// impl From<Number> for Expr {
-//     fn from(v: Number) -> Self {
-//         Expr::Lit(Lit::Num(v))
-//     }
-// }
-//
-// impl From<Str> for Expr {
-//     fn from(v: Str) -> Self {
-//         Expr::Lit(Lit::Str(v))
-//     }
-// }
-//
+impl From<ArrayExprEl> for Arg {
+    fn from(el: ArrayExprEl) -> Self {
+        match el {
+            ArrayExprEl::Expr(e) => Arg::Expr(e),
+            ArrayExprEl::Spread(s) => Arg::Spread(s),
+            _ => panic!("illegal conversion"), // TODO(dwoznick): how to handle?
+        }
+    }
+}
+
+impl Babelify for BlockStmtOrExpr {
+    type Output = ArrowFuncExprBody;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            BlockStmtOrExpr::BlockStmt(b) => ArrowFuncExprBody::Block(b.babelify(ctx)),
+            BlockStmtOrExpr::Expr(e) => ArrowFuncExprBody::Expr(e.babelify(ctx).into()),
+        }
+    }
+}
+
+impl Babelify for PatOrExpr {
+    type Output = LVal;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            PatOrExpr::Expr(e) => {
+                match *e {
+                    Expr::Member(me) => LVal::MemberExpr(me.babelify(ctx)),
+                    _ => panic!("illegal conversion"), // TODO(dwoznicki): really illegal?
+                }
+            },
+            PatOrExpr::Pat(p) => p.babelify(ctx).into(),
+        }
+    }
+}
+
+// NOTE: OptChainExpr does not appear to have an official Babel AST node yet.
+
 // #[ast_node("OptionalChainingExpression")]
 // #[derive(Eq, Hash, EqIgnoreSpan)]
 // #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -671,38 +558,4 @@ impl Babelify for ExprOrSpread {
 //     pub question_dot_token: Span,
 //     pub expr: Box<Expr>,
 // }
-//
-// test_de!(
-//     jsx_element,
-//     JSXElement,
-//     r#"{
-//       "type": "JSXElement",
-//       "span": {
-//         "start": 0,
-//         "end": 5,
-//         "ctxt": 0
-//       },
-//       "opening": {
-//         "type": "JSXOpeningElement",
-//         "name": {
-//           "type": "Identifier",
-//           "span": {
-//             "start": 1,
-//             "end": 2,
-//             "ctxt": 0
-//           },
-//           "value": "a",
-//           "optional": false
-//         },
-//         "span": {
-//           "start": 1,
-//           "end": 5,
-//           "ctxt": 0
-//         },
-//         "selfClosing": true
-//       },
-//       "children": [],
-//       "closing": null
-//     }"#
-// );
 //

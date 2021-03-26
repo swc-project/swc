@@ -1,9 +1,12 @@
 use super::Context;
 use crate::ast::{
-    common::{LVal, PatternLike, RestElement, Identifier},
+    common::{LVal, PatternLike, RestElement, Identifier, Param},
     expr::Expression,
     object::{ObjectProperty, ObjectPropVal},
-    pat::{ArrayPattern, ObjectPattern, ObjectPatternProp, AssignmentPattern, AssignmentPatternLeft},
+    pat::{
+        Pattern, ArrayPattern, ObjectPattern, ObjectPatternProp, AssignmentPattern,
+        AssignmentPatternLeft,
+    },
 };
 use crate::convert::Babelify;
 use swc_ecma_ast::{Pat, RestPat, ArrayPat, ObjectPat, ObjectPatProp, KeyValuePatProp, AssignPat};
@@ -20,27 +23,22 @@ pub enum PatOutput {
     Expr(Expression),
 }
 
-impl From<PatOutput> for ObjectPropVal {
-    fn from(p: PatOutput) -> Self {
-        match p {
-            PatOutput::Expr(e) => ObjectPropVal::Expr(e),
-            o => o.into(),
+impl From<PatOutput> for Pattern {
+    fn from(pat: PatOutput) -> Self {
+        match pat {
+            PatOutput::Assign(a) => Pattern::Assignment(a),
+            PatOutput::Array(a) => Pattern::Array(a),
+            PatOutput::Object(o) => Pattern::Object(o),
+            _ => panic!("illegal conversion"),
         }
     }
 }
 
-impl Babelify for Pat {
-    type Output = PatOutput;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        match self {
-            Pat::Ident(i) => PatOutput::Id(i.babelify(ctx)),
-            Pat::Array(a) => PatOutput::Array(a.babelify(ctx)),
-            Pat::Rest(r) => PatOutput::Rest(r.babelify(ctx)),
-            Pat::Object(o) => PatOutput::Object(o.babelify(ctx)),
-            Pat::Assign(a) => PatOutput::Assign(a.babelify(ctx)),
-            Pat::Invalid(_) => panic!("unimplemnted"), // TODO(dwoznicki): find corresponding babel node
-            Pat::Expr(e) => PatOutput::Expr(e.babelify(ctx).into()),
+impl From<PatOutput> for ObjectPropVal {
+    fn from(pat: PatOutput) -> Self {
+        match pat {
+            PatOutput::Expr(e) => ObjectPropVal::Expr(e),
+            other => other.into(),
         }
     }
 }
@@ -80,6 +78,32 @@ impl From<PatOutput> for AssignmentPatternLeft {
             PatOutput::Object(o) => AssignmentPatternLeft::Object(o),
             PatOutput::Assign(_) => panic!("illegal conversion"), // TODO(dwoznicki): how to handle?
             PatOutput::Expr(_) => panic!("unimplemented"), // TODO(dwoznicki): implement MemberExpression
+        }
+    }
+}
+
+impl From<PatOutput> for Param {
+    fn from(pat: PatOutput) -> Self {
+        match pat {
+            PatOutput::Id(i) => Param::Id(i),
+            PatOutput::Rest(r) => Param::Rest(r),
+            other => other.into(),
+        }
+    }
+}
+
+impl Babelify for Pat {
+    type Output = PatOutput;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            Pat::Ident(i) => PatOutput::Id(i.babelify(ctx)),
+            Pat::Array(a) => PatOutput::Array(a.babelify(ctx)),
+            Pat::Rest(r) => PatOutput::Rest(r.babelify(ctx)),
+            Pat::Object(o) => PatOutput::Object(o.babelify(ctx)),
+            Pat::Assign(a) => PatOutput::Assign(a.babelify(ctx)),
+            Pat::Invalid(_) => panic!("unimplemnted"), // TODO(dwoznicki): find corresponding babel node
+            Pat::Expr(e) => PatOutput::Expr(e.babelify(ctx).into()),
         }
     }
 }
