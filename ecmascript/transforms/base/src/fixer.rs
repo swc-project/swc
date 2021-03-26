@@ -171,6 +171,10 @@ impl VisitMut for Fixer<'_> {
         };
 
         match &mut *expr.left {
+            Expr::Bin(BinExpr { op: op!("??"), .. }) => {
+                self.wrap(&mut expr.left);
+            }
+
             // While simplifying, (1 + x) * Nan becomes `1 + x * Nan`.
             // But it should be `(1 + x) * Nan`
             Expr::Bin(BinExpr { op: op_of_lhs, .. }) => {
@@ -1066,4 +1070,6 @@ var store = global[SHARED] || (global[SHARED] = {});
     );
 
     identical!(deno_9810, "await (bar = Promise.resolve(2));");
+
+    identical!(issue_1493, "('a' ?? 'b') || ''");
 }

@@ -631,6 +631,13 @@ fn tests(dir: PathBuf) {
                         NormalizedOutput::from(v.code)
                             .compare_to_file(output.join(entry.file_name()))
                             .unwrap();
+
+                        NormalizedOutput::from(v.map.unwrap_or_default())
+                            .compare_to_file(
+                                output
+                                    .join(entry.path().with_extension("map").file_name().unwrap()),
+                            )
+                            .unwrap();
                     }
                     Err(ref err) if format!("{:?}", err).contains("not matched") => {}
                     Err(err) => panic!("Error: {:?}", err),
