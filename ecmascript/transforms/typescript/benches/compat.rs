@@ -108,13 +108,6 @@ fn es2020_optional_chaining(b: &mut Bencher) {
 }
 
 #[bench]
-fn es2020_typescript_class_properties(b: &mut Bencher) {
-    run(b, || {
-        swc_ecma_transforms_compat::es2020::typescript_class_properties()
-    });
-}
-
-#[bench]
 fn es2020_class_properties(b: &mut Bencher) {
     run(b, || swc_ecma_transforms_compat::es2020::class_properties());
 }

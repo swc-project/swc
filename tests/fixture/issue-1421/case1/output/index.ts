@@ -47,12 +47,12 @@ var column = function() {
 };
 var _dec = column(), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", String);
 var User = ((_class = function() {
-    var User1 = function User1() {
+    var User = function User() {
         "use strict";
-        _classCallCheck(this, User1);
+        _classCallCheck(this, User);
         _initializerDefineProperty(this, "currency", _descriptor, this);
     };
-    return User1;
+    return User;
 }()) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, "currency", [
     _dec,
     _dec1
