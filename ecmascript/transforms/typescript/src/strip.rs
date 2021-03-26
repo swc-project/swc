@@ -9,7 +9,7 @@ use swc_ecma_utils::private_ident;
 use swc_ecma_utils::var::VarCollector;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::{constructor::inject_after_super, default_constructor};
-use swc_ecma_utils::{ident::IdentLike, Id, ModuleItemLike, StmtLike};
+use swc_ecma_utils::{ident::IdentLike, prepend, Id, ModuleItemLike, StmtLike};
 use swc_ecma_visit::{as_folder, Fold, Node, Visit, VisitMut, VisitMutWith, VisitWith};
 
 /// Value does not contain TsLit::Bool
@@ -76,6 +76,7 @@ struct Strip {
     scope: Scope,
     is_side_effect_import: bool,
     is_type_only_export: bool,
+    uninitialized_vars: Vec<VarDeclarator>,
 }
 
 #[derive(Default)]
@@ -204,6 +205,7 @@ impl Strip {
                 class.body = param_class_fields;
             }
         } else {
+            let mut key_computations = vec![];
             let mut assign_exprs = vec![];
             let mut new_body = vec![];
             for member in take(&mut class.body) {
@@ -212,6 +214,25 @@ impl Strip {
                         if !class_field.is_static && class_field.decorators.is_empty() =>
                     {
                         if let Some(value) = class_field.value.take() {
+                            if class_field.computed {
+                                let ident = private_ident!("_key");
+                                self.uninitialized_vars.push(VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(ident.clone().into()),
+                                    init: None,
+                                    definite: false,
+                                });
+                                let assign_lhs =
+                                    PatOrExpr::Expr(Box::new(Expr::Ident(ident.clone())));
+                                let assign_expr = Box::new(Expr::Assign(AssignExpr {
+                                    span: class_field.span,
+                                    op: op!("="),
+                                    left: assign_lhs,
+                                    right: class_field.key.take(),
+                                }));
+                                key_computations.push(assign_expr);
+                                class_field.key = Box::new(Expr::Ident(ident));
+                            }
                             let computed = class_field.computed
                                 || !matches!(class_field.key.borrow(), Expr::Ident(_));
                             let assign_lhs = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
@@ -235,6 +256,25 @@ impl Strip {
                         if class_field.is_static && class_field.decorators.is_empty() =>
                     {
                         if let Some(value) = class_field.value.take() {
+                            if class_field.computed {
+                                let ident = private_ident!("_key");
+                                self.uninitialized_vars.push(VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(ident.clone().into()),
+                                    init: None,
+                                    definite: false,
+                                });
+                                let assign_lhs =
+                                    PatOrExpr::Expr(Box::new(Expr::Ident(ident.clone())));
+                                let assign_expr = Box::new(Expr::Assign(AssignExpr {
+                                    span: class_field.span,
+                                    op: op!("="),
+                                    left: assign_lhs,
+                                    right: class_field.key.take(),
+                                }));
+                                key_computations.push(assign_expr);
+                                class_field.key = Box::new(Expr::Ident(ident));
+                            }
                             let computed = class_field.computed
                                 || !matches!(class_field.key.borrow(), Expr::Ident(_));
                             let assign_lhs = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
@@ -253,6 +293,25 @@ impl Strip {
                                 .into_stmt(),
                             );
                         }
+                    }
+                    ClassMember::Method(mut method) => {
+                        if !key_computations.is_empty() {
+                            match &mut method.key {
+                                PropName::Computed(name) => {
+                                    // If a computed method name is encountered, dump the other key
+                                    // assignments before it in a sequence expression. Note how this
+                                    // always preserves the order of key computations. This
+                                    // behaviour is taken from TSC output.
+                                    key_computations.push(name.expr.take());
+                                    name.expr = Box::new(Expr::Seq(SeqExpr {
+                                        span: name.span,
+                                        exprs: take(&mut key_computations),
+                                    }));
+                                }
+                                _ => {}
+                            }
+                        }
+                        new_body.push(ClassMember::Method(method));
                     }
                     _ => {
                         new_body.push(member);
@@ -276,6 +335,14 @@ impl Strip {
                 }
             }
             class.body = new_body;
+            extra_stmts = {
+                let mut stmts = key_computations
+                    .into_iter()
+                    .map(|e| e.into_stmt())
+                    .collect::<Vec<_>>();
+                stmts.append(&mut extra_stmts);
+                stmts
+            };
         }
 
         class.decorators.visit_mut_with(self);
@@ -1419,6 +1486,22 @@ impl VisitMut for Strip {
             }) => false,
             _ => true,
         });
+    }
+
+    fn visit_mut_module(&mut self, module: &mut Module) {
+        module.visit_mut_children_with(self);
+        if !self.uninitialized_vars.is_empty() {
+            prepend(
+                &mut module.body,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: take(&mut self.uninitialized_vars),
+                    declare: false,
+                }))
+                .into(),
+            );
+        }
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
