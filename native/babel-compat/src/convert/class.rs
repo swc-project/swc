@@ -157,41 +157,6 @@ impl Babelify for PrivateMethod {
     }
 }
 
-// method!(PrivateMethod, "PrivateMethod", PrivateName);
-// macro_rules! method {
-//     ($name:ident, $ty:literal, $KEY:ty) => {
-//         #[ast_node($ty)]
-//         #[derive(Eq, Hash, EqIgnoreSpan)]
-//         #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-//         pub struct $name {
-//             #[serde(default)]
-//             pub span: Span,
-//
-//             pub key: $KEY,
-//
-//             pub function: Function,
-//
-//             pub kind: MethodKind,
-//
-//             #[serde(default)]
-//             pub is_static: bool,
-//
-//             /// Typescript extension.
-//             #[serde(default)]
-//             pub accessibility: Option<Accessibility>,
-//
-//             /// Typescript extension.
-//             #[serde(default)]
-//             pub is_abstract: bool,
-//
-//             #[serde(default)]
-//             pub is_optional: bool,
-//         }
-//     };
-// }
-//
-
-
 impl Babelify for Constructor {
     type Output = BabelClassMethod;
 

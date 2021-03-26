@@ -465,8 +465,8 @@ pub struct ClassExpression {
 pub enum TaggedTemplateExprTypeParams {
     #[serde(rename = "TypeParameterDeclaration")]
     Flow(TypeParameterDeclaration),
-    #[serde(rename = "TSTypeParameterDeclaration")]
-    TS(TSTypeParameterDeclaration),
+    #[serde(rename = "TSTypeParameterInstantiation")]
+    TS(TSTypeParameterInstantiation),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
