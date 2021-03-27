@@ -673,7 +673,16 @@ where
                 }) => e,
                 JSXAttrValue::JSXElement(element) => Box::new(self.jsx_elem_to_expr(*element)),
                 JSXAttrValue::JSXFragment(fragment) => Box::new(self.jsx_frag_to_expr(fragment)),
-                JSXAttrValue::Lit(lit) => Box::new(lit.into()),
+                JSXAttrValue::Lit(mut lit) => {
+                    match &mut lit {
+                        Lit::Str(s) => {
+                            s.kind = Default::default();
+                        }
+                        _ => {}
+                    }
+
+                    Box::new(lit.into())
+                }
                 JSXAttrValue::JSXExprContainer(JSXExprContainer {
                     span: _,
                     expr: JSXExpr::JSXEmptyExpr(_),
