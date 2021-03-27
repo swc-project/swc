@@ -1,194 +1,153 @@
 use super::Context;
-// use crate::ast::{
-//     common::{LVal, PatternLike, RestElement, Identifier},
-//     object::{ObjectProperty, ObjectKey, ObjectPropVal},
-//     pat::{ArrayPattern, ObjectPattern, ObjectPatternProp, AssignmentPattern},
-// };
 use crate::ast::{
-    common::Identifier,
-    expr::Expression,
-    lit::{StringLiteral, NumericLiteral},
-    object::{ObjectKey, ObjectProperty},
+    expr::{Expression, FunctionExpression},
+    object::{
+        ObjectKey, ObjectProperty, ObjectMethod, ObjectMethodKind, ObjectPropVal, ObjectMember,
+    },
+    pat::{AssignmentPattern, AssignmentPatternLeft},
 };
 use crate::convert::Babelify;
-use swc_ecma_ast::{Prop, PropName, ComputedPropName};
-// use swc_common::Spanned;
-use serde::{Serialize, Deserialize};
+use swc_ecma_ast::{
+    Prop, PropName, ComputedPropName, GetterProp, SetterProp, MethodProp, KeyValueProp, AssignProp,
+};
+use swc_common::Spanned;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum PropNameOutput {
-    Id(Identifier),
-    String(StringLiteral),
-    Numeric(NumericLiteral),
-    Computed(Expression),
+impl Babelify for Prop {
+    type Output = ObjectMember;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            Prop::Shorthand(i) => {
+                let id = i.babelify(ctx);
+                ObjectMember::Prop(ObjectProperty {
+                    base: id.base.clone(),
+                    key: ObjectKey::Id(id.clone()),
+                    value: ObjectPropVal::Expr(Expression::Id(id)),
+                    computed: Default::default(),
+                    shorthand: true,
+                    decorators: Default::default(),
+                })
+            },
+            Prop::KeyValue(k) => ObjectMember::Prop(k.babelify(ctx)),
+            Prop::Assign(_) => panic!("illegal conversion"),
+            Prop::Getter(g) => ObjectMember::Method(g.babelify(ctx)),
+            Prop::Setter(s) => ObjectMember::Method(s.babelify(ctx)),
+            Prop::Method(m) => ObjectMember::Method(m.babelify(ctx)),
+        }
+    }
 }
 
-impl From<PropNameOutput> for ObjectKey {
-    fn from(p: PropNameOutput) -> Self {
-        match p {
-            PropNameOutput::Id(i) => ObjectKey::Id(i),
-            PropNameOutput::String(s) => ObjectKey::String(s),
-            PropNameOutput::Numeric(n) => ObjectKey::Numeric(n),
-            PropNameOutput::Computed(c) => ObjectKey::Expr(c),
+impl Babelify for KeyValueProp {
+    type Output = ObjectProperty;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        ObjectProperty {
+            base: ctx.base(self.span()),
+            key: self.key.babelify(ctx),
+            value: ObjectPropVal::Expr(self.value.babelify(ctx).into()),
+            computed: Default::default(),
+            shorthand: Default::default(),
+            decorators: Default::default(),
+        }
+    }
+}
+
+// TODO(dwoznicki): What is AssignProp used for? Should it babelify into
+// AssignmentPattern or AssignmentExpression?
+impl Babelify for AssignProp {
+    type Output = AssignmentPattern;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        AssignmentPattern {
+            base: ctx.base(self.span()),
+            left: AssignmentPatternLeft::Id(self.key.babelify(ctx)),
+            right: self.value.babelify(ctx).into(),
+            decorators: Default::default(),
+            type_annotation: Default::default(),
+        }
+    }
+}
+
+impl Babelify for GetterProp {
+    type Output = ObjectMethod;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        ObjectMethod {
+            base: ctx.base(self.span),
+            kind: ObjectMethodKind::Get,
+            key: self.key.babelify(ctx),
+            return_type: self.type_ann.map(|ann| ann.babelify(ctx).into()),
+            body: self.body.unwrap().babelify(ctx),
+            params: Default::default(),
+            computed: Default::default(),
+            generator: Default::default(),
+            is_async: Default::default(),
+            decorator: Default::default(),
+            type_parameters: Default::default(),
+        }
+    }
+}
+
+impl Babelify for SetterProp {
+    type Output = ObjectMethod;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        ObjectMethod {
+            base: ctx.base(self.span),
+            kind: ObjectMethodKind::Set,
+            key: self.key.babelify(ctx),
+            params: vec![self.param.babelify(ctx).into()],
+            body: self.body.unwrap().babelify(ctx),
+            return_type: Default::default(),
+            computed: Default::default(),
+            generator: Default::default(),
+            is_async: Default::default(),
+            decorator: Default::default(),
+            type_parameters: Default::default(),
+        }
+    }
+}
+
+impl Babelify for MethodProp {
+    type Output = ObjectMethod;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        let func: FunctionExpression = self.function.babelify(ctx);
+        ObjectMethod {
+            base: func.base,
+            kind: ObjectMethodKind::Method,
+            key: self.key.babelify(ctx).into(),
+            params: func.params,
+            body: func.body,
+            computed: Default::default(),
+            generator: func.generator,
+            is_async: func.is_async,
+            decorator: Default::default(),
+            return_type: func.return_type,
+            type_parameters: func.type_parameters,
         }
     }
 }
 
 impl Babelify for PropName {
-    type Output = PropNameOutput;
+    type Output = ObjectKey;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
-            PropName::Ident(i) => PropNameOutput::Id(i.babelify(ctx)),
-            PropName::Str(s) => PropNameOutput::String(s.babelify(ctx)),
-            PropName::Num(n) => PropNameOutput::Numeric(n.babelify(ctx)),
-            PropName::Computed(c) => PropNameOutput::Computed(c.babelify(ctx)),
-            PropName::BigInt(_) => panic!("illegal conversion"), // TODO(dwoznick): how to handle?
+            PropName::Ident(i) => ObjectKey::Id(i.babelify(ctx)),
+            PropName::Str(s) => ObjectKey::String(s.babelify(ctx)),
+            PropName::Num(n) => ObjectKey::Numeric(n.babelify(ctx)),
+            PropName::Computed(e) => ObjectKey::Expr(e.babelify(ctx)),
+            PropName::BigInt(_) => panic!("illegal conversion"),
         }
     }
 }
-
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum PropName {
-//     #[tag("Identifier")]
-//     Ident(Ident),
-//     /// String literal.
-//     #[tag("StringLiteral")]
-//     Str(Str),
-//     /// Numeric literal.
-//     #[tag("NumericLiteral")]
-//     Num(Number),
-//     #[tag("Computed")]
-//     Computed(ComputedPropName),
-//     #[tag("BigInt")]
-//     BigInt(BigInt),
-// }
-//
-
-// TODO(dwoznicki): implement
-impl Babelify for Prop {
-    type Output = ObjectProperty;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        panic!();
-    }
-}
-
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum Prop {
-//     /// `a` in `{ a, }`
-//     #[tag("Identifier")]
-//     Shorthand(Ident),
-//
-//     /// `key: value` in `{ key: value, }`
-//     #[tag("KeyValueProperty")]
-//     KeyValue(KeyValueProp),
-//
-//     /// This is **invalid** for object literal.
-//     #[tag("AssignmentProperty")]
-//     Assign(AssignProp),
-//
-//     #[tag("GetterProperty")]
-//     Getter(GetterProp),
-//
-//     #[tag("SetterProperty")]
-//     Setter(SetterProp),
-//
-//     #[tag("MethodProperty")]
-//     Method(MethodProp),
-// }
-//
-// #[ast_node("KeyValueProperty")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct KeyValueProp {
-//     #[span(lo)]
-//     pub key: PropName,
-//
-//     #[span(hi)]
-//     pub value: Box<Expr>,
-// }
-//
-// #[ast_node("AssignmentProperty")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct AssignProp {
-//     #[span(lo)]
-//     pub key: Ident,
-//     #[span(hi)]
-//     pub value: Box<Expr>,
-// }
-//
-// #[ast_node("GetterProperty")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct GetterProp {
-//     pub span: Span,
-//     pub key: PropName,
-//     #[serde(default, rename = "typeAnnotation")]
-//     pub type_ann: Option<TsTypeAnn>,
-//     #[serde(default)]
-//     pub body: Option<BlockStmt>,
-// }
-// #[ast_node("SetterProperty")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct SetterProp {
-//     pub span: Span,
-//     pub key: PropName,
-//     pub param: Pat,
-//     #[serde(default)]
-//     pub body: Option<BlockStmt>,
-// }
-// #[ast_node("MethodProperty")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct MethodProp {
-//     pub key: PropName,
-//
-//     #[serde(flatten)]
-//     #[span]
-//     pub function: Function,
-// }
-//
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum PropName {
-//     #[tag("Identifier")]
-//     Ident(Ident),
-//     /// String literal.
-//     #[tag("StringLiteral")]
-//     Str(Str),
-//     /// Numeric literal.
-//     #[tag("NumericLiteral")]
-//     Num(Number),
-//     #[tag("Computed")]
-//     Computed(ComputedPropName),
-//     #[tag("BigInt")]
-//     BigInt(BigInt),
-// }
 
 impl Babelify for ComputedPropName {
     type Output = Expression;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        // TODO(dwoznicki): implement
-        panic!("unimplemented");
+        self.expr.babelify(ctx).into()
     }
 }
 
-//
-// #[ast_node("Computed")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct ComputedPropName {
-//     /// Span including `[` and `]`.
-//     pub span: Span,
-//     #[serde(rename = "expression")]
-//     pub expr: Box<Expr>,
-// }

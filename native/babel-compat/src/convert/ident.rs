@@ -9,7 +9,7 @@ impl Babelify for BindingIdent {
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         Identifier {
-            type_annotation: None, // TODO(dwoznick): implement
+            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx).into())),
             ..self.id.babelify(ctx)
         }
     }
