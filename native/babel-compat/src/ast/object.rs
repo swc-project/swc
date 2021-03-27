@@ -31,7 +31,7 @@ pub enum ObjectMember {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
-pub enum ObjectKind {
+pub enum ObjectMethodKind {
     Method,
     Get,
     Set,
@@ -56,7 +56,7 @@ pub enum ObjectKey {
 pub struct ObjectMethod {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub kind: ObjectKind,
+    pub kind: ObjectMethodKind,
     pub key: ObjectKey,
     #[serde(default)]
     pub params: Vec<Param>,
