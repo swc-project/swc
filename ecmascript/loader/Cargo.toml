@@ -11,6 +11,7 @@ version = "0.4.1"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+ahash = "0.7.2"
 swc_atoms = {version = "0.2.3", path = "../../atoms"}
 swc_common = {version = "0.10.16", path = "../../common"}
 swc_ecma_ast = {version = "0.43.1", path = "../ast"}
