@@ -54,7 +54,7 @@ impl Babelify for BinaryOp {
 }
 
 // Babel appears to just store all of these as a string. See AssignmentExpression.operator field.
-// NOTE: I'm unsure if this is the correct way to handle this case. - Dan
+// NOTE(dwoznick): I'm unsure if this is the correct way to handle this case.
 impl Babelify for AssignOp {
     type Output = String;
     fn babelify(self, _ctx: &Context) -> Self::Output {

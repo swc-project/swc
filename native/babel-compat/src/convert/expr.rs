@@ -13,7 +13,7 @@ use crate::ast::{
         TaggedTemplateExpression, TaggedTemplateExprTypeParams, ParenthesizedExpression,
     },
     lit::{TemplateLiteral, TemplateLiteralExpr, TemplateElement, TemplateElVal},
-    object::ObjectKey,
+    object::{ObjectKey, ObjectMember},
 };
 use crate::convert::Babelify;
 use swc_ecma_ast::{
@@ -196,7 +196,13 @@ impl Babelify for PropOrSpread {
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
             PropOrSpread::Spread(s) => ObjectExprProp::Spread(s.babelify(ctx)),
-            PropOrSpread::Prop(p) => ObjectExprProp::Prop(p.babelify(ctx)),
+            PropOrSpread::Prop(prop) => {
+                let memb = prop.babelify(ctx);
+                match memb {
+                    ObjectMember::Method(m) => ObjectExprProp::Method(m),
+                    ObjectMember::Prop(p) => ObjectExprProp::Prop(p),
+                }
+            },
         }
     }
 }
@@ -516,7 +522,6 @@ impl From<ArrayExprEl> for Arg {
         match el {
             ArrayExprEl::Expr(e) => Arg::Expr(e),
             ArrayExprEl::Spread(s) => Arg::Spread(s),
-            _ => panic!("illegal conversion"), // TODO(dwoznick): how to handle?
         }
     }
 }
