@@ -4,6 +4,8 @@ use swc::{
     Compiler,
 };
 use swc_common::FileName;
+use swc_ecma_ast::EsVersion;
+use swc_ecma_parser::TsConfig;
 use swc_ecma_parser::{EsConfig, Syntax};
 use testing::Tester;
 
@@ -93,4 +95,56 @@ fn issue_834_3() {
             ..Default::default()
         },
     );
+}
+
+#[test]
+fn test_tsx_escape_xhtml() {
+    let source = r#"<div id="abc&gt;" />"#;
+
+    let expected = r#"React.createElement("div", {
+    id: "abc>"
+});
+"#;
+
+    let compiled_es5 = compile(
+        source,
+        Options {
+            config: Some(Config {
+                jsc: JscConfig {
+                    syntax: Some(Syntax::Typescript(TsConfig {
+                        tsx: true,
+                        ..Default::default()
+                    })),
+                    target: EsVersion::Es5,
+                    ..Default::default()
+                },
+                ..Default::default()
+            }),
+            swcrc: false,
+            ..Default::default()
+        },
+    );
+
+    assert_eq!(compiled_es5, expected);
+
+    let compiled_es2020 = compile(
+        source,
+        Options {
+            config: Some(Config {
+                jsc: JscConfig {
+                    syntax: Some(Syntax::Typescript(TsConfig {
+                        tsx: true,
+                        ..Default::default()
+                    })),
+                    target: EsVersion::Es2020,
+                    ..Default::default()
+                },
+                ..Default::default()
+            }),
+            swcrc: false,
+            ..Default::default()
+        },
+    );
+
+    assert_eq!(compiled_es2020, expected);
 }
