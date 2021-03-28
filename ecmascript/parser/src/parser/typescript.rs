@@ -2430,8 +2430,11 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self); // include the leading operator in the start
         self.input.eat(operator);
+        trace_cur!(self, parse_ts_union_or_intersection_type__first_type);
 
         let ty = parse_constituent_type(self)?;
+        trace_cur!(self, parse_ts_union_or_intersection_type__after_first);
+
         if self.input.is(&operator) {
             let mut types = vec![ty];
 
