@@ -307,6 +307,8 @@ impl<'a, I: Tokens> Parser<I> {
         } else {
             None
         };
+        // Allow `private declare`.
+        let declare = declare || self.syntax().typescript() && eat!(self, "declare");
 
         if declare && accessibility.is_none() {
             // Handle declare(){}
