@@ -31,17 +31,20 @@ pub mod util;
 pub(crate) type LexResult<T> = Result<T, Error>;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-pub(crate) struct Char(u32);
+pub(crate) enum Char {
+    Valid(u32),
+    Invalid,
+}
 
 impl From<char> for Char {
     fn from(c: char) -> Self {
-        Char(c as u32)
+        Char::Valid(c as u32)
     }
 }
 
 impl From<u32> for Char {
     fn from(c: u32) -> Self {
-        Char(c)
+        Char::Valid(c)
     }
 }
 
@@ -58,10 +61,15 @@ impl IntoIterator for Char {
         //            char::from_digit(v as _, 16).unwrap_or('0')
         //        }
 
-        CharIter(match char::from_u32(self.0) {
+        let v = match self {
+            Char::Valid(v) => v,
+            Char::Invalid => return CharIter(smallvec![]),
+        };
+
+        CharIter(match char::from_u32(v) {
             Some(c) => smallvec![c],
             None => {
-                smallvec![unsafe { char::from_u32_unchecked(self.0) }]
+                smallvec![unsafe { char::from_u32_unchecked(v) }]
                 // TODO:
                 //            smallvec![
                 //               '\\',
@@ -834,12 +842,19 @@ impl<'a, I: Input> Lexer<'a, I> {
     fn read_hex_char(&mut self, start: BytePos, count: u8, raw: &mut Raw) -> LexResult<Char> {
         debug_assert!(count == 2 || count == 4);
 
+        let in_template = raw.0.is_some();
+
         // let pos = self.cur_pos();
         match self.read_int_u32(16, count, raw)? {
             Some(val) => Ok(val.into()),
             None => {
-                self.emit_error(start, SyntaxError::ExpectedHexChars { count });
-                Ok(Char(0))
+                if !in_template {
+                    // Emit an error and recover from it.
+                    self.emit_error(start, SyntaxError::ExpectedHexChars { count });
+                    Ok(Char::Valid(0))
+                } else {
+                    Ok(Char::Invalid)
+                }
             }
         }
     }
@@ -1012,6 +1027,13 @@ impl<'a, I: Input> Lexer<'a, I> {
                 raw.push('\\');
                 let mut wrapped = Raw(Some(raw));
                 let res = self.read_escaped_char(&mut wrapped);
+
+                match &res {
+                    Ok(Some(Char::Invalid)) => {
+                        cooked = None;
+                    }
+                    _ => {}
+                }
 
                 // If we recovered some errors, cooked should be None.
                 if res.is_ok() && prev_err_cnt != self.error_count() {

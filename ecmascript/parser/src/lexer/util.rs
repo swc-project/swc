@@ -398,7 +398,10 @@ pub trait CharExt: Copy {
 impl CharExt for Char {
     #[inline(always)]
     fn to_char(self) -> Option<char> {
-        char::from_u32(self.0)
+        match self {
+            Char::Valid(v) => char::from_u32(v),
+            Char::Invalid => None,
+        }
     }
 }
 
