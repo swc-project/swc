@@ -3560,3 +3560,45 @@ test_with_config!(
     }
     "
 );
+
+to!(
+    issue_1497_1,
+    "
+    class A {
+        [(console.log(1), 'a')] = 1;
+        static [(console.log(2), 'b')] = 2;
+    }
+    ",
+    "
+    var _key, _key1;
+    class A {
+        constructor() {
+            this[_key] = 1;
+        }
+    }
+    _key = (console.log(1), 'a');
+    _key1 = (console.log(2), 'b');
+    A[_key1] = 2;
+    "
+);
+
+to!(
+    issue_1497_2,
+    "
+    class A {
+        [(console.log(1), 'a')] = 1;
+        static [(console.log(2), 'b')] = 2;
+        [(console.log(3), 'c')]() {}
+    }
+    ",
+    "
+    var _key, _key1;
+    class A {
+        [(_key = (console.log(1), 'a'), _key1 = (console.log(2), 'b'), console.log(3), 'c')]() {}
+        constructor() {
+            this[_key] = 1;
+        }
+    }
+    A[_key1] = 2;
+    "
+);
