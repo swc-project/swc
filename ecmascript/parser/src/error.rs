@@ -632,7 +632,6 @@ impl SyntaxError {
                 "The operand of a delete operator must be a property reference.".into()
             }
             SyntaxError::DeclNotAllowed => "Declaration is now allowed".into(),
-            SyntaxError::DeclNotAllowed => "Declatation is not allowed".into(),
             SyntaxError::InvalidSuperCall => "Invalid `super()`".into(),
             SyntaxError::InvalidSuperAccess => "Invalid access to super".into(),
             SyntaxError::ArrowNotAllowed => "An arrow function is not allowed here".into(),
