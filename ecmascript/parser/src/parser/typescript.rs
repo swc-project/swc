@@ -113,6 +113,8 @@ impl<I: Tokens> Parser<I> {
         let mut buf = vec![];
 
         loop {
+            trace_cur!(self, parse_ts_delimited_list_inner__element);
+
             if self.is_ts_list_terminator(kind)? {
                 break;
             }
@@ -2389,6 +2391,8 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseIntersectionTypeOrHigher`
     fn parse_ts_intersection_type_or_higher(&mut self) -> PResult<Box<TsType>> {
+        trace_cur!(self, parse_ts_intersection_type_or_higher);
+
         debug_assert!(self.input.syntax().typescript());
 
         self.parse_ts_union_or_intersection_type(
@@ -2400,6 +2404,7 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseUnionTypeOrHigher`
     fn parse_ts_union_type_or_higher(&mut self) -> PResult<Box<TsType>> {
+        trace_cur!(self, parse_ts_union_type_or_higher);
         debug_assert!(self.input.syntax().typescript());
 
         self.parse_ts_union_or_intersection_type(
@@ -2419,6 +2424,8 @@ impl<I: Tokens> Parser<I> {
     where
         F: FnMut(&mut Self) -> PResult<Box<TsType>>,
     {
+        trace_cur!(self, parse_ts_union_or_intersection_type);
+
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self); // include the leading operator in the start
@@ -2429,6 +2436,8 @@ impl<I: Tokens> Parser<I> {
             let mut types = vec![ty];
 
             while self.input.eat(operator) {
+                trace_cur!(self, parse_ts_union_or_intersection_type__constituent);
+
                 types.push(parse_constituent_type(self)?);
             }
 

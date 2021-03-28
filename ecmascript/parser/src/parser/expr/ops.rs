@@ -7,6 +7,8 @@ use swc_common::Spanned;
 impl<'a, I: Tokens> Parser<I> {
     /// Name from spec: 'LogicalORExpression'
     pub(super) fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
+        trace_cur!(self, parse_bin_expr);
+
         let ctx = self.ctx();
 
         let left = match self.parse_unary_expr() {
