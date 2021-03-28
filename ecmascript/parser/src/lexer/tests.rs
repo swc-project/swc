@@ -269,21 +269,6 @@ fn tpl_invalid_unicode_escape() {
             tok!('`'),
         ]
     );
-    assert_eq!(
-        lex_tokens_with_target(Syntax::default(), JscTarget::Es2017, r"`\unicode`"),
-        vec![
-            tok!('`'),
-            Token::Error(Error {
-                error: Box::new((sp(1..3), SyntaxError::ExpectedHexChars { count: 4 })),
-            }),
-            Token::Template {
-                cooked: Some("nicode".into()),
-                raw: "nicode".into(),
-                has_escape: false,
-            },
-            tok!('`')
-        ]
-    )
 }
 
 #[test]
