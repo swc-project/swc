@@ -245,7 +245,12 @@ impl<'a> Hygiene<'a> {
             class.visit_mut_with(&mut operator);
         }
 
-        ident.visit_mut_with(self);
+        {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Binding;
+            ident.visit_mut_with(self);
+            self.ident_type = old;
+        }
         class.visit_mut_with(self);
 
         let class_expr = ClassExpr {
