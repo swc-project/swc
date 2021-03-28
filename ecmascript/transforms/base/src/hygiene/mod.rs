@@ -224,6 +224,37 @@ impl<'a> Hygiene<'a> {
         }
         node.visit_mut_with(&mut Operator(&ops))
     }
+
+    fn keep_class_names(&mut self, ident: &mut Ident, class: &mut Class) -> Option<Expr> {
+        if !self.config.keep_class_names {
+            return None;
+        }
+
+        let mut orig_name = ident.clone();
+        orig_name.span.ctxt = SyntaxContext::empty();
+
+        {
+            // Remove span hygiene of the class.
+            let mut rename = HashMap::default();
+
+            rename.insert(ident.to_id(), orig_name.sym.clone());
+
+            let ops = Operations { rename };
+            let mut operator = Operator(&ops);
+
+            class.visit_mut_with(&mut operator);
+        }
+
+        ident.visit_mut_with(self);
+        class.visit_mut_with(self);
+
+        let class_expr = ClassExpr {
+            ident: Some(orig_name),
+            class: class.take(),
+        };
+
+        Some(Expr::Class(class_expr))
+    }
 }
 
 impl<'a> Hygiene<'a> {
@@ -622,40 +653,25 @@ impl<'a> VisitMut for Hygiene<'a> {
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
         match decl {
             Decl::Class(cls) if self.config.keep_class_names => {
-                let mut orig_name = cls.ident.clone();
-                orig_name.span.ctxt = SyntaxContext::empty();
+                let span = cls.class.span;
 
-                {
-                    // Remove span hygiene of the class.
-                    let mut rename = HashMap::default();
-
-                    rename.insert(cls.ident.to_id(), orig_name.sym.clone());
-
-                    let ops = Operations { rename };
-                    let mut operator = Operator(&ops);
-
-                    cls.class.visit_mut_with(&mut operator);
+                let expr = self.keep_class_names(&mut cls.ident, &mut cls.class);
+                if let Some(expr) = expr {
+                    let var = VarDeclarator {
+                        span,
+                        name: Pat::Ident(cls.ident.clone().into()),
+                        init: Some(Box::new(expr)),
+                        definite: false,
+                    };
+                    *decl = Decl::Var(VarDecl {
+                        span,
+                        kind: VarDeclKind::Let,
+                        declare: false,
+                        decls: vec![var],
+                    });
+                    return;
                 }
 
-                cls.visit_mut_with(self);
-
-                let class_expr = ClassExpr {
-                    ident: Some(orig_name),
-                    class: cls.class.take(),
-                };
-
-                let var = VarDeclarator {
-                    span: cls.class.span,
-                    name: Pat::Ident(cls.ident.clone().into()),
-                    init: Some(Box::new(Expr::Class(class_expr))),
-                    definite: false,
-                };
-                *decl = Decl::Var(VarDecl {
-                    span: cls.class.span,
-                    kind: VarDeclKind::Let,
-                    declare: false,
-                    decls: vec![var],
-                });
                 return;
             }
             _ => {}
