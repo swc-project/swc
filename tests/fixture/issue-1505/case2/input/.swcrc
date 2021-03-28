@@ -1,8 +1,15 @@
-{
-  "jsc": {
+[
+  {
+    "test": ".*.ts$",
+    "parser": {
+      "syntax": "typescript"
+    }
+  },
+  {
+    "test": ".*.tsx$",
     "parser": {
       "syntax": "typescript",
       "tsx": true
     }
   }
-}
+]
