@@ -406,9 +406,11 @@ impl Rc {
     /// This method returns `Ok(None)` if the file should be ignored.
     pub fn into_config(self, filename: Option<&Path>) -> Result<Option<Config>, Error> {
         let cs = match self {
-            Rc::Single(c) => match filename {
+            Rc::Single(mut c) => match filename {
                 Some(filename) => {
                     if c.matches(filename)? {
+                        c.adjust(filename);
+
                         return Ok(Some(c));
                     } else {
                         return Ok(None);
@@ -422,8 +424,10 @@ impl Rc {
 
         match filename {
             Some(filename) => {
-                for c in cs {
+                for mut c in cs {
                     if c.matches(filename)? {
+                        c.adjust(filename);
+
                         return Ok(Some(c));
                     }
                 }
@@ -460,6 +464,25 @@ pub struct Config {
     /// Possible values are: `'inline'`, `true`, `false`.
     #[serde(default)]
     pub source_maps: Option<SourceMapsConfig>,
+}
+
+impl Config {
+    /// Adjust config for `file`.
+    ///
+    ///
+    ///
+    /// - typescript: `tsx` will be modified if file extension is `ts`.
+    fn adjust(&mut self, file: &Path) {
+        match &mut self.jsc.syntax {
+            Some(Syntax::Typescript(TsConfig { tsx, .. })) => {
+                let is_ts = file.extension().map(|v| v == "ts").unwrap_or(false);
+                if is_ts {
+                    *tsx = false;
+                }
+            }
+            _ => {}
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
