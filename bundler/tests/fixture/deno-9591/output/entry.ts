@@ -2267,10 +2267,10 @@ class ConsoleHandler extends BaseHandler {
     }
 }
 class WriterHandler extends BaseHandler {
-    #encoder=new TextEncoder();
+    #encoder = new TextEncoder();
 }
 class FileHandler extends WriterHandler {
-    #unloadCallback=()=>this.destroy()
+    #unloadCallback = ()=>this.destroy()
     ;
     constructor(levelName3, options3){
         super(levelName3, options3);
@@ -2316,7 +2316,7 @@ class FileHandler extends WriterHandler {
 class RotatingFileHandler extends FileHandler {
     #maxBytes;
     #maxBackupCount;
-    #currentFileSize=0;
+    #currentFileSize = 0;
     constructor(levelName4, options4){
         super(levelName4, options4);
         this.#maxBytes = options4.maxBytes;
