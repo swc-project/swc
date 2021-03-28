@@ -225,7 +225,7 @@ impl<'a> Hygiene<'a> {
         node.visit_mut_with(&mut Operator(&ops))
     }
 
-    fn keep_class_names(&mut self, ident: &mut Ident, class: &mut Class) -> Option<Expr> {
+    fn keep_class_name(&mut self, ident: &mut Ident, class: &mut Class) -> Option<ClassExpr> {
         if !self.config.keep_class_names {
             return None;
         }
@@ -258,7 +258,7 @@ impl<'a> Hygiene<'a> {
             class: class.take(),
         };
 
-        Some(Expr::Class(class_expr))
+        Some(class_expr)
     }
 }
 
@@ -660,12 +660,12 @@ impl<'a> VisitMut for Hygiene<'a> {
             Decl::Class(cls) if self.config.keep_class_names => {
                 let span = cls.class.span;
 
-                let expr = self.keep_class_names(&mut cls.ident, &mut cls.class);
+                let expr = self.keep_class_name(&mut cls.ident, &mut cls.class);
                 if let Some(expr) = expr {
                     let var = VarDeclarator {
                         span,
                         name: Pat::Ident(cls.ident.clone().into()),
-                        init: Some(Box::new(expr)),
+                        init: Some(Box::new(Expr::Class(expr))),
                         definite: false,
                     };
                     *decl = Decl::Var(VarDecl {
