@@ -1753,6 +1753,7 @@ impl<I: Tokens> Parser<I> {
     /// `tsParseNonArrayType`
     #[allow(clippy::cognitive_complexity)]
     fn parse_ts_non_array_type(&mut self) -> PResult<Box<TsType>> {
+        trace_cur!(self, parse_ts_non_array_type);
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
@@ -1903,6 +1904,7 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseArrayTypeOrHigher`
     fn parse_ts_array_type_or_higher(&mut self, readonly: bool) -> PResult<Box<TsType>> {
+        trace_cur!(self, parse_ts_array_type_or_higher);
         debug_assert!(self.input.syntax().typescript());
 
         let mut ty = self.parse_ts_non_array_type()?;
@@ -1968,6 +1970,7 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseTypeOperatorOrHigher`
     fn parse_ts_type_operator_or_higher(&mut self) -> PResult<Box<TsType>> {
+        trace_cur!(self, parse_ts_type_operator_or_higher);
         debug_assert!(self.input.syntax().typescript());
 
         let operator = if is!(self, "keyof") {
@@ -1986,6 +1989,8 @@ impl<I: Tokens> Parser<I> {
                 .map(TsType::from)
                 .map(Box::new),
             None => {
+                trace_cur!(self, parse_ts_type_operator_or_higher__not_operator);
+
                 if is!(self, "infer") {
                     self.parse_ts_infer_type().map(TsType::from).map(Box::new)
                 } else {
