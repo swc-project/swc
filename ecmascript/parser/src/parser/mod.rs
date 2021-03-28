@@ -215,7 +215,6 @@ impl<I: Tokens> Parser<I> {
 
     #[cold]
     fn emit_err(&self, span: Span, error: SyntaxError) {
-        dbg!(&error);
         if !self.syntax().early_errors() {
             return;
         }
@@ -240,9 +239,10 @@ impl<I: Tokens> Parser<I> {
 
     #[cold]
     fn emit_strict_mode_err(&self, span: Span, error: SyntaxError) {
-        if !self.emit_err {
+        if self.errors_for_backtraing.is_some() {
             return;
         }
+
         let error = Error {
             error: Box::new((span, error)),
         };

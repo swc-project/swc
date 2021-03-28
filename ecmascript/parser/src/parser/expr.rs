@@ -60,7 +60,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     ///`parseMaybeAssign` (overrided)
-    pub(super) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
+    pub(super) fn parse_assignment_expr_inner(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
 
         let start = cur_pos!(self);
@@ -980,7 +980,6 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     pub(super) fn parse_tpl_element(&mut self) -> PResult<TplElement> {
-    pub(super) fn parse_tpl_element(&mut self, is_tagged: bool) -> PResult<TplElement> {
         trace_cur!(self, parse_tpl_element);
 
         let start = cur_pos!(self);

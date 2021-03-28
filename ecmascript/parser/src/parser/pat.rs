@@ -18,7 +18,7 @@ impl<'a, I: Tokens> Parser<I> {
             || (self.ctx().in_generator && is!(self, "yield"))
         {
             self.emit_err(self.input.cur_span(), SyntaxError::ExpectedIdent);
-            return self.parse_ident_name().map(Some);
+            return self.parse_binding_ident().map(Some);
         }
 
         if is!(self, BindingIdent) || (self.input.syntax().typescript() && is!(self, "this")) {
@@ -38,7 +38,10 @@ impl<'a, I: Tokens> Parser<I> {
         let ident = self.parse_ident(true, true)?;
         self.verify_binding_ident(&ident);
 
-        Ok(ident)
+        Ok(BindingIdent {
+            id: ident,
+            type_ann: None,
+        })
     }
 
     /// Emit an error and recover from the error if `ident` is invalid for
@@ -53,8 +56,6 @@ impl<'a, I: Tokens> Parser<I> {
         if self.ctx().in_generator && ident.sym == js_word!("yield") {
             self.emit_err(ident.span, SyntaxError::ExpectedIdent);
         }
-
-        Ok(ident.into())
     }
 
     pub(super) fn parse_binding_pat_or_ident(&mut self) -> PResult<Pat> {
@@ -1316,8 +1317,11 @@ impl Visit for AssignRhsVerifier {
 
 pub(crate) fn is_not_this(p: &Param) -> bool {
     match p.pat {
-        Pat::Ident(Ident {
-            sym: js_word!("this"),
+        Pat::Ident(BindingIdent {
+            id: Ident {
+                sym: js_word!("this"),
+                ..
+            },
             ..
         }) => false,
         _ => true,

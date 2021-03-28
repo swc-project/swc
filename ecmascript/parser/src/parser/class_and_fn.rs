@@ -93,7 +93,7 @@ impl<'a, I: Tokens> Parser<I> {
             let ident_required_span = p.input.prev_span();
 
             let ident = p.parse_opt_binding_ident()?;
-            if let Some(span) = ident.invalid_class_name() {
+            if let Some(span) = ident.as_ref().and_then(|b| b.id.invalid_class_name()) {
                 p.recover_hard_error(span, SyntaxError::TS2414)?;
             }
 
@@ -105,7 +105,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             let class = p.parse_class_trailing(class_start, decorators)?;
-            let f = T::finish_class(span!(p, start), ident, class);
+            let f = T::finish_class(span!(p, start), ident.map(|v| v.id), class);
 
             Ok(f)
         })
@@ -1289,7 +1289,7 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         let is_constructor = match &ident {
-            Some(i) => i.sym == js_word!("constructor"),
+            Some(i) => i.id.sym == js_word!("constructor"),
             _ => false,
         };
 
@@ -1317,7 +1317,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             // let body = p.parse_fn_body(is_async, is_generator)?;
 
-            let f = T::finish_fn(span!(p, start), ident, f);
+            let f = T::finish_fn(span!(p, start), ident.map(|v| v.id), f);
 
             Ok(f)
         })

@@ -713,7 +713,7 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<TsEnumDecl> {
         debug_assert!(self.input.syntax().typescript());
 
-        let id = self.parse_binding_ident()?;
+        let id = self.parse_binding_ident()?.id;
         expect!(self, '{');
         let members = self
             .parse_ts_delimited_list(ParsingContext::EnumMembers, |p| p.parse_ts_enum_member())?;
@@ -1346,7 +1346,7 @@ impl<I: Tokens> Parser<I> {
                 );
             }
         }
-        id.span = span!(self, ident_start);
+        id.id.span = span!(self, ident_start);
         id.type_ann = Some(type_ann);
 
         expect!(self, ']');
