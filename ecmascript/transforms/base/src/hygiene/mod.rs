@@ -547,15 +547,6 @@ macro_rules! track_ident_mut {
             n.class.visit_mut_with(self);
         }
 
-        fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
-            let old = self.ident_type;
-            self.ident_type = IdentType::Binding;
-            n.ident.visit_mut_with(self);
-            self.ident_type = old;
-
-            n.class.visit_mut_with(self);
-        }
-
         fn visit_mut_key_value_pat_prop(&mut self, n: &mut KeyValuePatProp) {
             n.key.visit_mut_with(self);
             n.value.visit_mut_with(self);
@@ -641,6 +632,15 @@ impl<'a> VisitMut for Hygiene<'a> {
         c.body.visit_mut_with(&mut folder);
 
         folder.apply_ops(c)
+    }
+
+    fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
+        n.ident.visit_mut_with(self);
+        self.ident_type = old;
+
+        n.class.visit_mut_with(self);
     }
 
     fn visit_mut_constructor(&mut self, c: &mut Constructor) {

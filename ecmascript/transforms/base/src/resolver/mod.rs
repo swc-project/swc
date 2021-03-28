@@ -430,34 +430,495 @@ impl<'a> VisitMut for Resolver<'a> {
     typed!(visit_mut_ts_type_predicate, TsTypePredicate);
     typed_ref!(visit_mut_ts_this_type_or_ident, TsThisTypeOrIdent);
 
-    fn visit_mut_ts_tuple_element(&mut self, e: &mut TsTupleElement) {
-        if !self.handle_types {
-            return;
-        }
-        self.ident_type = IdentType::Ref;
-        e.ty.visit_mut_with(self);
+    fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
+        let child_mark = Mark::fresh(self.mark);
+
+        // Child folder
+        let mut folder = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            self.cur_defining.take(),
+            self.handle_types,
+        );
+
+        e.type_params.visit_mut_with(&mut folder);
+
+        let old_hoist = self.hoist;
+        let old = folder.ident_type;
+        folder.ident_type = IdentType::Binding;
+        folder.hoist = false;
+        e.params.visit_mut_with(&mut folder);
+        folder.ident_type = old;
+        folder.hoist = old_hoist;
+
+        e.body.visit_mut_with(&mut folder);
+
+        e.return_type.visit_mut_with(&mut folder);
+
+        self.cur_defining = folder.cur_defining;
     }
 
-    fn visit_mut_ts_type_params(&mut self, params: &mut Vec<TsTypeParam>) {
-        for param in params.iter_mut() {
-            self.in_type = true;
-            param.name.visit_mut_with(self);
-        }
-
-        params.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_ts_type_param(&mut self, param: &mut TsTypeParam) {
-        if !self.handle_types {
-            return;
-        }
-        self.in_type = true;
-        param.name.visit_mut_with(self);
-
+    fn visit_mut_binding_ident(&mut self, i: &mut BindingIdent) {
         let ident_type = self.ident_type;
-        param.default.visit_mut_with(self);
-        param.constraint.visit_mut_with(self);
+        let in_type = self.in_type;
+        i.type_ann.visit_mut_with(self);
+        self.in_type = in_type;
         self.ident_type = ident_type;
+
+        i.id.visit_mut_with(self);
+    }
+
+    fn visit_mut_block_stmt(&mut self, block: &mut BlockStmt) {
+        let child_mark = Mark::fresh(self.mark);
+
+        let mut child_folder = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Block, Some(&self.current)),
+            self.cur_defining.take(),
+            self.handle_types,
+        );
+
+        block.visit_mut_children_with(&mut child_folder);
+        self.cur_defining = child_folder.cur_defining;
+    }
+
+    /// Handle body of the arrow functions
+    fn visit_mut_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr) {
+        match node {
+            BlockStmtOrExpr::BlockStmt(block) => block.visit_mut_children_with(self).into(),
+            BlockStmtOrExpr::Expr(e) => e.visit_mut_with(self).into(),
+        }
+    }
+
+    fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
+        let child_mark = Mark::fresh(self.mark);
+
+        // Child folder
+        let mut folder = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            self.cur_defining.take(),
+            self.handle_types,
+        );
+
+        folder.ident_type = IdentType::Binding;
+        c.param.visit_mut_with(&mut folder);
+        folder.ident_type = IdentType::Ref;
+
+        c.body.visit_mut_with(&mut folder);
+
+        self.cur_defining = folder.cur_defining;
+    }
+
+    fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
+        n.ident.visit_mut_with(self);
+        self.ident_type = old;
+
+        n.class.visit_mut_with(self);
+    }
+
+    fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
+        m.key.visit_mut_with(self);
+
+        {
+            let child_mark = Mark::fresh(self.mark);
+
+            // Child folder
+            let mut child = Resolver::new(
+                child_mark,
+                Scope::new(ScopeKind::Fn, Some(&self.current)),
+                None,
+                self.handle_types,
+            );
+
+            m.function.visit_mut_with(&mut child)
+        }
+    }
+
+    fn visit_mut_class_prop(&mut self, p: &mut ClassProp) {
+        p.decorators.visit_mut_with(self);
+
+        if p.computed {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Binding;
+            p.key.visit_mut_with(self);
+            self.ident_type = old;
+        }
+
+        let old = self.ident_type;
+        self.ident_type = IdentType::Ref;
+        p.value.visit_mut_with(self);
+        self.ident_type = old;
+
+        p.type_ann.visit_mut_with(self);
+    }
+
+    fn visit_mut_constructor(&mut self, c: &mut Constructor) {
+        let child_mark = Mark::fresh(self.mark);
+
+        // Child folder
+        let mut folder = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            None,
+            self.handle_types,
+        );
+
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
+        c.params.visit_mut_with(&mut folder);
+        self.ident_type = old;
+
+        match &mut c.body {
+            Some(body) => {
+                body.visit_mut_children_with(&mut folder);
+            }
+            None => {}
+        }
+    }
+
+    fn visit_mut_decl(&mut self, decl: &mut Decl) {
+        self.in_type = false;
+        decl.visit_mut_children_with(self)
+    }
+
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        self.in_type = false;
+        let old = self.ident_type;
+        self.ident_type = IdentType::Ref;
+        expr.visit_mut_children_with(self);
+        self.ident_type = old;
+    }
+
+    fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
+        // We don't fold this as Hoister handles this.
+
+        {
+            let child_mark = Mark::fresh(self.mark);
+
+            // Child folder
+            let mut folder = Resolver::new(
+                child_mark,
+                Scope::new(ScopeKind::Fn, Some(&self.current)),
+                None,
+                self.handle_types,
+            );
+
+            folder.cur_defining =
+                Some((node.ident.sym.clone(), node.ident.span.ctxt().remove_mark()));
+
+            node.function.visit_mut_with(&mut folder)
+        }
+    }
+
+    fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
+        if let Some(ident) = &mut e.ident {
+            self.visit_mut_binding_ident(ident, None)
+        }
+
+        let child_mark = Mark::fresh(self.mark);
+
+        // Child folder
+        let mut folder = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            self.cur_defining.take(),
+            self.handle_types,
+        );
+        e.function.visit_mut_with(&mut folder);
+
+        self.cur_defining = folder.cur_defining;
+    }
+
+    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
+        let child_mark = Mark::fresh(self.mark);
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Block, Some(&self.current)),
+            self.cur_defining.take(),
+            self.handle_types,
+        );
+
+        n.left.visit_mut_with(&mut child);
+        n.right.visit_mut_with(&mut child);
+
+        child.visit_mut_stmt_within_same_scope(&mut *n.body);
+
+        self.cur_defining = child.cur_defining;
+    }
+
+    fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
+        let child_mark = Mark::fresh(self.mark);
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Block, Some(&self.current)),
+            self.cur_defining.take(),
+            self.handle_types,
+        );
+
+        n.left.visit_mut_with(&mut child);
+        n.right.visit_mut_with(&mut child);
+
+        child.visit_mut_stmt_within_same_scope(&mut *n.body);
+
+        self.cur_defining = child.cur_defining;
+    }
+
+    fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
+        let child_mark = Mark::fresh(self.mark);
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Block, Some(&self.current)),
+            self.cur_defining.take(),
+            self.handle_types,
+        );
+
+        self.ident_type = IdentType::Binding;
+        n.init.visit_mut_with(&mut child);
+        self.ident_type = IdentType::Ref;
+        n.test.visit_mut_with(&mut child);
+        self.ident_type = IdentType::Ref;
+        n.update.visit_mut_with(&mut child);
+
+        child.visit_mut_stmt_within_same_scope(&mut *n.body);
+
+        self.cur_defining = child.cur_defining;
+    }
+
+    fn visit_mut_function(&mut self, f: &mut Function) {
+        f.type_params.visit_mut_with(self);
+
+        self.in_type = false;
+        self.ident_type = IdentType::Ref;
+        f.decorators.visit_mut_with(self);
+
+        self.ident_type = IdentType::Binding;
+        f.params.visit_mut_with(self);
+
+        self.ident_type = IdentType::Ref;
+        match &mut f.body {
+            Some(body) => {
+                // Prevent creating new scope.
+                body.visit_mut_children_with(self);
+            }
+            None => {}
+        }
+
+        f.return_type.visit_mut_with(self);
+    }
+
+    // TODO: How should I handle this?
+    typed!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
+
+    track_ident_mut!();
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        let ident_type = self.ident_type;
+        let in_type = self.in_type;
+        i.visit_mut_children_with(self);
+        self.in_type = in_type;
+        self.ident_type = ident_type;
+
+        match self.ident_type {
+            IdentType::Binding => self.visit_mut_binding_ident(i, None),
+            IdentType::Ref => {
+                let Ident { span, sym, .. } = i;
+
+                if cfg!(debug_assertions) && LOG {
+                    eprintln!(
+                        "resolver: IdentRef (type = {}) {}{:?}",
+                        self.in_type,
+                        sym,
+                        span.ctxt()
+                    );
+                }
+
+                if span.ctxt() != SyntaxContext::empty() {
+                    return;
+                }
+
+                if let Some(mark) = self.mark_for_ref(&sym) {
+                    let span = span.apply_mark(mark);
+
+                    if cfg!(debug_assertions) && LOG {
+                        eprintln!("\t -> {:?}", span.ctxt());
+                    }
+                    i.span = span;
+                } else {
+                    if cfg!(debug_assertions) && LOG {
+                        eprintln!("\t -> Unresolved");
+                    }
+
+                    let mark = {
+                        let mut mark = self.mark;
+                        let mut cur = Some(&self.current);
+                        while let Some(scope) = cur {
+                            cur = scope.parent;
+
+                            if cur.is_none() {
+                                break;
+                            }
+                            mark = mark.parent();
+                        }
+
+                        mark
+                    };
+
+                    let span = span.apply_mark(mark);
+
+                    if cfg!(debug_assertions) && LOG {
+                        eprintln!("\t -> {:?}", span.ctxt());
+                    }
+
+                    i.span = span;
+                    // Support hoisting
+                    self.visit_mut_binding_ident(i, None)
+                }
+            }
+            // We currently does not touch labels
+            IdentType::Label => {}
+        }
+    }
+
+    fn visit_mut_import_named_specifier(&mut self, s: &mut ImportNamedSpecifier) {
+        self.in_type = false;
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
+        s.local.visit_mut_with(self);
+        self.ident_type = old;
+    }
+
+    /// Leftmost one of a member expression should be resolved.
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
+
+        if e.computed {
+            e.prop.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_method_prop(&mut self, m: &mut MethodProp) {
+        m.key.visit_mut_with(self);
+
+        {
+            let child_mark = Mark::fresh(self.mark);
+
+            // Child folder
+            let mut child = Resolver::new(
+                child_mark,
+                Scope::new(ScopeKind::Fn, Some(&self.current)),
+                None,
+                self.handle_types,
+            );
+
+            m.function.visit_mut_with(&mut child)
+        };
+    }
+
+    fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        if self.current.kind != ScopeKind::Fn {
+            return stmts.visit_mut_children_with(self);
+        }
+
+        // Phase 1: Handle hoisting
+        {
+            let mut hoister = Hoister {
+                resolver: self,
+                kind: None,
+                in_block: false,
+            };
+            stmts.visit_mut_children_with(&mut hoister)
+        }
+
+        // Phase 2.
+        stmts.visit_mut_children_with(self)
+    }
+
+    fn visit_mut_object_lit(&mut self, o: &mut ObjectLit) {
+        let child_mark = Mark::fresh(self.mark);
+
+        let mut child_folder = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Block, Some(&self.current)),
+            self.cur_defining.take(),
+            self.handle_types,
+        );
+
+        o.visit_mut_children_with(&mut child_folder);
+        self.cur_defining = child_folder.cur_defining;
+    }
+
+    fn visit_mut_param(&mut self, param: &mut Param) {
+        self.in_type = false;
+        self.ident_type = IdentType::Binding;
+        param.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_pat(&mut self, p: &mut Pat) {
+        self.in_type = false;
+        let old = self.cur_defining.take();
+        p.visit_mut_children_with(self);
+
+        self.cur_defining = old;
+    }
+
+    fn visit_mut_private_method(&mut self, m: &mut PrivateMethod) {
+        m.key.visit_mut_with(self);
+
+        {
+            let child_mark = Mark::fresh(self.mark);
+
+            // Child folder
+            let mut child = Resolver::new(
+                child_mark,
+                Scope::new(ScopeKind::Fn, Some(&self.current)),
+                None,
+                self.handle_types,
+            );
+
+            m.function.visit_mut_with(&mut child)
+        }
+    }
+
+    fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
+
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        // Phase 1: Handle hoisting
+        {
+            let mut hoister = Hoister {
+                resolver: self,
+                kind: None,
+                in_block: false,
+            };
+            stmts.visit_mut_children_with(&mut hoister)
+        }
+
+        // Phase 2.
+        stmts.visit_mut_children_with(self)
+    }
+
+    fn visit_mut_ts_call_signature_decl(&mut self, n: &mut TsCallSignatureDecl) {
+        if !self.handle_types {
+            return;
+        }
+
+        self.in_type = true;
+        let child_mark = Mark::fresh(self.mark);
+
+        // Child folder
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            None,
+            self.handle_types,
+        );
+        child.in_type = true;
+
+        n.type_params.visit_mut_with(&mut child);
+        n.params.visit_mut_with(&mut child);
+        n.type_ann.visit_mut_with(&mut child);
     }
 
     fn visit_mut_ts_construct_signature_decl(&mut self, decl: &mut TsConstructSignatureDecl) {
@@ -536,14 +997,25 @@ impl<'a> VisitMut for Resolver<'a> {
         ty.type_ann.visit_mut_with(&mut child);
     }
 
-    fn visit_mut_ts_call_signature_decl(&mut self, n: &mut TsCallSignatureDecl) {
+    fn visit_mut_ts_import_equals_decl(&mut self, n: &mut TsImportEqualsDecl) {
         if !self.handle_types {
             return;
         }
 
         self.in_type = true;
-        let child_mark = Mark::fresh(self.mark);
+        self.visit_mut_binding_ident(&mut n.id, None);
 
+        n.module_ref.visit_mut_with(self);
+    }
+
+    fn visit_mut_ts_interface_decl(&mut self, n: &mut TsInterfaceDecl) {
+        if !self.handle_types {
+            return;
+        }
+
+        self.in_type = true;
+        self.visit_mut_binding_ident(&mut n.id, None);
+        let child_mark = Mark::fresh(self.mark);
         // Child folder
         let mut child = Resolver::new(
             child_mark,
@@ -554,8 +1026,8 @@ impl<'a> VisitMut for Resolver<'a> {
         child.in_type = true;
 
         n.type_params.visit_mut_with(&mut child);
-        n.params.visit_mut_with(&mut child);
-        n.type_ann.visit_mut_with(&mut child);
+        n.extends.visit_mut_with(&mut child);
+        n.body.visit_mut_with(&mut child);
     }
 
     fn visit_mut_ts_method_signature(&mut self, n: &mut TsMethodSignature) {
@@ -583,6 +1055,47 @@ impl<'a> VisitMut for Resolver<'a> {
         n.type_ann.visit_mut_with(&mut child);
     }
 
+    fn visit_mut_ts_module_decl(&mut self, decl: &mut TsModuleDecl) {
+        match &mut decl.id {
+            TsModuleName::Ident(i) => {
+                self.visit_mut_binding_ident(i, None);
+            }
+            TsModuleName::Str(_) => {}
+        }
+
+        let child_mark = Mark::fresh(self.mark);
+
+        let mut child_folder = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Block, Some(&self.current)),
+            self.cur_defining.take(),
+            self.handle_types,
+        );
+
+        decl.body.visit_mut_children_with(&mut child_folder);
+    }
+
+    fn visit_mut_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl) {
+        if !self.handle_types {
+            return;
+        }
+
+        self.in_type = true;
+        self.visit_mut_binding_ident(&mut n.id, None);
+
+        n.body.visit_mut_with(self);
+    }
+
+    fn visit_mut_ts_param_prop_param(&mut self, n: &mut TsParamPropParam) {
+        if !self.handle_types {
+            return;
+        }
+
+        self.in_type = false;
+        self.ident_type = IdentType::Binding;
+        n.visit_mut_children_with(self)
+    }
+
     fn visit_mut_ts_property_signature(&mut self, n: &mut TsPropertySignature) {
         if !self.handle_types {
             return;
@@ -608,26 +1121,23 @@ impl<'a> VisitMut for Resolver<'a> {
         n.type_ann.visit_mut_with(&mut child);
     }
 
-    fn visit_mut_ts_interface_decl(&mut self, n: &mut TsInterfaceDecl) {
+    fn visit_mut_ts_qualified_name(&mut self, n: &mut TsQualifiedName) {
         if !self.handle_types {
             return;
         }
 
         self.in_type = true;
-        self.visit_mut_binding_ident(&mut n.id, None);
-        let child_mark = Mark::fresh(self.mark);
-        // Child folder
-        let mut child = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Fn, Some(&self.current)),
-            None,
-            self.handle_types,
-        );
-        child.in_type = true;
+        self.ident_type = IdentType::Ref;
 
-        n.type_params.visit_mut_with(&mut child);
-        n.extends.visit_mut_with(&mut child);
-        n.body.visit_mut_with(&mut child);
+        n.left.visit_mut_with(self)
+    }
+
+    fn visit_mut_ts_tuple_element(&mut self, e: &mut TsTupleElement) {
+        if !self.handle_types {
+            return;
+        }
+        self.ident_type = IdentType::Ref;
+        e.ty.visit_mut_with(self);
     }
 
     fn visit_mut_ts_type_alias_decl(&mut self, n: &mut TsTypeAliasDecl) {
@@ -651,473 +1161,26 @@ impl<'a> VisitMut for Resolver<'a> {
         n.type_ann.visit_mut_with(&mut child);
     }
 
-    fn visit_mut_ts_import_equals_decl(&mut self, n: &mut TsImportEqualsDecl) {
+    fn visit_mut_ts_type_param(&mut self, param: &mut TsTypeParam) {
         if !self.handle_types {
             return;
         }
-
         self.in_type = true;
-        self.visit_mut_binding_ident(&mut n.id, None);
+        param.name.visit_mut_with(self);
 
-        n.module_ref.visit_mut_with(self);
-    }
-
-    fn visit_mut_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl) {
-        if !self.handle_types {
-            return;
-        }
-
-        self.in_type = true;
-        self.visit_mut_binding_ident(&mut n.id, None);
-
-        n.body.visit_mut_with(self);
-    }
-
-    fn visit_mut_ts_param_prop_param(&mut self, n: &mut TsParamPropParam) {
-        if !self.handle_types {
-            return;
-        }
-
-        self.in_type = false;
-        self.ident_type = IdentType::Binding;
-        n.visit_mut_children_with(self)
-    }
-
-    fn visit_mut_ts_qualified_name(&mut self, n: &mut TsQualifiedName) {
-        if !self.handle_types {
-            return;
-        }
-
-        self.in_type = true;
-        self.ident_type = IdentType::Ref;
-
-        n.left.visit_mut_with(self)
-    }
-
-    // TODO: How should I handle this?
-    typed!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
-
-    track_ident_mut!();
-
-    fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
-        let child_mark = Mark::fresh(self.mark);
-
-        // Child folder
-        let mut folder = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Fn, Some(&self.current)),
-            self.cur_defining.take(),
-            self.handle_types,
-        );
-
-        e.type_params.visit_mut_with(&mut folder);
-
-        let old_hoist = self.hoist;
-        let old = folder.ident_type;
-        folder.ident_type = IdentType::Binding;
-        folder.hoist = false;
-        e.params.visit_mut_with(&mut folder);
-        folder.ident_type = old;
-        folder.hoist = old_hoist;
-
-        e.body.visit_mut_with(&mut folder);
-
-        e.return_type.visit_mut_with(&mut folder);
-
-        self.cur_defining = folder.cur_defining;
-    }
-
-    fn visit_mut_param(&mut self, param: &mut Param) {
-        self.in_type = false;
-        self.ident_type = IdentType::Binding;
-        param.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
-        let child_mark = Mark::fresh(self.mark);
-        let mut child = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Block, Some(&self.current)),
-            self.cur_defining.take(),
-            self.handle_types,
-        );
-
-        self.ident_type = IdentType::Binding;
-        n.init.visit_mut_with(&mut child);
-        self.ident_type = IdentType::Ref;
-        n.test.visit_mut_with(&mut child);
-        self.ident_type = IdentType::Ref;
-        n.update.visit_mut_with(&mut child);
-
-        child.visit_mut_stmt_within_same_scope(&mut *n.body);
-
-        self.cur_defining = child.cur_defining;
-    }
-
-    fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
-        let child_mark = Mark::fresh(self.mark);
-        let mut child = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Block, Some(&self.current)),
-            self.cur_defining.take(),
-            self.handle_types,
-        );
-
-        n.left.visit_mut_with(&mut child);
-        n.right.visit_mut_with(&mut child);
-
-        child.visit_mut_stmt_within_same_scope(&mut *n.body);
-
-        self.cur_defining = child.cur_defining;
-    }
-
-    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
-        let child_mark = Mark::fresh(self.mark);
-        let mut child = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Block, Some(&self.current)),
-            self.cur_defining.take(),
-            self.handle_types,
-        );
-
-        n.left.visit_mut_with(&mut child);
-        n.right.visit_mut_with(&mut child);
-
-        child.visit_mut_stmt_within_same_scope(&mut *n.body);
-
-        self.cur_defining = child.cur_defining;
-    }
-
-    fn visit_mut_block_stmt(&mut self, block: &mut BlockStmt) {
-        let child_mark = Mark::fresh(self.mark);
-
-        let mut child_folder = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Block, Some(&self.current)),
-            self.cur_defining.take(),
-            self.handle_types,
-        );
-
-        block.visit_mut_children_with(&mut child_folder);
-        self.cur_defining = child_folder.cur_defining;
-    }
-
-    /// Handle body of the arrow functions
-    fn visit_mut_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr) {
-        match node {
-            BlockStmtOrExpr::BlockStmt(block) => block.visit_mut_children_with(self).into(),
-            BlockStmtOrExpr::Expr(e) => e.visit_mut_with(self).into(),
-        }
-    }
-
-    fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
-        let child_mark = Mark::fresh(self.mark);
-
-        // Child folder
-        let mut folder = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Fn, Some(&self.current)),
-            self.cur_defining.take(),
-            self.handle_types,
-        );
-
-        folder.ident_type = IdentType::Binding;
-        c.param.visit_mut_with(&mut folder);
-        folder.ident_type = IdentType::Ref;
-
-        c.body.visit_mut_with(&mut folder);
-
-        self.cur_defining = folder.cur_defining;
-    }
-
-    fn visit_mut_private_method(&mut self, m: &mut PrivateMethod) {
-        m.key.visit_mut_with(self);
-
-        {
-            let child_mark = Mark::fresh(self.mark);
-
-            // Child folder
-            let mut child = Resolver::new(
-                child_mark,
-                Scope::new(ScopeKind::Fn, Some(&self.current)),
-                None,
-                self.handle_types,
-            );
-
-            m.function.visit_mut_with(&mut child)
-        }
-    }
-
-    fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
-        m.key.visit_mut_with(self);
-
-        {
-            let child_mark = Mark::fresh(self.mark);
-
-            // Child folder
-            let mut child = Resolver::new(
-                child_mark,
-                Scope::new(ScopeKind::Fn, Some(&self.current)),
-                None,
-                self.handle_types,
-            );
-
-            m.function.visit_mut_with(&mut child)
-        }
-    }
-
-    fn visit_mut_class_prop(&mut self, p: &mut ClassProp) {
-        p.decorators.visit_mut_with(self);
-
-        if p.computed {
-            let old = self.ident_type;
-            self.ident_type = IdentType::Binding;
-            p.key.visit_mut_with(self);
-            self.ident_type = old;
-        }
-
-        let old = self.ident_type;
-        self.ident_type = IdentType::Ref;
-        p.value.visit_mut_with(self);
-        self.ident_type = old;
-
-        p.type_ann.visit_mut_with(self);
-    }
-
-    fn visit_mut_constructor(&mut self, c: &mut Constructor) {
-        let child_mark = Mark::fresh(self.mark);
-
-        // Child folder
-        let mut folder = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Fn, Some(&self.current)),
-            None,
-            self.handle_types,
-        );
-
-        let old = self.ident_type;
-        self.ident_type = IdentType::Binding;
-        c.params.visit_mut_with(&mut folder);
-        self.ident_type = old;
-
-        match &mut c.body {
-            Some(body) => {
-                body.visit_mut_children_with(&mut folder);
-            }
-            None => {}
-        }
-    }
-
-    /// Leftmost one of a member expression should be resolved.
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.obj.visit_mut_with(self);
-
-        if e.computed {
-            e.prop.visit_mut_with(self);
-        }
-    }
-
-    fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        self.in_type = false;
-        let old = self.ident_type;
-        self.ident_type = IdentType::Ref;
-        expr.visit_mut_children_with(self);
-        self.ident_type = old;
-    }
-
-    fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
-        // We don't fold this as Hoister handles this.
-
-        {
-            let child_mark = Mark::fresh(self.mark);
-
-            // Child folder
-            let mut folder = Resolver::new(
-                child_mark,
-                Scope::new(ScopeKind::Fn, Some(&self.current)),
-                None,
-                self.handle_types,
-            );
-
-            folder.cur_defining =
-                Some((node.ident.sym.clone(), node.ident.span.ctxt().remove_mark()));
-
-            node.function.visit_mut_with(&mut folder)
-        }
-    }
-
-    fn visit_mut_decl(&mut self, decl: &mut Decl) {
-        self.in_type = false;
-        decl.visit_mut_children_with(self)
-    }
-
-    fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
-        if let Some(ident) = &mut e.ident {
-            self.visit_mut_binding_ident(ident, None)
-        }
-
-        let child_mark = Mark::fresh(self.mark);
-
-        // Child folder
-        let mut folder = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Fn, Some(&self.current)),
-            self.cur_defining.take(),
-            self.handle_types,
-        );
-        e.function.visit_mut_with(&mut folder);
-
-        self.cur_defining = folder.cur_defining;
-    }
-
-    fn visit_mut_function(&mut self, f: &mut Function) {
-        f.type_params.visit_mut_with(self);
-
-        self.in_type = false;
-        self.ident_type = IdentType::Ref;
-        f.decorators.visit_mut_with(self);
-
-        self.ident_type = IdentType::Binding;
-        f.params.visit_mut_with(self);
-
-        self.ident_type = IdentType::Ref;
-        match &mut f.body {
-            Some(body) => {
-                // Prevent creating new scope.
-                body.visit_mut_children_with(self);
-            }
-            None => {}
-        }
-
-        f.return_type.visit_mut_with(self);
-    }
-
-    fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
-
-    fn visit_mut_binding_ident(&mut self, i: &mut BindingIdent) {
         let ident_type = self.ident_type;
-        let in_type = self.in_type;
-        i.type_ann.visit_mut_with(self);
-        self.in_type = in_type;
+        param.default.visit_mut_with(self);
+        param.constraint.visit_mut_with(self);
         self.ident_type = ident_type;
-
-        i.id.visit_mut_with(self);
     }
 
-    fn visit_mut_ident(&mut self, i: &mut Ident) {
-        let ident_type = self.ident_type;
-        let in_type = self.in_type;
-        i.visit_mut_children_with(self);
-        self.in_type = in_type;
-        self.ident_type = ident_type;
-
-        match self.ident_type {
-            IdentType::Binding => self.visit_mut_binding_ident(i, None),
-            IdentType::Ref => {
-                let Ident { span, sym, .. } = i;
-
-                if cfg!(debug_assertions) && LOG {
-                    eprintln!(
-                        "resolver: IdentRef (type = {}) {}{:?}",
-                        self.in_type,
-                        sym,
-                        span.ctxt()
-                    );
-                }
-
-                if span.ctxt() != SyntaxContext::empty() {
-                    return;
-                }
-
-                if let Some(mark) = self.mark_for_ref(&sym) {
-                    let span = span.apply_mark(mark);
-
-                    if cfg!(debug_assertions) && LOG {
-                        eprintln!("\t -> {:?}", span.ctxt());
-                    }
-                    i.span = span;
-                } else {
-                    if cfg!(debug_assertions) && LOG {
-                        eprintln!("\t -> Unresolved");
-                    }
-
-                    let mark = {
-                        let mut mark = self.mark;
-                        let mut cur = Some(&self.current);
-                        while let Some(scope) = cur {
-                            cur = scope.parent;
-
-                            if cur.is_none() {
-                                break;
-                            }
-                            mark = mark.parent();
-                        }
-
-                        mark
-                    };
-
-                    let span = span.apply_mark(mark);
-
-                    if cfg!(debug_assertions) && LOG {
-                        eprintln!("\t -> {:?}", span.ctxt());
-                    }
-
-                    i.span = span;
-                    // Support hoisting
-                    self.visit_mut_binding_ident(i, None)
-                }
-            }
-            // We currently does not touch labels
-            IdentType::Label => {}
+    fn visit_mut_ts_type_params(&mut self, params: &mut Vec<TsTypeParam>) {
+        for param in params.iter_mut() {
+            self.in_type = true;
+            param.name.visit_mut_with(self);
         }
-    }
 
-    fn visit_mut_import_named_specifier(&mut self, s: &mut ImportNamedSpecifier) {
-        self.in_type = false;
-        let old = self.ident_type;
-        self.ident_type = IdentType::Binding;
-        s.local.visit_mut_with(self);
-        self.ident_type = old;
-    }
-
-    fn visit_mut_method_prop(&mut self, m: &mut MethodProp) {
-        m.key.visit_mut_with(self);
-
-        {
-            let child_mark = Mark::fresh(self.mark);
-
-            // Child folder
-            let mut child = Resolver::new(
-                child_mark,
-                Scope::new(ScopeKind::Fn, Some(&self.current)),
-                None,
-                self.handle_types,
-            );
-
-            m.function.visit_mut_with(&mut child)
-        };
-    }
-
-    fn visit_mut_object_lit(&mut self, o: &mut ObjectLit) {
-        let child_mark = Mark::fresh(self.mark);
-
-        let mut child_folder = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Block, Some(&self.current)),
-            self.cur_defining.take(),
-            self.handle_types,
-        );
-
-        o.visit_mut_children_with(&mut child_folder);
-        self.cur_defining = child_folder.cur_defining;
-    }
-
-    fn visit_mut_pat(&mut self, p: &mut Pat) {
-        self.in_type = false;
-        let old = self.cur_defining.take();
-        p.visit_mut_children_with(self);
-
-        self.cur_defining = old;
+        params.visit_mut_children_with(self);
     }
 
     fn visit_mut_var_decl(&mut self, decl: &mut VarDecl) {
@@ -1152,60 +1215,6 @@ impl<'a> VisitMut for Resolver<'a> {
         self.cur_defining = cur_name;
         decl.init.visit_mut_children_with(self);
         self.cur_defining = old_defining;
-    }
-
-    fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
-        if self.current.kind != ScopeKind::Fn {
-            return stmts.visit_mut_children_with(self);
-        }
-
-        // Phase 1: Handle hoisting
-        {
-            let mut hoister = Hoister {
-                resolver: self,
-                kind: None,
-                in_block: false,
-            };
-            stmts.visit_mut_children_with(&mut hoister)
-        }
-
-        // Phase 2.
-        stmts.visit_mut_children_with(self)
-    }
-
-    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        // Phase 1: Handle hoisting
-        {
-            let mut hoister = Hoister {
-                resolver: self,
-                kind: None,
-                in_block: false,
-            };
-            stmts.visit_mut_children_with(&mut hoister)
-        }
-
-        // Phase 2.
-        stmts.visit_mut_children_with(self)
-    }
-
-    fn visit_mut_ts_module_decl(&mut self, decl: &mut TsModuleDecl) {
-        match &mut decl.id {
-            TsModuleName::Ident(i) => {
-                self.visit_mut_binding_ident(i, None);
-            }
-            TsModuleName::Str(_) => {}
-        }
-
-        let child_mark = Mark::fresh(self.mark);
-
-        let mut child_folder = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Block, Some(&self.current)),
-            self.cur_defining.take(),
-            self.handle_types,
-        );
-
-        decl.body.visit_mut_children_with(&mut child_folder);
     }
 }
 
