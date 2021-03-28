@@ -11,7 +11,7 @@ use crate::pass::compute_char_freq::compute_char_freq;
 use crate::pass::expand_names::name_expander;
 use crate::pass::hygiene::hygiene_optimizer;
 use crate::pass::mangle_names::name_mangler;
-use crate::pass::mangle_props::property_mangler;
+use crate::pass::mangle_props::mangle_properties;
 use analyzer::analyze;
 use swc_common::comments::Comments;
 use swc_ecma_ast::Module;
@@ -91,12 +91,8 @@ pub fn optimize(
         m.visit_mut_with(&mut name_mangler(mangle.clone(), char_freq_info));
     }
 
-    if let Some(ref mut _t) = timings {
-        // TODO: store `properties`
-    }
-
-    if options.mangle.as_ref().map(|o| o.props).unwrap_or(false) {
-        m.visit_mut_with(&mut property_mangler());
+    if let Some(property_mangle_options) = options.mangle.as_ref().and_then(|o| o.props.as_ref()) {
+        mangle_properties(&mut m, property_mangle_options.clone());
     }
 
     if let Some(ref mut _t) = timings {

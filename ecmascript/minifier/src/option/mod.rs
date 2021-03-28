@@ -34,7 +34,7 @@ pub struct TopLevelOptions {
 #[serde(deny_unknown_fields)]
 pub struct MangleOptions {
     #[serde(default, alias = "properties")]
-    pub props: bool,
+    pub props: Option<ManglePropertiesOptions>,
 
     #[serde(default, alias = "toplevel")]
     pub top_level: bool,
@@ -50,6 +50,13 @@ pub struct MangleOptions {
 
     #[serde(default, alias = "safari10")]
     pub safari10: bool,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ManglePropertiesOptions {
+    #[serde(default, alias = "reserved")]
+    pub reserved: Vec<String>,
 }
 
 /// https://terser.org/docs/api-reference.html#compress-options

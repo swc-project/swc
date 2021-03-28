@@ -9,12 +9,12 @@ var a = {
     },
 };
 var b = {
-    propa: 5,
-    get propb() {
+    "propa": 5,
+    get "propb"() {
         return 6;
     },
-    propc: 7,
-    get propd() {
+    "propc": 7,
+    get "propd"() {
         return 8;
     },
 };
