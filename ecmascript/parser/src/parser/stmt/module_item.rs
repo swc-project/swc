@@ -577,7 +577,10 @@ impl<'a, I: Tokens> Parser<I> {
             },
             _ => unexpected!(self, "a string literal"),
         };
-        let asserts = if self.input.syntax().import_assertions() && eat!(self, "assert") {
+        let asserts = if self.input.syntax().import_assertions()
+            && !self.input.had_line_break_before_cur()
+            && eat!(self, "assert")
+        {
             match *self.parse_object::<Box<Expr>>()? {
                 Expr::Object(v) => Some(v),
                 _ => unreachable!(),
