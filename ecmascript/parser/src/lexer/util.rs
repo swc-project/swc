@@ -113,6 +113,10 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.emit_error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
     }
 
+    pub(super) fn error_count(&self) -> usize {
+        self.errors.borrow().len()
+    }
+
     #[cold]
     #[inline(never)]
     pub(super) fn emit_error_span(&mut self, span: Span, kind: SyntaxError) {

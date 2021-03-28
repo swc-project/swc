@@ -1007,10 +1007,17 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
 
             if c == '\\' {
+                let prev_err_cnt = self.error_count();
                 has_escape = true;
                 raw.push('\\');
                 let mut wrapped = Raw(Some(raw));
-                match self.read_escaped_char(&mut wrapped) {
+                let res = self.read_escaped_char(&mut wrapped);
+
+                // If we recovered some errors, cooked should be None.
+                if res.is_ok() && prev_err_cnt != self.error_count() {
+                    cooked = None;
+                }
+                match res {
                     Ok(Some(s)) => {
                         if let Some(ref mut cooked) = cooked {
                             cooked.extend(s);
