@@ -635,6 +635,12 @@ impl<'a> VisitMut for Hygiene<'a> {
     }
 
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
+        if let Some(ident) = &mut n.ident {
+            if let Some(expr) = self.keep_class_name(ident, &mut n.class) {
+                *n = expr;
+                return;
+            }
+        }
         let old = self.ident_type;
         self.ident_type = IdentType::Binding;
         n.ident.visit_mut_with(self);
