@@ -15,7 +15,7 @@ function isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Date.prototype.toString.call(Reflect.construct(Date, [], function () {
+        Date.prototype.toString.call(Reflect.construct(Date, [], function() {
         }));
         return true;
     } catch (e) {
@@ -40,7 +40,7 @@ function _construct(Parent, args, Class) {
     return _construct.apply(null, arguments);
 }
 function _defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
+    for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
         descriptor.enumerable = descriptor.enumerable || false;
         descriptor.configurable = true;
@@ -105,13 +105,13 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 function _superPropBase(object, property) {
-    while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    while(!Object.prototype.hasOwnProperty.call(object, property)){
         object = _getPrototypeOf(object);
         if (object === null) break;
     }
     return object;
 }
-var _typeof = function (obj) {
+var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _wrapNativeSuper(Class) {
@@ -140,7 +140,7 @@ function _wrapNativeSuper(Class) {
     };
     return _wrapNativeSuper(Class);
 }
-var Element1 = function () {
+var Element1 = function() {
     function Element1() {
         _classCallCheck(this, Element1);
     }
@@ -154,7 +154,7 @@ var Element1 = function () {
     ]);
     return Element1;
 }();
-var CanvasElement = function (Element1) {
+var CanvasElement = function(Element1) {
     _inherits(CanvasElement, Element1);
     function CanvasElement() {
         _classCallCheck(this, CanvasElement);
@@ -170,7 +170,7 @@ var CanvasElement = function (Element1) {
     ]);
     return CanvasElement;
 }(_wrapNativeSuper(Element1));
-var ColouredCanvasElement = function (CanvasElement) {
+var ColouredCanvasElement = function(CanvasElement) {
     _inherits(ColouredCanvasElement, CanvasElement);
     function ColouredCanvasElement() {
         _classCallCheck(this, ColouredCanvasElement);
@@ -186,7 +186,7 @@ var ColouredCanvasElement = function (CanvasElement) {
     ]);
     return ColouredCanvasElement;
 }(CanvasElement);
-var ColouredSquare = function (ColouredCanvasElement) {
+var ColouredSquare = function(ColouredCanvasElement) {
     _inherits(ColouredSquare, ColouredCanvasElement);
     function ColouredSquare() {
         _classCallCheck(this, ColouredSquare);
@@ -194,7 +194,7 @@ var ColouredSquare = function (ColouredCanvasElement) {
     }
     return ColouredSquare;
 }(ColouredCanvasElement);
-var bugExample = function () {
+var bugExample = function() {
     var colouredSquare = new ColouredSquare(), hidden = false;
     colouredSquare.createFacets(hidden);
 };
