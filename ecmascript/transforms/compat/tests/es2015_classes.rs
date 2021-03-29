@@ -6109,7 +6109,8 @@ test!(
     }
     ",
     "
-    var CanvasElement = function (Element1) {
+    let CanvasElement = function (Element1) {
+      'use strict';
       _inherits(CanvasElement, Element1);
       function CanvasElement() {
           _classCallCheck(this, CanvasElement);
