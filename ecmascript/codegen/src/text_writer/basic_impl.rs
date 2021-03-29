@@ -163,13 +163,20 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
 
     fn write_lit(&mut self, span: Span, s: &str) -> Result {
         if !s.is_empty() {
-            self.write(Some(span), s)?;
+            if !span.is_dummy() {
+                self.srcmap(span.lo())
+            }
+
+            self.write(None, s)?;
 
             let line_start_of_s = compute_line_starts(s);
             if line_start_of_s.len() > 1 {
                 self.line_count = self.line_count + line_start_of_s.len() - 1;
-                self.line_pos =
-                    self.written_bytes - s.len() + line_start_of_s.last().cloned().unwrap_or(0);
+                self.line_pos = s.len() - line_start_of_s.last().cloned().unwrap_or(0);
+            }
+
+            if !span.is_dummy() {
+                self.srcmap(span.hi())
             }
         }
 
@@ -223,8 +230,7 @@ fn compute_line_starts(s: &str) -> Vec<usize> {
 
             '\n' => {
                 res.push(line_start);
-                line_start = pos;
-                break;
+                line_start = pos + 1;
             }
 
             _ => {}
