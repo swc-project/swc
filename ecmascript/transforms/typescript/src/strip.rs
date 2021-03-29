@@ -1433,17 +1433,15 @@ impl VisitMut for Strip {
                     //     Foo[Foo["a"] = 0] = "a";
                     // })(Foo || (Foo = {}));
 
-                    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        declare: false,
-                        decls: vec![VarDeclarator {
-                            span: e.span,
-                            name: Pat::Ident(e.id.clone().into()),
-                            definite: false,
-                            init: None,
-                        }],
-                    })));
+                    if let Some(var) = self.create_uninit_var(e.span, &e.id.to_id()) {
+                        stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            declare: false,
+                            decls: vec![var],
+                        })));
+                    }
+
                     self.handle_enum(e, &mut stmts)
                 }
 
