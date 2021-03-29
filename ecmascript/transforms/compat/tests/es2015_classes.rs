@@ -6088,75 +6088,11 @@ test!(
                 key: 'createFacets',
                 value: function createFacets(hidden) {
                     hidden = _get(_getPrototypeOf(ColouredCanvasElement.prototype), \
-     'createFacets', this)(hidden);
+     'createFacets', this).call(this, hidden);
                 }
             }
         ]);
         return ColouredCanvasElement;
     }(CanvasElement);
-    "
-);
-
-test!(
-    syntax(),
-    |_| classes(),
-    issue_1490_2,
-    "
-    class CanvasElement extends Element {
-      createFacets(hidden) {
-        const childElements = this.getChildElements();
-      }
-    }
-    ",
-    "
-    let CanvasElement = function (Element1) {
-      'use strict';
-      _inherits(CanvasElement, Element1);
-      function CanvasElement() {
-          _classCallCheck(this, CanvasElement);
-          return _possibleConstructorReturn(this, _getPrototypeOf(CanvasElement).apply(this, \
-     arguments));
-      }
-      _createClass(CanvasElement, [
-          {
-              key: 'createFacets',
-              value: function createFacets(hidden) {
-                  var childElements = _get(_getPrototypeOf(CanvasElement.prototype), \
-     'getChildElements', this)();
-              }
-          }
-      ]);
-      return CanvasElement;
-  }(_wrapNativeSuper(Element1));
-    "
-);
-
-test!(
-    syntax(),
-    |_| classes(),
-    issue_1490_3,
-    "
-    class Element {
-      getChildElements() {
-        return this.childElements;
-      }
-    }
-    ",
-    "
-    let Element1 = function () {
-      'use stric';
-      function Element1() {
-          _classCallCheck(this, Element1);
-      }
-      _createClass(Element1, [
-          {
-              key: 'getChildElements',
-              value: function getChildElements() {
-                  return _get(_getPrototypeOf(Element1.prototype), 'childElements', this)
-              }
-          }
-      ]);
-      return Element1;
-  }();
     "
 );
