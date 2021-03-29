@@ -52,6 +52,7 @@ impl Fold for TemplateLiteral {
                         // change of ast crate.
                         if s.value.contains("`") {
                             s.kind = Default::default();
+                            s.has_escape = false;
                         }
 
                         s
