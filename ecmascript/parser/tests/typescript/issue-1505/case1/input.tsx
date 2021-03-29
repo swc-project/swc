@@ -4,9 +4,6 @@ class ComponentType<_T> {}
 const withTeamsForUser = <P extends InjectedTeamsProps>(
   _WrappedComponent: ComponentType<P>
 ) =>
-  class extends Component<
-    Omit<P, keyof InjectedTeamsProps> & Partial<InjectedTeamsProps>,
-    InjectedTeamsProps
-  > {
+  class extends Component<Omit<P, keyof A> & Partial<B>, C> {
     static displayName = `x`;
   };
