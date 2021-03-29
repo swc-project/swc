@@ -2,7 +2,10 @@ use serde::{Serialize, Deserialize};
 use serde_json::Value;
 
 use crate::ast::{
-    common::{BaseNode, Identifier, Access, Param, Decorator, PrivateName, TypeAnnotOrNoop, TypeParamDeclOrNoop, SuperTypeParams},
+    common::{
+        BaseNode, Identifier, Access, Param, Decorator, PrivateName, TypeAnnotOrNoop,
+        TypeParamDeclOrNoop, SuperTypeParams
+    },
     expr::{Expression, ClassExpression},
     flow::{ClassImplements, InterfaceExtends},
     object::{ObjectKey},

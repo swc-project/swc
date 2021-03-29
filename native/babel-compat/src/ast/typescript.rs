@@ -300,6 +300,7 @@ pub struct TSPropertySignature {
 pub struct TSMethodSignature {
     #[serde(flatten)]
     pub base: BaseNode,
+    pub key: Expression,
     #[serde(default)]
     pub type_parameters: Option<TSTypeParameterDeclaration>,
     #[serde(default)]
