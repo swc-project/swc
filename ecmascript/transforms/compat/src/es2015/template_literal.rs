@@ -59,7 +59,15 @@ impl Fold for TemplateLiteral {
 
                         match quasis.next() {
                             Some(TplElement { cooked, raw, .. }) => {
-                                let s = cooked.unwrap_or_else(|| raw);
+                                let mut s = cooked.unwrap_or_else(|| raw);
+
+                                // See https://github.com/swc-project/swc/issues/1488
+                                //
+                                // This is hack to prevent '\\`'. Hack is used to avoid breaking
+                                // change of ast crate.
+                                if s.value.contains("`") {
+                                    s.kind = Default::default();
+                                }
                                 Box::new(Lit::Str(s).into())
                             }
                             _ => unreachable!(),
