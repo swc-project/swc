@@ -1917,7 +1917,7 @@ test!(
                   reject(err);
               });
           }) : Promise.resolve().then(function() {
-              return require(\"foo\");
+              return _interopRequireWildcard(require(\"foo\"));
           }));
       }
   });      
