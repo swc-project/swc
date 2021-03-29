@@ -25,6 +25,7 @@ use swc_ecma_visit::Fold;
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
         dynamic_import: true,
+        top_level_await: true,
         ..Default::default()
     })
 }
@@ -4558,25 +4559,63 @@ test!(
     }),
     issue_1423_1,
     "
-    'use strict';
-    import { arrayUtilities } from 'necessary';
+  'use strict';
+  import { arrayUtilities } from 'necessary';
 
-    const { second } = arrayUtilities;
+  const { second } = arrayUtilities;
 
-    const elements = [1, 2, 3],
-        secondElement = second(elements);
+  const elements = [1, 2, 3],
+      secondElement = second(elements);
 
-    console.log(secondElement)
-    ",
+  console.log(secondElement)
+  ",
+    "
+  'use strict';
+  var _necessary = require('necessary');
+  const { second  } = _necessary.arrayUtilities;
+  const elements = [
+      1,
+      2,
+      3
+  ], secondElement = second(elements);
+  console.log(secondElement);
+  "
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        no_interop: false,
+        strict: true,
+        strict_mode: true,
+        lazy: Lazy::Bool(false)
+    }),
+    issue_1480_1,
+    "
+    const { default: ora } = await import('ora')
+  ",
     "
     'use strict';
-    var _necessary = require('necessary');
-    const { second  } = _necessary.arrayUtilities;
-    const elements = [
-        1,
-        2,
-        3
-    ], secondElement = second(elements);
-    console.log(secondElement);
+    const { default: ora  } = await Promise.resolve().then(function() {
+        return _interopRequireWildcard(require('ora'));
+    });
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        no_interop: false,
+        strict: true,
+        strict_mode: true,
+        lazy: Lazy::Bool(false)
+    }),
+    issue_1480_2,
+    "
+  import * as ora from 'ora'
+",
+    "
+    'use strict';
+    var ora = _interopRequireWildcard(require('ora'));
     "
 );
