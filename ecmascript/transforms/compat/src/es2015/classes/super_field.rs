@@ -186,7 +186,7 @@ impl<'a> Fold for SuperCalleeFolder<'a> {
                     span,
                     left: left.fold_children_with(self),
                     op,
-                    right: right.fold_children_with(self),
+                    right,
                 })
             }
             _ => n.fold_children_with(self),
