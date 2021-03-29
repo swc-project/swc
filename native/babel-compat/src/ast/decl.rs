@@ -4,11 +4,20 @@ use crate::ast::{
     class::{ClassDeclaration},
     common::{BaseNode, LVal, Identifier, Param, TypeAnnotOrNoop, TypeParamDeclOrNoop},
     expr::{Expression},
-    flow::{OpaqueType, DeclareOpaqueType, TypeAlias, DeclareClass, DeclareFunction, DeclareInterface, DeclareModule, DeclareModuleExports, DeclareTypeAlias, DeclareVariable, DeclareExportDeclaration, DeclareExportAllDeclaration, InterfaceDeclaration},
+    flow::{
+        OpaqueType, DeclareOpaqueType, TypeAlias, DeclareClass, DeclareFunction, DeclareInterface,
+        DeclareModule, DeclareModuleExports, DeclareTypeAlias, DeclareVariable,
+        DeclareExportDeclaration, DeclareExportAllDeclaration, InterfaceDeclaration
+    },
     lit::{BooleanLiteral, NumericLiteral, StringLiteral},
-    module::{ExportAllDeclaration, ExportDefaultDeclaration, ExportNamedDeclaration, ImportDeclaration},
+    module::{
+        ExportAllDeclaration, ExportDefaultDeclaration, ExportNamedDeclaration, ImportDeclaration,
+    },
     stmt::{BlockStatement},
-    typescript::{TSDeclareFunction, TSInterfaceDeclaration, TSTypeAliasDeclaration, TSEnumDeclaration, TSModuleDeclaration},
+    typescript::{
+        TSDeclareFunction, TSInterfaceDeclaration, TSTypeAliasDeclaration, TSEnumDeclaration,
+        TSModuleDeclaration
+    },
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

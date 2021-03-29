@@ -5,10 +5,18 @@ use crate::ast::{
     common::{BaseNode, Identifier, LVal, Directive},
     decl::{VariableDeclaration, FunctionDeclaration, EnumDeclaration},
     expr::{Expression},
-    flow::{DeclareClass, DeclareFunction, DeclareInterface, DeclareModule, DeclareModuleExports, DeclareTypeAlias, DeclareOpaqueType, DeclareVariable, DeclareExportDeclaration, DeclareExportAllDeclaration, InterfaceDeclaration, OpaqueType, TypeAlias},
+    flow::{
+        DeclareClass, DeclareFunction, DeclareInterface, DeclareModule, DeclareModuleExports, 
+        DeclareTypeAlias, DeclareOpaqueType, DeclareVariable, DeclareExportDeclaration,
+        DeclareExportAllDeclaration, InterfaceDeclaration, OpaqueType, TypeAlias
+    },
     module::{ExportAllDeclaration, ExportDefaultDeclaration, ExportNamedDeclaration, ImportDeclaration},
     pat::{ObjectPattern, ArrayPattern},
-    typescript::{TSDeclareFunction, TSInterfaceDeclaration, TSTypeAliasDeclaration, TSEnumDeclaration, TSModuleDeclaration, TSImportEqualsDeclaration, TSExportAssignment, TSNamespaceExportDeclaration},
+    typescript::{
+        TSDeclareFunction, TSInterfaceDeclaration, TSTypeAliasDeclaration, TSEnumDeclaration,
+        TSModuleDeclaration, TSImportEqualsDeclaration, TSExportAssignment,
+        TSNamespaceExportDeclaration
+    },
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -320,7 +328,7 @@ pub struct SwitchCase {
 pub struct SwitchStatement {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub descriminant: Expression,
+    pub discriminant: Expression,
     #[serde(default)]
     pub cases: Vec<SwitchCase>,
 }

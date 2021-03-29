@@ -2,14 +2,22 @@ use serde::{Serialize, Deserialize};
 
 use crate::ast::{
     class::{ClassBody, ClassImpl},
-    common::{BaseNode, SpreadElement, LVal, Identifier, PrivateName, MetaProperty, Arg, Callee, Param, Decorator, TypeAnnotOrNoop, TypeParamDeclOrNoop, SuperTypeParams},
+    common::{
+        BaseNode, SpreadElement, LVal, Identifier, PrivateName, MetaProperty, Arg, Callee, Param,
+        Decorator, TypeAnnotOrNoop, TypeParamDeclOrNoop, SuperTypeParams,
+    },
     flow::{TypeParameterInstantiation, TypeParameterDeclaration, TypeAnnotation, InterfaceExtends},
     jsx::{JSXElement, JSXFragment},
-    lit::{StringLiteral, NumericLiteral, NullLiteral, BooleanLiteral, RegExpLiteral, TemplateLiteral, BigIntLiteral, DecimalLiteral},
+    lit::{
+        StringLiteral, NumericLiteral, NullLiteral, BooleanLiteral, RegExpLiteral,
+        TemplateLiteral, BigIntLiteral, DecimalLiteral,
+    },
     module::{Import, Program},
     object::{ObjectMethod, ObjectProperty},
     stmt::{BlockStatement, ExpressionStatement},
-    typescript::{TSTypeParameterInstantiation, TSTypeParameterDeclaration, TSAsExpression, TSTypeAssertion, TSNonNullExpression},
+    typescript::{
+        TSTypeParameterInstantiation, TSAsExpression, TSTypeAssertion, TSNonNullExpression,
+    },
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
