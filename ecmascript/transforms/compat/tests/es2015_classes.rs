@@ -6102,26 +6102,32 @@ test!(
     |_| classes(),
     issue_1490_2,
     "
-    var CanvasElement = function (Element1) {
-        _inherits(CanvasElement, Element1);
-        function CanvasElement() {
-            _classCallCheck(this, CanvasElement);
-            return _possibleConstructorReturn(this, _getPrototypeOf(CanvasElement).apply(this, \
-     arguments));
-        }
-        _createClass(CanvasElement, [
-            {
-                key: 'createFacets',
-                value: function createFacets(hidden) {
-                    var childElements = _get(_getPrototypeOf(CanvasElement.prototype), \
-     'getChildElements', this)();
-                }
-            }
-        ]);
-        return CanvasElement;
-    }(_wrapNativeSuper(Element1));
+    class CanvasElement extends Element {
+      createFacets(hidden) {
+        const childElements = this.getChildElements();
+      }
+    }
     ",
-    ""
+    "
+    var CanvasElement = function (Element1) {
+      _inherits(CanvasElement, Element1);
+      function CanvasElement() {
+          _classCallCheck(this, CanvasElement);
+          return _possibleConstructorReturn(this, _getPrototypeOf(CanvasElement).apply(this, \
+     arguments));
+      }
+      _createClass(CanvasElement, [
+          {
+              key: 'createFacets',
+              value: function createFacets(hidden) {
+                  var childElements = _get(_getPrototypeOf(CanvasElement.prototype), \
+     'getChildElements', this)();
+              }
+          }
+      ]);
+      return CanvasElement;
+  }(_wrapNativeSuper(Element1));
+    "
 );
 
 test!(
@@ -6137,7 +6143,7 @@ test!(
     ",
     "
     let Element1 = function () {
-      'use strict';
+      'use stric';
       function Element1() {
           _classCallCheck(this, Element1);
       }
