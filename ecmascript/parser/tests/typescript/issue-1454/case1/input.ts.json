@@ -1,0 +1,45 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 57,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 0,
+        "end": 57,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 22,
+            "end": 53,
+            "ctxt": 0
+          },
+          "value": "AbstractProviderDeliveryService",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 7,
+          "end": 57,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [],
+        "superClass": null,
+        "isAbstract": true,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    }
+  ],
+  "interpreter": null
+}
