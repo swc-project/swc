@@ -168,7 +168,7 @@ where
                 no_early_errors,
                 ..Default::default()
             }),
-            EsVersion::latest(),
+            EsVersion::Es2015,
             (&*fm).into(),
             None,
         );
