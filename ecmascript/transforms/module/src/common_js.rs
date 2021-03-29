@@ -694,14 +694,18 @@ impl ModulePass for CommonJs {
     }
 
     fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
-        handle_dynamic_import(span, args)
+        handle_dynamic_import(span, args, !self.config.no_interop)
     }
 }
 
 /// ```js
 /// Promise.resolve().then(function () { return require('./foo'); })
 /// ```
-pub(super) fn handle_dynamic_import(span: Span, args: Vec<ExprOrSpread>) -> Expr {
+pub(super) fn handle_dynamic_import(
+    span: Span,
+    args: Vec<ExprOrSpread>,
+    es_module_interop: bool,
+) -> Expr {
     let resolve_call = CallExpr {
         span: DUMMY_SP,
         callee: member_expr!(DUMMY_SP, Promise.resolve).as_callee(),
@@ -730,12 +734,28 @@ pub(super) fn handle_dynamic_import(span: Span, args: Vec<ExprOrSpread>) -> Expr
                         span: DUMMY_SP,
                         stmts: vec![Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
-                            arg: Some(Box::new(Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: quote_ident!("require").as_callee(),
-                                args,
-                                type_args: Default::default(),
-                            }))),
+                            arg: Some({
+                                let mut expr = Box::new(Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: quote_ident!("require").as_callee(),
+                                    args,
+                                    type_args: Default::default(),
+                                }));
+
+                                if es_module_interop {
+                                    expr = Box::new(Expr::Call(CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: helper!(
+                                            interop_require_wildcard,
+                                            "interopRequireWildcard"
+                                        ),
+                                        args: vec![expr.as_arg()],
+                                        type_args: Default::default(),
+                                    }));
+                                }
+
+                                expr
+                            }),
                         })],
                     }),
                 },
