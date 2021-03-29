@@ -4132,7 +4132,7 @@ test!(
   \"use strict\";
   async function foo() {
       await Promise.resolve().then(function() {
-          return require(\"foo\");
+          return _interopRequireWildcard(require('foo'));
       });
   }
   "
