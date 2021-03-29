@@ -12,8 +12,6 @@ use swc_ecma_ast::{
     Class, ClassMember, ClassProp, PrivateProp, Decorator, PrivateMethod, ClassMethod, MethodKind,
     Constructor,
 };
-// use swc_common::Spanned;
-// use serde::{Serialize, Deserialize};
 use serde_json::value::Value;
 
 impl Babelify for Class {

@@ -1,341 +1,315 @@
 use super::Context;
 use crate::ast::{
-    stmt::{BlockStatement},
+    stmt::{
+        BlockStatement, Statement, ExpressionStatement, EmptyStatement, DebuggerStatement,
+        WithStatement, ReturnStatement, LabeledStatement, BreakStatement, ContinueStatement,
+        IfStatement, SwitchStatement, SwitchCase as BabelSwitchCase, ThrowStatement, TryStatement,
+        CatchClause as BabelCatchClause, WhileStatement, DoWhileStatement, ForStatement,
+        ForStmtInit, ForInStatement, ForStmtLeft, ForOfStatement,
+    },
 };
 use crate::convert::Babelify;
-use swc_ecma_ast::{BlockStmt};
-// use serde::{Serialize, Deserialize};
-
+use swc_ecma_ast::{
+    BlockStmt, Stmt, ExprStmt, EmptyStmt, DebuggerStmt, WithStmt, ReturnStmt, LabeledStmt,
+    BreakStmt, ContinueStmt, IfStmt, SwitchStmt, SwitchCase, ThrowStmt, TryStmt, CatchClause,
+    WhileStmt, DoWhileStmt, ForStmt, VarDeclOrExpr, ForInStmt, VarDeclOrPat, ForOfStmt, Decl,
+};
 
 impl Babelify for BlockStmt {
     type Output = BlockStatement;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        panic!("unimplemented"); // TODO(dwoznicki): implement
-        // BlockStatement {
-        //     base: ctx.base(self.span),
-        //     body: self.stmts.iter().map(|stmt| stmt.babelify(ctx)).collect(),
-        //     directives: Default::default(),
-        // }
+        BlockStatement {
+            base: ctx.base(self.span),
+            body: self.stmts.iter().map(|stmt| stmt.clone().babelify(ctx)).collect(),
+            directives: Default::default(),
+        }
     }
 }
 
-//
-// /// Use when only block statements are allowed.
-// #[ast_node("BlockStatement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct BlockStmt {
-//     /// Span including the braces.
-//     pub span: Span,
-//
-//     pub stmts: Vec<Stmt>,
-// }
-//
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum Stmt {
-//     #[tag("BlockStatement")]
-//     Block(BlockStmt),
-//
-//     #[tag("EmptyStatement")]
-//     Empty(EmptyStmt),
-//
-//     #[tag("DebuggerStatement")]
-//     Debugger(DebuggerStmt),
-//
-//     #[tag("WithStatement")]
-//     With(WithStmt),
-//
-//     #[tag("ReturnStatement")]
-//     #[is(name = "return_stmt")]
-//     Return(ReturnStmt),
-//
-//     #[tag("LabeledStatement")]
-//     Labeled(LabeledStmt),
-//
-//     #[tag("BreakStatement")]
-//     #[is(name = "break_stmt")]
-//     Break(BreakStmt),
-//
-//     #[tag("ContinueStatement")]
-//     #[is(name = "continue_stmt")]
-//     Continue(ContinueStmt),
-//
-//     #[tag("IfStatement")]
-//     #[is(name = "if_stmt")]
-//     If(IfStmt),
-//
-//     #[tag("SwitchStatement")]
-//     Switch(SwitchStmt),
-//
-//     #[tag("ThrowStatement")]
-//     Throw(ThrowStmt),
-//
-//     /// A try statement. If handler is null then finalizer must be a BlockStmt.
-//     #[tag("TryStatement")]
-//     #[is(name = "try_stmt")]
-//     Try(TryStmt),
-//
-//     #[tag("WhileStatement")]
-//     #[is(name = "while_stmt")]
-//     While(WhileStmt),
-//
-//     #[tag("DoWhileStatement")]
-//     DoWhile(DoWhileStmt),
-//
-//     #[tag("ForStatement")]
-//     #[is(name = "for_stmt")]
-//     For(ForStmt),
-//
-//     #[tag("ForInStatement")]
-//     ForIn(ForInStmt),
-//
-//     #[tag("ForOfStatement")]
-//     ForOf(ForOfStmt),
-//
-//     #[tag("ClassDeclaration")]
-//     #[tag("FunctionDeclaration")]
-//     #[tag("VariableDeclaration")]
-//     #[tag("TsInterfaceDeclaration")]
-//     #[tag("TsTypeAliasDeclaration")]
-//     #[tag("TsEnumDeclaration")]
-//     #[tag("TsModuleDeclaration")]
-//     Decl(Decl),
-//
-//     #[tag("ExpressionStatement")]
-//     Expr(ExprStmt),
-// }
-//
-// #[ast_node("ExpressionStatement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct ExprStmt {
-//     pub span: Span,
-//     #[serde(rename = "expression")]
-//     pub expr: Box<Expr>,
-// }
-//
-// #[ast_node("EmptyStatement")]
-// #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct EmptyStmt {
-//     /// Span of semicolon.
-//     pub span: Span,
-// }
-//
-// #[ast_node("DebuggerStatement")]
-// #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct DebuggerStmt {
-//     pub span: Span,
-// }
-//
-// #[ast_node("WithStatement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct WithStmt {
-//     pub span: Span,
-//     #[serde(rename = "object")]
-//     pub obj: Box<Expr>,
-//     pub body: Box<Stmt>,
-// }
-//
-// #[ast_node("ReturnStatement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct ReturnStmt {
-//     pub span: Span,
-//     #[serde(default, rename = "argument")]
-//     pub arg: Option<Box<Expr>>,
-// }
-//
-// #[ast_node("LabeledStatement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct LabeledStmt {
-//     pub span: Span,
-//     pub label: Ident,
-//     pub body: Box<Stmt>,
-// }
-//
-// #[ast_node("BreakStatement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct BreakStmt {
-//     pub span: Span,
-//     #[serde(default)]
-//     pub label: Option<Ident>,
-// }
-//
-// #[ast_node("ContinueStatement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct ContinueStmt {
-//     pub span: Span,
-//     #[serde(default)]
-//     pub label: Option<Ident>,
-// }
-//
-// #[ast_node("IfStatement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct IfStmt {
-//     pub span: Span,
-//     pub test: Box<Expr>,
-//
-//     #[serde(rename = "consequent")]
-//     pub cons: Box<Stmt>,
-//
-//     #[serde(default, rename = "alternate")]
-//     pub alt: Option<Box<Stmt>>,
-// }
-//
-// #[ast_node("SwitchStatement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct SwitchStmt {
-//     pub span: Span,
-//     pub discriminant: Box<Expr>,
-//     pub cases: Vec<SwitchCase>,
-// }
-//
-// #[ast_node("ThrowStatement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct ThrowStmt {
-//     pub span: Span,
-//     #[serde(rename = "argument")]
-//     pub arg: Box<Expr>,
-// }
-//
-// #[ast_node("TryStatement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TryStmt {
-//     pub span: Span,
-//
-//     pub block: BlockStmt,
-//
-//     #[serde(default)]
-//     pub handler: Option<CatchClause>,
-//
-//     #[serde(default)]
-//     pub finalizer: Option<BlockStmt>,
-// }
-//
-// #[ast_node("WhileStatement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct WhileStmt {
-//     pub span: Span,
-//     pub test: Box<Expr>,
-//     pub body: Box<Stmt>,
-// }
-//
-// #[ast_node("DoWhileStatement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct DoWhileStmt {
-//     pub span: Span,
-//     pub test: Box<Expr>,
-//     pub body: Box<Stmt>,
-// }
-//
-// #[ast_node("ForStatement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct ForStmt {
-//     pub span: Span,
-//
-//     #[serde(default)]
-//     pub init: Option<VarDeclOrExpr>,
-//
-//     #[serde(default)]
-//     pub test: Option<Box<Expr>>,
-//
-//     #[serde(default)]
-//     pub update: Option<Box<Expr>>,
-//
-//     pub body: Box<Stmt>,
-// }
-//
-// #[ast_node("ForInStatement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct ForInStmt {
-//     pub span: Span,
-//     pub left: VarDeclOrPat,
-//     pub right: Box<Expr>,
-//     pub body: Box<Stmt>,
-// }
-//
-// #[ast_node("ForOfStatement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct ForOfStmt {
-//     pub span: Span,
-//     /// Span of the await token.
-//     ///
-//     /// es2018
-//     ///
-//     /// for-await-of statements, e.g., `for await (const x of xs) {`
-//     #[serde(default, rename = "await")]
-//     pub await_token: Option<Span>,
-//     pub left: VarDeclOrPat,
-//     pub right: Box<Expr>,
-//     pub body: Box<Stmt>,
-// }
-//
-// #[ast_node("SwitchCase")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct SwitchCase {
-//     pub span: Span,
-//
-//     /// None for `default:`
-//     #[serde(default)]
-//     pub test: Option<Box<Expr>>,
-//
-//     #[serde(rename = "consequent")]
-//     pub cons: Vec<Stmt>,
-// }
-//
-// #[ast_node("CatchClause")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct CatchClause {
-//     pub span: Span,
-//     /// es2019
-//     ///
-//     /// The param is null if the catch binding is omitted. E.g., try { foo() }
-//     /// catch { bar() }
-//     #[serde(default)]
-//     pub param: Option<Pat>,
-//
-//     pub body: BlockStmt,
-// }
-//
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum VarDeclOrPat {
-//     #[tag("VariableDeclaration")]
-//     VarDecl(VarDecl),
-//
-//     #[tag("*")]
-//     Pat(Pat),
-// }
-//
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[allow(variant_size_differences)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum VarDeclOrExpr {
-//     #[tag("VariableDeclaration")]
-//     VarDecl(VarDecl),
-//
-//     #[tag("*")]
-//     Expr(Box<Expr>),
-// }
+impl Babelify for Stmt {
+    type Output = Statement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            Stmt::Block(s) => Statement::Block(s.babelify(ctx)),
+            Stmt::Empty(s) => Statement::Empty(s.babelify(ctx)),
+            Stmt::Debugger(s) => Statement::Debugger(s.babelify(ctx)),
+            Stmt::With(s) => Statement::With(s.babelify(ctx)),
+            Stmt::Return(s) => Statement::Return(s.babelify(ctx)),
+            Stmt::Labeled(s) => Statement::Labeled(s.babelify(ctx)),
+            Stmt::Break(s) => Statement::Break(s.babelify(ctx)),
+            Stmt::Continue(s) => Statement::Continue(s.babelify(ctx)),
+            Stmt::If(s) => Statement::If(s.babelify(ctx)),
+            Stmt::Switch(s) => Statement::Switch(s.babelify(ctx)),
+            Stmt::Throw(s) => Statement::Throw(s.babelify(ctx)),
+            Stmt::Try(s) => Statement::Try(s.babelify(ctx)),
+            Stmt::While(s) => Statement::While(s.babelify(ctx)),
+            Stmt::DoWhile(s) => Statement::DoWhile(s.babelify(ctx)),
+            Stmt::For(s) => Statement::For(s.babelify(ctx)),
+            Stmt::ForIn(s) => Statement::ForIn(s.babelify(ctx)),
+            Stmt::ForOf(s) => Statement::ForOf(s.babelify(ctx)),
+            Stmt::Decl(decl) => {
+                match decl {
+                    Decl::Class(d) => Statement::ClassDecl(d.babelify(ctx)),
+                    Decl::Fn(d) => Statement::FuncDecl(d.babelify(ctx)),
+                    Decl::Var(d) => Statement::VarDecl(d.babelify(ctx)),
+                    Decl::TsInterface(d) => Statement::TSInterfaceDecl(d.babelify(ctx)),
+                    Decl::TsTypeAlias(d) => Statement::TSTypeAliasDecl(d.babelify(ctx)),
+                    Decl::TsEnum(d) => Statement::TSEnumDecl(d.babelify(ctx)),
+                    Decl::TsModule(d) => Statement::TSModuleDecl(d.babelify(ctx)),
+                }
+            },
+            Stmt::Expr(s) => Statement::Expr(s.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for ExprStmt {
+    type Output = ExpressionStatement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        ExpressionStatement {
+            base: ctx.base(self.span),
+            expression: self.expr.babelify(ctx).into(),
+        }
+    }
+}
+
+impl Babelify for EmptyStmt {
+    type Output = EmptyStatement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        EmptyStatement {
+            base: ctx.base(self.span),
+        }
+    }
+}
+
+impl Babelify for DebuggerStmt {
+    type Output = DebuggerStatement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        DebuggerStatement {
+            base: ctx.base(self.span),
+        }
+    }
+}
+
+impl Babelify for WithStmt {
+    type Output = WithStatement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        WithStatement {
+            base: ctx.base(self.span),
+            object: self.obj.babelify(ctx).into(),
+            body: Box::new(self.body.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for ReturnStmt {
+    type Output = ReturnStatement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        ReturnStatement {
+            base: ctx.base(self.span),
+            argument: self.arg.map(|expr| expr.babelify(ctx).into()),
+        }
+    }
+}
+
+impl Babelify for LabeledStmt {
+    type Output = LabeledStatement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        LabeledStatement {
+            base: ctx.base(self.span),
+            label: self.label.babelify(ctx),
+            body: Box::new(self.body.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for BreakStmt {
+    type Output = BreakStatement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        BreakStatement {
+            base: ctx.base(self.span),
+            label: self.label.map(|id| id.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for ContinueStmt {
+    type Output = ContinueStatement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        ContinueStatement {
+            base: ctx.base(self.span),
+            label: self.label.map(|id| id.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for IfStmt {
+    type Output = IfStatement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        IfStatement {
+            base: ctx.base(self.span),
+            test: self.test.babelify(ctx).into(),
+            consequent: Box::new(self.cons.babelify(ctx)),
+            alternate: self.alt.map(|a| Box::new(a.babelify(ctx))),
+        }
+    }
+}
+
+impl Babelify for SwitchStmt {
+    type Output = SwitchStatement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        SwitchStatement {
+            base: ctx.base(self.span),
+            discriminant: self.discriminant.babelify(ctx).into(),
+            cases: self.cases.iter().map(|case| case.clone().babelify(ctx)).collect(),
+        }
+    }
+}
+
+impl Babelify for ThrowStmt {
+    type Output = ThrowStatement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        ThrowStatement {
+            base: ctx.base(self.span),
+            argument: self.arg.babelify(ctx).into(),
+        }
+    }
+}
+
+impl Babelify for TryStmt {
+    type Output = TryStatement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TryStatement {
+            base: ctx.base(self.span),
+            block: self.block.babelify(ctx),
+            handler: self.handler.map(|clause| clause.babelify(ctx)),
+            finalizer: self.finalizer.map(|stmt| stmt.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for WhileStmt {
+    type Output = WhileStatement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        WhileStatement {
+            base: ctx.base(self.span),
+            test: self.test.babelify(ctx).into(),
+            body: Box::new(self.body.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for DoWhileStmt {
+    type Output = DoWhileStatement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        DoWhileStatement {
+            base: ctx.base(self.span),
+            test: self.test.babelify(ctx).into(),
+            body: Box::new(self.body.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for ForStmt {
+    type Output = ForStatement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        ForStatement {
+            base: ctx.base(self.span),
+            init: self.init.map(|i| i.babelify(ctx)),
+            test: self.test.map(|expr| expr.babelify(ctx).into()),
+            update: self.update.map(|expr| expr.babelify(ctx).into()),
+            body: Box::new(self.body.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for ForInStmt {
+    type Output = ForInStatement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        ForInStatement {
+            base: ctx.base(self.span),
+            left: self.left.babelify(ctx),
+            right: self.right.babelify(ctx).into(),
+            body: Box::new(self.body.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for ForOfStmt {
+    type Output = ForOfStatement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        ForOfStatement {
+            base: ctx.base(self.span),
+            left: self.left.babelify(ctx),
+            right: self.right.babelify(ctx).into(),
+            body: Box::new(self.body.babelify(ctx)),
+            // await_token not yet implemented
+        }
+    }
+}
+
+impl Babelify for SwitchCase {
+    type Output = BabelSwitchCase;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        BabelSwitchCase {
+            base: ctx.base(self.span),
+            test: self.test.map(|expr| expr.babelify(ctx).into()),
+            consequent: self.cons.iter().map(|stmt| stmt.clone().babelify(ctx)).collect(),
+        }
+    }
+}
+
+impl Babelify for CatchClause {
+    type Output = BabelCatchClause;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        BabelCatchClause {
+            base: ctx.base(self.span),
+            param: self.param.map(|p| p.babelify(ctx).into()),
+            body: self.body.babelify(ctx),
+        }
+    }
+}
+
+impl Babelify for VarDeclOrPat {
+    type Output = ForStmtLeft;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            VarDeclOrPat::VarDecl(v) => ForStmtLeft::VarDecl(v.babelify(ctx)),
+            VarDeclOrPat::Pat(p) => ForStmtLeft::LVal(p.babelify(ctx).into()),
+        }
+    }
+}
+
+impl Babelify for VarDeclOrExpr {
+    type Output = ForStmtInit;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            VarDeclOrExpr::VarDecl(v) => ForStmtInit::VarDecl(v.babelify(ctx)),
+            VarDeclOrExpr::Expr(e) => ForStmtInit::Expr(e.babelify(ctx).into()),
+        }
+    }
+}
+

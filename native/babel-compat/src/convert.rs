@@ -14,10 +14,13 @@ use swc_common::SourceMap;
 use swc_common::Span;
 
 mod class;
+mod decl;
 mod expr;
 mod function;
 mod ident;
 mod lit;
+mod module;
+mod module_decl;
 mod operators;
 mod pat;
 mod prop;
