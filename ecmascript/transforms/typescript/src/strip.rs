@@ -895,10 +895,11 @@ impl Strip {
     }
 
     /// Returns `(var_decl, init)`.
-    fn handle_ts_module(&mut self, module: TsModuleDecl) -> Option<(Decl, Stmt)> {
+    fn handle_ts_module(&mut self, module: TsModuleDecl) -> Option<(Option<Decl>, Stmt)> {
         if module.global {
             return None;
         }
+        let module_span = module.span;
 
         let module_name = match module.id {
             TsModuleName::Ident(i) => i,
@@ -912,12 +913,7 @@ impl Strip {
 
         let mut init_stmts = vec![];
 
-        let var = VarDeclarator {
-            span: module_name.span,
-            name: Pat::Ident(module_name.clone().into()),
-            init: None,
-            definite: false,
-        };
+        let var = self.create_uninit_var(module_name.span, module_name.to_id());
 
         // This makes body valid javascript.
         body.body.visit_mut_with(self);
@@ -1116,11 +1112,13 @@ impl Strip {
         }));
 
         Some((
-            Decl::Var(VarDecl {
-                span: module.span,
-                kind: VarDeclKind::Var,
-                declare: false,
-                decls: vec![var],
+            var.map(|var| {
+                Decl::Var(VarDecl {
+                    span: module_span,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: vec![var],
+                })
             }),
             Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
@@ -1423,7 +1421,7 @@ impl VisitMut for Strip {
                         Some(v) => v,
                         None => continue,
                     };
-                    stmts.push(Stmt::Decl(decl));
+                    stmts.extend(decl.map(Stmt::Decl));
                     stmts.push(init)
                 }
 
@@ -1555,10 +1553,10 @@ impl VisitMut for Strip {
                         Some(v) => v,
                         None => continue,
                     };
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                        span,
-                        decl,
-                    })));
+
+                    stmts.extend(decl.map(|decl| {
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { span, decl }))
+                    }));
                     stmts.push(init.into())
                 }
 
@@ -1567,7 +1565,7 @@ impl VisitMut for Strip {
                         Some(v) => v,
                         None => continue,
                     };
-                    stmts.push(Stmt::Decl(decl).into());
+                    stmts.extend(decl.map(Stmt::Decl).map(ModuleItem::Stmt));
                     stmts.push(init.into())
                 }
 
