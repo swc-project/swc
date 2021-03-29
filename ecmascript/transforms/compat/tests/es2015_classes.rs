@@ -6062,3 +6062,94 @@ const obj = new OtherClass();
 expect(obj.anotherMethod()).toBe(2);
 "#
 );
+
+test!(
+    syntax(),
+    |_| classes(),
+    issue_1490_1,
+    "
+    class ColouredCanvasElement extends CanvasElement {
+      createFacets(hidden) {
+        hidden = super.createFacets(hidden);
+      }
+    }
+    ",
+    "
+    let ColouredCanvasElement = function (CanvasElement) {
+        'use strict';
+        _inherits(ColouredCanvasElement, CanvasElement);
+        function ColouredCanvasElement() {
+            _classCallCheck(this, ColouredCanvasElement);
+            return _possibleConstructorReturn(this, \
+     _getPrototypeOf(ColouredCanvasElement).apply(this, arguments));
+        }
+        _createClass(ColouredCanvasElement, [
+            {
+                key: 'createFacets',
+                value: function createFacets(hidden) {
+                    hidden = _get(_getPrototypeOf(ColouredCanvasElement.prototype), \
+     'createFacets', this)(hidden);
+                }
+            }
+        ]);
+        return ColouredCanvasElement;
+    }(CanvasElement);
+    "
+);
+
+test!(
+    syntax(),
+    |_| classes(),
+    issue_1490_2,
+    "
+    var CanvasElement = function (Element1) {
+        _inherits(CanvasElement, Element1);
+        function CanvasElement() {
+            _classCallCheck(this, CanvasElement);
+            return _possibleConstructorReturn(this, _getPrototypeOf(CanvasElement).apply(this, \
+     arguments));
+        }
+        _createClass(CanvasElement, [
+            {
+                key: 'createFacets',
+                value: function createFacets(hidden) {
+                    var childElements = _get(_getPrototypeOf(CanvasElement.prototype), \
+     'getChildElements', this)();
+                }
+            }
+        ]);
+        return CanvasElement;
+    }(_wrapNativeSuper(Element1));
+    ",
+    ""
+);
+
+test!(
+    syntax(),
+    |_| classes(),
+    issue_1490_3,
+    "
+    class Element {
+      getChildElements() {
+        return this.childElements;
+      }
+    }
+    ",
+    "
+    let Element1 = function () {
+      'use strict';
+      function Element1() {
+          _classCallCheck(this, Element1);
+      }
+      _createClass(Element1, [
+          {
+              key: 'getChildElements',
+              value: function getChildElements() {
+                  return _get(_getPrototypeOf(Element1.prototype), 'childElements', this)
+              }
+          }
+      ]);
+      return Element1;
+  }();
+    "
+);
