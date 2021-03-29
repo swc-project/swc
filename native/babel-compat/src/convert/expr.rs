@@ -1,8 +1,7 @@
 use super::Context;
 use crate::ast::{
     common::{
-        SpreadElement as BabelSpreadElement, PrivateName, LVal, Identifier, Callee, Arg,
-        MetaProperty,
+        SpreadElement as BabelSpreadElement, PrivateName, LVal, Callee, Arg, MetaProperty,
     },
     expr::{
         Expression, ThisExpression, ArrayExpression, ArrayExprEl, ObjectExpression, ObjectExprProp,

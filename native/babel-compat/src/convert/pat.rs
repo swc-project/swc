@@ -7,6 +7,7 @@ use crate::ast::{
         Pattern, ArrayPattern, ObjectPattern, ObjectPatternProp, AssignmentPattern,
         AssignmentPatternLeft,
     },
+    stmt::CatchClauseParam,
 };
 use crate::convert::Babelify;
 use swc_ecma_ast::{
@@ -116,6 +117,17 @@ impl From<PatOutput> for Param {
             PatOutput::Id(i) => Param::Id(i),
             PatOutput::Rest(r) => Param::Rest(r),
             other => other.into(),
+        }
+    }
+}
+
+impl From<PatOutput> for CatchClauseParam {
+    fn from(pat: PatOutput) -> Self {
+        match pat {
+            PatOutput::Id(i) => CatchClauseParam::Id(i),
+            PatOutput::Array(a) => CatchClauseParam::Array(a),
+            PatOutput::Object(o) => CatchClauseParam::Object(o),
+            _ => panic!("illegal conversion"),
         }
     }
 }
