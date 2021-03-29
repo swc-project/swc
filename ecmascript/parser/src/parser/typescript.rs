@@ -2382,6 +2382,8 @@ impl<I: Tokens> Parser<I> {
             p.ts_in_no_context(|p| {
                 expect!(p, '<');
                 p.parse_ts_delimited_list(ParsingContext::TypeParametersOrArguments, |p| {
+                    trace_cur!(p, parse_ts_type_args__arg);
+
                     p.parse_ts_type()
                 })
             })
