@@ -3624,3 +3624,23 @@ to!(
 ",
     ""
 );
+
+to!(
+    issue_1515_3,
+    "
+    export namespace A {
+        export class B extends A {}
+    }
+    export enum A {}
+",
+    ""
+);
+
+to!(
+    issue_1515_4,
+    "
+    export class A {}
+    export enum A {}
+",
+    ""
+);
