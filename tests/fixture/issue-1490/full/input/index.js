@@ -32,4 +32,4 @@ const bugExample = () => {
     colouredSquare.createFacets(hidden);
 }
 
-export default bugExample;
+bugExample()
