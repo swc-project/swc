@@ -3606,12 +3606,21 @@ to!(
 to!(
     issue_1515_1,
     "
-    namespace A {
-        class B extends A {}
+    export class A {}
+    export namespace A {
+        export class B extends A {}
     }
-    class A {}
 ",
-    ""
+    "
+    export class A {
+    }
+    (function(A1) {
+        class B extends A {
+        }
+        A1.B = B;
+    })(A || (A = {
+    }));
+    "
 );
 
 to!(
@@ -3620,27 +3629,33 @@ to!(
     export namespace A {
         export class B extends A {}
     }
-    export class A {}
+    export enum A {}
 ",
-    ""
+    "
+    export var A;
+    (function(A1) {
+        class B extends A {
+        }
+        A1.B = B;
+    })(A || (A = {
+    }));
+    (function(A) {
+    })(A || (A = {
+    }));
+    "
 );
 
 to!(
     issue_1515_3,
     "
-    export namespace A {
-        export class B extends A {}
-    }
-    export enum A {}
-",
-    ""
-);
-
-to!(
-    issue_1515_4,
-    "
     export class A {}
     export enum A {}
 ",
-    ""
+    "
+    export class A {
+    }
+    (function(A) {
+    })(A || (A = {
+    }));
+    "
 );
