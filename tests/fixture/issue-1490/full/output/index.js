@@ -148,7 +148,7 @@ var Element1 = function () {
         {
             key: "getChildElements",
             value: function getChildElements() {
-                return _get(_getPrototypeOf(Element1.prototype), "childElements", this)
+                return this.childElements;
             }
         }
     ]);
@@ -164,7 +164,7 @@ var CanvasElement = function (Element1) {
         {
             key: "createFacets",
             value: function createFacets(hidden) {
-                var childElements = _get(_getPrototypeOf(CanvasElement.prototype), "getChildElements", this)(); ///
+                var childElements = this.getChildElements();
             }
         }
     ]);
@@ -180,7 +180,7 @@ var ColouredCanvasElement = function (CanvasElement) {
         {
             key: "createFacets",
             value: function createFacets(hidden) {
-                hidden = _get(_getPrototypeOf(ColouredCanvasElement.prototype), "createFacets", this)(hidden); ///
+                hidden = _get(_getPrototypeOf(ColouredCanvasElement.prototype), "createFacets", this).call(this, hidden); ///
             }
         }
     ]);
