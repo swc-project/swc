@@ -6096,3 +6096,37 @@ test!(
     }(CanvasElement);
     "
 );
+
+test!(
+    syntax(),
+    |_| classes(),
+    issue_1490_2,
+    "
+  class ColouredCanvasElement extends CanvasElement {
+    createFacets(hidden) {
+      super.createFacets(hidden);
+    }
+  }
+  ",
+    "
+  let ColouredCanvasElement = function (CanvasElement) {
+      'use strict';
+      _inherits(ColouredCanvasElement, CanvasElement);
+      function ColouredCanvasElement() {
+          _classCallCheck(this, ColouredCanvasElement);
+          return _possibleConstructorReturn(this, \
+     _getPrototypeOf(ColouredCanvasElement).apply(this, arguments));
+      }
+      _createClass(ColouredCanvasElement, [
+          {
+              key: 'createFacets',
+              value: function createFacets(hidden) {
+                  _get(_getPrototypeOf(ColouredCanvasElement.prototype), 'createFacets', \
+     this).call(this, hidden);
+              }
+          }
+      ]);
+      return ColouredCanvasElement;
+  }(CanvasElement);
+  "
+);
