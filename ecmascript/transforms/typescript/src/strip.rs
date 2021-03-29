@@ -92,7 +92,7 @@ struct Strip {
 
 impl Strip {
     /// Creates an uninitialized variable if `name` is not in scope.
-    fn create_uninit_var(&mut self, span: Span, name: &Id) -> Option<VarDeclarator> {
+    fn create_uninit_var(&mut self, span: Span, name: Id) -> Option<VarDeclarator> {
         if !self.decl_names.insert(name.clone()) {
             return None;
         }
@@ -100,7 +100,7 @@ impl Strip {
         Some(VarDeclarator {
             span,
             name: Pat::Ident(BindingIdent {
-                id: Ident::new(name.0.clone(), DUMMY_SP.with_ctxt(name.1)),
+                id: Ident::new(name.0, DUMMY_SP.with_ctxt(name.1)),
                 type_ann: None,
             }),
             init: None,
@@ -1433,7 +1433,7 @@ impl VisitMut for Strip {
                     //     Foo[Foo["a"] = 0] = "a";
                     // })(Foo || (Foo = {}));
 
-                    if let Some(var) = self.create_uninit_var(e.span, &e.id.to_id()) {
+                    if let Some(var) = self.create_uninit_var(e.span, e.id.to_id()) {
                         stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
@@ -1646,20 +1646,17 @@ impl VisitMut for Strip {
                     decl: Decl::TsEnum(e),
                     ..
                 })) => {
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                        span: e.span,
-                        decl: Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            declare: false,
-                            decls: vec![VarDeclarator {
-                                span: e.span,
-                                name: Pat::Ident(e.id.clone().into()),
-                                definite: false,
-                                init: None,
-                            }],
-                        }),
-                    })));
+                    if let Some(var) = self.create_uninit_var(e.span, e.id.to_id()) {
+                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                            span: e.span,
+                            decl: Decl::Var(VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Var,
+                                declare: false,
+                                decls: vec![var],
+                            }),
+                        })));
+                    }
 
                     self.handle_enum(e, &mut stmts)
                 }
