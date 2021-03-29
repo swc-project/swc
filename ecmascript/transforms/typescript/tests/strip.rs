@@ -3602,3 +3602,25 @@ to!(
     A[_key1] = 2;
     "
 );
+
+to!(
+    issue_1515_1,
+    "
+    namespace A {
+        class B extends A {}
+    }
+    class A {}
+",
+    ""
+);
+
+to!(
+    issue_1515_2,
+    "
+    export namespace A {
+        export class B extends A {}
+    }
+    export class A {}
+",
+    ""
+);
