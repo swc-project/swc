@@ -1,4 +1,5 @@
 use fxhash::FxHashMap;
+use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use std::{borrow::Borrow, mem::take};
 use swc_atoms::{js_word, JsWord};
@@ -77,6 +78,35 @@ struct Strip {
     is_side_effect_import: bool,
     is_type_only_export: bool,
     uninitialized_vars: Vec<VarDeclarator>,
+
+    /// Names of top-level declarations.
+    /// This is used to prevent emittnig a variable with same name multiple
+    /// name.
+    ///
+    /// If an identifier is in this list, thre [VisitMut] impl should not add a
+    /// varaible with it.
+    ///
+    /// This field is filled by [Visit] impl and [VisitMut] impl.
+    decl_names: FxHashSet<Id>,
+}
+
+impl Strip {
+    /// Creates an uninitialized variable if `name` is not in scope.
+    fn create_uninit_var(&mut self, span: Span, name: &Id) -> Option<VarDeclarator> {
+        if !self.decl_names.insert(name.clone()) {
+            return None;
+        }
+
+        Some(VarDeclarator {
+            span,
+            name: Pat::Ident(BindingIdent {
+                id: Ident::new(name.0.clone(), DUMMY_SP.with_ctxt(name.1)),
+                type_ann: None,
+            }),
+            init: None,
+            definite: false,
+        })
+    }
 }
 
 #[derive(Default)]
@@ -1109,6 +1139,12 @@ impl Visit for Strip {
             .and_modify(|v| v.has_concrete |= !is_type_only_export);
 
         n.visit_children_with(self);
+    }
+
+    fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        self.decl_names.insert(n.ident.to_id());
     }
 
     fn visit_decl(&mut self, n: &Decl, _: &dyn Node) {
