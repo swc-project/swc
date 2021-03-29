@@ -307,6 +307,8 @@ impl<'a, I: Tokens> Parser<I> {
         } else {
             None
         };
+        // Allow `private declare`.
+        let declare = declare || self.syntax().typescript() && eat!(self, "declare");
 
         if declare && accessibility.is_none() {
             // Handle declare(){}
@@ -438,14 +440,30 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         let (is_abstract, readonly) = match modifier {
-            Some("abstract") => (true, self.parse_ts_modifier(&["readonly"])?.is_some()),
-            Some("readonly") => (self.parse_ts_modifier(&["abstract"])?.is_some(), true),
-            _ => (false, false),
+            Some("abstract") => {
+                let readonly_span = self.input.cur_span();
+                (
+                    true,
+                    if self.parse_ts_modifier(&["readonly"])?.is_some() {
+                        Some(readonly_span)
+                    } else {
+                        None
+                    },
+                )
+            }
+            Some("readonly") => {
+                let readonly_span = self.input.prev_span();
+                (
+                    self.parse_ts_modifier(&["abstract"])?.is_some(),
+                    Some(readonly_span),
+                )
+            }
+            _ => (false, None),
         };
 
         if self.input.syntax().typescript() && !is_abstract && !is_static && accessibility.is_none()
         {
-            let idx = self.try_parse_ts_index_signature(start, readonly)?;
+            let idx = self.try_parse_ts_index_signature(start, readonly.is_some())?;
             if let Some(idx) = idx {
                 return Ok(idx.into());
             }
@@ -454,7 +472,7 @@ impl<'a, I: Tokens> Parser<I> {
         if eat!(self, '*') {
             // generator method
             let key = self.parse_class_prop_name()?;
-            if readonly {
+            if readonly.is_some() {
                 self.emit_err(span!(self, start), SyntaxError::ReadOnlyMethod);
             }
             if is_constructor(&key) {
@@ -479,7 +497,14 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         trace_cur!(self, parse_class_member_with_is_static__normal_class_member);
-        let mut key = self.parse_class_prop_name()?;
+        let mut key = if readonly.is_some() && is_one_of!(self, '!', ':') {
+            Either::Right(PropName::Ident(Ident::new(
+                "readonly".into(),
+                readonly.unwrap(),
+            )))
+        } else {
+            self.parse_class_prop_name()?
+        };
         let is_optional = self.input.syntax().typescript() && eat!(self, '?');
 
         let is_private = match key {
@@ -501,7 +526,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             trace_cur!(self, parse_class_member_with_is_static__normal_class_method);
 
-            if readonly {
+            if readonly.is_some() {
                 syntax_error!(self, span!(self, start), SyntaxError::ReadOnlyMethod);
             }
             let is_constructor = is_constructor(&key);
@@ -613,7 +638,7 @@ impl<'a, I: Tokens> Parser<I> {
                 key,
                 is_static,
                 is_optional,
-                readonly,
+                readonly.is_some(),
                 declare,
                 is_abstract,
             );
@@ -631,7 +656,7 @@ impl<'a, I: Tokens> Parser<I> {
             if is_constructor(&key) {
                 syntax_error!(self, key.span(), SyntaxError::AsyncConstructor)
             }
-            if readonly {
+            if readonly.is_some() {
                 syntax_error!(self, span!(self, start), SyntaxError::ReadOnlyMethod);
             }
 
@@ -665,7 +690,7 @@ impl<'a, I: Tokens> Parser<I> {
                 // handle get foo(){} / set foo(v){}
                 let key = self.parse_class_prop_name()?;
 
-                if readonly {
+                if readonly.is_some() {
                     self.emit_err(key_span, SyntaxError::GetterSetterCannotBeReadonly);
                 }
 
