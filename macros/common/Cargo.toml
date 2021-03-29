@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_macros_common"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.3.2"
+version = "0.3.3"
 
 [dependencies]
 pmutil = "0.5.1"
@@ -15,4 +15,4 @@ quote = "1"
 
 [dependencies.syn]
 features = ["derive", "visit", "parsing", "full", "printing", "extra-traits"]
-version = "1"
+version = "=1.0.65"

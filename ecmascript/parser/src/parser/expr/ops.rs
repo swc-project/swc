@@ -7,23 +7,29 @@ use swc_common::Spanned;
 impl<'a, I: Tokens> Parser<I> {
     /// Name from spec: 'LogicalORExpression'
     pub(super) fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
+        trace_cur!(self, parse_bin_expr);
+
         let ctx = self.ctx();
 
         let left = match self.parse_unary_expr() {
             Ok(v) => v,
-            Err(err) => match cur!(self, true)? {
-                &Word(Word::Keyword(Keyword::In)) if ctx.include_in_expr => {
-                    self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
+            Err(err) => {
+                trace_cur!(self, parse_bin_expr__recovery_unary_err);
 
-                    Box::new(Expr::Invalid(Invalid { span: err.span() }))
-                }
-                &Word(Word::Keyword(Keyword::InstanceOf)) | &Token::BinOp(..) => {
-                    self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
+                match cur!(self, true)? {
+                    &Word(Word::Keyword(Keyword::In)) if ctx.include_in_expr => {
+                        self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
 
-                    Box::new(Expr::Invalid(Invalid { span: err.span() }))
+                        Box::new(Expr::Invalid(Invalid { span: err.span() }))
+                    }
+                    &Word(Word::Keyword(Keyword::InstanceOf)) | &Token::BinOp(..) => {
+                        self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
+
+                        Box::new(Expr::Invalid(Invalid { span: err.span() }))
+                    }
+                    _ => return Err(err),
                 }
-                _ => return Err(err),
-            },
+            }
         };
 
         return_if_arrow!(self, left);
@@ -222,6 +228,7 @@ impl<'a, I: Tokens> Parser<I> {
     ///
     /// spec: 'UnaryExpression'
     pub(in crate::parser) fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
+        trace_cur!(self, parse_unary_expr);
         let start = cur_pos!(self);
 
         if !self.input.syntax().jsx() && self.input.syntax().typescript() && eat!(self, '<') {

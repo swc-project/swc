@@ -1232,3 +1232,35 @@ fn issue_1279() {
         },
     );
 }
+
+#[test]
+fn issue_1507() {
+    test_module(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            Ok(tester
+                .parse_module(
+                    "actual1.js",
+                    "class Foo {
+                        method() {
+                            const cls = class Foo {}
+                        }
+                    }",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("Foo", &[mark1, mark2])])))
+        },
+        "
+        let Foo = class Foo {
+            method() {
+                const cls = class Foo {
+                };
+            }
+        };
+        ",
+        Config {
+            keep_class_names: true,
+        },
+    );
+}

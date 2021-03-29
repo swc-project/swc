@@ -113,6 +113,8 @@ impl<I: Tokens> Parser<I> {
         let mut buf = vec![];
 
         loop {
+            trace_cur!(self, parse_ts_delimited_list_inner__element);
+
             if self.is_ts_list_terminator(kind)? {
                 break;
             }
@@ -225,6 +227,7 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseTypeReference`
     fn parse_ts_type_ref(&mut self) -> PResult<TsTypeRef> {
+        trace_cur!(self, parse_ts_type_ref);
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
@@ -232,6 +235,7 @@ impl<I: Tokens> Parser<I> {
         let has_modifier = self.eat_any_ts_modifier()?;
 
         let type_name = self.parse_ts_entity_name(/* allow_reserved_words */ true)?;
+        trace_cur!(self, parse_ts_type_ref__type_args);
         let type_params = if !self.input.had_line_break_before_cur() && is!(self, '<') {
             Some(self.parse_ts_type_args()?)
         } else {
@@ -466,13 +470,14 @@ impl<I: Tokens> Parser<I> {
         if !self.input.syntax().typescript() {
             return Ok(false);
         }
+        let prev_emit_err = self.emit_err;
         let mut cloned = self.clone();
         cloned.emit_err = false;
         let res = op(&mut cloned);
         match res {
             Ok(Some(res)) if res => {
                 *self = cloned;
-                self.emit_err = true;
+                self.emit_err = prev_emit_err;
                 Ok(res)
             }
             Err(err) => Ok(false),
@@ -488,17 +493,30 @@ impl<I: Tokens> Parser<I> {
         if !self.input.syntax().typescript() {
             return None;
         }
+        trace_cur!(self, try_parse_ts);
+        let prev_emit_err = self.emit_err;
+
         let mut cloned = self.clone();
         cloned.emit_err = false;
         let res = op(&mut cloned);
         match res {
             Ok(Some(res)) => {
                 *self = cloned;
-                self.emit_err = true;
+                trace_cur!(self, try_parse_ts__success_value);
+
+                self.emit_err = prev_emit_err;
                 Some(res)
             }
-            Ok(None) => None,
-            Err(..) => None,
+            Ok(None) => {
+                trace_cur!(self, try_parse_ts__success_no_value);
+
+                None
+            }
+            Err(..) => {
+                trace_cur!(self, try_parse_ts__fail);
+
+                None
+            }
         }
     }
 
@@ -1751,6 +1769,7 @@ impl<I: Tokens> Parser<I> {
     /// `tsParseNonArrayType`
     #[allow(clippy::cognitive_complexity)]
     fn parse_ts_non_array_type(&mut self) -> PResult<Box<TsType>> {
+        trace_cur!(self, parse_ts_non_array_type);
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
@@ -1901,6 +1920,7 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseArrayTypeOrHigher`
     fn parse_ts_array_type_or_higher(&mut self, readonly: bool) -> PResult<Box<TsType>> {
+        trace_cur!(self, parse_ts_array_type_or_higher);
         debug_assert!(self.input.syntax().typescript());
 
         let mut ty = self.parse_ts_non_array_type()?;
@@ -1966,6 +1986,7 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseTypeOperatorOrHigher`
     fn parse_ts_type_operator_or_higher(&mut self) -> PResult<Box<TsType>> {
+        trace_cur!(self, parse_ts_type_operator_or_higher);
         debug_assert!(self.input.syntax().typescript());
 
         let operator = if is!(self, "keyof") {
@@ -1984,6 +2005,8 @@ impl<I: Tokens> Parser<I> {
                 .map(TsType::from)
                 .map(Box::new),
             None => {
+                trace_cur!(self, parse_ts_type_operator_or_higher__not_operator);
+
                 if is!(self, "infer") {
                     self.parse_ts_infer_type().map(TsType::from).map(Box::new)
                 } else {
@@ -2363,6 +2386,7 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseTypeArguments`
     pub fn parse_ts_type_args(&mut self) -> PResult<TsTypeParamInstantiation> {
+        trace_cur!(self, parse_ts_type_args);
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
@@ -2372,6 +2396,8 @@ impl<I: Tokens> Parser<I> {
             p.ts_in_no_context(|p| {
                 expect!(p, '<');
                 p.parse_ts_delimited_list(ParsingContext::TypeParametersOrArguments, |p| {
+                    trace_cur!(p, parse_ts_type_args__arg);
+
                     p.parse_ts_type()
                 })
             })
@@ -2389,6 +2415,8 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseIntersectionTypeOrHigher`
     fn parse_ts_intersection_type_or_higher(&mut self) -> PResult<Box<TsType>> {
+        trace_cur!(self, parse_ts_intersection_type_or_higher);
+
         debug_assert!(self.input.syntax().typescript());
 
         self.parse_ts_union_or_intersection_type(
@@ -2400,6 +2428,7 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseUnionTypeOrHigher`
     fn parse_ts_union_type_or_higher(&mut self) -> PResult<Box<TsType>> {
+        trace_cur!(self, parse_ts_union_type_or_higher);
         debug_assert!(self.input.syntax().typescript());
 
         self.parse_ts_union_or_intersection_type(
@@ -2419,16 +2448,23 @@ impl<I: Tokens> Parser<I> {
     where
         F: FnMut(&mut Self) -> PResult<Box<TsType>>,
     {
+        trace_cur!(self, parse_ts_union_or_intersection_type);
+
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self); // include the leading operator in the start
         self.input.eat(operator);
+        trace_cur!(self, parse_ts_union_or_intersection_type__first_type);
 
         let ty = parse_constituent_type(self)?;
+        trace_cur!(self, parse_ts_union_or_intersection_type__after_first);
+
         if self.input.is(&operator) {
             let mut types = vec![ty];
 
             while self.input.eat(operator) {
+                trace_cur!(self, parse_ts_union_or_intersection_type__constituent);
+
                 types.push(parse_constituent_type(self)?);
             }
 

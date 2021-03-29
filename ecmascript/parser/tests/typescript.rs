@@ -10,7 +10,7 @@ use std::{
     path::{Path, PathBuf},
 };
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, JscTarget, PResult, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_visit::FoldWith;
 use testing::StdErr;
 
@@ -168,7 +168,7 @@ where
                 no_early_errors,
                 ..Default::default()
             }),
-            JscTarget::Es2015,
+            EsVersion::Es2015,
             (&*fm).into(),
             None,
         );

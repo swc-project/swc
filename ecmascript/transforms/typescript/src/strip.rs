@@ -1,4 +1,5 @@
 use fxhash::FxHashMap;
+use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use std::{borrow::Borrow, mem::take};
 use swc_atoms::{js_word, JsWord};
@@ -77,6 +78,35 @@ struct Strip {
     is_side_effect_import: bool,
     is_type_only_export: bool,
     uninitialized_vars: Vec<VarDeclarator>,
+
+    /// Names of top-level declarations.
+    /// This is used to prevent emittnig a variable with same name multiple
+    /// name.
+    ///
+    /// If an identifier is in this list, thre [VisitMut] impl should not add a
+    /// varaible with it.
+    ///
+    /// This field is filled by [Visit] impl and [VisitMut] impl.
+    decl_names: FxHashSet<Id>,
+}
+
+impl Strip {
+    /// Creates an uninitialized variable if `name` is not in scope.
+    fn create_uninit_var(&mut self, span: Span, name: Id) -> Option<VarDeclarator> {
+        if !self.decl_names.insert(name.clone()) {
+            return None;
+        }
+
+        Some(VarDeclarator {
+            span,
+            name: Pat::Ident(BindingIdent {
+                id: Ident::new(name.0, DUMMY_SP.with_ctxt(name.1)),
+                type_ann: None,
+            }),
+            init: None,
+            definite: false,
+        })
+    }
 }
 
 #[derive(Default)]
@@ -865,10 +895,11 @@ impl Strip {
     }
 
     /// Returns `(var_decl, init)`.
-    fn handle_ts_module(&mut self, module: TsModuleDecl) -> Option<(Decl, Stmt)> {
+    fn handle_ts_module(&mut self, module: TsModuleDecl) -> Option<(Option<Decl>, Stmt)> {
         if module.global {
             return None;
         }
+        let module_span = module.span;
 
         let module_name = match module.id {
             TsModuleName::Ident(i) => i,
@@ -882,12 +913,7 @@ impl Strip {
 
         let mut init_stmts = vec![];
 
-        let var = VarDeclarator {
-            span: module_name.span,
-            name: Pat::Ident(module_name.clone().into()),
-            init: None,
-            definite: false,
-        };
+        let var = self.create_uninit_var(module_name.span, module_name.to_id());
 
         // This makes body valid javascript.
         body.body.visit_mut_with(self);
@@ -1086,11 +1112,13 @@ impl Strip {
         }));
 
         Some((
-            Decl::Var(VarDecl {
-                span: module.span,
-                kind: VarDeclKind::Var,
-                declare: false,
-                decls: vec![var],
+            var.map(|var| {
+                Decl::Var(VarDecl {
+                    span: module_span,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: vec![var],
+                })
             }),
             Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
@@ -1109,6 +1137,12 @@ impl Visit for Strip {
             .and_modify(|v| v.has_concrete |= !is_type_only_export);
 
         n.visit_children_with(self);
+    }
+
+    fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        self.decl_names.insert(n.ident.to_id());
     }
 
     fn visit_decl(&mut self, n: &Decl, _: &dyn Node) {
@@ -1387,7 +1421,7 @@ impl VisitMut for Strip {
                         Some(v) => v,
                         None => continue,
                     };
-                    stmts.push(Stmt::Decl(decl));
+                    stmts.extend(decl.map(Stmt::Decl));
                     stmts.push(init)
                 }
 
@@ -1397,17 +1431,15 @@ impl VisitMut for Strip {
                     //     Foo[Foo["a"] = 0] = "a";
                     // })(Foo || (Foo = {}));
 
-                    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        declare: false,
-                        decls: vec![VarDeclarator {
-                            span: e.span,
-                            name: Pat::Ident(e.id.clone().into()),
-                            definite: false,
-                            init: None,
-                        }],
-                    })));
+                    if let Some(var) = self.create_uninit_var(e.span, e.id.to_id()) {
+                        stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            declare: false,
+                            decls: vec![var],
+                        })));
+                    }
+
                     self.handle_enum(e, &mut stmts)
                 }
 
@@ -1521,10 +1553,10 @@ impl VisitMut for Strip {
                         Some(v) => v,
                         None => continue,
                     };
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                        span,
-                        decl,
-                    })));
+
+                    stmts.extend(decl.map(|decl| {
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { span, decl }))
+                    }));
                     stmts.push(init.into())
                 }
 
@@ -1533,7 +1565,7 @@ impl VisitMut for Strip {
                         Some(v) => v,
                         None => continue,
                     };
-                    stmts.push(Stmt::Decl(decl).into());
+                    stmts.extend(decl.map(Stmt::Decl).map(ModuleItem::Stmt));
                     stmts.push(init.into())
                 }
 
@@ -1612,20 +1644,17 @@ impl VisitMut for Strip {
                     decl: Decl::TsEnum(e),
                     ..
                 })) => {
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                        span: e.span,
-                        decl: Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            declare: false,
-                            decls: vec![VarDeclarator {
-                                span: e.span,
-                                name: Pat::Ident(e.id.clone().into()),
-                                definite: false,
-                                init: None,
-                            }],
-                        }),
-                    })));
+                    if let Some(var) = self.create_uninit_var(e.span, e.id.to_id()) {
+                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                            span: e.span,
+                            decl: Decl::Var(VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Var,
+                                declare: false,
+                                decls: vec![var],
+                            }),
+                        })));
+                    }
 
                     self.handle_enum(e, &mut stmts)
                 }
@@ -1635,20 +1664,17 @@ impl VisitMut for Strip {
                     //     Foo[Foo["a"] = 0] = "a";
                     // })(Foo || (Foo = {}));
 
-                    stmts.push(
-                        Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            declare: false,
-                            decls: vec![VarDeclarator {
-                                span: e.span,
-                                name: Pat::Ident(e.id.clone().into()),
-                                definite: false,
-                                init: None,
-                            }],
-                        }))
-                        .into(),
-                    );
+                    if let Some(var) = self.create_uninit_var(e.span, e.id.to_id()) {
+                        stmts.push(
+                            Stmt::Decl(Decl::Var(VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Var,
+                                declare: false,
+                                decls: vec![var],
+                            }))
+                            .into(),
+                        );
+                    }
                     self.handle_enum(e, &mut stmts)
                 }
 

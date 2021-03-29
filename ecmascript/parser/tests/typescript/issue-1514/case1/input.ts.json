@@ -1,0 +1,91 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 49,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 0,
+        "end": 49,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 13,
+            "end": 22,
+            "ctxt": 0
+          },
+          "value": "ClassProp",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 7,
+          "end": 49,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "ClassProperty",
+            "span": {
+              "start": 29,
+              "end": 47,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 29,
+                "end": 37,
+                "ctxt": 0
+              },
+              "value": "readonly",
+              "optional": false
+            },
+            "value": null,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 38,
+                "end": 47,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 40,
+                  "end": 47,
+                  "ctxt": 0
+                },
+                "kind": "boolean"
+              }
+            },
+            "isStatic": false,
+            "decorators": [],
+            "computed": false,
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false,
+            "readonly": true,
+            "declare": false,
+            "definite": true
+          }
+        ],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    }
+  ],
+  "interpreter": null
+}
