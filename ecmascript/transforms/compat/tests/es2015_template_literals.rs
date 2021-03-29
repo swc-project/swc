@@ -928,3 +928,15 @@ test!(
     ",
     ok_if_code_eq
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1488_1,
+    "
+    `\\``
+    ",
+    "
+    '`'
+    "
+);
