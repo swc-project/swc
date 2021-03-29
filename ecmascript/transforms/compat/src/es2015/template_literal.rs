@@ -39,7 +39,25 @@ impl Fold for TemplateLiteral {
                 // TODO: Optimize
 
                 // This makes result of addition string
-                let mut obj: Box<Expr> = Box::new(Lit::Str(quasis[0].raw.clone()).into());
+                let mut obj: Box<Expr> = Box::new(
+                    Lit::Str({
+                        let mut s = quasis[0]
+                            .cooked
+                            .clone()
+                            .unwrap_or_else(|| quasis[0].raw.clone());
+
+                        // See https://github.com/swc-project/swc/issues/1488
+                        //
+                        // This is hack to prevent '\\`'. Hack is used to avoid breaking
+                        // change of ast crate.
+                        if s.value.contains("`") {
+                            s.kind = Default::default();
+                        }
+
+                        s
+                    })
+                    .into(),
+                );
 
                 let len = quasis.len() + exprs.len();
 
@@ -60,7 +78,6 @@ impl Fold for TemplateLiteral {
                         match quasis.next() {
                             Some(TplElement { cooked, raw, .. }) => {
                                 let mut s = cooked.unwrap_or_else(|| raw);
-
                                 // See https://github.com/swc-project/swc/issues/1488
                                 //
                                 // This is hack to prevent '\\`'. Hack is used to avoid breaking
