@@ -224,6 +224,7 @@ impl<'a, I: Tokens> Parser<I> {
     ///
     /// spec: 'UnaryExpression'
     pub(in crate::parser) fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
+        trace_cur!(self, parse_unary_expr);
         let start = cur_pos!(self);
 
         if !self.input.syntax().jsx() && self.input.syntax().typescript() && eat!(self, '<') {
