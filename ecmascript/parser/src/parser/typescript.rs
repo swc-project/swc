@@ -492,17 +492,29 @@ impl<I: Tokens> Parser<I> {
         if !self.input.syntax().typescript() {
             return None;
         }
+        trace_cur!(self, try_parse_ts);
+
         let mut cloned = self.clone();
         cloned.emit_err = false;
         let res = op(&mut cloned);
         match res {
             Ok(Some(res)) => {
                 *self = cloned;
+                trace_cur!(self, try_parse_ts__success_value);
+
                 self.emit_err = true;
                 Some(res)
             }
-            Ok(None) => None,
-            Err(..) => None,
+            Ok(None) => {
+                trace_cur!(self, try_parse_ts__success_no_value);
+
+                None
+            }
+            Err(..) => {
+                trace_cur!(self, try_parse_ts__fail);
+
+                None
+            }
         }
     }
 
