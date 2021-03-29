@@ -98,7 +98,7 @@ fn spec(file: PathBuf) {
         );
     }
 
-    with_parser(is_backtrace_enabled(), &file, false, |p| {
+    with_parser(is_backtrace_enabled(), &file, true, |p| {
         let program = p.parse_program()?.fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
