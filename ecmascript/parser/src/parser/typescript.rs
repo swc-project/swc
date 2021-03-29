@@ -227,6 +227,7 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseTypeReference`
     fn parse_ts_type_ref(&mut self) -> PResult<TsTypeRef> {
+        trace_cur!(self, parse_ts_type_ref);
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
@@ -234,6 +235,7 @@ impl<I: Tokens> Parser<I> {
         let has_modifier = self.eat_any_ts_modifier()?;
 
         let type_name = self.parse_ts_entity_name(/* allow_reserved_words */ true)?;
+        trace_cur!(self, parse_ts_type_ref__type_args);
         let type_params = if !self.input.had_line_break_before_cur() && is!(self, '<') {
             Some(self.parse_ts_type_args()?)
         } else {
