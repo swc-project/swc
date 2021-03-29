@@ -2372,6 +2372,7 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseTypeArguments`
     pub fn parse_ts_type_args(&mut self) -> PResult<TsTypeParamInstantiation> {
+        trace_cur!(self, parse_ts_type_args);
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
