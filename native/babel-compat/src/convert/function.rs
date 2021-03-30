@@ -2,11 +2,11 @@ use super::Context;
 use crate::ast::{
     common::{Param as BabelParam, Identifier, RestElement},
     expr::FunctionExpression,
+    decl::FunctionDeclaration,
     pat::{Pattern, ArrayPattern, ObjectPattern, AssignmentPattern},
 };
 use crate::convert::Babelify;
 use swc_ecma_ast::{Function, Param, ParamOrTsParamProp, Pat};
-// use serde::{Serialize, Deserialize};
 
 impl Babelify for Function {
     type Output = FunctionExpression;
@@ -15,12 +15,27 @@ impl Babelify for Function {
         FunctionExpression {
             base: ctx.base(self.span),
             params: self.params.iter().map(|param| param.clone().babelify(ctx)).collect(),
-            body: self.body.unwrap().babelify(ctx), // TODO(dwoznick): unwrap()?
+            body: self.body.unwrap().babelify(ctx),
             generator: Some(self.is_generator),
             is_async: Some(self.is_async),
             type_parameters: self.type_params.map(|t| t.babelify(ctx).into()),
             return_type: self.return_type.map(|t| t.babelify(ctx).into()),
             id: None,
+        }
+    }
+}
+
+impl From<FunctionExpression> for FunctionDeclaration {
+    fn from(expr: FunctionExpression) -> Self {
+        FunctionDeclaration {
+            base: expr.base,
+            id: expr.id,
+            params: expr.params,
+            body: expr.body,
+            generator: expr.generator,
+            is_async: expr.is_async,
+            return_type: expr.return_type,
+            type_parameters: expr.type_parameters,
         }
     }
 }

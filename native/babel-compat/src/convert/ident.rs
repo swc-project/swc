@@ -2,7 +2,6 @@ use super::Context;
 use crate::ast::common::{Identifier, PrivateName as BabelPrivateName};
 use crate::convert::Babelify;
 use swc_ecma_ast::{BindingIdent, Ident, PrivateName};
-// use serde::{Serialize, Deserialize};
 
 impl Babelify for BindingIdent {
     type Output = Identifier;
@@ -14,14 +13,6 @@ impl Babelify for BindingIdent {
         }
     }
 }
-
-// pub struct BindingIdent {
-//     #[span]
-//     #[serde(flatten)]
-//     pub id: Ident,
-//     #[serde(default, rename = "typeAnnotation")]
-//     pub type_ann: Option<TsTypeAnn>,
-// }
 
 impl Babelify for Ident {
     type Output = Identifier;
