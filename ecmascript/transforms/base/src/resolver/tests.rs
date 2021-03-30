@@ -2355,7 +2355,10 @@ to_ts!(
     }
     ",
     "
-    
+    interface X {
+        get foo__0(): string;
+        set foo__0(v: string | number);
+    }
     "
 );
 
@@ -2368,6 +2371,9 @@ to_ts!(
     }
     ",
     "
-    
+    type Y = {
+        get bar__0(): string;
+        set bar__0(v: string | number);
+    }
     "
 );
