@@ -1,6 +1,7 @@
 use super::*;
-use swc_common::chain;
-use swc_ecma_transforms_base::hygiene::hygiene;
+use swc_common::{chain, Mark};
+use swc_ecma_transforms_base::{hygiene::hygiene, resolver::resolver_with_mark};
+use swc_ecma_transforms_module::common_js;
 use swc_ecma_transforms_testing::{test, Tester};
 fn tr(t: &mut Tester) -> impl Fold {
     chain!(
@@ -722,6 +723,463 @@ test!(
 
     _s(App, "useState{[foo, setFoo](0)}\nuseEffect{}");
     
+    _c = App;
+    
+    var _c;
+    
+    $RefreshReg$(_c, "App");
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    tr,
+    register_fn_with_hooks_2,
+    r#"
+    export function Foo() {
+      const [foo, setFoo] = useState(0);
+      React.useEffect(() => {});
+      return <h1>{foo}</h1>;
+    }
+    function Bar() {
+      const [foo, setFoo] = useState(0);
+      React.useEffect(() => {});
+      return <h1>{foo}</h1>;
+    }
+"#,
+    r#"
+    var _s = $RefreshSig$(), _s1 = $RefreshSig$();
+
+    export function Foo() {
+      _s();
+  
+      const [foo, setFoo] = useState(0);
+      React.useEffect(() => {});
+      return <h1>{foo}</h1>;
+    }
+
+    _s(Foo, "useState{[foo, setFoo](0)}\nuseEffect{}");
+  
+    _c = Foo;
+
+    function Bar() {
+      _s1();
+  
+      const [foo, setFoo] = useState(0);
+      React.useEffect(() => {});
+      return <h1>{foo}</h1>;
+    }
+
+    _s1(Bar, "useState{[foo, setFoo](0)}\nuseEffect{}");
+  
+    _c1 = Bar;
+  
+    var _c, _c1;
+  
+    $RefreshReg$(_c, "Foo");
+    $RefreshReg$(_c1, "Bar");
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    tr,
+    register_fn_expr_with_hooks,
+    r#"
+    export const A = React.memo(React.forwardRef((props, ref) => {
+      const [foo, setFoo] = useState(0);
+      React.useEffect(() => {});
+      return <h1 ref={ref}>{foo}</h1>;
+    }));
+    export const B = React.memo(React.forwardRef(function(props, ref) {
+      const [foo, setFoo] = useState(0);
+      React.useEffect(() => {});
+      return <h1 ref={ref}>{foo}</h1>;
+    }));
+    function hoc() {
+      return function Inner() {
+        const [foo, setFoo] = useState(0);
+        React.useEffect(() => {});
+        return <h1 ref={ref}>{foo}</h1>;
+      };
+    }
+    export let C = hoc();
+"#,
+    r#"
+    var _s = $RefreshSig$(), _s1 = $RefreshSig$();
+
+    export const A = React.memo(_c1 = React.forwardRef(_c = _s((props, ref) => {
+      _s();
+
+      const [foo, setFoo] = useState(0);
+      React.useEffect(() => {});
+      return <h1 ref={ref}>{foo}</h1>;
+    }, "useState{[foo, setFoo](0)}\nuseEffect{}")));
+    _c2 = A;
+    export const B = React.memo(_c4 = React.forwardRef(_c3 = _s1(function (props, ref) {
+      _s1();
+
+      const [foo, setFoo] = useState(0);
+      React.useEffect(() => {});
+      return <h1 ref={ref}>{foo}</h1>;
+    }, "useState{[foo, setFoo](0)}\nuseEffect{}")));
+    _c5 = B;
+
+    function hoc() {
+      var _s2 = $RefreshSig$();
+
+      return _s2(function Inner() {
+        _s2();
+
+        const [foo, setFoo] = useState(0);
+        React.useEffect(() => {});
+        return <h1 ref={ref}>{foo}</h1>;
+      }, "useState{[foo, setFoo](0)}\nuseEffect{}");
+    }
+
+    export let C = hoc();
+
+    var _c, _c1, _c2, _c3, _c4, _c5;
+
+    $RefreshReg$(_c, "A$React.memo$React.forwardRef");
+    $RefreshReg$(_c1, "A$React.memo");
+    $RefreshReg$(_c2, "A");
+    $RefreshReg$(_c3, "B$React.memo$React.forwardRef");
+    $RefreshReg$(_c4, "B$React.memo");
+    $RefreshReg$(_c5, "B");
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    tr,
+    register_fn_expr_with_hooks_2,
+    r#"
+  const A = function () {
+    const [foo, setFoo] = useState(0);
+  }, B = () => {
+    const [foo, setFoo] = useState(0);
+  }
+"#,
+    r#"
+  var _s = $RefreshSig$(), _s1 = $RefreshSig$();
+
+  const A = function () {
+    _s();
+    const [foo, setFoo] = useState(0);
+  }, B = () => {
+    _s1();
+    const [foo, setFoo] = useState(0);
+  }
+  // orignial implment will register _s1 first, hopefully this won't cause any trouble
+  _s(A, "useState{[foo, setFoo](0)}");
+  _s1(B, "useState{[foo, setFoo](0)}");
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    tr,
+    register_implicit_arrow_returns,
+    r#"
+    export default () => useContext(X);
+    export const Foo = () => useContext(X);
+    module.exports = () => useContext(X);
+    const Bar = () => useContext(X);
+    const Baz = memo(() => useContext(X));
+    const Qux = () => (0, useContext(X));
+"#,
+    r#"
+    var _s = $RefreshSig$(),
+    _s1 = $RefreshSig$(),
+    _s2 = $RefreshSig$(),
+    _s3 = $RefreshSig$(),
+    _s4 = $RefreshSig$(),
+    _s5 = $RefreshSig$();
+
+    export default _s(() => {
+      _s();
+
+      return useContext(X);
+    }, "useContext{}");
+    export const Foo = () => {
+      _s1();
+
+      return useContext(X);
+    };
+
+    _s1(Foo, "useContext{}");
+
+    _c = Foo;
+    module.exports = _s2(() => {
+      _s2();
+
+      return useContext(X);
+    }, "useContext{}");
+
+    const Bar = () => {
+      _s3();
+
+      return useContext(X);
+    };
+
+    _s3(Bar, "useContext{}");
+
+    _c1 = Bar;
+    const Baz = memo(_c2 = _s4(() => {
+      _s4();
+
+      return useContext(X);
+    }, "useContext{}"));
+    _c3 = Baz;
+
+    const Qux = () => {
+      _s5();
+
+      return useContext(X);
+    };
+
+    _s5(Qux, "useContext{}");
+
+    _c4 = Qux;
+
+    var _c, _c1, _c2, _c3, _c4;
+
+    $RefreshReg$(_c, "Foo");
+    $RefreshReg$(_c1, "Bar");
+    $RefreshReg$(_c2, "Baz$memo");
+    $RefreshReg$(_c3, "Baz");
+    $RefreshReg$(_c4, "Qux");
+    "#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    tr,
+    hook_signatures_should_include_custom_hook,
+    r#"
+    function useFancyState() {
+      const [foo, setFoo] = React.useState(0);
+      useFancyEffect();
+      return foo;
+    }
+    const useFancyEffect = () => {
+      React.useEffect(() => {});
+    };
+    export default function App() {
+      const bar = useFancyState();
+      return <h1>{bar}</h1>;
+    }
+"#,
+    r#"
+    var _s = $RefreshSig$(),
+    _s1 = $RefreshSig$(),
+    _s2 = $RefreshSig$();
+
+    function useFancyState() {
+      _s();
+
+      const [foo, setFoo] = React.useState(0);
+      useFancyEffect();
+      return foo;
+    }
+
+    _s(useFancyState, "useState{[foo, setFoo](0)}\nuseFancyEffect{}", false, function () {
+      return [useFancyEffect];
+    });
+
+    const useFancyEffect = () => {
+      _s1();
+
+      React.useEffect(() => {});
+    };
+
+    _s1(useFancyEffect, "useEffect{}");
+
+    export default function App() {
+      _s2();
+
+      const bar = useFancyState();
+      return <h1>{bar}</h1>;
+    }
+
+    _s2(App, "useFancyState{bar}", false, function () {
+      return [useFancyState];
+    });
+
+    _c = App;
+
+    var _c;
+
+    $RefreshReg$(_c, "App");
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(
+            hygiene(),
+            refresh(true, t.cm.clone(), Some(t.comments.clone())),
+            resolver_with_mark(mark),
+            common_js(mark, Default::default())
+        )
+    },
+    icnlude_hook_signature_in_commonjs,
+    r#"
+    import {useFancyState} from './hooks';
+    export default function App() {
+      const bar = useFancyState();
+      return <h1>{bar}</h1>;
+    }
+"#,
+    r#"
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });    
+    var _hooks = require("./hooks");
+    
+    var _s = $RefreshSig$();
+    
+    function App() {
+      _s();
+    
+      const bar = _hooks.useFancyState();
+      return <h1>{bar}</h1>;
+    }
+    exports.default = App;
+    
+    _s(App, "useFancyState{bar}", false, function () {
+      return [_hooks.useFancyState];
+    });
+    
+    _c = App;
+    
+    var _c;
+    
+    $RefreshReg$(_c, "App");
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    tr,
+    gen_valid_hook_signatures_for_exotic_hooks,
+    r#"
+    import FancyHook from 'fancy';
+    export default function App() {
+      function useFancyState() {
+        const [foo, setFoo] = React.useState(0);
+        useFancyEffect();
+        return foo;
+      }
+      const bar = useFancyState();
+      const baz = FancyHook.useThing();
+      React.useState();
+      useThePlatform();
+      return <h1>{bar}{baz}</h1>;
+    }
+"#,
+    r#"
+    var _s = $RefreshSig$();
+
+    import FancyHook from 'fancy';
+    export default function App() {
+      _s();
+
+      var _s1 = $RefreshSig$();
+
+      function useFancyState() {
+        _s1();
+
+        const [foo, setFoo] = React.useState(0);
+        useFancyEffect();
+        return foo;
+      }
+
+      _s1(useFancyState, "useState{[foo, setFoo](0)}\nuseFancyEffect{}", true);
+    
+      const bar = useFancyState();
+      const baz = FancyHook.useThing();
+      React.useState();
+      useThePlatform();
+      return <h1>{bar}{baz}</h1>;
+    }
+    
+    _s(App, "useFancyState{bar}\nuseThing{baz}\nuseState{}\nuseThePlatform{}", true, function () {
+      return [FancyHook.useThing];
+    });
+    
+    _c = App;
+    
+    var _c;
+    
+    $RefreshReg$(_c, "App");
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        dynamic_import: true,
+        ..Default::default()
+    }),
+    tr,
+    donot_consider_require_as_hoc,
+    r#"
+    const A = require('A');
+    const B = foo ? require('X') : require('Y');
+    const C = requireCond(gk, 'C');
+    const D = import('D');
+    export default function App() {
+      return (
+        <div>
+          <A />
+          <B />
+          <C />
+          <D />
+        </div>
+      );
+    }
+"#,
+    r#"
+    const A = require('A');
+
+    const B = foo ? require('X') : require('Y');
+    const C = requireCond(gk, 'C');
+    const D = import('D');
+    export default function App() {
+      return <div>
+          <A />
+          <B />
+          <C />
+          <D />
+        </div>;
+    }
     _c = App;
     
     var _c;
