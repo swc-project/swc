@@ -874,8 +874,44 @@ impl<'a> Emitter<'a> {
             TsTypeElement::TsPropertySignature(n) => emit!(n),
             TsTypeElement::TsMethodSignature(n) => emit!(n),
             TsTypeElement::TsIndexSignature(n) => emit!(n),
+            TsTypeElement::TsGetterSignature(n) => {
+                emit!(n)
+            }
+            TsTypeElement::TsSetterSignature(n) => {
+                emit!(n)
+            }
         }
         formatting_semi!();
+    }
+
+    #[emitter]
+    fn emit_ts_getter_signature(&mut self, n: &TsGetterSignature) -> Result {
+        keyword!("get");
+        space!();
+
+        emit!(n.key);
+
+        punct!("(");
+        punct!(")");
+
+        if let Some(ty) = &n.type_ann {
+            punct!(":");
+            formatting_space!();
+
+            emit!(ty.type_ann);
+        }
+    }
+
+    #[emitter]
+    fn emit_ts_setter_signature(&mut self, n: &TsSetterSignature) -> Result {
+        keyword!("set");
+        space!();
+
+        emit!(n.key);
+
+        punct!("(");
+        emit!(n.param);
+        punct!(")");
     }
 
     #[emitter]
