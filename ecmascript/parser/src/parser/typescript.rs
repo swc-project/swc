@@ -1376,7 +1376,6 @@ impl<I: Tokens> Parser<I> {
                 if params.is_empty() {
                     syntax_error!(p, SyntaxError::SetterParamRequired)
                 }
-                expect!(p, ')');
                 let param = params.into_iter().next().unwrap();
 
                 Ok(Some(TsTypeElement::TsSetterSignature(TsSetterSignature {
