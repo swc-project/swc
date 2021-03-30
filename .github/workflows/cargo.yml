@@ -204,5 +204,12 @@ jobs:
     #   - test
     steps:
       - uses: actions/checkout@v2
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly-2021-03-30
+
       - name: Create rustdoc
         run: cargo +nightly-2021-03-30 doc
