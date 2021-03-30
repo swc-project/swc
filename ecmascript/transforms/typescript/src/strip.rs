@@ -878,7 +878,7 @@ impl Strip {
 
     /// Returns `(var_decl, init)`.
     fn handle_ts_module(&mut self, module: TsModuleDecl) -> Option<(Option<Decl>, Stmt)> {
-        if module.global {
+        if module.global || module.declare {
             return None;
         }
         let module_span = module.span;
