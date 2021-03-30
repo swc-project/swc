@@ -3682,6 +3682,27 @@ to!(
         export const txt: typeof import('twitter-text')
     }
     ",
+    ""
+);
+
+to!(
+    issue_1517_1,
     "
+    interface X {
+        get foo(): string;
+        set foo(v: string | number);
+    }
+    ",
+    ""
+);
+
+to!(
+    issue_1517_2,
     "
+    type Y = {
+        get bar(): string;
+        set bar(v: string | number);
+    }
+    ",
+    ""
 );
