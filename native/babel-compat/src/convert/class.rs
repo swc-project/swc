@@ -3,7 +3,7 @@ use crate::ast::{
     common::Decorator as BabelDecorator,
     class::{
         ClassBody, ClassBodyEl, ClassProperty, ClassPrivateProperty, ClassPrivateMethod,
-        ClassMethod as BabelClassMethod, ClassMethodKind,
+        ClassMethod as BabelClassMethod, ClassMethodKind, ClassDeclaration,
     },
     expr::ClassExpression,
 };
@@ -28,6 +28,24 @@ impl Babelify for Class {
             implements: Some(self.implements.iter().map(|imp| imp.clone().babelify(ctx).into()).collect()),
             id: Default::default(),
             mixins: Default::default(),
+        }
+    }
+}
+
+impl From<ClassExpression> for ClassDeclaration {
+    fn from(expr: ClassExpression) -> Self {
+        ClassDeclaration {
+            base: expr.base,
+            id: expr.id.unwrap(),
+            super_class: expr.super_class.map(|s| *s),
+            body: expr.body,
+            decorators: expr.decorators,
+            is_abstract: Default::default(),
+            declare: Default::default(),
+            implements: expr.implements,
+            mixins: expr.mixins,
+            super_type_parameters: expr.super_type_parameters,
+            type_parameters: expr.type_parameters,
         }
     }
 }

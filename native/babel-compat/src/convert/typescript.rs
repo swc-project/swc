@@ -15,6 +15,8 @@ use crate::ast::{
         TSModuleDeclBody, TSModuleBlock, TSEnumDeclaration, TSEnumMember, TSTypeAliasDeclaration,
         TSInterfaceDeclaration, TSInterfaceBody, TSTypeElement, TSCallSignatureDeclaration,
         TSConstructSignatureDeclaration, TSPropertySignature, TSMethodSignature,
+        TSImportEqualsDeclaration, TSImportEqualsDeclModuleRef, TSExternalModuleReference,
+        TSExportAssignment, TSNamespaceExportDeclaration,
     },
     pat::{ArrayPattern, ObjectPattern},
 };
@@ -26,7 +28,8 @@ use swc_ecma_ast::{
     TsParamProp, TsParamPropParam, TsModuleDecl, TsNamespaceBody, TsModuleBlock, TsModuleName,
     TsEnumDecl, TsEnumMember, TsEnumMemberId, TsTypeAliasDecl, TsNamespaceDecl, TsInterfaceDecl,
     TsInterfaceBody, TsTypeElement, TsCallSignatureDecl, TsConstructSignatureDecl,
-    TsPropertySignature, TsMethodSignature, TsSignatureDecl,
+    TsPropertySignature, TsMethodSignature, TsSignatureDecl, TsImportEqualsDecl, TsModuleRef,
+    TsExternalModuleRef, TsExportAssignment, TsNamespaceExportDecl,
 };
 use swc_common::Spanned;
 use serde::{Serialize, Deserialize};
@@ -1501,6 +1504,19 @@ impl Babelify for TsModuleName {
 //     Str(Str),
 // }
 //
+
+impl Babelify for TsImportEqualsDecl {
+    type Output = TSImportEqualsDeclaration;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSImportEqualsDeclaration {
+            base: ctx.base(self.span),
+            id: self.id.babelify(ctx),
+            module_reference: self.module_ref.babelify(ctx),
+            is_export: self.is_export,
+        }
+    }
+}
 // #[ast_node("TsImportEqualsDeclaration")]
 // #[derive(Eq, Hash, EqIgnoreSpan)]
 // #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -1512,6 +1528,17 @@ impl Babelify for TsModuleName {
 //     pub module_ref: TsModuleRef,
 // }
 //
+
+impl Babelify for TsModuleRef {
+    type Output = TSImportEqualsDeclModuleRef;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            TsModuleRef::TsEntityName(n) => TSImportEqualsDeclModuleRef::Name(n.babelify(ctx)),
+            TsModuleRef::TsExternalModuleRef(e) => TSImportEqualsDeclModuleRef::External(e.babelify(ctx)),
+        }
+    }
+}
 // #[ast_node]
 // #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 // #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -1524,6 +1551,17 @@ impl Babelify for TsModuleName {
 //     TsExternalModuleRef(TsExternalModuleRef),
 // }
 //
+
+impl Babelify for TsExternalModuleRef {
+    type Output = TSExternalModuleReference;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSExternalModuleReference {
+            base: ctx.base(self.span),
+            expression: self.expr.babelify(ctx),
+        }
+    }
+}
 // #[ast_node("TsExternalModuleReference")]
 // #[derive(Eq, Hash, EqIgnoreSpan)]
 // #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -1533,6 +1571,17 @@ impl Babelify for TsModuleName {
 //     pub expr: Str,
 // }
 //
+
+impl Babelify for TsExportAssignment {
+    type Output = TSExportAssignment;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSExportAssignment {
+            base: ctx.base(self.span),
+            expression: self.expr.babelify(ctx).into(),
+        }
+    }
+}
 // /// TypeScript's own parser uses ExportAssignment for both `export default` and
 // /// `export =`. But for @babel/parser, `export default` is an ExportDefaultDecl,
 // /// so a TsExportAssignment is always `export =`.
@@ -1545,6 +1594,17 @@ impl Babelify for TsModuleName {
 //     pub expr: Box<Expr>,
 // }
 //
+
+impl Babelify for TsNamespaceExportDecl {
+    type Output = TSNamespaceExportDeclaration;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSNamespaceExportDeclaration {
+            base: ctx.base(self.span),
+            id: self.id.babelify(ctx),
+        }
+    }
+}
 // #[ast_node("TsNamespaceExportDeclaration")]
 // #[derive(Eq, Hash, EqIgnoreSpan)]
 // #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]

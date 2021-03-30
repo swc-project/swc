@@ -24,27 +24,6 @@ impl Babelify for Decl {
         }
     }
 }
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum Decl {
-//     #[tag("ClassDeclaration")]
-//     Class(ClassDecl),
-//     #[tag("FunctionDeclaration")]
-//     #[is(name = "fn_decl")]
-//     Fn(FnDecl),
-//     #[tag("VariableDeclaration")]
-//     Var(VarDecl),
-//     #[tag("TsInterfaceDeclaration")]
-//     TsInterface(TsInterfaceDecl),
-//     #[tag("TsTypeAliasDeclaration")]
-//     TsTypeAlias(TsTypeAliasDecl),
-//     #[tag("TsEnumDeclaration")]
-//     TsEnum(TsEnumDecl),
-//     #[tag("TsModuleDeclaration")]
-//     TsModule(TsModuleDecl),
-// }
-//
 
 impl Babelify for FnDecl {
     type Output = FunctionDeclaration;
@@ -63,21 +42,6 @@ impl Babelify for FnDecl {
         }
     }
 }
-// #[ast_node("FunctionDeclaration")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct FnDecl {
-//     #[serde(rename = "identifier")]
-//     pub ident: Ident,
-//
-//     #[serde(default)]
-//     pub declare: bool,
-//
-//     #[serde(flatten)]
-//     #[span]
-//     pub function: Function,
-// }
-//
 
 impl Babelify for ClassDecl {
     type Output = ClassDeclaration;
@@ -93,29 +57,14 @@ impl Babelify for ClassDecl {
             decorators: class.decorators,
             is_abstract: Some(is_abstract),
             declare: Some(self.declare),
-            implements: class.implements.and_then(|imps| imps.first().map(|i| i.clone())),
+            // implements: class.implements.and_then(|imps| imps.first().map(|i| i.clone())),
+            implements: class.implements,
             mixins: class.mixins,
             super_type_parameters: class.super_type_parameters,
             type_parameters: class.type_parameters,
         }
     }
 }
-
-// #[ast_node("ClassDeclaration")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct ClassDecl {
-//     #[serde(rename = "identifier")]
-//     pub ident: Ident,
-//
-//     #[serde(default)]
-//     pub declare: bool,
-//
-//     #[serde(flatten)]
-//     #[span]
-//     pub class: Class,
-// }
-//
 
 impl Babelify for VarDecl {
     type Output = VariableDeclaration;
@@ -129,21 +78,6 @@ impl Babelify for VarDecl {
         }
     }
 }
-// #[ast_node("VariableDeclaration")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct VarDecl {
-//     pub span: Span,
-//
-//     pub kind: VarDeclKind,
-//
-//     #[serde(default)]
-//     pub declare: bool,
-//
-//     #[serde(rename = "declarations")]
-//     pub decls: Vec<VarDeclarator>,
-// }
-//
 
 impl Babelify for VarDeclKind {
     type Output = VariableDeclarationKind;
@@ -156,17 +90,6 @@ impl Babelify for VarDeclKind {
         }
     }
 }
-// #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum VarDeclKind {
-//     /// `var`
-//     Var,
-//     /// `let`
-//     Let,
-//     /// `const`
-//     Const,
-// }
-//
 
 impl Babelify for VarDeclarator {
     type Output = VariableDeclarator;
@@ -180,20 +103,4 @@ impl Babelify for VarDeclarator {
         }
     }
 }
-// #[ast_node("VariableDeclarator")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct VarDeclarator {
-//     pub span: Span,
-//     #[serde(rename = "id")]
-//     pub name: Pat,
-//
-//     /// Initialization expression.
-//     #[serde(default)]
-//     pub init: Option<Box<Expr>>,
-//
-//     /// Typescript only
-//     #[serde(default)]
-//     pub definite: bool,
-// }
-//
+
