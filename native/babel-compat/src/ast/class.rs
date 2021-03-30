@@ -203,7 +203,7 @@ pub struct ClassDeclaration {
     #[serde(default)]
     pub declare: Option<bool>,
     #[serde(default)]
-    pub implements: Option<ClassImpl>,
+    pub implements: Option<Vec<ClassImpl>>,
     #[serde(default)]
     pub mixins: Option<InterfaceExtends>,
     #[serde(default)]
