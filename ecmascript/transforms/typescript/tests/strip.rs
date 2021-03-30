@@ -3674,3 +3674,14 @@ to!(
         _class);
     "
 );
+
+to!(
+    issue_1508_1,
+    "
+    declare namespace twttr {
+        export const txt: typeof import('twitter-text')
+    }
+    ",
+    "
+    "
+);
