@@ -205,4 +205,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Create rustdoc
-        run: cargo doc
+        run: cargo +nightly-2021-03-30 doc
