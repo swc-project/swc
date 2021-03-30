@@ -197,6 +197,7 @@ jobs:
           cargo test --color always -p ${{ matrix.crate }}
 
   deploy-docs:
+    name: Docs
     runs-on: ubuntu-latest
     # if: github.ref == 'refs/heads/master'
     # needs:
