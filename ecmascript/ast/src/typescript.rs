@@ -144,6 +144,12 @@ pub enum TsTypeElement {
     #[tag("TsPropertySignature")]
     TsPropertySignature(TsPropertySignature),
 
+    #[tag("TsGetterSignature")]
+    TsGetterSignature(TsGetterSignature),
+
+    #[tag("TsSetterSignature")]
+    TsSetterSignature(TsSetterSignature),
+
     #[tag("TsMethodSignature")]
     TsMethodSignature(TsMethodSignature),
 
@@ -192,6 +198,16 @@ pub struct TsPropertySignature {
     #[serde(default)]
     pub type_params: Option<TsTypeParamDecl>,
 }
+
+#[ast_node("TsGetterSignature")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct TsGetterSignature {}
+
+#[ast_node("TsSetterSignature")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct TsSetterSignature {}
 
 #[ast_node("TsMethodSignature")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
