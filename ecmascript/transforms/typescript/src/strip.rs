@@ -112,7 +112,7 @@ impl Strip {
 #[derive(Default)]
 struct Scope {
     decls: FxHashMap<Id, DeclInfo>,
-    imported_idents: FxHashMap<Id, DeclInfo>,
+    referenced_idents: FxHashMap<Id, DeclInfo>,
 }
 
 #[derive(Debug, Default)]
@@ -1113,18 +1113,14 @@ impl Strip {
 impl Visit for Strip {
     fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
         let is_type_only_export = self.is_type_only_export;
-        self.scope
-            .imported_idents
+        let entry = self
+            .scope
+            .referenced_idents
             .entry((n.sym.clone(), n.span.ctxt()))
-            .and_modify(|v| v.has_concrete |= !is_type_only_export);
+            .or_default();
+        entry.has_concrete |= !is_type_only_export;
 
         n.visit_children_with(self);
-    }
-
-    fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
-        n.visit_children_with(self);
-
-        self.decl_names.insert(n.ident.to_id());
     }
 
     fn visit_decl(&mut self, n: &Decl, _: &dyn Node) {
@@ -1132,7 +1128,35 @@ impl Visit for Strip {
 
         let old = self.non_top_level;
         self.non_top_level = true;
-        n.visit_children_with(self);
+        // Visit the declaration body and not the identifier. Otherwise
+        // type declarations could be unintentionally marked as concrete
+        // by the visit_ident function above.
+        match n {
+            Decl::Class(class) => {
+                self.decl_names.insert(class.ident.to_id());
+                class.class.visit_with(class, self);
+            }
+            Decl::Fn(f) => f.function.visit_with(f, self),
+            Decl::Var(ref var) => {
+                for decl in &var.decls {
+                    decl.init.visit_with(decl, self);
+                }
+            }
+            Decl::TsEnum(e) => {
+                e.members.visit_with(e, self);
+            }
+            Decl::TsInterface(interface) => {
+                interface.extends.visit_with(interface, self);
+                interface.body.visit_with(interface, self);
+            }
+            Decl::TsModule(module) => {
+                module.body.visit_with(module, self);
+            }
+            Decl::TsTypeAlias(alias) => {
+                alias.type_params.visit_with(alias, self);
+                alias.type_ann.visit_with(alias, self);
+            }
+        }
         self.non_top_level = old;
     }
 
@@ -1161,15 +1185,16 @@ impl Visit for Strip {
         macro_rules! store {
             ($i:expr) => {{
                 self.scope
-                    .imported_idents
-                    .insert(($i.sym.clone(), $i.span.ctxt()), Default::default());
+                    .referenced_idents
+                    .entry(($i.sym.clone(), $i.span.ctxt()))
+                    .or_default();
             }};
         }
         for s in &n.specifiers {
             match *s {
                 ImportSpecifier::Default(ref import) => store!(import.local),
                 ImportSpecifier::Named(ref import) => store!(import.local),
-                ImportSpecifier::Namespace(..) => {}
+                ImportSpecifier::Namespace(ref import) => store!(import.local),
             }
         }
     }
@@ -1177,10 +1202,12 @@ impl Visit for Strip {
     fn visit_ts_entity_name(&mut self, name: &TsEntityName, _: &dyn Node) {
         match *name {
             TsEntityName::Ident(ref i) => {
-                self.scope
-                    .imported_idents
+                let entry = self
+                    .scope
+                    .referenced_idents
                     .entry((i.sym.clone(), i.span.ctxt()))
-                    .and_modify(|v| v.has_type = true);
+                    .or_default();
+                entry.has_type = true;
             }
             TsEntityName::TsQualifiedName(ref q) => q.left.visit_with(&*q, self),
         }
@@ -1334,10 +1361,24 @@ impl VisitMut for Strip {
 
         import.specifiers.retain(|s| match *s {
             ImportSpecifier::Default(ImportDefaultSpecifier { ref local, .. })
-            | ImportSpecifier::Named(ImportNamedSpecifier { ref local, .. }) => {
+            | ImportSpecifier::Named(ImportNamedSpecifier { ref local, .. })
+            | ImportSpecifier::Namespace(ImportStarAsSpecifier { ref local, .. }) => {
+                // If the import is shadowed by a concrete local declaration, TSC
+                // assumes the import is a type and removes it.
+                let decl = self
+                    .scope
+                    .decls
+                    .get(&(local.sym.clone(), local.span.ctxt()));
+                match decl {
+                    Some(&DeclInfo {
+                        has_concrete: true, ..
+                    }) => return false,
+                    _ => {}
+                }
+                // If no shadowed declaration, check if the import is referenced.
                 let entry = self
                     .scope
-                    .imported_idents
+                    .referenced_idents
                     .get(&(local.sym.clone(), local.span.ctxt()));
                 match entry {
                     Some(&DeclInfo {
@@ -1347,7 +1388,6 @@ impl VisitMut for Strip {
                     _ => true,
                 }
             }
-            _ => true,
         });
 
         if import.specifiers.is_empty() && !self.is_side_effect_import {

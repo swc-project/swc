@@ -3706,3 +3706,123 @@ to!(
     ",
     ""
 );
+
+to!(
+    import_shadow_named,
+    "
+    import { Test } from 'test';
+    const Test = 2;
+    console.log(Test);
+    ",
+    "
+    const Test = 2;
+    console.log(Test);
+    "
+);
+
+to!(
+    import_shadow_default,
+    "
+    import Test from 'test';
+    const Test = 2;
+    console.log(Test);
+    ",
+    "
+    const Test = 2;
+    console.log(Test);
+    "
+);
+
+to!(
+    import_shadow_namespace,
+    "
+    import * as Test from 'test';
+    const Test = 2;
+    console.log(Test);
+    ",
+    "
+    const Test = 2;
+    console.log(Test);
+    "
+);
+
+to!(
+    import_shadow_type,
+    "
+    import { Test } from 'test';
+    interface Test {}
+    ",
+    ""
+);
+
+to!(
+    import_concrete,
+    "
+    import { Test } from 'test';
+    console.log(Test);
+    ",
+    "
+    import { Test } from 'test';
+    console.log(Test);
+    "
+);
+
+to!(
+    import_shadow_type_concrete,
+    "
+    import { Test } from 'test';
+    interface Test {}
+    console.log(Test);
+    ",
+    "
+    import { Test } from 'test';
+    console.log(Test);
+    "
+);
+
+to!(
+    import_hoist,
+    "
+    console.log(Test);
+    import { Test } from 'test';
+    ",
+    "
+    console.log(Test);
+    import { Test } from 'test';
+    "
+);
+
+to!(
+    import_shadow_hoist,
+    "
+    const Test = 2;
+    console.log(Test);
+    import { Test } from 'test';
+    ",
+    "
+    const Test = 2;
+    console.log(Test);
+    "
+);
+
+to!(
+    import_shadow_hoist_type,
+    "
+    interface Test {}
+    import { Test } from 'test';
+    ",
+    ""
+);
+
+to!(
+    import_shadow_hoist_type_concrete,
+    "
+    interface Test {}
+    console.log(Test);
+    import { Test } from 'test';
+    ",
+    "
+    console.log(Test);
+    import { Test } from 'test';
+    "
+);
