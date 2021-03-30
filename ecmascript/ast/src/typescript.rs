@@ -202,12 +202,27 @@ pub struct TsPropertySignature {
 #[ast_node("TsGetterSignature")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub struct TsGetterSignature {}
+pub struct TsGetterSignature {
+    pub span: Span,
+    pub readonly: bool,
+    pub key: Box<Expr>,
+    pub computed: bool,
+    pub optional: bool,
+    #[serde(default, rename = "typeAnnotation")]
+    pub type_ann: Option<TsTypeAnn>,
+}
 
 #[ast_node("TsSetterSignature")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub struct TsSetterSignature {}
+pub struct TsSetterSignature {
+    pub span: Span,
+    pub readonly: bool,
+    pub key: Box<Expr>,
+    pub computed: bool,
+    pub optional: bool,
+    pub param: TsFnParam,
+}
 
 #[ast_node("TsMethodSignature")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
