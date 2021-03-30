@@ -1341,6 +1341,57 @@ impl<I: Tokens> Parser<I> {
             return Ok(idx.into());
         }
 
+        if let Some(v) = self.try_parse_ts(|p| {
+            let start = p.input.cur_pos();
+
+            let reaodnly = p.parse_ts_modifier(&["readonly"])?.is_some();
+
+            let is_get = if eat!(p, "get") {
+                true
+            } else {
+                expect!(p, "set");
+                false
+            };
+
+            let (computed, key) = p.parse_ts_property_name()?;
+            let key_span = key.span();
+            let optional = eat!(p, '?');
+
+            if is_get {
+                expect!(p, '(');
+                expect!(p, ')');
+                let type_ann = p.try_parse_ts_type_ann()?;
+
+                Ok(Some(TsTypeElement::TsGetterSignature(TsGetterSignature {
+                    span: span!(p, start),
+                    readonly,
+                    key,
+                    computed,
+                    optional,
+                    type_ann,
+                })))
+            } else {
+                expect!(p, '(');
+                let params = p.parse_ts_binding_list_for_signature()?;
+                if params.is_empty() {
+                    syntax_error!(p, SyntaxError::SetterParamRequired)
+                }
+                expect!(p, ')');
+                let param = params.into_iter().next().unwrap();
+
+                Ok(Some(TsTypeElement::TsSetterSignature(TsSetterSignature {
+                    span: span!(p, start),
+                    readonly,
+                    key,
+                    computed,
+                    optional,
+                    param,
+                })))
+            }
+        }) {
+            return Ok(v);
+        }
+
         self.parse_ts_property_or_method_signature(start, readonly)
             .map(|e| match e {
                 Either::Left(e) => e.into(),
@@ -1714,6 +1765,8 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseBindingListForSignature`
+    ///
+    /// Eats ')` at the end but does not eat `(` at start.
     fn parse_ts_binding_list_for_signature(&mut self) -> PResult<Vec<TsFnParam>> {
         debug_assert!(self.input.syntax().typescript());
 
