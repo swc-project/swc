@@ -1223,15 +1223,10 @@ impl<I: Tokens> Parser<I> {
         }))
     }
 
-    /// `tsParsePropertyOrMethodSignature`
-    fn parse_ts_property_or_method_signature(
-        &mut self,
-        start: BytePos,
-        readonly: bool,
-    ) -> PResult<Either<TsPropertySignature, TsMethodSignature>> {
-        debug_assert!(self.input.syntax().typescript());
-
-        // ----- inlined self.parsePropertyName(node);
+    /// `parsePropertyName` in babel.
+    ///
+    /// Returns `(computed, key)`.
+    fn parse_ts_property_name(&mut self) -> PResult<(bool, Box<Expr>)> {
         let (computed, key) = if eat!(self, '[') {
             let key = self.parse_assignment_expr()?;
             expect!(self, ']');
@@ -1258,7 +1253,19 @@ impl<I: Tokens> Parser<I> {
                 key.map(|key| (false, key))
             })?
         };
-        // -----
+
+        Ok((computed, key))
+    }
+
+    /// `tsParsePropertyOrMethodSignature`
+    fn parse_ts_property_or_method_signature(
+        &mut self,
+        start: BytePos,
+        readonly: bool,
+    ) -> PResult<Either<TsPropertySignature, TsMethodSignature>> {
+        debug_assert!(self.input.syntax().typescript());
+
+        let (computed, key) = self.parse_ts_property_name()?;
 
         let optional = eat!(self, '?');
 
