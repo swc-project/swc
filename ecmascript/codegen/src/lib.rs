@@ -986,8 +986,17 @@ impl<'a> Emitter<'a> {
         }
 
         if let Some(value) = &n.value {
+            formatting_space!();
             punct!("=");
-            emit!(value);
+            formatting_space!();
+
+            if value.is_seq() {
+                punct!("(");
+                emit!(value);
+                punct!(")");
+            } else {
+                emit!(value);
+            }
         }
 
         formatting_semi!();
@@ -1030,7 +1039,13 @@ impl<'a> Emitter<'a> {
             punct!("=");
             formatting_space!();
 
-            emit!(v);
+            if v.is_seq() {
+                punct!("(");
+                emit!(v);
+                punct!(")");
+            } else {
+                emit!(v);
+            }
         }
 
         formatting_semi!();

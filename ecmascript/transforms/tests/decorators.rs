@@ -4291,20 +4291,17 @@ class Person {
 
 const p = new Person();
 p.save();",
-    "var _class, _dec;
+    "var _class;
+var _class1, _dec;
 import { Debounce } from 'lodash-decorators';
-let Person = ((_class = function() {
-    class Person {
-        save() {
-            console.log('Hello World!');
-        }
+let Person = ((_class1 = (_class = class Person {
+    save() {
+        console.log('Hello World!');
     }
-    Person.debounceTime = 500;
-    return Person;
-}()) || _class, _dec = Debounce(_class.debounceTime), _applyDecoratedDescriptor(_class.prototype, \
-     'save', [
+}, _class.debounceTime = 500, _class)) || _class1, _dec = Debounce(_class1.debounceTime), \
+     _applyDecoratedDescriptor(_class1.prototype, 'save', [
     _dec
-], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
+], Object.getOwnPropertyDescriptor(_class1.prototype, 'save'), _class1.prototype), _class1);
 const p = new Person();
 p.save();"
 );
@@ -4335,20 +4332,17 @@ class Person {
 
 const p = new Person();
 p.save();",
-    "var _class, _dec;
+    "var _class;
+var _class1, _dec;
 import { Debounce } from 'lodash-decorators';
-let Person = ((_class = function() {
-    class Person {
-        save() {
-            console.log('Hello World!');
-        }
+let Person = ((_class1 = (_class = class Person {
+    save() {
+        console.log('Hello World!');
     }
-    Person.debounceTime = 500;
-    return Person;
-}()) || _class, _dec = Debounce(_class.debounceTime), _applyDecoratedDescriptor(_class.prototype, \
-     'save', [
+}, _class.debounceTime = 500, _class)) || _class1, _dec = Debounce(_class1.debounceTime), \
+     _applyDecoratedDescriptor(_class1.prototype, 'save', [
     _dec
-], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
+], Object.getOwnPropertyDescriptor(_class1.prototype, 'save'), _class1.prototype), _class1);
 const p = new Person();
 p.save();
 "
@@ -4380,30 +4374,27 @@ class Person {
 
 const p = new Person();
 p.save();",
-    "var _class, _dec;
+    "var _class;
+var _class1, _dec;
 import { Debounce } from 'lodash-decorators';
-let Person = ((_class = function() {
-    let Person = function() {
-        'use strict';
-        function Person() {
-            _classCallCheck(this, Person);
-        }
-        _createClass(Person, [
-            {
-                key: 'save',
-                value: function save() {
-                    console.log('Hello World!');
-                }
+let Person = ((_class1 = (_class = function() {
+    'use strict';
+    function Person() {
+        _classCallCheck(this, Person);
+    }
+    _createClass(Person, [
+        {
+            key: 'save',
+            value: function save() {
+                console.log('Hello World!');
             }
-        ]);
-        return Person;
-    }();
-    Person.debounceTime = 500;
+        }
+    ]);
     return Person;
-}()) || _class, _dec = Debounce(_class.debounceTime), _applyDecoratedDescriptor(_class.prototype, \
-     'save', [
+}(), _class.debounceTime = 500, _class)) || _class1, _dec = Debounce(_class1.debounceTime), \
+     _applyDecoratedDescriptor(_class1.prototype, 'save', [
     _dec
-], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
+], Object.getOwnPropertyDescriptor(_class1.prototype, 'save'), _class1.prototype), _class1);
 const p = new Person();
 p.save();"
 );
