@@ -18,6 +18,7 @@ use util::{
 
 use self::util::is_import_or_require;
 
+mod comment;
 mod util;
 
 #[cfg(test)]
