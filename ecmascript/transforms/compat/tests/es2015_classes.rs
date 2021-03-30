@@ -6062,3 +6062,71 @@ const obj = new OtherClass();
 expect(obj.anotherMethod()).toBe(2);
 "#
 );
+
+test!(
+    syntax(),
+    |_| classes(),
+    issue_1490_1,
+    "
+    class ColouredCanvasElement extends CanvasElement {
+      createFacets(hidden) {
+        hidden = super.createFacets(hidden);
+      }
+    }
+    ",
+    "
+    let ColouredCanvasElement = function (CanvasElement) {
+        'use strict';
+        _inherits(ColouredCanvasElement, CanvasElement);
+        function ColouredCanvasElement() {
+            _classCallCheck(this, ColouredCanvasElement);
+            return _possibleConstructorReturn(this, \
+     _getPrototypeOf(ColouredCanvasElement).apply(this, arguments));
+        }
+        _createClass(ColouredCanvasElement, [
+            {
+                key: 'createFacets',
+                value: function createFacets(hidden) {
+                    hidden = _get(_getPrototypeOf(ColouredCanvasElement.prototype), \
+     'createFacets', this).call(this, hidden);
+                }
+            }
+        ]);
+        return ColouredCanvasElement;
+    }(CanvasElement);
+    "
+);
+
+test!(
+    syntax(),
+    |_| classes(),
+    issue_1490_2,
+    "
+  class ColouredCanvasElement extends CanvasElement {
+    createFacets(hidden) {
+      super.createFacets(hidden);
+    }
+  }
+  ",
+    "
+  let ColouredCanvasElement = function (CanvasElement) {
+      'use strict';
+      _inherits(ColouredCanvasElement, CanvasElement);
+      function ColouredCanvasElement() {
+          _classCallCheck(this, ColouredCanvasElement);
+          return _possibleConstructorReturn(this, \
+     _getPrototypeOf(ColouredCanvasElement).apply(this, arguments));
+      }
+      _createClass(ColouredCanvasElement, [
+          {
+              key: 'createFacets',
+              value: function createFacets(hidden) {
+                  _get(_getPrototypeOf(ColouredCanvasElement.prototype), 'createFacets', \
+     this).call(this, hidden);
+              }
+          }
+      ]);
+      return ColouredCanvasElement;
+  }(CanvasElement);
+  "
+);

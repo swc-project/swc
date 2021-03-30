@@ -709,11 +709,6 @@ impl<'a> VisitMut for Resolver<'a> {
         f.return_type.visit_mut_with(self);
     }
 
-    // TODO: How should I handle this?
-    typed!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
-
-    track_ident_mut!();
-
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         let ident_type = self.ident_type;
         let in_type = self.in_type;
@@ -789,6 +784,11 @@ impl<'a> VisitMut for Resolver<'a> {
         s.local.visit_mut_with(self);
         self.ident_type = old;
     }
+
+    // TODO: How should I handle this?
+    typed!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
+
+    track_ident_mut!();
 
     /// Leftmost one of a member expression should be resolved.
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
@@ -997,6 +997,14 @@ impl<'a> VisitMut for Resolver<'a> {
         ty.type_ann.visit_mut_with(&mut child);
     }
 
+    fn visit_mut_ts_getter_signature(&mut self, n: &mut TsGetterSignature) {
+        if n.computed {
+            n.key.visit_mut_with(self);
+        }
+
+        n.type_ann.visit_mut_with(self);
+    }
+
     fn visit_mut_ts_import_equals_decl(&mut self, n: &mut TsImportEqualsDecl) {
         if !self.handle_types {
             return;
@@ -1130,6 +1138,14 @@ impl<'a> VisitMut for Resolver<'a> {
         self.ident_type = IdentType::Ref;
 
         n.left.visit_mut_with(self)
+    }
+
+    fn visit_mut_ts_setter_signature(&mut self, n: &mut TsSetterSignature) {
+        if n.computed {
+            n.key.visit_mut_with(self);
+        }
+
+        n.param.visit_mut_with(self);
     }
 
     fn visit_mut_ts_tuple_element(&mut self, e: &mut TsTupleElement) {

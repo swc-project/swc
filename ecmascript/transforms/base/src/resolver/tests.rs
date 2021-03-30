@@ -2345,3 +2345,35 @@ to_ts!(
     }
     "
 );
+
+to_ts!(
+    issue_1517_1,
+    "
+    interface X {
+        get foo(): string;
+        set foo(v: string | number);
+    }
+    ",
+    "
+    interface X {
+        get foo__0(): string;
+        set foo__0(v: string | number);
+    }
+    "
+);
+
+to_ts!(
+    issue_1517_2,
+    "
+    type Y = {
+        get bar(): string;
+        set bar(v: string | number);
+    }
+    ",
+    "
+    type Y = {
+        get bar__0(): string;
+        set bar__0(v: string | number);
+    }
+    "
+);

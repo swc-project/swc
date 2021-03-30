@@ -775,7 +775,11 @@ impl ModulePass for Umd {
             span,
             test: Box::new(quote_ident!("exports").make_eq(quote_ident!("undefined"))),
             cons: Box::new(super::amd::handle_dynamic_import(span, args.clone())),
-            alt: Box::new(super::common_js::handle_dynamic_import(span, args)),
+            alt: Box::new(super::common_js::handle_dynamic_import(
+                span,
+                args,
+                !self.config.config.no_interop,
+            )),
         })
     }
 }

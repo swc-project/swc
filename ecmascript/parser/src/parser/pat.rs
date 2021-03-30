@@ -1,5 +1,6 @@
 //! 13.3.3 Destructuring Binding Patterns
 use super::{util::ExprExt, *};
+use crate::parser::class_and_fn::is_not_this;
 use crate::{parser::expr::PatOrExprOrSpread, token::AssignOpToken};
 use std::iter;
 use swc_atoms::js_word;
@@ -344,6 +345,27 @@ impl<'a, I: Tokens> Parser<I> {
                 param,
             }))
         }
+    }
+
+    pub(super) fn parse_setter_param(&mut self, key_span: Span) -> PResult<Param> {
+        let params = self.parse_formal_params()?;
+        let cnt = params.iter().filter(|p| is_not_this(p)).count();
+
+        if cnt != 1 {
+            self.emit_err(key_span, SyntaxError::TS1094);
+        }
+
+        if !params.is_empty() {
+            if let Pat::Rest(..) = params[0].pat {
+                self.emit_err(params[0].pat.span(), SyntaxError::RestPatInSetter);
+            }
+        }
+
+        if params.is_empty() {
+            syntax_error!(self, SyntaxError::SetterParamRequired);
+        }
+
+        Ok(params.into_iter().next().unwrap())
     }
 
     pub(super) fn parse_formal_params(&mut self) -> PResult<Vec<Param>> {

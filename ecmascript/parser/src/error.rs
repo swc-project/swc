@@ -53,6 +53,7 @@ pub enum SyntaxError {
     ExpectedDigit {
         radix: u8,
     },
+    SetterParamRequired,
     RestPatInSetter,
 
     UnterminatedBlockComment,
@@ -526,6 +527,7 @@ impl SyntaxError {
             SyntaxError::TSTypeAnnotationAfterAssign => {
                 "Type annotations must come before default assignments".into()
             }
+            SyntaxError::SetterParamRequired => "Setter should have exactly one parameter".into(),
         }
     }
 }
