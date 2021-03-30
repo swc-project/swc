@@ -1354,6 +1354,7 @@ impl<I: Tokens> Parser<I> {
             };
 
             let (computed, key) = p.parse_ts_property_name()?;
+
             let key_span = key.span();
             let optional = eat!(p, '?');
 
@@ -1361,6 +1362,8 @@ impl<I: Tokens> Parser<I> {
                 expect!(p, '(');
                 expect!(p, ')');
                 let type_ann = p.try_parse_ts_type_ann()?;
+
+                p.parse_ts_type_member_semicolon()?;
 
                 Ok(Some(TsTypeElement::TsGetterSignature(TsGetterSignature {
                     span: span!(p, start),
@@ -1377,6 +1380,8 @@ impl<I: Tokens> Parser<I> {
                     syntax_error!(p, SyntaxError::SetterParamRequired)
                 }
                 let param = params.into_iter().next().unwrap();
+
+                p.parse_ts_type_member_semicolon()?;
 
                 Ok(Some(TsTypeElement::TsSetterSignature(TsSetterSignature {
                     span: span!(p, start),
