@@ -1309,6 +1309,8 @@ define!({
         TsCallSignatureDecl(TsCallSignatureDecl),
         TsConstructSignatureDecl(TsConstructSignatureDecl),
         TsPropertySignature(TsPropertySignature),
+        TsGetterSignature(TsGetterSignature),
+        TsSetterSignature(TsSetterSignature),
         TsMethodSignature(TsMethodSignature),
         TsIndexSignature(TsIndexSignature),
     }
@@ -1334,6 +1336,24 @@ define!({
         pub params: Vec<TsFnParam>,
         pub type_ann: Option<TsTypeAnn>,
         pub type_params: Option<TsTypeParamDecl>,
+    }
+
+    pub struct TsGetterSignature {
+        pub span: Span,
+        pub readonly: bool,
+        pub key: Box<Expr>,
+        pub computed: bool,
+        pub optional: bool,
+        pub type_ann: Option<TsTypeAnn>,
+    }
+
+    pub struct TsSetterSignature {
+        pub span: Span,
+        pub readonly: bool,
+        pub key: Box<Expr>,
+        pub computed: bool,
+        pub optional: bool,
+        pub param: TsFnParam,
     }
     pub struct TsMethodSignature {
         pub span: Span,
