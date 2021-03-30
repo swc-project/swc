@@ -18,8 +18,8 @@ use crate::convert::Babelify;
 use swc_ecma_ast::{
     Expr, ThisExpr, ArrayLit, ObjectLit, FnExpr, UnaryExpr, UpdateExpr, BinExpr, AssignExpr,
     MemberExpr, CondExpr, CallExpr, NewExpr, SeqExpr, Tpl, TaggedTpl, ArrowExpr, ClassExpr,
-    YieldExpr, AwaitExpr, ParenExpr, OptChainExpr, ExprOrSpread, PropOrSpread, SpreadElement,
-    PatOrExpr, Pat, ExprOrSuper, Super, BlockStmtOrExpr, MetaPropExpr, TplElement, Lit,
+    YieldExpr, AwaitExpr, ParenExpr, ExprOrSpread, PropOrSpread, SpreadElement, PatOrExpr,
+    ExprOrSuper, Super, BlockStmtOrExpr, MetaPropExpr, TplElement, Lit,
 };
 use swc_common::Spanned;
 use serde::{Serialize, Deserialize};
@@ -507,7 +507,7 @@ impl Babelify for ExprOrSpread {
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self.spread {
-            Some(s) => ArrayExprEl::Spread(BabelSpreadElement {
+            Some(_) => ArrayExprEl::Spread(BabelSpreadElement {
                 base: ctx.base(self.span()),
                 argument: self.expr.babelify(ctx).into(),
             }),
