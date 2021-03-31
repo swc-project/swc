@@ -220,7 +220,7 @@ jobs:
         with:
           # ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: public
+          FOLDER: target/doc
           CLEAN: true
           GIT_CONFIG_EMAIL: kdy1997.dev@gmail.com
           REPOSITORY_NAME: swc-project/rustdoc
