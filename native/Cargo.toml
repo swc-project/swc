@@ -18,7 +18,7 @@ napi-build = {version = "1"}
 anyhow = "1"
 backtrace = "0.3"
 fxhash = "0.2"
-napi = {version = "1", features = ["serde-json"]}
+napi = {git = "https://github.com/kdy1/napi-rs.git", branch = "issue-436", features = ["serde-json"]}
 napi-derive = {version = "1"}
 path-clean = "0.1"
 serde = {version = "1", features = ["derive"]}
