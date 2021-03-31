@@ -214,6 +214,10 @@ jobs:
       - name: Create rustdoc
         run: cargo +nightly-2021-03-30 doc
 
+      - name: Create CNAME
+        run: |
+          echo 'rustdoc.swc.rs' > target/doc/CNAME
+
       - name: Deploy
         # if: github.ref == 'refs/heads/master'
         uses: JamesIves/github-pages-deploy-action@3.7.1
