@@ -1,7 +1,7 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Automatically derive From impls for enums"
-documentation = "https://swc.rs/rustdoc/from_variant/"
+documentation = "https://rustdoc.swc.rs/from_variant/"
 edition = "2018"
 license = "Apache-2.0/MIT"
 name = "from_variant"

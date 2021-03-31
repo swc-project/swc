@@ -1919,6 +1919,9 @@ impl<'a> Emitter<'a> {
             Some(&node.stmts),
             ListFormat::MultiLineBlockStatements,
         )?;
+
+        self.emit_leading_comments_of_pos(node.span().hi())?;
+
         punct!("}");
     }
 
