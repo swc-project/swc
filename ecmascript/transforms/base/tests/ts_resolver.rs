@@ -56,6 +56,16 @@ fn no_empty(input: PathBuf) {
 struct AssertNoEmptyCtxt;
 
 impl Visit for AssertNoEmptyCtxt {
+    fn visit_class_prop(&mut self, n: &ClassProp, _: &dyn Node) {
+        if n.computed {
+            n.key.visit_with(n, self);
+        }
+
+        n.value.visit_with(n, self);
+        n.type_ann.visit_with(n, self);
+        n.decorators.visit_with(n, self);
+    }
+
     fn visit_expr(&mut self, n: &Expr, _: &dyn Node) {
         n.visit_children_with(self);
 
