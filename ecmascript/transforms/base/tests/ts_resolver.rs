@@ -56,6 +56,27 @@ fn no_empty(input: PathBuf) {
 struct AssertNoEmptyCtxt;
 
 impl Visit for AssertNoEmptyCtxt {
+    fn visit_ts_property_signature(&mut self, n: &TsPropertySignature, _: &dyn Node) {
+        if n.computed {
+            n.key.visit_with(n, self);
+        }
+
+        n.init.visit_with(n, self);
+        n.params.visit_with(n, self);
+        n.type_ann.visit_with(n, self);
+        n.type_params.visit_with(n, self);
+    }
+
+    fn visit_ts_method_signature(&mut self, n: &TsMethodSignature, _: &dyn Node) {
+        if n.computed {
+            n.key.visit_with(n, self);
+        }
+
+        n.params.visit_with(n, self);
+        n.type_ann.visit_with(n, self);
+        n.type_params.visit_with(n, self);
+    }
+
     fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
         n.obj.visit_with(n, self);
         if n.computed {
