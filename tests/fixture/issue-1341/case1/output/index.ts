@@ -31,11 +31,11 @@ function _asyncToGenerator(fn) {
 class A {
     foo() {
         return _asyncToGenerator((function*() {
-            try // return await Promise.all(['a', 'b'].map(async (x) => x + this.val)); // this is undefined
-            {
+            try {
                 return yield _asyncToGenerator((function*(x) {
                     return x + this.val;
                 }).bind(this)).bind(this)('a'); // this is undefined
+            // return await Promise.all(['a', 'b'].map(async (x) => x + this.val)); // this is undefined
             } catch (e) {
                 throw e;
             }

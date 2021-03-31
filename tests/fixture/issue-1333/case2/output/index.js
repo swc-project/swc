@@ -97,8 +97,8 @@ class Shard extends _utils.Emitter {
                 this._cleanupConnection();
                 try {
                     _classPrivateFieldGet(this, _ws2).close(code);
-                } catch  // no-op
-                {
+                } catch  {
+                // no-op
                 }
                 if (emit) {
                     /**
