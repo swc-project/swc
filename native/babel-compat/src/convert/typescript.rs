@@ -16,7 +16,12 @@ use crate::ast::{
         TSInterfaceDeclaration, TSInterfaceBody, TSTypeElement, TSCallSignatureDeclaration,
         TSConstructSignatureDeclaration, TSPropertySignature, TSMethodSignature,
         TSImportEqualsDeclaration, TSImportEqualsDeclModuleRef, TSExternalModuleReference,
-        TSExportAssignment, TSNamespaceExportDeclaration,
+        TSExportAssignment, TSNamespaceExportDeclaration, TSTypeReference, TSTypePredicate,
+        TSTypePredicateParamName, TSTypeQuery, TSTypeQueryExprName, TSImportType, TSTypeLiteral,
+        TSArrayType, TSTupleType, TSTupleTypeElType, TSNamedTupleMember, TSOptionalType,
+        TSRestType, TSUnionType, TSIntersectionType, TSConditionalType, TSInferType,
+        TSParenthesizedType, TSTypeOperator, TSIndexedAccessType, TSMappedType, TSLiteralType,
+        TSLiteralTypeLiteral, TSAsExpression, TSTypeAssertion, TSNonNullExpression,
     },
     pat::{ArrayPattern, ObjectPattern},
 };
@@ -29,7 +34,12 @@ use swc_ecma_ast::{
     TsEnumDecl, TsEnumMember, TsEnumMemberId, TsTypeAliasDecl, TsNamespaceDecl, TsInterfaceDecl,
     TsInterfaceBody, TsTypeElement, TsCallSignatureDecl, TsConstructSignatureDecl,
     TsPropertySignature, TsMethodSignature, TsSignatureDecl, TsImportEqualsDecl, TsModuleRef,
-    TsExternalModuleRef, TsExportAssignment, TsNamespaceExportDecl,
+    TsExternalModuleRef, TsExportAssignment, TsNamespaceExportDecl, TsTypeRef, TsTypePredicate,
+    TsThisTypeOrIdent, TsTypeQuery, TsTypeQueryExpr, TsImportType, TsTypeLit, TsArrayType,
+    TsTupleType, TsTupleElement, Pat, TsOptionalType, TsRestType, TsUnionOrIntersectionType,
+    TsUnionType, TsIntersectionType, TsConditionalType, TsInferType, TsParenthesizedType,
+    TsTypeOperator, TsTypeOperatorOp, TsIndexedAccessType, TsMappedType, TruePlusMinus, TsLitType,
+    TsLit, TsTplLitType, TsAsExpr, TsTypeAssertion, TsNonNullExpr, TsConstAssertion,
 };
 use swc_common::Spanned;
 use serde::{Serialize, Deserialize};
@@ -51,6 +61,262 @@ impl From<TSTypeAnnotation> for TypeAnnotOrNoop {
     }
 }
 
+impl Babelify for TsFnType {
+    type Output = TSFunctionType;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSFunctionType {
+            base: ctx.base(self.span),
+            parameters: self.params.iter().map(|p| p.clone().babelify(ctx).into()).collect(),
+            type_parameters: self.type_params.map(|decl| decl.babelify(ctx)),
+            type_annotation: Some(Box::new(self.type_ann.babelify(ctx))),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum TsFnParamOutput {
+    Id(Identifier),
+    Array(ArrayPattern),
+    Rest(RestElement),
+    Object(ObjectPattern),
+}
+
+impl Babelify for TsFnParam {
+    type Output = TsFnParamOutput;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            TsFnParam::Ident(i) => TsFnParamOutput::Id(i.babelify(ctx)),
+            TsFnParam::Array(a) => TsFnParamOutput::Array(a.babelify(ctx)),
+            TsFnParam::Rest(r) => TsFnParamOutput::Rest(r.babelify(ctx)),
+            TsFnParam::Object(o) => TsFnParamOutput::Object(o.babelify(ctx)),
+        }
+    }
+}
+
+impl From<TsFnParamOutput> for IdOrRest {
+    fn from(o: TsFnParamOutput) -> Self {
+        match o {
+            TsFnParamOutput::Id(i) => IdOrRest::Id(i),
+            TsFnParamOutput::Rest(r) => IdOrRest::Rest(r),
+            _ => panic!("illegal conversion"),
+        }
+    }
+}
+
+impl From<TsFnParamOutput> for Identifier {
+    fn from(o: TsFnParamOutput) -> Self {
+        match o {
+            TsFnParamOutput::Id(i) => i,
+            _ => panic!("illegal conversion"),
+        }
+    }
+}
+
+
+impl Babelify for TsTypeParamDecl {
+    type Output = TSTypeParameterDeclaration;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSTypeParameterDeclaration {
+            base: ctx.base(self.span),
+            params: self.params.iter().map(|p| p.clone().babelify(ctx)).collect(),
+        }
+    }
+}
+
+impl From<TSTypeParameterDeclaration> for TypeParamDeclOrNoop {
+    fn from(decl: TSTypeParameterDeclaration) -> Self {
+        TypeParamDeclOrNoop::TS(decl)
+    }
+}
+
+impl Babelify for TsTypeParam {
+    type Output = TSTypeParameter;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSTypeParameter {
+            base: ctx.base(self.span),
+            name: self.name.sym.to_string(),
+            constraint: self.constraint.map(|c| Box::new(c.babelify(ctx))),
+            default: self.default.map(|d| Box::new(d.babelify(ctx))),
+        }
+    }
+}
+
+impl Babelify for TsTypeParamInstantiation {
+    type Output = TSTypeParameterInstantiation;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSTypeParameterInstantiation {
+            base: ctx.base(self.span),
+            params: self.params.iter().map(|param| param.clone().babelify(ctx)).collect(),
+        }
+    }
+}
+
+impl From<TSTypeParameterInstantiation> for SuperTypeParams {
+    fn from(param: TSTypeParameterInstantiation) -> Self {
+        SuperTypeParams::TS(param)
+    }
+}
+
+impl Babelify for TsParamProp {
+    type Output = TSParameterProperty;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSParameterProperty {
+            base: ctx.base(self.span),
+            parameter: self.param.babelify(ctx),
+            accessibility: self.accessibility.map(|access| access.babelify(ctx)),
+            readonly: Some(self.readonly),
+        }
+    }
+}
+
+impl Babelify for TsParamPropParam {
+    type Output = TSParamPropParam;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            TsParamPropParam::Ident(i) => TSParamPropParam::Id(i.babelify(ctx)),
+            TsParamPropParam::Assign(a) => TSParamPropParam::Assignment(a.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for TsQualifiedName {
+    type Output = TSQualifiedName;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSQualifiedName {
+            base: ctx.base(self.span()),
+            left: Box::new(self.left.babelify(ctx)),
+            right: self.right.babelify(ctx),
+        }
+    }
+}
+
+impl Babelify for TsEntityName {
+    type Output = TSEntityName;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            TsEntityName::TsQualifiedName(n) => TSEntityName::Qualified(n.babelify(ctx)),
+            TsEntityName::Ident(i) => TSEntityName::Id(i.babelify(ctx)),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum TsSignatureDeclOutput {
+    CallSignatureDecl(TSCallSignatureDeclaration),
+    ConstructSignatureDecl(TSConstructSignatureDeclaration),
+    MethodSignature(TSMethodSignature),
+    FuncType(TSFunctionType),
+    ConstructorType(TSConstructorType),
+}
+
+impl Babelify for TsSignatureDecl {
+    type Output = TsSignatureDeclOutput;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            TsSignatureDecl::TsCallSignatureDecl(t) => TsSignatureDeclOutput::CallSignatureDecl(t.babelify(ctx)),
+            TsSignatureDecl::TsConstructSignatureDecl(t) => TsSignatureDeclOutput::ConstructSignatureDecl(t.babelify(ctx)),
+            TsSignatureDecl::TsMethodSignature(t) => TsSignatureDeclOutput::MethodSignature(t.babelify(ctx)),
+            TsSignatureDecl::TsFnType(t) => TsSignatureDeclOutput::FuncType(t.babelify(ctx)),
+            TsSignatureDecl::TsConstructorType(t) => TsSignatureDeclOutput::ConstructorType(t.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for TsTypeElement {
+    type Output = TSTypeElement;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            TsTypeElement::TsCallSignatureDecl(t) => TSTypeElement::CallSignatureDecl(t.babelify(ctx)),
+            TsTypeElement::TsConstructSignatureDecl(t) => TSTypeElement::ConstructSignatureDecl(t.babelify(ctx)),
+            TsTypeElement::TsPropertySignature(t) => TSTypeElement::PropSignature(t.babelify(ctx)),
+            TsTypeElement::TsMethodSignature(t) => TSTypeElement::MethodSignature(t.babelify(ctx)),
+            TsTypeElement::TsIndexSignature(t) => TSTypeElement::IndexSignature(t.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for TsCallSignatureDecl {
+    type Output = TSCallSignatureDeclaration;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSCallSignatureDeclaration {
+            base: ctx.base(self.span),
+            type_parameters: self.type_params.map(|t| t.babelify(ctx)),
+            parameters: self.params.iter().map(|param| param.clone().babelify(ctx).into()).collect(),
+            type_annotation: self.type_ann.map(|ann| ann.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for TsConstructSignatureDecl {
+    type Output = TSConstructSignatureDeclaration;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSConstructSignatureDeclaration {
+            base: ctx.base(self.span),
+            type_parameters: self.type_params.map(|t| t.babelify(ctx)),
+            parameters: self.params.iter().map(|param| param.clone().babelify(ctx).into()).collect(),
+            type_annotation: self.type_ann.map(|ann| ann.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for TsPropertySignature {
+    type Output = TSPropertySignature;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSPropertySignature {
+            base: ctx.base(self.span),
+            key: self.key.babelify(ctx).into(),
+            type_annotation: self.type_ann.map(|ann| ann.babelify(ctx)),
+            initializer: self.init.map(|i| i.babelify(ctx).into()),
+            computed: Some(self.computed),
+            optional: Some(self.optional),
+            readonly: Some(self.readonly),
+        }
+    }
+}
+
+impl Babelify for TsMethodSignature {
+    type Output = TSMethodSignature;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSMethodSignature {
+            base: ctx.base(self.span),
+            key: self.key.babelify(ctx).into(),
+            type_parameters: self.type_params.map(|t| t.babelify(ctx)),
+            parameters: self.params.iter().map(|param| param.clone().babelify(ctx).into()).collect(),
+            type_annotation: self.type_ann.map(|ann| ann.babelify(ctx)),
+            computed: Some(self.computed),
+            optional: Some(self.optional),
+        }
+    }
+}
+
+impl Babelify for TsIndexSignature {
+    type Output = TSIndexSignature;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSIndexSignature {
+            base: ctx.base(self.span),
+            paramters: self.params.iter().map(|param| param.clone().babelify(ctx).into()).collect(),
+            type_annotation: self.type_ann.map(|ann| ann.babelify(ctx)),
+            readonly: Some(self.readonly),
+        }
+    }
+}
+
 impl Babelify for TsType {
     type Output = TSType;
 
@@ -58,95 +324,70 @@ impl Babelify for TsType {
         match self {
             TsType::TsKeywordType(t) => {
                 match t.babelify(ctx) {
-                    TsKeywordTypeOutput::Any(w) => TSType::AnyKeyword(w),
-                    TsKeywordTypeOutput::Unknown(w) => TSType::UnknownKeyword(w),
-                    TsKeywordTypeOutput::Number(w) => TSType::NumberKeyword(w),
-                    TsKeywordTypeOutput::Object(w) => TSType::ObjectKeyword(w),
-                    TsKeywordTypeOutput::Boolean(w) => TSType::BooleanKeyword(w),
-                    TsKeywordTypeOutput::BigInt(w) => TSType::BigIntKeyword(w),
-                    TsKeywordTypeOutput::String(w) => TSType::StringKeyword(w),
-                    TsKeywordTypeOutput::Symbol(w) => TSType::SymbolKeyword(w),
-                    TsKeywordTypeOutput::Void(w) => TSType::VoidKeyword(w),
-                    TsKeywordTypeOutput::Undefined(w) => TSType::UndefinedKeyword(w),
-                    TsKeywordTypeOutput::Null(w) => TSType::NullKeyword(w),
-                    TsKeywordTypeOutput::Never(w) => TSType::NeverKeyword(w),
-                    TsKeywordTypeOutput::Intrinsic(w) => TSType::IntrinsicKeyword(w),
+                    TsKeywordTypeOutput::Any(a) => TSType::AnyKeyword(a),
+                    TsKeywordTypeOutput::Unknown(u) => TSType::UnknownKeyword(u),
+                    TsKeywordTypeOutput::Number(n) => TSType::NumberKeyword(n),
+                    TsKeywordTypeOutput::Object(o) => TSType::ObjectKeyword(o),
+                    TsKeywordTypeOutput::Boolean(b) => TSType::BooleanKeyword(b),
+                    TsKeywordTypeOutput::BigInt(i) => TSType::BigIntKeyword(i),
+                    TsKeywordTypeOutput::String(s) => TSType::StringKeyword(s),
+                    TsKeywordTypeOutput::Symbol(s) => TSType::SymbolKeyword(s),
+                    TsKeywordTypeOutput::Void(v) => TSType::VoidKeyword(v),
+                    TsKeywordTypeOutput::Undefined(u) => TSType::UndefinedKeyword(u),
+                    TsKeywordTypeOutput::Null(n) => TSType::NullKeyword(n),
+                    TsKeywordTypeOutput::Never(n) => TSType::NeverKeyword(n),
+                    TsKeywordTypeOutput::Intrinsic(i) => TSType::IntrinsicKeyword(i),
                 }
             },
             TsType::TsThisType(t) => TSType::This(t.babelify(ctx)),
-            // TsType::TsFnOrConstructorType(f) => panic!(),
-            _ => panic!()
+            TsType::TsFnOrConstructorType(t) => {
+                match t.babelify(ctx) {
+                    TsFnOrConstructorTypeOutput::Func(f) => TSType::Function(f),
+                    TsFnOrConstructorTypeOutput::Constructor(c) => TSType::Constructor(c),
+                }
+            },
+            TsType::TsTypeRef(r) => TSType::TypeRef(r.babelify(ctx)),
+            TsType::TsTypeQuery(q) => TSType::TypeQuery(q.babelify(ctx)),
+            TsType::TsTypeLit(l) => TSType::TypeLiteral(l.babelify(ctx)),
+            TsType::TsArrayType(a) => TSType::Array(a.babelify(ctx)),
+            TsType::TsTupleType(t) => TSType::Tuple(t.babelify(ctx)),
+            TsType::TsOptionalType(o) => TSType::Optional(o.babelify(ctx)),
+            TsType::TsRestType(r) => TSType::Rest(r.babelify(ctx)),
+            TsType::TsUnionOrIntersectionType(t) => {
+                match t.babelify(ctx) {
+                    TsUnionOrIntersectionTypeOutput::Union(u) => TSType::Union(u),
+                    TsUnionOrIntersectionTypeOutput::Intersection(i) => TSType::Intersection(i),
+                }
+            },
+            TsType::TsConditionalType(c) => TSType::Conditional(c.babelify(ctx)),
+            TsType::TsInferType(i) => TSType::Infer(i.babelify(ctx)),
+            TsType::TsParenthesizedType(p) => TSType::Parenthesized(p.babelify(ctx)),
+            TsType::TsTypeOperator(o) => TSType::TypeOp(o.babelify(ctx)),
+            TsType::TsIndexedAccessType(a) => TSType::IndexedAccess(a.babelify(ctx)),
+            TsType::TsMappedType(m) => TSType::Mapped(m.babelify(ctx)),
+            TsType::TsLitType(l) => TSType::Literal(l.babelify(ctx)),
+            TsType::TsTypePredicate(p) => TSType::TypePredicate(p.babelify(ctx)),
+            TsType::TsImportType(i) => TSType::Import(i.babelify(ctx)),
         }
     }
 }
 
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TsType {
-//     #[tag("TsKeywordType")]
-//     TsKeywordType(TsKeywordType),
-//
-//     #[tag("TsThisType")]
-//     TsThisType(TsThisType),
-//
-//     #[tag("TsFunctionType")]
-//     #[tag("TsConstructorType")]
-//     TsFnOrConstructorType(TsFnOrConstructorType),
-//
-//     #[tag("TsTypeReference")]
-//     TsTypeRef(TsTypeRef),
-//
-//     #[tag("TsTypeQuery")]
-//     TsTypeQuery(TsTypeQuery),
-//
-//     #[tag("TsTypeLiteral")]
-//     TsTypeLit(TsTypeLit),
-//
-//     #[tag("TsArrayType")]
-//     TsArrayType(TsArrayType),
-//
-//     #[tag("TsTupleType")]
-//     TsTupleType(TsTupleType),
-//
-//     #[tag("TsOptionalType")]
-//     TsOptionalType(TsOptionalType),
-//
-//     #[tag("TsRestType")]
-//     TsRestType(TsRestType),
-//
-//     #[tag("TsUnionType")]
-//     #[tag("TsIntersectionType")]
-//     TsUnionOrIntersectionType(TsUnionOrIntersectionType),
-//
-//     #[tag("TsConditionalType")]
-//     TsConditionalType(TsConditionalType),
-//
-//     #[tag("TsInferType")]
-//     TsInferType(TsInferType),
-//
-//     #[tag("TsParenthesizedType")]
-//     TsParenthesizedType(TsParenthesizedType),
-//
-//     #[tag("TsTypeOperator")]
-//     TsTypeOperator(TsTypeOperator),
-//
-//     #[tag("TsIndexedAccessType")]
-//     TsIndexedAccessType(TsIndexedAccessType),
-//
-//     #[tag("TsMappedType")]
-//     TsMappedType(TsMappedType),
-//
-//     #[tag("TsLiteralType")]
-//     TsLitType(TsLitType),
-//
-//     #[tag("TsTypePredicate")]
-//     TsTypePredicate(TsTypePredicate),
-//
-//     #[tag("TsImportType")]
-//     TsImportType(TsImportType),
-// }
-//
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum TsFnOrConstructorTypeOutput {
+    Func(TSFunctionType),
+    Constructor(TSConstructorType),
+}
+
+impl Babelify for TsFnOrConstructorType {
+    type Output = TsFnOrConstructorTypeOutput;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            TsFnOrConstructorType::TsFnType(t) => TsFnOrConstructorTypeOutput::Func(t.babelify(ctx)),
+            TsFnOrConstructorType::TsConstructorType(t) => TsFnOrConstructorTypeOutput::Constructor(t.babelify(ctx)),
+        }
+    }
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum TsKeywordTypeOutput {
@@ -223,639 +464,6 @@ impl Babelify for TsThisType {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum TsFnOrConstructorTypeOutput {
-    Func(TSFunctionType),
-    Constructor(TSConstructorType),
-}
-
-impl Babelify for TsFnOrConstructorType {
-    type Output = TsFnOrConstructorTypeOutput;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        match self {
-            TsFnOrConstructorType::TsFnType(t) => TsFnOrConstructorTypeOutput::Func(t.babelify(ctx)),
-            TsFnOrConstructorType::TsConstructorType(t) => TsFnOrConstructorTypeOutput::Constructor(t.babelify(ctx)),
-        }
-    }
-}
-
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TsFnOrConstructorType {
-//     #[tag("TsFunctionType")]
-//     TsFnType(TsFnType),
-//     #[tag("TsConstructorType")]
-//     TsConstructorType(TsConstructorType),
-// }
-//
-
-impl Babelify for TsFnType {
-    type Output = TSFunctionType;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        TSFunctionType {
-            base: ctx.base(self.span),
-            parameters: self.params.iter().map(|p| p.clone().babelify(ctx).into()).collect(),
-            type_parameters: self.type_params.map(|decl| decl.babelify(ctx)),
-            type_annotation: Some(Box::new(self.type_ann.babelify(ctx))),
-        }
-    }
-}
-
-// #[ast_node("TsFunctionType")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsFnType {
-//     pub span: Span,
-//     pub params: Vec<TsFnParam>,
-//
-//     #[serde(default)]
-//     pub type_params: Option<TsTypeParamDecl>,
-//     #[serde(rename = "typeAnnotation")]
-//     pub type_ann: TsTypeAnn,
-// }
-
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum TsFnParamOutput {
-    Id(Identifier),
-    Array(ArrayPattern),
-    Rest(RestElement),
-    Object(ObjectPattern),
-}
-
-impl Babelify for TsFnParam {
-    type Output = TsFnParamOutput;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        match self {
-            TsFnParam::Ident(i) => TsFnParamOutput::Id(i.babelify(ctx)),
-            TsFnParam::Array(a) => TsFnParamOutput::Array(a.babelify(ctx)),
-            TsFnParam::Rest(r) => TsFnParamOutput::Rest(r.babelify(ctx)),
-            TsFnParam::Object(o) => TsFnParamOutput::Object(o.babelify(ctx)),
-        }
-    }
-}
-
-impl From<TsFnParamOutput> for IdOrRest {
-    fn from(o: TsFnParamOutput) -> Self {
-        match o {
-            TsFnParamOutput::Id(i) => IdOrRest::Id(i),
-            TsFnParamOutput::Rest(r) => IdOrRest::Rest(r),
-            _ => panic!("illegal conversion"), // TODO(dwoznicki): how to handle?
-        }
-    }
-}
-
-impl From<TsFnParamOutput> for Identifier {
-    fn from(o: TsFnParamOutput) -> Self {
-        match o {
-            TsFnParamOutput::Id(i) => i,
-            _ => panic!("illegal conversion"), // TODO(dwoznicki): how to handle?
-        }
-    }
-}
-
-
-impl Babelify for TsTypeParamDecl {
-    type Output = TSTypeParameterDeclaration;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        TSTypeParameterDeclaration {
-            base: ctx.base(self.span),
-            params: self.params.iter().map(|p| p.clone().babelify(ctx)).collect(),
-        }
-    }
-}
-
-impl From<TSTypeParameterDeclaration> for TypeParamDeclOrNoop {
-    fn from(decl: TSTypeParameterDeclaration) -> Self {
-        TypeParamDeclOrNoop::TS(decl)
-    }
-}
-
-// #[ast_node("TsTypeParameterDeclaration")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsTypeParamDecl {
-//     pub span: Span,
-//     #[serde(rename = "parameters")]
-//     pub params: Vec<TsTypeParam>,
-// }
-
-impl Babelify for TsTypeParam {
-    type Output = TSTypeParameter;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        TSTypeParameter {
-            base: ctx.base(self.span),
-            name: self.name.sym.to_string(),
-            constraint: self.constraint.map(|c| Box::new(c.babelify(ctx))),
-            default: self.default.map(|d| Box::new(d.babelify(ctx))),
-        }
-    }
-}
-
-//
-// #[ast_node("TsTypeParameter")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsTypeParam {
-//     pub span: Span,
-//     pub name: Ident,
-//
-//     #[serde(default)]
-//     pub constraint: Option<Box<TsType>>,
-//
-//     #[serde(default)]
-//     pub default: Option<Box<TsType>>,
-// }
-//
-
-impl Babelify for TsTypeParamInstantiation {
-    type Output = TSTypeParameterInstantiation;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        TSTypeParameterInstantiation {
-            base: ctx.base(self.span),
-            params: self.params.iter().map(|param| param.clone().babelify(ctx)).collect(),
-        }
-    }
-}
-
-impl From<TSTypeParameterInstantiation> for SuperTypeParams {
-    fn from(param: TSTypeParameterInstantiation) -> Self {
-        SuperTypeParams::TS(param)
-    }
-}
-
-// #[ast_node("TsTypeParameterInstantiation")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsTypeParamInstantiation {
-//     pub span: Span,
-//     pub params: Vec<Box<TsType>>,
-// }
-//
-
-impl Babelify for TsParamProp {
-    type Output = TSParameterProperty;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        TSParameterProperty {
-            base: ctx.base(self.span),
-            parameter: self.param.babelify(ctx),
-            accessibility: self.accessibility.map(|access| access.babelify(ctx)),
-            readonly: Some(self.readonly),
-        }
-    }
-}
-
-impl Babelify for TsParamPropParam {
-    type Output = TSParamPropParam;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        match self {
-            TsParamPropParam::Ident(i) => TSParamPropParam::Id(i.babelify(ctx)),
-            TsParamPropParam::Assign(a) => TSParamPropParam::Assignment(a.babelify(ctx)),
-        }
-    }
-}
-
-impl Babelify for TsQualifiedName {
-    type Output = TSQualifiedName;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        TSQualifiedName {
-            base: ctx.base(self.span()),
-            left: Box::new(self.left.babelify(ctx)),
-            right: self.right.babelify(ctx),
-        }
-    }
-}
-
-// #[ast_node("TsQualifiedName")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsQualifiedName {
-//     #[span(lo)]
-//     pub left: TsEntityName,
-//     #[span(hi)]
-//     pub right: Ident,
-// }
-//
-
-impl Babelify for TsEntityName {
-    type Output = TSEntityName;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        match self {
-            TsEntityName::TsQualifiedName(n) => TSEntityName::Qualified(n.babelify(ctx)),
-            TsEntityName::Ident(i) => TSEntityName::Id(i.babelify(ctx)),
-        }
-    }
-}
-
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[allow(variant_size_differences)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TsEntityName {
-//     #[tag("TsQualifiedName")]
-//     TsQualifiedName(Box<TsQualifiedName>),
-//
-//     #[tag("Identifier")]
-//     Ident(Ident),
-// }
-//
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum TsSignatureDeclOutput {
-    CallSignatureDecl(TSCallSignatureDeclaration),
-    ConstructSignatureDecl(TSConstructSignatureDeclaration),
-    MethodSignature(TSMethodSignature),
-    FuncType(TSFunctionType),
-    ConstructorType(TSConstructorType),
-}
-
-impl Babelify for TsSignatureDecl {
-    type Output = TsSignatureDeclOutput;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        match self {
-            TsSignatureDecl::TsCallSignatureDecl(t) => TsSignatureDeclOutput::CallSignatureDecl(t.babelify(ctx)),
-            TsSignatureDecl::TsConstructSignatureDecl(t) => TsSignatureDeclOutput::ConstructSignatureDecl(t.babelify(ctx)),
-            TsSignatureDecl::TsMethodSignature(t) => TsSignatureDeclOutput::MethodSignature(t.babelify(ctx)),
-            TsSignatureDecl::TsFnType(t) => TsSignatureDeclOutput::FuncType(t.babelify(ctx)),
-            TsSignatureDecl::TsConstructorType(t) => TsSignatureDeclOutput::ConstructorType(t.babelify(ctx)),
-        }
-    }
-}
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TsSignatureDecl {
-//     #[tag("TsCallSignatureDeclaration")]
-//     TsCallSignatureDecl(TsCallSignatureDecl),
-//
-//     #[tag("TsConstructSignatureDeclaration")]
-//     TsConstructSignatureDecl(TsConstructSignatureDecl),
-//
-//     #[tag("TsMethodSignature")]
-//     TsMethodSignature(TsMethodSignature),
-//
-//     #[tag("TsFunctionType")]
-//     TsFnType(TsFnType),
-//
-//     #[tag("TsConstructorType")]
-//     TsConstructorType(TsConstructorType),
-// }
-//
-// // ================
-// // TypeScript type members (for type literal / interface / class)
-// // ================
-//
-
-impl Babelify for TsTypeElement {
-    type Output = TSTypeElement;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        match self {
-            TsTypeElement::TsCallSignatureDecl(t) => TSTypeElement::CallSignatureDecl(t.babelify(ctx)),
-            TsTypeElement::TsConstructSignatureDecl(t) => TSTypeElement::ConstructSignatureDecl(t.babelify(ctx)),
-            TsTypeElement::TsPropertySignature(t) => TSTypeElement::PropSignature(t.babelify(ctx)),
-            TsTypeElement::TsMethodSignature(t) => TSTypeElement::MethodSignature(t.babelify(ctx)),
-            TsTypeElement::TsIndexSignature(t) => TSTypeElement::IndexSignature(t.babelify(ctx)),
-        }
-    }
-}
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TsTypeElement {
-//     #[tag("TsCallSignatureDeclaration")]
-//     TsCallSignatureDecl(TsCallSignatureDecl),
-//
-//     #[tag("TsConstructSignatureDeclaration")]
-//     TsConstructSignatureDecl(TsConstructSignatureDecl),
-//
-//     #[tag("TsPropertySignature")]
-//     TsPropertySignature(TsPropertySignature),
-//
-//     #[tag("TsMethodSignature")]
-//     TsMethodSignature(TsMethodSignature),
-//
-//     #[tag("TsIndexSignature")]
-//     TsIndexSignature(TsIndexSignature),
-// }
-//
-
-impl Babelify for TsCallSignatureDecl {
-    type Output = TSCallSignatureDeclaration;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        TSCallSignatureDeclaration {
-            base: ctx.base(self.span),
-            type_parameters: self.type_params.map(|t| t.babelify(ctx)),
-            parameters: self.params.iter().map(|param| param.clone().babelify(ctx).into()).collect(),
-            type_annotation: self.type_ann.map(|ann| ann.babelify(ctx)),
-        }
-    }
-}
-// #[ast_node("TsCallSignatureDeclaration")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsCallSignatureDecl {
-//     pub span: Span,
-//     pub params: Vec<TsFnParam>,
-//     #[serde(default, rename = "typeAnnotation")]
-//     pub type_ann: Option<TsTypeAnn>,
-//     #[serde(default)]
-//     pub type_params: Option<TsTypeParamDecl>,
-// }
-//
-
-impl Babelify for TsConstructSignatureDecl {
-    type Output = TSConstructSignatureDeclaration;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        TSConstructSignatureDeclaration {
-            base: ctx.base(self.span),
-            type_parameters: self.type_params.map(|t| t.babelify(ctx)),
-            parameters: self.params.iter().map(|param| param.clone().babelify(ctx).into()).collect(),
-            type_annotation: self.type_ann.map(|ann| ann.babelify(ctx)),
-        }
-    }
-}
-// #[ast_node("TsConstructSignatureDeclaration")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsConstructSignatureDecl {
-//     pub span: Span,
-//     pub params: Vec<TsFnParam>,
-//     #[serde(default, rename = "typeAnnotation")]
-//     pub type_ann: Option<TsTypeAnn>,
-//     #[serde(default)]
-//     pub type_params: Option<TsTypeParamDecl>,
-// }
-//
-
-impl Babelify for TsPropertySignature {
-    type Output = TSPropertySignature;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        TSPropertySignature {
-            base: ctx.base(self.span),
-            key: self.key.babelify(ctx).into(),
-            type_annotation: self.type_ann.map(|ann| ann.babelify(ctx)),
-            initializer: self.init.map(|i| i.babelify(ctx).into()),
-            computed: Some(self.computed),
-            optional: Some(self.optional),
-            readonly: Some(self.readonly),
-        }
-    }
-}
-// #[ast_node("TsPropertySignature")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsPropertySignature {
-//     pub span: Span,
-//     pub readonly: bool,
-//     pub key: Box<Expr>,
-//     pub computed: bool,
-//     pub optional: bool,
-//     #[serde(default)]
-//     pub init: Option<Box<Expr>>,
-//     pub params: Vec<TsFnParam>,
-//     #[serde(default, rename = "typeAnnotation")]
-//     pub type_ann: Option<TsTypeAnn>,
-//     #[serde(default)]
-//     pub type_params: Option<TsTypeParamDecl>,
-// }
-
-impl Babelify for TsMethodSignature {
-    type Output = TSMethodSignature;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        TSMethodSignature {
-            base: ctx.base(self.span),
-            key: self.key.babelify(ctx).into(),
-            type_parameters: self.type_params.map(|t| t.babelify(ctx)),
-            parameters: self.params.iter().map(|param| param.clone().babelify(ctx).into()).collect(),
-            type_annotation: self.type_ann.map(|ann| ann.babelify(ctx)),
-            computed: Some(self.computed),
-            optional: Some(self.optional),
-        }
-    }
-}
-//
-// #[ast_node("TsMethodSignature")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsMethodSignature {
-//     pub span: Span,
-//     pub readonly: bool,
-//     pub key: Box<Expr>,
-//     pub computed: bool,
-//     pub optional: bool,
-//     pub params: Vec<TsFnParam>,
-//     #[serde(default)]
-//     pub type_ann: Option<TsTypeAnn>,
-//     #[serde(default)]
-//     pub type_params: Option<TsTypeParamDecl>,
-// }
-
-impl Babelify for TsIndexSignature {
-    type Output = TSIndexSignature;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        TSIndexSignature {
-            base: ctx.base(self.span),
-            paramters: self.params.iter().map(|param| param.clone().babelify(ctx).into()).collect(),
-            type_annotation: self.type_ann.map(|ann| ann.babelify(ctx)),
-            readonly: Some(self.readonly),
-        }
-    }
-}
-//
-// #[ast_node("TsIndexSignature")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsIndexSignature {
-//     pub params: Vec<TsFnParam>,
-//     #[serde(default, rename = "typeAnnotation")]
-//     pub type_ann: Option<TsTypeAnn>,
-//
-//     pub readonly: bool,
-//     pub span: Span,
-// }
-//
-// // ================
-// // TypeScript types
-// // ================
-//
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TsType {
-//     #[tag("TsKeywordType")]
-//     TsKeywordType(TsKeywordType),
-//
-//     #[tag("TsThisType")]
-//     TsThisType(TsThisType),
-//
-//     #[tag("TsFunctionType")]
-//     #[tag("TsConstructorType")]
-//     TsFnOrConstructorType(TsFnOrConstructorType),
-//
-//     #[tag("TsTypeReference")]
-//     TsTypeRef(TsTypeRef),
-//
-//     #[tag("TsTypeQuery")]
-//     TsTypeQuery(TsTypeQuery),
-//
-//     #[tag("TsTypeLiteral")]
-//     TsTypeLit(TsTypeLit),
-//
-//     #[tag("TsArrayType")]
-//     TsArrayType(TsArrayType),
-//
-//     #[tag("TsTupleType")]
-//     TsTupleType(TsTupleType),
-//
-//     #[tag("TsOptionalType")]
-//     TsOptionalType(TsOptionalType),
-//
-//     #[tag("TsRestType")]
-//     TsRestType(TsRestType),
-//
-//     #[tag("TsUnionType")]
-//     #[tag("TsIntersectionType")]
-//     TsUnionOrIntersectionType(TsUnionOrIntersectionType),
-//
-//     #[tag("TsConditionalType")]
-//     TsConditionalType(TsConditionalType),
-//
-//     #[tag("TsInferType")]
-//     TsInferType(TsInferType),
-//
-//     #[tag("TsParenthesizedType")]
-//     TsParenthesizedType(TsParenthesizedType),
-//
-//     #[tag("TsTypeOperator")]
-//     TsTypeOperator(TsTypeOperator),
-//
-//     #[tag("TsIndexedAccessType")]
-//     TsIndexedAccessType(TsIndexedAccessType),
-//
-//     #[tag("TsMappedType")]
-//     TsMappedType(TsMappedType),
-//
-//     #[tag("TsLiteralType")]
-//     TsLitType(TsLitType),
-//
-//     #[tag("TsTypePredicate")]
-//     TsTypePredicate(TsTypePredicate),
-//
-//     #[tag("TsImportType")]
-//     TsImportType(TsImportType),
-// }
-//
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TsFnOrConstructorType {
-//     #[tag("TsFunctionType")]
-//     TsFnType(TsFnType),
-//     #[tag("TsConstructorType")]
-//     TsConstructorType(TsConstructorType),
-// }
-//
-// impl From<TsFnType> for TsType {
-//     fn from(t: TsFnType) -> Self {
-//         TsFnOrConstructorType::TsFnType(t).into()
-//     }
-// }
-//
-// impl From<TsConstructorType> for TsType {
-//     fn from(t: TsConstructorType) -> Self {
-//         TsFnOrConstructorType::TsConstructorType(t).into()
-//     }
-// }
-//
-// impl From<TsUnionType> for TsType {
-//     fn from(t: TsUnionType) -> Self {
-//         TsUnionOrIntersectionType::TsUnionType(t).into()
-//     }
-// }
-//
-// impl From<TsIntersectionType> for TsType {
-//     fn from(t: TsIntersectionType) -> Self {
-//         TsUnionOrIntersectionType::TsIntersectionType(t).into()
-//     }
-// }
-//
-// #[ast_node("TsKeywordType")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsKeywordType {
-//     pub span: Span,
-//     pub kind: TsKeywordTypeKind,
-// }
-//
-// #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TsKeywordTypeKind {
-//     #[serde(rename = "any")]
-//     TsAnyKeyword,
-//
-//     #[serde(rename = "unknown")]
-//     TsUnknownKeyword,
-//
-//     #[serde(rename = "number")]
-//     TsNumberKeyword,
-//
-//     #[serde(rename = "object")]
-//     TsObjectKeyword,
-//
-//     #[serde(rename = "boolean")]
-//     TsBooleanKeyword,
-//
-//     #[serde(rename = "bigint")]
-//     TsBigIntKeyword,
-//
-//     #[serde(rename = "string")]
-//     TsStringKeyword,
-//
-//     #[serde(rename = "symbol")]
-//     TsSymbolKeyword,
-//
-//     #[serde(rename = "void")]
-//     TsVoidKeyword,
-//
-//     #[serde(rename = "undefined")]
-//     TsUndefinedKeyword,
-//
-//     #[serde(rename = "null")]
-//     TsNullKeyword,
-//
-//     #[serde(rename = "never")]
-//     TsNeverKeyword,
-//
-//     #[serde(rename = "intrinsic")]
-//     TsIntrinsicKeyword,
-// }
-//
-// #[ast_node("TsThisType")]
-// #[derive(Copy, Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsThisType {
-//     pub span: Span,
-// }
-//
-
 impl Babelify for TsConstructorType {
     type Output = TSConstructorType;
 
@@ -870,346 +478,320 @@ impl Babelify for TsConstructorType {
     }
 }
 
-//
-// #[ast_node("TsConstructorType")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsConstructorType {
-//     pub span: Span,
-//     pub params: Vec<TsFnParam>,
-//     #[serde(default)]
-//     pub type_params: Option<TsTypeParamDecl>,
-//     #[serde(rename = "typeAnnotation")]
-//     pub type_ann: TsTypeAnn,
-//     pub is_abstract: bool,
-// }
-//
-// #[ast_node("TsTypeReference")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsTypeRef {
-//     pub span: Span,
-//     pub type_name: TsEntityName,
-//     #[serde(default)]
-//     pub type_params: Option<TsTypeParamInstantiation>,
-// }
-//
-// #[ast_node("TsTypePredicate")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsTypePredicate {
-//     pub span: Span,
-//     pub asserts: bool,
-//     pub param_name: TsThisTypeOrIdent,
-//     #[serde(rename = "typeAnnotation")]
-//     pub type_ann: Option<TsTypeAnn>,
-// }
-//
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[allow(variant_size_differences)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TsThisTypeOrIdent {
-//     #[tag("TsThisType")]
-//     TsThisType(TsThisType),
-//
-//     #[tag("Identifier")]
-//     Ident(Ident),
-// }
-//
-// /// `typeof` operator
-// #[ast_node("TsTypeQuery")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsTypeQuery {
-//     pub span: Span,
-//     pub expr_name: TsTypeQueryExpr,
-// }
-//
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TsTypeQueryExpr {
-//     #[tag("TsQualifiedName")]
-//     #[tag("Identifier")]
-//     TsEntityName(TsEntityName),
-//     #[tag("TsImportType")]
-//     Import(TsImportType),
-// }
-//
-// #[ast_node("TsImportType")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsImportType {
-//     pub span: Span,
-//     #[serde(rename = "argument")]
-//     pub arg: Str,
-//     pub qualifier: Option<TsEntityName>,
-//     #[serde(rename = "typeArguments")]
-//     pub type_args: Option<TsTypeParamInstantiation>,
-// }
-//
-// #[ast_node("TsTypeLiteral")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsTypeLit {
-//     pub span: Span,
-//     pub members: Vec<TsTypeElement>,
-// }
-//
-// #[ast_node("TsArrayType")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsArrayType {
-//     pub span: Span,
-//     pub elem_type: Box<TsType>,
-// }
-//
-// #[ast_node("TsTupleType")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsTupleType {
-//     pub span: Span,
-//     pub elem_types: Vec<TsTupleElement>,
-// }
-//
-// #[ast_node("TsTupleElement")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsTupleElement {
-//     pub span: Span,
-//     /// `Ident` or `RestPat { arg: Ident }`
-//     pub label: Option<Pat>,
-//     pub ty: TsType,
-// }
-//
-// #[ast_node("TsOptionalType")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsOptionalType {
-//     pub span: Span,
-//     #[serde(rename = "typeAnnotation")]
-//     pub type_ann: Box<TsType>,
-// }
-//
-// #[ast_node("TsRestType")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsRestType {
-//     pub span: Span,
-//     #[serde(rename = "typeAnnotation")]
-//     pub type_ann: Box<TsType>,
-// }
-//
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TsUnionOrIntersectionType {
-//     #[tag("TsUnionType")]
-//     TsUnionType(TsUnionType),
-//
-//     #[tag("TsIntersectionType")]
-//     TsIntersectionType(TsIntersectionType),
-// }
-//
-// #[ast_node("TsUnionType")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsUnionType {
-//     pub span: Span,
-//     pub types: Vec<Box<TsType>>,
-// }
-//
-// #[ast_node("TsIntersectionType")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsIntersectionType {
-//     pub span: Span,
-//     pub types: Vec<Box<TsType>>,
-// }
-//
-// #[ast_node("TsConditionalType")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsConditionalType {
-//     pub span: Span,
-//     pub check_type: Box<TsType>,
-//     pub extends_type: Box<TsType>,
-//     pub true_type: Box<TsType>,
-//     pub false_type: Box<TsType>,
-// }
-//
-// #[ast_node("TsInferType")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsInferType {
-//     pub span: Span,
-//     pub type_param: TsTypeParam,
-// }
-//
-// #[ast_node("TsParenthesizedType")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsParenthesizedType {
-//     pub span: Span,
-//     #[serde(rename = "typeAnnotation")]
-//     pub type_ann: Box<TsType>,
-// }
-//
-// #[ast_node("TsTypeOperator")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsTypeOperator {
-//     pub span: Span,
-//     pub op: TsTypeOperatorOp,
-//     #[serde(rename = "typeAnnotation")]
-//     pub type_ann: Box<TsType>,
-// }
-//
-// #[derive(StringEnum, Clone, Copy, PartialEq, Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TsTypeOperatorOp {
-//     /// `keyof`
-//     KeyOf,
-//     /// `unique`
-//     Unique,
-//     /// `readonly`
-//     ReadOnly,
-// }
-//
-// #[ast_node("TsIndexedAccessType")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsIndexedAccessType {
-//     pub span: Span,
-//     pub readonly: bool,
-//     #[serde(rename = "objectType")]
-//     pub obj_type: Box<TsType>,
-//     pub index_type: Box<TsType>,
-// }
-//
-// #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TruePlusMinus {
-//     True,
-//     Plus,
-//     Minus,
-// }
-//
-// impl Serialize for TruePlusMinus {
-//     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-//     where
-//         S: ::serde::Serializer,
-//     {
-//         match *self {
-//             TruePlusMinus::True => serializer.serialize_bool(true),
-//             TruePlusMinus::Plus => serializer.serialize_str("+"),
-//             TruePlusMinus::Minus => serializer.serialize_str("-"),
-//         }
-//     }
-// }
-//
-// impl<'de> Deserialize<'de> for TruePlusMinus {
-//     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-//     where
-//         D: Deserializer<'de>,
-//     {
-//         struct TruePlusMinusVisitor;
-//
-//         impl<'de> Visitor<'de> for TruePlusMinusVisitor {
-//             type Value = TruePlusMinus;
-//             fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
-//                 formatter.write_str("one of '+', '-', true")
-//             }
-//
-//             fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
-//             where
-//                 E: de::Error,
-//             {
-//                 match value {
-//                     "+" => Ok(TruePlusMinus::Plus),
-//                     "-" => Ok(TruePlusMinus::Minus),
-//                     "true" => Ok(TruePlusMinus::True),
-//                     _ => Err(de::Error::invalid_value(Unexpected::Str(value), &self)),
-//                 }
-//             }
-//
-//             fn visit_bool<E>(self, value: bool) -> Result<Self::Value, E>
-//             where
-//                 E: de::Error,
-//             {
-//                 if value {
-//                     Ok(TruePlusMinus::True)
-//                 } else {
-//                     Err(de::Error::invalid_value(Unexpected::Bool(value), &self))
-//                 }
-//             }
-//         }
-//
-//         deserializer.deserialize_any(TruePlusMinusVisitor)
-//     }
-// }
-//
-// #[ast_node("TsMappedType")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsMappedType {
-//     pub span: Span,
-//     #[serde(default)]
-//     pub readonly: Option<TruePlusMinus>,
-//     pub type_param: TsTypeParam,
-//     #[serde(default, rename = "nameType")]
-//     pub name_type: Option<Box<TsType>>,
-//     #[serde(default)]
-//     pub optional: Option<TruePlusMinus>,
-//     #[serde(default, rename = "typeAnnotation")]
-//     pub type_ann: Option<Box<TsType>>,
-// }
-//
-// #[ast_node("TsLiteralType")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsLitType {
-//     pub span: Span,
-//     #[serde(rename = "literal")]
-//     pub lit: TsLit,
-// }
-//
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TsLit {
-//     #[tag("NumericLiteral")]
-//     Number(Number),
-//
-//     #[tag("StringLiteral")]
-//     Str(Str),
-//
-//     #[tag("BooleanLiteral")]
-//     Bool(Bool),
-//
-//     #[tag("BigIntLiteral")]
-//     BigInt(BigInt),
-//
-//     #[tag("TemplateLiteral")]
-//     Tpl(TsTplLitType),
-// }
-//
-// #[ast_node("TemplateLiteral")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsTplLitType {
-//     pub span: Span,
-//
-//     pub types: Vec<Box<TsType>>,
-//
-//     pub quasis: Vec<TplElement>,
-// }
-//
-// // // ================
-// // // TypeScript declarations
-// // // ================
-//
+impl Babelify for TsTypeRef {
+    type Output = TSTypeReference;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSTypeReference {
+            base: ctx.base(self.span),
+            type_name: self.type_name.babelify(ctx),
+            type_parameters: self.type_params.map(|t| t.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for TsTypePredicate {
+    type Output = TSTypePredicate;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSTypePredicate {
+            base: ctx.base(self.span),
+            parameter_name: self.param_name.babelify(ctx),
+            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx))),
+            asserts: Some(self.asserts),
+        }
+    }
+}
+
+impl Babelify for TsThisTypeOrIdent {
+    type Output = TSTypePredicateParamName;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            TsThisTypeOrIdent::Ident(i) => TSTypePredicateParamName::Id(i.babelify(ctx)),
+            TsThisTypeOrIdent::TsThisType(t) => TSTypePredicateParamName::This(t.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for TsTypeQuery {
+    type Output = TSTypeQuery;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSTypeQuery {
+            base: ctx.base(self.span),
+            expr_name: self.expr_name.babelify(ctx),
+        }
+    }
+}
+
+impl Babelify for TsTypeQueryExpr {
+    type Output = TSTypeQueryExprName;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            TsTypeQueryExpr::TsEntityName(n) => TSTypeQueryExprName::EntityName(n.babelify(ctx)),
+            TsTypeQueryExpr::Import(i) => TSTypeQueryExprName::ImportType(i.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for TsImportType {
+    type Output = TSImportType;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSImportType {
+            base: ctx.base(self.span),
+            argument: self.arg.babelify(ctx),
+            qualifier: self.qualifier.map(|qual| qual.babelify(ctx)),
+            type_parameters: self.type_args.map(|param| param.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for TsTypeLit {
+    type Output = TSTypeLiteral;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSTypeLiteral {
+            base: ctx.base(self.span),
+            members: self.members.iter().map(|memb| memb.clone().babelify(ctx)).collect(),
+        }
+    }
+}
+
+impl Babelify for TsArrayType {
+    type Output = TSArrayType;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSArrayType {
+            base: ctx.base(self.span),
+            element_type: Box::new(self.elem_type.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for TsTupleType {
+    type Output = TSTupleType;
+    
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSTupleType {
+            base: ctx.base(self.span),
+            element_types: self.elem_types.iter().map(|t| t.clone().babelify(ctx)).collect(),
+        }
+    }
+}
+
+impl Babelify for TsTupleElement {
+     type Output = TSTupleTypeElType;
+
+     fn babelify(self, ctx: &Context) -> Self::Output {
+         match self.label {
+             None => TSTupleTypeElType::TSType(self.ty.babelify(ctx)),
+             Some(pat) => {
+                 TSTupleTypeElType::Member(TSNamedTupleMember {
+                     base: ctx.base(self.span),
+                     label: match pat {
+                         Pat::Ident(id) => id.babelify(ctx),
+                         Pat::Rest(rest) => {
+                             match *rest.arg {
+                                 Pat::Ident(id) => id.babelify(ctx),
+                                 _ => panic!("illegal conversion"),
+                             }
+                         },
+                         _ => panic!("illegal conversion"),
+                     },
+                     element_type: self.ty.babelify(ctx),
+                     optional: Default::default(),
+                 })
+             }
+         }
+     }
+}
+
+impl Babelify for TsOptionalType {
+    type Output = TSOptionalType;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSOptionalType {
+            base: ctx.base(self.span),
+            type_annotation: Box::new(self.type_ann.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for TsRestType {
+    type Output = TSRestType;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSRestType {
+            base: ctx.base(self.span),
+            type_annotation: Box::new(self.type_ann.babelify(ctx)),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum TsUnionOrIntersectionTypeOutput {
+    Union(TSUnionType),
+    Intersection(TSIntersectionType),
+}
+
+impl Babelify for TsUnionOrIntersectionType {
+    type Output = TsUnionOrIntersectionTypeOutput;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            TsUnionOrIntersectionType::TsUnionType(u) => TsUnionOrIntersectionTypeOutput::Union(u.babelify(ctx)),
+            TsUnionOrIntersectionType::TsIntersectionType(i) => TsUnionOrIntersectionTypeOutput::Intersection(i.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for TsUnionType {
+    type Output = TSUnionType;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSUnionType {
+            base: ctx.base(self.span),
+            types: self.types.iter().map(|t| t.clone().babelify(ctx)).collect(),
+        }
+    }
+}
+
+impl Babelify for TsIntersectionType {
+    type Output = TSIntersectionType;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSIntersectionType {
+            base: ctx.base(self.span),
+            types: self.types.iter().map(|t| t.clone().babelify(ctx)).collect(),
+        }
+    }
+}
+
+impl Babelify for TsConditionalType {
+    type Output = TSConditionalType;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSConditionalType {
+            base: ctx.base(self.span),
+            check_type: Box::new(self.check_type.babelify(ctx)),
+            extends_type: Box::new(self.extends_type.babelify(ctx)),
+            true_type: Box::new(self.true_type.babelify(ctx)),
+            false_type: Box::new(self.false_type.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for TsInferType {
+    type Output = TSInferType;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSInferType {
+            base: ctx.base(self.span),
+            type_parameter: Box::new(self.type_param.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for TsParenthesizedType {
+    type Output = TSParenthesizedType;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSParenthesizedType {
+            base: ctx.base(self.span),
+            type_annotation: Box::new(self.type_ann.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for TsTypeOperator {
+    type Output = TSTypeOperator;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSTypeOperator {
+            base: ctx.base(self.span),
+            type_annotation: Box::new(self.type_ann.babelify(ctx)),
+            operator: self.op.babelify(ctx),
+        }
+    }
+}
+
+impl Babelify for TsTypeOperatorOp {
+    type Output = String;
+
+    fn babelify(self, _ctx: &Context) -> Self::Output {
+        match self {
+            TsTypeOperatorOp::KeyOf => "keyof".to_string(),
+            TsTypeOperatorOp::Unique => "unique".to_string(),
+            TsTypeOperatorOp::ReadOnly => "readonly".to_string(),
+        }
+    }
+}
+
+impl Babelify for TsIndexedAccessType {
+    type Output = TSIndexedAccessType;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSIndexedAccessType {
+            base: ctx.base(self.span),
+            object_type: Box::new(self.obj_type.babelify(ctx)),
+            index_type: Box::new(self.index_type.babelify(ctx)),
+        }
+    }
+}
+
+// TODO(dwoznicki): I don't understand how Babel handles the +/- symbol, so this
+// conversion will not work properly yet.
+impl Babelify for TsMappedType {
+    type Output = TSMappedType;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSMappedType {
+            base: ctx.base(self.span),
+            type_parameter: Box::new(self.type_param.babelify(ctx)),
+            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx))),
+            name_type: self.name_type.map(|t| Box::new(t.babelify(ctx))),
+            optional: self.optional.map(|val| val == TruePlusMinus::True),
+            readonly: self.readonly.map(|val| val == TruePlusMinus::True),
+        }
+    }
+}
+
+impl Babelify for TsLitType {
+    type Output = TSLiteralType;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSLiteralType {
+            base: ctx.base(self.span),
+            literal: self.lit.babelify(ctx),
+        }
+    }
+}
+
+impl Babelify for TsLit {
+    type Output = TSLiteralTypeLiteral;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            TsLit::Number(n) => TSLiteralTypeLiteral::Numeric(n.babelify(ctx)),
+            TsLit::Str(s) => TSLiteralTypeLiteral::String(s.babelify(ctx)),
+            TsLit::Bool(b) => TSLiteralTypeLiteral::Boolean(b.babelify(ctx)),
+            TsLit::BigInt(i) => TSLiteralTypeLiteral::BigInt(i.babelify(ctx)),
+            TsLit::Tpl(_) => panic!("illegal conversion"),
+        }
+    }
+}
+
+// TODO(dwoznicki): Babel does not appear to have a corresponding template literal TS node.
+impl Babelify for TsTplLitType {
+    type Output = String;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        panic!("unimplemented");
+    }
+}
 
 impl Babelify for TsInterfaceDecl {
     type Output = TSInterfaceDeclaration;
@@ -1225,19 +807,6 @@ impl Babelify for TsInterfaceDecl {
         }
     }
 }
-// #[ast_node("TsInterfaceDeclaration")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsInterfaceDecl {
-//     pub span: Span,
-//     pub id: Ident,
-//     pub declare: bool,
-//     #[serde(default)]
-//     pub type_params: Option<TsTypeParamDecl>,
-//     pub extends: Vec<TsExprWithTypeArgs>,
-//     pub body: TsInterfaceBody,
-// }
-//
 
 impl Babelify for TsInterfaceBody {
     type Output = TSInterfaceBody;
@@ -1249,14 +818,6 @@ impl Babelify for TsInterfaceBody {
         }
     }
 }
-// #[ast_node("TsInterfaceBody")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsInterfaceBody {
-//     pub span: Span,
-//     pub body: Vec<TsTypeElement>,
-// }
-//
 
 impl Babelify for TsExprWithTypeArgs {
     type Output = TSExpressionWithTypeArguments;
@@ -1276,18 +837,6 @@ impl From<TSExpressionWithTypeArguments> for ClassImpl {
     }
 }
 
-// #[ast_node("TsExpressionWithTypeArguments")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsExprWithTypeArgs {
-//     pub span: Span,
-//     #[serde(rename = "expression")]
-//     pub expr: TsEntityName,
-//     #[serde(default, rename = "typeArguments")]
-//     pub type_args: Option<TsTypeParamInstantiation>,
-// }
-//
-
 impl Babelify for TsTypeAliasDecl {
     type Output = TSTypeAliasDeclaration;
 
@@ -1301,19 +850,6 @@ impl Babelify for TsTypeAliasDecl {
         }
     }
 }
-// #[ast_node("TsTypeAliasDeclaration")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsTypeAliasDecl {
-//     pub span: Span,
-//     pub declare: bool,
-//     pub id: Ident,
-//     #[serde(default)]
-//     pub type_params: Option<TsTypeParamDecl>,
-//     #[serde(rename = "typeAnnotation")]
-//     pub type_ann: Box<TsType>,
-// }
-//
 
 impl Babelify for TsEnumDecl {
     type Output = TSEnumDeclaration;
@@ -1329,16 +865,6 @@ impl Babelify for TsEnumDecl {
         }
     }
 }
-// #[ast_node("TsEnumDeclaration")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsEnumDecl {
-//     pub span: Span,
-//     pub declare: bool,
-//     pub is_const: bool,
-//     pub id: Ident,
-//     pub members: Vec<TsEnumMember>,
-// }
 
 impl Babelify for TsEnumMember {
     type Output = TSEnumMember;
@@ -1351,17 +877,6 @@ impl Babelify for TsEnumMember {
         }
     }
 }
-//
-// #[ast_node("TsEnumMember")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsEnumMember {
-//     pub span: Span,
-//     pub id: TsEnumMemberId,
-//     #[serde(default)]
-//     pub init: Option<Box<Expr>>,
-// }
-//
 
 impl Babelify for TsEnumMemberId {
     type Output = IdOrString;
@@ -1373,19 +888,6 @@ impl Babelify for TsEnumMemberId {
         }
     }
 }
-// ///
-// /// - Invalid: [Ident] with empty symbol.
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TsEnumMemberId {
-//     #[tag("Identifier")]
-//     Ident(Ident),
-//
-//     #[tag("StringLiteral")]
-//     Str(Str),
-// }
-//
 
 impl Babelify for TsModuleDecl {
     type Output = TSModuleDeclaration;
@@ -1400,19 +902,6 @@ impl Babelify for TsModuleDecl {
         }
     }
 }
-// #[ast_node("TsModuleDeclaration")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsModuleDecl {
-//     pub span: Span,
-//     pub declare: bool,
-//     /// In TypeScript, this is only available through`node.flags`.
-//     pub global: bool,
-//     pub id: TsModuleName,
-//     #[serde(default)]
-//     pub body: Option<TsNamespaceBody>,
-// }
-//
 
 impl Babelify for TsNamespaceBody {
     type Output = TSModuleDeclBody;
@@ -1424,19 +913,6 @@ impl Babelify for TsNamespaceBody {
         }
     }
 }
-// /// `namespace A.B { }` is a namespace named `A` with another TsNamespaceDecl as
-// /// its body.
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TsNamespaceBody {
-//     #[tag("TsModuleBlock")]
-//     TsModuleBlock(TsModuleBlock),
-//
-//     #[tag("TsNamespaceDeclaration")]
-//     TsNamespaceDecl(TsNamespaceDecl),
-// }
-//
 
 impl Babelify for TsModuleBlock {
     type Output = TSModuleBlock;
@@ -1448,14 +924,6 @@ impl Babelify for TsModuleBlock {
         }
     }
 }
-// #[ast_node("TsModuleBlock")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsModuleBlock {
-//     pub span: Span,
-//     pub body: Vec<ModuleItem>,
-// }
-//
 
 impl Babelify for TsNamespaceDecl {
     type Output = TSModuleDeclaration;
@@ -1470,18 +938,6 @@ impl Babelify for TsNamespaceDecl {
         }
     }
 }
-// #[ast_node("TsNamespaceDeclaration")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsNamespaceDecl {
-//     pub span: Span,
-//     pub declare: bool,
-//     /// In TypeScript, this is only available through`node.flags`.
-//     pub global: bool,
-//     pub id: Ident,
-//     pub body: Box<TsNamespaceBody>,
-// }
-//
 
 impl Babelify for TsModuleName {
     type Output = IdOrString;
@@ -1493,17 +949,6 @@ impl Babelify for TsModuleName {
         }
     }
 }
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TsModuleName {
-//     #[tag("Identifier")]
-//     Ident(Ident),
-//
-//     #[tag("StringLiteral")]
-//     Str(Str),
-// }
-//
 
 impl Babelify for TsImportEqualsDecl {
     type Output = TSImportEqualsDeclaration;
@@ -1517,17 +962,6 @@ impl Babelify for TsImportEqualsDecl {
         }
     }
 }
-// #[ast_node("TsImportEqualsDeclaration")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsImportEqualsDecl {
-//     pub span: Span,
-//     pub declare: bool,
-//     pub is_export: bool,
-//     pub id: Ident,
-//     pub module_ref: TsModuleRef,
-// }
-//
 
 impl Babelify for TsModuleRef {
     type Output = TSImportEqualsDeclModuleRef;
@@ -1539,18 +973,6 @@ impl Babelify for TsModuleRef {
         }
     }
 }
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum TsModuleRef {
-//     #[tag("TsQualifiedName")]
-//     #[tag("Identifier")]
-//     TsEntityName(TsEntityName),
-//
-//     #[tag("TsExternalModuleReference")]
-//     TsExternalModuleRef(TsExternalModuleRef),
-// }
-//
 
 impl Babelify for TsExternalModuleRef {
     type Output = TSExternalModuleReference;
@@ -1562,15 +984,6 @@ impl Babelify for TsExternalModuleRef {
         }
     }
 }
-// #[ast_node("TsExternalModuleReference")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsExternalModuleRef {
-//     pub span: Span,
-//     #[serde(rename = "expression")]
-//     pub expr: Str,
-// }
-//
 
 impl Babelify for TsExportAssignment {
     type Output = TSExportAssignment;
@@ -1582,18 +995,6 @@ impl Babelify for TsExportAssignment {
         }
     }
 }
-// /// TypeScript's own parser uses ExportAssignment for both `export default` and
-// /// `export =`. But for @babel/parser, `export default` is an ExportDefaultDecl,
-// /// so a TsExportAssignment is always `export =`.
-// #[ast_node("TsExportAssignment")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsExportAssignment {
-//     pub span: Span,
-//     #[serde(rename = "expression")]
-//     pub expr: Box<Expr>,
-// }
-//
 
 impl Babelify for TsNamespaceExportDecl {
     type Output = TSNamespaceExportDeclaration;
@@ -1605,49 +1006,41 @@ impl Babelify for TsNamespaceExportDecl {
         }
     }
 }
-// #[ast_node("TsNamespaceExportDeclaration")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsNamespaceExportDecl {
-//     pub span: Span,
-//     pub id: Ident,
-// }
-//
-// // // ================
-// // // TypeScript exprs
-// // // ================
-//
-// #[ast_node("TsAsExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsAsExpr {
-//     pub span: Span,
-//     #[serde(rename = "expression")]
-//     pub expr: Box<Expr>,
-//     #[serde(rename = "typeAnnotation")]
-//     pub type_ann: Box<TsType>,
-// }
-//
-// #[ast_node("TsTypeAssertion")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsTypeAssertion {
-//     pub span: Span,
-//     #[serde(rename = "expression")]
-//     pub expr: Box<Expr>,
-//     #[serde(rename = "typeAnnotation")]
-//     pub type_ann: Box<TsType>,
-// }
-//
-// #[ast_node("TsNonNullExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsNonNullExpr {
-//     pub span: Span,
-//     #[serde(rename = "expression")]
-//     pub expr: Box<Expr>,
-// }
-//
+
+impl Babelify for TsAsExpr {
+    type Output = TSAsExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSAsExpression {
+            base: ctx.base(self.span),
+            expression: Box::new(self.expr.babelify(ctx).into()),
+            type_annotation: self.type_ann.babelify(ctx),
+        }
+    }
+}
+
+impl Babelify for TsTypeAssertion {
+    type Output = TSTypeAssertion;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSTypeAssertion {
+            base: ctx.base(self.span),
+            expression: Box::new(self.expr.babelify(ctx).into()),
+            type_annotation: self.type_ann.babelify(ctx),
+        }
+    }
+}
+
+impl Babelify for TsNonNullExpr {
+    type Output = TSNonNullExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        TSNonNullExpression {
+            base: ctx.base(self.span),
+            expression: Box::new(self.expr.babelify(ctx).into()),
+        }
+    }
+}
 
 impl Babelify for Accessibility {
     type Output = Access;
@@ -1661,22 +1054,12 @@ impl Babelify for Accessibility {
     }
 }
 
+// TODO(dwoznicki): There does not appear to be a corresponding Babel node for this.
+impl Babelify for TsConstAssertion {
+    type Output = String;
 
-// #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum Accessibility {
-//     #[serde(rename = "public")]
-//     Public,
-//     #[serde(rename = "protected")]
-//     Protected,
-//     #[serde(rename = "private")]
-//     Private,
-// }
-//
-// #[ast_node("TsConstAssertion")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct TsConstAssertion {
-//     pub span: Span,
-//     pub expr: Box<Expr>,
-// }
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        panic!("unimplemented");
+    }
+}
+
