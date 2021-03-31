@@ -6,7 +6,6 @@ use crate::ast::{
 use crate::convert::Babelify;
 use swc_ecma_ast::{Program, ModuleItem};
 use swc_common::Span;
-// use swc_common::Spanned;
 use serde::{Serialize, Deserialize};
 
 impl Babelify for Program {

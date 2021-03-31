@@ -86,19 +86,6 @@ impl Babelify for Expr {
     }
 }
 
-// #[ast_node]
-// #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub enum Expr {
-//
-//     #[tag("OptionalChainingExpression")]
-//     OptChain(OptChainExpr),
-//
-//     #[tag("Invalid")]
-//     Invalid(Invalid),
-// }
-//
-
 impl From<ExprOutput> for Expression {
     fn from(o: ExprOutput) -> Self {
         match o {
