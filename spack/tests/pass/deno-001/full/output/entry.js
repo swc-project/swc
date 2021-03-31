@@ -88,6 +88,8 @@ class BufReader {
         this.buf = buf;
         this.rd = rd;
         this.eof = false;
+    // this.lastByte = -1;
+    // this.lastCharSize = -1;
     }
     /** reads data into p.
    * It returns the number of bytes read into p.
@@ -552,6 +554,7 @@ class TextProtoReader {
             try {
                 m.append(key, value);
             } catch  {
+            // Pass
             }
         }
     }
@@ -887,6 +890,7 @@ class ServerRequest {
                 // Eagerly close on error.
                 this.conn.close();
             } catch  {
+            // Pass
             }
             err = e;
         }
@@ -1010,6 +1014,7 @@ class Server {
         try {
             conn.close();
         } catch (e) {
+        // might have been already closed
         }
     }
     trackConnection(conn) {

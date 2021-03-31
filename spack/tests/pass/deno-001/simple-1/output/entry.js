@@ -300,6 +300,7 @@ class ServerRequest {
                 // Eagerly close on error.
                 this.conn.close();
             } catch  {
+            // Pass
             }
             err = e;
         }
@@ -423,6 +424,7 @@ class Server {
         try {
             conn.close();
         } catch (e) {
+        // might have been already closed
         }
     }
     trackConnection(conn) {
