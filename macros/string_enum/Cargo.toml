@@ -1,7 +1,7 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "String based enum."
-documentation = "https://swc.rs/rustdoc/string_enum/"
+documentation = "https://rustdoc.swc.rs/string_enum/"
 edition = "2018"
 license = "Apache-2.0/MIT"
 name = "string_enum"

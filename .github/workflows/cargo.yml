@@ -196,13 +196,37 @@ jobs:
           jest -v
           cargo test --color always -p ${{ matrix.crate }}
 
-  # We use travis for rustdocs
-  # deploy-docs:
-  #   runs-on: ubuntu-latest
-  #   if: github.ref == 'refs/heads/master'
-  #   needs:
-  #     - test
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Create rustdoc
-  #       run: cargo doc
+  deploy-docs:
+    name: Docs
+    runs-on: ubuntu-latest
+    # if: github.ref == 'refs/heads/master'
+    # needs:
+    #   - test
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly-2021-03-30
+
+      - name: Create rustdoc
+        run: cargo +nightly-2021-03-30 doc
+
+      - name: Create CNAME
+        run: |
+          echo 'rustdoc.swc.rs' > target/doc/CNAME
+
+      - name: Deploy
+        # if: github.ref == 'refs/heads/master'
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          branch: gh-pages
+          folder: target/doc
+          clean: true
+          git-config-email: kdy1997.dev@gmail.com
+          repository-name: swc-project/rustdoc
+          commit-message: "Update"
+          single-commit: true
