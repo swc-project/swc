@@ -2,7 +2,7 @@
   "jsc": {
     "parser": {
       "syntax": "typescript",
-      "tsc": true
+      "tsx": true
     },
     "target": "es2020"
   }
