@@ -213,3 +213,16 @@ jobs:
 
       - name: Create rustdoc
         run: cargo +nightly-2021-03-30 doc
+
+      - name: Deploy
+        # if: github.ref == 'refs/heads/master'
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          # ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: public
+          CLEAN: true
+          GIT_CONFIG_EMAIL: kdy1997.dev@gmail.com
+          REPOSITORY_NAME: swc-project/rustdoc
+          COMMIT_MESSAGE: "Update"
+          SINGLE_COMMIT: true
