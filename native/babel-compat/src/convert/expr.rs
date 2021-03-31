@@ -11,7 +11,7 @@ use crate::ast::{
         ArrowFunctionExpression, ArrowFuncExprBody, YieldExpression, AwaitExpression,
         TaggedTemplateExpression, TaggedTemplateExprTypeParams, ParenthesizedExpression,
     },
-    jsx::JSXSpreadAttribute,
+    jsx::{JSXSpreadAttribute},
     lit::{TemplateLiteral, TemplateLiteralExpr, TemplateElement, TemplateElVal},
     object::{ObjectKey, ObjectMember},
 };
@@ -36,7 +36,6 @@ impl Babelify for Expr {
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
-            Expr::PrivateName(p) => ExprOutput::Private(p.babelify(ctx)),
             Expr::This(t) => ExprOutput::Expr(Expression::This(t.babelify(ctx))),
             Expr::Array(a) => ExprOutput::Expr(Expression::Array(a.babelify(ctx))),
             Expr::Object(o) => ExprOutput::Expr(Expression::Object(o.babelify(ctx))),
@@ -70,7 +69,19 @@ impl Babelify for Expr {
             Expr::MetaProp(m) => ExprOutput::Expr(Expression::MetaProp(m.babelify(ctx))),
             Expr::Await(a) => ExprOutput::Expr(Expression::Await(a.babelify(ctx))),
             Expr::Paren(p) => ExprOutput::Expr(Expression::Parenthesized(p.babelify(ctx))),
-            _ => panic!(), // TODO(dwoznicki)
+            // TODO(dwoznicki): how does babel handle these?
+            Expr::JSXMember(_) => panic!("unimplemented"), // MemberExpression?
+            Expr::JSXNamespacedName(_) => panic!("unimplemented"), // ?
+            Expr::JSXEmpty(_) => panic!("unimplemented"), // ?
+            Expr::JSXElement(e) => ExprOutput::Expr(Expression::JSXElement(e.babelify(ctx))),
+            Expr::JSXFragment(f) => ExprOutput::Expr(Expression::JSXFragment(f.babelify(ctx))),
+            Expr::TsTypeAssertion(a) => ExprOutput::Expr(Expression::TSTypeAssertion(a.babelify(ctx))),
+            Expr::TsConstAssertion(_) => panic!("unimplemented"), // Babel has no equivilent
+            Expr::TsNonNull(n) => ExprOutput::Expr(Expression::TSNonNull(n.babelify(ctx))),
+            Expr::TsAs(a) => ExprOutput::Expr(Expression::TSAs(a.babelify(ctx))),
+            Expr::PrivateName(p) => ExprOutput::Private(p.babelify(ctx)),
+            Expr::OptChain(_) => panic!("unimplemented"), // Babel has no equivilent
+            Expr::Invalid(_) => panic!("illegal conversion"), // Babel has no equivilent
         }
     }
 }
@@ -79,35 +90,6 @@ impl Babelify for Expr {
 // #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 // #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 // pub enum Expr {
-//     #[tag("JSXMemberExpression")]
-//     JSXMember(JSXMemberExpr),
-//
-//     #[tag("JSXNamespacedName")]
-//     JSXNamespacedName(JSXNamespacedName),
-//
-//     #[tag("JSXEmptyExpression")]
-//     JSXEmpty(JSXEmptyExpr),
-//
-//     #[tag("JSXElement")]
-//     JSXElement(Box<JSXElement>),
-//
-//     #[tag("JSXFragment")]
-//     JSXFragment(JSXFragment),
-//
-//     #[tag("TsTypeAssertion")]
-//     TsTypeAssertion(TsTypeAssertion),
-//
-//     #[tag("TsConstAssertion")]
-//     TsConstAssertion(TsConstAssertion),
-//
-//     #[tag("TsNonNullExpression")]
-//     TsNonNull(TsNonNullExpr),
-//
-//     #[tag("TsAsExpression")]
-//     TsAs(TsAsExpr),
-//
-//     #[tag("PrivateName")]
-//     PrivateName(PrivateName),
 //
 //     #[tag("OptionalChainingExpression")]
 //     OptChain(OptChainExpr),
