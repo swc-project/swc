@@ -299,3 +299,10 @@ export const DEFAULT_EXTENSIONS = Object.freeze([
 function toBuffer(t: any): Buffer {
   return Buffer.from(JSON.stringify(t))
 }
+
+/**
+ * @internal
+ */
+export function _invokeBabelPlugin(name: string, option: object) {
+  return bindings._invokeBabelPlugin(name, option)
+}
