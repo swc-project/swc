@@ -220,13 +220,13 @@ jobs:
 
       - name: Deploy
         # if: github.ref == 'refs/heads/master'
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+        uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
-          ACCESS_TOKEN: ${{ secrets.GH_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: target/doc
-          CLEAN: true
-          GIT_CONFIG_EMAIL: kdy1997.dev@gmail.com
-          REPOSITORY_NAME: swc-project/rustdoc
-          COMMIT_MESSAGE: "Update"
-          SINGLE_COMMIT: true
+          token: ${{ secrets.GH_TOKEN }}
+          branch: gh-pages
+          folder: target/doc
+          clean: true
+          git-config-email: kdy1997.dev@gmail.com
+          repository-name: swc-project/rustdoc
+          commit-message: "Update"
+          single-commit: true
