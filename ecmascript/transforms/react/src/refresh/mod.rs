@@ -6,19 +6,18 @@ use once_cell::sync::Lazy;
 use regex::Regex;
 
 use swc_atoms::JsWord;
-use swc_common::{comments::Comments, sync::Lrc, SourceMap, Spanned, DUMMY_SP};
+use swc_common::{
+    comments::Comments, comments::CommentsExt, sync::Lrc, SourceMap, Span, Spanned, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{private_ident, quote_ident, quote_str};
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 use util::{
     callee_should_ignore, gen_custom_hook_record, is_body_arrow_fn, is_builtin_hook,
-    make_assign_stmt, make_call_expr, make_call_stmt, CollectIdent,
+    is_import_or_require, make_assign_stmt, make_call_expr, make_call_stmt, CollectIdent,
 };
 
-use self::util::is_import_or_require;
-
-mod comment;
 mod util;
 
 #[cfg(test)]
@@ -476,6 +475,34 @@ impl<C: Comments> Refresh<C> {
     }
 }
 
+impl<C> Visit for Refresh<C>
+where
+    C: Comments,
+{
+    fn visit_span(&mut self, n: &Span, _: &dyn Node) {
+        if self.should_refresh {
+            return;
+        }
+
+        let mut should_refresh = self.should_refresh;
+        if let Some(comments) = &self.comments {
+            comments.with_leading(n.hi, |comments| {
+                if comments.iter().any(|c| c.text.contains("@refresh reset")) {
+                    should_refresh = true
+                }
+            });
+
+            comments.with_trailing(n.lo, |comments| {
+                if comments.iter().any(|c| c.text.contains("@refresh reset")) {
+                    should_refresh = true
+                }
+            });
+        }
+
+        self.should_refresh = should_refresh;
+    }
+}
+
 impl<C: Comments> Fold for Refresh<C> {
     fn fold_jsx_opening_element(&mut self, n: JSXOpeningElement) -> JSXOpeningElement {
         if let JSXElementName::Ident(ident) = &n.name {
@@ -646,6 +673,7 @@ impl<C: Comments> Fold for Refresh<C> {
                     Expr::Arrow(func)
                 }
             }
+            Expr::Call(mut call) => Expr::Call(call),
             _ => n,
         }
     }
@@ -705,6 +733,8 @@ impl<C: Comments> Fold for Refresh<C> {
         if !self.dev {
             return module_items;
         }
+
+        module_items.visit_with(&Invalid { span: DUMMY_SP } as _, self);
 
         for item in &module_items {
             item.collect_ident(&mut self.scope_binding);
