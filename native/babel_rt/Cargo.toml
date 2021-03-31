@@ -17,5 +17,8 @@ napi = {git = "https://github.com/kdy1/napi-rs.git", branch = "issue-436", featu
 swc_babel_compat = {path = "../babel-compat"}
 swc_ecma_ast = {path = "../../ecmascript/ast"}
 
+[build-dependencies]
+napi-build = "1"
+
 [dev-dependencies]
 testing = {path = "../../testing"}
