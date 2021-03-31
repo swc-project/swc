@@ -2,6 +2,10 @@ use anyhow::Context;
 use anyhow::Error;
 use napi::threadsafe_function::ThreadsafeFunction;
 use napi::threadsafe_function::ThreadsafeFunctionCallMode;
+use napi::Env;
+use napi::JsFunction;
+use napi::JsObject;
+use napi::JsUnknown;
 use swc_babel_compat::ast::module::Program;
 
 use crate::util::napi::status_to_error;
@@ -12,6 +16,21 @@ pub struct Plugin {
 }
 
 impl Plugin {
+    pub fn load(env: &Env, js_module: JsUnknown) -> Result<Self, napi::Error> {
+        panic!("not implemented yet")
+    }
+
+    pub fn load_named(env: &Env, name: &str, options: JsObject) -> Result<Self, napi::Error> {
+        let name = env.create_string(name)?;
+
+        let global = env.get_global()?;
+        let require = global.get_named_property::<JsFunction>("required")?;
+
+        let js_module = require.call(None, &[name.into_unknown()])?;
+
+        Self::load(env, js_module)
+    }
+
     pub fn invoke(&self, program: Program) -> Result<Program, Error> {
         let (status, program) = self
             .inner
