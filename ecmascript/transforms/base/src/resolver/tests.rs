@@ -28,7 +28,14 @@ impl VisitMut for TsHygiene {
         }
     }
 
-    fn visit_mut_prop_name(&mut self, _: &mut PropName) {}
+    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+        match n {
+            PropName::Computed(n) => {
+                n.visit_mut_with(self);
+            }
+            _ => {}
+        }
+    }
 
     fn visit_mut_ts_qualified_name(&mut self, q: &mut TsQualifiedName) {
         q.left.visit_mut_with(self);
