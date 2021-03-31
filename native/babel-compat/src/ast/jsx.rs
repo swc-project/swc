@@ -1,11 +1,9 @@
 use serde::{Serialize, Deserialize};
 
 use crate::ast::{
-    common::{BaseNode},
+    common::{BaseNode, SuperTypeParams},
     expr::{Expression},
     lit::{StringLiteral},
-    flow::{TypeParameterDeclaration},
-    typescript::{TSTypeParameterDeclaration},
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -176,15 +174,6 @@ pub enum JSXOpeningElAttr {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
-pub enum TypeParamDecl {
-    #[serde(rename = "TypeParameterDeclaration")]
-    Flow(TypeParameterDeclaration),
-    #[serde(rename = "TSTypeParameterDeclaration")]
-    TS(TSTypeParameterDeclaration),
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct JSXOpeningElement {
@@ -196,7 +185,7 @@ pub struct JSXOpeningElement {
     #[serde(default)]
     pub self_closing: bool,
     #[serde(default)]
-    pub type_parameters: Option<TypeParamDecl>,
+    pub type_parameters: Option<SuperTypeParams>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
