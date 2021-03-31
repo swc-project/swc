@@ -1913,8 +1913,6 @@ impl<'a> Emitter<'a> {
     fn emit_block_stmt(&mut self, node: &BlockStmt) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
-        dbg!(&node.span);
-
         punct!("{");
         self.emit_list(
             node.span(),
