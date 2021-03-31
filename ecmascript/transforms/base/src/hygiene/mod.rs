@@ -498,7 +498,23 @@ macro_rules! track_ident_mut {
             self.ident_type = old;
         }
 
+        fn visit_mut_getter_prop(&mut self, f: &mut GetterProp) {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Ref;
+            f.key.visit_mut_with(self);
+            self.ident_type = old;
+
+            f.type_ann.visit_mut_with(self);
+
+            f.body.visit_mut_with(self);
+        }
+
         fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Ref;
+            f.key.visit_mut_with(self);
+            self.ident_type = old;
+
             let old = self.ident_type;
             self.ident_type = IdentType::Binding;
             f.param.visit_mut_with(self);

@@ -28,7 +28,14 @@ impl VisitMut for TsHygiene {
         }
     }
 
-    fn visit_mut_prop_name(&mut self, _: &mut PropName) {}
+    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+        match n {
+            PropName::Computed(n) => {
+                n.visit_mut_with(self);
+            }
+            _ => {}
+        }
+    }
 
     fn visit_mut_ts_qualified_name(&mut self, q: &mut TsQualifiedName) {
         q.left.visit_mut_with(self);
@@ -2374,6 +2381,46 @@ to_ts!(
     type Y = {
         get bar__0(): string;
         set bar__0(v: string | number);
+    }
+    "
+);
+
+to_ts!(
+    tsc_computed_property_name_11,
+    "
+    var s: string;
+    var n: number;
+    var a: any;
+    var v = {
+        get [s]() { return 0; },
+        set [n](v) { },
+        get [s + s]() { return 0; },
+        set [s + n](v) { },
+        get [+s]() { return 0; },
+        set [\"\"](v) { },
+        get [0]() { return 0; },
+        set [a](v) { },
+        get [<any>true]() { return 0; },
+        set [`hello bye`](v) { },
+        get [`hello ${a} bye`]() { return 0; }
+    }
+    ",
+    "
+    var s: string;
+    var n: number;
+    var a: any;
+    var v = {
+        get [s]() { return 0; },
+        set [n](v__2) { },
+        get [s + s]() { return 0; },
+        set [s + n](v__2) { },
+        get [+s]() { return 0; },
+        set [\"\"](v__2) { },
+        get [0]() { return 0; },
+        set [a](v__2) { },
+        get [<any>true]() { return 0; },
+        set [`hello bye`](v__2) { },
+        get [`hello ${a} bye`]() { return 0; }
     }
     "
 );

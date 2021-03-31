@@ -845,13 +845,10 @@ impl<'a> Emitter<'a> {
     fn emit_ts_type_assertion(&mut self, n: &TsTypeAssertion) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        keyword!("asserts");
-        space!();
-        emit!(n.expr);
-        space!();
-        keyword!("is");
-        space!();
+        punct!("<");
         emit!(n.type_ann);
+        punct!(">");
+        emit!(n.expr);
     }
 
     #[emitter]
