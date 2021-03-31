@@ -135,4 +135,8 @@ impl Visit for AssertNoEmptyCtxt {
 
         n.param.visit_with(n, self);
     }
+
+    fn visit_ts_tuple_element(&mut self, n: &TsTupleElement, _: &dyn Node) {
+        n.ty.visit_with(n, self);
+    }
 }
