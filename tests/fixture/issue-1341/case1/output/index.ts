@@ -31,7 +31,8 @@ function _asyncToGenerator(fn) {
 class A {
     foo() {
         return _asyncToGenerator((function*() {
-            try {
+            try // return await Promise.all(['a', 'b'].map(async (x) => x + this.val)); // this is undefined
+            {
                 return yield _asyncToGenerator((function*(x) {
                     return x + this.val;
                 }).bind(this)).bind(this)('a'); // this is undefined
