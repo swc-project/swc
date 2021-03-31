@@ -1912,6 +1912,7 @@ impl<'a> Emitter<'a> {
     #[emitter]
     fn emit_block_stmt(&mut self, node: &BlockStmt) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo())?;
+        self.emit_leading_comments_of_pos(node.span().hi())?;
 
         punct!("{");
         self.emit_list(
@@ -1920,6 +1921,9 @@ impl<'a> Emitter<'a> {
             ListFormat::MultiLineBlockStatements,
         )?;
         punct!("}");
+
+        self.emit_trailing_comments_of_pos(node.span().lo(), false)?;
+        self.emit_trailing_comments_of_pos(node.span().hi(), false)?;
     }
 
     #[emitter]
