@@ -98,6 +98,7 @@ class Shard extends _utils.Emitter {
                 try {
                     _classPrivateFieldGet(this, _ws2).close(code);
                 } catch  {
+                // no-op
                 }
                 if (emit) {
                     /**
