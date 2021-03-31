@@ -2404,7 +2404,7 @@ to_ts!(
     var a: any;
     var v = {
         get [s]() { return 0; },
-        set [n](v) { },
+        set [n](v__2) { },
         get [s + s]() { return 0; },
         set [s + n](v__2) { },
         get [+s]() { return 0; },
