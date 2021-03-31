@@ -1923,7 +1923,7 @@ impl<'a> Emitter<'a> {
         )?;
         punct!("}");
 
-        self.emit_trailing_comments_of_pos(node.span().hi(), false)?;
+        self.emit_leading_comments_of_pos(node.span().hi())?;
     }
 
     #[emitter]
