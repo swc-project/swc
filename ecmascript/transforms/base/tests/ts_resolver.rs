@@ -56,15 +56,24 @@ fn no_empty(input: PathBuf) {
 struct AssertNoEmptyCtxt;
 
 impl Visit for AssertNoEmptyCtxt {
-    fn visit_ts_property_signature(&mut self, n: &TsPropertySignature, _: &dyn Node) {
-        if n.computed {
-            n.key.visit_with(n, self);
-        }
+    fn visit_expr(&mut self, n: &Expr, _: &dyn Node) {
+        n.visit_children_with(self);
 
-        n.init.visit_with(n, self);
-        n.params.visit_with(n, self);
-        n.type_ann.visit_with(n, self);
-        n.type_params.visit_with(n, self);
+        match n {
+            Expr::Ident(i) => {
+                if i.span.ctxt == SyntaxContext::empty() {
+                    unreachable!("ts_resolver has a bug")
+                }
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
+        n.obj.visit_with(n, self);
+        if n.computed {
+            n.prop.visit_with(n, self);
+        }
     }
 
     fn visit_ts_method_signature(&mut self, n: &TsMethodSignature, _: &dyn Node) {
@@ -77,23 +86,14 @@ impl Visit for AssertNoEmptyCtxt {
         n.type_params.visit_with(n, self);
     }
 
-    fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
-        n.obj.visit_with(n, self);
+    fn visit_ts_property_signature(&mut self, n: &TsPropertySignature, _: &dyn Node) {
         if n.computed {
-            n.prop.visit_with(n, self);
+            n.key.visit_with(n, self);
         }
-    }
 
-    fn visit_expr(&mut self, n: &Expr, _: &dyn Node) {
-        n.visit_children_with(self);
-
-        match n {
-            Expr::Ident(i) => {
-                if i.span.ctxt == SyntaxContext::empty() {
-                    unreachable!("ts_resolver has a bug")
-                }
-            }
-            _ => {}
-        }
+        n.init.visit_with(n, self);
+        n.params.visit_with(n, self);
+        n.type_ann.visit_with(n, self);
+        n.type_params.visit_with(n, self);
     }
 }
