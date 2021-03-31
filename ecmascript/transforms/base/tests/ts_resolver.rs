@@ -86,6 +86,27 @@ impl Visit for AssertNoEmptyCtxt {
         }
     }
 
+    fn visit_pat(&mut self, n: &Pat, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        match n {
+            Pat::Ident(i) => {
+                if i.id.span.ctxt == SyntaxContext::empty() {
+                    unreachable!("ts_resolver has a bug")
+                }
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_ts_getter_signature(&mut self, n: &TsGetterSignature, _: &dyn Node) {
+        if n.computed {
+            n.key.visit_with(n, self);
+        }
+
+        n.type_ann.visit_with(n, self);
+    }
+
     fn visit_ts_method_signature(&mut self, n: &TsMethodSignature, _: &dyn Node) {
         if n.computed {
             n.key.visit_with(n, self);
@@ -105,5 +126,13 @@ impl Visit for AssertNoEmptyCtxt {
         n.params.visit_with(n, self);
         n.type_ann.visit_with(n, self);
         n.type_params.visit_with(n, self);
+    }
+
+    fn visit_ts_setter_signature(&mut self, n: &TsSetterSignature, _: &dyn Node) {
+        if n.computed {
+            n.key.visit_with(n, self);
+        }
+
+        n.param.visit_with(n, self);
     }
 }
