@@ -1,7 +1,7 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Easily manage values related to enum."
-documentation = "https://swc.rs/rustdoc/enum_kind/"
+documentation = "https://rustdoc.swc.rs/enum_kind/"
 edition = "2018"
 license = "Apache-2.0/MIT"
 name = "enum_kind"

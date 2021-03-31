@@ -1,7 +1,7 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Ecmascript code generator for the swc project."
-documentation = "https://swc.rs/rustdoc/swc_ecma_codegen/"
+documentation = "https://rustdoc.swc.rs/swc_ecma_codegen/"
 edition = "2018"
 include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0/MIT"

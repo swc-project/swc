@@ -143,9 +143,9 @@ Parser tests ensures that parsed result of test262/pass is identical with test26
 
 Codegen tests ensures that generated code is equivalent to goldened reference files located at [tests/references](ecmascript/codegen/tests/references).
 
-[enum_kind]: https://swc.rs/rustdoc/enum_kind/derive.Kind.html
-[string_enum]: https://swc.rs/rustdoc/string_enum/derive.StringEnum.html
-[ast_node]: https://swc.rs/rustdoc/ast_node/index.html
-[parser_macros]: https://swc.rs/rustdoc/swc_ecma_parser_macros/index.html
-[codegen_macros]: https://swc.rs/rustdoc/swc_ecma_codegen_macros/index.html
+[enum_kind]: https://rustdoc.swc.rs/enum_kind/derive.Kind.html
+[string_enum]: https://rustdoc.swc.rs/string_enum/derive.StringEnum.html
+[ast_node]: https://rustdoc.swc.rs/ast_node/index.html
+[parser_macros]: https://rustdoc.swc.rs/swc_ecma_parser_macros/index.html
+[codegen_macros]: https://rustdoc.swc.rs/swc_ecma_codegen_macros/index.html
 [test262]: https://github.com/tc39/test262

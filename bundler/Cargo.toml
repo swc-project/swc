@@ -3,7 +3,7 @@ authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 # OUT_DIR is required for testing
 build = "build.rs"
 description = "Very fast ecmascript bundler"
-documentation = "https://swc.rs/rustdoc/swc_bundler/"
+documentation = "https://rustdoc.swc.rs/swc_bundler/"
 edition = "2018"
 include = ["Cargo.toml", "build.rs", "src/**/*.rs", "src/**/*.js"]
 license = "Apache-2.0/MIT"
