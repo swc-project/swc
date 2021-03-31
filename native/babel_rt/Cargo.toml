@@ -11,7 +11,7 @@ version = "0.1.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-napi = "1.3.3"
+napi = {version = "1.3.3", features = ["serde-json", "tokio_rt"]}
 swc_babel_compat = {path = "../babel-compat"}
 swc_ecma_ast = {path = "../../ecmascript/ast"}
 
