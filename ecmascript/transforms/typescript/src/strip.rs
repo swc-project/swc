@@ -88,6 +88,7 @@ struct Strip {
     ///
     /// This field is filled by [Visit] impl and [VisitMut] impl.
     decl_names: FxHashSet<Id>,
+    in_var_pat: bool,
 }
 
 impl Strip {
@@ -1111,6 +1112,19 @@ impl Strip {
 }
 
 impl Visit for Strip {
+    fn visit_binding_ident(&mut self, n: &BindingIdent, _: &dyn Node) {
+        if !self.in_var_pat {
+            n.visit_children_with(self)
+        }
+    }
+
+    fn visit_assign_pat_prop(&mut self, n: &AssignPatProp, _: &dyn Node) {
+        if !self.in_var_pat {
+            n.key.visit_with(n, self);
+        }
+        n.value.visit_with(n, self);
+    }
+
     fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
         let is_type_only_export = self.is_type_only_export;
         let entry = self
@@ -1139,6 +1153,9 @@ impl Visit for Strip {
             Decl::Fn(f) => f.function.visit_with(f, self),
             Decl::Var(ref var) => {
                 for decl in &var.decls {
+                    self.in_var_pat = true;
+                    decl.name.visit_with(decl, self);
+                    self.in_var_pat = false;
                     decl.init.visit_with(decl, self);
                 }
             }
@@ -1365,10 +1382,7 @@ impl VisitMut for Strip {
             | ImportSpecifier::Namespace(ImportStarAsSpecifier { ref local, .. }) => {
                 // If the import is shadowed by a concrete local declaration, TSC
                 // assumes the import is a type and removes it.
-                let decl = self
-                    .scope
-                    .decls
-                    .get(&(local.sym.clone(), local.span.ctxt()));
+                let decl = self.scope.decls.get(&local.to_id());
                 match decl {
                     Some(&DeclInfo {
                         has_concrete: true, ..
@@ -1376,10 +1390,7 @@ impl VisitMut for Strip {
                     _ => {}
                 }
                 // If no shadowed declaration, check if the import is referenced.
-                let entry = self
-                    .scope
-                    .referenced_idents
-                    .get(&(local.sym.clone(), local.span.ctxt()));
+                let entry = self.scope.referenced_idents.get(&local.to_id());
                 match entry {
                     Some(&DeclInfo {
                         has_concrete: false,

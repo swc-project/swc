@@ -3747,6 +3747,60 @@ to!(
 );
 
 to!(
+    import_shadow_array_pat,
+    "
+    import { Test } from 'test';
+    const [Test] = [];
+    console.log(a);
+    ",
+    "
+    const [Test] = [];
+    console.log(a);
+    "
+);
+
+to!(
+    import_shadow_array_pat_default,
+    "
+    import { Test } from 'test';
+    const [a = Test] = [];
+    console.log(a);
+    ",
+    "
+    import { Test } from 'test';
+    const [a = Test] = [];
+    console.log(a);
+    "
+);
+
+to!(
+    import_shadow_object_pat,
+    "
+    import { Test } from 'test';
+    const {Test: a} = {};
+    console.log(a);
+    ",
+    "
+    const {Test: a} = {};
+    console.log(a);
+    "
+);
+
+to!(
+    import_shadow_object_pat_default,
+    "
+    import { Test } from 'test';
+    const {a = Test} = {};
+    console.log(Test);
+    ",
+    "
+    import { Test } from 'test';
+    const {a = Test} = {};
+    console.log(Test);
+    "
+);
+
+to!(
     import_shadow_type,
     "
     import { Test } from 'test';
