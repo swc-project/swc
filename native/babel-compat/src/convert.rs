@@ -18,6 +18,7 @@ mod decl;
 mod expr;
 mod function;
 mod ident;
+mod jsx;
 mod lit;
 mod module;
 mod module_decl;

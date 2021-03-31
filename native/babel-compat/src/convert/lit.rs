@@ -96,14 +96,3 @@ impl Babelify for Regex {
     }
 }
 
-impl Babelify for JSXText {
-    type Output = BabelJSXText;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        BabelJSXText {
-            base: ctx.base(self.span),
-            value: self.value.to_string(),
-        }
-    }
-}
-

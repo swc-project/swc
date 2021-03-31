@@ -11,6 +11,7 @@ use crate::ast::{
         ArrowFunctionExpression, ArrowFuncExprBody, YieldExpression, AwaitExpression,
         TaggedTemplateExpression, TaggedTemplateExprTypeParams, ParenthesizedExpression,
     },
+    jsx::JSXSpreadAttribute,
     lit::{TemplateLiteral, TemplateLiteralExpr, TemplateElement, TemplateElVal},
     object::{ObjectKey, ObjectMember},
 };
@@ -213,6 +214,15 @@ impl Babelify for SpreadElement {
         BabelSpreadElement {
             base: ctx.base(self.span()),
             argument: self.expr.babelify(ctx).into(),
+        }
+    }
+}
+
+impl From<BabelSpreadElement> for JSXSpreadAttribute {
+    fn from(spread: BabelSpreadElement) -> Self {
+        JSXSpreadAttribute {
+            base: spread.base.clone(),
+            argument: spread.argument.clone(),
         }
     }
 }

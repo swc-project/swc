@@ -1,5 +1,8 @@
 use super::Context;
-use crate::ast::common::{Identifier, PrivateName as BabelPrivateName};
+use crate::ast::{
+    common::{Identifier, PrivateName as BabelPrivateName},
+    jsx::JSXIdentifier,
+};
 use crate::convert::Babelify;
 use swc_ecma_ast::{BindingIdent, Ident, PrivateName};
 
@@ -24,6 +27,15 @@ impl Babelify for Ident {
             optional: Some(self.optional),
             decorators: Default::default(),
             type_annotation: Default::default(),
+        }
+    }
+}
+
+impl From<Identifier> for JSXIdentifier {
+    fn from(id: Identifier) -> Self {
+        JSXIdentifier {
+            base: id.base,
+            name: id.name,
         }
     }
 }
