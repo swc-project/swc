@@ -304,5 +304,8 @@ function toBuffer(t: any): Buffer {
  * @internal
  */
 export function _invokeBabelPlugin(name: string, option: object) {
-  return bindings._invokeBabelPlugin(name, option)
+  return bindings._invokeBabelPlugin(name, {
+    option,
+    require: require
+  })
 }

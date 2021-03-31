@@ -21,9 +21,11 @@ impl Plugin {
         panic!("not implemented yet")
     }
 
+    /// 
+    /// - `options.require`: `require` of node.js
+    /// - `options.option`: Option passed to the babel plugin.
     pub fn load_named(env: &Env, name: &JsString, options: JsObject) -> Result<Self, napi::Error> {
-        let global = env.get_global()?;
-        let require = global.get_named_property::<JsFunction>("required")?;
+        let require = options.get_named_property::<JsFunction>("require")?;
 
         let js_module = require.call(None, &[name.into_unknown()])?;
 
