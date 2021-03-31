@@ -5,6 +5,7 @@ use napi::threadsafe_function::ThreadsafeFunctionCallMode;
 use napi::Env;
 use napi::JsFunction;
 use napi::JsObject;
+use napi::JsString;
 use napi::JsUnknown;
 use swc_babel_compat::ast::module::Program;
 
@@ -20,9 +21,7 @@ impl Plugin {
         panic!("not implemented yet")
     }
 
-    pub fn load_named(env: &Env, name: &str, options: JsObject) -> Result<Self, napi::Error> {
-        let name = env.create_string(name)?;
-
+    pub fn load_named(env: &Env, name: &JsString, options: JsObject) -> Result<Self, napi::Error> {
         let global = env.get_global()?;
         let require = global.get_named_property::<JsFunction>("required")?;
 

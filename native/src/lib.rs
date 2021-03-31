@@ -67,6 +67,8 @@ fn init(mut exports: JsObject) -> napi::Result<()> {
 
     exports.create_named_method("bundle", bundle::bundle)?;
 
+    exports.create_named_method("_invokeBabelPlugin", babel::invoke_plugin)?;
+
     Ok(())
 }
 
