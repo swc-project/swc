@@ -66,4 +66,4 @@ codegen-units = 1
 debug = true
 
 [patch.crates-io]
-napi = {git = "https://github.com/kdy1/napi-rs.git", ref = "issue-436"}
+napi = {git = "https://github.com/kdy1/napi-rs.git", branch = "issue-436"}
