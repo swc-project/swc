@@ -920,14 +920,12 @@ where
         let span = name.span();
         match name {
             JSXElementName::Ident(i) => {
-                // If it starts with lowercase digit
-                let c = i.sym.chars().next().unwrap();
-
                 if i.sym == js_word!("this") {
                     return Box::new(Expr::This(ThisExpr { span }));
                 }
 
-                if c.is_ascii_lowercase() {
+                // If it starts with lowercase
+                if i.as_ref().starts_with(|c: char| c.is_ascii_lowercase()) {
                     Box::new(Expr::Lit(Lit::Str(Str {
                         span,
                         value: i.sym,

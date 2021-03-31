@@ -240,3 +240,33 @@ pub enum CommentKind {
     Line,
     Block,
 }
+
+pub trait CommentsExt: Comments {
+    fn with_leading<F, Ret>(&self, pos: BytePos, op: F) -> Ret
+    where
+        F: FnOnce(&[Comment]) -> Ret,
+    {
+        if let Some(comments) = self.take_leading(pos) {
+            let ret = op(&comments);
+            self.add_leading_comments(pos, comments);
+            ret
+        } else {
+            op(&[])
+        }
+    }
+
+    fn with_trailing<F, Ret>(&self, pos: BytePos, op: F) -> Ret
+    where
+        F: FnOnce(&[Comment]) -> Ret,
+    {
+        if let Some(comments) = self.take_trailing(pos) {
+            let ret = op(&comments);
+            self.add_trailing_comments(pos, comments);
+            ret
+        } else {
+            op(&[])
+        }
+    }
+}
+
+impl<C> CommentsExt for C where C: Comments {}

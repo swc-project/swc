@@ -208,6 +208,7 @@ pub struct ExportNamespaceSpecifier {
     pub name: Ident,
 }
 
+// export v from 'mod';
 #[ast_node("ExportDefaultSpecifier")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
