@@ -142,4 +142,3 @@ pub trait Babelify {
 
     fn babelify(self, ctx: &Context) -> Self::Output;
 }
-
