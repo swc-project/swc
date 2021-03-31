@@ -18,10 +18,12 @@ use testing::fixture;
 #[fixture("../../../parser/tests/typescript/**/*.ts")]
 #[fixture("../../../parser/tests/typescript/**/*.tsx")]
 fn no_empty(input: PathBuf) {
+    eprintln!("{}", input.display());
+
     testing::run_test2(false, |cm, _handler| {
         let fm = cm.load_file(&input).expect("failed to load file");
 
-        let mut lexer = Lexer::new(
+        let lexer = Lexer::new(
             Syntax::Typescript(TsConfig {
                 tsx: input.ends_with("tsx"),
                 decorators: true,
