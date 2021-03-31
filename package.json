@@ -70,6 +70,7 @@
     "@types/node": "^14.0.5",
     "axios": "^0.21.1",
     "babel-plugin-transform-node-env-inline": "^0.4.3",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "browserslist": "^4.16.3",
     "jest": "^23.6.0",
     "lodash": "^4.17.11",
