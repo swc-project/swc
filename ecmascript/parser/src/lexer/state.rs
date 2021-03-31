@@ -279,7 +279,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                     .is_empty()
             {
                 self.comments.as_ref().unwrap().add_leading_comments(
-                    start,
+                    start + BytePos(1),
                     mem::replace(
                         &mut *self
                             .leading_comments_buffer
