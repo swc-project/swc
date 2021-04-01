@@ -1525,10 +1525,7 @@ test!(
     const [ a = 1 ] = b
     ",
     "
-    var _b = b,
-    _b2 = _slicedToArray(_b, 1),
-    _b2$ = _b2[0],
-    a = _b2$ === void 0 ? 1 : _b2$;
+    const tmp = b[0], a = tmp === void 0 ? 1 : tmp;
     "
 );
 
@@ -1540,12 +1537,7 @@ test!(
     [ a = 1 ] = b
     ",
     "
-    var _b = b;
-
-    var _b2 = _slicedToArray(_b, 1);
-
-    var _b2$ = _b2[0];
-    a = _b2$ === void 0 ? 1 : _b2$;
-    _b;
+    var ref, ref1;
+    ref = b, ref1 = ref[0], a = ref1 === void 0 ? 1 : ref1, ref;
     "
 );
