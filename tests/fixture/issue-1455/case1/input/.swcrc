@@ -1,0 +1,15 @@
+{
+  "exclude": [".*.js$", ".*.map$", ".*.test.ts$"],
+  "jsc": {
+    "target": "es2016",
+    "parser": {
+      "syntax": "typescript",
+      "tsx": false,
+      "decorators": true
+    }
+  },
+  "minify": false,
+  "module": {
+    "type": "commonjs"
+  }
+}
