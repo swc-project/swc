@@ -8,4 +8,4 @@ const obj = {
     },
 };
 
-console.log(obj.byPlatform('foo'));
+obj.byPlatform('foo').then(v => console.log(v))
