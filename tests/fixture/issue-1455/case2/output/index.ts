@@ -13,9 +13,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     }
 }
 function _asyncToGenerator(fn) {
-    return function () {
+    return function() {
         var self = this, args = arguments;
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
             var gen = fn.apply(self, args);
             function _next(value) {
                 asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
@@ -29,17 +29,17 @@ function _asyncToGenerator(fn) {
 }
 var regeneratorRuntime = require("regenerator-runtime");
 var obj = {
-    find: function (param) {
+    find: function(param) {
         var platform = param.platform;
         return {
             platform: platform
         };
     },
-    byPlatform: function (platform) {
+    byPlatform: function(platform) {
         var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(platform) {
             var result;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                while (1) switch (_ctx.prev = _ctx.next) {
+                while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
                         _ctx.next = 2;
                         return this.find({
@@ -56,11 +56,11 @@ var obj = {
                 }
             }, _callee, this);
         }));
-        return function () {
+        return function() {
             return _ref.apply(this, arguments);
         };
     }()
 };
-obj.byPlatform('foo').then(function (v) {
+obj.byPlatform('foo').then(function(v) {
     return console.log(v);
 });
