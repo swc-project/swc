@@ -1531,3 +1531,21 @@ test!(
     a = _b2$ === void 0 ? 1 : _b2$;
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    issue_1477_4,
+    "
+    [ a = 1 ] = b
+    ",
+    "
+    var _b = b;
+
+    var _b2 = _slicedToArray(_b, 1);
+
+    var _b2$ = _b2[0];
+    a = _b2$ === void 0 ? 1 : _b2$;
+    _b;
+    "
+);
