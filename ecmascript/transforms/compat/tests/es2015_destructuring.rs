@@ -1503,3 +1503,18 @@ test!(
     a_ = _b2$0$a === void 0 ? 1 : _b2$0$a;
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    issue_1477_2,
+    "
+    async function f(a, b) {
+        const [ { a: a_ = 1 } ] = JSON.parse(b)
+      }
+    ",
+    "
+    var _b, _b$0$a;
+    _b = _slicedToArray(b, 1), _b$0$a = _b[0].a, a_ = _b$0$a === void 0 ? 1 : _b$0$a;
+    "
+);
