@@ -673,7 +673,7 @@ impl<C: Comments> Fold for Refresh<C> {
                     Expr::Arrow(func)
                 }
             }
-            Expr::Call(mut call) => Expr::Call(call),
+            Expr::Call(call) => Expr::Call(call),
             _ => n,
         }
     }
