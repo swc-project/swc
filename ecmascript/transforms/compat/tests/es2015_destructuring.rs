@@ -1497,10 +1497,7 @@ test!(
     const [ { a: a_ = 1 } ] = b
     ",
     "
-    const _b = b,
-    _b2 = _slicedToArray(_b, 1),
-    _b2$0$a = _b2[0].a,
-    a_ = _b2$0$a === void 0 ? 1 : _b2$0$a;
+    const ref = b[0], tmp = ref.a, a_ = tmp === void 0 ? 1 : tmp;
     "
 );
 
@@ -1514,8 +1511,9 @@ test!(
       }
     ",
     "
-    var _b, _b$0$a;
-    _b = _slicedToArray(b, 1), _b$0$a = _b[0].a, a_ = _b$0$a === void 0 ? 1 : _b$0$a;
+    async function f(a, b) {
+        const ref = JSON.parse(b), ref1 = ref[0], tmp = ref1.a, a_ = tmp === void 0 ? 1 : tmp;
+    }
     "
 );
 
