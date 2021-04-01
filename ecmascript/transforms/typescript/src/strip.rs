@@ -7,6 +7,7 @@ use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::private_ident;
+use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::var::VarCollector;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::{constructor::inject_after_super, default_constructor};
@@ -1658,6 +1659,33 @@ impl VisitMut for Strip {
                 | ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl { declare: true, .. })))
                 | ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl { declare: true, .. }))) => {
                     continue
+                }
+
+                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(TsImportEqualsDecl {
+                    span,
+                    declare: false,
+                    is_export: false,
+                    id,
+                    module_ref:
+                        TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { span: _, expr }),
+                })) => {
+                    let default = VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(id.into()),
+                        init: Some(Box::new(Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: quote_ident!("require").as_callee(),
+                            args: vec![expr.as_arg()],
+                            type_args: None,
+                        }))),
+                        definite: false,
+                    };
+                    stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                        span,
+                        kind: VarDeclKind::Const,
+                        declare: false,
+                        decls: vec![default],
+                    }))))
                 }
 
                 // Always strip type only import / exports
