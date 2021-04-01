@@ -36,36 +36,31 @@ var obj = {
         };
     },
     byPlatform: function (platform) {
-        var _byPlatform = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(platform) {
+        var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(platform) {
             var result;
-            return regeneratorRuntime.wrap(function _callee$(_context) {
-                while (1) {
-                    switch (_context.prev = _context.next) {
-                        case 0:
-                            _context.next = 2;
-                            return this.find({
-                                platform: {
-                                    $eq: platform
-                                }
-                            });
-
-                        case 2:
-                            result = _context.sent;
-                            return _context.abrupt("return", result);
-
-                        case 4:
-                        case "end":
-                            return _context.stop();
-                    }
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while (1) switch (_ctx.prev = _ctx.next) {
+                    case 0:
+                        _ctx.next = 2;
+                        return this.find({
+                            platform: {
+                                $eq: platform
+                            }
+                        });
+                    case 2:
+                        result = _ctx.sent;
+                        return _ctx.abrupt("return", result);
+                    case 4:
+                    case "end":
+                        return _ctx.stop();
                 }
             }, _callee, this);
         }));
-
-        function byPlatform(_x) {
-            return _byPlatform.apply(this, arguments);
-        }
-
-        return byPlatform;
+        return function () {
+            return _ref.apply(this, arguments);
+        };
     }()
 };
-console.log(obj.byPlatform('foo'));
+obj.byPlatform('foo').then(function (v) {
+    return console.log(v);
+});
