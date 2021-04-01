@@ -42,6 +42,7 @@ pub fn async_to_generator() -> impl Fold {
 struct AsyncToGenerator;
 
 struct Actual {
+    in_object_prop: bool,
     extra_stmts: Vec<Stmt>,
 }
 
@@ -70,6 +71,7 @@ impl AsyncToGenerator {
 
         for stmt in stmts {
             let mut actual = Actual {
+                in_object_prop: false,
                 extra_stmts: vec![],
             };
             let stmt = stmt.fold_with(&mut actual);
@@ -98,10 +100,13 @@ impl Fold for Actual {
         let mut folder = MethodFolder { vars: vec![] };
         m.function.params.clear();
         let function = m.function.fold_children_with(&mut folder);
-        let expr = make_fn_ref(FnExpr {
-            ident: None,
-            function,
-        });
+        let expr = make_fn_ref(
+            FnExpr {
+                ident: None,
+                function,
+            },
+            self.in_object_prop,
+        );
 
         let hoisted_super = if folder.vars.is_empty() {
             None
@@ -259,12 +264,12 @@ impl Fold for Actual {
                 };
 
                 if !used_this {
-                    return make_fn_ref(fn_expr);
+                    return make_fn_ref(fn_expr, false);
                 }
 
                 return Expr::Call(CallExpr {
                     span,
-                    callee: make_fn_ref(fn_expr)
+                    callee: make_fn_ref(fn_expr, false)
                         .make_member(quote_ident!("bind"))
                         .as_callee(),
                     args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
@@ -324,6 +329,18 @@ impl Fold for Actual {
             declare: false,
         }
     }
+
+    fn fold_prop(&mut self, n: Prop) -> Prop {
+        let old = self.in_object_prop;
+        self.in_object_prop = true;
+
+        let n = n.fold_children_with(self);
+
+        self.in_object_prop = old;
+
+        n
+    }
+
     fn fold_method_prop(&mut self, prop: MethodProp) -> MethodProp {
         let prop = prop.fold_children_with(self);
 
@@ -332,13 +349,16 @@ impl Fold for Actual {
         }
         let params = prop.function.params;
 
-        let fn_ref = make_fn_ref(FnExpr {
-            ident: None,
-            function: Function {
-                params: vec![],
-                ..prop.function
+        let fn_ref = make_fn_ref(
+            FnExpr {
+                ident: None,
+                function: Function {
+                    params: vec![],
+                    ..prop.function
+                },
             },
-        });
+            true,
+        );
         let fn_ref = Expr::Call(CallExpr {
             span: DUMMY_SP,
             callee: fn_ref.as_callee(),
@@ -660,7 +680,7 @@ impl Actual {
             .fold_children_with(self);
         }
 
-        return make_fn_ref(callee);
+        return make_fn_ref(callee, self.in_object_prop);
     }
     fn fold_fn(&mut self, raw_ident: Option<Ident>, f: Function, is_decl: bool) -> Function {
         if f.body.is_none() {
@@ -693,10 +713,13 @@ impl Actual {
         let ident = raw_ident.clone().unwrap_or_else(|| quote_ident!("ref"));
 
         let real_fn_ident = private_ident!(ident.span, format!("_{}", ident.sym));
-        let right = make_fn_ref(FnExpr {
-            ident: None,
-            function: f,
-        });
+        let right = make_fn_ref(
+            FnExpr {
+                ident: None,
+                function: f,
+            },
+            self.in_object_prop,
+        );
 
         if is_decl {
             let real_fn = FnDecl {
@@ -817,7 +840,7 @@ impl Actual {
 /// Creates
 ///
 /// `_asyncToGenerator(function*() {})` from `async function() {}`;
-fn make_fn_ref(mut expr: FnExpr) -> Expr {
+fn make_fn_ref(mut expr: FnExpr, should_not_bind_this: bool) -> Expr {
     struct AwaitToYield;
 
     macro_rules! noop {
@@ -859,8 +882,8 @@ fn make_fn_ref(mut expr: FnExpr) -> Expr {
 
     let span = expr.span();
 
-    let contains_this = contains_this_expr(&expr.function.body);
-    let expr = if contains_this {
+    let should_bind_this = !should_not_bind_this && contains_this_expr(&expr.function.body);
+    let expr = if should_bind_this {
         Expr::Call(CallExpr {
             span: DUMMY_SP,
             callee: expr.make_member(quote_ident!("bind")).as_callee(),
