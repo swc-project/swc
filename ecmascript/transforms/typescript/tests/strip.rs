@@ -3888,7 +3888,7 @@ to!(
     console.log(F)
     ",
     "
-    import F from 'yaml';
+    const F = require('yaml');
     console.log(F)
     "
 );
