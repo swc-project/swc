@@ -807,7 +807,30 @@ impl Fold for AssignFolder {
                             exprs,
                         })
                     }
-                    Pat::Assign(pat) => unimplemented!("assignment pattern {:?}", pat),
+                    Pat::Assign(pat) => {
+                        let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
+
+                        let mut exprs = vec![];
+
+                        exprs.push(Box::new(Expr::Assign(AssignExpr {
+                            span,
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone().into()))),
+                            op: op!("="),
+                            right: pat.right,
+                        })));
+
+                        exprs.push(Box::new(Expr::Assign(AssignExpr {
+                            span,
+                            left: PatOrExpr::Pat(pat.left),
+                            op: op!("="),
+                            right: Box::new(Expr::Ident(ref_ident)),
+                        })));
+
+                        Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs,
+                        })
+                    }
                     Pat::Rest(pat) => unimplemented!("rest pattern {:?}", pat),
 
                     Pat::Invalid(..) => unreachable!(),
