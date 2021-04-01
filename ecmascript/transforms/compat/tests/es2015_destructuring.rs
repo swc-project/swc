@@ -1488,3 +1488,18 @@ test!(
     "var ref;
 foo((ref = [1, 2], a = ref[0], b = ref[1], ref));"
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    issue_1477_1,
+    "
+    const [ { a: a_ = 1 } ] = b
+    ",
+    "
+    const _b = b,
+    _b2 = _slicedToArray(_b, 1),
+    _b2$0$a = _b2[0].a,
+    a_ = _b2$0$a === void 0 ? 1 : _b2$0$a;
+    "
+);
