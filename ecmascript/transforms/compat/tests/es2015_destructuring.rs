@@ -1518,3 +1518,18 @@ test!(
     _b = _slicedToArray(b, 1), _b$0$a = _b[0].a, a_ = _b$0$a === void 0 ? 1 : _b$0$a;
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    issue_1477_3,
+    "
+    const [ a = 1 ] = b
+    ",
+    "
+    var _b = b,
+    _b2 = _slicedToArray(_b, 1),
+    _b2$ = _b2[0],
+    a = _b2$ === void 0 ? 1 : _b2$;
+    "
+);
