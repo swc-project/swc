@@ -229,7 +229,6 @@ macro_rules! noop_fold_type {
         noop_fold_type!(fold_ts_property_signature, TsPropertySignature);
         noop_fold_type!(fold_ts_qualified_name, TsQualifiedName);
         noop_fold_type!(fold_ts_rest_type, TsRestType);
-        noop_fold_type!(fold_ts_signature_decl, TsSignatureDecl);
         noop_fold_type!(fold_ts_this_type, TsThisType);
         noop_fold_type!(fold_ts_this_type_or_ident, TsThisTypeOrIdent);
         noop_fold_type!(fold_ts_tuple_type, TsTupleType);
@@ -305,7 +304,6 @@ macro_rules! noop_visit_type {
         noop_visit_type!(visit_ts_property_signature, TsPropertySignature);
         noop_visit_type!(visit_ts_qualified_name, TsQualifiedName);
         noop_visit_type!(visit_ts_rest_type, TsRestType);
-        noop_visit_type!(visit_ts_signature_decl, TsSignatureDecl);
         noop_visit_type!(visit_ts_this_type, TsThisType);
         noop_visit_type!(visit_ts_this_type_or_ident, TsThisTypeOrIdent);
         noop_visit_type!(visit_ts_tuple_type, TsTupleType);
@@ -384,7 +382,6 @@ macro_rules! noop_visit_mut_type {
         noop_visit_mut_type!(visit_mut_ts_property_signature, TsPropertySignature);
         noop_visit_mut_type!(visit_mut_ts_qualified_name, TsQualifiedName);
         noop_visit_mut_type!(visit_mut_ts_rest_type, TsRestType);
-        noop_visit_mut_type!(visit_mut_ts_signature_decl, TsSignatureDecl);
         noop_visit_mut_type!(visit_mut_ts_this_type, TsThisType);
         noop_visit_mut_type!(visit_mut_ts_this_type_or_ident, TsThisTypeOrIdent);
         noop_visit_mut_type!(visit_mut_ts_tuple_type, TsTupleType);
@@ -1297,13 +1294,6 @@ define!({
     pub enum TsEntityName {
         TsQualifiedName(Box<TsQualifiedName>),
         Ident(Ident),
-    }
-    pub enum TsSignatureDecl {
-        TsCallSignatureDecl(TsCallSignatureDecl),
-        TsConstructSignatureDecl(TsConstructSignatureDecl),
-        TsMethodSignature(TsMethodSignature),
-        TsFnType(TsFnType),
-        TsConstructorType(TsConstructorType),
     }
     pub enum TsTypeElement {
         TsCallSignatureDecl(TsCallSignatureDecl),

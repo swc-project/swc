@@ -1709,13 +1709,6 @@ export interface TsQualifiedName extends Node {
 
 export type TsEntityName = TsQualifiedName | Identifier;
 
-export type TsSignatureDeclaration =
-  | TsCallSignatureDeclaration
-  | TsConstructSignatureDeclaration
-  | TsMethodSignature
-  | TsFunctionType
-  | TsConstructorType;
-
 export type TsTypeElement =
   | TsCallSignatureDeclaration
   | TsConstructSignatureDeclaration

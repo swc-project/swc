@@ -821,10 +821,6 @@ impl Visit for Shower<'_> {
         self.show("TsRestType", n);
         n.visit_children_with(self)
     }
-    fn visit_ts_signature_decl(&mut self, n: &TsSignatureDecl, _parent: &dyn Node) {
-        self.show("TsSignatureDecl", n);
-        n.visit_children_with(self)
-    }
     fn visit_ts_this_type(&mut self, n: &TsThisType, _parent: &dyn Node) {
         self.show("TsThisType", n);
         n.visit_children_with(self)
