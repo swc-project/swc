@@ -414,13 +414,14 @@ impl Babelify for TaggedTpl {
         TaggedTemplateExpression {
             base: ctx.base(self.span),
             tag: Box::new(self.tag.babelify(ctx).into()),
-            quasi: TemplateLiteral {
-                base: ctx.base(self.span), // TODO(dwoznicki): is this right?
-                expressions: self.exprs.iter().map(|e| {
-                    TemplateLiteralExpr::Expr(e.clone().babelify(ctx).into())
-                }).collect(),
-                quasis: self.quasis.iter().map(|q| q.clone().babelify(ctx)).collect(),
-            },
+            quasi: self.tpl.babelify(ctx),
+            // quasi: TemplateLiteral {
+            //     base: ctx.base(self.span), // TODO(dwoznicki): is this right?
+            //     expressions: self.exprs.iter().map(|e| {
+            //         TemplateLiteralExpr::Expr(e.clone().babelify(ctx).into())
+            //     }).collect(),
+            //     quasis: self.quasis.iter().map(|q| q.clone().babelify(ctx)).collect(),
+            // },
             type_parameters: self.type_params.map(|t| {
                 TaggedTemplateExprTypeParams::TS(t.babelify(ctx))
             }),

@@ -242,6 +242,8 @@ impl Babelify for TsTypeElement {
             TsTypeElement::TsPropertySignature(t) => TSTypeElement::PropSignature(t.babelify(ctx)),
             TsTypeElement::TsMethodSignature(t) => TSTypeElement::MethodSignature(t.babelify(ctx)),
             TsTypeElement::TsIndexSignature(t) => TSTypeElement::IndexSignature(t.babelify(ctx)),
+            TsTypeElement::TsGetterSignature(_) => panic!("unimplemented"), // TODO(dwoznicki): babel does not have this node
+            TsTypeElement::TsSetterSignature(_) => panic!("unimplemented"), // TODO(dwoznicki): babel does not have this node
         }
     }
 }
@@ -788,7 +790,7 @@ impl Babelify for TsLit {
 impl Babelify for TsTplLitType {
     type Output = String;
 
-    fn babelify(self, ctx: &Context) -> Self::Output {
+    fn babelify(self, _ctx: &Context) -> Self::Output {
         panic!("unimplemented");
     }
 }
@@ -1058,7 +1060,7 @@ impl Babelify for Accessibility {
 impl Babelify for TsConstAssertion {
     type Output = String;
 
-    fn babelify(self, ctx: &Context) -> Self::Output {
+    fn babelify(self, _ctx: &Context) -> Self::Output {
         panic!("unimplemented");
     }
 }

@@ -5,7 +5,7 @@ use crate::ast::lit::{
 };
 use crate::ast::jsx::JSXText as BabelJSXText;
 use crate::convert::Babelify;
-use swc_ecma_ast::{Lit, Str, Bool, Null, Number, BigInt, Regex, JSXText};
+use swc_ecma_ast::{Lit, Str, Bool, Null, Number, BigInt, Regex};
 use serde::{Serialize, Deserialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
