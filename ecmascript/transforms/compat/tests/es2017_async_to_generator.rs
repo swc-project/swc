@@ -2334,3 +2334,46 @@ test_exec!(
   expect(a.foo()).resolves.toEqual('a1')
   "
 );
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1455_1,
+    "
+    const obj = {
+      find({ platform }) {
+          return { platform }
+      },
+      byPlatform: async function (platform) {
+          const result = await this.find({ platform: { $eq: platform } });
+          return result;
+      },
+    };
+    
+    obj.byPlatform('foo').then(v => console.log(v))
+    ",
+    "
+    const obj = {
+      find ({ platform  }) {
+          return {
+              platform
+          };
+      },
+      byPlatform: function(platform) {
+          var _ref = _asyncToGenerator(function*(platform) {
+              const result = yield this.find({
+                  platform: {
+                      $eq: platform
+                  }
+              });
+              return result;
+          });
+          return function() {
+              return _ref.apply(this, arguments);
+          };
+      }()
+    };
+    obj.byPlatform('foo').then((v)=>console.log(v)
+    );
+    "
+);
