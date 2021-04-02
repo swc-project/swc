@@ -3,6 +3,7 @@ use swc_common::comments::SingleThreadedComments;
 use swc_common::errors::DiagnosticBuilder;
 use swc_common::errors::Handler;
 use swc_common::input::SourceFileInput;
+use swc_common::BytePos;
 use swc_common::Span;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -129,26 +130,32 @@ impl Visit for CommentPrinter<'_> {
             }
         });
 
-        self.comments.with_leading(n.hi, |comments| {
+        self.comments.with_leading(n.hi - BytePos(1), |comments| {
             for c in comments {
                 DiagnosticBuilder::new(
                     &self.handler,
                     swc_common::errors::Level::Note,
                     "Leading (hi)",
                 )
-                .span_note(Span::new(n.hi, n.hi, Default::default()), &c.text)
+                .span_note(
+                    Span::new(n.hi - BytePos(1), n.hi - BytePos(1), Default::default()),
+                    &c.text,
+                )
                 .emit();
             }
         });
 
-        self.comments.with_trailing(n.hi, |comments| {
+        self.comments.with_trailing(n.hi - BytePos(1), |comments| {
             for c in comments {
                 DiagnosticBuilder::new(
                     &self.handler,
                     swc_common::errors::Level::Note,
                     "Trailing (hi)",
                 )
-                .span_note(Span::new(n.hi, n.hi, Default::default()), &c.text)
+                .span_note(
+                    Span::new(n.hi - BytePos(1), n.hi - BytePos(1), Default::default()),
+                    &c.text,
+                )
                 .emit();
             }
         });
