@@ -180,7 +180,7 @@ var ColouredCanvasElement = function(CanvasElement) {
         {
             key: "createFacets",
             value: function createFacets(hidden) {
-                hidden = _get(_getPrototypeOf(ColouredCanvasElement.prototype), "createFacets", this).call(this, hidden); ///
+                hidden = _get(_getPrototypeOf(ColouredCanvasElement.prototype), "createFacets", this).call(this, hidden);
             }
         }
     ]);

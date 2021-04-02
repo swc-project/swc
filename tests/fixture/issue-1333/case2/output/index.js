@@ -426,19 +426,7 @@ class Shard extends _utils.Emitter {
         }));
         _classPrivateFieldSet(this, _presenceBucket, new _utils.Bucket(5, 60000));
     }
-} /**
- * @typedef {Object} DiscordPacket
- * @property {number} [op]
- * @property {*} [d]
- * @property {number | null} [s]
- * @property {string} [t]
- */  /**
- * @typedef {Object} ShardDestroyOptions
- * @property {boolean} [reset=false] Whether to reset the shard.
- * @property {boolean} [emit=true] Whether to emit the "destroyed" event.
- * @property {boolean} [log=false] Whether to emit a debug log.
- * @property {number} [code=1000] The code to use.
- */ 
+}
 exports.Shard = Shard;
 var _serialization2 = new WeakMap();
 var _compression2 = new WeakMap();
