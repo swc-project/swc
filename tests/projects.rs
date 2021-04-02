@@ -338,27 +338,6 @@ fn project_env() {
 }
 
 #[test]
-fn issue_532() {
-    let f = file("tests/projects/issue-532-block/input.js")
-        .unwrap()
-        .replace(" ", "");
-    let f = f.trim();
-
-    println!("{}", f);
-
-    assert_eq!(
-        f,
-        "\
-/*pre:1*/test();
-test(123/*post:3*/);
-test(/*pre:4*/123);
-test(/*pre:5*/123/*post:6*/);
-test(/*pre:7*/123,/*pre:8*/456);
-test(123/*post:9*/,456/*post:10*/);"
-    )
-}
-
-#[test]
 fn issue_602() {
     let f = file("tests/projects/issue-602/input.js").unwrap();
     println!("{}", f);

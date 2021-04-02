@@ -1488,3 +1488,56 @@ test!(
     "var ref;
 foo((ref = [1, 2], a = ref[0], b = ref[1], ref));"
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    issue_1477_1,
+    "
+    const [ { a: a_ = 1 } ] = b
+    ",
+    "
+    const ref = b[0], tmp = ref.a, a_ = tmp === void 0 ? 1 : tmp;
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    issue_1477_2,
+    "
+    async function f(a, b) {
+        const [ { a: a_ = 1 } ] = JSON.parse(b)
+      }
+    ",
+    "
+    async function f(a, b) {
+        const ref = JSON.parse(b), ref1 = ref[0], tmp = ref1.a, a_ = tmp === void 0 ? 1 : tmp;
+    }
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    issue_1477_3,
+    "
+    const [ a = 1 ] = b
+    ",
+    "
+    const tmp = b[0], a = tmp === void 0 ? 1 : tmp;
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    issue_1477_4,
+    "
+    [ a = 1 ] = b
+    ",
+    "
+    var ref, ref1;
+    ref = b, ref1 = ref[0], a = ref1 === void 0 ? 1 : ref1, ref;
+    "
+);

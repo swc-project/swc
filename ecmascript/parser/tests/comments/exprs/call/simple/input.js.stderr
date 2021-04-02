@@ -1,0 +1,16 @@
+note: Trailing (hi)
+  |
+note: post: 9
+ --> $DIR/tests/comments/exprs/call/simple/input.js:1:9
+  |
+1 | test(123/*post: 9*/, 456/*post: 10*/);
+  |         ^
+
+note: Trailing (hi)
+  |
+note: post: 10
+ --> $DIR/tests/comments/exprs/call/simple/input.js:1:25
+  |
+1 | test(123/*post: 9*/, 456/*post: 10*/);
+  |                         ^
+

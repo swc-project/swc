@@ -39,6 +39,7 @@ impl<'a> Emitter<'a> {
         &mut self,
         pos: BytePos,
         prefix_space: bool,
+        _is_hi: bool,
     ) -> Result {
         if pos == BytePos(0) {
             return Ok(());
@@ -54,9 +55,13 @@ impl<'a> Emitter<'a> {
         write_comments!(self, prefix_space, &cmts)
     }
 
-    pub(super) fn emit_leading_comments_of_pos(&mut self, pos: BytePos) -> Result {
+    pub(super) fn emit_leading_comments_of_pos(&mut self, mut pos: BytePos, is_hi: bool) -> Result {
         if pos == BytePos(0) {
             return Ok(());
+        }
+
+        if is_hi {
+            pos = pos - BytePos(1)
         }
 
         let comments = match self.comments {

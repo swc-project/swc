@@ -1,0 +1,8 @@
+note: Leading (hi)
+  |
+note:  @refresh reset
+ --> $DIR/tests/comments/exprs/array/blockStmt/input.js:3:1
+  |
+3 | });
+  | ^
+

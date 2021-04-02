@@ -1,0 +1,12 @@
+{
+  "env": {
+    "coreJs": 3
+  },
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true
+    },
+    "loose": true
+  }
+}

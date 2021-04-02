@@ -1,0 +1,8 @@
+note: Leading (hi)
+  |
+note:  4
+ --> $DIR/tests/comments/stmts/switch/input.js:5:1
+  |
+5 | }
+  | ^
+

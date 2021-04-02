@@ -3880,3 +3880,15 @@ to!(
     import { Test } from 'test';
     "
 );
+
+to!(
+    issue_1448_1,
+    "
+    import F = require('yaml')
+    console.log(F)
+    ",
+    "
+    const F = require('yaml');
+    console.log(F)
+    "
+);

@@ -278,13 +278,8 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                     .borrow()
                     .is_empty()
             {
-                let comment_pos = match token {
-                    tok!('}') | tok!('`') => start + BytePos(1),
-                    _ => start,
-                };
-
                 self.comments.as_ref().unwrap().add_leading_comments(
-                    comment_pos,
+                    start,
                     mem::replace(
                         &mut *self
                             .leading_comments_buffer
