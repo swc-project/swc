@@ -4,7 +4,7 @@ use crate::ast::{
     module::{Program as BabelProgram, SrcType, ModuleDeclaration, InterpreterDirective},
 };
 use crate::convert::Babelify;
-use swc_ecma_ast::{Program, ModuleItem};
+use swc_ecma_ast::{Program, Module, Script, ModuleItem};
 use swc_common::Span;
 use serde::{Serialize, Deserialize};
 
@@ -13,34 +13,46 @@ impl Babelify for Program {
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
-            Program::Module(module) => {
-                let span = module.span;
-                BabelProgram {
-                    base: ctx.base(span.clone()),
-                    source_type: SrcType::Module,
-                    body: module.body.iter().map(|stmt| stmt.clone().babelify(ctx).into()).collect(),
-                    interpreter: module.shebang.map(|s| InterpreterDirective {
-                        base: ctx.base(extract_shebang_span(span, ctx)),
-                        value: s.to_string(),
-                    }),
-                    directives: Default::default(),
-                    source_file: Default::default(),
-                }
-            },
-            Program::Script(script) => {
-                let span = script.span;
-                BabelProgram {
-                    base: ctx.base(span.clone()),
-                    source_type: SrcType::Script,
-                    body: script.body.iter().map(|stmt| stmt.clone().babelify(ctx)).collect(),
-                    interpreter: script.shebang.map(|s| InterpreterDirective {
-                        base: ctx.base(extract_shebang_span(span, ctx)),
-                        value: s.to_string(),
-                    }),
-                    directives: Default::default(),
-                    source_file: Default::default(),
-                }
-            },
+            Program::Module(module) => module.babelify(ctx),
+            Program::Script(script) => script.babelify(ctx),
+        }
+    }
+}
+
+impl Babelify for Module {
+    type Output = BabelProgram;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        let span = self.span;
+        BabelProgram {
+            base: ctx.base(span.clone()),
+            source_type: SrcType::Module,
+            body: self.body.iter().map(|stmt| stmt.clone().babelify(ctx).into()).collect(),
+            interpreter: self.shebang.map(|s| InterpreterDirective {
+                base: ctx.base(extract_shebang_span(span, ctx)),
+                value: s.to_string(),
+            }),
+            directives: Default::default(),
+            source_file: Default::default(),
+        }
+    }
+}
+
+impl Babelify for Script {
+    type Output = BabelProgram;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        let span = self.span;
+        BabelProgram {
+            base: ctx.base(span.clone()),
+            source_type: SrcType::Script,
+            body: self.body.iter().map(|stmt| stmt.clone().babelify(ctx)).collect(),
+            interpreter: self.shebang.map(|s| InterpreterDirective {
+                base: ctx.base(extract_shebang_span(span, ctx)),
+                value: s.to_string(),
+            }),
+            directives: Default::default(),
+            source_file: Default::default(),
         }
     }
 }
