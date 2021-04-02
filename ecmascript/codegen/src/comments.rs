@@ -37,7 +37,7 @@ macro_rules! write_comments {
 impl<'a> Emitter<'a> {
     pub(super) fn emit_trailing_comments_of_pos(
         &mut self,
-        pos: BytePos,
+        mut pos: BytePos,
         prefix_space: bool,
         is_hi: bool,
     ) -> Result {
