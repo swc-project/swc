@@ -71,7 +71,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_var_decl(&mut self, node: &VarDecl) -> Result {
-        self.emit_leading_comments_of_pos(node.span.lo())?;
+        self.emit_leading_comments_of_pos(node.span.lo(), false)?;
 
         if node.declare {
             keyword!("declare");
