@@ -557,7 +557,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_invalid(&mut self, n: &Invalid) -> Result {
-        self.emit_leading_comments_of_pos(n.span.lo())?;
+        self.emit_leading_comments_of_pos(n.span.lo(), false)?;
 
         self.wr.write_str_lit(n.span, "<invalid>")?;
     }
@@ -605,12 +605,12 @@ impl<'a> Emitter<'a> {
         } else {
             if self.needs_2dots_for_property_access(&node.obj) {
                 if node.prop.span().lo() >= BytePos(2) {
-                    self.emit_leading_comments_of_pos(node.prop.span().lo() - BytePos(2))?;
+                    self.emit_leading_comments_of_pos(node.prop.span().lo() - BytePos(2), false)?;
                 }
                 punct!(".");
             }
             if node.prop.span().lo() >= BytePos(1) {
-                self.emit_leading_comments_of_pos(node.prop.span().lo() - BytePos(1))?;
+                self.emit_leading_comments_of_pos(node.prop.span().lo() - BytePos(1), false)?;
             }
             punct!(".");
             emit!(node.prop);
@@ -1457,7 +1457,7 @@ impl<'a> Emitter<'a> {
     #[emitter]
     fn emit_ident(&mut self, ident: &Ident) -> Result {
         // TODO: Use write_symbol when ident is a symbol.
-        self.emit_leading_comments_of_pos(ident.span.lo())?;
+        self.emit_leading_comments_of_pos(ident.span.lo(), false)?;
 
         // TODO: span
         self.wr.write_symbol(ident.span, &ident.sym)?;
@@ -1515,6 +1515,7 @@ impl<'a> Emitter<'a> {
                         parent_node.lo()
                     },
                     true,
+                    false,
                 )?;
             }
         }
@@ -1576,7 +1577,7 @@ impl<'a> Emitter<'a> {
                     if format.contains(ListFormat::DelimitersMask)
                         && previous_sibling.span().hi() != parent_node.hi()
                     {
-                        self.emit_leading_comments_of_pos(previous_sibling.span().hi())?;
+                        self.emit_leading_comments_of_pos(previous_sibling.span().hi(), true)?;
                     }
 
                     self.write_delim(format)?;
@@ -1612,7 +1613,7 @@ impl<'a> Emitter<'a> {
                 // Emit this child.
                 if should_emit_intervening_comments {
                     let comment_range = child.comment_range();
-                    self.emit_trailing_comments_of_pos(comment_range.hi(), false)?;
+                    self.emit_trailing_comments_of_pos(comment_range.hi(), false, true)?;
                 } else {
                     should_emit_intervening_comments = may_emit_intervening_comments;
                 }
@@ -1696,11 +1697,14 @@ impl<'a> Emitter<'a> {
 
         if format.contains(ListFormat::BracketsMask) {
             if is_empty {
-                self.emit_leading_comments_of_pos({
-                    //TODO: children.hi()
+                self.emit_leading_comments_of_pos(
+                    {
+                        //TODO: children.hi()
 
-                    parent_node.hi()
-                })?; // Emit leading comments within empty lists
+                        parent_node.hi()
+                    },
+                    true,
+                )?; // Emit leading comments within empty lists
             }
             self.wr.write_punct(format.closing_bracket())?;
         }
@@ -1896,7 +1900,7 @@ impl<'a> Emitter<'a> {
             Stmt::ForOf(ref e) => emit!(e),
             Stmt::Decl(ref e) => emit!(e),
         }
-        self.emit_trailing_comments_of_pos(node.span().hi(), true)?;
+        self.emit_trailing_comments_of_pos(node.span().hi(), true, true)?;
 
         if !self.cfg.minify {
             self.wr.write_line()?;
@@ -1920,7 +1924,7 @@ impl<'a> Emitter<'a> {
             ListFormat::MultiLineBlockStatements,
         )?;
 
-        self.emit_leading_comments_of_pos(node.span().hi())?;
+        self.emit_leading_comments_of_pos(node.span().hi(), true)?;
 
         punct!("}");
     }
@@ -1954,7 +1958,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_return_stmt(&mut self, node: &ReturnStmt) -> Result {
-        self.emit_leading_comments_of_pos(node.span.lo())?;
+        self.emit_leading_comments_of_pos(node.span.lo(), false)?;
 
         keyword!("return");
         if let Some(ref arg) = node.arg {
