@@ -37,16 +37,12 @@ macro_rules! write_comments {
 impl<'a> Emitter<'a> {
     pub(super) fn emit_trailing_comments_of_pos(
         &mut self,
-        mut pos: BytePos,
+        pos: BytePos,
         prefix_space: bool,
-        is_hi: bool,
+        _is_hi: bool,
     ) -> Result {
         if pos == BytePos(0) {
             return Ok(());
-        }
-
-        if is_hi {
-            pos = pos - BytePos(1)
         }
 
         let comments = match self.comments {
