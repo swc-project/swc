@@ -6,6 +6,7 @@ use once_cell::sync::Lazy;
 use regex::Regex;
 
 use swc_atoms::JsWord;
+use swc_common::BytePos;
 use swc_common::{
     comments::Comments, comments::CommentsExt, sync::Lrc, SourceMap, Span, Spanned, DUMMY_SP,
 };
@@ -486,11 +487,13 @@ where
 
         let mut should_refresh = self.should_refresh;
         if let Some(comments) = &self.comments {
-            comments.with_leading(n.hi, |comments| {
-                if comments.iter().any(|c| c.text.contains("@refresh reset")) {
-                    should_refresh = true
-                }
-            });
+            if n.hi != BytePos(0) {
+                comments.with_leading(n.hi - BytePos(1), |comments| {
+                    if comments.iter().any(|c| c.text.contains("@refresh reset")) {
+                        should_refresh = true
+                    }
+                });
+            }
 
             comments.with_trailing(n.lo, |comments| {
                 if comments.iter().any(|c| c.text.contains("@refresh reset")) {
