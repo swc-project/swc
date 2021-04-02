@@ -1669,7 +1669,7 @@ impl<'a> Emitter<'a> {
                         && previous_sibling.span().hi() != parent_node.hi()
                         && emit_trailing_comments
                     {
-                        self.emit_leading_comments_of_pos(previous_sibling.span().hi())?;
+                        self.emit_leading_comments_of_pos(previous_sibling.span().hi(), true)?;
                     }
                 }
             }
