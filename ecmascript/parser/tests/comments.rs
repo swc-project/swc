@@ -91,6 +91,9 @@ fn test(input: PathBuf) {
             Err(())
         })
         .unwrap_err();
+    if output.trim().is_empty() {
+        panic!("Comments have incorrect position")
+    }
 
     output.compare_to_file(&output_file).unwrap();
 }
