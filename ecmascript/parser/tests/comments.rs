@@ -145,17 +145,14 @@ impl Visit for CommentPrinter<'_> {
             }
         });
 
-        self.comments.with_trailing(n.hi - BytePos(1), |comments| {
+        self.comments.with_trailing(n.hi, |comments| {
             for c in comments {
                 DiagnosticBuilder::new(
                     &self.handler,
                     swc_common::errors::Level::Note,
                     "Trailing (hi)",
                 )
-                .span_note(
-                    Span::new(n.hi - BytePos(1), n.hi - BytePos(1), Default::default()),
-                    &c.text,
-                )
+                .span_note(Span::new(n.hi, n.hi, Default::default()), &c.text)
                 .emit();
             }
         });
