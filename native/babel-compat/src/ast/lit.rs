@@ -7,7 +7,8 @@ use crate::ast::{
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Literal {
     #[serde(rename = "StringLiteral")]
     String(StringLiteral),
@@ -107,7 +108,8 @@ pub struct TemplateElement {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum TemplateLiteralExpr {
     #[serde(rename = "Expression")]
     Expr(Expression),

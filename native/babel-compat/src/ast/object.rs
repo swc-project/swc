@@ -9,7 +9,8 @@ use crate::ast::{
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum UserWhitespacable {
     ObjectMethod(ObjectMethod),
     ObjectProperty(ObjectProperty),
@@ -21,7 +22,8 @@ pub enum UserWhitespacable {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ObjectMember {
     #[serde(rename = "ObjectMember")]
     Method(ObjectMethod),
@@ -38,7 +40,8 @@ pub enum ObjectMethodKind {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ObjectKey {
     #[serde(rename = "Expression")]
     Expr(Expression),
@@ -76,7 +79,8 @@ pub struct ObjectMethod {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ObjectPropVal {
     #[serde(rename = "Expression")]
     Expr(Expression),

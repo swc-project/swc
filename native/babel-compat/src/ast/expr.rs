@@ -21,7 +21,8 @@ use crate::ast::{
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Expression {
     #[serde(rename = "ArrayExpression")]
     Array(ArrayExpression),
@@ -105,7 +106,8 @@ pub enum Expression {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ExpressionWrapper {
     #[serde(rename = "ExpressionStatement")]
     Stmt(ExpressionStatement),
@@ -116,7 +118,8 @@ pub enum ExpressionWrapper {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ArrayExprEl {
     #[serde(rename = "Expression")]
     Expr(Expression),
@@ -145,7 +148,8 @@ pub struct AssignmentExpression {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum MemberExprProp {
     #[serde(rename = "Expression")]
     Expr(Expression),
@@ -217,7 +221,8 @@ pub enum BinaryExprOp {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum BinaryExprLeft {
     #[serde(rename = "Expression")]
     Expr(Expression),
@@ -322,7 +327,8 @@ pub struct LogicalExpression {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ObjectExprProp {
     #[serde(rename = "ObjectMethod")]
     Method(ObjectMethod),
@@ -416,7 +422,8 @@ pub struct UpdateExpression {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ArrowFuncExprBody {
     #[serde(rename = "BlockStatement")]
     Block(BlockStatement),
@@ -469,7 +476,8 @@ pub struct ClassExpression {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum TaggedTemplateExprTypeParams {
     #[serde(rename = "TypeParameterDeclaration")]
     Flow(TypeParameterDeclaration),
@@ -509,7 +517,8 @@ pub struct AwaitExpression {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum OptionalMemberExprProp {
     #[serde(rename = "Expression")]
     Expr(Expression),
@@ -582,7 +591,8 @@ pub struct DoExpression {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum RecordExprProp {
     #[serde(rename = "ObjectProperty")]
     Prop(ObjectProperty),
@@ -600,7 +610,8 @@ pub struct RecordExpression {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum TupleExprEl {
     #[serde(rename = "Expression")]
     Expr(Expression),

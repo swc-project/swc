@@ -14,7 +14,8 @@ use crate::ast::{
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Class {
     #[serde(rename = "ClassExpression")]
     Expr(ClassExpression),
@@ -152,7 +153,8 @@ pub struct ClassProperty {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ClassBodyEl {
     #[serde(rename = "ClassMethod")]
     Method(ClassMethod),
@@ -178,7 +180,8 @@ pub struct ClassBody {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ClassImpl {
     #[serde(rename = "TSExpressionWithTypeArguments")]
     TSExpr(TSExpressionWithTypeArguments),

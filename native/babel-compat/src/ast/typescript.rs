@@ -11,7 +11,8 @@ use crate::ast::{
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum TSTypeElement {
     #[serde(rename = "TSCallSignatureDeclaration")]
     CallSignatureDecl(TSCallSignatureDeclaration),
@@ -26,7 +27,8 @@ pub enum TSTypeElement {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum TSType {
     #[serde(rename = "TSAnyKeyword")]
     AnyKeyword(TSAnyKeyword),
@@ -101,7 +103,8 @@ pub enum TSType {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum TSBaseType {
     #[serde(rename = "TSAnyKeyword")]
     Any(TSAnyKeyword),
@@ -145,7 +148,8 @@ pub struct TSTypeAnnotation {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum TSParamPropParam {
     #[serde(rename = "Identifier")]
     Id(Identifier),
@@ -166,7 +170,8 @@ pub struct TSParameterProperty {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum TSFuncDeclTypeParams {
     #[serde(rename = "TSTypeParameterDeclaration")]
     Type(TSTypeParameterDeclaration),
@@ -174,7 +179,8 @@ pub enum TSFuncDeclTypeParams {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum TSFuncDeclTypeAnnot {
     #[serde(rename = "TSTypeAnnotation")]
     Type(TSTypeAnnotation),
@@ -455,7 +461,8 @@ pub struct TSConstructorType {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum TSEntityName {
     #[serde(rename = "Identifier")]
     Id(Identifier),
@@ -475,7 +482,8 @@ pub struct TSTypeReference {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum TSTypePredicateParamName {
     #[serde(rename = "Identifier")]
     Id(Identifier),
@@ -497,7 +505,8 @@ pub struct TSTypePredicate {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum TSTypeQueryExprName {
     #[serde(rename = "TSEntityName")]
     EntityName(TSEntityName),
@@ -533,7 +542,8 @@ pub struct TSArrayType {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum TSTupleTypeElType {
     TSType(TSType),
     #[serde(rename = "TSNamedTupleMember")]
@@ -667,7 +677,8 @@ pub struct TSMappedType {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum TSLiteralTypeLiteral {
     #[serde(rename = "NumericLiteral")]
     Numeric(NumericLiteral),
@@ -784,7 +795,8 @@ pub struct TSEnumMember {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum TSModuleDeclBody {
     #[serde(rename = "TSModuleBlock")]
     Block(TSModuleBlock),
@@ -828,7 +840,8 @@ pub struct TSImportType {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum TSImportEqualsDeclModuleRef {
     #[serde(rename = "TSEntityName")]
     Name(TSEntityName),

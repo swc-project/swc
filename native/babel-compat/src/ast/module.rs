@@ -1,17 +1,20 @@
 use serde::{Serialize, Deserialize};
+use serde_json::Value;
 
 use crate::ast::{
     class::{ClassDeclaration},
     common::{BaseNode, Identifier, IdOrString, Directive},
+    comment::Comment,
     decl::{Declaration, FunctionDeclaration},
-    expr::{Expression},
-    lit::{StringLiteral},
-    stmt::{Statement},
-    typescript::{TSDeclareFunction},
+    expr::Expression,
+    lit::StringLiteral,
+    stmt::Statement,
+    typescript::TSDeclareFunction,
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ModuleDeclaration {
     #[serde(rename = "ExportAllDeclaration")]
     ExportAll(ExportAllDeclaration),
@@ -24,7 +27,8 @@ pub enum ModuleDeclaration {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ExportDeclaration {
     #[serde(rename = "ExportAllDeclaration")]
     ExportAll(ExportAllDeclaration),
@@ -35,7 +39,8 @@ pub enum ExportDeclaration {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ModuleSpecifier {
     #[serde(rename = "ExportSpecifier")]
     Export(ExportSpecifier),
@@ -49,6 +54,18 @@ pub enum ModuleSpecifier {
     ExportNamespace(ExportNamespaceSpecifier),
     #[serde(rename = "ExportDefaultSpecifier")]
     ExportDefault(ExportDefaultSpecifier),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct File {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    pub program: Program,
+    #[serde(default)]
+    pub comments: Option<Vec<Comment>>,
+    #[serde(default)]
+    pub tokens: Option<Vec<Value>>, // TODO: is this the right way to model any?
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -129,7 +146,8 @@ pub struct ExportAllDeclaration {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ExportDefaultDeclType {
     #[serde(rename = "FunctionDeclaration")]
     Func(FunctionDeclaration),
@@ -150,7 +168,8 @@ pub struct ExportDefaultDeclaration {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ExportSpecifierType {
     #[serde(rename = "ExportSpecifier")]
     Export(ExportSpecifier),
@@ -221,7 +240,8 @@ pub struct ImportNamespaceSpecifier {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ImportSpecifierType {
     #[serde(rename = "ImportSpecifier")]
     Import(ImportSpecifier),

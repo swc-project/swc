@@ -7,7 +7,8 @@ use crate::ast::{
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Pattern {
     #[serde(rename = "AssignmentPattern")]
     Assignment(AssignmentPattern),
@@ -18,7 +19,8 @@ pub enum Pattern {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ObjectPatternProp {
     #[serde(rename = "RestElement")]
     Rest(RestElement),
@@ -41,7 +43,8 @@ pub struct ObjectPattern {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum AssignmentPatternLeft {
     #[serde(rename = "Identifier")]
     Id(Identifier),

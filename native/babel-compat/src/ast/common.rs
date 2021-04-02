@@ -59,7 +59,8 @@ pub struct BaseNode {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Node {
     AnyTypeAnnotation(AnyTypeAnnotation),
     ArgumentPlaceholder(ArgumentPlaceholder),
@@ -356,7 +357,8 @@ pub enum Node {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Binary {
     #[serde(rename = "BinaryExpression")]
     BinaryExpr(BinaryExpression),
@@ -365,7 +367,8 @@ pub enum Binary {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Conditional {
     #[serde(rename = "ConditionalExpression")]
     Expr(ConditionalExpression),
@@ -374,7 +377,8 @@ pub enum Conditional {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum EnumBody {
     #[serde(rename = "EnumBooleanBody")]
     Boolean(EnumBooleanBody),
@@ -387,7 +391,8 @@ pub enum EnumBody {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum EnumMember {
     #[serde(rename = "EnumBooleanMember")]
     Boolean(EnumBooleanMember),
@@ -400,7 +405,8 @@ pub enum EnumMember {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Function {
     #[serde(rename = "FunctionDeclaration")]
     Decl(FunctionDeclaration),
@@ -414,7 +420,8 @@ pub enum Function {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum FunctionParent {
     #[serde(rename = "FunctionDeclaration")]
     Decl(FunctionDeclaration),
@@ -428,7 +435,8 @@ pub enum FunctionParent {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Immutable {
     StringLiteral(StringLiteral),
     NumericLiteral(NumericLiteral),
@@ -449,7 +457,8 @@ pub enum Immutable {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Method {
     #[serde(rename = "ObjectMethod")]
     Object(ObjectMethod),
@@ -460,7 +469,8 @@ pub enum Method {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Private {
     #[serde(rename = "ClassPrivateProperty")]
     ClassProp(ClassPrivateProperty),
@@ -471,7 +481,8 @@ pub enum Private {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Property {
     #[serde(rename = "ObjectProperty")]
     ObjectProp(ObjectProperty),
@@ -482,7 +493,8 @@ pub enum Property {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Pureish {
     #[serde(rename = "FunctionDeclaration")]
     FunctionDecl(FunctionDeclaration),
@@ -500,7 +512,8 @@ pub enum Pureish {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Scopable {
     #[serde(rename = "BlockStatement")]
     BlockStmt(BlockStatement),
@@ -536,7 +549,8 @@ pub enum Scopable {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum BlockParent {
     #[serde(rename = "BlockStatement")]
     BlockStmt(BlockStatement),
@@ -568,7 +582,8 @@ pub enum BlockParent {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Block {
     #[serde(rename = "BlockStatement")]
     BlockStmt(BlockStatement),
@@ -577,7 +592,8 @@ pub enum Block {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Terminatorless {
     #[serde(rename = "BreakStatement")]
     Break(BreakStatement),
@@ -594,7 +610,8 @@ pub enum Terminatorless {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum UnaryLike {
     #[serde(rename = "UnaryExpression")]
     Expr(UnaryExpression),
@@ -672,7 +689,8 @@ pub struct QualifiedTypeIdentifier {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum IdOrQualifiedId {
     #[serde(rename = "Identifier")]
     Id(Identifier),
@@ -681,7 +699,8 @@ pub enum IdOrQualifiedId {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum IdOrString {
     #[serde(rename = "Identifier")]
     Id(Identifier),
@@ -690,7 +709,8 @@ pub enum IdOrString {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum IdOrRest {
     #[serde(rename = "Identifier")]
     Id(Identifier),
@@ -714,7 +734,8 @@ pub struct Noop {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Param {
     #[serde(rename = "Identifier")]
     Id(Identifier),
@@ -734,7 +755,8 @@ pub struct ArgumentPlaceholder {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Arg {
     #[serde(rename = "Expression")]
     Expr(Expression),
@@ -747,7 +769,8 @@ pub enum Arg {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum LVal {
     #[serde(rename = "Identifier")]
     Id(Identifier),
@@ -766,7 +789,8 @@ pub enum LVal {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum PatternLike {
     #[serde(rename = "Identifier")]
     Id(Identifier),
@@ -781,7 +805,8 @@ pub enum PatternLike {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum TypeAnnotOrNoop {
     #[serde(rename = "TypeAnnotation")]
     Flow(TypeAnnotation),
@@ -791,7 +816,8 @@ pub enum TypeAnnotOrNoop {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum TypeParamDeclOrNoop {
     #[serde(rename = "TypeParameterDeclaration")]
     Flow(TypeParameterDeclaration),
@@ -801,7 +827,8 @@ pub enum TypeParamDeclOrNoop {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum SuperTypeParams {
     #[serde(rename = "TypeParameterInstantiation")]
     Flow(TypeParameterInstantiation),
@@ -835,7 +862,8 @@ pub struct V8IntrinsicIdentifier {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Callee {
     #[serde(rename = "Expression")]
     Expr(Expression),
@@ -867,18 +895,6 @@ pub struct DirectiveLiteral {
     pub base: BaseNode,
     #[serde(default)]
     pub value: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
-pub struct File {
-    #[serde(flatten)]
-    pub base: BaseNode,
-    pub program: Program,
-    #[serde(default)]
-    pub comments: Option<Vec<Comment>>,
-    #[serde(default)]
-    pub tokens: Option<Vec<Value>>, // TODO: is this the right way to model any?
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

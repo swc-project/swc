@@ -20,7 +20,8 @@ use crate::ast::{
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Statement {
     #[serde(rename = "BlockStatement")]
     Block(BlockStatement),
@@ -116,7 +117,8 @@ pub enum Statement {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum CompletionStatement {
     #[serde(rename = "BreakStatement")]
     Break(BreakStatement),
@@ -129,7 +131,8 @@ pub enum CompletionStatement {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Loop {
     #[serde(rename = "DoWhileStatement")]
     DoWhile(DoWhileStatement),
@@ -144,7 +147,8 @@ pub enum Loop {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum For {
     #[serde(rename = "ForInStatement")]
     InStmt(ForInStatement),
@@ -155,7 +159,8 @@ pub enum For {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ForXStatement {
     #[serde(rename = "ForInStatement")]
     ForIn(ForInStatement),
@@ -164,7 +169,8 @@ pub enum ForXStatement {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum While {
     #[serde(rename = "DoWhileStatement")]
     DoWhile(DoWhileStatement),
@@ -233,7 +239,8 @@ pub struct ExpressionStatement {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ForStmtInit {
     #[serde(rename = "VariableDeclaration")]
     VarDecl(VariableDeclaration),
@@ -242,7 +249,8 @@ pub enum ForStmtInit {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ForStmtLeft {
     #[serde(rename = "VariableDeclaration")]
     VarDecl(VariableDeclaration),
@@ -342,7 +350,8 @@ pub struct ThrowStatement {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum CatchClauseParam {
     #[serde(rename = "Identifier")]
     Id(Identifier),

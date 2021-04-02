@@ -21,7 +21,8 @@ use crate::ast::{
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Declaration {
     #[serde(rename = "FunctionDeclaration")]
     FuncDecl(FunctionDeclaration),
@@ -156,7 +157,8 @@ pub struct EnumStringMember {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum EnumStringBodyMember {
     #[serde(rename = "EnumStringBodyMember")]
     String(EnumStringMember),
@@ -228,7 +230,8 @@ pub struct EnumSymbolBody {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum EnumDeclBody {
     #[serde(rename = "EnumBooleanBody")]
     Boolean(EnumBooleanBody),

@@ -7,7 +7,8 @@ use crate::ast::{
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum JSX {
     #[serde(rename = "JSXAttribute")]
     Attr(JSXAttribute),
@@ -42,7 +43,8 @@ pub enum JSX {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum JSXAttrName {
     #[serde(rename = "JSXIdentifier")]
     Id(JSXIdentifier),
@@ -51,7 +53,8 @@ pub enum JSXAttrName {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum JSXAttrVal {
     #[serde(rename = "JSXElement")]
     Element(JSXElement),
@@ -104,7 +107,8 @@ pub struct JSXEmptyExpression {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum JSXExprContainerExpr {
     #[serde(rename = "Expression")]
     Expr(Expression),
@@ -138,7 +142,8 @@ pub struct JSXIdentifier {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum JSXMemberExprObject {
     #[serde(rename = "JSXMemberExpression")]
     Expr(JSXMemberExpression),
@@ -165,7 +170,8 @@ pub struct JSXNamespacedName {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum JSXOpeningElAttr {
     #[serde(rename = "JSXAttribute")]
     Attr(JSXAttribute),
@@ -231,7 +237,8 @@ pub struct JSXClosingFragment {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum JSXElementName {
     #[serde(rename = "JSXIdentifier")]
     Id(JSXIdentifier),
@@ -242,7 +249,8 @@ pub enum JSXElementName {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum JSXElementChild {
     #[serde(rename = "JSXText")]
     Text(JSXText),

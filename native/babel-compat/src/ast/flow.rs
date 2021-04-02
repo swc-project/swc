@@ -9,7 +9,8 @@ use crate::ast::{
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Flow {
     AnyTypeAnnotation(AnyTypeAnnotation),
     ArrayTypeAnnotation(ArrayTypeAnnotation),
@@ -68,7 +69,8 @@ pub enum Flow {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum FlowType {
     #[serde(rename = "AnyTypeAnnotation")]
     Any(AnyTypeAnnotation),
@@ -121,7 +123,8 @@ pub enum FlowType {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum FlowBaseAnnotation {
     #[serde(rename = "AnyTypeAnnotation")]
     Any(AnyTypeAnnotation),
@@ -146,7 +149,8 @@ pub enum FlowBaseAnnotation {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum FlowDeclaration {
     #[serde(rename = "DeclareClass")]
     Class(DeclareClass),
@@ -172,7 +176,8 @@ pub enum FlowDeclaration {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum FlowPredicate {
     DeclaredPredicate(DeclaredPredicate),
     InferredPredicate(InferredPredicate),
@@ -371,7 +376,8 @@ pub struct ObjectTypeSpreadProperty {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum ObjectTypeAnnotProp {
     #[serde(rename = "ObjectTypeProperty")]
     Prop(ObjectTypeProperty),
@@ -705,7 +711,8 @@ pub struct DeclareVariable {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "type")]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum DeclareExportDeclSpecifier {
     #[serde(rename = "ExportSpecifier")]
     Export(ExportSpecifier),
