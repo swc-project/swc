@@ -6,7 +6,15 @@ use swc_ecma_transforms_testing::{test, Tester};
 fn tr(t: &mut Tester) -> impl Fold {
     chain!(
         hygiene(),
-        refresh(true, t.cm.clone(), Some(t.comments.clone()))
+        refresh(
+            true,
+            Some(RefreshOptions {
+                emit_full_signatures: true,
+                ..Default::default()
+            }),
+            t.cm.clone(),
+            Some(t.comments.clone())
+        )
     )
 }
 
@@ -464,6 +472,32 @@ test!(
     $RefreshReg$(_c, "%default%$React.memo$forwardRef");
     $RefreshReg$(_c1, "%default%$React.memo");
     $RefreshReg$(_c2, "%default%");
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    tr,
+    register_likely_hoc_4,
+    r#"
+    function Foo() {
+      return <div>123</div>
+    }
+
+    export default memo(Foo)
+"#,
+    r#"
+    function Foo() {
+      return <div >123</div>;
+    }
+    _c = Foo;
+    export default _c1 = memo(Foo);
+    var _c, _c1;
+    $RefreshReg$(_c, "Foo");
+    $RefreshReg$(_c1, "%default%");
 "#
 );
 
@@ -1039,7 +1073,15 @@ test!(
         let mark = Mark::fresh(Mark::root());
         chain!(
             hygiene(),
-            refresh(true, t.cm.clone(), Some(t.comments.clone())),
+            refresh(
+                true,
+                Some(RefreshOptions {
+                    emit_full_signatures: true,
+                    ..Default::default()
+                }),
+                t.cm.clone(),
+                Some(t.comments.clone())
+            ),
             resolver_with_mark(mark),
             common_js(mark, Default::default())
         )
@@ -1059,7 +1101,7 @@ test!(
 
     Object.defineProperty(exports, "__esModule", {
       value: true
-    });    
+    });
     var _hooks = require("./hooks");
     var _foo = _interopRequireDefault(require("./foo"));
     
@@ -1274,5 +1316,51 @@ test!(
         useFoo();
       }, "useFoo{}", true)(item);
     }
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        dynamic_import: true,
+        ..Default::default()
+    }),
+    |t| chain!(
+        hygiene(),
+        refresh(
+            true,
+            Some(RefreshOptions {
+                refresh_reg: "import_meta_refreshReg".to_string(),
+                refresh_sig: "import_meta_refreshSig".to_string(),
+                emit_full_signatures: true,
+            }),
+            t.cm.clone(),
+            Some(t.comments.clone())
+        )
+    ),
+    custom_identifier,
+    r#"
+    export default function Bar () {
+      useContext(X)
+      return <Foo />
+    }
+"#,
+    r#"
+    var _s = import_meta_refreshSig();
+
+    export default function Bar() {
+      _s();
+    
+      useContext(X);
+      return <Foo />;
+    }
+    
+    _s(Bar, "useContext{}");
+    
+    _c = Bar;
+    
+    var _c;
+    
+    import_meta_refreshReg(_c, "Bar");
 "#
 );
