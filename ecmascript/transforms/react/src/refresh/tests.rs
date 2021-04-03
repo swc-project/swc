@@ -1031,8 +1031,8 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+    ::swc_ecma_parser::Syntax::Typescript(::swc_ecma_parser::TsConfig {
+        tsx: true,
         ..Default::default()
     }),
     |t| {
@@ -1047,8 +1047,10 @@ test!(
     icnlude_hook_signature_in_commonjs,
     r#"
     import {useFancyState} from './hooks';
+    import useFoo from './foo'
     export default function App() {
       const bar = useFancyState();
+      const foo = useFoo()
       return <h1>{bar}</h1>;
     }
 "#,
@@ -1059,6 +1061,7 @@ test!(
       value: true
     });    
     var _hooks = require("./hooks");
+    var _foo = _interopRequireDefault(require("./foo"));
     
     var _s = $RefreshSig$();
     
@@ -1066,12 +1069,13 @@ test!(
       _s();
     
       const bar = _hooks.useFancyState();
+      const foo = _foo.default();
       return <h1>{bar}</h1>;
     }
     exports.default = App;
     
-    _s(App, "useFancyState{bar}", false, function () {
-      return [_hooks.useFancyState];
+    _s(App, "useFancyState{bar}\nuseFoo{foo}", false, function () {
+      return [_hooks.useFancyState, _foo.default];
     });
     
     _c = App;
@@ -1143,8 +1147,8 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+    ::swc_ecma_parser::Syntax::Typescript(::swc_ecma_parser::TsConfig {
+        tsx: true,
         dynamic_import: true,
         ..Default::default()
     }),
@@ -1155,6 +1159,7 @@ test!(
     const B = foo ? require('X') : require('Y');
     const C = requireCond(gk, 'C');
     const D = import('D');
+    import E = require('E');
     export default function App() {
       return (
         <div>
@@ -1162,22 +1167,24 @@ test!(
           <B />
           <C />
           <D />
+          <E />
         </div>
       );
     }
 "#,
     r#"
     const A = require('A');
-
     const B = foo ? require('X') : require('Y');
     const C = requireCond(gk, 'C');
     const D = import('D');
+    import E = require('E');
     export default function App() {
       return <div>
           <A />
           <B />
           <C />
           <D />
+          <E />
         </div>;
     }
     _c = App;
