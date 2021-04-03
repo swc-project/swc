@@ -222,6 +222,7 @@
                       }
                     },
                     "readonly": false,
+                    "static": false,
                     "span": {
                       "start": 327,
                       "end": 354,

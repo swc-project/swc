@@ -111,6 +111,7 @@
                       }
                     },
                     "readonly": false,
+                    "static": false,
                     "span": {
                       "start": 56,
                       "end": 70,

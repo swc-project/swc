@@ -4021,6 +4021,7 @@
                       }
                     },
                     "readonly": false,
+                    "static": false,
                     "span": {
                       "start": 1652,
                       "end": 1666,

@@ -1369,6 +1369,7 @@ define!({
         pub params: Vec<TsFnParam>,
         pub type_ann: Option<TsTypeAnn>,
         pub readonly: bool,
+        pub is_static: bool,
         pub span: Span,
     }
     pub enum TsType {

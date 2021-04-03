@@ -147,6 +147,7 @@
                       }
                     },
                     "readonly": false,
+                    "static": false,
                     "span": {
                       "start": 44,
                       "end": 63,

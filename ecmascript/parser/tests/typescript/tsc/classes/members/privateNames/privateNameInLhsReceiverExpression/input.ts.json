@@ -180,6 +180,7 @@
                             }
                           },
                           "readonly": false,
+                          "static": false,
                           "span": {
                             "start": 75,
                             "end": 94,

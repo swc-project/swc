@@ -23386,6 +23386,7 @@
                       }
                     },
                     "readonly": false,
+                    "static": false,
                     "span": {
                       "start": 9823,
                       "end": 9842,
@@ -25823,6 +25824,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 10816,
                   "end": 10858,
