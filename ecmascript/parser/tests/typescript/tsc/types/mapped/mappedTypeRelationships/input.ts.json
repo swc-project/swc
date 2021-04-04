@@ -6955,6 +6955,7 @@
               }
             },
             "readonly": false,
+            "static": false,
             "span": {
               "start": 1974,
               "end": 1992,

@@ -7668,6 +7668,7 @@
               }
             },
             "readonly": false,
+            "static": false,
             "span": {
               "start": 3083,
               "end": 3101,

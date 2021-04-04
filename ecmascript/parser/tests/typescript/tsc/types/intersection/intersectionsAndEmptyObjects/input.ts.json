@@ -1655,6 +1655,7 @@
               }
             },
             "readonly": false,
+            "static": false,
             "span": {
               "start": 632,
               "end": 654,
@@ -2919,6 +2920,7 @@
                     }
                   },
                   "readonly": false,
+                  "static": false,
                   "span": {
                     "start": 1256,
                     "end": 1279,
@@ -3865,6 +3867,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 1750,
                   "end": 1767,

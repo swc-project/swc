@@ -249,6 +249,8 @@ pub struct TsIndexSignature {
     pub type_ann: Option<TsTypeAnn>,
 
     pub readonly: bool,
+    #[serde(rename = "static")]
+    pub is_static: bool,
     pub span: Span,
 }
 

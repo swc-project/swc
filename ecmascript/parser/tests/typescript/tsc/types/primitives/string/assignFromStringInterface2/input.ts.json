@@ -2398,6 +2398,7 @@
               }
             },
             "readonly": false,
+            "static": false,
             "span": {
               "start": 1328,
               "end": 1352,
