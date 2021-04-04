@@ -805,7 +805,7 @@ export interface ObjectExpression extends ExpressionBase {
 }
 
 export interface Argument {
-  spread: Span;
+  spread?: Span;
   expression: Expression;
 }
 
