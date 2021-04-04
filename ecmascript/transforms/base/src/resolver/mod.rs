@@ -614,10 +614,6 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
-        if let Some(ident) = &mut e.ident {
-            self.visit_mut_binding_ident(ident, None)
-        }
-
         let child_mark = Mark::fresh(self.mark);
 
         // Child folder
@@ -627,6 +623,9 @@ impl<'a> VisitMut for Resolver<'a> {
             self.cur_defining.take(),
             self.handle_types,
         );
+        if let Some(ident) = &mut e.ident {
+            folder.visit_mut_binding_ident(ident, None)
+        }
         e.function.visit_mut_with(&mut folder);
 
         self.cur_defining = folder.cur_defining;

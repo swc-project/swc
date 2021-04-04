@@ -760,7 +760,7 @@ identical_no_block!(
 
 identical_no_block!(
     issue_292_2,
-    "__assign = Object.assign || function __assign(t) {
+    "__assign = Object.assign || function __assign1(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
       s = arguments[i];
 
@@ -2181,7 +2181,7 @@ to_ts!(
     var x338 = (n__2: {
         (): Base[];
     })=>n__2;
-    x338(function named() {
+    x338(function named__3() {
         return [
             d1,
             d2
@@ -2423,4 +2423,44 @@ to_ts!(
         get [`hello ${a} bye`]() { return 0; }
     }
     "
+);
+
+to!(
+    fn_expr_scope,
+    r#"
+    test(function foo() {
+        foo = function foo(x) {
+            return x === 0 ? 1 : 1 + foo(x - 1);
+        };
+        return foo(10);
+    });
+    "#,
+    r#"
+    test(function foo() {
+        foo = function foo1(x) {
+            return x === 0 ? 1 : 1 + foo1(x - 1);
+        };
+        return foo(10);
+    });
+    "#
+);
+
+to!(
+    export_default_fn_decl_scope,
+    r#"
+    export default function foo() {
+        foo = function foo(x) {
+            return x === 0 ? 1 : 1 + foo(x - 1);
+        };
+        return foo(10);
+    }
+    "#,
+    r#"
+    export default function foo() {
+        foo = function foo1(x) {
+            return x === 0 ? 1 : 1 + foo1(x - 1);
+        };
+        return foo(10);
+    }
+    "#
 );
