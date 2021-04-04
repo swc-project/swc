@@ -341,6 +341,7 @@
             }
           },
           "readonly": false,
+          "static": false,
           "span": {
             "start": 202,
             "end": 220,
@@ -513,6 +514,7 @@
                       }
                     },
                     "readonly": false,
+                    "static": false,
                     "span": {
                       "start": 244,
                       "end": 265,
@@ -704,6 +706,7 @@
                       }
                     },
                     "readonly": false,
+                    "static": false,
                     "span": {
                       "start": 308,
                       "end": 330,
@@ -901,6 +904,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 421,
                   "end": 436,
@@ -1040,6 +1044,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 482,
                   "end": 503,
@@ -1190,6 +1195,7 @@
                             }
                           },
                           "readonly": false,
+                          "static": false,
                           "span": {
                             "start": 531,
                             "end": 552,
@@ -1447,6 +1453,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 658,
                   "end": 680,
@@ -1597,6 +1604,7 @@
                             }
                           },
                           "readonly": false,
+                          "static": false,
                           "span": {
                             "start": 708,
                             "end": 730,
@@ -1816,6 +1824,7 @@
                                   }
                                 },
                                 "readonly": false,
+                                "static": false,
                                 "span": {
                                   "start": 831,
                                   "end": 852,
@@ -2094,6 +2103,7 @@
                                   }
                                 },
                                 "readonly": false,
+                                "static": false,
                                 "span": {
                                   "start": 949,
                                   "end": 971,

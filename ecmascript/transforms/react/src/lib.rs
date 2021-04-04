@@ -1,3 +1,5 @@
+use std::mem;
+
 pub use self::{
     display_name::display_name,
     jsx::{jsx, Options},
@@ -17,17 +19,19 @@ mod refresh;
 /// `@babel/preset-react`
 ///
 /// Preset for all React plugins.
-pub fn react<C>(cm: Lrc<SourceMap>, comments: Option<C>, options: Options) -> impl Fold
+pub fn react<C>(cm: Lrc<SourceMap>, comments: Option<C>, mut options: Options) -> impl Fold
 where
     C: Comments + Clone,
 {
     let Options { development, .. } = options;
+
+    let refresh_options = mem::replace(&mut options.refresh, None);
 
     chain!(
         jsx(cm.clone(), comments.clone(), options),
         display_name(),
         jsx_src(development, cm.clone()),
         jsx_self(development),
-        refresh(development, cm.clone(), comments)
+        refresh(development, refresh_options, cm.clone(), comments)
     )
 }

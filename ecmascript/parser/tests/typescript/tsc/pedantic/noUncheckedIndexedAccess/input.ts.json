@@ -506,6 +506,7 @@
                       }
                     },
                     "readonly": false,
+                    "static": false,
                     "span": {
                       "start": 348,
                       "end": 368,
@@ -3070,6 +3071,7 @@
                       }
                     },
                     "readonly": false,
+                    "static": false,
                     "span": {
                       "start": 1667,
                       "end": 1687,
@@ -3776,6 +3778,7 @@
                     }
                   },
                   "readonly": false,
+                  "static": false,
                   "span": {
                     "start": 1988,
                     "end": 2008,
@@ -4016,6 +4019,7 @@
                     }
                   },
                   "readonly": false,
+                  "static": false,
                   "span": {
                     "start": 2107,
                     "end": 2127,
@@ -4409,6 +4413,7 @@
                       }
                     },
                     "readonly": false,
+                    "static": false,
                     "span": {
                       "start": 2386,
                       "end": 2416,
@@ -4812,6 +4817,7 @@
                           }
                         },
                         "readonly": false,
+                        "static": false,
                         "span": {
                           "start": 2555,
                           "end": 2575,
@@ -4877,6 +4883,7 @@
                           }
                         },
                         "readonly": false,
+                        "static": false,
                         "span": {
                           "start": 2582,
                           "end": 2601,
@@ -5834,6 +5841,7 @@
                       }
                     },
                     "readonly": false,
+                    "static": false,
                     "span": {
                       "start": 3199,
                       "end": 3220,

@@ -182,6 +182,7 @@
                     }
                   },
                   "readonly": false,
+                  "static": false,
                   "span": {
                     "start": 119,
                     "end": 147,

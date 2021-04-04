@@ -428,13 +428,15 @@ impl Fold for Remover {
             Stmt::Block(BlockStmt { span, stmts }) => {
                 if stmts.is_empty() {
                     Stmt::Empty(EmptyStmt { span })
-                } else if stmts.len() == 1 && !is_block_scoped_stuff(&stmts[0]) {
+                } else if stmts.len() == 1
+                    && !is_block_scoped_stuff(&stmts[0])
+                    && stmt_depth(&stmts[0]) <= 1
+                {
                     stmts.into_iter().next().unwrap().fold_with(self)
                 } else {
                     Stmt::Block(BlockStmt { span, stmts })
                 }
             }
-
             Stmt::Try(TryStmt {
                 span,
                 block,
@@ -1547,4 +1549,37 @@ fn check_for_stopper(s: &[Stmt], only_conditional: bool) -> bool {
     };
     v.visit_stmts(s, &Invalid { span: DUMMY_SP } as _);
     v.found
+}
+
+/// Finds the depth of statements without hitting a block
+fn stmt_depth(s: &Stmt) -> u32 {
+    let mut depth = 0;
+
+    match s {
+        // Stop when hitting a statement we know can't increase statement depth.
+        Stmt::Block(_) | Stmt::Labeled(_) | Stmt::Switch(_) | Stmt::Decl(_) | Stmt::Expr(_) => {}
+        // Take the max depth of if statements
+        Stmt::If(i) => {
+            depth += 1;
+            if let Some(alt) = &i.alt {
+                depth += std::cmp::max(stmt_depth(&i.cons), stmt_depth(&alt));
+            } else {
+                depth += stmt_depth(&i.cons);
+            }
+        }
+        // These statements can have bodies without a wrapping block
+        Stmt::With(WithStmt { body, .. })
+        | Stmt::While(WhileStmt { body, .. })
+        | Stmt::DoWhile(DoWhileStmt { body, .. })
+        | Stmt::For(ForStmt { body, .. })
+        | Stmt::ForIn(ForInStmt { body, .. })
+        | Stmt::ForOf(ForOfStmt { body, .. }) => {
+            depth += 1;
+            depth += stmt_depth(&body);
+        }
+        // All other statements increase the depth by 1
+        _ => depth += 1,
+    }
+
+    depth
 }

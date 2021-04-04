@@ -203,7 +203,7 @@ pub fn is_import_or_require(expr: &Expr) -> bool {
 pub fn callee_should_ignore<'a>(
     ignore: &'a HashSet<Ident>,
     callee: &ExprOrSuper,
-) -> Option<&'a Ident> {
+) -> Option<ExprOrSuper> {
     let expr = if let ExprOrSuper::Expr(expr) = callee {
         Some(expr)
     } else {
@@ -214,7 +214,9 @@ pub fn callee_should_ignore<'a>(
     } else {
         None
     }?;
-    ignore.get(ident)
+    ignore
+        .get(ident)
+        .map(|ident| ExprOrSuper::Expr(Box::new(Expr::Ident(ident.clone()))))
 }
 
 pub fn gen_custom_hook_record(elems: Vec<Option<ExprOrSpread>>) -> Expr {

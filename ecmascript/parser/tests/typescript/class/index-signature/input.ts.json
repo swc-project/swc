@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 64,
+    "end": 131,
     "ctxt": 0
   },
   "body": [
@@ -21,7 +21,7 @@
       "declare": false,
       "span": {
         "start": 0,
-        "end": 64,
+        "end": 131,
         "ctxt": 0
       },
       "decorators": [],
@@ -75,6 +75,7 @@
             }
           },
           "readonly": false,
+          "static": false,
           "span": {
             "start": 14,
             "end": 31,
@@ -130,9 +131,122 @@
             }
           },
           "readonly": true,
+          "static": false,
           "span": {
             "start": 36,
             "end": 62,
+            "ctxt": 0
+          }
+        },
+        {
+          "type": "TsIndexSignature",
+          "params": [
+            {
+              "type": "Identifier",
+              "span": {
+                "start": 75,
+                "end": 84,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false,
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 76,
+                  "end": 84,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 78,
+                    "end": 84,
+                    "ctxt": 0
+                  },
+                  "kind": "string"
+                }
+              }
+            }
+          ],
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 85,
+              "end": 90,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 87,
+                "end": 90,
+                "ctxt": 0
+              },
+              "kind": "any"
+            }
+          },
+          "readonly": false,
+          "static": true,
+          "span": {
+            "start": 67,
+            "end": 91,
+            "ctxt": 0
+          }
+        },
+        {
+          "type": "TsIndexSignature",
+          "params": [
+            {
+              "type": "Identifier",
+              "span": {
+                "start": 113,
+                "end": 122,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false,
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 114,
+                  "end": 122,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 116,
+                    "end": 122,
+                    "ctxt": 0
+                  },
+                  "kind": "string"
+                }
+              }
+            }
+          ],
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 123,
+              "end": 128,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 125,
+                "end": 128,
+                "ctxt": 0
+              },
+              "kind": "any"
+            }
+          },
+          "readonly": true,
+          "static": true,
+          "span": {
+            "start": 96,
+            "end": 129,
             "ctxt": 0
           }
         }

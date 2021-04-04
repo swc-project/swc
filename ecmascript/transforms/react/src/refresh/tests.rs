@@ -6,7 +6,15 @@ use swc_ecma_transforms_testing::{test, Tester};
 fn tr(t: &mut Tester) -> impl Fold {
     chain!(
         hygiene(),
-        refresh(true, t.cm.clone(), Some(t.comments.clone()))
+        refresh(
+            true,
+            Some(RefreshOptions {
+                emit_full_signatures: true,
+                ..Default::default()
+            }),
+            t.cm.clone(),
+            Some(t.comments.clone())
+        )
     )
 }
 
@@ -473,6 +481,32 @@ test!(
         ..Default::default()
     }),
     tr,
+    register_likely_hoc_4,
+    r#"
+    function Foo() {
+      return <div>123</div>
+    }
+
+    export default memo(Foo)
+"#,
+    r#"
+    function Foo() {
+      return <div >123</div>;
+    }
+    _c = Foo;
+    export default _c1 = memo(Foo);
+    var _c, _c1;
+    $RefreshReg$(_c, "Foo");
+    $RefreshReg$(_c1, "%default%");
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    tr,
     ignore_not_hoc,
     r#"
     const throttledAlert = throttle(function() {
@@ -814,21 +848,21 @@ test!(
     r#"
     var _s = $RefreshSig$(), _s1 = $RefreshSig$();
 
-    export const A = React.memo(_c1 = React.forwardRef(_c = _s((props, ref) => {
+    export const A = _s(React.memo(_c1 = _s(React.forwardRef(_c = _s((props, ref) => {
       _s();
-
+    
       const [foo, setFoo] = useState(0);
       React.useEffect(() => {});
       return <h1 ref={ref}>{foo}</h1>;
-    }, "useState{[foo, setFoo](0)}\nuseEffect{}")));
+    }, "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}");
     _c2 = A;
-    export const B = React.memo(_c4 = React.forwardRef(_c3 = _s1(function (props, ref) {
+    export const B = _s1(React.memo(_c4 = _s1(React.forwardRef(_c3 = _s1(function (props, ref) {
       _s1();
-
+    
       const [foo, setFoo] = useState(0);
       React.useEffect(() => {});
       return <h1 ref={ref}>{foo}</h1>;
-    }, "useState{[foo, setFoo](0)}\nuseEffect{}")));
+    }, "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}");
     _c5 = B;
 
     function hoc() {
@@ -938,11 +972,11 @@ test!(
     _s3(Bar, "useContext{}");
 
     _c1 = Bar;
-    const Baz = memo(_c2 = _s4(() => {
+    const Baz = _s4(memo(_c2 = _s4(() => {
       _s4();
 
       return useContext(X);
-    }, "useContext{}"));
+    }, "useContext{}")), "useContext{}");
     _c3 = Baz;
 
     const Qux = () => {
@@ -1031,15 +1065,23 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+    ::swc_ecma_parser::Syntax::Typescript(::swc_ecma_parser::TsConfig {
+        tsx: true,
         ..Default::default()
     }),
     |t| {
         let mark = Mark::fresh(Mark::root());
         chain!(
             hygiene(),
-            refresh(true, t.cm.clone(), Some(t.comments.clone())),
+            refresh(
+                true,
+                Some(RefreshOptions {
+                    emit_full_signatures: true,
+                    ..Default::default()
+                }),
+                t.cm.clone(),
+                Some(t.comments.clone())
+            ),
             resolver_with_mark(mark),
             common_js(mark, Default::default())
         )
@@ -1047,8 +1089,10 @@ test!(
     icnlude_hook_signature_in_commonjs,
     r#"
     import {useFancyState} from './hooks';
+    import useFoo from './foo'
     export default function App() {
       const bar = useFancyState();
+      const foo = useFoo()
       return <h1>{bar}</h1>;
     }
 "#,
@@ -1057,8 +1101,9 @@ test!(
 
     Object.defineProperty(exports, "__esModule", {
       value: true
-    });    
+    });
     var _hooks = require("./hooks");
+    var _foo = _interopRequireDefault(require("./foo"));
     
     var _s = $RefreshSig$();
     
@@ -1066,12 +1111,13 @@ test!(
       _s();
     
       const bar = _hooks.useFancyState();
+      const foo = _foo.default();
       return <h1>{bar}</h1>;
     }
     exports.default = App;
     
-    _s(App, "useFancyState{bar}", false, function () {
-      return [_hooks.useFancyState];
+    _s(App, "useFancyState{bar}\nuseFoo{foo}", false, function () {
+      return [_hooks.useFancyState, _foo.default];
     });
     
     _c = App;
@@ -1143,18 +1189,19 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+    ::swc_ecma_parser::Syntax::Typescript(::swc_ecma_parser::TsConfig {
+        tsx: true,
         dynamic_import: true,
         ..Default::default()
     }),
     tr,
-    donot_consider_require_as_hoc,
+    dont_consider_require_as_hoc,
     r#"
     const A = require('A');
     const B = foo ? require('X') : require('Y');
     const C = requireCond(gk, 'C');
     const D = import('D');
+    import E = require('E');
     export default function App() {
       return (
         <div>
@@ -1162,22 +1209,24 @@ test!(
           <B />
           <C />
           <D />
+          <E />
         </div>
       );
     }
 "#,
     r#"
     const A = require('A');
-
     const B = foo ? require('X') : require('Y');
     const C = requireCond(gk, 'C');
     const D = import('D');
+    import E = require('E');
     export default function App() {
       return <div>
           <A />
           <B />
           <C />
           <D />
+          <E />
         </div>;
     }
     _c = App;
@@ -1240,5 +1289,78 @@ test!(
 
     $RefreshReg$(_c, "Foo");
     $RefreshReg$(_c1, "Bar");
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    tr,
+    dont_consider_iife_as_hoc,
+    r#"
+    while (item) {
+      (item => {
+        useFoo();
+      })(item);
+    }
+"#,
+    r#"
+    while (item) {
+      var _s = $RefreshSig$();
+    
+      _s(item => {
+        _s();
+    
+        useFoo();
+      }, "useFoo{}", true)(item);
+    }
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        dynamic_import: true,
+        ..Default::default()
+    }),
+    |t| chain!(
+        hygiene(),
+        refresh(
+            true,
+            Some(RefreshOptions {
+                refresh_reg: "import_meta_refreshReg".to_string(),
+                refresh_sig: "import_meta_refreshSig".to_string(),
+                emit_full_signatures: true,
+            }),
+            t.cm.clone(),
+            Some(t.comments.clone())
+        )
+    ),
+    custom_identifier,
+    r#"
+    export default function Bar () {
+      useContext(X)
+      return <Foo />
+    }
+"#,
+    r#"
+    var _s = import_meta_refreshSig();
+
+    export default function Bar() {
+      _s();
+    
+      useContext(X);
+      return <Foo />;
+    }
+    
+    _s(Bar, "useContext{}");
+    
+    _c = Bar;
+    
+    var _c;
+    
+    import_meta_refreshReg(_c, "Bar");
 "#
 );

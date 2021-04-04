@@ -1724,6 +1724,24 @@ console.log(c);",
 }
 
 #[test]
+fn nested_block_stmt() {
+    test(
+        "if (Date.now() < 0) {
+            for(let i = 0; i < 10; i++){
+                if (Date.now() < 0) {
+                    console.log(1);
+                }
+            }
+        } else {
+            console.log(2);
+        }",
+        "if (Date.now() < 0) {
+            for(let i = 0; i < 10; i++)if (Date.now() < 0) console.log(1);
+        } else console.log(2);",
+    );
+}
+
+#[test]
 fn return_function_hoisting() {
     test(
         "function test() {

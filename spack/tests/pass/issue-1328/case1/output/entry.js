@@ -474,8 +474,10 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
                 this.method = "next";
                 this.arg = undefined;
                 this.tryEntries.forEach(resetTryEntry);
-                if (!skipTempReset) for(var name in this)// Not sure about the optimal order of these conditions:
-                if (name.charAt(0) === "t" && hasOwn.call(this, name) && !isNaN(+name.slice(1))) this[name] = undefined;
+                if (!skipTempReset) {
+                    for(var name in this)// Not sure about the optimal order of these conditions:
+                    if (name.charAt(0) === "t" && hasOwn.call(this, name) && !isNaN(+name.slice(1))) this[name] = undefined;
+                }
             },
             stop: function() {
                 this.done = true;

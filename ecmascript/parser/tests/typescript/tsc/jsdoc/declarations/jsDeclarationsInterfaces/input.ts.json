@@ -2264,6 +2264,7 @@
                 }
               },
               "readonly": false,
+              "static": false,
               "span": {
                 "start": 1155,
                 "end": 1177,
@@ -2449,6 +2450,7 @@
                 }
               },
               "readonly": false,
+              "static": false,
               "span": {
                 "start": 1249,
                 "end": 1269,
@@ -2576,6 +2578,7 @@
                 }
               },
               "readonly": false,
+              "static": false,
               "span": {
                 "start": 1308,
                 "end": 1328,
@@ -2703,6 +2706,7 @@
                 }
               },
               "readonly": false,
+              "static": false,
               "span": {
                 "start": 1367,
                 "end": 1387,
@@ -2758,6 +2762,7 @@
                 }
               },
               "readonly": false,
+              "static": false,
               "span": {
                 "start": 1392,
                 "end": 1413,
@@ -2852,6 +2857,7 @@
                 }
               },
               "readonly": false,
+              "static": false,
               "span": {
                 "start": 1442,
                 "end": 1464,
@@ -3024,6 +3030,7 @@
                 }
               },
               "readonly": false,
+              "static": false,
               "span": {
                 "start": 1537,
                 "end": 1559,
@@ -3151,6 +3158,7 @@
                 }
               },
               "readonly": false,
+              "static": false,
               "span": {
                 "start": 1598,
                 "end": 1618,
@@ -3265,6 +3273,7 @@
                 }
               },
               "readonly": false,
+              "static": false,
               "span": {
                 "start": 1657,
                 "end": 1679,
@@ -3333,6 +3342,7 @@
                 }
               },
               "readonly": false,
+              "static": false,
               "span": {
                 "start": 1684,
                 "end": 1704,
@@ -3469,6 +3479,7 @@
                 }
               },
               "readonly": false,
+              "static": false,
               "span": {
                 "start": 1733,
                 "end": 1760,
@@ -3607,6 +3618,7 @@
                 }
               },
               "readonly": false,
+              "static": false,
               "span": {
                 "start": 1765,
                 "end": 1803,
@@ -3862,6 +3874,7 @@
                 }
               },
               "readonly": false,
+              "static": false,
               "span": {
                 "start": 1876,
                 "end": 1914,
@@ -4075,6 +4088,7 @@
                 }
               },
               "readonly": false,
+              "static": false,
               "span": {
                 "start": 1954,
                 "end": 1982,
@@ -4272,6 +4286,7 @@
                 }
               },
               "readonly": false,
+              "static": false,
               "span": {
                 "start": 2022,
                 "end": 2060,
@@ -4426,6 +4441,7 @@
                 }
               },
               "readonly": false,
+              "static": false,
               "span": {
                 "start": 2065,
                 "end": 2093,

@@ -1,9 +1,11 @@
 use std::collections::{HashMap, HashSet};
 use std::mem;
 
+use base64;
 use indexmap::IndexSet;
 use once_cell::sync::Lazy;
 use regex::Regex;
+use sha1::{Digest, Sha1};
 
 use swc_atoms::JsWord;
 use swc_common::BytePos;
@@ -19,6 +21,8 @@ use util::{
     is_import_or_require, make_assign_stmt, make_call_expr, make_call_stmt, CollectIdent,
 };
 
+pub mod options;
+use options::RefreshOptions;
 mod util;
 
 #[cfg(test)]
@@ -27,6 +31,13 @@ mod tests;
 struct Hoc {
     insert: bool,
     reg: Vec<(Ident, String)>,
+    // use to register hook for all level of HOC, first is hook register ident
+    // rest is hook register call args
+    hook: Option<HocHook>,
+}
+struct HocHook {
+    ident: ExprOrSuper,
+    args: Vec<ExprOrSpread>,
 }
 enum Persist {
     Hoc(Hoc),
@@ -34,7 +45,7 @@ enum Persist {
     None,
 }
 fn get_persistent_id(ident: &Ident) -> Persist {
-    if ident.as_ref().starts_with(|c: char| c.is_ascii_uppercase()) {
+    if ident.sym.starts_with(|c: char| c.is_ascii_uppercase()) {
         Persist::Component(ident.clone())
     } else {
         Persist::None
@@ -74,15 +85,18 @@ enum HookCall {
 
 /// `react-refresh/babel`
 /// https://github.com/facebook/react/blob/master/packages/react-refresh/src/ReactFreshBabelPlugin.js
-pub fn refresh<C: Comments>(dev: bool, cm: Lrc<SourceMap>, comments: Option<C>) -> impl Fold {
+pub fn refresh<C: Comments>(
+    dev: bool,
+    options: Option<RefreshOptions>,
+    cm: Lrc<SourceMap>,
+    comments: Option<C>,
+) -> impl Fold {
     Refresh {
-        dev,
+        enable: dev && options.is_some(),
         cm,
         comments,
-        should_refresh: false,
-        refresh_reg: "$RefreshReg$".to_string(),
-        refresh_sig: "$RefreshSig$".to_string(),
-        emit_full_signatures: true,
+        should_reset: false,
+        options: options.unwrap_or(Default::default()),
         used_in_jsx: HashSet::new(),
         curr_hook_fn: Vec::new(),
         scope_binding: IndexSet::new(),
@@ -90,15 +104,14 @@ pub fn refresh<C: Comments>(dev: bool, cm: Lrc<SourceMap>, comments: Option<C>) 
 }
 
 struct Refresh<C: Comments> {
-    dev: bool,
-    refresh_reg: String,
-    refresh_sig: String,
-    emit_full_signatures: bool,
+    enable: bool,
+    options: RefreshOptions,
     cm: Lrc<SourceMap>,
-    should_refresh: bool,
+    should_reset: bool,
     used_in_jsx: HashSet<JsWord>,
     comments: Option<C>,
     curr_hook_fn: Vec<FnWithHook>,
+    // bindings in current and all parent scope
     scope_binding: IndexSet<JsWord>,
 }
 
@@ -203,6 +216,8 @@ impl<C: Comments> Refresh<C> {
                 _ => {}
             }
         }
+        // The signature call is split in two parts. One part is called inside the
+        // function. This is used to signal when first render happens.
         if sign_res.len() != 0 {
             let handle = private_ident!("_s");
             body.stmts.insert(0, make_call_stmt(handle.clone()));
@@ -247,7 +262,7 @@ impl<C: Comments> Refresh<C> {
         }
     }
     fn gen_hook_handle(&self, curr_hook_fn: &Vec<FnWithHook>) -> Stmt {
-        let refresh_sig = self.refresh_sig.as_str();
+        let refresh_sig = self.options.refresh_sig.as_str();
         Stmt::Decl(Decl::Var(VarDecl {
             span: DUMMY_SP,
             kind: VarDeclKind::Var,
@@ -263,6 +278,9 @@ impl<C: Comments> Refresh<C> {
             declare: false,
         }))
     }
+    // The second call is around the function itself. This is used to associate a
+    // type with a signature.
+    // Unlike with $RefreshReg$, this needs to work for nested declarations too.
     fn gen_hook_register(&self, func: Expr, hook_fn: &mut FnWithHook) -> Expr {
         let mut args = vec![func];
         let mut sign = Vec::new();
@@ -289,10 +307,12 @@ impl<C: Comments> Refresh<C> {
         // this is just for pass test
         let has_escape = sign.len() > 1;
         let sign = sign.join("\n");
-        let sign = if self.emit_full_signatures {
+        let sign = if self.options.emit_full_signatures {
             sign
         } else {
-            sign
+            let mut hasher = Sha1::new();
+            hasher.update(sign);
+            base64::encode(hasher.finalize())
         };
 
         args.push(Expr::Lit(Lit::Str(Str {
@@ -302,7 +322,7 @@ impl<C: Comments> Refresh<C> {
             kind: StrKind::Synthesized,
         })));
 
-        let mut should_refresh = self.should_refresh;
+        let mut should_reset = self.should_reset;
 
         let mut custom_hook_in_scope = Vec::new();
         for hook in custom_hook {
@@ -314,16 +334,16 @@ impl<C: Comments> Refresh<C> {
             if let None = ident.and_then(|id| self.scope_binding.get(&id.sym)) {
                 // We don't have anything to put in the array because Hook is out ofscope.
                 // Since it could potentially have been edited, remount the component.
-                should_refresh = true;
+                should_reset = true;
             } else {
                 custom_hook_in_scope.push(hook);
             }
         }
 
-        if should_refresh || custom_hook_in_scope.len() > 0 {
+        if should_reset || custom_hook_in_scope.len() > 0 {
             args.push(Expr::Lit(Lit::Bool(Bool {
                 span: DUMMY_SP,
-                value: should_refresh,
+                value: should_reset,
             })));
         }
 
@@ -382,6 +402,7 @@ impl<C: Comments> Refresh<C> {
         {
             if self.used_in_jsx.contains(&binding.id.sym) && !is_import_or_require(init_expr) {
                 match init_expr.as_ref() {
+                    // TaggedTpl is for something like styled.div`...`
                     Expr::Arrow(_) | Expr::Fn(_) | Expr::TaggedTpl(_) | Expr::Call(_) => {
                         return Persist::Component(binding.id.clone())
                     }
@@ -421,10 +442,15 @@ impl<C: Comments> Refresh<C> {
         // so we should just ignore hook register
         ignore: &HashSet<Ident>,
     ) -> Persist {
-        if callee_should_ignore(ignore, &call_expr.callee).is_some() {
+        if let Some(ident) = callee_should_ignore(ignore, &call_expr.callee) {
             // there's at least one item in reg
             return if reg.len() > 1 {
-                Persist::Hoc(Hoc { reg, insert: true })
+                let args = call_expr.args[1..].to_vec();
+                Persist::Hoc(Hoc {
+                    reg,
+                    insert: true,
+                    hook: Some(HocHook { ident, args }),
+                })
             } else {
                 Persist::None
             };
@@ -453,6 +479,22 @@ impl<C: Comments> Refresh<C> {
                     self.get_persistent_id_from_possible_hoc(expr, reg, ignore)
                 {
                     *first_arg = Box::new(make_assign_stmt(reg_ident.clone(), first_arg.take()));
+                    if let Some(hook) = &hoc.hook {
+                        let span = call_expr.span;
+                        let first = ExprOrSpread {
+                            spread: None,
+                            expr: Box::new(Expr::Call(call_expr.take())),
+                        };
+                        let mut args = vec![first];
+                        args.extend(hook.args.clone());
+                        *call_expr = CallExpr {
+                            span,
+                            callee: hook.ident.clone(),
+                            args,
+                            type_args: None,
+                        };
+                    }
+
                     Persist::Hoc(hoc)
                 } else {
                     return Persist::None;
@@ -462,11 +504,21 @@ impl<C: Comments> Refresh<C> {
                 let reg_ident = private_ident!("_c");
                 *first_arg = Box::new(make_assign_stmt(reg_ident.clone(), first_arg.take()));
                 reg.push((reg_ident, reg_str));
-                Persist::Hoc(Hoc { reg, insert: true })
+                Persist::Hoc(Hoc {
+                    reg,
+                    insert: true,
+                    hook: None,
+                })
             }
+            // export default hoc(Foo)
+            // const X = hoc(Foo)
             Expr::Ident(ident) => {
                 if let Persist::Component(_) = get_persistent_id(ident) {
-                    Persist::Hoc(Hoc { reg, insert: true })
+                    Persist::Hoc(Hoc {
+                        reg,
+                        insert: true,
+                        hook: None,
+                    })
                 } else {
                     Persist::None
                 }
@@ -481,11 +533,11 @@ where
     C: Comments,
 {
     fn visit_span(&mut self, n: &Span, _: &dyn Node) {
-        if self.should_refresh {
+        if self.should_reset {
             return;
         }
 
-        let mut should_refresh = self.should_refresh;
+        let mut should_refresh = self.should_reset;
         if let Some(comments) = &self.comments {
             if n.hi != BytePos(0) {
                 comments.with_leading(n.hi - BytePos(1), |comments| {
@@ -502,10 +554,11 @@ where
             });
         }
 
-        self.should_refresh = should_refresh;
+        self.should_reset = should_refresh;
     }
 }
 
+// We let user do /* @refresh reset */ to reset state in the whole file.
 impl<C: Comments> Fold for Refresh<C> {
     fn fold_jsx_opening_element(&mut self, n: JSXOpeningElement) -> JSXOpeningElement {
         if let JSXElementName::Ident(ident) = &n.name {
@@ -594,7 +647,7 @@ impl<C: Comments> Fold for Refresh<C> {
             .map(|decl| match decl {
                 VarDeclarator {
                     span,
-                    // it doesn't quite make sense for other Pt to appear here
+                    // it doesn't quite make sense for other Pat to appear here
                     name: Pat::Ident(BindingIdent { id, type_ann }),
                     init: Some(init),
                     definite,
@@ -733,7 +786,7 @@ impl<C: Comments> Fold for Refresh<C> {
     }
 
     fn fold_module_items(&mut self, module_items: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        if !self.dev {
+        if !self.enable {
             return module_items;
         }
 
@@ -820,7 +873,7 @@ impl<C: Comments> Fold for Refresh<C> {
                     span,
                 })) => {
                     if let Expr::Call(call) = expr.as_mut() {
-                        if let Persist::Hoc(Hoc { reg: regs, .. }) = self
+                        if let Persist::Hoc(Hoc { reg, .. }) = self
                             .get_persistent_id_from_possible_hoc(
                                 call,
                                 vec![((private_ident!("_c"), "%default%".to_string()))],
@@ -829,16 +882,14 @@ impl<C: Comments> Fold for Refresh<C> {
                         {
                             item = ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
                                 ExportDefaultExpr {
-                                    expr: Box::new(make_assign_stmt(
-                                        regs[0].0.clone(),
-                                        expr.take(),
-                                    )),
+                                    expr: Box::new(make_assign_stmt(reg[0].0.clone(), expr.take())),
                                     span: span.clone(),
                                 },
                             ));
                             Persist::Hoc(Hoc {
                                 insert: false,
-                                reg: regs,
+                                reg,
+                                hook: None,
                             })
                         } else {
                             Persist::None
@@ -918,7 +969,7 @@ impl<C: Comments> Fold for Refresh<C> {
         // $RefreshReg$(_c, "Hello");
         // $RefreshReg$(_c1, "Foo");
         // ```
-        let refresh_reg = self.refresh_reg.as_str();
+        let refresh_reg = self.options.refresh_reg.as_str();
         for (handle, persistent_id) in refresh_regs {
             items.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
