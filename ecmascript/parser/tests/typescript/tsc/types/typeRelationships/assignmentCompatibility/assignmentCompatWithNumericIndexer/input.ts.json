@@ -341,6 +341,7 @@
             }
           },
           "readonly": false,
+          "static": false,
           "span": {
             "start": 209,
             "end": 227,
@@ -513,6 +514,7 @@
                       }
                     },
                     "readonly": false,
+                    "static": false,
                     "span": {
                       "start": 250,
                       "end": 271,
@@ -704,6 +706,7 @@
                       }
                     },
                     "readonly": false,
+                    "static": false,
                     "span": {
                       "start": 308,
                       "end": 330,
@@ -901,6 +904,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 415,
                   "end": 430,
@@ -1040,6 +1044,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 476,
                   "end": 497,
@@ -1305,6 +1310,7 @@
                                   }
                                 },
                                 "readonly": false,
+                                "static": false,
                                 "span": {
                                   "start": 586,
                                   "end": 607,
@@ -1496,6 +1502,7 @@
                                   }
                                 },
                                 "readonly": false,
+                                "static": false,
                                 "span": {
                                   "start": 677,
                                   "end": 699,
@@ -1687,6 +1694,7 @@
                                   }
                                 },
                                 "readonly": false,
+                                "static": false,
                                 "span": {
                                   "start": 771,
                                   "end": 786,

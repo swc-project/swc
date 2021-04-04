@@ -4296,6 +4296,7 @@
                                   }
                                 },
                                 "readonly": false,
+                                "static": false,
                                 "span": {
                                   "start": 1578,
                                   "end": 1615,

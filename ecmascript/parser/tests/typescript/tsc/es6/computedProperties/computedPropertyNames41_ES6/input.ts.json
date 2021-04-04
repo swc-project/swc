@@ -244,6 +244,7 @@
             }
           },
           "readonly": false,
+          "static": false,
           "span": {
             "start": 67,
             "end": 91,

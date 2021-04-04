@@ -122,6 +122,7 @@
               }
             },
             "readonly": false,
+            "static": false,
             "span": {
               "start": 37,
               "end": 52,

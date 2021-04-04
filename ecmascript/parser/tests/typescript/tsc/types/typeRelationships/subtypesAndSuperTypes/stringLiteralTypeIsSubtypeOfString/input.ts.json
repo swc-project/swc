@@ -4389,6 +4389,7 @@
             }
           },
           "readonly": false,
+          "static": false,
           "span": {
             "start": 1874,
             "end": 1898,
