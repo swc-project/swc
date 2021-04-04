@@ -461,9 +461,8 @@ impl<'a, I: Tokens> Parser<I> {
             _ => (false, None),
         };
 
-        if self.input.syntax().typescript() && !is_abstract && !is_static && accessibility.is_none()
-        {
-            let idx = self.try_parse_ts_index_signature(start, readonly.is_some())?;
+        if self.input.syntax().typescript() && !is_abstract && accessibility.is_none() {
+            let idx = self.try_parse_ts_index_signature(start, readonly.is_some(), is_static)?;
             if let Some(idx) = idx {
                 return Ok(idx.into());
             }

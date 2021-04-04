@@ -75,6 +75,7 @@
             }
           },
           "readonly": false,
+          "static": false,
           "span": {
             "start": 13,
             "end": 32,

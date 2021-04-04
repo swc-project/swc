@@ -140,6 +140,7 @@
                     }
                   },
                   "readonly": false,
+                  "static": false,
                   "span": {
                     "start": 114,
                     "end": 131,

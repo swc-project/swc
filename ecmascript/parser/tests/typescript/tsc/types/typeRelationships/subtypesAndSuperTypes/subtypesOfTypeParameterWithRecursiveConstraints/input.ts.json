@@ -3055,6 +3055,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 1328,
                   "end": 1343,
@@ -3446,6 +3447,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 1459,
                   "end": 1474,
@@ -3837,6 +3839,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 1590,
                   "end": 1605,
@@ -4228,6 +4231,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 1721,
                   "end": 1736,
@@ -4619,6 +4623,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 1852,
                   "end": 1867,
@@ -5010,6 +5015,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 1983,
                   "end": 1998,
@@ -5401,6 +5407,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 2114,
                   "end": 2129,
@@ -5792,6 +5799,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 2245,
                   "end": 2260,
@@ -6183,6 +6191,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 2376,
                   "end": 2391,
@@ -6743,6 +6752,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 2572,
                   "end": 2587,
@@ -7134,6 +7144,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 2704,
                   "end": 2719,
@@ -7525,6 +7536,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 2836,
                   "end": 2851,
@@ -7916,6 +7928,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 2968,
                   "end": 2983,
@@ -8307,6 +8320,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 3100,
                   "end": 3115,
@@ -8698,6 +8712,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 3232,
                   "end": 3247,
@@ -9089,6 +9104,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 3364,
                   "end": 3379,
@@ -9480,6 +9496,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 3496,
                   "end": 3511,
@@ -9871,6 +9888,7 @@
                   }
                 },
                 "readonly": false,
+                "static": false,
                 "span": {
                   "start": 3628,
                   "end": 3643,

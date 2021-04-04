@@ -306,6 +306,7 @@
                       }
                     },
                     "readonly": false,
+                    "static": false,
                     "span": {
                       "start": 272,
                       "end": 293,
