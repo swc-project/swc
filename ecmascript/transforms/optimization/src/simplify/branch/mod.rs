@@ -967,15 +967,29 @@ impl Remover {
                         | Stmt::Return { .. }
                         | Stmt::Continue { .. }
                         | Stmt::Break { .. } => {
-                            let decls: Vec<_> = iter
-                                .flat_map(|t| extract_var_ids(&t))
-                                .map(|i| VarDeclarator {
-                                    span: i.span,
-                                    name: Pat::Ident(i.into()),
-                                    init: None,
-                                    definite: false,
-                                })
-                                .collect();
+                            // Hoist function and `var` declarations above return.
+                            let mut decls = vec![];
+                            let mut hoisted_fns = vec![];
+                            for t in iter {
+                                match t.try_into_stmt() {
+                                    Ok(Stmt::Decl(Decl::Fn(f))) => {
+                                        hoisted_fns.push(T::from_stmt(Stmt::Decl(Decl::Fn(f))));
+                                    }
+                                    Ok(t) => {
+                                        let ids = extract_var_ids(&t).into_iter().map(|i| {
+                                            VarDeclarator {
+                                                span: i.span,
+                                                name: Pat::Ident(i.into()),
+                                                init: None,
+                                                definite: false,
+                                            }
+                                        });
+                                        decls.extend(ids);
+                                    }
+                                    _ => {}
+                                }
+                            }
+
                             if !decls.is_empty() {
                                 buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                                     span: DUMMY_SP,
@@ -984,6 +998,8 @@ impl Remover {
                                     declare: false,
                                 }))));
                             }
+
+                            buf.extend(hoisted_fns);
 
                             let stmt_like = T::from_stmt(stmt);
                             buf.push(stmt_like);
