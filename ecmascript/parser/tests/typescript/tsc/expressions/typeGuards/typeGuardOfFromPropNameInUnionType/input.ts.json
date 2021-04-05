@@ -3975,6 +3975,7 @@
               }
             },
             "readonly": false,
+            "static": false,
             "span": {
               "start": 1867,
               "end": 1884,

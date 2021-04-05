@@ -107,26 +107,6 @@ pub enum TsEntityName {
     Ident(Ident),
 }
 
-#[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub enum TsSignatureDecl {
-    #[tag("TsCallSignatureDeclaration")]
-    TsCallSignatureDecl(TsCallSignatureDecl),
-
-    #[tag("TsConstructSignatureDeclaration")]
-    TsConstructSignatureDecl(TsConstructSignatureDecl),
-
-    #[tag("TsMethodSignature")]
-    TsMethodSignature(TsMethodSignature),
-
-    #[tag("TsFunctionType")]
-    TsFnType(TsFnType),
-
-    #[tag("TsConstructorType")]
-    TsConstructorType(TsConstructorType),
-}
-
 // ================
 // TypeScript type members (for type literal / interface / class)
 // ================
@@ -249,6 +229,8 @@ pub struct TsIndexSignature {
     pub type_ann: Option<TsTypeAnn>,
 
     pub readonly: bool,
+    #[serde(rename = "static")]
+    pub is_static: bool,
     pub span: Span,
 }
 

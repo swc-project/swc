@@ -30,6 +30,8 @@ use swc_ecma_visit::Fold;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
+use crate::refresh::options::{deserialize_refresh, RefreshOptions};
+
 mod static_check;
 #[cfg(test)]
 mod tests;
@@ -83,6 +85,10 @@ pub struct Options {
 
     #[serde(default)]
     pub use_spread: bool,
+
+    #[serde(default, deserialize_with = "deserialize_refresh")]
+    // default to disabled since this is still considered as experimental by now
+    pub refresh: Option<RefreshOptions>,
 }
 
 impl Default for Options {
@@ -97,6 +103,8 @@ impl Default for Options {
             development: false,
             use_builtins: false,
             use_spread: false,
+            // since this is considered experimental, we disable it by default
+            refresh: None,
         }
     }
 }

@@ -83,6 +83,7 @@
               }
             },
             "readonly": false,
+            "static": false,
             "span": {
               "start": 100,
               "end": 120,
@@ -211,6 +212,7 @@
               }
             },
             "readonly": false,
+            "static": false,
             "span": {
               "start": 143,
               "end": 175,

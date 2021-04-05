@@ -347,6 +347,7 @@
               }
             },
             "readonly": false,
+            "static": false,
             "span": {
               "start": 277,
               "end": 312,

@@ -1187,6 +1187,7 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         index_signature_start: BytePos,
         readonly: bool,
+        is_static: bool,
     ) -> PResult<Option<TsIndexSignature>> {
         if !(is!(self, '[') && self.ts_look_ahead(|p| p.is_ts_unambiguously_index_signature())?) {
             return Ok(None);
@@ -1218,6 +1219,7 @@ impl<I: Tokens> Parser<I> {
         Ok(Some(TsIndexSignature {
             span: span!(self, index_signature_start),
             readonly,
+            is_static,
             params,
             type_ann,
         }))
@@ -1336,7 +1338,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         let readonly = self.parse_ts_modifier(&["readonly"])?.is_some();
 
-        let idx = self.try_parse_ts_index_signature(start, readonly)?;
+        let idx = self.try_parse_ts_index_signature(start, readonly, false)?;
         if let Some(idx) = idx {
             return Ok(idx.into());
         }
