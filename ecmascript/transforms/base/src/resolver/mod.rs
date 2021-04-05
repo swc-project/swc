@@ -511,12 +511,23 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
-        let old = self.ident_type;
-        self.ident_type = IdentType::Binding;
-        n.ident.visit_mut_with(self);
-        self.ident_type = old;
+        // Create a child scope. The class name is only accessible within the class.
+        let child_mark = Mark::fresh(self.mark);
 
-        n.class.visit_mut_with(self);
+        let mut folder = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            self.cur_defining.take(),
+            self.handle_types,
+        );
+
+        folder.ident_type = IdentType::Binding;
+        n.ident.visit_mut_with(&mut folder);
+        folder.ident_type = IdentType::Ref;
+
+        n.class.visit_mut_with(&mut folder);
+
+        self.cur_defining = folder.cur_defining;
     }
 
     fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
@@ -629,6 +640,36 @@ impl<'a> VisitMut for Resolver<'a> {
         e.function.visit_mut_with(&mut folder);
 
         self.cur_defining = folder.cur_defining;
+    }
+
+    fn visit_mut_export_default_decl(&mut self, e: &mut ExportDefaultDecl) {
+        // Treat default exported functions and classes as declarations
+        // even though they are parsed as expressions.
+        match &mut e.decl {
+            DefaultDecl::Fn(f) => {
+                if let Some(ident) = &f.ident {
+                    let child_mark = Mark::fresh(self.mark);
+
+                    // Child folder
+                    let mut folder = Resolver::new(
+                        child_mark,
+                        Scope::new(ScopeKind::Fn, Some(&self.current)),
+                        None,
+                        self.handle_types,
+                    );
+                    folder.cur_defining =
+                        Some((ident.sym.clone(), ident.span.ctxt().remove_mark()));
+                    f.function.visit_mut_with(&mut folder)
+                } else {
+                    f.visit_mut_with(self)
+                }
+            }
+            DefaultDecl::Class(c) => {
+                // Skip class expression visitor to treat as a declaration.
+                c.class.visit_mut_with(self)
+            }
+            _ => e.visit_mut_children_with(self),
+        }
     }
 
     fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
@@ -1361,5 +1402,33 @@ impl VisitMut for Hoister<'_, '_> {
         self.in_block = true;
         n.visit_mut_children_with(self);
         self.in_block = old_in_block;
+    }
+
+    fn visit_mut_export_default_decl(&mut self, node: &mut ExportDefaultDecl) {
+        // Treat default exported functions and classes as declarations
+        // even though they are parsed as expressions.
+        match &mut node.decl {
+            DefaultDecl::Fn(f) => {
+                if let Some(id) = &mut f.ident {
+                    self.resolver.in_type = false;
+                    self.resolver
+                        .visit_mut_binding_ident(id, Some(VarDeclKind::Var));
+                }
+
+                f.visit_mut_with(self)
+            }
+            DefaultDecl::Class(c) => {
+                if let Some(id) = &mut c.ident {
+                    self.resolver.in_type = false;
+                    self.resolver
+                        .visit_mut_binding_ident(id, Some(VarDeclKind::Let));
+                }
+
+                c.visit_mut_with(self)
+            }
+            _ => {
+                node.visit_mut_children_with(self);
+            }
+        }
     }
 }

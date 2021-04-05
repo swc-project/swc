@@ -2446,6 +2446,28 @@ to!(
 );
 
 to!(
+    class_expr_scope,
+    r#"
+    let Test = 2;
+    test(class Test {
+        hi() {
+            console.log(Test);
+        }
+    });
+    Test = 4;
+    "#,
+    r#"
+    let Test = 2;
+    test(class Test1 {
+        hi() {
+            console.log(Test1);
+        }
+    });
+    Test = 4;
+    "#
+);
+
+to!(
     export_default_fn_decl_scope,
     r#"
     export default function foo() {
@@ -2454,13 +2476,40 @@ to!(
         };
         return foo(10);
     }
+
+    foo = 2;
     "#,
     r#"
     export default function foo() {
-        foo = function foo1(x) {
-            return x === 0 ? 1 : 1 + foo1(x - 1);
+        foo = function foo(x) {
+            return x === 0 ? 1 : 1 + foo(x - 1);
         };
         return foo(10);
     }
+
+    foo = 2;
+    "#
+);
+to!(
+    export_default_class_decl_scope,
+    r#"
+    export default class Test {
+        hi() {
+            let Test = 2;
+            console.log(Test);
+        }
+    }
+
+    Test = 2;
+    "#,
+    r#"
+    export default class Test {
+        hi() {
+            let Test1 = 2;
+            console.log(Test1);
+        }
+    }
+
+    Test = 2;
     "#
 );
