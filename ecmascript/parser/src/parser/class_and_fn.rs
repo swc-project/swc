@@ -476,6 +476,10 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
+        if is_static && is_override {
+            self.emit_err(self.input.prev_span(), SyntaxError::TS1243);
+        }
+
         if self.input.syntax().typescript()
             && !is_abstract
             && !is_override
