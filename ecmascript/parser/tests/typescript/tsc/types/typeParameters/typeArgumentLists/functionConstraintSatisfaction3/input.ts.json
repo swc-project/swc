@@ -393,6 +393,7 @@
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": false,
           "declare": false,
           "definite": false
@@ -1543,6 +1544,7 @@
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": false,
           "declare": false,
           "definite": false

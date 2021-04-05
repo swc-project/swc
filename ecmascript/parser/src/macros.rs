@@ -350,6 +350,9 @@ macro_rules! tok {
     ("declare") => {
         crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("declare")))
     };
+    ("override") => {
+        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("override")))
+    };
     ("undefined") => {
         crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("undefined")))
     };
