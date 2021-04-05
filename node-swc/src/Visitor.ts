@@ -1156,7 +1156,10 @@ export default class Visitor {
 
   visitTaggedTemplateExpression(n: TaggedTemplateExpression): Expression {
     n.tag = this.visitExpression(n.tag);
-    n.expressions = n.expressions.map(this.visitExpression.bind(this));
+    const template = this.visitTemplateLiteral(n.template);
+    if (template.type === "TemplateLiteral") {
+      n.template = template;
+    }
     return n;
   }
 
