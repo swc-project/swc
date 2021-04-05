@@ -1,6 +1,6 @@
 class MyClass1 extends BaseClass {
+  override() {}
   override show() {}
-  override public show() {}
   public override show() {}
   override size = 5;
   override readonly size = 5;

@@ -302,7 +302,6 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         let decorators = self.parse_decorators(false)?;
         let declare = self.syntax().typescript() && eat!(self, "declare");
-        let is_override = self.syntax().typescript() && eat!(self, "override");
         let accessibility = if self.input.syntax().typescript() {
             self.parse_access_modifier()?
         } else {
@@ -327,7 +326,7 @@ impl<'a, I: Tokens> Parser<I> {
                         decorators,
                         is_abstract: false,
                         is_optional,
-                        is_override,
+                        is_override: false,
                         is_async: false,
                         is_generator: false,
                         static_token: None,
@@ -353,7 +352,7 @@ impl<'a, I: Tokens> Parser<I> {
                     false,
                     false,
                     false,
-                    is_override,
+                    false,
                 );
             } else {
                 self.emit_err(self.input.prev_span(), SyntaxError::TS1031);
@@ -385,7 +384,7 @@ impl<'a, I: Tokens> Parser<I> {
                         decorators,
                         is_abstract: false,
                         is_optional,
-                        is_override,
+                        is_override: false,
                         is_async: false,
                         is_generator: false,
                         static_token: None,
@@ -411,7 +410,7 @@ impl<'a, I: Tokens> Parser<I> {
                     false,
                     declare,
                     false,
-                    is_override,
+                    false,
                 );
             } else {
                 // TODO: error if static contains escape
@@ -421,7 +420,6 @@ impl<'a, I: Tokens> Parser<I> {
         self.parse_class_member_with_is_static(
             start,
             declare,
-            is_override,
             accessibility,
             static_token,
             decorators,
@@ -433,7 +431,6 @@ impl<'a, I: Tokens> Parser<I> {
         &mut self,
         start: BytePos,
         declare: bool,
-        mut is_override: bool,
         accessibility: Option<Accessibility>,
         static_token: Option<Span>,
         decorators: Vec<Decorator>,
@@ -441,6 +438,7 @@ impl<'a, I: Tokens> Parser<I> {
         let is_static = static_token.is_some();
 
         let mut is_abstract = false;
+        let mut is_override = false;
         let mut readonly = None;
         let mut modifier_span = None;
         while let Some(modifier) = self.parse_ts_modifier(&["abstract", "readonly", "override"])? {
