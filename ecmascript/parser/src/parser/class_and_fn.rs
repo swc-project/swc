@@ -627,7 +627,9 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 if let Some(span) = modifier_span {
-                    self.emit_err(span, SyntaxError::TS1242);
+                    if is_abstract {
+                        self.emit_err(span, SyntaxError::TS1242);
+                    }
                 }
 
                 return Ok(ClassMember::Constructor(Constructor {
