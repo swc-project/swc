@@ -698,29 +698,6 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    fn emit_ts_signature_decl(&mut self, n: &TsSignatureDecl) -> Result {
-        self.emit_leading_comments_of_pos(n.span().lo(), false)?;
-
-        match n {
-            TsSignatureDecl::TsCallSignatureDecl(n) => {
-                emit!(n);
-            }
-            TsSignatureDecl::TsConstructSignatureDecl(n) => {
-                emit!(n);
-            }
-            TsSignatureDecl::TsMethodSignature(n) => {
-                emit!(n);
-            }
-            TsSignatureDecl::TsFnType(n) => {
-                emit!(n);
-            }
-            TsSignatureDecl::TsConstructorType(n) => {
-                emit!(n);
-            }
-        }
-    }
-
-    #[emitter]
     fn emit_ts_this_type(&mut self, n: &TsThisType) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo(), false)?;
 

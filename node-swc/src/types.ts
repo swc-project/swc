@@ -805,7 +805,7 @@ export interface ObjectExpression extends ExpressionBase {
 }
 
 export interface Argument {
-  spread: Span;
+  spread?: Span;
   expression: Expression;
 }
 
@@ -1708,13 +1708,6 @@ export interface TsQualifiedName extends Node {
 }
 
 export type TsEntityName = TsQualifiedName | Identifier;
-
-export type TsSignatureDeclaration =
-  | TsCallSignatureDeclaration
-  | TsConstructSignatureDeclaration
-  | TsMethodSignature
-  | TsFunctionType
-  | TsConstructorType;
 
 export type TsTypeElement =
   | TsCallSignatureDeclaration

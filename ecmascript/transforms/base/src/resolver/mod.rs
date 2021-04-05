@@ -421,7 +421,6 @@ impl<'a> VisitMut for Resolver<'a> {
     typed!(visit_mut_ts_parenthesized_type, TsParenthesizedType);
     typed!(visit_mut_ts_type_lit, TsTypeLit);
     typed!(visit_mut_ts_type_element, TsTypeElement);
-    typed!(visit_mut_ts_signature_decl, TsSignatureDecl);
     typed!(visit_mut_ts_module_block, TsModuleBlock);
     typed!(visit_mut_ts_namespace_body, TsNamespaceBody);
     typed!(visit_mut_ts_optional_type, TsOptionalType);
