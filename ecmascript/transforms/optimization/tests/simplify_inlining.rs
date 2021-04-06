@@ -1104,7 +1104,10 @@ fn test_inline_function_declaration() {
 
 #[test]
 fn test_recursive_function1() {
-    test_same("var x = 0; (function x() { return x ? x() : 3; })();");
+    test(
+        "var x = 0; (function x() { return x ? x() : 3; })();",
+        "var x; (function x1() { return x1 ? x1() : 3; })();",
+    );
 }
 
 #[test]

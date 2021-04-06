@@ -83,6 +83,9 @@ const Visitor = require("../../../Visitor").default;
   call(...foo);
   call(foo);
 
+  // Verify that visitor can handle tagged template expressions.
+  css\`color: red\`;
+
   let arr = [elem, , ...foo];
 
   module.exports = {
