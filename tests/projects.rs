@@ -611,7 +611,12 @@ fn tests(dir: PathBuf) {
                             .compare_to_file(output.join(entry.file_name()))
                             .unwrap();
 
-                        NormalizedOutput::from(v.map.unwrap_or_default())
+                        let map = v.map.map(|json| {
+                            let json: serde_json::Value = serde_json::from_str(&json).unwrap();
+                            serde_json::to_string_pretty(&json).unwrap()
+                        });
+
+                        NormalizedOutput::from(map.unwrap_or_default())
                             .compare_to_file(
                                 output
                                     .join(entry.path().with_extension("map").file_name().unwrap()),
