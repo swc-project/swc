@@ -9,6 +9,7 @@ version = "0.1.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+anyhow = "1"
 ahash = "0.7.0"
 serde = {version = "1", features = ["derive"]}
 serde_json = "1.0.62"
@@ -16,3 +17,6 @@ swc = {path = "../.."}
 swc_atoms = {version = "0.2.5", path = "../../atoms"}
 swc_common = {version = "0.10.9", path = "../../common", features = ["tty-emitter", "sourcemap"]}
 swc_ecma_ast = {version = "0.42.0", path = "../../ecmascript/ast"}
+
+[dev-dependencies]
+pretty_assertions = "0.7.1"
