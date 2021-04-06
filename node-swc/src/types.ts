@@ -728,7 +728,7 @@ export interface VariableDeclaration extends Node, HasSpan {
   declarations: VariableDeclarator[];
 }
 
-export type VariableDeclarationKind = "get" | "let" | "const";
+export type VariableDeclarationKind = "var" | "let" | "const";
 
 export interface VariableDeclarator extends Node, HasSpan {
   type: "VariableDeclarator";
