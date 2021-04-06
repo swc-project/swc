@@ -988,7 +988,7 @@ impl Remover {
                                         });
                                         decls.extend(ids);
                                     }
-                                    _ => {}
+                                    Err(item) => buf.push(item),
                                 }
                             }
 
