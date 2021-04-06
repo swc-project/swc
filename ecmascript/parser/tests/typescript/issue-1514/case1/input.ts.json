@@ -74,6 +74,7 @@
             "accessibility": null,
             "isAbstract": false,
             "isOptional": false,
+            "isOverride": false,
             "readonly": true,
             "declare": false,
             "definite": true

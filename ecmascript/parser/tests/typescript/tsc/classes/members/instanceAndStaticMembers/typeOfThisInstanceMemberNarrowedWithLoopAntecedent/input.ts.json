@@ -317,6 +317,7 @@
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": false,
           "declare": false,
           "definite": true
@@ -627,7 +628,8 @@
           "isStatic": false,
           "accessibility": null,
           "isAbstract": false,
-          "isOptional": false
+          "isOptional": false,
+          "isOverride": false
         }
       ],
       "superClass": null,
@@ -707,6 +709,7 @@
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": false,
           "declare": false,
           "definite": true
@@ -1072,7 +1075,8 @@
           "isStatic": false,
           "accessibility": null,
           "isAbstract": false,
-          "isOptional": false
+          "isOptional": false,
+          "isOverride": false
         }
       ],
       "superClass": null,

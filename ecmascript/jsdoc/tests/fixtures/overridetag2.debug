@@ -432,7 +432,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('override' type=dynamic),
+                    value: Atom('override' type=static),
                 },
                 tag: Override(
                     OverrideTag {
@@ -557,7 +557,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('override' type=dynamic),
+                    value: Atom('override' type=static),
                 },
                 tag: Override(
                     OverrideTag {
@@ -618,7 +618,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('override' type=dynamic),
+                    value: Atom('override' type=static),
                 },
                 tag: Override(
                     OverrideTag {

@@ -218,6 +218,7 @@ impl Strip {
                                         accessibility: param_prop.accessibility.clone(),
                                         is_abstract: false,
                                         is_optional: false,
+                                        is_override: false,
                                         readonly: param_prop.readonly,
                                         declare: false,
                                         definite: false,

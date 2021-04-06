@@ -1,0 +1,6 @@
+error: 'override' modifier must precede 'readonly' modifier.
+ --> $DIR/tests/typescript-errors/class/override-with-readonly/input.ts:2:12
+  |
+2 |   readonly override size = 5
+  |            ^^^^^^^^
+

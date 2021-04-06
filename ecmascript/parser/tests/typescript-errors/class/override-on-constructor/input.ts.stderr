@@ -1,0 +1,6 @@
+error: 'override' modifier cannot appear on a constructor declaration
+ --> $DIR/tests/typescript-errors/class/override-on-constructor/input.ts:2:3
+  |
+2 |   override constructor() {}
+  |   ^^^^^^^^^^^^^^^^^^^^
+

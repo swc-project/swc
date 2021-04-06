@@ -69,7 +69,8 @@
           "isStatic": true,
           "accessibility": "protected",
           "isAbstract": false,
-          "isOptional": false
+          "isOptional": false,
+          "isOverride": false
         }
       ],
       "superClass": null,

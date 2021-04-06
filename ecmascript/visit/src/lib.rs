@@ -444,6 +444,7 @@ define!({
         pub accessibility: Option<Accessibility>,
         pub is_abstract: bool,
         pub is_optional: bool,
+        pub is_override: bool,
         pub readonly: bool,
         pub declare: bool,
         pub definite: bool,
@@ -459,6 +460,7 @@ define!({
         pub accessibility: Option<Accessibility>,
         pub is_abstract: bool,
         pub is_optional: bool,
+        pub is_override: bool,
         pub readonly: bool,
         pub definite: bool,
     }
@@ -471,6 +473,7 @@ define!({
         pub accessibility: Option<Accessibility>,
         pub is_abstract: bool,
         pub is_optional: bool,
+        pub is_override: bool,
     }
     pub struct PrivateMethod {
         pub span: Span,
@@ -481,6 +484,7 @@ define!({
         pub accessibility: Option<Accessibility>,
         pub is_abstract: bool,
         pub is_optional: bool,
+        pub is_override: bool,
     }
     pub struct Constructor {
         pub span: Span,

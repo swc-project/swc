@@ -175,6 +175,8 @@ pub enum SyntaxError {
     TS1009,
     TS1014,
     TS1015,
+    TS1029(JsWord, JsWord),
+    TS1030(JsWord),
     TS1031,
     TS1038,
     TS1042,
@@ -182,7 +184,7 @@ pub enum SyntaxError {
     TS1048,
     TS1056,
     TS1085,
-    TS1089,
+    TS1089(JsWord),
     TS1092,
     TS1096,
     TS1098,
@@ -208,6 +210,7 @@ pub enum SyntaxError {
     TS1094,
     TS1196,
     TS1242,
+    TS1243(JsWord, JsWord),
     TS2369,
     TS2371,
     TS2406,
@@ -449,6 +452,10 @@ impl SyntaxError {
             SyntaxError::TS1009 => "Trailing comma is not allowed".into(),
             SyntaxError::TS1014 => "A rest parameter must be last in a parameter list".into(),
             SyntaxError::TS1015 => "Parameter cannot have question mark and initializer".into(),
+            SyntaxError::TS1029(left, right) => {
+                format!("'{}' modifier must precede '{}' modifier.", left, right).into()
+            }
+            SyntaxError::TS1030(word) => format!("'{}' modifier already seen.", word).into(),
             SyntaxError::TS1031 => "`declare` modifier cannot appear on a class element".into(),
             SyntaxError::TS1038 => {
                 "`declare` modifier not allowed for code already in an ambient context".into()
@@ -459,9 +466,11 @@ impl SyntaxError {
             SyntaxError::TS1085 => "Legacy octal literals are not available when targeting \
                                     ECMAScript 5 and higher"
                 .into(),
-            SyntaxError::TS1089 => {
-                "'private' modifier cannot appear on a constructor declaration".into()
-            }
+            SyntaxError::TS1089(word) => format!(
+                "'{}' modifier cannot appear on a constructor declaration",
+                word
+            )
+            .into(),
             SyntaxError::TS1092 => {
                 "Type parameters cannot appear on a constructor declaration".into()
             }
@@ -505,6 +514,11 @@ impl SyntaxError {
             SyntaxError::TS1242 => {
                 "`abstract` modifier can only appear on a class or method declaration".into()
             }
+            SyntaxError::TS1243(left, right) => format!(
+                "'{}' modifier cannot be used with '{}' modifier.",
+                left, right
+            )
+            .into(),
             SyntaxError::TS2369 => {
                 "A parameter property is only allowed in a constructor implementation".into()
             }

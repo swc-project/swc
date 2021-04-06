@@ -102,6 +102,9 @@ pub struct ClassProp {
     pub is_optional: bool,
 
     #[serde(default)]
+    pub is_override: bool,
+
+    #[serde(default)]
     pub readonly: bool,
 
     #[serde(default)]
@@ -147,6 +150,9 @@ pub struct PrivateProp {
     pub is_optional: bool,
 
     #[serde(default)]
+    pub is_override: bool,
+
+    #[serde(default)]
     pub readonly: bool,
 
     #[serde(default)]
@@ -181,6 +187,9 @@ macro_rules! method {
 
             #[serde(default)]
             pub is_optional: bool,
+
+            #[serde(default)]
+            pub is_override: bool,
         }
     };
 }
