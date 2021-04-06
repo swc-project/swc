@@ -210,7 +210,7 @@ pub enum SyntaxError {
     TS1094,
     TS1196,
     TS1242,
-    TS1243,
+    TS1243(JsWord, JsWord),
     TS2369,
     TS2371,
     TS2406,
@@ -514,9 +514,11 @@ impl SyntaxError {
             SyntaxError::TS1242 => {
                 "`abstract` modifier can only appear on a class or method declaration".into()
             }
-            SyntaxError::TS1243 => {
-                "'static' modifier cannot be used with 'override' modifier.".into()
-            }
+            SyntaxError::TS1243(left, right) => format!(
+                "'{}' modifier cannot be used with '{}' modifier.",
+                left, right
+            )
+            .into(),
             SyntaxError::TS2369 => {
                 "A parameter property is only allowed in a constructor implementation".into()
             }

@@ -468,7 +468,7 @@ impl<'a, I: Tokens> Parser<I> {
                     } else if declare {
                         self.emit_err(
                             self.input.prev_span(),
-                            SyntaxError::TS1029(js_word!("override"), js_word!("declare")),
+                            SyntaxError::TS1243(js_word!("override"), js_word!("declare")),
                         );
                     } else {
                         is_override = true;
@@ -487,7 +487,10 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if is_static && is_override {
-            self.emit_err(self.input.prev_span(), SyntaxError::TS1243);
+            self.emit_err(
+                self.input.prev_span(),
+                SyntaxError::TS1243(js_word!("static"), js_word!("override")),
+            );
         }
 
         if self.input.syntax().typescript()
