@@ -57,7 +57,8 @@ impl Context {
         Some(LineCol {
             line: loc.line,
             // TODO(kdy1): Check if `+ 1` is correct.
-            column: loc.col_display + 1,
+            // column: loc.col_display + 1,
+            column: loc.col_display,
         })
     }
 
@@ -67,7 +68,7 @@ impl Context {
         }
 
         let start = self.line_col(span.lo)?;
-        let end = self.line_col(span.lo)?;
+        let end = self.line_col(span.hi)?;
 
         Some(Loc { start, end })
     }
