@@ -175,6 +175,7 @@ pub enum SyntaxError {
     TS1009,
     TS1014,
     TS1015,
+    TS1029(JsWord, JsWord),
     TS1030(JsWord),
     TS1031,
     TS1038,
@@ -451,6 +452,9 @@ impl SyntaxError {
             SyntaxError::TS1009 => "Trailing comma is not allowed".into(),
             SyntaxError::TS1014 => "A rest parameter must be last in a parameter list".into(),
             SyntaxError::TS1015 => "Parameter cannot have question mark and initializer".into(),
+            SyntaxError::TS1029(left, right) => {
+                format!("'{}' modifier must precede '{}' modifier.", left, right).into()
+            }
             SyntaxError::TS1030(word) => format!("'{}' modifier already seen.", word).into(),
             SyntaxError::TS1031 => "`declare` modifier cannot appear on a class element".into(),
             SyntaxError::TS1038 => {

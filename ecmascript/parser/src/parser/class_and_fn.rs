@@ -460,6 +460,11 @@ impl<'a, I: Tokens> Parser<I> {
                             self.input.prev_span(),
                             SyntaxError::TS1030(js_word!("override")),
                         );
+                    } else if readonly.is_some() {
+                        self.emit_err(
+                            self.input.prev_span(),
+                            SyntaxError::TS1029(js_word!("override"), js_word!("readonly")),
+                        );
                     } else {
                         is_override = true;
                     }
