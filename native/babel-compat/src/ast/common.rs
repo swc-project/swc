@@ -59,7 +59,6 @@ pub struct BaseNode {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-// #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Node {
     AnyTypeAnnotation(AnyTypeAnnotation),

@@ -13,7 +13,6 @@ use crate::ast::{
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-// #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum ModuleDeclaration {
     #[serde(rename = "ExportAllDeclaration")]
@@ -27,7 +26,6 @@ pub enum ModuleDeclaration {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-// #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum ExportDeclaration {
     #[serde(rename = "ExportAllDeclaration")]
@@ -39,7 +37,6 @@ pub enum ExportDeclaration {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-// #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum ModuleSpecifier {
     #[serde(rename = "ExportSpecifier")]

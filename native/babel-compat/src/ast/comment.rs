@@ -1,6 +1,6 @@
 use serde::{Serialize, Deserialize};
 
-use crate::ast::common::{Loc};
+use crate::ast::common::Loc;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
