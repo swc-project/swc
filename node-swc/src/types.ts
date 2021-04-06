@@ -957,20 +957,20 @@ export interface AwaitExpression extends ExpressionBase {
   argument: Expression;
 }
 
-export interface TplBase {
+export interface TemplateLiteral extends ExpressionBase {
+  type: "TemplateLiteral";
+
   expressions: Expression[];
 
   quasis: TemplateElement[];
 }
 
-export interface TemplateLiteral extends ExpressionBase, TplBase {
-  type: "TemplateLiteral";
-}
-
-export interface TaggedTemplateExpression extends ExpressionBase, TplBase {
+export interface TaggedTemplateExpression extends ExpressionBase {
   type: "TaggedTemplateExpression";
 
   tag: Expression;
+
+  template: TemplateLiteral;
 
   typeParameters: TsTypeParameterInstantiation;
 }
@@ -1272,7 +1272,7 @@ export interface ImportNamespaceSpecifier extends Node, HasSpan {
 export interface NamedImportSpecifier extends Node, HasSpan {
   type: "ImportSpecifier";
   local: Identifier;
-  imported: Identifier;
+  imported: Identifier | null;
 }
 
 export type ExportSpecifier =
