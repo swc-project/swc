@@ -1,7 +1,10 @@
 use super::Context;
 use crate::ast::{
+    common::{BaseNode, Loc, LineCol},
     stmt::Statement,
-    module::{Program as BabelProgram, SrcType, ModuleDeclaration, InterpreterDirective},
+    module::{
+        Program as BabelProgram, SrcType, ModuleDeclaration, InterpreterDirective, File,
+    },
 };
 use crate::convert::Babelify;
 use swc_ecma_ast::{Program, Module, Script, ModuleItem};
@@ -9,12 +12,18 @@ use swc_common::Span;
 use serde::{Serialize, Deserialize};
 
 impl Babelify for Program {
-    type Output = BabelProgram;
+    type Output = File;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        match self {
+        let program = match self {
             Program::Module(module) => module.babelify(ctx),
             Program::Script(script) => script.babelify(ctx),
+        };
+        File {
+            base: program.base.clone(),
+            program: program,
+            comments: Default::default(), // TODO(dwoznicki): implement
+            tokens: Default::default(),
         }
     }
 }
@@ -25,7 +34,7 @@ impl Babelify for Module {
     fn babelify(self, ctx: &Context) -> Self::Output {
         let span = self.span;
         BabelProgram {
-            base: ctx.base(span.clone()),
+            base: base_with_trailing_newline(span.clone(), ctx),
             source_type: SrcType::Module,
             body: self.body.iter().map(|stmt| stmt.clone().babelify(ctx).into()).collect(),
             interpreter: self.shebang.map(|s| InterpreterDirective {
@@ -44,7 +53,7 @@ impl Babelify for Script {
     fn babelify(self, ctx: &Context) -> Self::Output {
         let span = self.span;
         BabelProgram {
-            base: ctx.base(span.clone()),
+            base: base_with_trailing_newline(span.clone(), ctx),
             source_type: SrcType::Script,
             body: self.body.iter().map(|stmt| stmt.clone().babelify(ctx)).collect(),
             interpreter: self.shebang.map(|s| InterpreterDirective {
@@ -55,6 +64,24 @@ impl Babelify for Script {
             source_file: Default::default(),
         }
     }
+}
+
+// Babel adds a trailing newline to the end of files when parsing, while swc truncates
+// trailing whitespace. In order to get the converted base node to locations to match
+// babel, we immitate the trailing newline for Script and Module nodes.
+fn base_with_trailing_newline(span: Span, ctx: &Context) -> BaseNode {
+    let mut base = ctx.base(span);
+    base.end = base.end.map(|num| num + 1);
+    base.loc = base.loc.map(|loc| {
+        Loc {
+            end: LineCol {
+                line: loc.end.line + 1,
+                column: 0,
+            },
+            ..loc
+        }
+    });
+    base
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
