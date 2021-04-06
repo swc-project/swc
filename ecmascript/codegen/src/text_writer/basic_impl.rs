@@ -76,16 +76,17 @@ impl<'a, W: Write> JsWriter<'a, W> {
         let mut cnt = 0;
 
         if !data.is_empty() {
+            if self.line_start {
+                cnt += self.write_indent_string()?;
+                self.line_start = false;
+            }
+
             if let Some(span) = span {
                 if !span.is_dummy() {
                     self.srcmap(span.lo())
                 }
             }
 
-            if self.line_start {
-                cnt += self.write_indent_string()?;
-                self.line_start = false;
-            }
             cnt += self.raw_write(data.as_bytes())?;
 
             if let Some(span) = span {
