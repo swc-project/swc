@@ -402,6 +402,7 @@ pub struct Context {
 
     in_parameters: bool,
 
+    has_super_class: bool,
     in_method: bool,
     in_class_prop: bool,
 
