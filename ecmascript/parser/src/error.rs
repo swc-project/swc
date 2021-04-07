@@ -203,6 +203,7 @@ pub enum SyntaxError {
     TS1164,
     TS1171,
     TS1172,
+    TS1173,
     TS1174,
     TS1175,
     TS1183,
@@ -500,6 +501,7 @@ impl SyntaxError {
                 "A comma expression is not allowed in a computed property name".into()
             }
             SyntaxError::TS1172 => "`extends` clause already seen.".into(),
+            SyntaxError::TS1173 => "'extends' clause must precede 'implements' clause.".into(),
             SyntaxError::TS1174 => "Classes can only extend a single class".into(),
             SyntaxError::TS1175 => "`implements` clause already seen".into(),
             SyntaxError::TS1183 => {
