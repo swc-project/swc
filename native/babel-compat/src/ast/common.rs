@@ -8,7 +8,7 @@ use crate::ast::{
     pat::*, stmt::*, typescript::*,
 };
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct LineCol {
     pub line: usize,
@@ -21,7 +21,7 @@ impl LineCol {
     }
 }
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct Loc {
     pub start: LineCol,
@@ -37,7 +37,7 @@ impl Loc {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct BaseNode {
     #[serde(default)]
@@ -58,7 +58,7 @@ pub struct BaseNode {
     pub extra: Option<HashMap<String, Value, RandomState>>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(untagged)]
 pub enum Node {
     AnyTypeAnnotation(AnyTypeAnnotation),
@@ -355,7 +355,7 @@ pub enum Node {
     YieldExpression(YieldExpression),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Binary {
@@ -365,7 +365,7 @@ pub enum Binary {
     LogicalExpr(LogicalExpression),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Conditional {
@@ -375,7 +375,7 @@ pub enum Conditional {
     If(IfStatement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum EnumBody {
@@ -389,7 +389,7 @@ pub enum EnumBody {
     Symbol(EnumSymbolBody),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum EnumMember {
@@ -403,7 +403,7 @@ pub enum EnumMember {
     Defaulted(EnumDefaultedMember),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Function {
@@ -418,7 +418,7 @@ pub enum Function {
     ClassPrivateMethod(ClassPrivateMethod),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum FunctionParent {
@@ -433,7 +433,7 @@ pub enum FunctionParent {
     ClassPrivateMethod(ClassPrivateMethod),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Immutable {
@@ -455,7 +455,7 @@ pub enum Immutable {
     DecimalLiteral(DecimalLiteral),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Method {
@@ -467,7 +467,7 @@ pub enum Method {
     ClassPrivate(ClassPrivateMethod),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Private {
@@ -479,7 +479,7 @@ pub enum Private {
     Name(PrivateName),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Property {
@@ -491,7 +491,7 @@ pub enum Property {
     ClassPrivateProp(ClassPrivateProperty),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Pureish {
@@ -510,7 +510,7 @@ pub enum Pureish {
     DecimalLiteral(DecimalLiteral),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Scopable {
@@ -547,7 +547,7 @@ pub enum Scopable {
     TSModuleBlock(TSModuleBlock),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum BlockParent {
@@ -580,7 +580,7 @@ pub enum BlockParent {
     TSModuleBlock(TSModuleBlock),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Block {
@@ -590,7 +590,7 @@ pub enum Block {
     TSModuleBlock(TSModuleBlock),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Terminatorless {
@@ -608,7 +608,7 @@ pub enum Terminatorless {
     Await(AwaitExpression),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum UnaryLike {
@@ -618,7 +618,7 @@ pub enum UnaryLike {
     Spread(SpreadElement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct SpreadElement {
     #[serde(flatten)]
@@ -627,7 +627,7 @@ pub struct SpreadElement {
 }
 
 /// Deprecated. Use SpreadElement instead.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct SpreadProperty {
     #[serde(flatten)]
@@ -635,7 +635,7 @@ pub struct SpreadProperty {
     pub argument: Expression,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct RestElement {
@@ -649,7 +649,7 @@ pub struct RestElement {
 }
 
 /// Deprecated. Use RestElement element.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct RestProperty {
@@ -662,7 +662,7 @@ pub struct RestProperty {
     pub type_annotation: Option<TypeAnnotOrNoop>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct Identifier {
@@ -678,7 +678,7 @@ pub struct Identifier {
     pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct QualifiedTypeIdentifier {
     #[serde(flatten)]
@@ -687,7 +687,7 @@ pub struct QualifiedTypeIdentifier {
     pub qualification: Box<IdOrQualifiedId>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum IdOrQualifiedId {
@@ -697,7 +697,7 @@ pub enum IdOrQualifiedId {
     QualifiedId(QualifiedTypeIdentifier),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum IdOrString {
@@ -707,7 +707,7 @@ pub enum IdOrString {
     String(StringLiteral),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum IdOrRest {
@@ -717,7 +717,7 @@ pub enum IdOrRest {
     Rest(RestElement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct Decorator {
     #[serde(flatten)]
@@ -725,14 +725,14 @@ pub struct Decorator {
     pub expression: Expression,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct Noop {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Param {
@@ -746,14 +746,14 @@ pub enum Param {
     TSProp(TSParameterProperty),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ArgumentPlaceholder {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Arg {
@@ -767,7 +767,7 @@ pub enum Arg {
     Placeholder(ArgumentPlaceholder),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum LVal {
@@ -787,7 +787,7 @@ pub enum LVal {
     TSParamProp(TSParameterProperty),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum PatternLike {
@@ -803,7 +803,7 @@ pub enum PatternLike {
     ObjectPat(ObjectPattern),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum TypeAnnotOrNoop {
@@ -814,7 +814,7 @@ pub enum TypeAnnotOrNoop {
     Noop(Noop),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum TypeParamDeclOrNoop {
@@ -825,7 +825,7 @@ pub enum TypeParamDeclOrNoop {
     Noop(Noop),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum SuperTypeParams {
@@ -835,7 +835,7 @@ pub enum SuperTypeParams {
     TS(TSTypeParameterInstantiation),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct PrivateName {
     #[serde(flatten)]
@@ -843,7 +843,7 @@ pub struct PrivateName {
     pub id: Identifier,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "lowercase")]
 pub enum Access {
     Public,
@@ -851,7 +851,7 @@ pub enum Access {
     Protected,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct V8IntrinsicIdentifier {
     #[serde(flatten)]
@@ -860,7 +860,7 @@ pub struct V8IntrinsicIdentifier {
     pub name: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Callee {
@@ -870,7 +870,7 @@ pub enum Callee {
     V8Id(V8IntrinsicIdentifier),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct MetaProperty {
     #[serde(flatten)]
@@ -879,7 +879,7 @@ pub struct MetaProperty {
     pub property: Identifier,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct Directive {
     #[serde(flatten)]
@@ -887,7 +887,7 @@ pub struct Directive {
     pub value: DirectiveLiteral,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct DirectiveLiteral {
     #[serde(flatten)]
@@ -896,7 +896,7 @@ pub struct DirectiveLiteral {
     pub value: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct PipelineBareFunction {
     #[serde(flatten)]
@@ -904,7 +904,7 @@ pub struct PipelineBareFunction {
     pub callee: Expression,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct PipelineTopicExpression {
     #[serde(flatten)]
@@ -912,7 +912,7 @@ pub struct PipelineTopicExpression {
     pub expression: Expression,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub enum PlaceholderExpectedNode {
     Identifier,
     StringLiteral,
@@ -924,7 +924,7 @@ pub enum PlaceholderExpectedNode {
     Pattern,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct Placeholder {

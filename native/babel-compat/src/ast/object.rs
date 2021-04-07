@@ -8,7 +8,7 @@ use crate::ast::{
     stmt::{BlockStatement},
 };
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum UserWhitespacable {
@@ -21,7 +21,7 @@ pub enum UserWhitespacable {
     ObjectTypeSpreadProperty(ObjectTypeSpreadProperty),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum ObjectMember {
@@ -31,7 +31,7 @@ pub enum ObjectMember {
     Prop(ObjectProperty),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "lowercase")]
 pub enum ObjectMethodKind {
     Method,
@@ -39,7 +39,7 @@ pub enum ObjectMethodKind {
     Set,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum ObjectKey {
@@ -53,7 +53,7 @@ pub enum ObjectKey {
     Numeric(NumericLiteral),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct ObjectMethod {
@@ -78,7 +78,7 @@ pub struct ObjectMethod {
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum ObjectPropVal {
@@ -88,7 +88,7 @@ pub enum ObjectPropVal {
     Pattern(PatternLike),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ObjectProperty {
     #[serde(flatten)]

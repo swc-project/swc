@@ -6,7 +6,7 @@ use crate::ast::{
     object::{ObjectProperty},
 };
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Pattern {
@@ -18,7 +18,7 @@ pub enum Pattern {
     Object(ObjectPattern),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum ObjectPatternProp {
@@ -28,7 +28,7 @@ pub enum ObjectPatternProp {
     Prop(ObjectProperty),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct ObjectPattern {
@@ -42,7 +42,7 @@ pub struct ObjectPattern {
     pub type_annotation: Option<TypeAnnotOrNoop>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum AssignmentPatternLeft {
@@ -56,7 +56,7 @@ pub enum AssignmentPatternLeft {
     Member(MemberExpression),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct AssignmentPattern {
     #[serde(flatten)]
@@ -69,7 +69,7 @@ pub struct AssignmentPattern {
     pub type_annotation: Option<TypeAnnotOrNoop>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ArrayPattern {
     #[serde(flatten)]

@@ -20,7 +20,7 @@ use crate::ast::{
     },
 };
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Declaration {
@@ -76,7 +76,7 @@ pub enum Declaration {
     TSModuleDecl(TSModuleDeclaration),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "lowercase")]
 pub enum VariableDeclarationKind {
     Var,
@@ -84,7 +84,7 @@ pub enum VariableDeclarationKind {
     Const,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct VariableDeclarator {
     #[serde(flatten)]
@@ -96,7 +96,7 @@ pub struct VariableDeclarator {
     pub definite: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct VariableDeclaration {
     #[serde(flatten)]
@@ -108,7 +108,7 @@ pub struct VariableDeclaration {
     pub declare: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct FunctionDeclaration {
@@ -129,7 +129,7 @@ pub struct FunctionDeclaration {
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct EnumBooleanMember {
     #[serde(flatten)]
@@ -138,7 +138,7 @@ pub struct EnumBooleanMember {
     pub init: BooleanLiteral,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct EnumNumberMember {
     #[serde(flatten)]
@@ -147,7 +147,7 @@ pub struct EnumNumberMember {
     pub init: NumericLiteral,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct EnumStringMember {
     #[serde(flatten)]
@@ -156,7 +156,7 @@ pub struct EnumStringMember {
     pub init: StringLiteral,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum EnumStringBodyMember {
@@ -166,7 +166,7 @@ pub enum EnumStringBodyMember {
     Defaulted(EnumDefaultedMember),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct EnumDefaultedMember {
     #[serde(flatten)]
@@ -174,7 +174,7 @@ pub struct EnumDefaultedMember {
     pub id: Identifier,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct EnumBooleanBody {
@@ -188,7 +188,7 @@ pub struct EnumBooleanBody {
     pub has_unknown_members: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct EnumNumberBody {
@@ -203,7 +203,7 @@ pub struct EnumNumberBody {
 }
 
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct EnumStringBody {
@@ -217,7 +217,7 @@ pub struct EnumStringBody {
     pub has_unknown_members: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct EnumSymbolBody {
@@ -229,7 +229,7 @@ pub struct EnumSymbolBody {
     pub has_unknown_members: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum EnumDeclBody {
@@ -243,7 +243,7 @@ pub enum EnumDeclBody {
     Symbol(EnumSymbolBody),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct EnumDeclaration {
     #[serde(flatten)]

@@ -19,7 +19,7 @@ use crate::ast::{
     },
 };
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Statement {
@@ -116,7 +116,7 @@ pub enum Statement {
     TSNamespaceExportDecl(TSNamespaceExportDeclaration),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum CompletionStatement {
@@ -130,7 +130,7 @@ pub enum CompletionStatement {
     Throw(ThrowStatement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Loop {
@@ -146,7 +146,7 @@ pub enum Loop {
     ForOf(ForOfStatement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum For {
@@ -158,7 +158,7 @@ pub enum For {
     OfStmt(ForOfStatement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum ForXStatement {
@@ -168,7 +168,7 @@ pub enum ForXStatement {
     ForOf(ForOfStatement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum While {
@@ -178,7 +178,7 @@ pub enum While {
     While(WhileStatement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct BlockStatement {
     #[serde(flatten)]
@@ -189,7 +189,7 @@ pub struct BlockStatement {
     pub directives: Vec<Directive>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct BreakStatement {
     #[serde(flatten)]
@@ -198,7 +198,7 @@ pub struct BreakStatement {
     pub label: Option<Identifier>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ContinueStatement {
     #[serde(flatten)]
@@ -207,14 +207,14 @@ pub struct ContinueStatement {
     pub label: Option<Identifier>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct DebuggerStatement {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct DoWhileStatement {
     #[serde(flatten)]
@@ -223,14 +223,14 @@ pub struct DoWhileStatement {
     pub body: Box<Statement>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct EmptyStatement {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ExpressionStatement {
     #[serde(flatten)]
@@ -238,7 +238,7 @@ pub struct ExpressionStatement {
     pub expression: Expression,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum ForStmtInit {
@@ -248,7 +248,7 @@ pub enum ForStmtInit {
     Expr(Expression),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum ForStmtLeft {
@@ -257,7 +257,7 @@ pub enum ForStmtLeft {
     LVal(LVal),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ForInStatement {
     #[serde(flatten)]
@@ -267,7 +267,7 @@ pub struct ForInStatement {
     pub body: Box<Statement>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ForStatement {
     #[serde(flatten)]
@@ -281,7 +281,7 @@ pub struct ForStatement {
     pub body: Box<Statement>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ForOfStatement {
     #[serde(flatten)]
@@ -291,7 +291,7 @@ pub struct ForOfStatement {
     pub body: Box<Statement>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct IfStatement {
     #[serde(flatten)]
@@ -302,7 +302,7 @@ pub struct IfStatement {
     pub alternate: Option<Box<Statement>>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct LabeledStatement {
     #[serde(flatten)]
@@ -311,7 +311,7 @@ pub struct LabeledStatement {
     pub body: Box<Statement>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ReturnStatement {
     #[serde(flatten)]
@@ -320,7 +320,7 @@ pub struct ReturnStatement {
     pub argument: Option<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct SwitchCase {
     #[serde(flatten)]
@@ -331,7 +331,7 @@ pub struct SwitchCase {
     pub consequent: Vec<Statement>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct SwitchStatement {
     #[serde(flatten)]
@@ -341,7 +341,7 @@ pub struct SwitchStatement {
     pub cases: Vec<SwitchCase>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ThrowStatement {
     #[serde(flatten)]
@@ -349,7 +349,7 @@ pub struct ThrowStatement {
     pub argument: Expression,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum CatchClauseParam {
@@ -361,7 +361,7 @@ pub enum CatchClauseParam {
     Object(ObjectPattern),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct CatchClause {
     #[serde(flatten)]
@@ -371,7 +371,7 @@ pub struct CatchClause {
     pub body: BlockStatement,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TryStatement {
     #[serde(flatten)]
@@ -383,7 +383,7 @@ pub struct TryStatement {
     pub finalizer: Option<BlockStatement>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct WhileStatement {
     #[serde(flatten)]
@@ -392,7 +392,7 @@ pub struct WhileStatement {
     pub body: Box<Statement>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct WithStatement {
     #[serde(flatten)]
@@ -401,7 +401,7 @@ pub struct WithStatement {
     pub body: Box<Statement>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct StaticBlock {
     #[serde(flatten)]

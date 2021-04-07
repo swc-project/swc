@@ -13,7 +13,7 @@ use crate::ast::{
     typescript::{TSDeclareMethod, TSIndexSignature, TSExpressionWithTypeArguments},
 };
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Class {
@@ -23,7 +23,7 @@ pub enum Class {
     Decl(ClassDeclaration),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "lowercase")]
 pub enum ClassMethodKind {
     Get,
@@ -32,7 +32,7 @@ pub enum ClassMethodKind {
     Constructor,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct ClassMethod {
@@ -68,7 +68,7 @@ pub struct ClassMethod {
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct ClassPrivateProperty {
@@ -85,7 +85,7 @@ pub struct ClassPrivateProperty {
     pub type_annotation: Option<TypeAnnotOrNoop>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct ClassPrivateMethod {
@@ -121,7 +121,7 @@ pub struct ClassPrivateMethod {
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct ClassProperty {
@@ -152,7 +152,7 @@ pub struct ClassProperty {
     pub readonly: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum ClassBodyEl {
@@ -170,7 +170,7 @@ pub enum ClassBodyEl {
     TSIndex(TSIndexSignature),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ClassBody {
     #[serde(flatten)]
@@ -179,7 +179,7 @@ pub struct ClassBody {
     pub body: Vec<ClassBodyEl>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum ClassImpl {
@@ -189,7 +189,7 @@ pub enum ClassImpl {
     Implements(ClassImplements),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct ClassDeclaration {

@@ -20,7 +20,7 @@ use crate::ast::{
     },
 };
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Expression {
@@ -105,7 +105,7 @@ pub enum Expression {
     TSNonNull(TSNonNullExpression),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum ExpressionWrapper {
@@ -117,7 +117,7 @@ pub enum ExpressionWrapper {
     TypeCast(TypeCastExpression),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum ArrayExprEl {
@@ -127,7 +127,7 @@ pub enum ArrayExprEl {
     Spread(SpreadElement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ArrayExpression {
     #[serde(flatten)]
@@ -136,7 +136,7 @@ pub struct ArrayExpression {
     pub elements: Vec<Option<ArrayExprEl>>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct AssignmentExpression {
     #[serde(flatten)]
@@ -147,7 +147,7 @@ pub struct AssignmentExpression {
     pub right: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum MemberExprProp {
@@ -158,7 +158,7 @@ pub enum MemberExprProp {
     PrivateName(PrivateName),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct MemberExpression {
     #[serde(flatten)]
@@ -172,7 +172,7 @@ pub struct MemberExpression {
 }
 
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub enum BinaryExprOp {
     #[serde(rename = "+")]
     Addition,
@@ -220,7 +220,7 @@ pub enum BinaryExprOp {
     LessThanOrEqual,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum BinaryExprLeft {
@@ -230,7 +230,7 @@ pub enum BinaryExprLeft {
     Private(PrivateName),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct BinaryExpression {
     #[serde(flatten)]
@@ -240,7 +240,7 @@ pub struct BinaryExpression {
     pub right: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct CallExpression {
@@ -257,7 +257,7 @@ pub struct CallExpression {
     pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ConditionalExpression {
     #[serde(flatten)]
@@ -267,7 +267,7 @@ pub struct ConditionalExpression {
     pub alternate: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct FunctionExpression {
@@ -288,7 +288,7 @@ pub struct FunctionExpression {
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct NewExpression {
@@ -306,7 +306,7 @@ pub struct NewExpression {
 }
 
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub enum LogicalExprOp {
     #[serde(rename = "||")]
     Or,
@@ -316,7 +316,7 @@ pub enum LogicalExprOp {
     Nullish,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct LogicalExpression {
     #[serde(flatten)]
@@ -326,7 +326,7 @@ pub struct LogicalExpression {
     pub right: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum ObjectExprProp {
@@ -338,7 +338,7 @@ pub enum ObjectExprProp {
     Spread(SpreadElement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct ObjectExpression {
@@ -348,7 +348,7 @@ pub struct ObjectExpression {
     pub properties: Vec<ObjectExprProp>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct SequenceExpression {
     #[serde(flatten)]
@@ -357,7 +357,7 @@ pub struct SequenceExpression {
     pub expressions: Vec<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ParenthesizedExpression {
     #[serde(flatten)]
@@ -365,7 +365,7 @@ pub struct ParenthesizedExpression {
     pub expression: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ThisExpression {
     #[serde(flatten)]
@@ -373,7 +373,7 @@ pub struct ThisExpression {
 }
 
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "lowercase")]
 pub enum UnaryExprOp {
     Void,
@@ -390,7 +390,7 @@ pub enum UnaryExprOp {
     Typeof,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct UnaryExpression {
     #[serde(flatten)]
@@ -402,7 +402,7 @@ pub struct UnaryExpression {
 }
 
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub enum UpdateExprOp {
     #[serde(rename = "++")]
     Increment,
@@ -410,7 +410,7 @@ pub enum UpdateExprOp {
     Decrement,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct UpdateExpression {
     #[serde(flatten)]
@@ -421,7 +421,7 @@ pub struct UpdateExpression {
     pub prefix: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum ArrowFuncExprBody {
@@ -431,7 +431,7 @@ pub enum ArrowFuncExprBody {
     Expr(Expression),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct ArrowFunctionExpression {
@@ -452,7 +452,7 @@ pub struct ArrowFunctionExpression {
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct ClassExpression {
@@ -475,7 +475,7 @@ pub struct ClassExpression {
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum TaggedTemplateExprTypeParams {
@@ -485,7 +485,7 @@ pub enum TaggedTemplateExprTypeParams {
     TS(TSTypeParameterInstantiation),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TaggedTemplateExpression {
@@ -497,7 +497,7 @@ pub struct TaggedTemplateExpression {
     pub type_parameters: Option<TaggedTemplateExprTypeParams>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct YieldExpression {
     #[serde(flatten)]
@@ -508,7 +508,7 @@ pub struct YieldExpression {
     pub delegate: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct AwaitExpression {
     #[serde(flatten)]
@@ -516,7 +516,7 @@ pub struct AwaitExpression {
     pub argument: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum OptionalMemberExprProp {
@@ -526,7 +526,7 @@ pub enum OptionalMemberExprProp {
     Id(Identifier),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct OptionalMemberExpression {
     #[serde(flatten)]
@@ -539,7 +539,7 @@ pub struct OptionalMemberExpression {
     pub optional: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct OptionalCallExpression {
@@ -556,7 +556,7 @@ pub struct OptionalCallExpression {
     pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TypeCastExpression {
@@ -566,7 +566,7 @@ pub struct TypeCastExpression {
     pub type_annotation: TypeAnnotation,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct BindExpression {
     #[serde(flatten)]
@@ -575,14 +575,14 @@ pub struct BindExpression {
     pub callee: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct PipelinePrimaryTopicReference {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct DoExpression {
     #[serde(flatten)]
@@ -590,7 +590,7 @@ pub struct DoExpression {
     pub body: BlockStatement,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum RecordExprProp {
@@ -600,7 +600,7 @@ pub enum RecordExprProp {
     Spread(SpreadElement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct RecordExpression {
     #[serde(flatten)]
@@ -609,7 +609,7 @@ pub struct RecordExpression {
     pub properties: Vec<RecordExprProp>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum TupleExprEl {
@@ -619,7 +619,7 @@ pub enum TupleExprEl {
     Spread(SpreadElement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TupleExpression {
     #[serde(flatten)]
@@ -628,7 +628,7 @@ pub struct TupleExpression {
     pub elements: Vec<TupleExprEl>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ModuleExpression {
     #[serde(flatten)]
@@ -636,7 +636,7 @@ pub struct ModuleExpression {
     pub body: Program,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct Super {
     #[serde(flatten)]

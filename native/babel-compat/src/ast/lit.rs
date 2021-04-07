@@ -6,7 +6,7 @@ use crate::ast::{
     typescript::TSType,
 };
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum Literal {
@@ -28,7 +28,7 @@ pub enum Literal {
     Decimal(DecimalLiteral),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct StringLiteral {
     #[serde(flatten)]
@@ -36,7 +36,7 @@ pub struct StringLiteral {
     pub value: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct NumericLiteral {
     #[serde(flatten)]
@@ -45,7 +45,7 @@ pub struct NumericLiteral {
 }
 
 /// Deprecated. Use NumericLiteral instead.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct NumberLiteral {
     #[serde(flatten)]
@@ -53,14 +53,14 @@ pub struct NumberLiteral {
     pub value: f64,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct NullLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct BooleanLiteral {
     #[serde(flatten)]
@@ -68,7 +68,7 @@ pub struct BooleanLiteral {
     pub value: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct RegExpLiteral {
     #[serde(flatten)]
@@ -79,7 +79,7 @@ pub struct RegExpLiteral {
 }
 
 /// Deprecated. Use RegExpLiteral instead.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct RegexLiteral {
     #[serde(flatten)]
@@ -89,7 +89,7 @@ pub struct RegexLiteral {
     pub flags: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct TemplateElVal {
     #[serde(default)]
     pub raw: String,
@@ -97,7 +97,7 @@ pub struct TemplateElVal {
     pub cooked: Option<String>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TemplateElement {
     #[serde(flatten)]
@@ -107,7 +107,7 @@ pub struct TemplateElement {
     pub tail: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum TemplateLiteralExpr {
@@ -116,7 +116,7 @@ pub enum TemplateLiteralExpr {
     TSType(TSType),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TemplateLiteral {
     #[serde(flatten)]
@@ -127,7 +127,7 @@ pub struct TemplateLiteral {
     pub expressions: Vec<TemplateLiteralExpr>
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct BigIntLiteral {
     #[serde(flatten)]
@@ -136,7 +136,7 @@ pub struct BigIntLiteral {
     pub value: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct DecimalLiteral {
     #[serde(flatten)]

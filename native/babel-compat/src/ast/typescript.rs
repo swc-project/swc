@@ -10,7 +10,7 @@ use crate::ast::{
     stmt::{Statement},
 };
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum TSTypeElement {
@@ -26,7 +26,7 @@ pub enum TSTypeElement {
     IndexSignature(TSIndexSignature),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum TSType {
@@ -102,7 +102,7 @@ pub enum TSType {
     Import(TSImportType),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum TSBaseType {
@@ -138,7 +138,7 @@ pub enum TSBaseType {
     Literal(TSLiteralType),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSTypeAnnotation {
@@ -147,7 +147,7 @@ pub struct TSTypeAnnotation {
     pub type_annotation: TSType,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum TSParamPropParam {
@@ -157,7 +157,7 @@ pub enum TSParamPropParam {
     Assignment(AssignmentPattern),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSParameterProperty {
     #[serde(flatten)]
@@ -169,7 +169,7 @@ pub struct TSParameterProperty {
     pub readonly: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum TSFuncDeclTypeParams {
@@ -178,7 +178,7 @@ pub enum TSFuncDeclTypeParams {
     Noop(Noop),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum TSFuncDeclTypeAnnot {
@@ -187,7 +187,7 @@ pub enum TSFuncDeclTypeAnnot {
     Noop(Noop),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSDeclareFunction {
@@ -209,7 +209,7 @@ pub struct TSDeclareFunction {
     pub generator: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSDeclareMethod {
@@ -244,7 +244,7 @@ pub struct TSDeclareMethod {
     pub is_static: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSQualifiedName {
     #[serde(flatten)]
@@ -253,7 +253,7 @@ pub struct TSQualifiedName {
     pub right: Identifier,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSCallSignatureDeclaration {
@@ -267,7 +267,7 @@ pub struct TSCallSignatureDeclaration {
     pub type_annotation: Option<TSTypeAnnotation>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSConstructSignatureDeclaration {
@@ -281,7 +281,7 @@ pub struct TSConstructSignatureDeclaration {
     pub type_annotation: Option<TSTypeAnnotation>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSPropertySignature {
@@ -300,7 +300,7 @@ pub struct TSPropertySignature {
     pub readonly: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSMethodSignature {
@@ -319,7 +319,7 @@ pub struct TSMethodSignature {
     pub optional: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSIndexSignature {
@@ -333,105 +333,105 @@ pub struct TSIndexSignature {
     pub readonly: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSAnyKeyword {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSBooleanKeyword {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSBigIntKeyword {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSIntrinsicKeyword {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSNeverKeyword {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSNullKeyword {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSNumberKeyword {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSObjectKeyword {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSStringKeyword {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSSymbolKeyword {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSUndefinedKeyword {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSUnknownKeyword {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSVoidKeyword {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSThisType {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSFunctionType {
     #[serde(flatten)]
@@ -444,7 +444,7 @@ pub struct TSFunctionType {
     pub type_annotation: Option<Box<TSTypeAnnotation>>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSConstructorType {
@@ -460,7 +460,7 @@ pub struct TSConstructorType {
     pub is_abstract: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum TSEntityName {
@@ -470,7 +470,7 @@ pub enum TSEntityName {
     Qualified(TSQualifiedName),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSTypeReference {
@@ -481,7 +481,7 @@ pub struct TSTypeReference {
     pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum TSTypePredicateParamName {
@@ -491,7 +491,7 @@ pub enum TSTypePredicateParamName {
     This(TSThisType),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSTypePredicate {
@@ -504,7 +504,7 @@ pub struct TSTypePredicate {
     pub asserts: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum TSTypeQueryExprName {
@@ -514,7 +514,7 @@ pub enum TSTypeQueryExprName {
     ImportType(TSImportType),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSTypeQuery {
@@ -523,7 +523,7 @@ pub struct TSTypeQuery {
     pub expr_name: TSTypeQueryExprName,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSTypeLiteral {
     #[serde(flatten)]
@@ -532,7 +532,7 @@ pub struct TSTypeLiteral {
     pub members: Vec<TSTypeElement>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSArrayType {
@@ -541,7 +541,7 @@ pub struct TSArrayType {
     pub element_type: Box<TSType>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum TSTupleTypeElType {
@@ -550,7 +550,7 @@ pub enum TSTupleTypeElType {
     Member(TSNamedTupleMember),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSTupleType {
@@ -560,7 +560,7 @@ pub struct TSTupleType {
     pub element_types: Vec<TSTupleTypeElType>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSOptionalType {
@@ -569,7 +569,7 @@ pub struct TSOptionalType {
     pub type_annotation: Box<TSType>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSRestType {
@@ -578,7 +578,7 @@ pub struct TSRestType {
     pub type_annotation: Box<TSType>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSNamedTupleMember {
@@ -590,7 +590,7 @@ pub struct TSNamedTupleMember {
     pub optional: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSUnionType {
     #[serde(flatten)]
@@ -599,7 +599,7 @@ pub struct TSUnionType {
     pub types: Vec<TSType>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSIntersectionType {
     #[serde(flatten)]
@@ -608,7 +608,7 @@ pub struct TSIntersectionType {
     pub types: Vec<TSType>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSConditionalType {
@@ -620,7 +620,7 @@ pub struct TSConditionalType {
     pub false_type: Box<TSType>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSInferType {
@@ -629,7 +629,7 @@ pub struct TSInferType {
     pub type_parameter: Box<TSTypeParameter>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSParenthesizedType {
@@ -638,7 +638,7 @@ pub struct TSParenthesizedType {
     pub type_annotation: Box<TSType>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSTypeOperator {
@@ -649,7 +649,7 @@ pub struct TSTypeOperator {
     pub operator: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSIndexedAccessType {
@@ -659,7 +659,7 @@ pub struct TSIndexedAccessType {
     pub index_type: Box<TSType>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSMappedType {
@@ -676,7 +676,7 @@ pub struct TSMappedType {
     pub readonly: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum TSLiteralTypeLiteral {
@@ -690,7 +690,7 @@ pub enum TSLiteralTypeLiteral {
     BigInt(BigIntLiteral),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSLiteralType {
     #[serde(flatten)]
@@ -698,7 +698,7 @@ pub struct TSLiteralType {
     pub literal: TSLiteralTypeLiteral,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSExpressionWithTypeArguments {
@@ -709,7 +709,7 @@ pub struct TSExpressionWithTypeArguments {
     pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSInterfaceDeclaration {
@@ -725,7 +725,7 @@ pub struct TSInterfaceDeclaration {
     pub declare: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSInterfaceBody {
     #[serde(flatten)]
@@ -734,7 +734,7 @@ pub struct TSInterfaceBody {
     pub body: Vec<TSTypeElement>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSTypeAliasDeclaration {
@@ -748,7 +748,7 @@ pub struct TSTypeAliasDeclaration {
     pub declare: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSAsExpression {
@@ -758,7 +758,7 @@ pub struct TSAsExpression {
     pub type_annotation: TSType,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSTypeAssertion {
@@ -768,7 +768,7 @@ pub struct TSTypeAssertion {
     pub expression: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSEnumDeclaration {
     #[serde(flatten)]
@@ -784,7 +784,7 @@ pub struct TSEnumDeclaration {
     pub initializer: Option<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSEnumMember {
     #[serde(flatten)]
@@ -794,7 +794,7 @@ pub struct TSEnumMember {
     pub initializer: Option<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum TSModuleDeclBody {
@@ -804,7 +804,7 @@ pub enum TSModuleDeclBody {
     Decl(TSModuleDeclaration),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSModuleDeclaration {
     #[serde(flatten)]
@@ -817,7 +817,7 @@ pub struct TSModuleDeclaration {
     pub global: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSModuleBlock {
     #[serde(flatten)]
@@ -826,7 +826,7 @@ pub struct TSModuleBlock {
     pub body: Vec<Statement>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSImportType {
@@ -839,7 +839,7 @@ pub struct TSImportType {
     pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum TSImportEqualsDeclModuleRef {
@@ -849,7 +849,7 @@ pub enum TSImportEqualsDeclModuleRef {
     External(TSExternalModuleReference),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct TSImportEqualsDeclaration {
@@ -861,7 +861,7 @@ pub struct TSImportEqualsDeclaration {
     pub is_export: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSExternalModuleReference {
     #[serde(flatten)]
@@ -869,7 +869,7 @@ pub struct TSExternalModuleReference {
     pub expression: StringLiteral,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSNonNullExpression {
     #[serde(flatten)]
@@ -877,7 +877,7 @@ pub struct TSNonNullExpression {
     pub expression: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSExportAssignment {
     #[serde(flatten)]
@@ -885,7 +885,7 @@ pub struct TSExportAssignment {
     pub expression: Expression,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSNamespaceExportDeclaration {
     #[serde(flatten)]
@@ -893,7 +893,7 @@ pub struct TSNamespaceExportDeclaration {
     pub id: Identifier,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSTypeParameterInstantiation {
     #[serde(flatten)]
@@ -902,7 +902,7 @@ pub struct TSTypeParameterInstantiation {
     pub params: Vec<TSType>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSTypeParameterDeclaration {
     #[serde(flatten)]
@@ -910,7 +910,7 @@ pub struct TSTypeParameterDeclaration {
     pub params: Vec<TSTypeParameter>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct TSTypeParameter {
     #[serde(flatten)]

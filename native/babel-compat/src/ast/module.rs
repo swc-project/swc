@@ -12,7 +12,7 @@ use crate::ast::{
     typescript::TSDeclareFunction,
 };
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(untagged)]
 pub enum ModuleDeclaration {
     #[serde(rename = "ExportAllDeclaration")]
@@ -25,7 +25,7 @@ pub enum ModuleDeclaration {
     Import(ImportDeclaration),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(untagged)]
 pub enum ExportDeclaration {
     #[serde(rename = "ExportAllDeclaration")]
@@ -36,7 +36,7 @@ pub enum ExportDeclaration {
     ExportNamed(ExportNamedDeclaration),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(untagged)]
 pub enum ModuleSpecifier {
     #[serde(rename = "ExportSpecifier")]
@@ -53,7 +53,7 @@ pub enum ModuleSpecifier {
     ExportDefault(ExportDefaultSpecifier),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct File {
     #[serde(flatten)]
@@ -65,7 +65,7 @@ pub struct File {
     pub tokens: Option<Vec<Value>>, // TODO: is this the right way to model any?
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct InterpreterDirective {
     #[serde(flatten)]
@@ -74,14 +74,14 @@ pub struct InterpreterDirective {
     pub value: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "lowercase")]
 pub enum SrcType {
     Script,
     Module,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct Program {
@@ -97,14 +97,14 @@ pub struct Program {
     pub source_file: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "lowercase")]
 pub enum ExportKind {
     Type,
     Value,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ExportSpecifier {
     #[serde(flatten)]
@@ -113,7 +113,7 @@ pub struct ExportSpecifier {
     pub exported: IdOrString,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ExportDefaultSpecifier {
     #[serde(flatten)]
@@ -121,7 +121,7 @@ pub struct ExportDefaultSpecifier {
     pub exported: Identifier,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ExportNamespaceSpecifier {
     #[serde(flatten)]
@@ -129,7 +129,7 @@ pub struct ExportNamespaceSpecifier {
     pub exported: Identifier,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct ExportAllDeclaration {
@@ -142,7 +142,7 @@ pub struct ExportAllDeclaration {
     pub export_kind: Option<ExportKind>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum ExportDefaultDeclType {
@@ -156,7 +156,7 @@ pub enum ExportDefaultDeclType {
     Expr(Expression),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ExportDefaultDeclaration {
     #[serde(flatten)]
@@ -164,7 +164,7 @@ pub struct ExportDefaultDeclaration {
     pub declaration: ExportDefaultDeclType,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum ExportSpecifierType {
@@ -176,7 +176,7 @@ pub enum ExportSpecifierType {
     Namespace(ExportNamespaceSpecifier),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ExportNamedDeclaration {
     #[serde(flatten)]
@@ -193,14 +193,14 @@ pub struct ExportNamedDeclaration {
     pub export_kind: Option<ExportKind>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct Import {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ImportAttribute {
     #[serde(flatten)]
@@ -209,7 +209,7 @@ pub struct ImportAttribute {
     pub value: StringLiteral,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct ImportSpecifier {
@@ -220,7 +220,7 @@ pub struct ImportSpecifier {
     pub import_kind: ImportKind,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ImportDefaultSpecifier {
     #[serde(flatten)]
@@ -228,7 +228,7 @@ pub struct ImportDefaultSpecifier {
     pub local: Identifier,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ImportNamespaceSpecifier {
     #[serde(flatten)]
@@ -236,7 +236,7 @@ pub struct ImportNamespaceSpecifier {
     pub local: Identifier,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[serde(tag = "type")]
 #[serde(untagged)]
 pub enum ImportSpecifierType {
@@ -248,7 +248,7 @@ pub enum ImportSpecifierType {
     Namespace(ImportNamespaceSpecifier),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "lowercase")]
 pub enum ImportKind {
     Type,
@@ -256,7 +256,7 @@ pub enum ImportKind {
     Value,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct ImportDeclaration {
