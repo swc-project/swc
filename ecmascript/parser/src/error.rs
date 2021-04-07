@@ -221,6 +221,7 @@ pub enum SyntaxError {
     TS2483,
     TS2491,
     TS2703,
+    TS4112,
     TSTypeAnnotationAfterAssign,
 }
 
@@ -537,6 +538,9 @@ impl SyntaxError {
             }
             SyntaxError::TS2491 => "The left-hand side of a 'for...in' statement cannot be a \
                                     destructuring pattern"
+                .into(),
+            SyntaxError::TS4112 => "This member cannot have an 'override' modifier because its \
+                                    containing class does not extend another class."
                 .into(),
             SyntaxError::TSTypeAnnotationAfterAssign => {
                 "Type annotations must come before default assignments".into()
