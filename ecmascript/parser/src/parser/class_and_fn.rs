@@ -159,7 +159,12 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             expect!(p, '{');
-            let body = p.parse_class_body()?;
+            let body = p
+                .with_ctx(Context {
+                    has_super_class: super_class.is_some(),
+                    ..p.ctx()
+                })
+                .parse_class_body()?;
             expect!(p, '}');
             let end = last_pos!(p);
             Ok(T::finish_class(
@@ -470,6 +475,8 @@ impl<'a, I: Tokens> Parser<I> {
                             self.input.prev_span(),
                             SyntaxError::TS1243(js_word!("override"), js_word!("declare")),
                         );
+                    } else if !self.ctx().has_super_class {
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS4112);
                     } else {
                         is_override = true;
                     }

@@ -1,3 +1,3 @@
-class C {
+class C extends B {
   override constructor() {}
 }
