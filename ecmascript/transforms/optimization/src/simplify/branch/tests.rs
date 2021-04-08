@@ -1740,3 +1740,22 @@ fn nested_block_stmt() {
         } else console.log(2);",
     );
 }
+
+#[test]
+fn return_function_hoisting() {
+    test(
+        "function test() {
+            return foo();
+            function foo() {
+                return 2;
+            }
+            console.log('hi');
+        }",
+        "function test() {
+            function foo() {
+                return 2;
+            }
+            return foo();
+        }",
+    );
+}
