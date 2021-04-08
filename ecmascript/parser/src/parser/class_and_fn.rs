@@ -139,9 +139,9 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            // Handle TS1175
+            // Handle TS1173
             if p.input.syntax().typescript() && eat!(p, "extends") {
-                p.emit_err(p.input.prev_span(), SyntaxError::TS1175);
+                p.emit_err(p.input.prev_span(), SyntaxError::TS1173);
 
                 let sc = p.parse_lhs_expr()?;
                 let type_params = if p.input.syntax().typescript() && is!(p, '<') {
@@ -159,7 +159,12 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             expect!(p, '{');
-            let body = p.parse_class_body()?;
+            let body = p
+                .with_ctx(Context {
+                    has_super_class: super_class.is_some(),
+                    ..p.ctx()
+                })
+                .parse_class_body()?;
             expect!(p, '}');
             let end = last_pos!(p);
             Ok(T::finish_class(
@@ -326,6 +331,7 @@ impl<'a, I: Tokens> Parser<I> {
                         decorators,
                         is_abstract: false,
                         is_optional,
+                        is_override: false,
                         is_async: false,
                         is_generator: false,
                         static_token: None,
@@ -348,6 +354,7 @@ impl<'a, I: Tokens> Parser<I> {
                     key,
                     false,
                     is_optional,
+                    false,
                     false,
                     false,
                     false,
@@ -382,6 +389,7 @@ impl<'a, I: Tokens> Parser<I> {
                         decorators,
                         is_abstract: false,
                         is_optional,
+                        is_override: false,
                         is_async: false,
                         is_generator: false,
                         static_token: None,
@@ -406,6 +414,7 @@ impl<'a, I: Tokens> Parser<I> {
                     is_optional,
                     false,
                     declare,
+                    false,
                     false,
                 );
             } else {
@@ -432,36 +441,70 @@ impl<'a, I: Tokens> Parser<I> {
         decorators: Vec<Decorator>,
     ) -> PResult<ClassMember> {
         let is_static = static_token.is_some();
-        let modifier = self.parse_ts_modifier(&["abstract", "readonly"])?;
-        let modifier_span = if let Some(..) = modifier {
-            Some(self.input.prev_span())
-        } else {
-            None
-        };
 
-        let (is_abstract, readonly) = match modifier {
-            Some("abstract") => {
-                let readonly_span = self.input.cur_span();
-                (
-                    true,
-                    if self.parse_ts_modifier(&["readonly"])?.is_some() {
-                        Some(readonly_span)
+        let mut is_abstract = false;
+        let mut is_override = false;
+        let mut readonly = None;
+        let mut modifier_span = None;
+        while let Some(modifier) = self.parse_ts_modifier(&["abstract", "readonly", "override"])? {
+            modifier_span = Some(self.input.prev_span());
+            match modifier {
+                "abstract" => {
+                    if is_abstract {
+                        self.emit_err(
+                            self.input.prev_span(),
+                            SyntaxError::TS1030(js_word!("abstract")),
+                        );
                     } else {
-                        None
-                    },
-                )
+                        is_abstract = true;
+                    }
+                }
+                "override" => {
+                    if is_override {
+                        self.emit_err(
+                            self.input.prev_span(),
+                            SyntaxError::TS1030(js_word!("override")),
+                        );
+                    } else if readonly.is_some() {
+                        self.emit_err(
+                            self.input.prev_span(),
+                            SyntaxError::TS1029(js_word!("override"), js_word!("readonly")),
+                        );
+                    } else if declare {
+                        self.emit_err(
+                            self.input.prev_span(),
+                            SyntaxError::TS1243(js_word!("override"), js_word!("declare")),
+                        );
+                    } else if !self.ctx().has_super_class {
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS4112);
+                    } else {
+                        is_override = true;
+                    }
+                }
+                "readonly" => {
+                    let readonly_span = self.input.prev_span();
+                    if readonly.is_some() {
+                        self.emit_err(readonly_span, SyntaxError::TS1030(js_word!("readonly")));
+                    } else {
+                        readonly = Some(readonly_span);
+                    }
+                }
+                _ => {}
             }
-            Some("readonly") => {
-                let readonly_span = self.input.prev_span();
-                (
-                    self.parse_ts_modifier(&["abstract"])?.is_some(),
-                    Some(readonly_span),
-                )
-            }
-            _ => (false, None),
-        };
+        }
 
-        if self.input.syntax().typescript() && !is_abstract && accessibility.is_none() {
+        if is_static && is_override {
+            self.emit_err(
+                self.input.prev_span(),
+                SyntaxError::TS1243(js_word!("static"), js_word!("override")),
+            );
+        }
+
+        if self.input.syntax().typescript()
+            && !is_abstract
+            && !is_override
+            && accessibility.is_none()
+        {
             let idx = self.try_parse_ts_index_signature(start, readonly.is_some(), is_static)?;
             if let Some(idx) = idx {
                 return Ok(idx.into());
@@ -487,6 +530,7 @@ impl<'a, I: Tokens> Parser<I> {
                     is_generator: true,
                     accessibility,
                     is_abstract,
+                    is_override,
                     is_optional: false,
                     static_token,
                     key,
@@ -531,6 +575,13 @@ impl<'a, I: Tokens> Parser<I> {
             let is_constructor = is_constructor(&key);
 
             if is_constructor {
+                if self.syntax().typescript() && is_override {
+                    self.emit_err(
+                        span!(self, start),
+                        SyntaxError::TS1089(js_word!("override")),
+                    );
+                }
+
                 if self.syntax().typescript() && is!(self, '<') {
                     let start = cur_pos!(self);
                     if peeked_is!(self, '>') {
@@ -592,11 +643,13 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 if let Some(static_token) = static_token {
-                    self.emit_err(static_token, SyntaxError::TS1089)
+                    self.emit_err(static_token, SyntaxError::TS1089(js_word!("static")))
                 }
 
                 if let Some(span) = modifier_span {
-                    self.emit_err(span, SyntaxError::TS1242);
+                    if is_abstract {
+                        self.emit_err(span, SyntaxError::TS1242);
+                    }
                 }
 
                 return Ok(ClassMember::Constructor(Constructor {
@@ -619,6 +672,7 @@ impl<'a, I: Tokens> Parser<I> {
                         accessibility,
                         decorators,
                         is_abstract,
+                        is_override,
                         static_token,
                         kind: MethodKind::Method,
                         key,
@@ -640,6 +694,7 @@ impl<'a, I: Tokens> Parser<I> {
                 readonly.is_some(),
                 declare,
                 is_abstract,
+                is_override,
             );
         }
 
@@ -669,6 +724,7 @@ impl<'a, I: Tokens> Parser<I> {
                     is_abstract,
                     accessibility,
                     is_optional,
+                    is_override,
                     decorators,
                     kind: MethodKind::Method,
                     is_async: true,
@@ -711,6 +767,7 @@ impl<'a, I: Tokens> Parser<I> {
                             is_async: false,
                             is_generator: false,
                             is_optional,
+                            is_override,
                             accessibility,
                             static_token,
                             key,
@@ -738,6 +795,7 @@ impl<'a, I: Tokens> Parser<I> {
                             start,
                             is_optional,
                             is_abstract,
+                            is_override,
                             is_async: false,
                             is_generator: false,
                             accessibility,
@@ -766,6 +824,7 @@ impl<'a, I: Tokens> Parser<I> {
         readonly: bool,
         declare: bool,
         is_abstract: bool,
+        is_override: bool,
     ) -> PResult<ClassMember> {
         if !self.input.syntax().class_props() {
             syntax_error!(self, span!(self, start), SyntaxError::ClassProperty)
@@ -812,6 +871,7 @@ impl<'a, I: Tokens> Parser<I> {
                     accessibility,
                     is_abstract,
                     is_optional,
+                    is_override,
                     readonly,
                     definite,
                     type_ann,
@@ -837,6 +897,7 @@ impl<'a, I: Tokens> Parser<I> {
                     accessibility,
                     is_abstract,
                     is_optional,
+                    is_override,
                     readonly,
                     declare,
                     definite,
@@ -1058,6 +1119,7 @@ impl<'a, I: Tokens> Parser<I> {
             static_token,
             decorators,
             is_optional,
+            is_override,
             key,
             kind,
             is_async,
@@ -1094,6 +1156,7 @@ impl<'a, I: Tokens> Parser<I> {
                 accessibility,
                 is_abstract,
                 is_optional,
+                is_override,
 
                 is_static,
                 key,
@@ -1107,6 +1170,7 @@ impl<'a, I: Tokens> Parser<I> {
                 accessibility,
                 is_abstract,
                 is_optional,
+                is_override,
 
                 is_static,
                 key,
@@ -1290,6 +1354,7 @@ struct MakeMethodArgs {
     static_token: Option<Span>,
     decorators: Vec<Decorator>,
     is_optional: bool,
+    is_override: bool,
     key: Either<PrivateName, PropName>,
     kind: MethodKind,
     is_async: bool,

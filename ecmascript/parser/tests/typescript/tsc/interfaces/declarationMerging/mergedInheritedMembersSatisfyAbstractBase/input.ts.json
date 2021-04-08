@@ -67,6 +67,7 @@
           "accessibility": null,
           "isAbstract": true,
           "isOptional": false,
+          "isOverride": false,
           "readonly": false,
           "declare": false,
           "definite": false

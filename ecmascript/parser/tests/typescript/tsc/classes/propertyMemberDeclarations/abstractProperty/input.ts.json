@@ -67,6 +67,7 @@
           "accessibility": "protected",
           "isAbstract": true,
           "isOptional": false,
+          "isOverride": false,
           "readonly": false,
           "declare": false,
           "definite": false
@@ -193,7 +194,8 @@
           "isStatic": false,
           "accessibility": "public",
           "isAbstract": false,
-          "isOptional": false
+          "isOptional": false,
+          "isOverride": false
         }
       ],
       "superClass": null,
@@ -260,6 +262,7 @@
           "accessibility": "protected",
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": false,
           "declare": false,
           "definite": false
@@ -366,7 +369,8 @@
           "isStatic": false,
           "accessibility": "protected",
           "isAbstract": false,
-          "isOptional": false
+          "isOptional": false,
+          "isOverride": false
         },
         {
           "type": "EmptyStatement",

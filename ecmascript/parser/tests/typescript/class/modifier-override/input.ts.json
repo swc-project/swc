@@ -1,0 +1,375 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 277,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 14,
+          "ctxt": 0
+        },
+        "value": "MyClass1",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 0,
+        "end": 277,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 37,
+            "end": 50,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 37,
+              "end": 45,
+              "ctxt": 0
+            },
+            "value": "override",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 37,
+              "end": 50,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 48,
+                "end": 50,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 53,
+            "end": 71,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 62,
+              "end": 66,
+              "ctxt": 0
+            },
+            "value": "show",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 53,
+              "end": 71,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 69,
+                "end": 71,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": true
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 74,
+            "end": 99,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 90,
+              "end": 94,
+              "ctxt": 0
+            },
+            "value": "show",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 74,
+              "end": 99,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 97,
+                "end": 99,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": "public",
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": true
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 102,
+            "end": 120,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 111,
+              "end": 115,
+              "ctxt": 0
+            },
+            "value": "size",
+            "optional": false
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 118,
+              "end": 119,
+              "ctxt": 0
+            },
+            "value": 5.0
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": true,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 123,
+            "end": 150,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 141,
+              "end": 145,
+              "ctxt": 0
+            },
+            "value": "size",
+            "optional": false
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 148,
+              "end": 149,
+              "ctxt": 0
+            },
+            "value": 5.0
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": true,
+          "readonly": true,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 153,
+            "end": 189,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 180,
+              "end": 184,
+              "ctxt": 0
+            },
+            "value": "size",
+            "optional": false
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 187,
+              "end": 188,
+              "ctxt": 0
+            },
+            "value": 5.0
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": true,
+          "isOptional": false,
+          "isOverride": true,
+          "readonly": true,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 192,
+            "end": 228,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 219,
+              "end": 223,
+              "ctxt": 0
+            },
+            "value": "size",
+            "optional": false
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 226,
+              "end": 227,
+              "ctxt": 0
+            },
+            "value": 5.0
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": true,
+          "isOptional": false,
+          "isOverride": true,
+          "readonly": true,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 231,
+            "end": 275,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 266,
+              "end": 270,
+              "ctxt": 0
+            },
+            "value": "size",
+            "optional": false
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 273,
+              "end": 274,
+              "ctxt": 0
+            },
+            "value": 5.0
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": "private",
+          "isAbstract": true,
+          "isOptional": false,
+          "isOverride": true,
+          "readonly": true,
+          "declare": false,
+          "definite": false
+        }
+      ],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 23,
+          "end": 32,
+          "ctxt": 0
+        },
+        "value": "BaseClass",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}
