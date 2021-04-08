@@ -1,4 +1,5 @@
 use super::{ident::MaybeOptionalIdentParser, *};
+use crate::lexer::TokenContext;
 use crate::{error::SyntaxError, Tokens};
 use either::Either;
 use swc_atoms::js_word;
@@ -1014,10 +1015,29 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         self.with_ctx(ctx).parse_with(|p| {
-            let type_params = if p.syntax().typescript() && is_one_of!(p, '<', JSXTagStart) {
-                //
-                trace_cur!(p, parse_fn_args_body__type_params);
-                Some(p.parse_ts_type_params()?)
+            let type_params = if p.syntax().typescript() {
+                p.in_type().parse_with(|p| {
+                    trace_cur!(p, parse_fn_args_body__type_params);
+
+                    Ok(if is!(p, '<') {
+                        Some(p.parse_ts_type_params()?)
+                    } else if is!(p, JSXTagStart) {
+                        debug_assert_eq!(
+                            p.input.token_context().current(),
+                            Some(TokenContext::JSXOpeningTag)
+                        );
+                        p.input.token_context_mut().pop();
+                        debug_assert_eq!(
+                            p.input.token_context().current(),
+                            Some(TokenContext::JSXExpr)
+                        );
+                        p.input.token_context_mut().pop();
+
+                        Some(p.parse_ts_type_params()?)
+                    } else {
+                        None
+                    })
+                })?
             } else {
                 None
             };
