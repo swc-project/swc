@@ -940,3 +940,11 @@ test!(
     '`'
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1549_1,
+    "const a = `\r\n`;",
+    ""
+);
