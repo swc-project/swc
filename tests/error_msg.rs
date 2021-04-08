@@ -30,3 +30,11 @@ fn swcrc_simple() {
     let f = file("tests/swcrc_errors/simple/foo.js");
     println!("{}", f);
 }
+
+#[test]
+fn issue_1532() {
+    let f = file("tests/swcrc_errors/issue-1532/index.js");
+    println!("{}", f);
+
+    assert!(f.contains("unknown variant `esnext`"))
+}
