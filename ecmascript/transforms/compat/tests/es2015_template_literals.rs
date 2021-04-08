@@ -946,7 +946,7 @@ test!(
     |_| tr(Default::default()),
     issue_1549_1,
     "const a = `\r\n`;",
-    "const a = \"\\r\\n\";"
+    "const a = \"\\n\";"
 );
 
 test!(
