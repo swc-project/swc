@@ -56,8 +56,8 @@ fn default_as_true() -> bool {
 #[derive(Debug, Clone, Default, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Options {
-    #[serde(flatten, default)]
-    pub config: Option<Config>,
+    #[serde(flatten)]
+    pub config: Config,
 
     #[serde(skip_deserializing, default)]
     pub skip_helper_injection: bool,
@@ -123,10 +123,7 @@ pub struct Options {
 
 impl Options {
     pub fn codegen_target(&self) -> Option<JscTarget> {
-        self.config
-            .as_ref()
-            .map(|config| &config.jsc)
-            .map(|jsc| jsc.target)
+        self.config.jsc.target
     }
 }
 
@@ -183,9 +180,7 @@ impl Options {
         comments: Option<&'a dyn Comments>,
     ) -> BuiltConfig<impl 'a + swc_ecma_visit::Fold> {
         let mut config = config.unwrap_or_else(Default::default);
-        if let Some(ref c) = self.config {
-            config.merge(c)
-        }
+        config.merge(&self.config);
 
         let JscConfig {
             transform,
@@ -195,6 +190,7 @@ impl Options {
             loose,
             keep_class_names,
         } = config.jsc;
+        let target = target.unwrap_or_default();
 
         let syntax = syntax.unwrap_or_default();
         let mut transform = transform.unwrap_or_default();
@@ -581,7 +577,7 @@ pub struct JscConfig {
     pub external_helpers: bool,
 
     #[serde(default)]
-    pub target: JscTarget,
+    pub target: Option<JscTarget>,
 
     #[serde(default)]
     pub loose: bool,

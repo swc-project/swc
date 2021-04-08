@@ -27,23 +27,13 @@ impl Task for PrintTask {
         self.c
             .print(
                 &self.program,
-                self.options
-                    .config
-                    .as_ref()
-                    .map(|config| &config.jsc)
-                    .map(|jsc| jsc.target)
-                    .unwrap_or(JscTarget::Es2020),
+                self.options.config.jsc.target.unwrap_or(JscTarget::Es2020),
                 self.options
                     .source_maps
                     .clone()
                     .unwrap_or(SourceMapsConfig::Bool(false)),
                 None,
-                self.options
-                    .config
-                    .clone()
-                    .unwrap_or_default()
-                    .minify
-                    .unwrap_or(false),
+                self.options.config.clone().minify.unwrap_or(false),
             )
             .convert_err()
     }
@@ -97,7 +87,7 @@ pub fn print_sync(cx: CallContext) -> napi::Result<JsObject> {
                 .clone()
                 .unwrap_or(SourceMapsConfig::Bool(false)),
             None,
-            options.config.unwrap_or_default().minify.unwrap_or(false),
+            options.config.minify.unwrap_or(false),
         )
     }
     .convert_err()?;

@@ -8,13 +8,15 @@ use swc::{
     config::{Config, JscConfig, ModuleConfig, Options, SourceMapsConfig, TransformConfig},
     Compiler,
 };
+use swc_common::FileName;
+use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{Syntax, TsConfig};
 use testing::{NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;
 
-fn file(f: &str) -> Result<NormalizedOutput, StdErr> {
+fn file(filename: &str) -> Result<NormalizedOutput, StdErr> {
     file_with_opt(
-        f,
+        filename,
         Options {
             swcrc: true,
             ..Default::default()
@@ -22,11 +24,13 @@ fn file(f: &str) -> Result<NormalizedOutput, StdErr> {
     )
 }
 
-fn file_with_opt(f: &str, options: Options) -> Result<NormalizedOutput, StdErr> {
+fn file_with_opt(filename: &str, options: Options) -> Result<NormalizedOutput, StdErr> {
     Tester::new().print_errors(|cm, handler| {
         let c = Compiler::new(cm.clone(), Arc::new(handler));
 
-        let fm = cm.load_file(Path::new(f)).expect("failed to load file");
+        let fm = cm
+            .load_file(Path::new(filename))
+            .expect("failed to load file");
         let s = c.process_js_file(
             fm,
             &Options {
@@ -47,6 +51,33 @@ fn file_with_opt(f: &str, options: Options) -> Result<NormalizedOutput, StdErr> 
         }
     })
 }
+
+fn str_with_opt(content: &str, options: Options) -> Result<NormalizedOutput, StdErr> {
+    Tester::new().print_errors(|cm, handler| {
+        let c = Compiler::new(cm.clone(), Arc::new(handler));
+
+        let fm = cm.new_source_file(FileName::Anon, content.to_string());
+        let s = c.process_js_file(
+            fm,
+            &Options {
+                is_module: true,
+                ..options
+            },
+        );
+
+        match s {
+            Ok(v) => {
+                if c.handler.has_errors() {
+                    Err(())
+                } else {
+                    Ok(v.code.into())
+                }
+            }
+            Err(err) => panic!("Error: {:?}", err),
+        }
+    })
+}
+
 fn project(dir: &str) {
     Tester::new()
         .print_errors(|cm, handler| {
@@ -440,14 +471,14 @@ fn issue_783_core_js_2() {
         "tests/projects/issue-783/input.js",
         Options {
             swcrc: false,
-            config: Some(Config {
+            config: Config {
                 env: Some(swc_ecma_preset_env::Config {
                     core_js: Some("2".parse().unwrap()),
                     mode: Some(swc_ecma_preset_env::Mode::Entry),
                     ..Default::default()
                 }),
                 ..Default::default()
-            }),
+            },
             ..Default::default()
         },
     )
@@ -466,13 +497,13 @@ fn issue_783_core_js_3() {
         "tests/projects/issue-783/input.js",
         Options {
             swcrc: false,
-            config: Some(Config {
+            config: Config {
                 env: Some(swc_ecma_preset_env::Config {
                     mode: Some(swc_ecma_preset_env::Mode::Entry),
                     ..Default::default()
                 }),
                 ..Default::default()
-            }),
+            },
             ..Default::default()
         },
     )
@@ -505,7 +536,7 @@ fn issue_879() {
         "tests/projects/issue-879/input.ts",
         Options {
             is_module: true,
-            config: Some(Config {
+            config: Config {
                 env: Some(Default::default()),
                 module: Some(ModuleConfig::CommonJs(Default::default())),
                 jsc: JscConfig {
@@ -521,7 +552,7 @@ fn issue_879() {
                     ..Default::default()
                 },
                 ..Default::default()
-            }),
+            },
             ..Default::default()
         },
     )
@@ -571,6 +602,28 @@ fn codegen_1() {
     println!("{}", f);
 
     assert_eq!(f.to_string(), "\"\\\"\";\n");
+}
+
+#[test]
+fn issue_1549() {
+    let output = str_with_opt(
+        "const a = `\r\n`;",
+        Options {
+            is_module: true,
+            config: Config {
+                jsc: JscConfig {
+                    target: Some(EsVersion::Es2015),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    println!("{}", output);
+
+    assert_eq!(output.to_string(), "var a = \"\\n\";\n");
 }
 
 #[testing::fixture("fixture/**/input/")]

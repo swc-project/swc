@@ -1,0 +1,11 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "dynamicImport": true
+    },
+    "externalHelpers": true,
+    "target": "esnext"
+  },
+  "sourceMaps": true
+}

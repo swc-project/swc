@@ -1015,11 +1015,22 @@ impl SourceMap {
     ) -> sourcemap::SourceMap {
         let mut builder = SourceMapBuilder::new(None);
 
+        let mut src_id = 0u32;
+
+        if let Some(orig) = orig {
+            for (idx, src) in orig.sources().enumerate() {
+                builder.set_source(idx as _, src);
+                src_id = idx as u32 + 1;
+            }
+            for (idx, contents) in orig.source_contents().enumerate() {
+                builder.set_source_contents(idx as _, contents);
+            }
+        }
+
         // // This method is optimized based on the fact that mapping is sorted.
         // mappings.sort_by_key(|v| v.0);
 
         let mut cur_file: Option<Lrc<SourceFile>> = None;
-        let mut src_id = 0;
 
         let mut ch_start = 0;
         let mut line_ch_start = 0;
