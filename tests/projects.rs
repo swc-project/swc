@@ -623,7 +623,7 @@ fn issue_1549() {
     .unwrap();
     println!("{}", output);
 
-    assert_eq!(output.to_string(), "const a = `\r\n`;");
+    assert_eq!(output.to_string(), "var a = \"\r\n`;\n");
 }
 
 #[testing::fixture("fixture/**/input/")]
