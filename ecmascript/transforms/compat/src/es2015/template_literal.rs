@@ -41,6 +41,9 @@ impl Fold for TemplateLiteral {
                 // This makes result of addition string
                 let mut obj: Box<Expr> = Box::new(
                     Lit::Str({
+                        let should_escape =
+                            quasis[0].raw.value.contains('\r') || quasis[0].raw.value.contains('`');
+
                         let mut s = quasis[0]
                             .cooked
                             .clone()
@@ -50,7 +53,7 @@ impl Fold for TemplateLiteral {
                         //
                         // This is hack to prevent '\\`'. Hack is used to avoid breaking
                         // change of ast crate.
-                        if s.value.contains("`") {
+                        if should_escape {
                             s.kind = Default::default();
                             s.has_escape = false;
                         }
@@ -78,12 +81,14 @@ impl Fold for TemplateLiteral {
 
                         match quasis.next() {
                             Some(TplElement { cooked, raw, .. }) => {
+                                let should_escape =
+                                    raw.value.contains('\r') || raw.value.contains('`');
                                 let mut s = cooked.unwrap_or_else(|| raw);
                                 // See https://github.com/swc-project/swc/issues/1488
                                 //
                                 // This is hack to prevent '\\`'. Hack is used to avoid breaking
                                 // change of ast crate.
-                                if s.value.contains("`") {
+                                if should_escape {
                                     s.kind = Default::default();
                                 }
                                 Box::new(Lit::Str(s).into())
