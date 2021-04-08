@@ -55,7 +55,7 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
                 .clone()
                 .unwrap_or(SourceMapsConfig::Bool(false)),
             None,
-            opts.config.unwrap_or_default().minify.unwrap_or_default(),
+            opts.config.minify.unwrap_or_default(),
         )
         .map_err(|err| format!("failed to print: {}\n{}", err, errors))?;
 

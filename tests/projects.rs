@@ -471,14 +471,14 @@ fn issue_783_core_js_2() {
         "tests/projects/issue-783/input.js",
         Options {
             swcrc: false,
-            config: Some(Config {
+            config: Config {
                 env: Some(swc_ecma_preset_env::Config {
                     core_js: Some("2".parse().unwrap()),
                     mode: Some(swc_ecma_preset_env::Mode::Entry),
                     ..Default::default()
                 }),
                 ..Default::default()
-            }),
+            },
             ..Default::default()
         },
     )
@@ -497,13 +497,13 @@ fn issue_783_core_js_3() {
         "tests/projects/issue-783/input.js",
         Options {
             swcrc: false,
-            config: Some(Config {
+            config: Config {
                 env: Some(swc_ecma_preset_env::Config {
                     mode: Some(swc_ecma_preset_env::Mode::Entry),
                     ..Default::default()
                 }),
                 ..Default::default()
-            }),
+            },
             ..Default::default()
         },
     )
@@ -536,7 +536,7 @@ fn issue_879() {
         "tests/projects/issue-879/input.ts",
         Options {
             is_module: true,
-            config: Some(Config {
+            config: Config {
                 env: Some(Default::default()),
                 module: Some(ModuleConfig::CommonJs(Default::default())),
                 jsc: JscConfig {
@@ -552,7 +552,7 @@ fn issue_879() {
                     ..Default::default()
                 },
                 ..Default::default()
-            }),
+            },
             ..Default::default()
         },
     )
@@ -610,13 +610,13 @@ fn issue_1549() {
         "const a = `\r\n`;",
         Options {
             is_module: true,
-            config: Some(Config {
+            config: Config {
                 jsc: JscConfig {
-                    target: EsVersion::Es2015,
+                    target: Some(EsVersion::Es2015),
                     ..Default::default()
                 },
                 ..Default::default()
-            }),
+            },
             ..Default::default()
         },
     )

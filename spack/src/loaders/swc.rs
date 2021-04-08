@@ -25,11 +25,7 @@ pub struct SwcLoader {
 }
 
 impl SwcLoader {
-    pub fn new(compiler: Arc<swc::Compiler>, mut options: swc::config::Options) -> Self {
-        if options.config.is_none() {
-            options.config = Some(Default::default());
-        }
-
+    pub fn new(compiler: Arc<swc::Compiler>, options: swc::config::Options) -> Self {
         SwcLoader { compiler, options }
     }
 }
@@ -111,32 +107,29 @@ impl Load for SwcLoader {
             let config = self.compiler.config_for_file(
                 &swc::config::Options {
                     config: {
-                        if let Some(c) = &self.options.config {
-                            Some(swc::config::Config {
-                                jsc: JscConfig {
-                                    transform: {
-                                        if let Some(c) = &c.jsc.transform {
-                                            Some(TransformConfig {
-                                                react: c.react.clone(),
-                                                const_modules: c.const_modules.clone(),
-                                                optimizer: None,
-                                                legacy_decorator: c.legacy_decorator,
-                                                decorator_metadata: c.decorator_metadata,
-                                                hidden: Default::default(),
-                                            })
-                                        } else {
-                                            None
-                                        }
-                                    },
-                                    external_helpers: true,
-                                    ..c.jsc
+                        let c = &self.options.config;
+                        swc::config::Config {
+                            jsc: JscConfig {
+                                transform: {
+                                    if let Some(c) = &c.jsc.transform {
+                                        Some(TransformConfig {
+                                            react: c.react.clone(),
+                                            const_modules: c.const_modules.clone(),
+                                            optimizer: None,
+                                            legacy_decorator: c.legacy_decorator,
+                                            decorator_metadata: c.decorator_metadata,
+                                            hidden: Default::default(),
+                                        })
+                                    } else {
+                                        None
+                                    }
                                 },
-                                module: None,
-                                minify: Some(false),
-                                ..c.clone()
-                            })
-                        } else {
-                            None
+                                external_helpers: true,
+                                ..c.jsc
+                            },
+                            module: None,
+                            minify: Some(false),
+                            ..c.clone()
                         }
                     },
                     skip_helper_injection: true,

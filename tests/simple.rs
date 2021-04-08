@@ -59,7 +59,7 @@ fn issue_834_2() {
 var foo = ano.some.ne?.sdf?.snop;
 const someValue = 'test' ?? 'default value';",
         Options {
-            config: Some(Config {
+            config: Config {
                 jsc: JscConfig {
                     syntax: Some(Syntax::Es(EsConfig {
                         nullish_coalescing: true,
@@ -69,7 +69,7 @@ const someValue = 'test' ?? 'default value';",
                     ..Default::default()
                 },
                 ..Default::default()
-            }),
+            },
             swcrc: false,
             ..Default::default()
         },
@@ -81,7 +81,7 @@ fn issue_834_3() {
     compile(
         "const someValue = 'test'  ?? 'default value';",
         Options {
-            config: Some(Config {
+            config: Config {
                 jsc: JscConfig {
                     syntax: Some(Syntax::Es(EsConfig {
                         nullish_coalescing: true,
@@ -90,7 +90,7 @@ fn issue_834_3() {
                     ..Default::default()
                 },
                 ..Default::default()
-            }),
+            },
             swcrc: false,
             ..Default::default()
         },
@@ -109,17 +109,17 @@ fn test_tsx_escape_xhtml() {
     let compiled_es5 = compile(
         source,
         Options {
-            config: Some(Config {
+            config: Config {
                 jsc: JscConfig {
                     syntax: Some(Syntax::Typescript(TsConfig {
                         tsx: true,
                         ..Default::default()
                     })),
-                    target: EsVersion::Es5,
+                    target: Some(EsVersion::Es5),
                     ..Default::default()
                 },
                 ..Default::default()
-            }),
+            },
             swcrc: false,
             ..Default::default()
         },
@@ -130,17 +130,17 @@ fn test_tsx_escape_xhtml() {
     let compiled_es2020 = compile(
         source,
         Options {
-            config: Some(Config {
+            config: Config {
                 jsc: JscConfig {
                     syntax: Some(Syntax::Typescript(TsConfig {
                         tsx: true,
                         ..Default::default()
                     })),
-                    target: EsVersion::Es2020,
+                    target: Some(EsVersion::Es2020),
                     ..Default::default()
                 },
                 ..Default::default()
-            }),
+            },
             swcrc: false,
             ..Default::default()
         },

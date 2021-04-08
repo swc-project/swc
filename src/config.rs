@@ -123,7 +123,7 @@ pub struct Options {
 
 impl Options {
     pub fn codegen_target(&self) -> Option<JscTarget> {
-        Some(self.config.jsc.target)
+        self.config.jsc.target
     }
 }
 
@@ -190,6 +190,7 @@ impl Options {
             loose,
             keep_class_names,
         } = config.jsc;
+        let target = target.unwrap_or_default();
 
         let syntax = syntax.unwrap_or_default();
         let mut transform = transform.unwrap_or_default();
@@ -576,7 +577,7 @@ pub struct JscConfig {
     pub external_helpers: bool,
 
     #[serde(default)]
-    pub target: JscTarget,
+    pub target: Option<JscTarget>,
 
     #[serde(default)]
     pub loose: bool,
