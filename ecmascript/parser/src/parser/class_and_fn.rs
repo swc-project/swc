@@ -706,6 +706,8 @@ impl<'a, I: Tokens> Parser<I> {
         {
             // handle async foo(){}
 
+            let is_override = is_override || self.parse_ts_modifier(&["override"])?.is_some();
+
             let is_generator = eat!(self, '*');
             let key = self.parse_class_prop_name()?;
             if is_constructor(&key) {
