@@ -3,6 +3,7 @@ use swc_common::{chain, Mark};
 use swc_ecma_transforms_base::{hygiene::hygiene, resolver::resolver_with_mark};
 use swc_ecma_transforms_module::common_js;
 use swc_ecma_transforms_testing::{test, Tester};
+
 fn tr(t: &mut Tester) -> impl Fold {
     chain!(
         hygiene(),
@@ -783,9 +784,13 @@ test!(
       React.useEffect(() => {});
       return <h1>{foo}</h1>;
     }
+
+    function baz() {
+      return (useState(), useState())
+    }
 "#,
     r#"
-    var _s = $RefreshSig$(), _s1 = $RefreshSig$();
+    var _s = $RefreshSig$(), _s1 = $RefreshSig$(), _s2 = $RefreshSig$();
 
     export function Foo() {
       _s();
@@ -810,7 +815,14 @@ test!(
     _s1(Bar, "useState{[foo, setFoo](0)}\nuseEffect{}");
   
     _c1 = Bar;
-  
+
+    function baz() {
+      _s2();
+      return useState(), useState();
+    }
+
+    _s2(baz, "useState{}\nuseState{}");
+
     var _c, _c1;
   
     $RefreshReg$(_c, "Foo");
@@ -982,7 +994,7 @@ test!(
     const Qux = () => {
       _s5();
 
-      return useContext(X);
+      return 0, useContext(X);
     };
 
     _s5(Qux, "useContext{}");
@@ -1086,7 +1098,7 @@ test!(
             common_js(mark, Default::default())
         )
     },
-    icnlude_hook_signature_in_commonjs,
+    include_hook_signature_in_commonjs,
     r#"
     import {useFancyState} from './hooks';
     import useFoo from './foo'
@@ -1109,9 +1121,9 @@ test!(
     
     function App() {
       _s();
-    
-      const bar = _hooks.useFancyState();
-      const foo = _foo.default();
+
+      const bar = (0, _hooks).useFancyState();
+      const foo = (0, _foo).default();
       return <h1>{bar}</h1>;
     }
     exports.default = App;

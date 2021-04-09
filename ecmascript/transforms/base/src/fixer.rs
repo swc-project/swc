@@ -454,6 +454,7 @@ impl VisitMut for Fixer<'_> {
 
 impl Fixer<'_> {
     fn wrap_with_paren_if_required(&mut self, e: &mut Expr) {
+        let mut has_padding_value = false;
         match e {
             // Flatten seq expr
             Expr::Seq(SeqExpr { span, exprs }) => {
@@ -475,7 +476,7 @@ impl Fixer<'_> {
                             if is_last {
                                 Some(e.take())
                             } else {
-                                ignore_return_value(e.take())
+                                ignore_return_value(e.take(), &mut has_padding_value)
                             }
                         })
                         .collect::<Vec<_>>();
@@ -493,7 +494,9 @@ impl Fixer<'_> {
                             Expr::Seq(SeqExpr { ref mut exprs, .. }) => {
                                 let exprs = exprs.take();
                                 if !is_last {
-                                    buf.extend(exprs.into_iter().filter_map(ignore_return_value));
+                                    buf.extend(exprs.into_iter().filter_map(|expr| {
+                                        ignore_return_value(expr, &mut has_padding_value)
+                                    }));
                                 } else {
                                     let exprs_len = exprs.len();
                                     for (i, expr) in exprs.into_iter().enumerate() {
@@ -501,7 +504,10 @@ impl Fixer<'_> {
                                         if is_last {
                                             buf.push(expr);
                                         } else {
-                                            buf.extend(ignore_return_value(expr));
+                                            buf.extend(ignore_return_value(
+                                                expr,
+                                                &mut has_padding_value,
+                                            ));
                                         }
                                     }
                                 }
@@ -510,7 +516,10 @@ impl Fixer<'_> {
                                 if is_last {
                                     buf.push(expr.take());
                                 } else {
-                                    buf.extend(ignore_return_value(expr.take()));
+                                    buf.extend(ignore_return_value(
+                                        expr.take(),
+                                        &mut has_padding_value,
+                                    ));
                                 }
                             }
                         }
@@ -676,9 +685,16 @@ impl Fixer<'_> {
     }
 }
 
-fn ignore_return_value(expr: Box<Expr>) -> Option<Box<Expr>> {
+fn ignore_return_value(expr: Box<Expr>, has_padding_value: &mut bool) -> Option<Box<Expr>> {
     match *expr {
-        Expr::Ident(..) | Expr::Fn(..) | Expr::Lit(..) => None,
+        Expr::Fn(..) | Expr::Lit(..) => {
+            if *has_padding_value {
+                None
+            } else {
+                *has_padding_value = true;
+                Some(expr)
+            }
+        }
         Expr::Seq(SeqExpr { span, exprs }) => {
             let len = exprs.len();
             let mut exprs: Vec<_> = exprs
@@ -688,7 +704,7 @@ fn ignore_return_value(expr: Box<Expr>) -> Option<Box<Expr>> {
                     if i + 1 == len {
                         Some(expr)
                     } else {
-                        ignore_return_value(expr)
+                        ignore_return_value(expr, has_padding_value)
                     }
                 })
                 .collect();
@@ -702,7 +718,7 @@ fn ignore_return_value(expr: Box<Expr>) -> Option<Box<Expr>> {
             op: op!("void"),
             arg,
             ..
-        }) => ignore_return_value(arg),
+        }) => ignore_return_value(arg, has_padding_value),
         _ => Some(expr),
     }
 }
@@ -821,21 +837,21 @@ const _ref = {}, { c =( _tmp = {}, d = _extends({}, _tmp), _tmp)  } = _ref;"
 ((a, b), (c())) + ((d, e), (f()));
 ",
         "var a, b, c, d, e, f;
-c() + f()"
+(a, b, c()) + (d, e, f())"
     );
 
-    test_fixer!(fixer_02, "(b, c), d;", "d;");
+    test_fixer!(fixer_02, "(b, c), d;", "b, c, d;");
 
-    test_fixer!(fixer_03, "((a, b), (c && d)) && e;", "c && d && e;");
+    test_fixer!(fixer_03, "((a, b), (c && d)) && e;", "(a, b, c && d) && e;");
 
-    test_fixer!(fixer_04, "for ((a, b), c;;) ;", "for(c;;);");
+    test_fixer!(fixer_04, "for ((a, b), c;;) ;", "for(a, b, c;;);");
 
     test_fixer!(
         fixer_05,
         "var a, b, c = (1), d, e, f = (2);
 ((a, b), c) + ((d, e), f);",
         "var a, b, c = 1, d, e, f = 2;
-c + f;"
+(a, b, c) + (d, e, f);"
     );
 
     test_fixer!(
@@ -843,14 +859,22 @@ c + f;"
         "var a, b, c, d;
 a = ((b, c), d);",
         "var a, b, c, d;
-a = d;"
+a = (b, c, d);"
     );
 
-    test_fixer!(fixer_07, "a => ((b, c) => ((a, b), c));", "(a)=>(b, c)=>c;");
+    test_fixer!(
+        fixer_07,
+        "a => ((b, c) => ((a, b), c));",
+        "(a)=>(b, c)=>(a, b, c);"
+    );
 
-    test_fixer!(fixer_08, "typeof (((1), a), (2));", "typeof 2");
+    test_fixer!(fixer_08, "typeof (((1), a), (2));", "typeof (1, a, 2)");
 
-    test_fixer!(fixer_09, "(((a, b), c), d) ? e : f;", "d ? e : f;");
+    test_fixer!(
+        fixer_09,
+        "(((a, b), c), d) ? e : f;",
+        "(a, b, c, d) ? e : f;"
+    );
 
     test_fixer!(
         fixer_10,
@@ -861,16 +885,18 @@ function a() {
 ",
         "
 function a() {
-  return void 3;
+  return 1, a, void 3;
 }
 "
     );
 
-    test_fixer!(fixer_11, "c && ((((2), (3)), d), b);", "c && b");
+    test_fixer!(fixer_11, "c && ((((2), (3)), d), b);", "c && (2, d, b)");
 
-    test_fixer!(fixer_12, "(((a, b), c), d) + e;", "d + e;");
+    test_fixer!(fixer_12, "(((a, b), c), d) + e;", "(a, b, c, d) + e;");
 
-    test_fixer!(fixer_13, "delete (((1), a), (2));", "delete 2");
+    test_fixer!(fixer_13, "delete (((1), a), (2));", "delete (1, a, 2)");
+
+    test_fixer!(fixer_14, "(1, 2, a)", "1, a");
 
     identical!(issue_231, "'' + (truthy && '?') + truthy;");
 
@@ -950,7 +976,7 @@ var store = global[SHARED] || (global[SHARED] = {});
 
     identical!(bin_seq_expr_1, "(foo(), op) || (seq(), foo)");
 
-    test_fixer!(bin_seq_expr_2, "(foo, op) || (seq, foo)", "op || foo");
+    identical!(bin_seq_expr_2, "(foo, op) || (seq, foo)");
 
     identical!(cond_object_1, "let foo = {} ? 1 : 2;");
 

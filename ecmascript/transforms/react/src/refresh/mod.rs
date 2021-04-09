@@ -15,7 +15,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{private_ident, quote_ident, quote_str};
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit};
 use util::{
     callee_should_ignore, gen_custom_hook_record, is_body_arrow_fn, is_builtin_hook,
     is_import_or_require, make_assign_stmt, make_call_expr, make_call_stmt, CollectIdent,
@@ -212,6 +212,9 @@ impl<C: Comments> Refresh<C> {
                             self.get_hook_from_expr(init, Some(&decl.name), &mut sign_res);
                         }
                     }
+                }
+                Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
+                    self.get_hook_from_expr(arg.as_ref(), None, &mut sign_res)
                 }
                 _ => {}
             }
@@ -790,7 +793,7 @@ impl<C: Comments> Fold for Refresh<C> {
             return module_items;
         }
 
-        module_items.visit_with(&Invalid { span: DUMMY_SP } as _, self);
+        self.visit_module_items(&module_items, &Invalid { span: DUMMY_SP } as _);
 
         for item in &module_items {
             item.collect_ident(&mut self.scope_binding);
