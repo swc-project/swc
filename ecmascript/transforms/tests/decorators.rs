@@ -721,7 +721,7 @@ let B = _decorate([dec], function (_initialize, _A) {
     constructor() {
       var _temp;
 
-      _temp = super(), _initialize(this), _temp;
+      0, _temp = super(), _initialize(this), _temp;
     }
 
   }
@@ -5214,7 +5214,7 @@ class Demo {
     "
 'use strict';
 var _moduleAJs = require('./moduleA.js');
-let Demo = _decorate([_moduleAJs.default('0.0.1')], function(_initialize) {
+let Demo = _decorate([(0, _moduleAJs).default('0.0.1')], function(_initialize) {
   class Demo{
       constructor(){
           _initialize(this);
