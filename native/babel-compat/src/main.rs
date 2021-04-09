@@ -1,3 +1,7 @@
+
+fn main() {}
+
+
 /*
 mod ser_union;
 use ser_union::SerializeUnion;
