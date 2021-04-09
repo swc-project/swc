@@ -22,7 +22,8 @@ impl Babelify for Program {
         File {
             base: program.base.clone(),
             program: program,
-            comments: Default::default(), // TODO(dwoznicki): implement
+            // comments: Default::default(), // TODO(dwoznicki): implement
+            comments: Some(vec![]), // TODO(dwoznicki): implement
             tokens: Default::default(),
         }
     }
