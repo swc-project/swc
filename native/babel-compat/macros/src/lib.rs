@@ -18,9 +18,23 @@ use syn;
 /// struct B {}
 ///
 /// #[derive(SerializeUnion)]
+/// #[serde(tag = "type")]
 /// enum X {
 ///     A(A),
 ///     B(B),
+/// }
+/// // Now X serializes simply as {"type": "A"} or {"type": "B"}
+/// ```
+///
+/// Note that `SerializeUnion` only works with enum variants that wrap another type.
+/// 
+/// ```rust
+/// #[derive(SerializeUnion)]
+/// #[serde(tag = "type")]
+/// enum X {
+///     A, // panic!
+///     B { value: usize }, // panic!
+///     C(C), // ok
 /// }
 /// ```
 #[proc_macro_derive(SerializeUnion)]
@@ -36,19 +50,9 @@ fn impl_serialize_union(ast: &syn::DeriveInput) -> TokenStream {
         _ => panic!("SerializeUnion can only be applied to enums"),
     };
 
-    /// Note that `SerializeUnion` only works with enum variants that wrap another type.
-    /// 
-    /// ```rust
-    /// #[derive(SerializeUnion)]
-    /// enum X {
-    ///     A, // panic!
-    ///     B { value: usize }, // panic!
-    ///     C(C), // ok
-    /// }
-    /// ```
     let vars: Vec<&syn::Ident> = data.variants.iter().map(|var| {
         match var.fields {
-            syn::Fields::Unit => panic!("SerializeUnion cannot be applied to enum variant without data {}", &var.ident),j
+            syn::Fields::Unit => panic!("SerializeUnion cannot be applied to enum variant without data {}", &var.ident),
             syn::Fields::Named(_) => panic!("SerializeUnion cannot be applied to enum variant with anonymous struct {}", &var.ident),
             syn::Fields::Unnamed(_) => &var.ident,
         }
