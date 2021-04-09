@@ -1,3 +1,4 @@
+use crate::ser_union::SerializeUnion;
 use serde::{Serialize, Deserialize};
 
 use crate::ast::{
@@ -8,9 +9,9 @@ use crate::ast::{
     stmt::{BlockStatement},
 };
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum UserWhitespacable {
     ObjectMethod(ObjectMethod),
     ObjectProperty(ObjectProperty),
@@ -21,9 +22,9 @@ pub enum UserWhitespacable {
     ObjectTypeSpreadProperty(ObjectTypeSpreadProperty),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum ObjectMember {
     #[serde(rename = "ObjectMember")]
     Method(ObjectMethod),
@@ -39,9 +40,9 @@ pub enum ObjectMethodKind {
     Set,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum ObjectKey {
     #[serde(rename = "Expression")]
     Expr(Expression),
@@ -78,9 +79,9 @@ pub struct ObjectMethod {
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum ObjectPropVal {
     #[serde(rename = "Expression")]
     Expr(Expression),

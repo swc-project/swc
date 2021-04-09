@@ -1,3 +1,4 @@
+use crate::ser_union::SerializeUnion;
 use serde::{Serialize, Deserialize};
 
 use crate::ast::{
@@ -6,9 +7,9 @@ use crate::ast::{
     typescript::TSType,
 };
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum Literal {
     #[serde(rename = "StringLiteral")]
     String(StringLiteral),
@@ -107,9 +108,9 @@ pub struct TemplateElement {
     pub tail: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum TemplateLiteralExpr {
     #[serde(rename = "Expression")]
     Expr(Expression),

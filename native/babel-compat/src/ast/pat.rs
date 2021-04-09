@@ -1,3 +1,4 @@
+use crate::ser_union::SerializeUnion;
 use serde::{Serialize, Deserialize};
 
 use crate::ast::{
@@ -6,9 +7,9 @@ use crate::ast::{
     object::{ObjectProperty},
 };
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum Pattern {
     #[serde(rename = "AssignmentPattern")]
     Assignment(AssignmentPattern),
@@ -18,9 +19,9 @@ pub enum Pattern {
     Object(ObjectPattern),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum ObjectPatternProp {
     #[serde(rename = "RestElement")]
     Rest(RestElement),
@@ -42,9 +43,9 @@ pub struct ObjectPattern {
     pub type_annotation: Option<TypeAnnotOrNoop>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum AssignmentPatternLeft {
     #[serde(rename = "Identifier")]
     Id(Identifier),

@@ -1,3 +1,4 @@
+use crate::ser_union::SerializeUnion;
 use serde::{Serialize, Deserialize};
 
 use crate::ast::{
@@ -10,9 +11,9 @@ use crate::ast::{
     stmt::{Statement},
 };
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum TSTypeElement {
     #[serde(rename = "TSCallSignatureDeclaration")]
     CallSignatureDecl(TSCallSignatureDeclaration),
@@ -26,9 +27,9 @@ pub enum TSTypeElement {
     IndexSignature(TSIndexSignature),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum TSType {
     #[serde(rename = "TSAnyKeyword")]
     AnyKeyword(TSAnyKeyword),
@@ -102,9 +103,9 @@ pub enum TSType {
     Import(TSImportType),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum TSBaseType {
     #[serde(rename = "TSAnyKeyword")]
     Any(TSAnyKeyword),
@@ -147,9 +148,9 @@ pub struct TSTypeAnnotation {
     pub type_annotation: TSType,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum TSParamPropParam {
     #[serde(rename = "Identifier")]
     Id(Identifier),
@@ -169,18 +170,18 @@ pub struct TSParameterProperty {
     pub readonly: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum TSFuncDeclTypeParams {
     #[serde(rename = "TSTypeParameterDeclaration")]
     Type(TSTypeParameterDeclaration),
     Noop(Noop),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum TSFuncDeclTypeAnnot {
     #[serde(rename = "TSTypeAnnotation")]
     Type(TSTypeAnnotation),
@@ -460,9 +461,9 @@ pub struct TSConstructorType {
     pub is_abstract: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum TSEntityName {
     #[serde(rename = "Identifier")]
     Id(Identifier),
@@ -481,9 +482,9 @@ pub struct TSTypeReference {
     pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum TSTypePredicateParamName {
     #[serde(rename = "Identifier")]
     Id(Identifier),
@@ -504,9 +505,9 @@ pub struct TSTypePredicate {
     pub asserts: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum TSTypeQueryExprName {
     #[serde(rename = "TSEntityName")]
     EntityName(TSEntityName),
@@ -541,9 +542,9 @@ pub struct TSArrayType {
     pub element_type: Box<TSType>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum TSTupleTypeElType {
     TSType(TSType),
     #[serde(rename = "TSNamedTupleMember")]
@@ -676,9 +677,9 @@ pub struct TSMappedType {
     pub readonly: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum TSLiteralTypeLiteral {
     #[serde(rename = "NumericLiteral")]
     Numeric(NumericLiteral),
@@ -794,9 +795,9 @@ pub struct TSEnumMember {
     pub initializer: Option<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum TSModuleDeclBody {
     #[serde(rename = "TSModuleBlock")]
     Block(TSModuleBlock),
@@ -839,9 +840,9 @@ pub struct TSImportType {
     pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum TSImportEqualsDeclModuleRef {
     #[serde(rename = "TSEntityName")]
     Name(TSEntityName),

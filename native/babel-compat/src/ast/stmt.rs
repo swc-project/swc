@@ -1,3 +1,4 @@
+use crate::ser_union::SerializeUnion;
 use serde::{Serialize, Deserialize};
 
 use crate::ast::{
@@ -19,9 +20,9 @@ use crate::ast::{
     },
 };
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum Statement {
     #[serde(rename = "BlockStatement")]
     Block(BlockStatement),
@@ -116,9 +117,9 @@ pub enum Statement {
     TSNamespaceExportDecl(TSNamespaceExportDeclaration),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum CompletionStatement {
     #[serde(rename = "BreakStatement")]
     Break(BreakStatement),
@@ -130,9 +131,9 @@ pub enum CompletionStatement {
     Throw(ThrowStatement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum Loop {
     #[serde(rename = "DoWhileStatement")]
     DoWhile(DoWhileStatement),
@@ -146,9 +147,9 @@ pub enum Loop {
     ForOf(ForOfStatement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum For {
     #[serde(rename = "ForInStatement")]
     InStmt(ForInStatement),
@@ -158,9 +159,9 @@ pub enum For {
     OfStmt(ForOfStatement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum ForXStatement {
     #[serde(rename = "ForInStatement")]
     ForIn(ForInStatement),
@@ -168,9 +169,9 @@ pub enum ForXStatement {
     ForOf(ForOfStatement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum While {
     #[serde(rename = "DoWhileStatement")]
     DoWhile(DoWhileStatement),
@@ -238,9 +239,9 @@ pub struct ExpressionStatement {
     pub expression: Expression,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum ForStmtInit {
     #[serde(rename = "VariableDeclaration")]
     VarDecl(VariableDeclaration),
@@ -248,9 +249,9 @@ pub enum ForStmtInit {
     Expr(Expression),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum ForStmtLeft {
     #[serde(rename = "VariableDeclaration")]
     VarDecl(VariableDeclaration),
@@ -349,9 +350,9 @@ pub struct ThrowStatement {
     pub argument: Expression,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum CatchClauseParam {
     #[serde(rename = "Identifier")]
     Id(Identifier),

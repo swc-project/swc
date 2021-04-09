@@ -1,3 +1,4 @@
+use crate::ser_union::SerializeUnion;
 use serde::{Serialize, Deserialize};
 
 use crate::ast::{
@@ -20,9 +21,9 @@ use crate::ast::{
     },
 };
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum Declaration {
     #[serde(rename = "FunctionDeclaration")]
     FuncDecl(FunctionDeclaration),
@@ -156,9 +157,9 @@ pub struct EnumStringMember {
     pub init: StringLiteral,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum EnumStringBodyMember {
     #[serde(rename = "EnumStringBodyMember")]
     String(EnumStringMember),
@@ -229,9 +230,9 @@ pub struct EnumSymbolBody {
     pub has_unknown_members: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum EnumDeclBody {
     #[serde(rename = "EnumBooleanBody")]
     Boolean(EnumBooleanBody),

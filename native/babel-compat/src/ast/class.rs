@@ -1,3 +1,4 @@
+use crate::ser_union::SerializeUnion;
 use serde::{Serialize, Deserialize};
 use serde_json::Value;
 
@@ -13,9 +14,9 @@ use crate::ast::{
     typescript::{TSDeclareMethod, TSIndexSignature, TSExpressionWithTypeArguments},
 };
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum Class {
     #[serde(rename = "ClassExpression")]
     Expr(ClassExpression),
@@ -152,9 +153,9 @@ pub struct ClassProperty {
     pub readonly: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum ClassBodyEl {
     #[serde(rename = "ClassMethod")]
     Method(ClassMethod),
@@ -179,9 +180,9 @@ pub struct ClassBody {
     pub body: Vec<ClassBodyEl>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum ClassImpl {
     #[serde(rename = "TSExpressionWithTypeArguments")]
     TSExpr(TSExpressionWithTypeArguments),

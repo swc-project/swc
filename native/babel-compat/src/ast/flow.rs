@@ -1,3 +1,4 @@
+use crate::ser_union::SerializeUnion;
 use serde::{Serialize, Deserialize};
 
 use crate::ast::{
@@ -8,9 +9,9 @@ use crate::ast::{
     stmt::{BlockStatement},
 };
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum Flow {
     AnyTypeAnnotation(AnyTypeAnnotation),
     ArrayTypeAnnotation(ArrayTypeAnnotation),
@@ -68,9 +69,9 @@ pub enum Flow {
     VoidTypeAnnotation(VoidTypeAnnotation),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum FlowType {
     #[serde(rename = "AnyTypeAnnotation")]
     Any(AnyTypeAnnotation),
@@ -122,9 +123,9 @@ pub enum FlowType {
     Void(VoidTypeAnnotation),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum FlowBaseAnnotation {
     #[serde(rename = "AnyTypeAnnotation")]
     Any(AnyTypeAnnotation),
@@ -148,9 +149,9 @@ pub enum FlowBaseAnnotation {
     Void(VoidTypeAnnotation),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum FlowDeclaration {
     #[serde(rename = "DeclareClass")]
     Class(DeclareClass),
@@ -175,9 +176,9 @@ pub enum FlowDeclaration {
     TypeAlias(TypeAlias),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum FlowPredicate {
     DeclaredPredicate(DeclaredPredicate),
     InferredPredicate(InferredPredicate),
@@ -375,9 +376,9 @@ pub struct ObjectTypeSpreadProperty {
     pub argument: FlowType,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum ObjectTypeAnnotProp {
     #[serde(rename = "ObjectTypeProperty")]
     Prop(ObjectTypeProperty),
@@ -710,9 +711,9 @@ pub struct DeclareVariable {
     pub id: Identifier,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum DeclareExportDeclSpecifier {
     #[serde(rename = "ExportSpecifier")]
     Export(ExportSpecifier),

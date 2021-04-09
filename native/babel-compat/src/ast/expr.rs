@@ -1,3 +1,4 @@
+use crate::ser_union::SerializeUnion;
 use serde::{Serialize, Deserialize};
 
 use crate::ast::{
@@ -20,9 +21,9 @@ use crate::ast::{
     },
 };
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum Expression {
     #[serde(rename = "ArrayExpression")]
     Array(ArrayExpression),
@@ -105,9 +106,9 @@ pub enum Expression {
     TSNonNull(TSNonNullExpression),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum ExpressionWrapper {
     #[serde(rename = "ExpressionStatement")]
     Stmt(ExpressionStatement),
@@ -117,9 +118,9 @@ pub enum ExpressionWrapper {
     TypeCast(TypeCastExpression),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum ArrayExprEl {
     #[serde(rename = "Expression")]
     Expr(Expression),
@@ -147,9 +148,9 @@ pub struct AssignmentExpression {
     pub right: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum MemberExprProp {
     #[serde(rename = "Expression")]
     Expr(Expression),
@@ -220,9 +221,9 @@ pub enum BinaryExprOp {
     LessThanOrEqual,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum BinaryExprLeft {
     #[serde(rename = "Expression")]
     Expr(Expression),
@@ -326,9 +327,9 @@ pub struct LogicalExpression {
     pub right: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum ObjectExprProp {
     #[serde(rename = "ObjectMethod")]
     Method(ObjectMethod),
@@ -421,9 +422,9 @@ pub struct UpdateExpression {
     pub prefix: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum ArrowFuncExprBody {
     #[serde(rename = "BlockStatement")]
     Block(BlockStatement),
@@ -475,9 +476,9 @@ pub struct ClassExpression {
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum TaggedTemplateExprTypeParams {
     #[serde(rename = "TypeParameterDeclaration")]
     Flow(TypeParameterDeclaration),
@@ -516,9 +517,9 @@ pub struct AwaitExpression {
     pub argument: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum OptionalMemberExprProp {
     #[serde(rename = "Expression")]
     Expr(Expression),
@@ -590,9 +591,9 @@ pub struct DoExpression {
     pub body: BlockStatement,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum RecordExprProp {
     #[serde(rename = "ObjectProperty")]
     Prop(ObjectProperty),
@@ -609,9 +610,9 @@ pub struct RecordExpression {
     pub properties: Vec<RecordExprProp>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
 pub enum TupleExprEl {
     #[serde(rename = "Expression")]
     Expr(Expression),
