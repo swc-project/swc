@@ -2513,3 +2513,73 @@ to!(
     Test = 2;
     "#
 );
+
+to!(
+    nested_fn_expr_var_scope,
+    r#"
+    var Test = (function () {
+        var Test = (function () {
+            var Test = 2;
+            return Test;
+        })();
+      
+        return Test;
+      })();      
+    "#,
+    r#"
+    var Test = function() {
+        var Test1 = function() {
+            var Test2 = 2;
+            return Test2;
+        }();
+        return Test1;
+    }();
+    "#
+);
+
+to!(
+    nested_fn_expr_var_scope_fn,
+    r#"
+    var Test = (function () {
+        var Test = (function () {
+            function Test() {}
+            return Test;
+        })();
+      
+        return Test;
+      })();      
+    "#,
+    r#"
+    var Test = function() {
+        var Test1 = function() {
+            function Test2() {
+            }
+            return Test2;
+        }();
+        return Test1;
+    }();
+    "#
+);
+
+to!(
+    nested_arrow_expr_var_scope,
+    r#"
+    var Test = (() => {
+        var Test = (() => {
+            var Test = 2;
+            return Test;
+        })();
+      
+        return Test;
+      })();          
+    "#,
+    r#"
+    var Test = (()=>{
+        var Test1 = (()=>{
+            var Test2 = 2;
+            return Test2;
+        })();
+        return Test1;
+    })();
+    "#
+);

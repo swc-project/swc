@@ -436,7 +436,7 @@ impl<'a> VisitMut for Resolver<'a> {
         let mut folder = Resolver::new(
             child_mark,
             Scope::new(ScopeKind::Fn, Some(&self.current)),
-            self.cur_defining.take(),
+            None,
             self.handle_types,
         );
 
@@ -630,7 +630,7 @@ impl<'a> VisitMut for Resolver<'a> {
         let mut folder = Resolver::new(
             child_mark,
             Scope::new(ScopeKind::Fn, Some(&self.current)),
-            self.cur_defining.take(),
+            None,
             self.handle_types,
         );
         if let Some(ident) = &mut e.ident {
