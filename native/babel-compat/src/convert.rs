@@ -123,7 +123,7 @@ impl Context {
             end,
             loc,
             // TODO(kdy1): Use this field.
-            extra: Default::default(),
+            // extra: Default::default(),
         }
     }
 

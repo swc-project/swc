@@ -21,3 +21,4 @@ swc_babel_compat_macros = {version = "0.1.0", path = "./macros"}
 
 [dev-dependencies]
 pretty_assertions = "0.7.1"
+walkdir = "2"

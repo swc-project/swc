@@ -1,4 +1,5 @@
 use crate::ser_union::SerializeUnion;
+use crate::defaults::some_false;
 use serde::{Serialize, Deserialize};
 
 use crate::ast::{
@@ -93,7 +94,7 @@ pub struct VariableDeclarator {
     pub id: LVal,
     #[serde(default)]
     pub init: Option<Expression>,
-    #[serde(default)]
+    #[serde(default = "some_false")]
     pub definite: Option<bool>,
 }
 
@@ -105,7 +106,7 @@ pub struct VariableDeclaration {
     pub kind: VariableDeclarationKind,
     #[serde(default)]
     pub declarations: Vec<VariableDeclarator>,
-    #[serde(default)]
+    #[serde(default = "some_false")]
     pub declare: Option<bool>,
 }
 

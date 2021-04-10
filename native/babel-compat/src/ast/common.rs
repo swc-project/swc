@@ -1,4 +1,5 @@
 use crate::ser_union::SerializeUnion;
+use crate::defaults::some_false;
 use ahash::RandomState;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -55,8 +56,10 @@ pub struct BaseNode {
     #[serde(default)]
     pub loc: Option<Loc>,
 
-    #[serde(default)]
-    pub extra: Option<HashMap<String, Value, RandomState>>,
+    // TODO(dwoznicki): I can't figure out what goes in this field, so I'm just
+    // removing it for now.
+    // #[serde(default)]
+    // pub extra: Option<HashMap<String, Value, RandomState>>,
 }
 
 #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
@@ -674,7 +677,7 @@ pub struct Identifier {
     pub name: String,
     #[serde(default)]
     pub decorators: Option<Vec<Decorator>>,
-    #[serde(default)]
+    #[serde(default = "some_false")]
     pub optional: Option<bool>,
     #[serde(default)]
     pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
