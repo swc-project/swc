@@ -687,7 +687,7 @@ impl Fixer<'_> {
 
 fn ignore_return_value(expr: Box<Expr>, has_padding_value: &mut bool) -> Option<Box<Expr>> {
     match *expr {
-        Expr::Fn(..) | Expr::Lit(..) => {
+        Expr::Fn(..) | Expr::Arrow(..) | Expr::Lit(..) | Expr::Tpl(..) => {
             if *has_padding_value {
                 None
             } else {
