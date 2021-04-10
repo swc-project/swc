@@ -3942,7 +3942,7 @@ class SuperClass extends Obj {
   constructor() {
     var _temp;
 
-    class B extends (_temp = super(), _defineProperty(this, 'field', 1), Obj) {
+    class B extends (_temp = super(), _defineProperty(this, 'field', 1), _temp, Obj) {
       constructor() {
         super();
         expect(this.field).toBeUndefined();
