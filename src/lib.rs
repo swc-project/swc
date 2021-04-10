@@ -18,10 +18,10 @@ use std::{
 };
 use swc_common::{
     chain,
-    comments::{Comment, Comments},
+    comments::{Comment, CommentKind, Comments},
     errors::Handler,
     input::StringInput,
-    BytePos, FileName, Globals, SourceFile, SourceMap, Spanned, GLOBALS,
+    BytePos, FileName, Globals, SourceFile, SourceMap, Spanned, DUMMY_SP, GLOBALS,
 };
 use swc_ecma_ast::Program;
 use swc_ecma_codegen::{self, Emitter, Node};
@@ -635,5 +635,17 @@ impl Comments for SwcComments {
 
     fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
         self.trailing.remove(&pos).map(|v| v.1)
+    }
+
+    fn add_pure_comment(&self, pos: BytePos) {
+        let mut comments = self.leading.entry(pos).or_default();
+        match comments.iter().find(|&c| c.text == "#__PURE__") {
+            Some(_) => {}
+            None => comments.push(Comment {
+                kind: CommentKind::Block,
+                span: DUMMY_SP,
+                text: "#__PURE__".into(),
+            }),
+        }
     }
 }

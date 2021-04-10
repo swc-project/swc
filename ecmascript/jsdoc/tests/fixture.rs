@@ -7,7 +7,7 @@ use dashmap::DashMap;
 use std::{env, path::PathBuf};
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
-    BytePos,
+    BytePos, DUMMY_SP,
 };
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 use test::{test_main, DynTestFn, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType};
@@ -181,5 +181,17 @@ impl Comments for SwcComments {
 
     fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
         self.trailing.remove(&pos).map(|v| v.1)
+    }
+
+    fn add_pure_comment(&self, pos: BytePos) {
+        let mut comments = self.leading.entry(pos).or_default();
+        match comments.iter().find(|&c| c.text == "#__PURE__") {
+            Some(_) => {}
+            None => comments.push(Comment {
+                kind: CommentKind::Block,
+                span: DUMMY_SP,
+                text: "#__PURE__".into(),
+            }),
+        }
     }
 }
