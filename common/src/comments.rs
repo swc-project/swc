@@ -38,7 +38,28 @@ pub trait Comments {
     fn move_trailing(&self, from: BytePos, to: BytePos);
     fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>>;
 
-    fn add_pure_comment(&self, pos: BytePos);
+    fn add_pure_comment(&self, pos: BytePos) {
+        let mut leading = self.take_leading(pos);
+        let pure_comment = Comment {
+            kind: CommentKind::Block,
+            span: DUMMY_SP,
+            text: "#__PURE__".into(),
+        };
+
+        match &mut leading {
+            Some(comments) => {
+                if !comments.iter().any(|c| c.text == pure_comment.text) {
+                    comments.push(pure_comment);
+                }
+            }
+            None => {
+                leading = Some(vec![pure_comment]);
+            }
+        }
+        if let Some(leading) = leading {
+            self.add_leading_comments(pos, leading);
+        }
+    }
 }
 
 macro_rules! delegate {
@@ -186,19 +207,6 @@ impl Comments for SingleThreadedComments {
 
     fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
         self.trailing.borrow_mut().remove(&pos)
-    }
-
-    fn add_pure_comment(&self, pos: BytePos) {
-        let mut trailing = self.leading.borrow_mut();
-        let comments = trailing.entry(pos).or_default();
-        match comments.iter().find(|&c| c.text == "#__PURE__") {
-            Some(_) => {}
-            None => comments.push(Comment {
-                kind: CommentKind::Block,
-                span: DUMMY_SP,
-                text: "#__PURE__".into(),
-            }),
-        }
     }
 }
 
