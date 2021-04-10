@@ -467,6 +467,7 @@ impl Fixer<'_> {
                     .sum();
 
                 let exprs_len = exprs.len();
+                // don't has child seq
                 let expr = if len == exprs_len {
                     let mut exprs = exprs
                         .into_iter()
@@ -484,6 +485,7 @@ impl Fixer<'_> {
                         *e = *exprs.pop().unwrap();
                         return;
                     }
+                    let exprs = ignore_padding_value(exprs);
                     Expr::Seq(SeqExpr { span: *span, exprs })
                 } else {
                     let mut buf = Vec::with_capacity(len);
@@ -529,12 +531,10 @@ impl Fixer<'_> {
                         *e = *buf.pop().unwrap();
                         return;
                     }
-                    buf.shrink_to_fit();
 
-                    Expr::Seq(SeqExpr {
-                        span: *span,
-                        exprs: buf,
-                    })
+                    let exprs = ignore_padding_value(buf);
+
+                    Expr::Seq(SeqExpr { span: *span, exprs })
                 };
 
                 match self.ctx {
@@ -687,7 +687,7 @@ impl Fixer<'_> {
 
 fn ignore_return_value(expr: Box<Expr>, has_padding_value: &mut bool) -> Option<Box<Expr>> {
     match *expr {
-        Expr::Fn(..) | Expr::Arrow(..) | Expr::Lit(..) | Expr::Tpl(..) => {
+        Expr::Fn(..) | Expr::Arrow(..) | Expr::Lit(..) => {
             if *has_padding_value {
                 None
             } else {
@@ -720,6 +720,24 @@ fn ignore_return_value(expr: Box<Expr>, has_padding_value: &mut bool) -> Option<
             ..
         }) => ignore_return_value(arg, has_padding_value),
         _ => Some(expr),
+    }
+}
+
+// at least 3 element in seq, which means we can safely
+// remove that padding, if not at last position
+fn ignore_padding_value(exprs: Vec<Box<Expr>>) -> Vec<Box<Expr>> {
+    let len = exprs.len();
+    if len > 2 {
+        exprs
+            .into_iter()
+            .enumerate()
+            .filter_map(|(i, e)| match e.as_ref() {
+                Expr::Fn(..) | Expr::Arrow(..) | Expr::Lit(..) if i + 1 != len => None,
+                _ => Some(e),
+            })
+            .collect()
+    } else {
+        exprs
     }
 }
 
@@ -868,7 +886,7 @@ a = (b, c, d);"
         "(a)=>(b, c)=>(a, b, c);"
     );
 
-    test_fixer!(fixer_08, "typeof (((1), a), (2));", "typeof (1, a, 2)");
+    test_fixer!(fixer_08, "typeof (((1), a), (2));", "typeof (a, 2)");
 
     test_fixer!(
         fixer_09,
@@ -885,16 +903,16 @@ function a() {
 ",
         "
 function a() {
-  return 1, a, void 3;
+  return a, void 3;
 }
 "
     );
 
-    test_fixer!(fixer_11, "c && ((((2), (3)), d), b);", "c && (2, d, b)");
+    test_fixer!(fixer_11, "c && ((((2), (3)), d), b);", "c && (d, b)");
 
     test_fixer!(fixer_12, "(((a, b), c), d) + e;", "(a, b, c, d) + e;");
 
-    test_fixer!(fixer_13, "delete (((1), a), (2));", "delete (1, a, 2)");
+    test_fixer!(fixer_13, "delete (((1), a), (2));", "delete (a, 2)");
 
     test_fixer!(fixer_14, "(1, 2, a)", "1, a");
 

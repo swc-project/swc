@@ -752,7 +752,8 @@ impl<C: Comments> Fold for Refresh<C> {
         self.scope_binding.truncate(orig_bindinga);
 
         if curr_hook.len() > 0 {
-            let stmts = mem::replace(&mut n.stmts, Vec::new());
+            let stmt_count = n.stmts.len();
+            let stmts = mem::replace(&mut n.stmts, Vec::with_capacity(stmt_count));
             n.stmts.push(self.gen_hook_handle(&curr_hook));
             let (mut handle_map, _) = hook_to_handle_map(curr_hook);
 
@@ -801,7 +802,7 @@ impl<C: Comments> Fold for Refresh<C> {
 
         let module_items = module_items.fold_children_with(self);
 
-        let mut items = Vec::new();
+        let mut items = Vec::with_capacity(module_items.len());
         let mut refresh_regs = Vec::<(Ident, String)>::new();
 
         if self.curr_hook_fn.len() > 0 {
