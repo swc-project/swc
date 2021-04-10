@@ -13,7 +13,7 @@ use anyhow::{Context as AnyhowContext, Error};
 use pretty_assertions::{assert_eq};
 use walkdir::WalkDir;
 use test::{test_main, TestDesc, TestDescAndFn, DynTestFn, ShouldPanic, TestName, TestType};
-use std::{sync::Arc, fs, env, path::PathBuf};
+use std::{sync::Arc, fs, env, path::{PathBuf, Path}};
 
 #[test]
 fn fixtures() {
@@ -24,7 +24,8 @@ fn fixtures() {
 }
 
 fn add_fixture_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
-    for entry in WalkDir::new(PathBuf::from(env::var("CARGO_MANIFEST_DIR")?).join("tests").join("fixtures")) {
+    let cargo_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR")?).join("tests").join("fixtures");
+    for entry in WalkDir::new(&cargo_dir) {
         let entry = entry
             .with_context(|| "Failed to walk dir")?;
         if !entry.file_type().is_dir() {
@@ -46,7 +47,7 @@ fn add_fixture_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
 
         add_test(
             tests,
-            format!("babel_compat::fixture::{}", entry.path().display()),
+            format!("babel_compat::convert::{}", get_test_name(entry.path(), &cargo_dir)?),
             false,
             move || {
                 run_test(input, output);
@@ -104,6 +105,11 @@ fn run_test(src: String, expected: String) {
     let expected_ast: File = serde_json::from_str(&expected).unwrap();
 
     assert_eq!(expected_ast, ast);
+}
+
+fn get_test_name(path: &Path, cargo_dir: &Path) -> Result<String, Error> {
+    let s: String = path.strip_prefix(cargo_dir)?.to_string_lossy().into();
+    Ok(s)
 }
 
 /*
