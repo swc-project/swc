@@ -541,6 +541,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let block = self.parse_block(false)?;
 
+        let _ = cur!(self, true);
         let catch_start = cur_pos!(self);
         let handler = self.parse_catch_clause()?;
         let finalizer = self.parse_finally_block()?;
