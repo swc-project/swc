@@ -1,7 +1,7 @@
 use crate::option::ManglePropertiesOptions;
 use crate::util::base54::base54;
 use std::collections::{HashMap, HashSet};
-use std::rc::Rc;
+use swc_atoms::JsWord;
 use swc_ecma_ast::{CallExpr, Expr, ExprOrSuper, Ident, Lit, MemberExpr, Module, PropName, Str};
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
@@ -9,15 +9,15 @@ use swc_ecma_visit::{VisitMut, VisitMutWith};
 struct ManglePropertiesState {
     options: ManglePropertiesOptions,
 
-    names_to_mangle: HashSet<String>,
-    unmangleable: HashSet<String>,
+    names_to_mangle: HashSet<JsWord>,
+    unmangleable: HashSet<JsWord>,
 
     // Cache of already mangled names
-    cache: HashMap<String, String>,
+    cache: HashMap<JsWord, JsWord>,
 }
 
 impl ManglePropertiesState {
-    fn add(&mut self, name: String) {
+    fn add(&mut self, name: &JsWord) {
         if self.can_mangle(&name) {
             self.names_to_mangle.insert(name.clone());
         }
@@ -27,7 +27,7 @@ impl ManglePropertiesState {
         }
     }
 
-    fn can_mangle(&self, name: &str) -> bool {
+    fn can_mangle(&self, name: &JsWord) -> bool {
         if self.unmangleable.contains(name) {
             false
         } else if self.options.reserved.contains(&name.to_string()) {
@@ -38,7 +38,7 @@ impl ManglePropertiesState {
         }
     }
 
-    fn should_mangle(&self, name: &str) -> bool {
+    fn should_mangle(&self, name: &JsWord) -> bool {
         if self.options.reserved.contains(&name.to_string()) {
             false
         } else {
@@ -69,17 +69,15 @@ struct Mangler<'a> {
 }
 
 impl Mangler<'_> {
-    fn mangle(&mut self, name: &str) -> Option<String> {
+    fn mangle(&mut self, name: &JsWord) -> Option<JsWord> {
         if self.state.should_mangle(name) {
             if let Some(cached) = self.state.cache.get(name) {
                 Some(cached.clone())
             } else {
                 let n = self.n;
                 self.n += 1;
-                let mangled_name = base54(n);
-                self.state
-                    .cache
-                    .insert(String::from(name), mangled_name.clone());
+                let mangled_name: JsWord = base54(n).into();
+                self.state.cache.insert(name.clone(), mangled_name.clone());
                 Some(mangled_name)
             }
         } else {
@@ -88,7 +86,7 @@ impl Mangler<'_> {
     }
 
     fn mangle_ident(&mut self, ident: &mut Ident) {
-        if let Some(mangled) = self.mangle(ident.sym.as_ref()) {
+        if let Some(mangled) = self.mangle(&ident.sym) {
             ident.sym = mangled.into();
         }
     }
@@ -143,10 +141,10 @@ impl VisitMut for PropertyCollector<'_> {
     fn visit_mut_prop_name(&mut self, name: &mut PropName) {
         match name {
             PropName::Ident(ident) => {
-                self.state.add(String::from(ident.sym.as_ref()));
+                self.state.add(&ident.sym);
             }
             PropName::Str(s) => {
-                self.state.add(String::from(s.value.as_ref()));
+                self.state.add(&s.value);
             }
             _ => {
                 name.visit_mut_children_with(self);
@@ -156,7 +154,7 @@ impl VisitMut for PropertyCollector<'_> {
 
     fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
         if let Some(prop_name) = get_object_define_property_name_arg(call) {
-            self.state.add(String::from(prop_name.value.as_ref()));
+            self.state.add(&prop_name.value);
         }
 
         call.visit_mut_children_with(self);
@@ -165,7 +163,7 @@ impl VisitMut for PropertyCollector<'_> {
     fn visit_mut_member_expr(&mut self, member_exp: &mut MemberExpr) {
         if !member_exp.computed {
             if let Expr::Ident(ident) = &mut *member_exp.prop {
-                self.state.add(String::from(ident.sym.as_ref()));
+                self.state.add(&ident.sym);
             }
         }
 
