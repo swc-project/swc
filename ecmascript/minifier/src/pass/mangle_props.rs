@@ -62,76 +62,7 @@ pub fn mangle_properties<'a>(m: &mut Module, options: ManglePropertiesOptions) {
     });
 }
 
-#[derive(Debug)]
-struct Mangler<'a> {
-    state: &'a mut ManglePropertiesState,
-    n: usize,
-}
-
-impl Mangler<'_> {
-    fn mangle(&mut self, name: &JsWord) -> Option<JsWord> {
-        if self.state.should_mangle(name) {
-            if let Some(cached) = self.state.cache.get(name) {
-                Some(cached.clone())
-            } else {
-                let n = self.n;
-                self.n += 1;
-                let mangled_name: JsWord = base54(n).into();
-                self.state.cache.insert(name.clone(), mangled_name.clone());
-                Some(mangled_name)
-            }
-        } else {
-            None
-        }
-    }
-
-    fn mangle_ident(&mut self, ident: &mut Ident) {
-        if let Some(mangled) = self.mangle(&ident.sym) {
-            ident.sym = mangled.into();
-        }
-    }
-
-    fn mangle_str(&mut self, string: &mut Str) {
-        if let Some(mangled) = self.mangle(&string.value) {
-            string.value = mangled.into();
-        }
-    }
-
-    // TODO mangle_private
-}
-
-impl VisitMut for Mangler<'_> {
-    fn visit_mut_prop_name(&mut self, name: &mut PropName) {
-        name.visit_mut_children_with(self);
-        match name {
-            PropName::Ident(ident) => {
-                self.mangle_ident(ident);
-            }
-            PropName::Str(string) => {
-                self.mangle_str(string);
-            }
-            _ => {}
-        }
-    }
-    fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
-        call.visit_mut_children_with(self);
-
-        if let Some(mut prop_name_str) = get_object_define_property_name_arg(call) {
-            self.mangle_str(&mut prop_name_str);
-        }
-    }
-    fn visit_mut_member_expr(&mut self, member_exp: &mut MemberExpr) {
-        member_exp.visit_mut_children_with(self);
-        if member_exp.computed {
-            // TODO reserve strings
-            return;
-        }
-        if let Expr::Ident(ident) = &mut *member_exp.prop {
-            self.mangle_ident(ident);
-        }
-    }
-}
-
+// Step 1 -- collect candidates to mangle
 #[derive(Debug)]
 pub struct PropertyCollector<'a> {
     state: &'a mut ManglePropertiesState,
@@ -205,5 +136,76 @@ fn get_object_define_property_name_arg<'a>(call: &'a mut CallExpr) -> Option<&'a
         }
     } else {
         None
+    }
+}
+
+// Step 2 -- mangle those properties
+#[derive(Debug)]
+struct Mangler<'a> {
+    state: &'a mut ManglePropertiesState,
+    n: usize,
+}
+
+impl Mangler<'_> {
+    fn mangle(&mut self, name: &JsWord) -> Option<JsWord> {
+        if self.state.should_mangle(name) {
+            if let Some(cached) = self.state.cache.get(name) {
+                Some(cached.clone())
+            } else {
+                let n = self.n;
+                self.n += 1;
+                let mangled_name: JsWord = base54(n).into();
+                self.state.cache.insert(name.clone(), mangled_name.clone());
+                Some(mangled_name)
+            }
+        } else {
+            None
+        }
+    }
+
+    fn mangle_ident(&mut self, ident: &mut Ident) {
+        if let Some(mangled) = self.mangle(&ident.sym) {
+            ident.sym = mangled.into();
+        }
+    }
+
+    fn mangle_str(&mut self, string: &mut Str) {
+        if let Some(mangled) = self.mangle(&string.value) {
+            string.value = mangled.into();
+        }
+    }
+
+    // TODO mangle_private
+}
+
+impl VisitMut for Mangler<'_> {
+    fn visit_mut_prop_name(&mut self, name: &mut PropName) {
+        name.visit_mut_children_with(self);
+        match name {
+            PropName::Ident(ident) => {
+                self.mangle_ident(ident);
+            }
+            PropName::Str(string) => {
+                self.mangle_str(string);
+            }
+            _ => {}
+        }
+    }
+    fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
+        call.visit_mut_children_with(self);
+
+        if let Some(mut prop_name_str) = get_object_define_property_name_arg(call) {
+            self.mangle_str(&mut prop_name_str);
+        }
+    }
+    fn visit_mut_member_expr(&mut self, member_exp: &mut MemberExpr) {
+        member_exp.visit_mut_children_with(self);
+        if member_exp.computed {
+            // TODO reserve strings
+            return;
+        }
+        if let Expr::Ident(ident) = &mut *member_exp.prop {
+            self.mangle_ident(ident);
+        }
     }
 }
