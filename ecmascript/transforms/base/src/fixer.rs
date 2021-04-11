@@ -727,6 +727,7 @@ fn ignore_return_value(expr: Box<Expr>, has_padding_value: &mut bool) -> Option<
 // remove that padding, if not at last position
 fn ignore_padding_value(exprs: Vec<Box<Expr>>) -> Vec<Box<Expr>> {
     let len = exprs.len();
+    println!("{:#?}", exprs);
     if len > 2 {
         exprs
             .into_iter()
