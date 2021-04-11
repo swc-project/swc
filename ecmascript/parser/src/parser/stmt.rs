@@ -546,7 +546,10 @@ impl<'a, I: Tokens> Parser<I> {
         let finalizer = self.parse_finally_block()?;
 
         if handler.is_none() && finalizer.is_none() {
-            self.emit_err(span!(self, catch_start), SyntaxError::TS1005);
+            self.emit_err(
+                Span::new(catch_start, catch_start, Default::default()),
+                SyntaxError::TS1005,
+            );
         }
 
         let span = span!(self, start);
