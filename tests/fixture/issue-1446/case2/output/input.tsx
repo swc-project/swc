@@ -1,1 +1,1 @@
-const Span = React.createElement("span", null, "with&nbsp");
+const Span = /*#__PURE__*/ React.createElement("span", null, "with&nbsp");

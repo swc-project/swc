@@ -5,6 +5,7 @@ pub use self::{
     jsx::{jsx, Options},
     jsx_self::jsx_self,
     jsx_src::jsx_src,
+    pure_annotations::pure_annotations,
     refresh::refresh,
 };
 use swc_common::{chain, comments::Comments, sync::Lrc, SourceMap};
@@ -14,6 +15,7 @@ mod display_name;
 mod jsx;
 mod jsx_self;
 mod jsx_src;
+mod pure_annotations;
 mod refresh;
 
 /// `@babel/preset-react`
@@ -32,6 +34,7 @@ where
         display_name(),
         jsx_src(development, cm.clone()),
         jsx_self(development),
+        pure_annotations(comments.clone()),
         refresh(development, refresh_options, cm.clone(), comments)
     )
 }

@@ -1,6 +1,6 @@
 use crate::{
     pos::Spanned,
-    syntax_pos::{BytePos, Span},
+    syntax_pos::{BytePos, Span, DUMMY_SP},
 };
 use fxhash::FxHashMap;
 use std::{
@@ -37,6 +37,29 @@ pub trait Comments {
     fn has_trailing(&self, pos: BytePos) -> bool;
     fn move_trailing(&self, from: BytePos, to: BytePos);
     fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>>;
+
+    fn add_pure_comment(&self, pos: BytePos) {
+        let mut leading = self.take_leading(pos);
+        let pure_comment = Comment {
+            kind: CommentKind::Block,
+            span: DUMMY_SP,
+            text: "#__PURE__".into(),
+        };
+
+        match &mut leading {
+            Some(comments) => {
+                if !comments.iter().any(|c| c.text == pure_comment.text) {
+                    comments.push(pure_comment);
+                }
+            }
+            None => {
+                leading = Some(vec![pure_comment]);
+            }
+        }
+        if let Some(leading) = leading {
+            self.add_leading_comments(pos, leading);
+        }
+    }
 }
 
 macro_rules! delegate {
@@ -79,6 +102,10 @@ macro_rules! delegate {
 
         fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
             (**self).take_trailing(pos)
+        }
+
+        fn add_pure_comment(&self, pos: BytePos) {
+            (**self).add_pure_comment(pos)
         }
     };
 }

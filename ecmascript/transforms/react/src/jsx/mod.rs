@@ -220,6 +220,10 @@ where
 
         let use_jsxs = count_children(&el.children) > 1;
 
+        if let Some(comments) = &self.comments {
+            comments.add_pure_comment(span.lo);
+        }
+
         match self.runtime {
             Runtime::Automatic => {
                 let jsx = if use_jsxs {
@@ -324,6 +328,10 @@ where
         self.top_level_node = false;
 
         let name = self.jsx_name(el.opening.name);
+
+        if let Some(comments) = &self.comments {
+            comments.add_pure_comment(span.lo);
+        }
 
         match self.runtime {
             Runtime::Automatic => {
