@@ -1,8 +1,11 @@
+use crate::analyzer::analyze;
+use crate::analyzer::ProgramData;
 use crate::option::ManglePropertiesOptions;
 use crate::util::base54::base54;
 use std::collections::{HashMap, HashSet};
 use swc_atoms::JsWord;
 use swc_ecma_ast::{CallExpr, Expr, ExprOrSuper, Ident, Lit, MemberExpr, Module, PropName, Str};
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 #[derive(Debug, Default)]
@@ -54,7 +57,11 @@ pub fn mangle_properties<'a>(m: &mut Module, options: ManglePropertiesOptions) {
         ..Default::default()
     };
 
-    m.visit_mut_with(&mut PropertyCollector { state: &mut state });
+    let data = analyze(&*m);
+    m.visit_mut_with(&mut PropertyCollector {
+        state: &mut state,
+        data,
+    });
 
     m.visit_mut_with(&mut Mangler {
         state: &mut state,
@@ -65,6 +72,7 @@ pub fn mangle_properties<'a>(m: &mut Module, options: ManglePropertiesOptions) {
 // Step 1 -- collect candidates to mangle
 #[derive(Debug)]
 pub struct PropertyCollector<'a> {
+    data: ProgramData,
     state: &'a mut ManglePropertiesState,
 }
 
@@ -91,14 +99,36 @@ impl VisitMut for PropertyCollector<'_> {
         call.visit_mut_children_with(self);
     }
 
-    fn visit_mut_member_expr(&mut self, member_exp: &mut MemberExpr) {
-        if !member_exp.computed {
-            if let Expr::Ident(ident) = &mut *member_exp.prop {
+    fn visit_mut_member_expr(&mut self, member_expr: &mut MemberExpr) {
+        let is_root_declared = if !self.state.options.undeclared {
+            is_root_of_member_expr_declared(member_expr, &self.data)
+        } else {
+            true
+        };
+
+        if is_root_declared && !member_expr.computed {
+            if let Expr::Ident(ident) = &mut *member_expr.prop {
                 self.state.add(&ident.sym);
             }
         }
 
-        member_exp.visit_mut_children_with(self);
+        member_expr.visit_mut_children_with(self);
+    }
+}
+
+fn is_root_of_member_expr_declared(member_expr: &MemberExpr, data: &ProgramData) -> bool {
+    match &member_expr.obj {
+        ExprOrSuper::Expr(boxed_exp) => match &**boxed_exp {
+            Expr::Member(member_expr) => is_root_of_member_expr_declared(member_expr, data),
+            Expr::Ident(expr) => data
+                .vars
+                .get(&expr.to_id())
+                .and_then(|var| Some(var.declared))
+                .unwrap_or(false),
+
+            _ => false,
+        },
+        ExprOrSuper::Super(_) => true,
     }
 }
 
@@ -198,13 +228,13 @@ impl VisitMut for Mangler<'_> {
             self.mangle_str(&mut prop_name_str);
         }
     }
-    fn visit_mut_member_expr(&mut self, member_exp: &mut MemberExpr) {
-        member_exp.visit_mut_children_with(self);
-        if member_exp.computed {
+    fn visit_mut_member_expr(&mut self, member_expr: &mut MemberExpr) {
+        member_expr.visit_mut_children_with(self);
+        if member_expr.computed {
             // TODO reserve strings
             return;
         }
-        if let Expr::Ident(ident) = &mut *member_exp.prop {
+        if let Expr::Ident(ident) = &mut *member_expr.prop {
             self.mangle_ident(ident);
         }
     }

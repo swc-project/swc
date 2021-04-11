@@ -57,6 +57,8 @@ pub struct MangleOptions {
 pub struct ManglePropertiesOptions {
     #[serde(default, alias = "reserved")]
     pub reserved: Vec<String>,
+    #[serde(default, alias = "undeclared")]
+    pub undeclared: bool,
 }
 
 /// https://terser.org/docs/api-reference.html#compress-options
