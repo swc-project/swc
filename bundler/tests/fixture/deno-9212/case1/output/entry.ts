@@ -5820,7 +5820,7 @@ var ia = Bn((re1)=>{
         scheduleUpdate: null,
         currentDispatcherRef: Ge.ReactCurrentDispatcher,
         findHostInstanceByFiber: function(e) {
-            return (e = Qo(e), e === null ? null : e.stateNode);
+            return e = Qo(e), e === null ? null : e.stateNode;
         },
         findFiberByHostInstance: Ft.findFiberByHostInstance || vc,
         findHostInstancesForRefresh: null,
