@@ -249,11 +249,13 @@ impl SimplifyExpr {
                                 once(Box::new(Expr::Object(ObjectLit { props, span }))),
                             )
                         }
-                        None => preserve_effects(
-                            span,
-                            *undefined(span),
-                            once(Box::new(Expr::Object(ObjectLit { props, span }))),
-                        ),
+                        None => Expr::Member(MemberExpr {
+                            obj: ExprOrSuper::Expr(Box::new(Expr::Object(ObjectLit {
+                                props,
+                                span,
+                            }))),
+                            ..e
+                        }),
                     }
                 }
                 _ => Expr::Member(MemberExpr {
