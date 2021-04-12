@@ -461,6 +461,13 @@ impl Fixer<'_> {
                 let len = exprs
                     .iter()
                     .map(|expr| match **expr {
+                        Expr::Paren(ParenExpr { ref expr, .. }) => {
+                            if let Expr::Seq(SeqExpr { exprs, .. }) = expr.as_ref() {
+                                exprs.len()
+                            } else {
+                                1
+                            }
+                        }
                         Expr::Seq(SeqExpr { ref exprs, .. }) => exprs.len(),
                         _ => 1,
                     })
@@ -538,7 +545,7 @@ impl Fixer<'_> {
                 };
 
                 match self.ctx {
-                    Context::ForcedExpr { .. } | Context::Callee { .. } => {
+                    Context::ForcedExpr { .. } => {
                         *e = Expr::Paren(ParenExpr {
                             span: *span,
                             expr: Box::new(expr),
@@ -576,6 +583,16 @@ impl Fixer<'_> {
                     Context::Callee { is_new: true } => self.wrap(e),
                     _ => {}
                 }
+            }
+
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(ref mut callee),
+                ..
+            }) if callee.is_seq() => {
+                *callee = Box::new(Expr::Paren(ParenExpr {
+                    span: callee.span(),
+                    expr: callee.take(),
+                }))
             }
 
             Expr::Call(CallExpr {
@@ -727,7 +744,7 @@ fn ignore_return_value(expr: Box<Expr>, has_padding_value: &mut bool) -> Option<
 // remove that padding, if not at last position
 fn ignore_padding_value(exprs: Vec<Box<Expr>>) -> Vec<Box<Expr>> {
     let len = exprs.len();
-    println!("{:#?}", exprs);
+
     if len > 2 {
         exprs
             .into_iter()
@@ -1132,6 +1149,12 @@ var store = global[SHARED] || (global[SHARED] = {});
 
     identical!(issue_1493, "('a' ?? 'b') || ''");
     identical!(call_seq, "let x = ({}, () => 2)();");
+
+    test_fixer!(
+        call_seq_with_padding,
+        "let x = ({}, (1, 2), () => 2)();",
+        "let x = ({}, () => 2)();"
+    );
 
     identical!(
         param_seq,
