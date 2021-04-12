@@ -751,27 +751,6 @@ pub enum Param {
     TSProp(TSParameterProperty),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-pub struct ArgumentPlaceholder {
-    #[serde(flatten)]
-    pub base: BaseNode,
-}
-
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
-pub enum Arg {
-    #[serde(rename = "Expression")]
-    Expr(Expression),
-    #[serde(rename = "SpreadElement")]
-    Spread(SpreadElement),
-    #[serde(rename = "JSXNamespacedName")]
-    JSXName(JSXNamespacedName),
-    #[serde(rename = "ArgumentPlaceholder")]
-    Placeholder(ArgumentPlaceholder),
-}
-
 #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 // #[serde(untagged)]

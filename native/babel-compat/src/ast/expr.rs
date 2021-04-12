@@ -4,11 +4,11 @@ use serde::{Serialize, Deserialize};
 use crate::ast::{
     class::{ClassBody, ClassImpl},
     common::{
-        BaseNode, SpreadElement, LVal, Identifier, PrivateName, MetaProperty, Arg, Param,
-        Decorator, TypeAnnotOrNoop, TypeParamDeclOrNoop, SuperTypeParams,
+        BaseNode, SpreadElement, LVal, Identifier, PrivateName, MetaProperty, Param, Decorator,
+        TypeAnnotOrNoop, TypeParamDeclOrNoop, SuperTypeParams,
     },
     flow::{TypeParameterInstantiation, TypeParameterDeclaration, TypeAnnotation, InterfaceExtends},
-    jsx::{JSXElement, JSXFragment},
+    jsx::{JSXElement, JSXFragment, JSXNamespacedName},
     lit::{
         StringLiteral, NumericLiteral, NullLiteral, BooleanLiteral, RegExpLiteral,
         TemplateLiteral, BigIntLiteral, DecimalLiteral,
@@ -251,13 +251,34 @@ pub struct V8IntrinsicIdentifier {
 }
 
 #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Callee {
     #[serde(rename = "Expression")]
     Expr(Expression),
     #[serde(rename = "V8IntrinsicIdentifier")]
     V8Id(V8IntrinsicIdentifier),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+pub struct ArgumentPlaceholder {
+    #[serde(flatten)]
+    pub base: BaseNode,
+}
+
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+// #[serde(tag = "type")]
+#[serde(untagged)]
+pub enum Arg {
+    #[serde(rename = "Expression")]
+    Expr(Expression),
+    #[serde(rename = "SpreadElement")]
+    Spread(SpreadElement),
+    #[serde(rename = "JSXNamespacedName")]
+    JSXName(JSXNamespacedName),
+    #[serde(rename = "ArgumentPlaceholder")]
+    Placeholder(ArgumentPlaceholder),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
