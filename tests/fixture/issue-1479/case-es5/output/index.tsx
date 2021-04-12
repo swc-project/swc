@@ -1,3 +1,3 @@
-var a = React.createElement("div", {
+var a = /*#__PURE__*/ React.createElement("div", {
     id: "abc>"
 });

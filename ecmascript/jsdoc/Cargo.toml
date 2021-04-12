@@ -5,7 +5,7 @@ documentation = "https://rustdoc.swc.rs/jsdoc/"
 edition = "2018"
 license = "Apache-2.0/MIT"
 name = "jsdoc"
-version = "0.22.0"
+version = "0.22.1"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -13,12 +13,12 @@ version = "0.22.0"
 nom = "5.1.2"
 serde = {version = "1", features = ["derive"]}
 swc_atoms = {version = "0.2", path = "../../atoms"}
-swc_common = {version = "0.10.10", path = "../../common"}
+swc_common = {version = "0.10.16", path = "../../common"}
 
 [dev-dependencies]
 anyhow = "1"
 dashmap = "3"
-swc_ecma_ast = {version = "0.43.0", path = "../ast"}
-swc_ecma_parser = {version = "0.54.0", path = "../parser"}
-testing = {version = "0.10.3", path = "../../testing"}
+swc_ecma_ast = {version = "0.43.1", path = "../ast"}
+swc_ecma_parser = {version = "0.54.2", path = "../parser"}
+testing = {version = "0.10.5", path = "../../testing"}
 walkdir = "2"
