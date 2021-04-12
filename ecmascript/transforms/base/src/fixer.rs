@@ -119,6 +119,13 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
     }
 
+    fn visit_mut_param(&mut self, node: &mut Param) {
+        let old = self.ctx;
+        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        node.visit_mut_children_with(self);
+        self.ctx = old;
+    }
+
     fn visit_mut_assign_expr(&mut self, expr: &mut AssignExpr) {
         expr.visit_mut_children_with(self);
 
@@ -389,6 +396,13 @@ impl VisitMut for Fixer<'_> {
         }
     }
 
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        let old = self.ctx;
+        self.ctx = Context::Default;
+        s.visit_mut_children_with(self);
+        self.ctx = old;
+    }
+
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
         let old = self.ctx;
         self.ctx = Context::Default;
@@ -515,7 +529,7 @@ impl Fixer<'_> {
                 };
 
                 match self.ctx {
-                    Context::ForcedExpr { .. } => {
+                    Context::ForcedExpr { .. } | Context::Callee { .. } => {
                         *e = Expr::Paren(ParenExpr {
                             span: *span,
                             expr: Box::new(expr),
@@ -1072,4 +1086,12 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(deno_9810, "await (bar = Promise.resolve(2));");
 
     identical!(issue_1493, "('a' ?? 'b') || ''");
+    identical!(call_seq, "let x = ({}, () => 2)();");
+
+    identical!(
+        param_seq,
+        "function t(x = ({}, 2)) {
+            return x;
+        }"
+    );
 }
