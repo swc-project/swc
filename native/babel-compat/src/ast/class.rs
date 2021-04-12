@@ -15,8 +15,8 @@ use crate::ast::{
 };
 
 #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Class {
     #[serde(rename = "ClassExpression")]
     Expr(ClassExpression),
