@@ -1321,7 +1321,7 @@ expect(foo()).toBe(false);
             ].every(function(x) {
                 return x != i;
             }));
-            if (i1 % 2 === 0) return (i = i1, "continue");
+            if (i1 % 2 === 0) return i = i1, "continue";
             i = i1, void 0;
         };
         for(var i = 0; i < 5; i++){
@@ -1356,7 +1356,7 @@ expect(foo()).toBe(false);
             ].every(function(x) {
                 return x != i;
             }));
-            if (i1 % 2 === 0) return (i = i1, "break");
+            if (i1 % 2 === 0) return i = i1, "break";
             i = i1, void 0;
         };
         for(var i = 0; i < 5; i++){
