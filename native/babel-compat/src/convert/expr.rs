@@ -1,7 +1,7 @@
 use super::Context;
 use crate::ast::{
     common::{
-        SpreadElement as BabelSpreadElement, PrivateName, LVal, Callee, Arg, MetaProperty,
+        SpreadElement as BabelSpreadElement, PrivateName, LVal, Arg, MetaProperty,
     },
     expr::{
         Expression, ThisExpression, ArrayExpression, ArrayExprEl, ObjectExpression, ObjectExprProp,
@@ -9,7 +9,7 @@ use crate::ast::{
         ClassExpression, AssignmentExpression, MemberExpression, Super as BabelSuper,
         MemberExprProp, ConditionalExpression, CallExpression, NewExpression, SequenceExpression,
         ArrowFunctionExpression, ArrowFuncExprBody, YieldExpression, AwaitExpression,
-        TaggedTemplateExpression, TaggedTemplateExprTypeParams, ParenthesizedExpression,
+        TaggedTemplateExpression, TaggedTemplateExprTypeParams, ParenthesizedExpression, Callee,
     },
     jsx::{JSXSpreadAttribute},
     lit::{TemplateLiteral, TemplateLiteralExpr, TemplateElement, TemplateElVal},

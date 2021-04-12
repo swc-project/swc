@@ -858,25 +858,6 @@ pub enum Access {
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
-pub struct V8IntrinsicIdentifier {
-    #[serde(flatten)]
-    pub base: BaseNode,
-    #[serde(default)]
-    pub name: String,
-}
-
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
-pub enum Callee {
-    #[serde(rename = "Expression")]
-    Expr(Expression),
-    #[serde(rename = "V8IntrinsicIdentifier")]
-    V8Id(V8IntrinsicIdentifier),
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
 pub struct MetaProperty {
     #[serde(flatten)]
     pub base: BaseNode,

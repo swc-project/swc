@@ -4,7 +4,7 @@ use serde::{Serialize, Deserialize};
 use crate::ast::{
     class::{ClassBody, ClassImpl},
     common::{
-        BaseNode, SpreadElement, LVal, Identifier, PrivateName, MetaProperty, Arg, Callee, Param,
+        BaseNode, SpreadElement, LVal, Identifier, PrivateName, MetaProperty, Arg, Param,
         Decorator, TypeAnnotOrNoop, TypeParamDeclOrNoop, SuperTypeParams,
     },
     flow::{TypeParameterInstantiation, TypeParameterDeclaration, TypeAnnotation, InterfaceExtends},
@@ -239,6 +239,25 @@ pub struct BinaryExpression {
     pub operator: BinaryExprOp,
     pub left: Box<BinaryExprLeft>,
     pub right: Box<Expression>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+pub struct V8IntrinsicIdentifier {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    #[serde(default)]
+    pub name: String,
+}
+
+#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[serde(tag = "type")]
+// #[serde(untagged)]
+pub enum Callee {
+    #[serde(rename = "Expression")]
+    Expr(Expression),
+    #[serde(rename = "V8IntrinsicIdentifier")]
+    V8Id(V8IntrinsicIdentifier),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
