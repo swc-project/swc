@@ -1,5 +1,6 @@
+var propa = 1;
 var a = {
-    p: 1,
+    p: propa,
     get o() {
         return 2;
     },

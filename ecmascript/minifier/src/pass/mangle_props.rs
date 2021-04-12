@@ -4,7 +4,9 @@ use crate::option::ManglePropertiesOptions;
 use crate::util::base54::base54;
 use std::collections::{HashMap, HashSet};
 use swc_atoms::JsWord;
-use swc_ecma_ast::{CallExpr, Expr, ExprOrSuper, Ident, Lit, MemberExpr, Module, PropName, Str};
+use swc_ecma_ast::{
+    CallExpr, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, Module, Prop, PropName, Str,
+};
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
@@ -89,6 +91,14 @@ impl VisitMut for PropertyCollector<'_> {
                 name.visit_mut_children_with(self);
             }
         };
+    }
+
+    fn visit_mut_prop(&mut self, prop: &mut Prop) {
+        if let Prop::Shorthand(ident) = prop {
+            self.state.add(&ident.sym);
+        }
+
+        prop.visit_mut_children_with(self);
     }
 
     fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
@@ -221,6 +231,22 @@ impl VisitMut for Mangler<'_> {
             _ => {}
         }
     }
+
+    fn visit_mut_prop(&mut self, prop: &mut Prop) {
+        prop.visit_mut_children_with(self);
+
+        if let Prop::Shorthand(ident) = prop {
+            let mut new_ident = ident.clone();
+
+            self.mangle_ident(&mut new_ident);
+
+            *prop = Prop::KeyValue(KeyValueProp {
+                key: PropName::Ident(new_ident),
+                value: Box::new(Expr::Ident(ident.clone())),
+            });
+        }
+    }
+
     fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
         call.visit_mut_children_with(self);
 
@@ -228,6 +254,7 @@ impl VisitMut for Mangler<'_> {
             self.mangle_str(&mut prop_name_str);
         }
     }
+
     fn visit_mut_member_expr(&mut self, member_expr: &mut MemberExpr) {
         member_expr.visit_mut_children_with(self);
         if member_expr.computed {
