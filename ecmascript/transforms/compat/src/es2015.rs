@@ -163,7 +163,7 @@ function foo(scope) {
 ",
         "
 function foo(scope) {
-    let startOperation = function startOperation(operation) {
+    let startOperation = function startOperation1(operation) {
         scope.agentOperation = operation;
     };
     scope.startOperation = startOperation;

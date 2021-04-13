@@ -54,9 +54,9 @@ var _dec = ViewColumn({
     expression: "\n    SELECT\n        m.tmcode, m.mid, m.accea, m.qaccea, m.endday, m.quick_endday,\n        (SELECT COUNT(*) FROM TBLACCOUNT a WHERE m.mid = a.mid AND a.use_quick=\"F\") as accountCnt,\n        (SELECT COUNT(*) FROM TBLACCOUNT a WHERE m.mid = a.mid AND a.use_quick=\"T\") as accountQuickCnt\n    FROM TBLMEMBER m\n    "
 });
 export var AccountMemberView = _class = _dec8((_class = function() {
-    var AccountMemberView = function AccountMemberView() {
+    var AccountMemberView1 = function AccountMemberView1() {
         "use strict";
-        _classCallCheck(this, AccountMemberView);
+        _classCallCheck(this, AccountMemberView1);
         _initializerDefineProperty(this, "memberId", _descriptor, this);
         _initializerDefineProperty(this, "mallId", _descriptor1, this);
         _initializerDefineProperty(this, "allowAccountCnt", _descriptor2, this);
@@ -66,7 +66,7 @@ export var AccountMemberView = _class = _dec8((_class = function() {
         _initializerDefineProperty(this, "accountCnt", _descriptor6, this);
         _initializerDefineProperty(this, "accountQuickCnt", _descriptor7, this);
     };
-    return AccountMemberView;
+    return AccountMemberView1;
 }(), _descriptor = _applyDecoratedDescriptor(_class.prototype, "memberId", [
     _dec,
     typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Number)

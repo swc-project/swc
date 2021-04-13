@@ -133,11 +133,10 @@ fn test_mark_for() {
         let mark3 = Mark::fresh(mark2);
         let mark4 = Mark::fresh(mark3);
 
-        let folder1 = Resolver::new(mark1, Scope::new(ScopeKind::Block, None), None, true);
+        let folder1 = Resolver::new(mark1, Scope::new(ScopeKind::Block, None), true);
         let mut folder2 = Resolver::new(
             mark2,
             Scope::new(ScopeKind::Block, Some(&folder1.current)),
-            None,
             true,
         );
         folder2.current.declared_symbols.insert("foo".into());
@@ -145,7 +144,6 @@ fn test_mark_for() {
         let mut folder3 = Resolver::new(
             mark3,
             Scope::new(ScopeKind::Block, Some(&folder2.current)),
-            None,
             true,
         );
         folder3.current.declared_symbols.insert("bar".into());
@@ -154,7 +152,6 @@ fn test_mark_for() {
         let mut folder4 = Resolver::new(
             mark4,
             Scope::new(ScopeKind::Block, Some(&folder3.current)),
-            None,
             true,
         );
         folder4.current.declared_symbols.insert("foo".into());
@@ -195,8 +192,8 @@ to!(
         }
         ",
     "
-        var ConstructorScoping = function ConstructorScoping() {
-            _classCallCheck(this, ConstructorScoping);
+        var ConstructorScoping = function ConstructorScoping1() {
+            _classCallCheck(this, ConstructorScoping1);
             var bar;
             {
                 let bar1;
@@ -542,11 +539,11 @@ to!(
         }(Bar);
     "#,
     r#"
-    var Foo = function(_Bar) {
-            _inherits(Foo, _Bar);
-            function Foo() {
+    var Foo1 = function(_Bar) {
+            _inherits(Foo2, _Bar);
+            function Foo2() {
             }
-            return Foo;
+            return Foo2;
         }(Bar);
         "#
 );
@@ -562,11 +559,11 @@ to!(
         })(Bar);
     "#,
     r#"
-    var Foo = function(_Bar) {
-            _inherits(Foo, _Bar);
-            function Foo() {
+    var Foo1 = function(_Bar) {
+            _inherits(Foo2, _Bar);
+            function Foo2() {
             }
-            return Foo;
+            return Foo2;
         }(Bar);
         "#
 );
@@ -596,48 +593,63 @@ var Outer = function(_Hello) {
 }(Hello);
 "#,
     r#"
-var Outer = function(_Hello) {
-    _inherits(Outer, _Hello);
-    function Outer() {
-        _classCallCheck(this, Outer);
-        var _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
+var Outer1 = function(_Hello) {
+    _inherits(Outer2, _Hello);
+    function Outer2() {
+        _classCallCheck(this, Outer2);
+        var _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer2).call(this));
         var Inner = function() {
-            function Inner() {
-                _classCallCheck(this, Inner);
+            function Inner1() {
+                _classCallCheck(this, Inner1);
             }
-            _createClass(Inner, [{
-                     key: _get(_getPrototypeOf(Outer.prototype), 'toString', _assertThisInitialized(_this)).call(_this), value: function() {
+            _createClass(Inner1, [{
+                     key: _get(_getPrototypeOf(Outer2.prototype), 'toString', _assertThisInitialized(_this)).call(_this), value: function() {
                             return 'hello';
                         } 
                 }]);
-            return Inner;
+            return Inner1;
         }();
         return _possibleConstructorReturn(_this, new Inner());
     }
-    return Outer;
+    return Outer2;
 }(Hello);
 "#
 );
 
-identical!(class_var_constructor_only, r#"var Foo = function Foo(){}"#);
-
-identical!(
-    class_var,
-    r#"
-        var Foo = function(_Bar) {
-            _inherits(Foo, _Bar);
-            function Foo() {
-                var _this;
-                _classCallCheck(this, Foo);
-                Foo[_assertThisInitialized(_this)];
-                return _possibleConstructorReturn(_this);
-            }
-            return Foo;
-        }(Bar);
-"#
+to!(
+    class_var_constructor_only,
+    r#"var Foo = function Foo(){}"#,
+    r#"var Foo = function Foo1(){}"#
 );
 
-identical!(
+to!(
+    class_var,
+    r#"
+    var Foo = function(_Bar) {
+        _inherits(Foo, _Bar);
+        function Foo() {
+            var _this;
+            _classCallCheck(this, Foo);
+            Foo[_assertThisInitialized(_this)];
+            return _possibleConstructorReturn(_this);
+        }
+        return Foo;
+    }(Bar);"#,
+    r#"
+    var Foo1 = function(_Bar) {
+        _inherits(Foo2, _Bar);
+        function Foo2() {
+            var _this;
+            _classCallCheck(this, Foo2);
+            Foo2[_assertThisInitialized(_this)];
+            return _possibleConstructorReturn(_this);
+        }
+        return Foo2;
+    }(Bar);
+    "#
+);
+
+to!(
     class_singleton,
     r#"
 var singleton;
@@ -653,8 +665,22 @@ var Sub = function(_Foo) {
         return _possibleConstructorReturn(_this);
     }
     return Sub;
-}(Foo);
-        "#
+}(Foo);"#,
+    r#"
+    var singleton;
+    var Sub1 = function(_Foo) {
+        _inherits(Sub2, _Foo);
+        function Sub2() {
+            var _this;
+            _classCallCheck(this, Sub2);
+            if (singleton) {
+                return _possibleConstructorReturn(_this, singleton);
+            }
+            singleton = _this = _possibleConstructorReturn(this, _getPrototypeOf(Sub2).call(this));
+            return _possibleConstructorReturn(_this);
+        }
+        return Sub2;
+    }(Foo);"#
 );
 
 identical!(
@@ -678,7 +704,7 @@ var i = new Bar();
 expect(i[sym]()).toBe(3);"
 );
 
-identical!(
+to!(
     regression_002,
     "var sym = Symbol();
     var Foo = function() {
@@ -706,6 +732,33 @@ identical!(
         return Bar;
     }(Foo);
     var i = new Bar();
+    expect(i[sym]()).toBe(3);",
+    "var sym = Symbol();
+    var Foo = function() {
+        function Foo1() {
+            _classCallCheck(this, Foo1);
+        }
+        _createClass(Foo1, [{
+                 key: sym, value: function() {
+                        return 1;
+                    } 
+            }]);
+        return Foo1;
+    }();
+    var Bar1 = function(_Foo) {
+        _inherits(Bar2, _Foo);
+        function Bar2() {
+            _classCallCheck(this, Bar2);
+            return _possibleConstructorReturn(this, _getPrototypeOf(Bar2).apply(this, arguments));
+        }
+        _createClass(Bar2, [{
+                 key: sym, value: function() {
+                        return _get(_getPrototypeOf(Bar2.prototype), sym, this)() + 2;
+                    } 
+            }]);
+        return Bar2;
+    }(Foo);
+    var i = new Bar1();
     expect(i[sym]()).toBe(3);"
 );
 
@@ -714,7 +767,7 @@ identical!(module_01, "import { foo as foo } from 'src';");
 identical!(
     issue_271,
     "function foo(scope) {
-    var startOperation = function startOperation(operation) {
+    var startOperation = function startOperation1(operation) {
         scope.agentOperation = operation;
     };
     scope.startOperation = startOperation;
@@ -744,7 +797,7 @@ identical!(
 identical_no_block!(
     issue_292_1,
     "var __assign = function () {
-  __assign = Object.assign || function __assign(t) {
+  __assign = Object.assign || function __assign1(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
       s = arguments[i];
 
@@ -786,8 +839,8 @@ class Foo {
 identical!(
     issue_308,
     "function bar(props) {}
-var Foo = function Foo() {
-    _classCallCheck(this, Foo);
+var Foo = function Foo1() {
+    _classCallCheck(this, Foo1);
     super();
     _defineProperty(this, 'onBar', ()=>{
         bar();
@@ -802,8 +855,8 @@ identical!(
     "
 function wrapper(){
     function bar(props) {}
-    var Foo = function Foo() {
-        _classCallCheck(this, Foo);
+    var Foo = function Foo1() {
+        _classCallCheck(this, Foo1);
         super();
         _defineProperty(this, 'onBar', ()=>{
             bar();
@@ -866,7 +919,7 @@ identical!(
     issue_396_2,
     "
 function foo() {
-    var bar = function bar() {
+    var bar = function bar1() {
     };
     bar;
 }
@@ -896,7 +949,7 @@ to!(
         return _setPrototypeOf(o, p);
     }",
     "function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o1, p1) {
+        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf1(o1, p1) {
             o1.__proto__ = p1;
             return o1;
         };
@@ -970,7 +1023,7 @@ function foo() {
 }"
 );
 
-identical!(
+to!(
     regression_of_454,
     "function broken(x) {
         var Foo = function(_Bar) {
@@ -982,8 +1035,18 @@ identical!(
             }
             return Foo;
         }(Bar);
-}
-"
+    }",
+    "function broken(x) {
+        var Foo1 = function(_Bar) {
+            _inherits(Foo2, _Bar);
+            function Foo2() {
+                _classCallCheck(this, Foo2);
+                return _possibleConstructorReturn(this, _getPrototypeOf(Foo2).apply(this, \
+     arguments));
+            }
+            return Foo2;
+        }(Bar);
+    }"
 );
 
 to!(
@@ -2481,8 +2544,8 @@ to!(
     "#,
     r#"
     export default function foo() {
-        foo = function foo(x) {
-            return x === 0 ? 1 : 1 + foo(x - 1);
+        foo = function foo1(x) {
+            return x === 0 ? 1 : 1 + foo1(x - 1);
         };
         return foo(10);
     }
@@ -2511,5 +2574,75 @@ to!(
     }
 
     Test = 2;
+    "#
+);
+
+to!(
+    nested_fn_expr_var_scope,
+    r#"
+    var Test = (function () {
+        var Test = (function () {
+            var Test = 2;
+            return Test;
+        })();
+      
+        return Test;
+      })();      
+    "#,
+    r#"
+    var Test = function() {
+        var Test1 = function() {
+            var Test2 = 2;
+            return Test2;
+        }();
+        return Test1;
+    }();
+    "#
+);
+
+to!(
+    nested_fn_expr_var_scope_fn,
+    r#"
+    var Test = (function () {
+        var Test = (function () {
+            function Test() {}
+            return Test;
+        })();
+      
+        return Test;
+      })();      
+    "#,
+    r#"
+    var Test = function() {
+        var Test1 = function() {
+            function Test2() {
+            }
+            return Test2;
+        }();
+        return Test1;
+    }();
+    "#
+);
+
+to!(
+    nested_arrow_expr_var_scope,
+    r#"
+    var Test = (() => {
+        var Test = (() => {
+            var Test = 2;
+            return Test;
+        })();
+      
+        return Test;
+      })();          
+    "#,
+    r#"
+    var Test = (()=>{
+        var Test1 = (()=>{
+            var Test2 = 2;
+            return Test2;
+        })();
+        return Test1;
+    })();
     "#
 );

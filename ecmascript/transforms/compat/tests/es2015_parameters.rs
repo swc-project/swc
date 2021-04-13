@@ -188,10 +188,10 @@ test!(
   }
 }
 Ref.nextID = 0"#,
-    r#"var Ref = function Ref(param) {
+    r#"var Ref = function Ref1(param) {
         'use strict';
-        var id = param === void 0 ? ++Ref.nextID : param;
-        _classCallCheck(this, Ref);
+        var id = param === void 0 ? ++Ref1.nextID : param;
+        _classCallCheck(this, Ref1);
         this.id = id;
     };
 Ref.nextID = 0;"#
@@ -229,16 +229,16 @@ class X {
     this.x = x
   }
 }"#,
-    r#"var Ref = function Ref(param) {
+    r#"var Ref = function Ref1(param) {
         'use strict';
-        var ref = param === void 0 ? Ref : param;
-        _classCallCheck(this, Ref);
+        var ref = param === void 0 ? Ref1 : param;
+        _classCallCheck(this, Ref1);
         this.ref = ref;
     }
-var X = function X(param) {
+var X = function X1(param) {
         'use strict';
         var x = param === void 0 ? foo : param;
-        _classCallCheck(this, X);
+        _classCallCheck(this, X1);
         this.x = x;
     };
 "#
