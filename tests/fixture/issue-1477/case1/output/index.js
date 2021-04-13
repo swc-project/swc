@@ -37,7 +37,7 @@ function _f() {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     var ref1, ref2;
-                    ref1 = JSON.parse(b), ref2 = ref1[0], ref = 1, a_ = ref, ref1;
+                    ref1 = JSON.parse(b), ref2 = ref1[0], ref = 1, a_ = ref, ref2, ref1;
                 case 1:
                 case "end":
                     return _ctx.stop();

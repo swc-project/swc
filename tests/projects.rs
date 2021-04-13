@@ -573,7 +573,7 @@ fn issue_895() {
     println!("{}", f);
 
     assert!(f.contains("_url ="));
-    assert!(f.contains("_url.queryString"));
+    assert!(f.contains("(0, _url).queryString"));
     let s = f.replace("_url =", "").replace("_url.queryString", "");
 
     assert!(!s.contains("_url."));
