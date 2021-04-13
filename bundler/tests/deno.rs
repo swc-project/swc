@@ -984,10 +984,6 @@ fn run(url: &str, exports: &[&str]) {
     })
     .unwrap();
 
-    if env::var("CI").is_ok() {
-        return;
-    }
-
     let output = Command::new("deno")
         .arg("run")
         .arg("--no-check")
@@ -1154,10 +1150,6 @@ fn exec(input: PathBuf) {
 
     let src = bundle(&input.to_string_lossy());
     write(&path, &src).unwrap();
-
-    if env::var("CI").is_ok() {
-        return;
-    }
 
     let output = Command::new("deno")
         .arg("run")
