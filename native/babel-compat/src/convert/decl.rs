@@ -1,6 +1,6 @@
 use super::Context;
 use crate::ast::{
-    class::ClassDeclaration,
+    class::{ClassDeclaration, ClassBody},
     decl::{
         Declaration, VariableDeclaration, VariableDeclarationKind, VariableDeclarator,
         FunctionDeclaration,
@@ -8,6 +8,7 @@ use crate::ast::{
 };
 use crate::convert::Babelify;
 use swc_ecma_ast::{Decl, VarDecl, VarDeclKind, VarDeclarator, FnDecl, ClassDecl};
+use swc_common::BytePos;
 
 impl Babelify for Decl {
     type Output = Declaration;
@@ -48,16 +49,37 @@ impl Babelify for ClassDecl {
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         let is_abstract = self.class.is_abstract;
+        // NOTE(dwoznicki): The body field needs a bit of special handling because babel
+        // represents the body as a node, whereas swc represents it as a vector of
+        // statements. This means that swc does not have a span corresponding the the
+        // class body base node for babel. To solve this, we generate a new span starting
+        // from the end of the identifier to the end of the body.
+        // For example,
+        //
+        // babel ClassBody node starts here
+        //                  v
+        //     class MyClass {
+        //         a = 0;
+        //     }
+        //     ^
+        // and ends here
+        //
+        // TODO: Verify that this implementation of class body span is correct.
+        // It may need to be modified to take into account implements, super classes,
+        // etc.
+        let body_span = self.class.span.with_lo(self.ident.span.hi + BytePos(1));
         let class = self.class.babelify(ctx);
         ClassDeclaration {
             base: class.base,
             id: self.ident.babelify(ctx),
             super_class: class.super_class.map(|s| *s),
-            body: class.body,
+            body: ClassBody {
+                base: ctx.base(body_span),
+                ..class.body
+            },
             decorators: class.decorators,
             is_abstract: Some(is_abstract),
             declare: Some(self.declare),
-            // implements: class.implements.and_then(|imps| imps.first().map(|i| i.clone())),
             implements: class.implements,
             mixins: class.mixins,
             super_type_parameters: class.super_type_parameters,
