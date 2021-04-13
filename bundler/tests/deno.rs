@@ -9,7 +9,6 @@ use ntest::timeout;
 use std::path::PathBuf;
 use std::{
     collections::{HashMap, HashSet},
-    env,
     fs::write,
     process::{Command, Stdio},
 };
