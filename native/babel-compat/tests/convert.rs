@@ -15,12 +15,26 @@ use walkdir::WalkDir;
 use test::{test_main, TestDesc, TestDescAndFn, DynTestFn, ShouldPanic, TestName, TestType};
 use std::{sync::Arc, fs, env, path::{PathBuf, Path}};
 
-#[test]
+// #[test]
 fn fixtures() {
     let args: Vec<_> = env::args().collect();
     let mut tests: Vec<TestDescAndFn> = Vec::new();
     add_fixture_tests(&mut tests).unwrap();
     test_main(&args, tests, Some(test::Options::new()));
+}
+
+#[test]
+fn single_fixture() -> Result<(), Error> {
+    let input_file = "tests/fixtures/class-simple/input.js";
+    let output_file = "tests/fixtures/class-simple/output.json";
+
+    let input = fs::read_to_string(&input_file)
+        .with_context(|| format!("Failed to open file: {}", &input_file))?;
+    let output = fs::read_to_string(&output_file)
+        .with_context(|| format!("Failed to open file: {}", &output_file))?;
+    run_test(input, output);
+
+    Ok(())
 }
 
 fn add_fixture_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
