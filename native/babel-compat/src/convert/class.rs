@@ -55,13 +55,13 @@ impl Babelify for ClassMember {
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
-            ClassMember::Constructor(_) => panic!("illegal conversion"), // TODO(dwoznick): is this really illegal?
+            ClassMember::Constructor(c) => ClassBodyEl::Method(c.babelify(ctx)),
             ClassMember::Method(m) => ClassBodyEl::Method(m.babelify(ctx)),
             ClassMember::PrivateMethod(m) => ClassBodyEl::PrivateMethod(m.babelify(ctx)),
             ClassMember::ClassProp(p) => ClassBodyEl::Prop(p.babelify(ctx)),
             ClassMember::PrivateProp(p) => ClassBodyEl::PrivateProp(p.babelify(ctx)),
             ClassMember::TsIndexSignature(s) => ClassBodyEl::TSIndex(s.babelify(ctx)),
-            ClassMember::Empty(_) => panic!("illegal conversion"), // TODO(dwoznicki): is this really illegal?
+            ClassMember::Empty(_) => panic!("illegal conversion: No conversion of ClassMember::Empty to ClassBodyEl"),
         }
     }
 }
