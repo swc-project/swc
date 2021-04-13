@@ -1,6 +1,7 @@
 
-// fn main() {}
+fn main() {}
 
+/*
 mod ast;
 mod convert;
 mod ser_union;
@@ -68,4 +69,5 @@ fn compile(compiler: &Compiler, fm: Arc<SourceFile>) -> Result<Program> {
         Default::default(),
     )
 }
+*/
 

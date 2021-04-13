@@ -33,7 +33,7 @@ use swc_ecma_ast::{
     TsParamProp, TsParamPropParam, TsModuleDecl, TsNamespaceBody, TsModuleBlock, TsModuleName,
     TsEnumDecl, TsEnumMember, TsEnumMemberId, TsTypeAliasDecl, TsNamespaceDecl, TsInterfaceDecl,
     TsInterfaceBody, TsTypeElement, TsCallSignatureDecl, TsConstructSignatureDecl,
-    TsPropertySignature, TsMethodSignature, TsSignatureDecl, TsImportEqualsDecl, TsModuleRef,
+    TsPropertySignature, TsMethodSignature, TsImportEqualsDecl, TsModuleRef,
     TsExternalModuleRef, TsExportAssignment, TsNamespaceExportDecl, TsTypeRef, TsTypePredicate,
     TsThisTypeOrIdent, TsTypeQuery, TsTypeQueryExpr, TsImportType, TsTypeLit, TsArrayType,
     TsTupleType, TsTupleElement, Pat, TsOptionalType, TsRestType, TsUnionOrIntersectionType,
@@ -209,6 +209,7 @@ impl Babelify for TsEntityName {
     }
 }
 
+/*
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum TsSignatureDeclOutput {
     CallSignatureDecl(TSCallSignatureDeclaration),
@@ -231,6 +232,7 @@ impl Babelify for TsSignatureDecl {
         }
     }
 }
+*/
 
 impl Babelify for TsTypeElement {
     type Output = TSTypeElement;
