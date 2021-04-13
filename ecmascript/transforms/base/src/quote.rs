@@ -2,9 +2,6 @@
 #[doc(hidden)]
 #[macro_export]
 macro_rules! external_name {
-    ("typeof") => {
-        "_typeof"
-    };
     ("instanceof") => {
         "_instanceof"
     };
