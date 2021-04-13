@@ -221,8 +221,8 @@ orders === null || orders === void 0 ? void 0 : orders[0].price;
 orders === null || orders === void 0 ? void 0 : (ref5 = orders[0]) === null || ref5 === void 0 ? void 0 : ref5.price;
 orders[client === null || client === void 0 ? void 0 : client.key].price;
 (ref6 = orders[client.key]) === null || ref6 === void 0 ? void 0 : ref6.price;
-(a === null || a === void 0 ? void 0 : a.b).c;
-((ref7 = (a === null || a === void 0 ? void 0 : a.b).c) === null || ref7 === void 0 ? void 0 : ref7.d).e;
+(0, a === null || a === void 0 ? void 0 : a.b).c;
+(0, (ref7 = (0, a === null || a === void 0 ? void 0 : a.b).c) === null || ref7 === void 0 ? void 0 : ref7.d).e;
 "#
 );
 
