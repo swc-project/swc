@@ -43,6 +43,7 @@ use swc_ecma_ast::{
 };
 use swc_common::Spanned;
 use serde::{Serialize, Deserialize};
+use std::any::type_name_of_val;
 
 impl Babelify for TsTypeAnn {
     type Output = TSTypeAnnotation;
@@ -100,7 +101,7 @@ impl From<TsFnParamOutput> for IdOrRest {
         match o {
             TsFnParamOutput::Id(i) => IdOrRest::Id(i),
             TsFnParamOutput::Rest(r) => IdOrRest::Rest(r),
-            _ => panic!("illegal conversion"),
+            _ => panic!("illegal conversion: Cannot convert {} to IdOrRest (in impl From<TsFnParamOutput> for IdOrRest)", type_name_of_val(&o)),
         }
     }
 }
@@ -109,7 +110,7 @@ impl From<TsFnParamOutput> for Identifier {
     fn from(o: TsFnParamOutput) -> Self {
         match o {
             TsFnParamOutput::Id(i) => i,
-            _ => panic!("illegal conversion"),
+            _ => panic!("illegal conversion: Cannot convert {} to Identifier (in impl From<TsFnParamOutput> for Identifier)", type_name_of_val(&o)),
         }
     }
 }
@@ -587,30 +588,30 @@ impl Babelify for TsTupleType {
 }
 
 impl Babelify for TsTupleElement {
-     type Output = TSTupleTypeElType;
+    type Output = TSTupleTypeElType;
 
-     fn babelify(self, ctx: &Context) -> Self::Output {
-         match self.label {
-             None => TSTupleTypeElType::TSType(self.ty.babelify(ctx)),
-             Some(pat) => {
-                 TSTupleTypeElType::Member(TSNamedTupleMember {
-                     base: ctx.base(self.span),
-                     label: match pat {
-                         Pat::Ident(id) => id.babelify(ctx),
-                         Pat::Rest(rest) => {
-                             match *rest.arg {
-                                 Pat::Ident(id) => id.babelify(ctx),
-                                 _ => panic!("illegal conversion"),
-                             }
-                         },
-                         _ => panic!("illegal conversion"),
-                     },
-                     element_type: self.ty.babelify(ctx),
-                     optional: Default::default(),
-                 })
-             }
-         }
-     }
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self.label {
+            None => TSTupleTypeElType::TSType(self.ty.babelify(ctx)),
+            Some(pat) => {
+                TSTupleTypeElType::Member(TSNamedTupleMember {
+                    base: ctx.base(self.span),
+                    label: match pat {
+                        Pat::Ident(id) => id.babelify(ctx),
+                        Pat::Rest(rest) => {
+                            match *rest.arg {
+                                Pat::Ident(id) => id.babelify(ctx),
+                                _ => panic!("illegal conversion: Cannot convert {} to Identifier (in impl Babelify for TsTupleElement)", type_name_of_val(&rest.arg)),
+                            }
+                        },
+                        _ => panic!("illegal conversion: Cannot convert {} to Identifier (in impl Babelify for TsTupleElement)", type_name_of_val(&pat)),
+                    },
+                    element_type: self.ty.babelify(ctx),
+                    optional: Default::default(),
+               })
+            }
+        }
+    }
 }
 
 impl Babelify for TsOptionalType {
@@ -783,7 +784,7 @@ impl Babelify for TsLit {
             TsLit::Str(s) => TSLiteralTypeLiteral::String(s.babelify(ctx)),
             TsLit::Bool(b) => TSLiteralTypeLiteral::Boolean(b.babelify(ctx)),
             TsLit::BigInt(i) => TSLiteralTypeLiteral::BigInt(i.babelify(ctx)),
-            TsLit::Tpl(_) => panic!("illegal conversion"),
+            _ => panic!("illegal conversion: Cannot convert {} to TSLiteralTypeLiteral (in impl Babelify for TsLit)", type_name_of_val(&self)),
         }
     }
 }

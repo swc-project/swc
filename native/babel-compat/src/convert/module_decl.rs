@@ -20,6 +20,7 @@ use swc_ecma_ast::{
     ExportSpecifier, ExportNamedSpecifier, ExportDefaultSpecifier, ExportNamespaceSpecifier,
 };
 use serde::{Serialize, Deserialize};
+use std::any::type_name_of_val;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ModuleDeclOutput {
@@ -57,7 +58,7 @@ impl From<ModuleDeclOutput> for ModuleDeclaration {
             ModuleDeclOutput::ExportDefault(e) => ModuleDeclaration::ExportDefault(e),
             ModuleDeclOutput::ExportNamed(n) => ModuleDeclaration::ExportNamed(n),
             ModuleDeclOutput::ExportAll(a) => ModuleDeclaration::ExportAll(a),
-            _ => panic!("illegal conversion"),
+            _ => panic!("illegal conversion: Cannot convert {} to ModuleDeclaration (in impl From<ModuleDeclOutput> for ModuleDeclaration)", type_name_of_val(&module)),
         }
     }
 }
@@ -94,27 +95,27 @@ fn convert_import_asserts(asserts: Option<ObjectLit>, ctx: &Context) -> Option<V
         obj.props.iter().map(|prop_or_spread| {
             let prop = match prop_or_spread.clone() {
                 PropOrSpread::Prop(p) => p,
-                _ => panic!("illegal conversion"),
+                _ => panic!("illegal conversion: Cannot convert {} to Prop (in convert_import_asserts)", type_name_of_val(&prop_or_spread)),
             };
             let (key, val) = match *prop {
                 Prop::KeyValue(keyval) => {
                     let key = match keyval.key {
                         PropName::Ident(i) => IdOrString::Id(i.babelify(ctx)),
                         PropName::Str(s) => IdOrString::String(s.babelify(ctx)),
-                        _ => panic!("illegal conversion"),
+                        _ => panic!("illegal conversion: Cannot convert {} to Prop::KeyValue (in convert_import_asserts)", type_name_of_val(&keyval.key)),
                     };
                     let val = match *keyval.value {
                         Expr::Lit(lit) => {
                             match lit {
                                 Lit::Str(s) => s.babelify(ctx),
-                                _ => panic!("illegal conversion"),
+                                _ => panic!("illegal conversion: Cannot convert {} to Expr::Lit (in convert_import_asserts)", type_name_of_val(&lit)),
                             }
                         },
-                        _ => panic!("illegal conversion"),
+                        _ => panic!("illegal conversion: Cannot convert {} to Expr::Lit (in convert_import_asserts)", type_name_of_val(&keyval.value)),
                     };
                     (key, val)
                 },
-                _ => panic!("illegal conversion"),
+                _ => panic!("illegal conversion: Cannot convert {} to key, value (in convert_import_asserts)", type_name_of_val(&prop)),
             };
             ImportAttribute {
                 base: ctx.base(obj.span),

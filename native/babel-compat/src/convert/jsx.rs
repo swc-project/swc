@@ -20,6 +20,7 @@ use swc_ecma_ast::{
     JSXOpeningFragment, JSXClosingFragment,
 };
 use swc_common::Spanned;
+use std::any::type_name_of_val;
 
 impl Babelify for JSXObject {
     type Output = JSXMemberExprObject;
@@ -179,7 +180,7 @@ impl Babelify for JSXAttrValue {
                 // TODO(dwoznicki): Babel only seems to accept string literals here. Is taht right?
                 match lit {
                     Lit::Str(s) => JSXAttrVal::String(s.babelify(ctx)),
-                    _ => panic!("illegal conversion"),
+                    _ => panic!("illegal conversion: Cannot convert {} to JsxAttrVal::Lit (in impl Babelify for JSXAttrValue)", type_name_of_val(&lit)),
                 }
             },
             JSXAttrValue::JSXExprContainer(e) => JSXAttrVal::Expr(e.babelify(ctx)),

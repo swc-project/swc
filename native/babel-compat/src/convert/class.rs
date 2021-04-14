@@ -13,6 +13,7 @@ use swc_ecma_ast::{
     Constructor,
 };
 use serde_json::value::Value;
+use std::any::type_name_of_val;
 
 impl Babelify for Class {
     type Output = ClassExpression;
@@ -61,7 +62,7 @@ impl Babelify for ClassMember {
             ClassMember::ClassProp(p) => ClassBodyEl::Prop(p.babelify(ctx)),
             ClassMember::PrivateProp(p) => ClassBodyEl::PrivateProp(p.babelify(ctx)),
             ClassMember::TsIndexSignature(s) => ClassBodyEl::TSIndex(s.babelify(ctx)),
-            ClassMember::Empty(_) => panic!("illegal conversion: No conversion of ClassMember::Empty to ClassBodyEl"),
+            _ => panic!("illegal conversion: Cannot convert {} to ClassBodyEl (in impl Babelify for ClassMember)", type_name_of_val(&self)),
         }
     }
 }
