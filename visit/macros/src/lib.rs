@@ -706,7 +706,7 @@ fn adjust_expr<F>(mode: Mode, ty: &Type, mut expr: Expr, visit: F) -> Expr
 where
     F: FnOnce(Expr) -> Expr,
 {
-    if is_option(&ty) {
+    if let Some(inner) = extract_opt(ty) {
         expr = if is_opt_vec(ty) {
             match mode {
                 Mode::Fold => expr,
@@ -714,6 +714,12 @@ where
                 Mode::Visit | Mode::VisitAll => {
                     q!(Vars { expr }, { expr.as_ref().map(|v| &**v) }).parse()
                 }
+            }
+        } else if let Some(..) = as_box(&inner) {
+            match mode {
+                Mode::Fold => q!(Vars { expr }, { expr.map(|v| *v) }).parse(),
+                Mode::VisitMut => q!(Vars { expr }, { expr.as_deref_mut() }).parse(),
+                Mode::Visit | Mode::VisitAll => q!(Vars { expr }, { expr.as_ref() }).parse(),
             }
         } else {
             match mode {
@@ -1390,7 +1396,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         Mode::VisitMut => {}
                                     }
 
-                                    return if is_option(arg) {
+                                    return if extract_opt(arg).is_some() {
                                         match mode {
                                             Mode::Fold => q!(
                                                 Vars { ident },
@@ -1490,25 +1496,12 @@ fn add_required(types: &mut Vec<Type>, ty: &Type) {
     }
 }
 
-fn is_option(ty: &Type) -> bool {
-    match ty {
-        Type::Path(p) => {
-            let last = p.path.segments.last().unwrap();
-
-            if !last.arguments.is_empty() {
-                if last.ident == "Option" {
-                    return true;
-                }
-            }
-        }
-        _ => {}
-    }
-
-    false
-}
-
 fn as_box(ty: &Type) -> Option<&Type> {
     extract_generic("Box", ty)
+}
+
+fn extract_opt(ty: &Type) -> Option<&Type> {
+    extract_generic("Option", ty)
 }
 
 fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
@@ -1553,7 +1546,7 @@ fn is_opt_vec(ty: &Type) -> bool {
 fn method_name_as_str(mode: Mode, ty: &Type) -> String {
     fn suffix(ty: &Type) -> String {
         // Box<T> has same name as T
-        if let Some(ty) = extract_generic("Box", ty) {
+        if let Some(ty) = as_box(&ty) {
             return suffix(ty);
         }
 
