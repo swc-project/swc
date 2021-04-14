@@ -192,6 +192,11 @@ impl Strip {
         class.super_type_params = None;
         class.implements = Default::default();
 
+        class.body.retain(|c| match c {
+            ClassMember::Constructor(Constructor { body: None, .. }) => false,
+            _ => true,
+        });
+
         let mut extra_exprs = vec![];
         if self.config.use_define_for_class_fields {
             let mut param_class_fields = vec![];
