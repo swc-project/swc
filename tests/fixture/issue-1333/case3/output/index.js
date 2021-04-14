@@ -105,7 +105,7 @@ class RequestHandler {
                     method: request.method,
                     url
                 });
-                await _utils.sleep(this._untilReset);
+                await (0, _utils).sleep(this._untilReset);
             }
             return this._make(url, request);
         } finally{
@@ -126,7 +126,7 @@ class RequestHandler {
         , this.rest.options.timeout);
         let res;
         try {
-            res = await _nodeFetch.default(url, {
+            res = await (0, _nodeFetch).default(url, {
                 ...request,
                 signal
             });
@@ -148,7 +148,7 @@ class RequestHandler {
                 _retry = ~~reset * (cf ? 1000 : 1 + this.rest.options.offset);
             }
             if (res.headers.get("X-RateLimit-Global")) {
-                this.rest.globalTimeout = _utils.sleep(_retry).then(()=>{
+                this.rest.globalTimeout = (0, _utils).sleep(_retry).then(()=>{
                     this.api.globalTimeout = null;
                 });
             }
@@ -158,7 +158,7 @@ class RequestHandler {
         }
         if (res.status === 429) {
             this.rest.client.emit(_utils.ClientEvent.LIMITED, `Hit a 429 on route: ${this.id}, Retrying After: ${_retry}ms`);
-            await _utils.sleep(_retry);
+            await (0, _utils).sleep(_retry);
             return this._make(url, request, tries++);
         }
         if (res.status >= 500 && res.status < 600) {

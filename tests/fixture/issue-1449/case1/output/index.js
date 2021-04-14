@@ -38,7 +38,7 @@ function _foo() {
                     var ref1;
                     var ref2;
                     ref1 = baz, ref = {
-                    }, ref2 = ref, ref1;
+                    }, ref2 = ref, ref2, ref1;
                 case 1:
                 case "end":
                     return _ctx.stop();

@@ -15,7 +15,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{private_ident, quote_ident, quote_str};
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit};
 use util::{
     callee_should_ignore, gen_custom_hook_record, is_body_arrow_fn, is_builtin_hook,
     is_import_or_require, make_assign_stmt, make_call_expr, make_call_stmt, CollectIdent,
@@ -212,6 +212,9 @@ impl<C: Comments> Refresh<C> {
                             self.get_hook_from_expr(init, Some(&decl.name), &mut sign_res);
                         }
                     }
+                }
+                Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
+                    self.get_hook_from_expr(arg.as_ref(), None, &mut sign_res)
                 }
                 _ => {}
             }
@@ -749,7 +752,8 @@ impl<C: Comments> Fold for Refresh<C> {
         self.scope_binding.truncate(orig_bindinga);
 
         if curr_hook.len() > 0 {
-            let stmts = mem::replace(&mut n.stmts, Vec::new());
+            let stmt_count = n.stmts.len();
+            let stmts = mem::replace(&mut n.stmts, Vec::with_capacity(stmt_count));
             n.stmts.push(self.gen_hook_handle(&curr_hook));
             let (mut handle_map, _) = hook_to_handle_map(curr_hook);
 
@@ -790,7 +794,7 @@ impl<C: Comments> Fold for Refresh<C> {
             return module_items;
         }
 
-        module_items.visit_with(&Invalid { span: DUMMY_SP } as _, self);
+        self.visit_module_items(&module_items, &Invalid { span: DUMMY_SP } as _);
 
         for item in &module_items {
             item.collect_ident(&mut self.scope_binding);
@@ -798,7 +802,7 @@ impl<C: Comments> Fold for Refresh<C> {
 
         let module_items = module_items.fold_children_with(self);
 
-        let mut items = Vec::new();
+        let mut items = Vec::with_capacity(module_items.len());
         let mut refresh_regs = Vec::<(Ident, String)>::new();
 
         if self.curr_hook_fn.len() > 0 {

@@ -132,7 +132,7 @@ test!(
 obj[bar('bas')] = '123'",
     "'use strict';
 var _bar = _interopRequireDefault(require('bar'));
-obj[_bar.default('bas')] = '123';"
+obj[(0, _bar).default('bas')] = '123';"
 );
 
 test!(
@@ -337,7 +337,7 @@ exports.isOdd = void 0;
 var _evens = require("./evens");
 
 function nextOdd(n) {
-  return _evens.isEven(n) ? n + 1 : n + 2;
+  return (0, _evens).isEven(n) ? n + 1 : n + 2;
 }
 
 var isOdd = function (isEven) {
@@ -727,7 +727,7 @@ foo();
 
 var _foo = require("foo");
 
-_foo.default();
+(0, _foo).default();
 
 "#
 );
@@ -1580,15 +1580,15 @@ var Bar = _interopRequireWildcard(require("bar"));
 
 var _baz = require("baz");
 
-Foo = (function() {
+Foo = (42, (function() {
     throw new Error('"' + 'Foo' + '" is read-only.');
-})();
-Bar = (function() {
+})());
+Bar = (43, (function() {
     throw new Error('"' + 'Bar' + '" is read-only.');
-})();
-Baz = (function() {
+})());
+Baz = (44, (function() {
     throw new Error('"' + 'Baz' + '" is read-only.');
-})();
+})());
 ({ Foo  } = ( {
 }, (function() {
     throw new Error('"' + 'Foo' + '" is read-only.');
@@ -2313,7 +2313,7 @@ var foo4 = _interopRequireWildcard(require("foo"));
 foo4.default;
 foo4.default;
 foo4.foo3;
-foo4.foo3();
+(0, foo4).foo3();
 
 "#
 );
@@ -4072,7 +4072,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.setup = setup;
 var _url = require('./url');
 function setup(url: string, obj: any) {
-    const _queryString = _url.queryString(obj);
+    const _queryString = (0, _url).queryString(obj);
     const _url1 = url + '?' + _queryString;
     return _url1;
 }"
@@ -4392,7 +4392,7 @@ function Thing() {
 _createClass(Thing, [{
   key: "handleCopySomething",
   value: function handleCopySomething() {
-    _copyPaste.copy();
+    (0, _copyPaste).copy();
   }
 }, {
   key: "completelyUnrelated",
