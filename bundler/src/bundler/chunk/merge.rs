@@ -2,7 +2,6 @@ use super::plan::DepType;
 use super::plan::Plan;
 use crate::bundler::chunk::export::inject_export;
 use crate::bundler::keywords::KeywordRenamer;
-use crate::debug::print_hygiene;
 use crate::inline::inline;
 use crate::modules::Modules;
 use crate::{
@@ -767,7 +766,7 @@ where
 
         entry.sort(id, &ctx.graph, &self.cm);
 
-        print_hygiene("done", &self.cm, &entry.clone().into());
+        // print_hygiene("done", &self.cm, &entry.clone().into());
 
         entry.retain_mut(|_, item| {
             match item {
