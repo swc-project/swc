@@ -1,6 +1,6 @@
-import { parse } from "std/flags/mod.ts";
+import { parse } from "https://deno.land/std@0.89.0/flags/mod.ts";
 import printStats from "./print_stats.ts";
-import { getNumericInput, printQuestion } from "helpers";
+import { getNumericInput, printQuestion } from "./helpers/mod.ts";
 
 const args = parse(Deno.args);
 

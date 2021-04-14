@@ -1,4 +1,4 @@
-import { readLines } from "std/io/mod.ts";
+import { readLines } from "https://deno.land/std@0.89.0/io/mod.ts";
 import { printQuestion } from "./mod.ts";
 
 export const getNumericInput = (): Promise<number> => Promise.resolve(4);
