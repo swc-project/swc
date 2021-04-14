@@ -959,7 +959,7 @@ fn reexport_01() {
 fn run(url: &str, exports: &[&str]) {
     let dir = tempfile::tempdir().expect("failed to crate temp file");
     let path = dir.path().join("main.js");
-    println!("{}", path.display());
+    // println!("{}", path.display());
 
     let src = bundle(url);
     write(&path, &src).unwrap();
@@ -1152,7 +1152,7 @@ fn exec(input: PathBuf) {
     let src = bundle(&input.to_string_lossy());
     write(&path, &src).unwrap();
 
-    println!("{}", src);
+    // println!("{}", src);
 
     let output = Command::new("deno")
         .arg("run")
