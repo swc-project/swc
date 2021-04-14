@@ -743,6 +743,19 @@ where
 
     expr = visit(expr);
 
+    if let Some(ty) = extract_opt(ty) {
+        if let Some(..) = as_box(ty) {
+            expr = match mode {
+                Mode::Visit | Mode::VisitAll => expr,
+                Mode::VisitMut => {
+                    // TODO
+                    expr
+                }
+                Mode::Fold => q!(Vars { expr }, { expr.map(Box::new) }).parse(),
+            };
+        }
+    }
+
     if as_box(ty).is_some() {
         expr = match mode {
             Mode::Visit | Mode::VisitAll => expr,
