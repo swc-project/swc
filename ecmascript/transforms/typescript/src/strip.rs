@@ -192,6 +192,11 @@ impl Strip {
         class.super_type_params = None;
         class.implements = Default::default();
 
+        class.body.retain(|c| match c {
+            ClassMember::Constructor(Constructor { body: None, .. }) => false,
+            _ => true,
+        });
+
         let mut extra_exprs = vec![];
         if self.config.use_define_for_class_fields {
             let mut param_class_fields = vec![];
@@ -1517,8 +1522,6 @@ impl VisitMut for Strip {
     );
 
     fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
-        members.visit_mut_children_with(self);
-
         members.retain(|member| match *member {
             ClassMember::TsIndexSignature(..) => false,
             ClassMember::Constructor(Constructor { body: None, .. }) => false,
@@ -1537,6 +1540,8 @@ impl VisitMut for Strip {
 
             _ => true,
         });
+
+        members.visit_mut_children_with(self);
     }
 
     fn visit_mut_opt_accessibility(&mut self, n: &mut Option<Accessibility>) {

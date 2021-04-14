@@ -537,6 +537,40 @@ where
             // Handle `export *` for non-wrapped modules.
 
             let mut vars = vec![];
+            /// We recurse if `export *` is nested.
+            fn add_var(
+                injected_ctxt: SyntaxContext,
+                vars: &mut Vec<(ModuleId, ModuleItem)>,
+                declared: &mut AHashSet<Id>,
+                map: &CloneMap<SyntaxContext, SyntaxContext>,
+                module_id: ModuleId,
+                id: Id,
+            ) {
+                let remapped = match map.get(&id.ctxt()) {
+                    Some(v) => v,
+                    _ => return,
+                };
+                let reexported = id.clone().with_ctxt(remapped);
+
+                add_var(
+                    injected_ctxt,
+                    vars,
+                    declared,
+                    map,
+                    module_id,
+                    reexported.clone(),
+                );
+
+                if !declared.insert(reexported.clone()) {
+                    return;
+                }
+
+                vars.push((
+                    module_id,
+                    id.assign_to(reexported)
+                        .into_module_item(injected_ctxt, "export_star_replacer"),
+                ));
+            }
 
             // We have to exlcude some ids because there are already declared.
             // See https://github.com/denoland/deno/issues/8725
@@ -599,19 +633,14 @@ where
                                 continue;
                             }
 
-                            if let Some(remapped) = ctx.transitive_remap.get(&id.ctxt()) {
-                                let reexported = id.clone().with_ctxt(remapped);
-
-                                if declared_ids.contains(&reexported) {
-                                    continue;
-                                }
-
-                                vars.push((
-                                    module_id,
-                                    id.assign_to(reexported)
-                                        .into_module_item(injected_ctxt, "export_star_replacer"),
-                                ));
-                            }
+                            add_var(
+                                injected_ctxt,
+                                &mut vars,
+                                &mut declared_ids,
+                                &ctx.transitive_remap,
+                                module_id,
+                                id,
+                            );
                         }
                     }
 

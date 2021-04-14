@@ -3892,3 +3892,63 @@ to!(
     console.log(F)
     "
 );
+
+to!(
+    constructor_1,
+    "export class Query {
+        public text: string;
+        public args: EncodedArg[];
+        public fields?: string[];
+      
+        constructor(config: QueryObjectConfig);
+        constructor(text: string, ...args: unknown[]);
+    }",
+    "
+    export class Query {
+    }"
+);
+
+to!(
+    constructor_2,
+    "export class Context {
+        app!: Application;
+        request!: ServerRequest;
+        url!: URL;
+      
+        response: Response & { headers: Headers } = { headers: new Headers() };
+        params: Record<string, string> = {};
+        customContext: any;
+      
+        #store?: Map<string | symbol, unknown>;
+      
+        #body: Promise<unknown> | undefined;
+      
+        constructor(opts: ContextOptions);
+        constructor(c: Context);
+        constructor(optionsOrContext: ContextOptions | Context) {
+          if (optionsOrContext instanceof Context) {
+            Object.assign(this, optionsOrContext);
+            this.customContext = this;
+            return;
+          }
+        }
+    }",
+    "
+    export class Context {
+        #store;
+        #body;
+        constructor(optionsOrContext){
+            this.response = {
+                headers: new Headers()
+            };
+            this.params = {
+            };
+            if (optionsOrContext instanceof Context) {
+                Object.assign(this, optionsOrContext);
+                this.customContext = this;
+                return;
+            }
+        }
+    }
+    "
+);
