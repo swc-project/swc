@@ -9,6 +9,7 @@ use swc_common::{
     FilePathMapping, SourceMap, FileName,
     errors::{ColorConfig, Handler},
 };
+use swc_ecma_parser::Syntax;
 use anyhow::{Context as AnyhowContext, Error};
 use pretty_assertions::{assert_eq};
 use walkdir::WalkDir;
@@ -25,8 +26,8 @@ fn fixtures() {
 
 #[test]
 fn single_fixture() -> Result<(), Error> {
-    let input_file = "tests/fixtures/class-simple/input.js";
-    let output_file = "tests/fixtures/class-simple/output.json";
+    let input_file = "tests/fixtures/ts-function/input.ts";
+    let output_file = "tests/fixtures/ts-function/output.json";
 
     let input = fs::read_to_string(&input_file)
         .with_context(|| format!("Failed to open file: {}", &input_file))?;
@@ -104,7 +105,7 @@ fn run_test(src: String, expected: String) {
     let swc_ast = compiler.parse_js(
         fm.clone(),
         Default::default(),
-        Default::default(),
+        Syntax::Typescript(Default::default()),
         false,
         true, // parse conmments
     ).unwrap();
