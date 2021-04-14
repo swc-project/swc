@@ -718,7 +718,7 @@ where
         } else if let Some(..) = as_box(&inner) {
             match mode {
                 Mode::Fold => q!(Vars { expr }, { expr.map(|v| *v) }).parse(),
-                Mode::VisitMut => q!(Vars { expr }, { expr.as_deref_mut() }).parse(),
+                Mode::VisitMut => q!(Vars { expr }, (&mut expr.take().map(|v| *v))).parse(),
                 Mode::Visit | Mode::VisitAll => q!(Vars { expr }, { expr.as_deref() }).parse(),
             }
         } else {
