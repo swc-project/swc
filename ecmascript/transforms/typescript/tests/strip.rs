@@ -3892,3 +3892,18 @@ to!(
     console.log(F)
     "
 );
+
+to!(
+    constructor_1,
+    "export class Query {
+        public text: string;
+        public args: EncodedArg[];
+        public fields?: string[];
+      
+        constructor(config: QueryObjectConfig);
+        constructor(text: string, ...args: unknown[]);
+    }",
+    "
+    export class Query {
+    }"
+);
