@@ -2646,3 +2646,31 @@ to!(
     })();
     "#
 );
+
+to!(
+    block_scope_class,
+    r#"
+    const g = 20;
+
+    function baz() {
+        {
+            class g {}
+            console.log(g);
+        }
+
+        return g;
+    }
+    "#,
+    r#"
+    const g = 20;
+
+    function baz() {
+        {
+            class g1 {}
+            console.log(g1);
+        }
+
+        return g;
+    }
+    "#
+);

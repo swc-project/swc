@@ -1245,6 +1245,9 @@ impl VisitMut for Hoister<'_, '_> {
     }
 
     fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
+        if self.in_block {
+            return;
+        }
         self.resolver.in_type = false;
         self.resolver
             .visit_mut_binding_ident(&mut node.ident, Some(VarDeclKind::Let));
