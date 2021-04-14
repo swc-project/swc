@@ -1157,6 +1157,7 @@ fn exec(input: PathBuf) {
     let output = Command::new("deno")
         .arg("run")
         .arg("--no-check")
+        .arg("--allow-net")
         .arg(&path)
         .stdout(Stdio::inherit())
         .stderr(Stdio::inherit())
