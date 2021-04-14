@@ -542,7 +542,7 @@ where
             fn add_var(
                 injected_ctxt: SyntaxContext,
                 vars: &mut Vec<(ModuleId, ModuleItem)>,
-                declared: &AHashSet<Id>,
+                declared: &mut AHashSet<Id>,
                 map: &CloneMap<SyntaxContext, SyntaxContext>,
                 module_id: ModuleId,
                 id: Id,
@@ -562,7 +562,7 @@ where
                     reexported.clone(),
                 );
 
-                if declared.contains(&reexported) {
+                if !declared.insert(reexported.clone()) {
                     return;
                 }
 
@@ -637,7 +637,7 @@ where
                             add_var(
                                 injected_ctxt,
                                 &mut vars,
-                                &declared_ids,
+                                &mut declared_ids,
                                 &ctx.transitive_remap,
                                 module_id,
                                 id,
