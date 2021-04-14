@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/usr/bin/env bash
 
 # Print a side by side comparison of Babel and SWC AST.
 SCRIPT_DIR=`dirname "$0"`

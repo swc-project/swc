@@ -683,15 +683,6 @@ pub struct Identifier {
     pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-pub struct QualifiedTypeIdentifier {
-    #[serde(flatten)]
-    pub base: BaseNode,
-    pub id: Identifier,
-    pub qualification: Box<IdOrQualifiedId>,
-}
-
 #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 // #[serde(untagged)]

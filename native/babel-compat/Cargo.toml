@@ -18,6 +18,7 @@ swc_atoms = {version = "0.2.5", path = "../../atoms"}
 swc_common = {version = "0.10.9", path = "../../common", features = ["tty-emitter", "sourcemap"]}
 swc_ecma_ast = {version = "0.43", path = "../../ecmascript/ast"}
 swc_babel_compat_macros = {version = "0.1.0", path = "./macros"}
+swc_visit = {version = "0.2.3", path = "../../visit"}
 
 [dev-dependencies]
 pretty_assertions = "0.7.1"
