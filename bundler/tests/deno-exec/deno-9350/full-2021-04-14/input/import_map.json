@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "std/": "https://deno.land/std@0.89.0/",
+    "types": "./types/mod.ts",
+    "helpers": "./helpers/mod.ts"
+  }
+}
