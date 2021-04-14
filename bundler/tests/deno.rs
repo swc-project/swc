@@ -1152,9 +1152,10 @@ fn exec(input: PathBuf) {
     let src = bundle(&input.to_string_lossy());
     write(&path, &src).unwrap();
 
+    println!("{}", src);
+
     let output = Command::new("deno")
         .arg("run")
-        .arg("--allow-all")
         .arg("--no-check")
         .arg(&path)
         .stdout(Stdio::inherit())
