@@ -719,7 +719,7 @@ where
             match mode {
                 Mode::Fold => q!(Vars { expr }, { expr.map(|v| *v) }).parse(),
                 Mode::VisitMut => q!(Vars { expr }, { expr.as_deref_mut() }).parse(),
-                Mode::Visit | Mode::VisitAll => q!(Vars { expr }, { expr.as_ref() }).parse(),
+                Mode::Visit | Mode::VisitAll => q!(Vars { expr }, { expr.as_deref() }).parse(),
             }
         } else {
             match mode {
@@ -747,10 +747,7 @@ where
         if let Some(..) = as_box(ty) {
             expr = match mode {
                 Mode::Visit | Mode::VisitAll => expr,
-                Mode::VisitMut => {
-                    // TODO
-                    expr
-                }
+                Mode::VisitMut => expr,
                 Mode::Fold => q!(Vars { expr }, { expr.map(Box::new) }).parse(),
             };
         }
