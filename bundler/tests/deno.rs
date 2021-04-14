@@ -983,6 +983,8 @@ fn run(url: &str, exports: &[&str]) {
     })
     .unwrap();
 
+    println!("{}", src);
+
     let output = Command::new("deno")
         .arg("run")
         .arg("--no-check")
