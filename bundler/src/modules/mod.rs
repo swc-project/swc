@@ -1,7 +1,9 @@
+use crate::debug::print_hygiene;
 use crate::ModuleId;
 use ahash::AHashMap;
 use retain_mut::RetainMut;
 use std::mem::take;
+use swc_common::SourceMap;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -214,6 +216,16 @@ impl Modules {
         self.appended_stmts
             .iter_mut()
             .for_each(|(id, v)| v.retain_mut(|item| op(*id, item)));
+    }
+
+    #[allow(unused)]
+    #[cfg(debug_assertions)]
+    pub(crate) fn print(
+        &self,
+        cm: &swc_common::sync::Lrc<SourceMap>,
+        event: impl std::fmt::Display,
+    ) {
+        print_hygiene(&event.to_string(), cm, &self.clone().into());
     }
 }
 
