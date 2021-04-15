@@ -557,9 +557,11 @@ impl Fixer<'_> {
 
             Expr::Cond(expr) => {
                 match &mut *expr.test {
-                    Expr::Seq(..) | Expr::Assign(..) | Expr::Cond(..) | Expr::Arrow(..) => {
-                        self.wrap(&mut expr.test)
-                    }
+                    Expr::Seq(..)
+                    | Expr::Assign(..)
+                    | Expr::Cond(..)
+                    | Expr::Arrow(..)
+                    | Expr::Yield(..) => self.wrap(&mut expr.test),
 
                     Expr::Object(..) | Expr::Fn(..) | Expr::Class(..) => {
                         if self.ctx == Context::Default {
@@ -1160,6 +1162,13 @@ var store = global[SHARED] || (global[SHARED] = {});
         param_seq,
         "function t(x = ({}, 2)) {
             return x;
+        }"
+    );
+
+    identical!(
+        yield_expr_cond,
+        "function *test1(foo) {
+            return (yield foo) ? 'bar' : 'baz';
         }"
     );
 }
