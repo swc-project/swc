@@ -534,6 +534,8 @@ where
     fn handle_reexport_of_entry(&self, ctx: &Ctx, _entry_id: ModuleId, entry: &mut Modules) {
         let injected_ctxt = self.injected_ctxt;
 
+        dbg!(&ctx.transitive_remap);
+
         {
             // Handle `export *` for non-wrapped modules.
 
