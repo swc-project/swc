@@ -183,7 +183,15 @@ fn extract_stack_trace(output: Output) -> Vec<String> {
     );
 
     let stderr = String::from_utf8_lossy(&output.stderr);
-    println!("{}", stderr);
+    //
+    let stacks = stderr
+        .split(|c| c == '\n')
+        .filter(|s| s.starts_with("    at"))
+        .map(|s| s.replace("    at", ""))
+        .collect::<Vec<_>>();
+    // println!("{:?}", stacks);
 
-    unimplemented!()
+    println!("{}", stacks.join("\n"));
+
+    stacks
 }
