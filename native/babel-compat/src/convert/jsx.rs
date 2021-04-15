@@ -95,7 +95,7 @@ impl Babelify for JSXSpreadChild {
     fn babelify(self, ctx: &Context) -> Self::Output {
         BabelJSXSpreadChild {
             base: ctx.base(self.span),
-            expression: self.expr.babelify(ctx).into(),
+            expression: Box::new(self.expr.babelify(ctx).into()),
         }
     }
 }

@@ -283,9 +283,9 @@ impl Babelify for TsPropertySignature {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSPropertySignature {
             base: ctx.base(self.span),
-            key: self.key.babelify(ctx).into(),
+            key: Box::new(self.key.babelify(ctx).into()),
             type_annotation: self.type_ann.map(|ann| ann.babelify(ctx)),
-            initializer: self.init.map(|i| i.babelify(ctx).into()),
+            initializer: self.init.map(|i| Box::new(i.babelify(ctx).into())),
             computed: Some(self.computed),
             optional: Some(self.optional),
             readonly: Some(self.readonly),
@@ -299,7 +299,7 @@ impl Babelify for TsMethodSignature {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSMethodSignature {
             base: ctx.base(self.span),
-            key: self.key.babelify(ctx).into(),
+            key: Box::new(self.key.babelify(ctx).into()),
             type_parameters: self.type_params.map(|t| t.babelify(ctx)),
             parameters: self.params.iter().map(|param| param.clone().babelify(ctx).into()).collect(),
             type_annotation: self.type_ann.map(|ann| ann.babelify(ctx)),
@@ -878,7 +878,7 @@ impl Babelify for TsEnumMember {
         TSEnumMember {
             base: ctx.base(self.span),
             id: self.id.babelify(ctx),
-            initializer: self.init.map(|i| i.babelify(ctx).into()),
+            initializer: self.init.map(|i| Box::new(i.babelify(ctx).into())),
         }
     }
 }
@@ -996,7 +996,7 @@ impl Babelify for TsExportAssignment {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSExportAssignment {
             base: ctx.base(self.span),
-            expression: self.expr.babelify(ctx).into(),
+            expression: Box::new(self.expr.babelify(ctx).into()),
         }
     }
 }

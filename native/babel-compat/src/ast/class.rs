@@ -77,7 +77,7 @@ pub struct ClassPrivateProperty {
     pub base: BaseNode,
     pub key: PrivateName,
     #[serde(default)]
-    pub value: Option<Expression>,
+    pub value: Option<Box<Expression>>,
     #[serde(default)]
     pub decorators: Option<Vec<Decorator>>,
     #[serde(default, rename = "static")]
@@ -130,7 +130,7 @@ pub struct ClassProperty {
     pub base: BaseNode,
     pub key: ObjectKey,
     #[serde(default)]
-    pub value: Option<Expression>,
+    pub value: Option<Box<Expression>>,
     #[serde(default)]
     pub type_annotation: Option<TypeAnnotOrNoop>,
     #[serde(default)]
@@ -198,7 +198,7 @@ pub struct ClassDeclaration {
     pub base: BaseNode,
     pub id: Identifier,
     #[serde(default)]
-    pub super_class: Option<Expression>,
+    pub super_class: Option<Box<Expression>>,
     pub body: ClassBody,
     #[serde(default)]
     pub decorators: Option<Vec<Decorator>>,

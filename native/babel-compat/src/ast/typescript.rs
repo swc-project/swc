@@ -2,13 +2,13 @@ use crate::ser_union::SerializeUnion;
 use serde::{Serialize, Deserialize};
 
 use crate::ast::{
-    class::{ClassMethodKind},
+    class::ClassMethodKind,
     common::{BaseNode, Identifier, Access, Param, Decorator, IdOrString, IdOrRest, Noop},
-    expr::{Expression},
+    expr::Expression,
     lit::{NumericLiteral, StringLiteral, BooleanLiteral, BigIntLiteral},
-    object::{ObjectKey},
-    pat::{AssignmentPattern},
-    stmt::{Statement},
+    object::ObjectKey,
+    pat::AssignmentPattern,
+    stmt::Statement,
 };
 
 #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
@@ -288,11 +288,11 @@ pub struct TSConstructSignatureDeclaration {
 pub struct TSPropertySignature {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub key: Expression,
+    pub key: Box<Expression>,
     #[serde(default)]
     pub type_annotation: Option<TSTypeAnnotation>,
     #[serde(default)]
-    pub initializer: Option<Expression>,
+    pub initializer: Option<Box<Expression>>,
     #[serde(default)]
     pub computed: Option<bool>,
     #[serde(default)]
@@ -307,7 +307,7 @@ pub struct TSPropertySignature {
 pub struct TSMethodSignature {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub key: Expression,
+    pub key: Box<Expression>,
     #[serde(default)]
     pub type_parameters: Option<TSTypeParameterDeclaration>,
     #[serde(default)]
@@ -782,7 +782,7 @@ pub struct TSEnumDeclaration {
     #[serde(default)]
     pub declare: Option<bool>,
     #[serde(default)]
-    pub initializer: Option<Expression>,
+    pub initializer: Option<Box<Expression>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -792,7 +792,7 @@ pub struct TSEnumMember {
     pub base: BaseNode,
     pub id: IdOrString,
     #[serde(default)]
-    pub initializer: Option<Expression>,
+    pub initializer: Option<Box<Expression>>,
 }
 
 #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
@@ -883,7 +883,7 @@ pub struct TSNonNullExpression {
 pub struct TSExportAssignment {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub expression: Expression,
+    pub expression: Box<Expression>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]

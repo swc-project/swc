@@ -38,7 +38,7 @@ impl From<ClassExpression> for ClassDeclaration {
         ClassDeclaration {
             base: expr.base,
             id: expr.id.unwrap(),
-            super_class: expr.super_class.map(|s| *s),
+            super_class: expr.super_class.map(|s| Box::new(*s)),
             body: expr.body,
             decorators: expr.decorators,
             is_abstract: Default::default(),
@@ -94,7 +94,7 @@ impl Babelify for ClassProp {
         ClassProperty {
             base: ctx.base(self.span),
             key: self.key.babelify(ctx).into(),
-            value: self.value.map(|val| val.babelify(ctx).into()),
+            value: self.value.map(|val| Box::new(val.babelify(ctx).into())),
             type_annotation: self.type_ann.map(|ann| ann.babelify(ctx).into()),
             is_static: Some(self.is_static),
             decorators: Some(self.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
@@ -116,7 +116,7 @@ impl Babelify for PrivateProp {
         ClassPrivateProperty {
             base: ctx.base(self.span),
             key: self.key.babelify(ctx),
-            value: self.value.map(|expr| expr.babelify(ctx).into()),
+            value: self.value.map(|expr| Box::new(expr.babelify(ctx).into())),
             type_annotation: self.type_ann.map(|ann| ann.babelify(ctx).into()),
             static_any: Value::Bool(self.is_static),
             decorators: Some(self.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
@@ -205,7 +205,7 @@ impl Babelify for Decorator {
     fn babelify(self, ctx: &Context) -> Self::Output {
         BabelDecorator {
             base: ctx.base(self.span),
-            expression: self.expr.babelify(ctx).into(),
+            expression: Box::new(self.expr.babelify(ctx).into()),
         }
     }
 }

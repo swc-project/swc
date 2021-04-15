@@ -2,11 +2,16 @@ use crate::ser_union::SerializeUnion;
 use serde::{Serialize, Deserialize};
 
 use crate::ast::{
-    common::{BaseNode, Identifier, Decorator, Param, PatternLike, TypeAnnotOrNoop, TypeParamDeclOrNoop},
-    expr::{Expression},
-    flow::{ObjectTypeSpreadProperty, ObjectTypeProperty, ObjectTypeInternalSlot, ObjectTypeCallProperty, ObjectTypeIndexer},
+    common::{
+        BaseNode, Identifier, Decorator, Param, PatternLike, TypeAnnotOrNoop, TypeParamDeclOrNoop
+    },
+    expr::Expression,
+    flow::{
+        ObjectTypeSpreadProperty, ObjectTypeProperty, ObjectTypeInternalSlot,
+        ObjectTypeCallProperty, ObjectTypeIndexer
+    },
     lit::{StringLiteral, NumericLiteral},
-    stmt::{BlockStatement},
+    stmt::BlockStatement,
 };
 
 #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]

@@ -395,7 +395,7 @@ pub struct SequenceExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     #[serde(default)]
-    pub expressions: Vec<Expression>,
+    pub expressions: Vec<Box<Expression>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]

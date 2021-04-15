@@ -205,7 +205,7 @@ impl Babelify for AssignPat {
         AssignmentPattern {
             base: ctx.base(self.span),
             left: self.left.babelify(ctx).into(),
-            right: self.right.babelify(ctx).into(),
+            right: Box::new(self.right.babelify(ctx).into()),
             type_annotation: self.type_ann.map(|a| a.babelify(ctx).into()),
             decorators: Default::default(),
         }
@@ -220,7 +220,7 @@ impl Babelify for AssignPatProp {
         AssignmentPattern {
             base: ctx.base(self.span),
             left: AssignmentPatternLeft::Id(self.key.babelify(ctx)),
-            right: self.value.unwrap().babelify(ctx).into(),
+            right: Box::new(self.value.unwrap().babelify(ctx).into()),
             decorators: Default::default(),
             type_annotation: Default::default(),
         }

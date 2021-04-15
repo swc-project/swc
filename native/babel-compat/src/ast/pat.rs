@@ -63,7 +63,7 @@ pub struct AssignmentPattern {
     #[serde(flatten)]
     pub base: BaseNode,
     pub left: AssignmentPatternLeft,
-    pub right: Expression,
+    pub right: Box<Expression>,
     #[serde(default)]
     pub decorators: Option<Vec<Decorator>>,
     #[serde(default)]

@@ -93,7 +93,7 @@ pub struct VariableDeclarator {
     pub base: BaseNode,
     pub id: LVal,
     #[serde(default)]
-    pub init: Option<Expression>,
+    pub init: Option<Box<Expression>>,
     #[serde(default = "some_false")]
     pub definite: Option<bool>,
 }

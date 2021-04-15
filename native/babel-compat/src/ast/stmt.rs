@@ -2,10 +2,10 @@ use crate::ser_union::SerializeUnion;
 use serde::{Serialize, Deserialize};
 
 use crate::ast::{
-    class::{ClassDeclaration},
+    class::ClassDeclaration,
     common::{BaseNode, Identifier, LVal, Directive},
     decl::{VariableDeclaration, FunctionDeclaration, EnumDeclaration},
-    expr::{Expression},
+    expr::Expression,
     flow::{
         DeclareClass, DeclareFunction, DeclareInterface, DeclareModule, DeclareModuleExports, 
         DeclareTypeAlias, DeclareOpaqueType, DeclareVariable, DeclareExportDeclaration,
@@ -220,7 +220,7 @@ pub struct DebuggerStatement {
 pub struct DoWhileStatement {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub test: Expression,
+    pub test: Box<Expression>,
     pub body: Box<Statement>,
 }
 
@@ -236,7 +236,7 @@ pub struct EmptyStatement {
 pub struct ExpressionStatement {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub expression: Expression,
+    pub expression: Box<Expression>,
 }
 
 #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
@@ -264,7 +264,7 @@ pub struct ForInStatement {
     #[serde(flatten)]
     pub base: BaseNode,
     pub left: ForStmtLeft,
-    pub right: Expression,
+    pub right: Box<Expression>,
     pub body: Box<Statement>,
 }
 
@@ -276,9 +276,9 @@ pub struct ForStatement {
     #[serde(default)]
     pub init: Option<ForStmtInit>,
     #[serde(default)]
-    pub test: Option<Expression>,
+    pub test: Option<Box<Expression>>,
     #[serde(default)]
-    pub update: Option<Expression>,
+    pub update: Option<Box<Expression>>,
     pub body: Box<Statement>,
 }
 
@@ -288,7 +288,7 @@ pub struct ForOfStatement {
     #[serde(flatten)]
     pub base: BaseNode,
     pub left: ForStmtLeft,
-    pub right: Expression,
+    pub right: Box<Expression>,
     pub body: Box<Statement>,
 }
 
@@ -297,7 +297,7 @@ pub struct ForOfStatement {
 pub struct IfStatement {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub test: Expression,
+    pub test: Box<Expression>,
     pub consequent: Box<Statement>,
     #[serde(default)]
     pub alternate: Option<Box<Statement>>,
@@ -318,7 +318,7 @@ pub struct ReturnStatement {
     #[serde(flatten)]
     pub base: BaseNode,
     #[serde(default)]
-    pub argument: Option<Expression>,
+    pub argument: Option<Box<Expression>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -327,7 +327,7 @@ pub struct SwitchCase {
     #[serde(flatten)]
     pub base: BaseNode,
     #[serde(default)]
-    pub test: Option<Expression>,
+    pub test: Option<Box<Expression>>,
     #[serde(default)]
     pub consequent: Vec<Statement>,
 }
@@ -337,7 +337,7 @@ pub struct SwitchCase {
 pub struct SwitchStatement {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub discriminant: Expression,
+    pub discriminant: Box<Expression>,
     #[serde(default)]
     pub cases: Vec<SwitchCase>,
 }
@@ -347,7 +347,7 @@ pub struct SwitchStatement {
 pub struct ThrowStatement {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub argument: Expression,
+    pub argument: Box<Expression>,
 }
 
 #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
@@ -389,7 +389,7 @@ pub struct TryStatement {
 pub struct WhileStatement {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub test: Expression,
+    pub test: Box<Expression>,
     pub body: Box<Statement>,
 }
 
@@ -398,7 +398,7 @@ pub struct WhileStatement {
 pub struct WithStatement {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub object: Expression,
+    pub object: Box<Expression>,
     pub body: Box<Statement>,
 }
 

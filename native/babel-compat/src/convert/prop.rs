@@ -62,7 +62,7 @@ impl Babelify for AssignProp {
         AssignmentPattern {
             base: ctx.base(self.span()),
             left: AssignmentPatternLeft::Id(self.key.babelify(ctx)),
-            right: self.value.babelify(ctx).into(),
+            right: Box::new(self.value.babelify(ctx).into()),
             decorators: Default::default(),
             type_annotation: Default::default(),
         }

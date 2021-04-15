@@ -183,7 +183,7 @@ impl Babelify for SpreadElement {
     fn babelify(self, ctx: &Context) -> Self::Output {
         BabelSpreadElement {
             base: ctx.base(self.span()),
-            argument: self.expr.babelify(ctx).into(),
+            argument: Box::new(self.expr.babelify(ctx).into()),
         }
     }
 }
@@ -192,7 +192,8 @@ impl From<BabelSpreadElement> for JSXSpreadAttribute {
     fn from(spread: BabelSpreadElement) -> Self {
         JSXSpreadAttribute {
             base: spread.base.clone(),
-            argument: spread.argument.clone(),
+            // argument: spread.argument.clone(),
+            argument: spread.argument,
         }
     }
 }
@@ -337,7 +338,7 @@ impl Babelify for SeqExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         SequenceExpression {
             base: ctx.base(self.span),
-            expressions: self.exprs.iter().map(|expr| expr.clone().babelify(ctx).into()).collect(),
+            expressions: self.exprs.iter().map(|expr| Box::new(expr.clone().babelify(ctx).into())).collect(),
         }
     }
 }
@@ -490,7 +491,7 @@ impl Babelify for ExprOrSpread {
         match self.spread {
             Some(_) => ArrayExprEl::Spread(BabelSpreadElement {
                 base: ctx.base(self.span()),
-                argument: self.expr.babelify(ctx).into(),
+                argument: Box::new(self.expr.babelify(ctx).into()),
             }),
             None => ArrayExprEl::Expr(self.expr.babelify(ctx).into()),
         }

@@ -72,7 +72,7 @@ impl Babelify for ClassDecl {
         ClassDeclaration {
             base: class.base,
             id: self.ident.babelify(ctx),
-            super_class: class.super_class.map(|s| *s),
+            super_class: class.super_class.map(|s| Box::new(*s)),
             body: ClassBody {
                 base: ctx.base(body_span),
                 ..class.body
@@ -120,7 +120,7 @@ impl Babelify for VarDeclarator {
         VariableDeclarator {
             base: ctx.base(self.span),
             id: self.name.babelify(ctx).into(),
-            init: self.init.map(|i| i.babelify(ctx).into()),
+            init: self.init.map(|i| Box::new(i.babelify(ctx).into())),
             definite: Some(self.definite),
         }
     }

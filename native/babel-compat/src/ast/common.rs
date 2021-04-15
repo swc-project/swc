@@ -628,7 +628,7 @@ pub enum UnaryLike {
 pub struct SpreadElement {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub argument: Expression,
+    pub argument: Box<Expression>,
 }
 
 /// Deprecated. Use SpreadElement instead.
@@ -637,7 +637,7 @@ pub struct SpreadElement {
 pub struct SpreadProperty {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub argument: Expression,
+    pub argument: Box<Expression>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -718,7 +718,7 @@ pub enum IdOrRest {
 pub struct Decorator {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub expression: Expression,
+    pub expression: Box<Expression>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -857,7 +857,7 @@ pub struct DirectiveLiteral {
 pub struct PipelineBareFunction {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub callee: Expression,
+    pub callee: Box<Expression>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -865,7 +865,7 @@ pub struct PipelineBareFunction {
 pub struct PipelineTopicExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub expression: Expression,
+    pub expression: Box<Expression>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]

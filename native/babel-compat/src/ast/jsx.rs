@@ -130,7 +130,7 @@ pub struct JSXExpressionContainer {
 pub struct JSXSpreadChild {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub expression: Expression,
+    pub expression: Box<Expression>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -200,7 +200,7 @@ pub struct JSXOpeningElement {
 pub struct JSXSpreadAttribute {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub argument: Expression,
+    pub argument: Box<Expression>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
