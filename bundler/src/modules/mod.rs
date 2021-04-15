@@ -1,4 +1,3 @@
-use crate::debug::print_hygiene;
 use crate::ModuleId;
 use ahash::AHashMap;
 use retain_mut::RetainMut;
@@ -225,7 +224,21 @@ impl Modules {
         cm: &swc_common::sync::Lrc<SourceMap>,
         event: impl std::fmt::Display,
     ) {
-        print_hygiene(&event.to_string(), cm, &self.clone().into());
+        let files = self
+            .modules
+            .iter()
+            .map(|(_, m)| m.span)
+            .filter_map(|module_span| {
+                if module_span.is_dummy() {
+                    return None;
+                }
+                Some(format!(
+                    "{}\n",
+                    cm.lookup_source_file(module_span.lo).name.to_string()
+                ))
+            })
+            .collect::<String>();
+        crate::debug::print_hygiene(&format!("{}\n{}", event, files), cm, &self.clone().into());
     }
 }
 
