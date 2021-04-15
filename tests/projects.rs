@@ -686,6 +686,3 @@ fn tests(dir: PathBuf) {
         .map(|_| ())
         .expect("failed");
 }
-
-#[testing::fixture("stacktrace/**/input/")]
-fn stacktrace(input_dir: PathBuf) {}
