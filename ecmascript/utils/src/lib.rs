@@ -1538,11 +1538,12 @@ impl IdentExt for Ident {
     }
 }
 
-/// Finds all idents of variable
+/// Finds all **binding** idents of variables.
 pub struct DestructuringFinder<'a, I: IdentLike> {
     pub found: &'a mut Vec<I>,
 }
 
+/// Finds all **binding** idents of `node`.
 pub fn find_ids<T, I: IdentLike>(node: &T) -> Vec<I>
 where
     T: for<'any> VisitWith<DestructuringFinder<'any, I>>,
