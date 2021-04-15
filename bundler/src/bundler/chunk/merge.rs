@@ -2,7 +2,6 @@ use super::plan::DepType;
 use super::plan::Plan;
 use crate::bundler::chunk::export::inject_export;
 use crate::bundler::keywords::KeywordRenamer;
-use crate::debug::print_hygiene;
 use crate::inline::inline;
 use crate::modules::Modules;
 use crate::{
@@ -534,8 +533,6 @@ where
     fn handle_reexport_of_entry(&self, ctx: &Ctx, _entry_id: ModuleId, entry: &mut Modules) {
         let injected_ctxt = self.injected_ctxt;
 
-        dbg!(&ctx.transitive_remap);
-
         {
             // Handle `export *` for non-wrapped modules.
 
@@ -767,7 +764,7 @@ where
 
         entry.sort(id, &ctx.graph, &self.cm);
 
-        print_hygiene("done", &self.cm, &entry.clone().into());
+        // print_hygiene("done", &self.cm, &entry.clone().into());
 
         entry.retain_mut(|_, item| {
             match item {
