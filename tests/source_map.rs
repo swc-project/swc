@@ -1,5 +1,6 @@
 use std::path::PathBuf;
 use std::process::Command;
+use std::process::Output;
 use std::{fs::canonicalize, sync::Arc};
 use swc::{
     config::{Options, SourceMapsConfig},
@@ -124,6 +125,15 @@ fn stacktrace(input_dir: PathBuf) {
                 }
 
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
+
+                let expected = Command::new("node")
+                    .arg("-e")
+                    .arg(&**fm.src)
+                    .output()
+                    .expect("failed to capture output of node -e 'reference code'");
+
+                let expected_st = extract_stack_trace(expected);
+
                 match c.process_js_file(
                     fm,
                     &Options {
@@ -137,21 +147,15 @@ fn stacktrace(input_dir: PathBuf) {
                         // We created a javascript file with inline source map.
                         assert_eq!(v.map, None, "Source maps should be inlined");
 
-                        let st_transpiled = Command::new("node")
+                        let actual = Command::new("node")
                             .arg("-e")
                             .arg(&v.code)
                             .output()
                             .expect("failed to capture output of node -e 'generated code'");
 
-                        assert!(
-                            !st_transpiled.status.success(),
-                            "Stack trace tests should fail with stack traces"
-                        );
+                        let actual_st = extract_stack_trace(actual);
 
-                        println!("{}", String::from_utf8_lossy(&st_transpiled.stdout));
-                        println!("{}", String::from_utf8_lossy(&st_transpiled.stderr));
-
-                        unimplemented!()
+                        assert_eq!(expected_st, actual_st);
                     }
                     Err(err) => panic!("Error: {:?}", err),
                 }
@@ -161,4 +165,19 @@ fn stacktrace(input_dir: PathBuf) {
         })
         .map(|_| ())
         .expect("failed");
+}
+
+/// Extract stack trace from output of `node -e 'code'`.
+///
+/// TODO: Use better type.
+fn extract_stack_trace(output: Output) -> Vec<String> {
+    assert!(
+        !output.status.success(),
+        "Stack trace tests should fail with stack traces"
+    );
+
+    println!("{}", String::from_utf8_lossy(&output.stdout));
+    println!("{}", String::from_utf8_lossy(&output.stderr));
+
+    unimplemented!()
 }
